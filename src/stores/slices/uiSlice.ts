@@ -1,0 +1,76 @@
+import { StateCreator } from 'zustand'
+import { StoreState } from '../index'
+
+export interface UISlice {
+  // 導航狀態
+  isNavigationOpen: boolean
+  isSidePanelOpen: boolean
+  sidePanelContent: string | null
+  
+  // 主題和響應式
+  theme: 'light' | 'dark'
+  isMobile: boolean
+  isTablet: boolean
+  
+  // 載入和錯誤狀態
+  hasError: boolean
+  errorMessage: string | null
+  
+  // 動作
+  setNavigationOpen: (isOpen: boolean) => void
+  setSidePanelOpen: (isOpen: boolean) => void
+  setSidePanelContent: (content: string | null) => void
+  setTheme: (theme: 'light' | 'dark') => void
+  setDeviceType: (isMobile: boolean, isTablet: boolean) => void
+  setError: (error: string | null) => void
+}
+
+export const uiSlice: StateCreator<
+  StoreState,
+  [['zustand/immer', never], ['zustand/devtools', never]],
+  [],
+  UISlice
+> = (set, get) => ({
+  isNavigationOpen: false,
+  isSidePanelOpen: false,
+  sidePanelContent: null,
+  
+  theme: 'light',
+  isMobile: false,
+  isTablet: false,
+  
+  hasError: false,
+  errorMessage: null,
+  
+  setNavigationOpen: (isOpen) =>
+    set((state) => {
+      state.isNavigationOpen = isOpen
+    }),
+    
+  setSidePanelOpen: (isOpen) =>
+    set((state) => {
+      state.isSidePanelOpen = isOpen
+    }),
+    
+  setSidePanelContent: (content) =>
+    set((state) => {
+      state.sidePanelContent = content
+    }),
+    
+  setTheme: (theme) =>
+    set((state) => {
+      state.theme = theme
+    }),
+    
+  setDeviceType: (isMobile, isTablet) =>
+    set((state) => {
+      state.isMobile = isMobile
+      state.isTablet = isTablet
+    }),
+    
+  setError: (error) =>
+    set((state) => {
+      state.hasError = !!error
+      state.errorMessage = error
+    }),
+})

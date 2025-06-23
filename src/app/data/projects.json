@@ -1,0 +1,450 @@
+[
+    {
+        "id": "reports-1",
+        "path": "/assets/report-1綁債．黑工．留學陷阱.jpg",
+        "title": "綁債．黑工．留學陷阱",
+        "subtitle": "失控的高教技職國際招生",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-2",
+        "path": "https://www.twreporter.org/images/20210816135933-03d98b61a3742ad5cfb80bce7d2493af-mobile.jpg",
+        "title": "山頭上的掠奪",
+        "subtitle": "揭露全台原住民保留地流失亂象",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-3",
+        "path": "https://www.twreporter.org/images/20210129175854-8652653532ed389c04f2e8a77e0302c3-tablet.jpg",
+        "title": "造假．剝削．血淚漁場",
+        "subtitle": "跨國直擊台灣遠洋漁業真相",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-4",
+        "path": "https://www.twreporter.org/images/20171031114436-54bb2dde9a16363251f592edfbbd720d-tablet.jpg",
+        "title": "廢墟裡的少年",
+        "subtitle": "兩萬名被遺忘的高風險家庭孩子們",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-5",
+        "path": "https://www.twreporter.org/images/20180123175443-aea7a0d9adceea44182a74f3fdc93c38-tablet.jpeg",
+        "title": "六輕營運20年",
+        "subtitle": "科學戰爭下的環境難民",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-6",
+        "path": "https://www.twreporter.org/images/20190830153732-72ae3e5b43e9ea7b2d666f6d3312e661-mobile.jpg",
+        "title": "國家不願面對的真相",
+        "subtitle": "獨家揭露台鐵體檢報告",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-7",
+        "path": "https://www.twreporter.org/images/20180331181824-f1aae394ec3b005a31e5d913cef594d5-mobile.jpg",
+        "title": "每天我們失去5個孩子",
+        "subtitle": "搶救兒童高死亡率",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-8",
+        "path": "https://www.twreporter.org/images/20190716105838-9acafe08db8b16069bf7affcbe4db9f1-mobile.jpg",
+        "title": "看不見的線上博弈帝國",
+        "subtitle": "中國金主、菲國總部、台灣代工",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-9",
+        "path": "https://www.twreporter.org/images/20200303092116-3424a123d896ea5de4936849b6bcd80b-mobile.jpg",
+        "title": "1年26萬公斤的工業笑氣，如何毒害年輕人？",
+        "subtitle": "合法、廉價、24小時到貨",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-10",
+        "path": "https://www.twreporter.org/images/20231013145904-38a21191edd435f801ea99280ebb5c62-tablet.jpg",
+        "title": "沖繩如何成為台海危機的熱點？",
+        "subtitle": "中國虎視下的島鏈",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-11",
+        "path": "https://www.twreporter.org/images/20240119020310-6a39502493e446450718750e033d0e64-desktop.jpg",
+        "title": "出口禁令下的紅線交易",
+        "subtitle": "揭開MIT工具機流入俄羅斯軍工業隱蹤",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "reports-12",
+        "path": "/assets/獵童風暴：揭開未成年性剝削影像的暗黑產業鏈.mp4",
+        "title": "獵童風暴",
+        "subtitle": "揭開未成年性剝削影像的暗黑產業鏈",
+        "section": [
+            "reports"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "innovation-1",
+        "path": "/assets/apple_watch_new.glb",
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "title": "急診人生",
+        "subtitle": "台灣第一個急診室新聞遊戲",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 8,
+            "y": 8,
+            "z": 8
+        }
+    },
+    {
+        "id": "innovation-2",
+        "path": "/assets/polaroid_go_new.glb",
+        "position": {
+            "x": 18,
+            "y": -2.4,
+            "z": 2.2
+        },
+        "title": "多媒體作品",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    },
+    {
+        "id": "innovation-3",
+        "path": "/assets/toolbox.glb",
+        "position": {
+            "x": -8.3,
+            "y": 4.4,
+            "z": -5.6
+        },
+        "title": "報導者數位敘事元件庫",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 15,
+            "y": 15,
+            "z": 15
+        }
+    },
+    {
+        "id": "innovation-4",
+        "path": "assets/magazine_mockup_in_case.glb",
+        "position": {
+            "x": 4.8,
+            "y": -2.6,
+            "z": -0.4
+        },
+        "title": "Podcast",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    },
+    {
+        "id": "innovation-5",
+        "path": "/assets/robot.glb",
+        "position": {
+            "x": -10,
+            "y": 5,
+            "z": 10
+        },
+        "title": "影音",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 10,
+            "y": 10,
+            "z": 10
+        }
+    },
+    {
+        "id": "innovation-6",
+        "path": "/assets/chat_gpt_keyboard.glb",
+        "position": {
+            "x": 0,
+            "y": -8,
+            "z": 10
+        },
+        "title": "少年報導者",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    },
+    {
+        "id": "innovation-7",
+        "path": "/assets/earth.glb",
+        "position": {
+            "x": -17,
+            "y": -5,
+            "z": 2
+        },
+        "title": "國際新聞／跨國調查",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 0.0075,
+            "y": 0.0075,
+            "z": 0.0075
+        }
+    },
+    {
+        "id": "innovation-8",
+        "path": "/assets/camera.glb",
+        "position": {
+            "x": 17,
+            "y": 10,
+            "z": -8
+        },
+        "title": "報導漫畫",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    },
+    {
+        "id": "innovation-9",
+        "path": "/assets/head_phones.glb",
+        "position": {
+            "x": 2.9,
+            "y": 12,
+            "z": -3
+        },
+        "title": "讀者互動",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    },
+    {
+        "id": "innovation-10",
+        "path": "/assets/macbook.glb",
+        "position": {
+            "x": 4.9,
+            "y": 5,
+            "z": 8
+        },
+        "title": "報導者在地影像紮根計畫",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 5,
+            "y": 5,
+            "z": 5
+        }
+    },
+    {
+        "id": "innovation-11",
+        "path": "/assets/nintendo_switch.glb",
+        "position": {
+            "x": 14,
+            "y": 5,
+            "z": -3
+        },
+        "title": "報導者觀測站",
+        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "section": [
+            "innovation"
+        ],
+        "is3DModel": true,
+        "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+        }
+    },
+    {
+        "id": "challenge-1",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "為何要創辦很冷門的公共媒體？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-2",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "台灣人願意捐款給媒體嗎？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-3",
+        "path": "https://picsum.photos/id/107/800/600",
+        "title": "如何走向世界與各國媒體合作？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-4",
+        "path": "https://picsum.photos/id/108/800/600",
+        "title": "「員工董事」與「團體協約」的必要性？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-5",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "「心理支持系統」要支持什麼？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-6",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "深度媒體也需要做即時報導嗎？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-7",
+        "path": "https://picsum.photos/id/107/800/600",
+        "title": "為什麼LINE、YAHOO都要付費給《報導者》？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-8",
+        "path": "https://picsum.photos/id/108/800/600",
+        "title": "跨世代人才合作的困難？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-9",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "「影響力報告」是什麼碗糕？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-10",
+        "path": "https://picsum.photos/id/106/800/600",
+        "title": "在這個年代如何把新聞當做志業？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-11",
+        "path": "https://picsum.photos/id/107/800/600",
+        "title": "大學生為何捐出清寒獎學金？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    },
+    {
+        "id": "challenge-12",
+        "path": "https://picsum.photos/id/108/800/600",
+        "title": "跨國公司員工為何協助募款？",
+        "section": [
+            "challenge"
+        ],
+        "bgColor": "#F1F1F1"
+    }
+]
