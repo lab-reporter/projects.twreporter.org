@@ -1,0 +1,127 @@
+"use client";
+
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFlip, EffectCoverflow, Pagination, Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/effect-flip";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+export default function Feedback({ setSelectedProject, setSidePanelContent }) {
+    const [quotes] = useState([
+        { id: 1, text: "工程師每週加班數十小時寫出的程式碼一年後會變成手機，但是三年後八九成就壞了，五年後根本就不重要了。但是報導者的文字，讓人感受到一顆勇敢的集體心臟，在收縮與舒張的循環中，記者如血液般滲入社會的縫隙，又回到心臟之中，延續這一份時代缺乏的勇氣。", author: "讀者 王小明" },
+        { id: 2, text: "自從開始定期閱讀報導者的文章後，雖然對台灣的現況依然悲觀，卻讓我得以從一個相對客觀、理性的角度去看待問題，憤慨的情緒減少後，終於能冷靜地釐清事件的本質，擁有繼續關心台灣的動力。", author: "支持者 李小華" },
+        { id: 3, text: "原本我並不是這麼關心社會議題的人，但之前因緣際會之下看到了你們的報導，接著就一直都有在關注你們，很高興台灣有一個這麼棒的媒體，讓我在國外還能夠持續接受到這些繁體中文的資訊。", author: "長期訂閱者 陳大文" },
+        { id: 4, text: "由於本人是從事基層且相對邊緣的工作，能明顯感受工作權益被剝奪且不一定受到公眾重視的無力感，每當聽到你們為這社會上的弱勢發聲就讓我有所感動。", author: "讀者 張怡君" },
+        { id: 5, text: "近期參加的報導者事件簿新書分享會，在現場感受編輯群在報導調查遇上困難的感慨，還有散發對報導的熱情，讓我深深體會，你們背負著非常重大的使命，無論什麼都無法阻擋你們。", author: "支持者 洪志明" },
+        { id: 6, text: "希望你們可以繼續製作優質報導，看著許多優質報導停刊真的非常難過，期待你們可以製作下去！", author: "訂戶 黃珮珊" },
+        { id: 7, text: "曾經也想過作無聲的閱聽人，儘可能利用各處資源即可。但隨著長時間的習慣閱讀，一個個緊扣時事又多面向的專題與很期待能與孩子分享的「少年報導者」出刊，希望能盡微薄之力。", author: "讀者 賴俊豪" },
+        { id: 8, text: "謝謝報導者在中國散布操弄大量不實資訊和假聲量的時代，守候台灣的正確資訊。", author: "訂閱者 吳佳蓉" },
+        { id: 9, text: "看完錫蘭針對台灣媒體有多糟，長達一個多小時的影片之後，我覺得應該付出實際行動支持並持續關注優質媒體。", author: "讀者 陳建安" },
+        { id: 10, text: "台灣的媒體大多為資本及特定政治立場服務，所幸仍有一群人守著良心，貴報就是其中之一，請繼續報導優質新聞，有貴報存在，讓我相信台灣的新聞界還是有希望的。", author: "支持者 林淑婷" },
+        { id: 11, text: "这么深度的报道居然是免费的，能看出非营利独立媒体的不易。很羡慕台湾社会有独立媒体和自由民主的社会环境。", author: "長期讀者 何俊凱" },
+        { id: 12, text: "敬佩報導者的記者們能秉持公正、查證到底的信念，追蹤、整理、分析各項資訊與數據，辛苦了，願用小小心意送上最大的敬意。", author: "訂戶 彭雅雯" },
+        { id: 13, text: "每當有一些社會議題想要深入了解的時候，都會特別下「報導者」的關鍵字去搜尋，每當看到報導者出的議題，都可以感受得到文章內容的用心(不管是圖、表、引述)，更讓我好奇報導者的理念。", author: "讀者 楊丞琳" },
+        { id: 14, text: "感謝報導者深耕在台灣各種多元的議題裡，讓更多社會大眾可以再更靠近不熟悉但重要的事物上。每篇報導的描述及文字，都相當專業且貼近事實，真的敬佩。", author: "學生 林家宏" },
+        { id: 15, text: "謝謝你們對傳遞新聞真相的堅持，帶給社會深遠的正面影響力。因為你們持續產出「真正」而有深度的報導，我開始認為「長大當記者」是件令人尊敬的事。", author: "教授 蔡明哲" },
+        { id: 16, text: "每筆雖然只能小小，但希望還是給你們一點動力。我自己藉著報導者，嘗試帶給了很多人不同的議題，有些人也有被感動到，謝謝你們。", author: "編輯 江惠貞" },
+        { id: 17, text: "上週全國瘋狂追逐勞動部的事件時，幾乎都在描寫謝姓主管的惡有多聳動，在我看來就像硬掀開外子和我的舊傷。直到今日終於看到有媒體願意細細講述公職的實際困境，剖析制度的問題，讓人感到很欣慰。", author: "讀者 方思涵" },
+        { id: 18, text: "希望你們能夠繼續寫出這些重要的文章，影響更多的人，希望讓更多人了解這個社會更多重要的議題，總有一天台灣社會會因為你們的文章而變得更好。報導者加油！", author: "支持者 高志遠" },
+        { id: 19, text: "謝謝報導者，一定會繼續支持。真的非常感謝你們做了很多有意義的報導，為很多沒有辦法為自己發聲的族群說話。我是外國人，我覺得臺灣有報導者實在是太好、太幸福了。", author: "研究員 趙書昀" },
+        { id: 20, text: "肯定報導者的專業！請繼續用澄淨的眼睛、獨立的心靈、堅毅的精神，帶領整個社會、整個世界往更好的方向前進。", author: "訂閱者 鍾怡文" },
+        { id: 21, text: "如今記者淪為貶抑詞的時代，還有人們為了新聞而努力，雖然之前也單筆贊助過，但這次就每月定額贊助了，願榮光與你們同在，願記者之名能重新擦亮。", author: "研究員 趙書昀" },
+        { id: 22, text: "我是一個大學時代讀新聞但生涯選擇沒有進入新聞界的五年級生，面對三十年來台灣新聞生態的發展，與全球環境變化一樣令人覺得無力而不忍卒睹。看到你們致力於深度報導覺得非常感動。", author: "研究員 趙書昀" },
+        { id: 23, text: "謝謝報導者深入探討兒童性剝削的議題，才知道原來台灣竟也有這麼多的案件，卻因為基於保護兒童，社會大眾都不知道或是被低調帶過，我能了解公部門的難處，但也希望在報導者的追蹤及討論下，能讓政府更重視這個議題。", author: "研究員 趙書昀" },
+        { id: 24, text: "很慶幸自己去年重新透過podcast接觸報導者，聽完監所通信計畫的報導後，加入通信行列也開始固定收聽報導者podcast，也有幸報名成功跟報導者一起逛緬甸街。透過報導者，讓我有機會接觸到正在各個角落真實上演的真實故事。", author: "讀者 陳建安" },
+        { id: 25, text: "很感謝有你們持續為這社會上的弱勢發聲及揭露世界上的不公讓其有被看見且獲得改善的機會。期望這世界有你們的付出變得更好，希望報導者團隊平平安安健健康康。", author: "讀者 陳建安" },
+    ]);
+
+    return (
+        <div className="w-full h-screen flex flex-col justify-center items-center">
+            <h2 className="text-4xl font-bold mb-4 text-white">持續求真的路上</h2>
+            <h3 className="text-3xl font-semibold mb-8 text-white">感謝有眾聲同行</h3>
+
+            <div className="w-full max-w-lg">
+                <Swiper
+                    modules={[EffectFlip, Pagination, Navigation]}
+                    effect="flip"
+                    grabCursor={true}
+                    pagination={false}
+                    navigation
+                    loop={true}
+                >
+                    {quotes.map((quote) => (
+                        <SwiperSlide key={quote.id}>
+                            <div
+                                className="
+                                    mx-auto
+                                    w-[320px] h-[480px]
+                                    bg-white text-gray-900 p-8 rounded-2xl
+                                    shadow-xl flex flex-col justify-center items-center
+                                "
+                            >
+                                <p className="mb-4 text-lg font-semibold">{quote.text}</p>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                {/* EffectCoverflow */}
+                {/* <Swiper
+                    effect={'coverflow'}
+                    grabCursor={true}
+                    centeredSlides={true}
+                    slidesPerView={3}
+                    spaceBetween={30}
+                    coverflowEffect={{
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true,
+                    }}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    modules={[EffectCoverflow, Pagination]}
+                    // loop={true}
+                    breakpoints={{
+                        // 手機版本
+                        0: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        // 平板版本
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 25,
+                        },
+                        // 桌機版本
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                    }}
+                    className="w-full h-full"
+                >
+                    {quotes.map((quote) => (
+                        <SwiperSlide key={quote.id} className="!w-[320px] py-10">
+                            <div
+                                className="
+                                    mx-auto
+                                    w-full h-[480px]
+                                    bg-white text-gray-900 p-8 rounded-2xl
+                                    shadow-xl flex flex-col justify-center items-center
+                                "
+                            >
+                                <p className="mb-4 text-lg font-semibold leading-relaxed">{quote.text}</p>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper> */}
+            </div>
+        </div>
+    );
+}

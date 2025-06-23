@@ -1,0 +1,37 @@
+{
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "plugins": [
+    "import"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  },
+  "rules": {
+    // 檔案名稱與 import 路徑檢查（重點：大小寫敏感）
+    "import/no-unresolved": [
+      "error",
+      {
+        "caseSensitive": true,
+        "ignore": [
+          "^@/",
+          "^~/"
+        ]
+      }
+    ],
+    // 檢查重複的 import
+    "import/no-duplicates": "error",
+    // React 檔案命名規範（PascalCase for components）
+    "react/jsx-pascal-case": "error"
+  }
+}

@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 使用 Tailwind 的 preflight 已包含基本重置，這裡只保留必要的 */
+
+*{
+  color: black;
+}
+
+html {
+  background: linear-gradient(to bottom, #f1f1f1 98%, bl 100%);
+}
+
+body {
+  background: linear-gradient(to bottom, #f1f1f1 98%, bl 100%);
+  overflow-x: hidden;
+  transition: background-color 0.5s ease;
+  min-height: 100vh; /* 確保body至少有滿版高度 */
+  /* 針對不同瀏覽器 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 保留必要的全域樣式 */
+canvas {
+  display: block; /* Three.js canvas 需要的樣式 */
+}
+
+section {
+  position: relative; /* 為 ScrollTrigger 定位需要 */
+}
+
+h1{
+  font-weight: 900;
+}
+
+
+
+.call-to-action {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* 確保 feedback-section 和 support-section 在粒子背景上方 */
+.feedback-section,
+.support-section {
+  position: relative;
+  z-index: 1;
+}
+
+
+.preloader__percentage {
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  /* mix-blend-difference 讓文字在黑白背景上都清楚可見 */
+}
+
+/* 404 頁面動畫效果 */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+/* 邊框加粗樣式 */
+.border-3 {
+  border-width: 3px;
+}
+
+/* 404 頁面漸層文字效果 */
+.text-gradient {
+  background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 效能優化 CSS */
+*{
+    box-sizing: border-box;
+}
+
+/* 優化滾動效能 */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+/* 優化渲染效能 - 移除會影響定位的 transform */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* 移除 transform: translateZ(0) 和 backface-visibility，這些會影響滾動行為 */
+}
+
+/* 隱藏滾動條但保持功能性 */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Canvas 優化 */
+canvas {
+    display: block;
+    /* 優化 Canvas 渲染 */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* 區塊容器優化 - 僅對需要的元素啟用 GPU 加速 */
+.gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 標題優化 */
+h1{
+    font-weight: 900;
+    line-height: 1.2;
+    /* 文字渲染優化 */
+    text-rendering: optimizeLegibility;
+}
+
+/* Call to Action 區塊 - 移除自動 GPU 加速 */
+.call-to-action {
+    background: linear-gradient(45deg, #f3f4f6, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* 反饋區塊和相關元素 - 僅在需要時啟用 */
+.feedback-section.gpu-accelerated,
+.feedback-modal.gpu-accelerated,
+.feedback-overlay.gpu-accelerated {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+/* 載入動畫優化 */
+.preloader__percentage {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 2px;
+    /* 避免字體加載閃爍 */
+    font-display: block;
+}
+
+/* 自定義 Shimmer 動畫（用於 LazyImage） */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+    animation: shimmer 2s infinite;
+}
+
+/* 優化的脈衝動畫 */
+@keyframes pulse-slow {
+    0% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* 延遲動畫類別 */
+.animation-delay-1000 {
+    animation-delay: 1000ms;
+}
+
+/* 邊框工具類 */
+.border-3 {
+    border-width: 3px;
+}
+
+/* 文字漸變 */
+.text-gradient {
+    background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 響應式圖片容器 */
+.responsive-image-container {
+    position: relative;
+    overflow: hidden;
+    background-color: #f3f4f6;
+}
+
+.responsive-image-container::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+/* 平滑過渡 */
+.smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 3D 變換優化 */
+.transform-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* 隱藏元素但保持可訪問性 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* SidePanel 滾動修正 */
+.sidepanel-scroll-container {
+    /* 確保 SidePanel 內部滾動不受外部影響 */
+    position: relative;
+    z-index: 1;
+    contain: layout style paint;
+}
+
+/* 確保 SidePanel 滾動到頂部 */
+.sidepanel-content {
+    scroll-behavior: auto; /* 覆蓋全域 smooth scroll */
+}
+
+/* 高對比度支援 */
+@media (prefers-contrast: high) {
+    .text-gradient {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        background-clip: unset;
+        color: #000;
+    }
+}
+
+/* 減少動畫偏好支援 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .animate-shimmer,
+    .animate-pulse-slow {
+        animation: none;
+    }
+}
+
+/* 觸控設備優化 */
+@media (hover: none) and (pointer: coarse) {
+    /* 移除觸控設備上的 hover 效果 */
+    *:hover {
+        background-color: initial;
+        color: initial;
+    }
+}
