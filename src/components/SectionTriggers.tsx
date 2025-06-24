@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@/stores';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
@@ -39,10 +39,16 @@ const sections = [
 export default function SectionTriggers() {
   const sectionRef = useRef(null);
   const canvasContainerRef = useRef(null);
-  const { setCurrentSection, setSectionProgress } = useStore();
+  const { setCurrentSection, setSectionProgress, currentSection } = useStore();
+  const [currentProject, setCurrentProject] = useState<any>(null);
   
   // 計算總高度
   const totalVH = sections.reduce((sum, s) => sum + s.height, 0);
+
+  // 處理當前項目變化
+  const handleCurrentProjectChange = (project: any) => {
+    setCurrentProject(project);
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -137,10 +143,22 @@ export default function SectionTriggers() {
             dpr={[1, 2]}
           >
             <Suspense fallback={null}>
-              <UnifiedScene />
+              <UnifiedScene onCurrentProjectChange={handleCurrentProjectChange} />
             </Suspense>
           </Canvas>
         </div>
+
+        {/* Reports Title - 參照原版 Combined3DScene.jsx */}
+        {currentSection === 'reports' && currentProject && (
+          <div className="absolute w-full px-2 bottom-12 left-1/2 -translate-x-1/2 text-center z-10 text-black">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+              {currentProject.title}
+            </h2>
+            <h3 className="text-xl sm:text-2xl">
+              {currentProject.subtitle}
+            </h3>
+          </div>
+        )}
         
         {/* Section 內容疊加 */}
         {sections.map((section, index) => (
@@ -161,7 +179,7 @@ export default function SectionTriggers() {
       </div>
       
       {/* 除錯資訊顯示 */}
-      <div className="fixed bottom-4 left-4 z-50 text-white text-sm bg-black/70 p-4 rounded backdrop-blur-sm">
+      <div className="fixed bottom-4 left-4 z-50 text-black text-sm bg-white/70 p-4 rounded backdrop-blur-sm border border-gray-300">
         <h3 className="font-bold mb-2">🔧 GSAP ScrollTrigger</h3>
         <p>總高度: {totalVH}vh</p>
         <p>Reports: {SECTION_HEIGHTS.reports}vh</p>

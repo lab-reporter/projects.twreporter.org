@@ -1,7 +1,7 @@
 [
     {
         "id": "reports-1",
-        "path": "/assets/report-1綁債．黑工．留學陷阱.jpg",
+        "path": "/assets/report-1.jpg",
         "title": "綁債．黑工．留學陷阱",
         "subtitle": "失控的高教技職國際招生",
         "section": [
@@ -11,7 +11,7 @@
     },
     {
         "id": "reports-2",
-        "path": "https://www.twreporter.org/images/20210816135933-03d98b61a3742ad5cfb80bce7d2493af-mobile.jpg",
+        "path": "/assets/report-2.mp4",
         "title": "山頭上的掠奪",
         "subtitle": "揭露全台原住民保留地流失亂象",
         "section": [
@@ -21,7 +21,7 @@
     },
     {
         "id": "reports-3",
-        "path": "https://www.twreporter.org/images/20210129175854-8652653532ed389c04f2e8a77e0302c3-tablet.jpg",
+        "path": "/assets/report-3.mp4",
         "title": "造假．剝削．血淚漁場",
         "subtitle": "跨國直擊台灣遠洋漁業真相",
         "section": [
@@ -31,7 +31,7 @@
     },
     {
         "id": "reports-4",
-        "path": "https://www.twreporter.org/images/20171031114436-54bb2dde9a16363251f592edfbbd720d-tablet.jpg",
+        "path": "/assets/廢墟裡的少年_(攝影余志偉).jpg",
         "title": "廢墟裡的少年",
         "subtitle": "兩萬名被遺忘的高風險家庭孩子們",
         "section": [
@@ -41,7 +41,7 @@
     },
     {
         "id": "reports-5",
-        "path": "https://www.twreporter.org/images/20180123175443-aea7a0d9adceea44182a74f3fdc93c38-tablet.jpeg",
+        "path": "/assets/六輕環境難民。.jpg",
         "title": "六輕營運20年",
         "subtitle": "科學戰爭下的環境難民",
         "section": [
@@ -51,7 +51,7 @@
     },
     {
         "id": "reports-6",
-        "path": "https://www.twreporter.org/images/20190830153732-72ae3e5b43e9ea7b2d666f6d3312e661-mobile.jpg",
+        "path": "/assets/國家不願面對的真相：獨家揭露台鐵體檢報告。（攝影蘇威銘）.jpg",
         "title": "國家不願面對的真相",
         "subtitle": "獨家揭露台鐵體檢報告",
         "section": [
@@ -61,7 +61,7 @@
     },
     {
         "id": "reports-7",
-        "path": "https://www.twreporter.org/images/20180331181824-f1aae394ec3b005a31e5d913cef594d5-mobile.jpg",
+        "path": "/assets/每天我們失去5個孩子——搶救兒童高死亡率 - 報導者 The Reporter.mp4",
         "title": "每天我們失去5個孩子",
         "subtitle": "搶救兒童高死亡率",
         "section": [
@@ -71,7 +71,7 @@
     },
     {
         "id": "reports-8",
-        "path": "https://www.twreporter.org/images/20190716105838-9acafe08db8b16069bf7affcbe4db9f1-mobile.jpg",
+        "path": "/assets/看不見的線上博弈帝國 - 報導者 The Reporter.mp4",
         "title": "看不見的線上博弈帝國",
         "subtitle": "中國金主、菲國總部、台灣代工",
         "section": [
@@ -81,7 +81,7 @@
     },
     {
         "id": "reports-9",
-        "path": "https://www.twreporter.org/images/20200303092116-3424a123d896ea5de4936849b6bcd80b-mobile.jpg",
+        "path": "/assets/笑氣濫用_(攝影蔡耀徵).jpg",
         "title": "1年26萬公斤的工業笑氣，如何毒害年輕人？",
         "subtitle": "合法、廉價、24小時到貨",
         "section": [
@@ -91,7 +91,7 @@
     },
     {
         "id": "reports-10",
-        "path": "https://www.twreporter.org/images/20231013145904-38a21191edd435f801ea99280ebb5c62-tablet.jpg",
+        "path": "/assets/中國虎視下的島鏈──沖繩如何成為台海危機的熱點.jpg",
         "title": "沖繩如何成為台海危機的熱點？",
         "subtitle": "中國虎視下的島鏈",
         "section": [
@@ -101,7 +101,7 @@
     },
     {
         "id": "reports-11",
-        "path": "https://www.twreporter.org/images/20240119020310-6a39502493e446450718750e033d0e64-desktop.jpg",
+        "path": "/assets/出口禁令下的紅線交易──揭開MIT工具機流入俄羅斯軍工業隱蹤.png",
         "title": "出口禁令下的紅線交易",
         "subtitle": "揭開MIT工具機流入俄羅斯軍工業隱蹤",
         "section": [

@@ -21,7 +21,11 @@ interface CameraConfig {
   fov: number;
 }
 
-export default function UnifiedScene() {
+interface UnifiedSceneProps {
+  onCurrentProjectChange?: (project: any) => void;
+}
+
+export default function UnifiedScene({ onCurrentProjectChange }: UnifiedSceneProps) {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const { currentSection, sectionProgress } = useStore();
   const { pointer } = useThree();
@@ -111,6 +115,7 @@ export default function UnifiedScene() {
       <ReportsSection 
         visible={currentSection === 'reports'} 
         progress={sectionProgress}
+        onCurrentProjectChange={onCurrentProjectChange}
       />
       
       <InnovationSection 
