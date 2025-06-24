@@ -160,8 +160,8 @@ export default function SectionTriggers() {
           </div>
         )}
         
-        {/* Section 內容疊加 */}
-        {sections.map((section, index) => (
+        {/* Section 內容疊加 - 已移除，用戶要求不顯示半透明 section 名稱 */}
+        {false && sections.map((section, index) => (
           <div
             key={section.id}
             className="absolute inset-0 flex items-center justify-center text-white/20 text-6xl font-bold pointer-events-none"

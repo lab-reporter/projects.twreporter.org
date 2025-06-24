@@ -296,8 +296,8 @@ function Rig({ children, progress }: RigProps) {
   
   useFrame(() => {
     if (ref.current) {
-      // 根據滾動進度旋轉 - 類似 codesandbox 的邏輯
-      const rotationY = -progress * (Math.PI * 2) * 3; // 3圈
+      // 根據滾動進度旋轉 - 調整為1圈
+      const rotationY = -progress * (Math.PI * 2); // 1圈
       ref.current.rotation.y = THREE.MathUtils.lerp(
         ref.current.rotation.y,
         rotationY,
