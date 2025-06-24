@@ -7,6 +7,13 @@ export interface UISlice {
   isSidePanelOpen: boolean
   sidePanelContent: string | null
   
+  // Modal 狀態
+  modal: {
+    isOpen: boolean
+    contentId: string | null
+    data: any
+  }
+  
   // 主題和響應式
   theme: 'light' | 'dark'
   isMobile: boolean
@@ -20,6 +27,8 @@ export interface UISlice {
   setNavigationOpen: (isOpen: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
+  openModal: (contentId: string, data?: any) => void
+  closeModal: () => void
   setTheme: (theme: 'light' | 'dark') => void
   setDeviceType: (isMobile: boolean, isTablet: boolean) => void
   setError: (error: string | null) => void
@@ -34,6 +43,12 @@ export const uiSlice: StateCreator<
   isNavigationOpen: false,
   isSidePanelOpen: false,
   sidePanelContent: null,
+  
+  modal: {
+    isOpen: false,
+    contentId: null,
+    data: null
+  },
   
   theme: 'light',
   isMobile: false,
@@ -55,6 +70,20 @@ export const uiSlice: StateCreator<
   setSidePanelContent: (content) =>
     set((state) => {
       state.sidePanelContent = content
+    }),
+    
+  openModal: (contentId, data = null) =>
+    set((state) => {
+      state.modal.isOpen = true
+      state.modal.contentId = contentId
+      state.modal.data = data
+    }),
+    
+  closeModal: () =>
+    set((state) => {
+      state.modal.isOpen = false
+      state.modal.contentId = null
+      state.modal.data = null
     }),
     
   setTheme: (theme) =>

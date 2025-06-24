@@ -1,0 +1,173 @@
+# 🚀 R3F 10th Recap 專案開發規則
+
+## 📋 專案概覽
+- **專案名稱**: R3F 10th Recap (r3f-10th-recap)
+- **技術棧**: Next.js 15 + TypeScript + Tailwind CSS + React Three Fiber
+- **狀態管理**: Zustand + Immer
+- **動畫系統**: GSAP + R3F useFrame
+- **開發伺服器**: http://localhost:3001
+
+## 🎯 核心開發原則
+
+### **架構設計**
+- **完全獨立專案**: r3f-10th-recap/ 為主專案目錄，可隨時整包移出部署
+- **參照程式碼**: copy/ 資料夾存放原始程式碼（git ignored），僅供參照
+- **模組化設計**: 避免巨無霸組件，目標每個組件 < 200 行
+- **效能優先**: 目標 FPS 55-60，首屏載入 < 2s
+
+### **程式碼品質**
+- **程式碼簡化**: 從 3,500行 → 1,200行 (-65%)
+- **組件拆分**: 12個複雜組件 → 20+個模組化組件
+- **狀態管理**: 統一使用 Zustand，避免散佈的 Context + useRef
+- **記憶體管理**: 善用 R3F 自動資源管理，避免記憶體洩漏
+
+## 🔧 技術選型規則
+
+### **3D 渲染**
+- **主要框架**: React Three Fiber (@react-three/fiber)
+- **輔助工具**: @react-three/drei
+- **避免**: 原生 THREE.js 手動管理
+- **目標**: 開發效率提升 300%
+
+### **狀態管理**
+- **主要方案**: Zustand + TypeScript
+- **輔助工具**: Immer (不可變更新)
+- **避免**: Context + useRef 散佈架構
+- **目標**: 可維護性提升 200%
+
+### **動畫系統**
+- **主要方案**: GSAP + R3F useFrame 整合
+- **避免**: 手動動畫同步
+- **目標**: 效能提升 150%
+
+### **CSS 框架**
+- **主要方案**: Tailwind CSS
+- **命名原則**: 優先使用 Tailwind 類別
+- **自定義 CSS**: 必要時使用 BEM 命名原則
+
+## 📊 重構優先級
+
+### **🚨 極高優先級（第1週）**
+1. **Combined3DScene.jsx** (1,374行) → 拆分為 Reports + Innovation 兩個獨立場景
+2. **ReportsThree.jsx** (775行) → 3D 圓柱畫廊重構
+3. **Path.jsx** (312行) → 水平滾動系統優化
+
+### **🔥 高優先級（第2週）**
+1. **Innovation.jsx** (661行) → 3D 模型序列重構
+2. **背景效果系統** → GPU 實例化 + 移除 OGL 依賴
+
+### **⚡ 中等優先級（第3週）**
+1. **Preloader.jsx** (253行) → 預載系統優化
+2. **Support.jsx** (277行) → 支持募集系統重構
+
+### **✅ 低優先級（第4週）**
+1. **Feedback.jsx** (127行) → 用戶見證展示
+2. **CallToAction.jsx** (25行) → 行動呼籲區
+
+## 🛠️ 開發工作流程
+
+### **必讀文檔**
+- **分析與實作前**: 務必讀過 REFACTORING_MEMO.md 了解整體重構策略
+- **開發紀錄**: 實作後要在 REFACTORING_MEMO.md 加入開發紀錄並加上具體日期和時間（台北時間）
+
+### **分析階段**
+- **優先分析**: 當用戶提出需求時，先進行整體狀態分析
+- **步驟確認**: 明確列出接下來的實作步驟和預期結果
+- **等待確認**: 用戶說「開始實作」才進入程式碼實作階段
+- **不急於實作**: 避免在分析階段就直接進入程式碼編寫
+
+### **實作階段**
+- **自動執行**: 所有指令除了刪除檔案外都自動執行
+- **不需詢問**: 安裝套件、建立檔案、編輯程式碼、Git 操作
+- **需要詢問**: 刪除檔案或目錄的操作
+
+### **Debug 機制**
+- **效能監控**: 使用 usePerformanceMonitor hook
+- **錯誤處理**: 建立適當的 fallback 機制
+- **狀態追蹤**: 使用 Zustand devtools 進行狀態除錯
+
+## 📁 專案架構
+
+### **目錄結構**
+```
+r3f-10th-recap/
+├── src/
+│   ├── app/           # Next.js App Router
+│   ├── components/    # 共用組件
+│   ├── stores/        # Zustand 狀態管理
+│   └── utils/         # 工具函數
+├── copy/              # 原始程式碼參照（git ignored）
+├── public/            # 靜態資源
+└── analysis-docs/     # 重構分析文件
+```
+
+### **組件架構**
+- **Scene.tsx**: 主要 3D 場景容器
+- **LoadingScreen.tsx**: 載入畫面
+- **stores/**: Zustand 狀態管理
+  - dataSlice.ts: 專案資料
+  - sceneSlice.ts: 3D 場景狀態
+  - scrollSlice.ts: 滾動狀態
+  - uiSlice.ts: UI 狀態
+
+## 🎨 UI/UX 設計原則
+
+### **視覺設計**
+- **現代化 UI**: 使用 Tailwind CSS 建立美麗且現代的介面
+- **最佳 UX 實踐**: 注重使用者體驗，流暢的動畫和互動
+- **響應式設計**: 確保在不同裝置上都有良好的體驗
+
+### **動畫效果**
+- **3D 互動**: 善用 R3F 建立沉浸式 3D 體驗
+- **效能平衡**: 在視覺效果和效能之間找到平衡
+- **漸進增強**: 確保在不支援 3D 的環境下仍有基本功能
+
+## 🔍 程式碼品質標準
+
+### **命名規範**
+- **繁體中文註解**: 所有註解使用繁體中文
+- **台灣慣用語**: 相關用語以台灣慣用為準
+- **函數命名**: 使用描述性的英文命名
+- **檔案命名**: 使用 PascalCase 或 kebab-case
+
+### **效能標準**
+- **FPS 目標**: 55-60 FPS
+- **載入時間**: 首屏載入 < 2 秒
+- **記憶體使用**: 比原版減少 40%
+- **Bundle 大小**: 比原版減少 25%
+
+### **可維護性**
+- **組件大小**: 每個組件 < 200 行
+- **函數複雜度**: 避免過於複雜的函數邏輯
+- **重複使用**: 優先使用現有的函數和組件
+- **文檔化**: 重要邏輯需要適當的註解說明
+
+## 🚀 部署和發布
+
+### **開發環境**
+- **本地開發**: `npm run dev` (port 3001)
+- **熱重載**: 支援 Turbopack 快速開發
+- **除錯工具**: 整合 React DevTools 和 Zustand DevTools
+
+### **生產環境**
+- **建置指令**: `npm run build`
+- **啟動指令**: `npm run start`
+- **部署平台**: 支援 Vercel、Netlify 等平台
+
+## 📚 參考資源
+
+### **技術文件**
+- **重構分析**: analysis-docs/ 資料夾
+- **快速開始**: QUICK_START.md
+- **重構備忘**: REFACTORING_MEMO.md
+- **AI 提示**: AI_PROMPTS.md
+
+### **外部資源**
+- **React Three Fiber**: https://docs.pmnd.rs/react-three-fiber
+- **Zustand**: https://github.com/pmndrs/zustand
+- **GSAP**: https://greensock.com/docs/
+- **Tailwind CSS**: https://tailwindcss.com/docs
+
+---
+*最後更新: 2025-06-23*
+*專案狀態: 重構進行中* 
