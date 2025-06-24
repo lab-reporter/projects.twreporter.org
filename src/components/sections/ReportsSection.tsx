@@ -381,8 +381,8 @@ export default function ReportsSection({ visible, progress, onCurrentProjectChan
   }, []);
   
   const handleProjectClick = (report: ReportData) => {
-    console.log('點擊報導:', report.title);
-    // openModal(report.id, report);
+    console.log('🎯 點擊報導:', report.title, 'ID:', report.id);
+    openModal(report.id, report);
   };
 
   // 計算當前項目
