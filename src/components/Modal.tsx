@@ -5,7 +5,7 @@ import { useStore } from '@/stores';
 import { X } from 'lucide-react';
 import { getContentComponentByProjectId } from './modal/contentMap';
 import { getAdjacentProjects } from './modal/utils';
-import { Navigation } from './modal/shared';
+import { NavigationControls } from './modal/shared';
 import projectsData from '@/app/data/projects.json';
 import { ReportData } from './modal/types';
 
@@ -77,8 +77,9 @@ export default function Modal() {
         />
         
         {/* 導航組件 */}
-        <Navigation
+        <NavigationControls
           onNavigate={handleNavigate}
+          onHome={closeModal}
           adjacentProjects={adjacentProjects}
         />
       </div>

@@ -5,12 +5,13 @@ import { ContentProps } from './types';
 import DefaultContent from './contents/DefaultContent';
 import Reports1Content from './contents/Reports1Content';
 import Reports3Content from './contents/Reports3Content';
+import EnhancedReports3Content from './contents/EnhancedReports3Content';
 
 // 內容組件映射表
 const contentMap: Record<string, ComponentType<ContentProps>> = {
   // Reports section
   'reports-1': Reports1Content,
-  'reports-3': Reports3Content,
+  'reports-3': EnhancedReports3Content, // 使用增強版本展示新組件
   
   // 可以繼續添加更多組件
   // 'reports-2': Reports2Content,

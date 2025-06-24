@@ -1,0 +1,109 @@
+'use client';
+
+import { useState } from 'react';
+
+interface HeroBannerProps {
+  mediaSrc?: string;
+  title: string;
+  subtitle?: string;
+  date?: string;
+  className?: string;
+}
+
+export default function HeroBanner({ 
+  mediaSrc, 
+  title, 
+  subtitle, 
+  date, 
+  className = '' 
+}: HeroBannerProps) {
+  const [mediaError, setMediaError] = useState(false);
+  
+  // 判斷媒體類型
+  const getMediaType = (src?: string): 'video' | 'image' => {
+    if (!src) return 'image';
+    
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.flv', '.mkv'];
+    const lowerSrc = src.toLowerCase();
+    
+    return videoExtensions.some(ext => lowerSrc.includes(ext)) ? 'video' : 'image';
+  };
+  
+  const mediaType = getMediaType(mediaSrc);
+  
+  const handleMediaError = () => {
+    setMediaError(true);
+  };
+  
+  return (
+    <div className={`relative ${className}`}>
+      {/* 媒體容器 - 響應式高度，適配 Modal */}
+      <div className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden rounded-lg">
+        {mediaError ? (
+          // 錯誤狀態
+          <div className="w-full h-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center">
+            <div className="text-center text-white/80">
+              <div className="text-4xl mb-2">📷</div>
+              <p className="text-sm">媒體載入失敗</p>
+            </div>
+          </div>
+        ) : mediaSrc ? (
+          // 有媒體來源
+          mediaType === 'video' ? (
+            <video
+              className="w-full h-full object-cover"
+              src={mediaSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onError={handleMediaError}
+            >
+              您的瀏覽器不支援影片播放。
+            </video>
+          ) : (
+            <img
+              className="w-full h-full object-cover"
+              src={mediaSrc}
+              alt={title}
+              onError={handleMediaError}
+            />
+          )
+        ) : (
+          // 無媒體來源 - 預設漸層背景
+          <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800" />
+        )}
+        
+        {/* 漸層遮罩 - 保持原始設計 */}
+        <div 
+          className="absolute top-0 left-0 w-full h-full bg-blend-multiply" 
+          style={{ 
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 100%)' 
+          }}
+        />
+      </div>
+      
+      {/* 文字內容疊加 - 響應式設計 */}
+      <div className="absolute bottom-4 md:bottom-8 lg:bottom-10 left-0 w-full flex flex-col items-center px-4">
+        {/* 日期 */}
+        {date && (
+          <h4 className="text-white text-sm md:text-lg lg:text-xl font-bold text-center mb-2 md:mb-4">
+            {date}
+          </h4>
+        )}
+        
+        {/* 主標題 */}
+        <h2 className="text-white text-xl md:text-3xl lg:text-4xl font-bold text-center mb-2 md:mb-4 leading-tight">
+          {title}
+        </h2>
+        
+        {/* 副標題 */}
+        {subtitle && (
+          <h3 className="text-white text-sm md:text-lg lg:text-xl font-medium text-center leading-relaxed max-w-3xl">
+            {subtitle}
+          </h3>
+        )}
+      </div>
+    </div>
+  );
+}
