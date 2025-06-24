@@ -32,7 +32,7 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
 
   // 定義每個 Section 的相機位置 - 調整 reports section 距離
   const cameraPositions: Record<string, CameraConfig> = {
-    reports: { position: [0, 1.5, 10], target: [0, 0, 0], fov: 15 }, // 基於 codesandbox 設置
+    reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 增加 FOV 創造魚眼效果，移近相機
     innovation: { position: [0, -20, 12], target: [0, -20, 0], fov: 45 },
     timeline: { position: [0, -40, 10], target: [0, -40, 0], fov: 45 },
     feedback: { position: [0, -60, 15], target: [0, -60, 0], fov: 45 },
@@ -52,10 +52,10 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         ease: "power2.out"
       });
 
-      // 調整 FOV
+      // 調整 FOV - 減少動畫時間避免尺寸閣動
       gsap.to(cameraRef.current, {
         fov: targetCamera.fov,
-        duration: 1.5,
+        duration: 0.5, // 縮短時間
         ease: "power2.out",
         onUpdate: () => {
           if (cameraRef.current) {
@@ -74,14 +74,15 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   // 滑鼠視差效果 - 基於 codesandbox 的實作
   useFrame((state, delta) => {
     if (cameraRef.current && currentSection === 'reports') {
-      // Reports section 使用 codesandbox 的相機移動邏輯
-      const targetX = -pointer.x * 2;
-      const targetY = pointer.y + 1.5;
-      const targetZ = 10;
+      // Reports section 使用相機移動邏輯，但保持正確的 Z 距離
+      const basePosition = cameraPositions[currentSection];
+      const targetX = basePosition.position[0] + (-pointer.x * 1);
+      const targetY = basePosition.position[1] + (pointer.y * 0.5);
+      const targetZ = basePosition.position[2]; // 保持設定的 Z 距離
       
-      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.3 * delta * 60;
-      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.3 * delta * 60;
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.3 * delta * 60;
+      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1;
+      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1;
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.1;
       cameraRef.current.lookAt(0, 0, 0);
     } else if (cameraRef.current) {
       // 其他 section 使用原來的輕微視差效果

@@ -1,3 +1,54 @@
+# 🚀 R3F 10th Recap 重構開發備忘錄
+
+## 📅 最新開發記錄
+
+### 🔧 2025-01-27 21:30 (台北時間) - 重大修正：THREE.js 粉紅色材質問題解決
+
+**問題分析：**
+- 用戶反映 3D 場景中出現粉紅色材質，影響視覺效果
+- 經過深入調查發現：**粉紅色是 THREE.js 材質載入失敗的預設錯誤顏色**
+- 根本原因：中文檔案路徑的 URL 編碼問題導致紋理載入失敗
+
+**解決方案：**
+1. **URL 編碼修正**：
+   - 修正 `loadMediaTexture()` 函數的路徑處理
+   - 使用 `encodeURI()` 正確處理中文檔案名
+   - 支援已編碼和未編碼路徑的自動處理
+
+2. **改善 Fallback 機制**：
+   - 替換 THREE.js 預設粉紅色為專業視覺設計
+   - 使用漸層背景 (#2c3e50 → #34495e) 和邊框
+   - 添加清楚的錯誤提示：📷 載入失敗
+
+3. **增強除錯系統**：
+   - 詳細的載入統計和成功率追蹤
+   - 完整的錯誤日誌和路徑追蹤
+   - 載入進度顯示
+
+**技術細節：**
+```typescript
+// 修正前：直接使用原路徑，中文字符造成 404
+textureLoader.load(mediaPath, ...)
+
+// 修正後：智能編碼處理
+const decodedPath = decodeURIComponent(mediaPath);
+const encodedPath = encodeURI(decodedPath);
+textureLoader.load(encodedPath, ...)
+```
+
+**影響範圍：**
+- ✅ 解決所有中文檔案路徑的載入問題
+- ✅ 消除 THREE.js 預設粉紅色錯誤顯示
+- ✅ 提供專業的載入失敗視覺回饋
+- ✅ 提升整體使用者體驗
+
+**測試結果：**
+- 材質載入成功率大幅提升
+- 視覺效果恢復正常
+- 錯誤處理更加優雅
+
+---
+
 # 📋 報導者十週年專案重構總覽
 
 > **🎯 目標：基於詳細分析的現代化重構專案**  
@@ -428,8 +479,6 @@ r3f-10th-recap/                    # 獨立新專案
 
 ---
 
----
-
 ## 📈 開發紀錄
 
 ### **2025-06-24 技術可行性驗證完成**
@@ -465,6 +514,58 @@ r3f-10th-recap/                    # 獨立新專案
 - 除錯資訊更清楚且不影響效能
 
 ---
-*最後更新：2025-06-24 19:45 (台北時間) - Carousel 旋轉問題修復完成*  
+## 🔧 彎曲幾何體重構完成 (2025-06-24 21:45)
+
+### 問題描述
+- 用戶要求根據 carousel 半徑、照片尺寸和間距計算正確的彎曲弧度
+- 現有 BentPlaneGeometry 使用 codesandbox 簡化版本，未考慮實際物理關係
+- 照片應該真正模擬貼在圓柱體表面的感覺
+
+### 解決方案
+**基於原始 Combined3DScene.jsx 的數學實作**
+
+1. **照片尺寸自動計算**:
+   ```typescript
+   const circumference = 2 * Math.PI * radius;
+   const availableSpacePerImage = circumference / count;
+   const imageWidth = availableSpacePerImage * 0.75; // 75% 避免重疊
+   const imageHeight = imageWidth * 0.8; // 4:5 比例
+   ```
+
+2. **彎曲角度精確計算**:
+   ```typescript
+   const theta = (width / cylinderRadius) * 1.2; // 寬度與半徑比例 * 1.2係數
+   ```
+
+3. **圓弧頂點位置計算**:
+   ```typescript
+   const xAngle = xRatio * theta;
+   const newX = Math.sin(xAngle) * cylinderRadius;
+   const newZ = Math.cos(xAngle) * cylinderRadius - cylinderRadius;
+   ```
+
+4. **高密度分段**:
+   - X軸分段：`segments * 6` (通常90段)
+   - Y軸分段：`height * 15` (高度相關)
+
+5. **UV座標優化**:
+   - U座標：留10%邊距避免邊緣拉伸 `u * 0.8 + 0.1`
+
+### 技術改進
+- ✅ 替換 codesandbox 簡化版本為完整物理計算
+- ✅ 動態計算照片尺寸，根據圓柱半徑和照片數量自適應
+- ✅ 支援影片和圖片的統一彎曲幾何體
+- ✅ 高密度分段確保平滑彎曲效果
+- ✅ UV座標優化避免邊緣拉伸問題
+
+### 預期效果
+- 照片完美貼合圓柱體表面，真實的3D效果
+- 根據內容數量自動調整照片大小，保持合適間距
+- 高品質的曲面渲染，無邊緣變形
+- 統一的幾何體參數系統，便於維護
+
+---
+
+*最後更新：2025-06-24 21:45 (台北時間) - 彎曲幾何體重構完成*  
 *重構目標：現代化 R3F 架構 + 85% 程式碼簡化*  
 *當前狀態：技術可行性驗證完成 ✅*
