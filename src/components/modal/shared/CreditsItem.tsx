@@ -1,35 +1,23 @@
 'use client';
 
 interface CreditsItemProps {
-  role?: string;
-  name: string;
+  role: string;
+  names: string | string[];
   className?: string;
-  showDivider?: boolean;
 }
 
 export default function CreditsItem({ 
   role, 
-  name, 
-  className = '',
-  showDivider = true 
+  names, 
+  className = ''
 }: CreditsItemProps) {
+  // 將多個名字用頓號連接 - 完全匹配原始邏輯
+  const namesText = Array.isArray(names) ? names.join('、') : names;
+
   return (
-    <div className={`inline-flex items-center ${className}`}>
-      <div className="text-center">
-        {role && (
-          <div className="text-xs text-gray-500 mb-1 font-medium">
-            {role}
-          </div>
-        )}
-        <div className="text-sm md:text-base font-medium text-gray-700">
-          {name}
-        </div>
-      </div>
-      
-      {/* 分隔符 */}
-      {showDivider && (
-        <div className="mx-4 w-px h-8 bg-gray-300"></div>
-      )}
+    <div className={`flex items-center text-gray-400 font-noto-sans-tc font-normal whitespace-nowrap ${className}`}>
+      <span className="mr-2">{role} |</span>
+      <span>{namesText}</span>
     </div>
   );
 }

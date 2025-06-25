@@ -19,13 +19,13 @@ export default function HeroBanner({
 }: HeroBannerProps) {
   const [mediaError, setMediaError] = useState(false);
   
-  // 判斷媒體類型
-  const getMediaType = (src?: string): 'video' | 'image' => {
+  // 判斷媒體類型的函數 - 完全匹配原始邏輯
+  const getMediaType = (src?: string) => {
     if (!src) return 'image';
-    
+
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.flv', '.mkv'];
     const lowerSrc = src.toLowerCase();
-    
+
     return videoExtensions.some(ext => lowerSrc.includes(ext)) ? 'video' : 'image';
   };
   
@@ -37,8 +37,8 @@ export default function HeroBanner({
   
   return (
     <div className={`relative ${className}`}>
-      {/* 媒體容器 - 響應式高度，適配 Modal */}
-      <div className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] overflow-hidden rounded-lg">
+      {/* 媒體容器 - 使用原始的 90vh 高度 */}
+      <div className="w-full h-[calc(90vh)]">
         {mediaError ? (
           // 錯誤狀態
           <div className="w-full h-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center">
@@ -74,7 +74,7 @@ export default function HeroBanner({
           <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800" />
         )}
         
-        {/* 漸層遮罩 - 保持原始設計 */}
+        {/* 漸層遮罩 - 完全匹配原始設計 */}
         <div 
           className="absolute top-0 left-0 w-full h-full bg-blend-multiply" 
           style={{ 
@@ -83,23 +83,23 @@ export default function HeroBanner({
         />
       </div>
       
-      {/* 文字內容疊加 - 響應式設計 */}
-      <div className="absolute bottom-4 md:bottom-8 lg:bottom-10 left-0 w-full flex flex-col items-center px-4">
-        {/* 日期 */}
+      {/* 文字內容疊加 - 完全匹配原始位置和樣式 */}
+      <div className="absolute bottom-10 left-0 w-full flex flex-col items-center">
+        {/* 日期 - 原始樣式 */}
         {date && (
-          <h4 className="text-white text-sm md:text-lg lg:text-xl font-bold text-center mb-2 md:mb-4">
+          <h4 className="text-white text-xl font-bold text-center mb-4">
             {date}
           </h4>
         )}
         
-        {/* 主標題 */}
-        <h2 className="text-white text-xl md:text-3xl lg:text-4xl font-bold text-center mb-2 md:mb-4 leading-tight">
+        {/* 主標題 - 原始樣式 */}
+        <h2 className="text-white text-4xl font-bold text-center mb-4">
           {title}
         </h2>
         
-        {/* 副標題 */}
+        {/* 副標題 - 原始樣式 */}
         {subtitle && (
-          <h3 className="text-white text-sm md:text-lg lg:text-xl font-medium text-center leading-relaxed max-w-3xl">
+          <h3 className="text-white text-xl font-bold text-center">
             {subtitle}
           </h3>
         )}

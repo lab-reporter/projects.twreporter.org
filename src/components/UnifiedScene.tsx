@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { PerspectiveCamera, Environment, OrbitControls } from '@react-three/drei';
+import { PerspectiveCamera, Environment, OrbitControls, Html } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
@@ -108,7 +108,7 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       
       // 不同速度的插值：X 方向快，Z 方向慢，保留視覺落差效果
       cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1; // X 方向正常速度
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.075; // Z方向移動速度由此控制
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.09; // Z方向移動速度由此控制
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1; // Y 方向正常速度
       
       // 先讓相機看向 carousel 中心
