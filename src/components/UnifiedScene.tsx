@@ -30,13 +30,13 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   const { currentSection, sectionProgress } = useStore();
   const { pointer } = useThree();
 
-  // 定義每個 Section 的相機位置 - 調整 reports section 距離
+  // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
-    reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 增加 FOV 創造魚眼效果，移近相機
-    innovation: { position: [0, -20, 12], target: [0, -20, 0], fov: 45 },
-    timeline: { position: [0, -40, 10], target: [0, -40, 0], fov: 45 },
-    feedback: { position: [0, -60, 15], target: [0, -60, 0], fov: 45 },
-    support: { position: [0, -80, 10], target: [0, -80, 0], fov: 45 }
+    reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
+    innovation: { position: [0, 0, 16], target: [0, 0, 8], fov: 45 }, // Z 軸往前移動
+    timeline: { position: [0, 0, 24], target: [0, 0, 16], fov: 45 }, // 繼續往前
+    feedback: { position: [0, 0, 32], target: [0, 0, 24], fov: 45 }, // 繼續往前
+    support: { position: [0, 0, 40], target: [0, 0, 32], fov: 45 } // 最前位置
   };
 
   // 相機平滑移動
