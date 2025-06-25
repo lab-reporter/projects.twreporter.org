@@ -189,22 +189,40 @@ const applyTexture = (material: THREE.Material, textureConfig: any) => {
 };
 
 /**
- * 調試函數：檢查模型結構和材質名稱
+ * 調試函數：檢查模型結構和材質名稱（僅在開發環境顯示）
  */
 export const debugModelStructure = (model: THREE.Object3D, modelId: string) => {
-  console.groupCollapsed(`Model Debug Info: ${modelId}`);
+  if (process.env.NODE_ENV !== 'development') return;
+  
+  console.groupCollapsed(`🔍 模型調試: ${modelId}`);
+  
+  let pinkMaterialCount = 0;
+  let meshCount = 0;
+  
   model.traverse((child) => {
     if (child instanceof THREE.Mesh) {
-      console.log(`Mesh: "${child.name}"`);
+      meshCount++;
+      console.log(`網格 ${meshCount}: "${child.name || '未命名'}"`);
+      
       if (Array.isArray(child.material)) {
         child.material.forEach((mat, i) => {
-          console.log(`Material ${i}: "${mat.name}"`);
+          const color = (mat as any).color;
+          const isPink = color && color.getHex() === 0xff00ff;
+          if (isPink) pinkMaterialCount++;
+          
+          console.log(`  材質 ${i}: "${mat.name || '未命名'}" | 顏色: #${color ? color.getHexString() : '無'} | 粉紅: ${isPink ? '是' : '否'}`);
         });
       } else {
-        console.log(`Material: "${child.material.name}"`);
+        const color = (child.material as any).color;
+        const isPink = color && color.getHex() === 0xff00ff;
+        if (isPink) pinkMaterialCount++;
+        
+        console.log(`  材質: "${child.material.name || '未命名'}" | 顏色: #${color ? color.getHexString() : '無'} | 粉紅: ${isPink ? '是' : '否'}`);
       }
     }
   });
+  
+  console.log(`📊 總計: ${meshCount} 個網格, ${pinkMaterialCount} 個粉紅色材質`);
   console.groupEnd();
 };
 

@@ -6,7 +6,6 @@ import { ContentProps } from '../types';
 export default function ActionButtons({ projectData }: Pick<ContentProps, 'projectData'>) {
   const handleReadMore = () => {
     // 這裡可以加入實際的連結邏輯
-    console.log('閱讀完整報導:', projectData.title);
     // 可以開啟新視窗或導航到完整報導頁面
   };
   

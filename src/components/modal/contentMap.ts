@@ -64,11 +64,9 @@ const contentMap: Record<string, ComponentType<ContentProps>> = {
 export const getContentComponentByProjectId = (projectId: string): ComponentType<ContentProps> => {
   // 檢查是否有對應的組件
   if (contentMap[projectId]) {
-    console.log(`✅ 找到對應內容組件: ${projectId}`);
     return contentMap[projectId];
   }
   
-  console.log(`⚠️ 未找到對應內容組件，使用預設組件: ${projectId}`);
   return contentMap.default;
 };
 

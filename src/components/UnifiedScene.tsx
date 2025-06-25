@@ -384,7 +384,7 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       <Environment preset="dawn" background={false} blur={0.5} />
       <ambientLight intensity={0.4} />
       <directionalLight position={[10, 10, 5]} intensity={0.8} castShadow />
-      <fog attach="fog" args={['#a79', 8.5, 12]} />
+      {/* 移除霧化效果，避免遠處物件顯示為粉紅色 */}
 
       {/* Section 組件 (移除 OpeningSection) */}
       <ReportsSection 

@@ -83,13 +83,11 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    console.log('🎥 開始載入影片:', report.path);
     setLoading(true);
     
     const videoElement = document.createElement('video');
     // 構建完整 URL 路徑
     const absolutePath = `http://localhost:3001${report.path}`;
-    console.log('🔗 使用絕對路徑:', absolutePath);
     videoElement.src = absolutePath;
     // 移除 crossOrigin 設定以避免 CORS 問題
     // videoElement.crossOrigin = 'anonymous';
@@ -110,7 +108,6 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
     
     // 多個事件監聽器確保載入
     const handleCanPlay = () => {
-      console.log('✅ 影片可以播放:', report.path);
       videoElement.currentTime = 1; // 跳過開頭確保有畫面內容
       setTexture(videoTexture);
       setLoading(false);
@@ -118,8 +115,8 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
       // 嘗試播放
       const playPromise = videoElement.play();
       if (playPromise) {
-        playPromise.catch((error) => {
-          console.log('影片自動播放被阻擋:', error);
+        playPromise.catch(() => {
+          // 影片自動播放被阻擋
         });
       }
     };
@@ -131,20 +128,19 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
     };
     
     const handleLoadStart = () => {
-      console.log('🔄 影片開始載入:', report.path);
+      // 影片開始載入
     };
     
     videoElement.addEventListener('canplay', handleCanPlay);
     videoElement.addEventListener('error', handleError);
     videoElement.addEventListener('loadstart', handleLoadStart);
     videoElement.addEventListener('loadedmetadata', () => {
-      console.log('📊 影片元數據載入完成:', report.path);
+      // 影片元數據載入完成
     });
     
     // 載入超時處理
     const timeout = setTimeout(() => {
       if (loading) {
-        console.warn('⚠️ 影片載入超時:', report.path);
         setTexture(null);
         setLoading(false);
       }
@@ -370,7 +366,6 @@ export default function ReportsSection({ visible, progress, onCurrentProjectChan
   }, []);
   
   const handleProjectClick = (report: ReportData) => {
-    console.log('🎯 點擊報導:', report.title, 'ID:', report.id);
     openModal(report.id, report);
   };
 

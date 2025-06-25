@@ -29,7 +29,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
 
   // 處理動畫完成的函數
   const handleAnimationComplete = () => {
-    console.log('🎬 Lottie 動畫完成，準備切換場景');
     setIsVisible(false);
     setCurrentSection('reports');
     onComplete();
@@ -37,8 +36,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
 
   // 動態載入 Lottie JSON 文件
   useEffect(() => {
-    console.log('🎬 開始載入修正後的 Lottie 動畫...');
-    
     const loadAnimation = async () => {
       try {
         const response = await fetch('/assets/open.json');
@@ -46,15 +43,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('✅ 修正後的 Lottie 動畫載入成功:', data);
-        console.log('📊 動畫詳細資訊:', {
-          width: data.w,
-          height: data.h,
-          frameRate: data.fr,
-          duration: data.op,
-          layers: data.layers?.length,
-          assets: data.assets?.length
-        });
         setAnimationData(data as LottieAnimationData);
         setIsLoading(false);
       } catch (err) {
@@ -72,7 +60,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
     if (!isLoading && !error && animationData) {
       const skipButtonTimer = setTimeout(() => {
         setShowSkipButton(false);
-        console.log('⏰ Skip 按鈕自動隱藏');
       }, 3000);
 
       return () => clearTimeout(skipButtonTimer);
@@ -80,7 +67,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
   }, [isLoading, error, animationData]);
 
   const handleSkip = () => {
-    console.log('⏭️ 用戶選擇跳過 Lottie 動畫');
     setIsVisible(false);
     setCurrentSection('reports');
     onComplete();
@@ -88,7 +74,6 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
 
   // 組件不可見時直接返回 null
   if (!isVisible) {
-    console.log('👻 OpeningAnimation 組件已隱藏');
     return null;
   }
 
@@ -137,12 +122,7 @@ export default function OpeningAnimation({ onComplete }: OpeningAnimationProps) 
               loop={false}
               onComplete={handleAnimationComplete}
               onEnterFrame={(e) => {
-                // 減少 console 輸出避免干擾
-                if (e && 'currentTime' in e && typeof e.currentTime === 'number') {
-                  if (Math.floor(e.currentTime) % 30 === 0) {
-                    console.log(`🎬 Lottie 動畫播放中: ${Math.floor(e.currentTime)}/${animationData.op}`);
-                  }
-                }
+                // 動畫播放進度回調（已移除 console 輸出）
               }}
               style={{
                 width: '100%',

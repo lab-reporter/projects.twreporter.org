@@ -16,7 +16,7 @@ const UnifiedScene = dynamic(() => import('@/components/UnifiedScene'), {
 });
 
 export default function Home() {
-  console.log('📱 主頁面渲染中，直接顯示主要內容');
+
 
   return (
     <div className="relative w-full">

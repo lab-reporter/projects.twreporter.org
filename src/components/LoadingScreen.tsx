@@ -9,10 +9,8 @@ export default function LoadingScreen() {
   
   // 快速完成載入，直接進入 Section 1 開場動畫
   useEffect(() => {
-    console.log('LoadingScreen: Starting quick loading');
     const timer = setTimeout(() => {
       setLoadingProgress(1); // 直接設置為完成
-      console.log('LoadingScreen: Loading complete, entering Section 1');
     }, 300); // 300ms 後直接完成載入
 
     return () => clearTimeout(timer);

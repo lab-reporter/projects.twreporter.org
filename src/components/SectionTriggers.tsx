@@ -58,8 +58,6 @@ export default function SectionTriggers() {
     const initializeScrollTrigger = () => {
       if (!sectionRef.current) return;
 
-      console.log('🚀 設置 GSAP ScrollTrigger');
-
       // 主要滾動控制觸發器 - 基於 Combined3DScene.jsx
       const trigger = ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -68,7 +66,6 @@ export default function SectionTriggers() {
         scrub: 2,
         onUpdate: (self) => {
           const progress = self.progress;
-          console.log(`📍 GSAP ScrollTrigger - progress: ${progress.toFixed(3)}`);
           
           // 計算當前 section
           let accumulatedProgress = 0;
@@ -96,8 +93,6 @@ export default function SectionTriggers() {
           if (currentSectionData) {
             setCurrentSection(currentSectionData.id);
             setSectionProgress(sectionProgress);
-            
-            console.log(`🎯 當前 Section: ${currentSectionData.id}, progress: ${sectionProgress.toFixed(3)}`);
           }
         },
         id: 'main-scroll-trigger'
@@ -111,7 +106,6 @@ export default function SectionTriggers() {
 
     return () => {
       clearTimeout(timeoutId);
-      console.log('🧹 清理 ScrollTrigger');
       scrollTriggers.forEach(trigger => trigger.kill());
       ScrollTrigger.clearScrollMemory();
     };
@@ -134,7 +128,12 @@ export default function SectionTriggers() {
           style={{ zIndex: 1 }}
         >
           <Canvas
-            camera={{ position: [0, 0, 10], fov: 45 }}
+            camera={{ 
+              position: [0, 0, 10], 
+              fov: 45,
+              near: 0.01,  // 更小的 near 值，讓近距離物件可見
+              far: 1000    // 更大的 far 值，讓遠距離物件可見
+            }}
             gl={{ 
               antialias: true,
               alpha: true,
