@@ -51,6 +51,9 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
 
   // 軸線顯示控制狀態
   const [showAxes, setShowAxes] = useState(true);
+  
+  // Orbit 控制狀態
+  const [orbitEnabled, setOrbitEnabled] = useState(false);
 
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
@@ -111,6 +114,36 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   // 相機位置更新計時器
   const lastUpdateRef = useRef(0);
 
+  // 控制滾動禁用
+  useEffect(() => {
+    const preventScroll = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    if (orbitEnabled) {
+      // 禁用滾動
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('scroll', preventScroll, { passive: false });
+      window.addEventListener('wheel', preventScroll, { passive: false });
+      window.addEventListener('touchmove', preventScroll, { passive: false });
+    } else {
+      // 恢復滾動
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('scroll', preventScroll);
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+    }
+
+    return () => {
+      // 清理
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('scroll', preventScroll);
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+    };
+  }, [orbitEnabled]);
+
   // 在DOM中添加偵錯面板
   useEffect(() => {
     const debugPanel = document.createElement('div');
@@ -170,7 +203,7 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
           ${(cameraInfo.progress * 100).toFixed(1)}%
         </div>
         <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
             <span style="color: #ffffff; font-size: 12px;">軸線輔助</span>
             <div 
               id="axes-toggle"
@@ -199,21 +232,61 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
               "></div>
             </div>
           </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="color: #ffffff; font-size: 12px;">手動控制</span>
+            <div 
+              id="orbit-toggle"
+              style="
+                position: relative;
+                width: 44px;
+                height: 24px;
+                background: ${orbitEnabled ? '#ff9500' : '#666666'};
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: none;
+                outline: none;
+              "
+            >
+              <div style="
+                position: absolute;
+                top: 2px;
+                left: ${orbitEnabled ? '22px' : '2px'};
+                width: 20px;
+                height: 20px;
+                background: white;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+              "></div>
+            </div>
+          </div>
         </div>
       `;
       
       // 添加toggle按鈕事件監聽器
-      const toggleButton = document.getElementById('axes-toggle');
-      if (toggleButton) {
-        toggleButton.onclick = () => {
+      const axesToggle = document.getElementById('axes-toggle');
+      const orbitToggle = document.getElementById('orbit-toggle');
+      
+      if (axesToggle) {
+        axesToggle.onclick = () => {
           setShowAxes(prev => !prev);
         };
       }
+      
+      if (orbitToggle) {
+        orbitToggle.onclick = () => {
+          setOrbitEnabled(prev => !prev);
+        };
+      }
     }
-  }, [cameraInfo, showAxes]);
+  }, [cameraInfo, showAxes, orbitEnabled]);
 
   // 滑鼠視差效果和相機旋轉邏輯
   useFrame((state, delta) => {
+    // 當 orbit 模式開啟時，不執行滾動控制相機邏輯
+    if (orbitEnabled || !cameraRef.current) return;
+    
     if (cameraRef.current && currentSection === 'reports') {
       // Reports section: 相機圍繞 carousel 旋轉
       const basePosition = cameraPositions[currentSection];
@@ -282,6 +355,22 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         far={1000}
         position={[0, 0, 10]}
       />
+
+      {/* Orbit 控制 - 僅在啟用時顯示 */}
+      {orbitEnabled && (
+        <OrbitControls
+          enablePan={true}
+          enableZoom={true}
+          enableRotate={true}
+          zoomSpeed={0.5}
+          panSpeed={0.5}
+          rotateSpeed={0.5}
+          minDistance={5}
+          maxDistance={50}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI}
+        />
+      )}
 
       {/* 3D 輔助軸線 - 可切換顯示 */}
       {showAxes && (

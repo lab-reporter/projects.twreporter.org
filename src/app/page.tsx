@@ -7,6 +7,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import SectionTriggers from '@/components/SectionTriggers';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
+import Navigation from '@/components/Navigation';
 
 // 動態載入 3D 組件以避免 SSR 問題
 const UnifiedScene = dynamic(() => import('@/components/UnifiedScene'), {
@@ -28,6 +29,7 @@ export default function Home() {
       </div>
 
       {/* UI 組件 */}
+      <Navigation />
       <Modal />
       <SectionNavigation />
     </div>

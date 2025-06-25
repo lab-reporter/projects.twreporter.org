@@ -164,22 +164,10 @@ export default function SectionTriggers() {
           </div>
         )}
         
-        {/* Section 內容疊加 - 已移除，用戶要求不顯示半透明 section 名稱 */}
-        {false && sections.map((section, index) => (
-          <div
-            key={section.id}
-            className="absolute inset-0 flex items-center justify-center text-white/20 text-6xl font-bold pointer-events-none"
-            style={{
-              opacity: 0.1,
-              zIndex: 2
-            }}
-          >
-            <div className="text-center">
-              <div>{section.name}</div>
-              <div className="text-2xl mt-4 opacity-50">{section.height}vh</div>
-            </div>
-          </div>
-        ))}
+        {/* Call-to-Action 區域 - 用於深色模式切換檢測 */}
+        {currentSection === 'support' && (
+          <div id="call-to-action" className="absolute inset-0 pointer-events-none opacity-0" />
+        )}
       </div>
     </div>
   );
