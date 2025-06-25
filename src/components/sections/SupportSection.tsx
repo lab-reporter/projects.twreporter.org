@@ -39,7 +39,7 @@ function ParticleFormation({ progress }) {
         const radius = 3;
         const targetX = Math.cos(angle) * radius;
         const targetY = Math.sin(angle) * radius * 0.5;
-        const targetZ = Math.sin(angle * 2) * 1;
+        const targetZ = Math.sin(angle * 2) * 2 + 38;
         
         // 根據進度插值到目標位置
         const lerpFactor = Math.min(progress * 2, 1);

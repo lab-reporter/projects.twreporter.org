@@ -6,7 +6,7 @@ import { Image, Text, Html } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 
-// 時間線資料（使用 assets 照片）
+// 時間線資料 - 配合相機 Z=24 的位置
 const timelineData = [
   {
     id: "timeline-1",
@@ -14,7 +14,7 @@ const timelineData = [
     title: "報導者成立",
     description: "非營利媒體的起點",
     image: "/assets/img1.png",
-    textPosition: [8, 2, 0]
+    textPosition: [8, 2, 16] // 調整為相機前方
   },
   {
     id: "timeline-2", 
@@ -22,7 +22,7 @@ const timelineData = [
     title: "首次重大調查",
     description: "建立深度報導標準",
     image: "/assets/img2.png", 
-    textPosition: [8, 1, -3]
+    textPosition: [8, 1, 18] // 調整 Z 位置
   },
   {
     id: "timeline-3",
@@ -30,7 +30,7 @@ const timelineData = [
     title: "國際合作開始",
     description: "跨國調查報導",
     image: "/assets/img3.png",
-    textPosition: [8, 0, -6]
+    textPosition: [8, 0, 20]
   },
   {
     id: "timeline-4",
@@ -38,7 +38,7 @@ const timelineData = [
     title: "技術創新突破",
     description: "數位敘事工具開發",
     image: "/assets/img4.png",
-    textPosition: [8, -1, -9]
+    textPosition: [8, -1, 22]
   },
   {
     id: "timeline-5",
@@ -46,7 +46,7 @@ const timelineData = [
     title: "社會影響力擴大",
     description: "政策改變推動者",
     image: "/assets/img5.png",
-    textPosition: [8, 2, -12]
+    textPosition: [8, 2, 24]
   },
   {
     id: "timeline-6",
@@ -54,7 +54,7 @@ const timelineData = [
     title: "獲得國際肯定",
     description: "亞洲新聞獎項",
     image: "/assets/img6.png",
-    textPosition: [8, 1, -15]
+    textPosition: [8, 1, 26]
   },
   {
     id: "timeline-7",
@@ -62,7 +62,7 @@ const timelineData = [
     title: "疫情報導先鋒",
     description: "公衛新聞專業",
     image: "/assets/img7.png",
-    textPosition: [8, 0, -18]
+    textPosition: [8, 0, 28]
   },
   {
     id: "timeline-8",
@@ -70,7 +70,7 @@ const timelineData = [
     title: "永續發展目標",
     description: "環境與社會責任",
     image: "/assets/img8.png",
-    textPosition: [8, -1, -21]
+    textPosition: [8, -1, 30]
   },
   {
     id: "timeline-9",
@@ -78,7 +78,7 @@ const timelineData = [
     title: "AI 輔助新聞",
     description: "技術與新聞結合", 
     image: "/assets/img9.png",
-    textPosition: [8, 2, -24]
+    textPosition: [8, 2, 18]
   },
   {
     id: "timeline-10",
@@ -86,7 +86,7 @@ const timelineData = [
     title: "十週年里程碑",
     description: "持續影響台灣社會",
     image: "/assets/img10.png",
-    textPosition: [8, 1, -27]
+    textPosition: [8, 1, 16]
   }
 ];
 
@@ -112,7 +112,7 @@ function TimelinePhoto({ item, index, focused, onClick, onHover, onUnhover }) {
       <Image
         ref={meshRef}
         url={item.image}
-        position={[index * 4 - 18, 0, -index * 3]}
+        position={[index * 4 - 18, 0, 16 + index * 1.5]}
         scale={[3, 2, 1]}
         onPointerOver={onHover}
         onPointerOut={onUnhover}
@@ -121,7 +121,7 @@ function TimelinePhoto({ item, index, focused, onClick, onHover, onUnhover }) {
       
       {/* 年份標記 */}
       <Text
-        position={[index * 4 - 18, -2, -index * 3]}
+        position={[index * 4 - 18, -2, 16 + index * 1.5]}
         fontSize={0.5}
         color="#ffd700"
         anchorX="center"

@@ -9,7 +9,7 @@ interface ContainerProps {
 
 export default function Container({ children, className = '' }: ContainerProps) {
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={`w-full min-h-full ${className}`}>
       {children}
     </div>
   );

@@ -6,77 +6,77 @@ import { Box, Text } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 
-// 創新項目資料
+// 創新項目資料 - 配合相機 Z=16 的位置
 const innovationData = [
   {
     id: "innovation-1",
     title: "數位敘事平台",
     description: "互動式多媒體報導工具",
     color: "#ff6b6b",
-    position: [-3, 2, -5]
+    position: [-3, 2, 8] // 放在相機前方
   },
   {
     id: "innovation-2", 
     title: "資料視覺化引擎",
     description: "動態圖表與地圖系統",
     color: "#4ecdc4",
-    position: [2, -1, -8]
+    position: [2, -1, 10] // 稍微遠一點
   },
   {
     id: "innovation-3",
     title: "AI 輔助寫作",
     description: "智能新聞編輯工具",
     color: "#45b7d1",
-    position: [-1, 3, -12]
+    position: [-1, 3, 12] // 更遠的位置
   },
   {
     id: "innovation-4",
     title: "VR 沉浸式報導",
     description: "虛擬實境新聞體驗",
     color: "#96ceb4",
-    position: [4, 0, -15]
+    position: [4, 0, 14] // 調整為正值
   },
   {
     id: "innovation-5",
     title: "區塊鏈驗證",
     description: "新聞真實性認證系統",
     color: "#feca57",
-    position: [-2, -2, -18]
+    position: [-2, -2, 16] // 調整為正值
   },
   {
     id: "innovation-6",
     title: "開源工具包",
     description: "媒體技術開發框架",
     color: "#ff9ff3",
-    position: [1, 1, -22]
+    position: [1, 1, 18] // 調整為正值
   },
   {
     id: "innovation-7",
     title: "社群互動平台",
     description: "讀者參與式新聞",
     color: "#54a0ff",
-    position: [-4, -1, -25]
+    position: [-4, -1, 20] // 調整為正值
   },
   {
     id: "innovation-8",
     title: "跨媒體協作",
     description: "國際媒體合作網絡",
     color: "#5f27cd",
-    position: [3, 2, -28]
+    position: [3, 2, 22] // 調整為正值
   },
   {
     id: "innovation-9",
     title: "事實查核AI",
     description: "自動化假訊息檢測",
     color: "#00d2d3",
-    position: [0, -3, -32]
+    position: [0, -3, 24] // 調整為正值
   },
   {
     id: "innovation-10",
     title: "永續媒體模式",
     description: "非營利營運創新",
     color: "#ff6348",
-    position: [-1, 1, -35]
+    position: [-1, 1, 26] // 調整為正值
   }
 ];
 

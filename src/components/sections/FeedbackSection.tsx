@@ -114,7 +114,7 @@ export default function FeedbackSection({ visible, progress }) {
             position={[
               (Math.random() - 0.5) * 40,
               (Math.random() - 0.5) * 20,
-              (Math.random() - 0.5) * 30
+              Math.random() * 14 + 24
             ]}
             rotation={[
               Math.random() * Math.PI,
@@ -136,7 +136,7 @@ export default function FeedbackSection({ visible, progress }) {
             position={[
               (index - currentTestimonial) * 5,
               Math.sin((index - currentTestimonial) * 0.5) * 2,
-              0
+              30
             ]}
           />
         ))}
