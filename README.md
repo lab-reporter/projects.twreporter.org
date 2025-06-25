@@ -35,6 +35,33 @@ npm run dev
 npm run build
 ```
 
+## 🌳 Git 工作流程
+
+### 分支架構
+- **`main`** - 穩定的生產版本
+- **`dev`** - 主要開發分支（日常開發）
+
+### 開發流程
+```bash
+# 日常開發
+git checkout dev
+git add .
+git commit -m "feat: 新功能描述"
+git push origin dev
+
+# 發布穩定版本
+git checkout main
+git merge dev
+git push origin main
+```
+
+### Commit 規範
+- `feat`: 新功能
+- `fix`: 修復問題  
+- `refactor`: 重構程式碼
+- `style`: 樣式調整
+- `docs`: 文檔更新
+
 ## 📊 效能目標
 
 - **程式碼簡化**: 3,500行 → 1,200行 (-65%)
