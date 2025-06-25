@@ -47,32 +47,38 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     support: { position: [0, 0, 40], target: [0, 0, 32], fov: 45 } // 最前位置
   };
 
-  // 相機平滑移動
+  // 相機平滑移動（Reports section 由 useFrame 控制旋轉）
   useEffect(() => {
     if (cameraRef.current && cameraPositions[currentSection]) {
       const targetCamera = cameraPositions[currentSection];
       
-      gsap.to(cameraRef.current.position, {
-        x: targetCamera.position[0],
-        y: targetCamera.position[1],
-        z: targetCamera.position[2],
-        duration: 1.5,
-        ease: "power2.out"
-      });
+      // Reports section 不強制重置位置，保持旋轉狀態
+      if (currentSection !== 'reports') {
+        gsap.to(cameraRef.current.position, {
+          x: targetCamera.position[0],
+          y: targetCamera.position[1],
+          z: targetCamera.position[2],
+          duration: 1.5,
+          ease: "power2.out"
+        });
+      }
 
-      // 調整 FOV - 減少動畫時間避免尺寸閣動
+      // 所有 section 都需要調整 FOV
       gsap.to(cameraRef.current, {
         fov: targetCamera.fov,
-        duration: 0.5, // 縮短時間
+        duration: 0.5,
         ease: "power2.out",
         onUpdate: () => {
           if (cameraRef.current) {
             cameraRef.current.updateProjectionMatrix();
-            cameraRef.current.lookAt(
-              targetCamera.target[0],
-              targetCamera.target[1],
-              targetCamera.target[2]
-            );
+            // Reports section 的 lookAt 由 useFrame 控制
+            if (currentSection !== 'reports') {
+              cameraRef.current.lookAt(
+                targetCamera.target[0],
+                targetCamera.target[1],
+                targetCamera.target[2]
+              );
+            }
           }
         }
       });
