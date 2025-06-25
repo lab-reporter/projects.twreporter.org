@@ -3,11 +3,11 @@
 import { useStore } from '@/stores';
 
 const sections = [
-  { id: 'reports', name: '影響力報導', icon: '📰' },
-  { id: 'innovation', name: '多元創新', icon: '💡' },
-  { id: 'timeline', name: '歷程', icon: '⏳' },
-  { id: 'feedback', name: '見證', icon: '💬' },
-  { id: 'support', name: '支持', icon: '❤️' }
+  { id: 'reports', name: '影響力報導' },
+  { id: 'innovation', name: '多元創新' },
+  { id: 'timeline', name: '非營利媒體之路' },
+  { id: 'feedback', name: '贊助者證言' },
+  { id: 'support', name: '贊助支持' }
 ];
 
 export default function SectionNavigation() {
@@ -25,36 +25,34 @@ export default function SectionNavigation() {
   };
 
   return (
-    <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-40">
-      <div className="bg-black/30 backdrop-blur-md rounded-full p-2 space-y-1">
+    <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-[9998]">
+      <div className="flex flex-col space-y-2">
         {sections.map((section, index) => (
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
             className={`
-              group relative block w-12 h-12 rounded-full transition-all duration-300
+              group relative flex items-center justify-center px-[4px] py-[8px] rounded-sm transition-all duration-300 hover:scale-105 active:scale-95
               ${currentSection === section.id 
-                ? 'bg-white text-black scale-110' 
-                : 'bg-white/20 text-white hover:bg-white/40 hover:scale-105'
+                ? 'text-white' 
+                : 'bg-transparent'
               }
             `}
+            style={{
+              backgroundColor: currentSection === section.id ? '#9B051E' : 'transparent'
+            }}
             title={section.name}
+            aria-label={`跳到 ${section.name} 區塊`}
           >
-            <span className="text-lg">{section.icon}</span>
-            
-            {/* 工具提示 */}
-            <div className={`
-              absolute right-full mr-3 top-1/2 -translate-y-1/2
-              bg-black text-white px-3 py-1 rounded text-sm whitespace-nowrap
-              opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none
-            `}>
+            <span
+              className="text-sm text-inherit md:text-base font-medium tracking-wider"
+              style={{
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed'
+              }}
+            >
               {section.name}
-            </div>
-            
-            {/* 當前指示器 */}
-            {currentSection === section.id && (
-              <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-full" />
-            )}
+            </span>
           </button>
         ))}
       </div>

@@ -33,12 +33,12 @@ export default function NavigationControls({
       )}
       
       {/* 回到首頁按鈕 */}
-      <button
+      <div 
         onClick={onHome}
-        className="px-8 py-2 bg-white border-[1px] border-gray-300 transition-colors duration-300 hover:bg-gray-700 hover:text-white"
+        className="px-8 py-2 bg-white border-[1px] border-gray-300 transition-colors duration-300 hover:bg-gray-700 hover:text-white cursor-pointer"
       >
         回到首頁
-      </button>
+      </div>
       
       {/* 下一個按鈕 */}
       {adjacentProjects.next ? (

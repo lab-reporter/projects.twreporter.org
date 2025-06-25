@@ -7,16 +7,15 @@ import { getContentComponentByProjectId } from './modal/contentMap';
 import { getAdjacentProjects } from './modal/utils';
 import { NavigationControls } from './modal/shared';
 import projectsData from '@/app/data/projects.json';
-import { ReportData } from './modal/types';
 
 export default function Modal() {
   const { modal, closeModal, openModal } = useStore();
   
   // 篩選所有報導項目用於導航
   const allReports = useMemo(() => {
-    return projectsData.filter((p: ReportData) =>
-      p.section && (p.section.includes('reports') || p.section === 'reports')
-    ) as ReportData[];
+    return projectsData.filter((p: any) =>
+      p.section && (Array.isArray(p.section) ? p.section.includes('reports') : p.section === 'reports')
+    );
   }, []);
   
   // 計算相鄰項目
@@ -24,7 +23,7 @@ export default function Modal() {
     if (!modal.data || !modal.isOpen) {
       return { prev: null, next: null };
     }
-    return getAdjacentProjects(modal.data, allReports);
+    return getAdjacentProjects(modal.data, allReports as any);
   }, [modal.data, modal.isOpen, allReports]);
   
   // 處理導航
@@ -37,7 +36,7 @@ export default function Modal() {
 
   // ESC 鍵關閉
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && modal.isOpen) {
         closeModal();
       }
@@ -74,12 +73,6 @@ export default function Modal() {
           projectData={modal.data}
           onClose={closeModal}
           onNavigate={handleNavigate}
-        />
-        
-        {/* 導航組件 */}
-        <NavigationControls
-          onNavigate={handleNavigate}
-          onHome={closeModal}
           adjacentProjects={adjacentProjects}
         />
       </div>
@@ -87,28 +80,53 @@ export default function Modal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <>
       {/* 背景遮罩 */}
-      <div 
-        className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-[9998] transition-opacity duration-300"
         onClick={closeModal}
       />
-      
-      {/* Modal 內容 */}
-      <div className="relative bg-white rounded-lg shadow-2xl max-w-4xl max-h-[85vh] w-full mx-4 overflow-hidden">
-        {/* 關閉按鈕 */}
-        <button
-          onClick={closeModal}
-          className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <X size={24} />
-        </button>
+
+      {/* 側邊欄主體 - 完全模仿 SidePanel 樣式 */}
+      <div className={`fixed top-0 right-0 h-full w-full px-[5vw] py-[5vh] backdrop-blur-lg z-[9999] transform transition-transform duration-300 ease-in-out ${modal.isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         
         {/* 內容區域 */}
-        <div className="p-6 md:p-8 overflow-y-auto max-h-[85vh]">
-          {renderContent()}
+        <div
+          className="relative h-full overflow-y-auto bg-gray-100 shadow-2xl rounded-md"
+          style={{ scrollBehavior: 'auto' }}
+        >
+          {/* 內容 */}
+          <div className="sidepanel-content">
+            {renderContent()}
+          </div>
+        </div>
+
+        {/* 關閉按鈕 - 固定在視窗位置，完全模仿 SidePanel */}
+        <div className="fixed top-[7vh] right-[6vw] z-[10000]">
+          <div className="relative w-12 h-12">
+            <button
+              onClick={closeModal}
+              className="group absolute inset-0 flex items-center justify-center rounded-full bg-[rgba(255,255,255,0.25)] backdrop-blur-xl shadow-md hover:bg-black transition-colors duration-300"
+              aria-label="關閉側邊欄"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="stroke-current group-hover:stroke-white"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
