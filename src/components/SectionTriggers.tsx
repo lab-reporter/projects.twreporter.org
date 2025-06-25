@@ -164,10 +164,7 @@ export default function SectionTriggers() {
           </div>
         )}
         
-        {/* Call-to-Action 區域 - 用於深色模式切換檢測 */}
-        {currentSection === 'support' && (
-          <div id="call-to-action" className="absolute inset-0 pointer-events-none opacity-0" />
-        )}
+        {/* Section 內容疊加 - 已移除，用戶要求不顯示半透明 section 名稱 */}
       </div>
     </div>
   );
