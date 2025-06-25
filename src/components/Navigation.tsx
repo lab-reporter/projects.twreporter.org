@@ -26,16 +26,16 @@ const Navigation = () => {
     <>
       {/* navigation 外層容器 */}
       <div
-        className="w-full fixed top-0 right-auto left-auto flex justify-center z-[9999] bg-white text-black transition-transform duration-300 ease-in-out"
+        className="w-full fixed top-4 right-auto left-auto flex justify-center items-center z-[9999] text-black transition-transform duration-300 ease-in-out"
         style={{
           transform: shouldShowNav ? 'translateY(0)' : 'translateY(-100%)'
         }}
       >
         {/* navigation 本體 */}
-        <div className="px-8 m-8 mx-auto w-auto h-auto flex flex-row justify-between items-center rounded-sm">
+        <div className="mx-auto w-auto h-auto flex flex-row justify-between items-center rounded-sm">
           {/* LOGO */}
           <img
-            className="h-6 w-auto"
+            className="h-10 w-auto"
             src="/assets/nav_logo--light.svg"
             alt="Logo"
           />
