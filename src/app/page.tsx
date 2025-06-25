@@ -30,18 +30,6 @@ export default function Home() {
       {/* UI 組件 */}
       <Modal />
       <SectionNavigation />
-
-      {/* 開發狀態指示 */}
-      <div className="fixed top-4 left-4 z-50 text-black text-sm bg-white/70 p-4 rounded backdrop-blur-sm border border-gray-300">
-        <h2 className="font-bold mb-2">🚀 技術可行性驗證</h2>
-        <p>✅ 統一 3D 場景架構</p>
-        <p>✅ DOM 觸發器系統</p>
-        <p>⏳ Section 實作中...</p>
-        <hr className="my-2 border-gray-300" />
-        <div className="text-xs">
-          <p>狀態: 直接顯示主要內容</p>
-        </div>
-      </div>
     </div>
   );
 }

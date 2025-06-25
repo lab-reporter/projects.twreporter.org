@@ -105,7 +105,7 @@ export default function FeedbackSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, -80, 0]}>
+    <group position={[0, 0, 0]}>
       {/* 背景漂浮卡片 */}
       <group ref={groupRef}>
         {Array.from({ length: 30 }).map((_, i) => (

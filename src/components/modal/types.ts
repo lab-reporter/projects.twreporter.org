@@ -11,6 +11,7 @@ export interface ContentProps {
   projectData: ReportData;
   onClose: () => void;
   onNavigate?: (direction: 'prev' | 'next') => void;
+  adjacentProjects: AdjacentProjects;
 }
 
 export interface AdjacentProjects {

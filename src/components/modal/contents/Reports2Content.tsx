@@ -1,18 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Reports1Content({ projectData, onClose, onNavigate, adjacentProjects }: ContentProps) {
+export default function Reports2Content({ projectData, onClose, onNavigate, adjacentProjects }: ContentProps) {
+  const [activeTab, setActiveTab] = useState('overview');
+
   if (!projectData) return null;
 
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/report-1綁債．黑工．留學陷阱.jpg"
-        title="綁債．黑工．留學陷阱"
-        subtitle="失控的高教技職國際招生"
-        date="2022.01"
+        mediaSrc="https://www.twreporter.org/images/20210816135933-03d98b61a3742ad5cfb80bce7d2493af-mobile.jpg"
+        title="山頭上的掠奪"
+        subtitle="揭露全台原住民保留地流失亂象"
       />
 
       <Shared.ContentWrapper>
@@ -59,7 +61,7 @@ export default function Reports1Content({ projectData, onClose, onNavigate, adja
         </Shared.TextContent>
 
         {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/a/2023-09-11-chinese-foreign-students-in-taiwan-abuse-case">
+        <Shared.ExternalLink href="https://www.twreporter.org/a/indigenous-land-grab-taiwan">
           閱讀完整專題
         </Shared.ExternalLink>
 
@@ -83,4 +85,4 @@ export default function Reports1Content({ projectData, onClose, onNavigate, adja
       />
     </Shared.Container>
   );
-}
+} 

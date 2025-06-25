@@ -87,7 +87,7 @@ export default function SupportSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, -100, 0]}>
+    <group position={[0, 0, 0]}>
       {/* Section 5 聚集的粒子效果 */}
       <ParticleFormation progress={progress} />
       

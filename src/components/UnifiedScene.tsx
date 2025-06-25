@@ -58,13 +58,22 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     support: { position: [0, 0, 40], target: [0, 0, 32], fov: 45 } // 最前位置
   };
 
-  // 相機平滑移動（Reports section 由 useFrame 控制旋轉）
+  // 相機平滑移動
   useEffect(() => {
     if (cameraRef.current && cameraPositions[currentSection]) {
       const targetCamera = cameraPositions[currentSection];
       
-      // Reports section 不強制重置位置，保持旋轉狀態
-      if (currentSection !== 'reports') {
+      // Reports section 需要設定基礎位置，其他 section 進行位置移動
+      if (currentSection === 'reports') {
+        // Reports section 設定基礎圓形軌道位置，具體旋轉由 useFrame 控制
+        gsap.to(cameraRef.current.position, {
+          x: targetCamera.position[0],
+          y: targetCamera.position[1], 
+          z: targetCamera.position[2],
+          duration: 1.5,
+          ease: "power2.out"
+        });
+      } else {
         gsap.to(cameraRef.current.position, {
           x: targetCamera.position[0],
           y: targetCamera.position[1],
@@ -99,6 +108,68 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   // 相機位置更新計時器
   const lastUpdateRef = useRef(0);
 
+  // 在DOM中添加偵錯面板
+  useEffect(() => {
+    const debugPanel = document.createElement('div');
+    debugPanel.id = 'camera-debug-panel';
+    debugPanel.style.cssText = `
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: monospace;
+      z-index: 99999;
+      min-width: 240px;
+      max-width: 280px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+    document.body.appendChild(debugPanel);
+
+    return () => {
+      const panel = document.getElementById('camera-debug-panel');
+      if (panel) {
+        document.body.removeChild(panel);
+      }
+    };
+  }, []);
+
+  // 更新偵錯面板內容
+  useEffect(() => {
+    const panel = document.getElementById('camera-debug-panel');
+    if (panel) {
+      panel.innerHTML = `
+        <div style="color: #4CAF50; font-weight: bold; margin-bottom: 8px;">
+          📷 相機位置偵錯器
+        </div>
+        <div>相機位置:</div>
+        <div style="margin-left: 10px; color: #FFD700;">
+          X: ${cameraInfo.position.x}<br/>
+          Y: ${cameraInfo.position.y}<br/>
+          Z: ${cameraInfo.position.z}
+        </div>
+        <div style="margin-top: 8px;">目標位置:</div>
+        <div style="margin-left: 10px; color: #87CEEB;">
+          X: ${cameraInfo.target.x}<br/>
+          Y: ${cameraInfo.target.y}<br/>
+          Z: ${cameraInfo.target.z}
+        </div>
+        <div style="margin-top: 8px;">當前段落:</div>
+        <div style="margin-left: 10px; color: #FF6B6B;">
+          ${cameraInfo.section}
+        </div>
+        <div style="margin-top: 8px;">進度:</div>
+        <div style="margin-left: 10px; color: #4ECDC4;">
+          ${(cameraInfo.progress * 100).toFixed(1)}%
+        </div>
+      `;
+    }
+  }, [cameraInfo]);
+
   // 滑鼠視差效果和相機旋轉邏輯
   useFrame((state, delta) => {
     if (cameraRef.current && currentSection === 'reports') {
@@ -112,7 +183,7 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount;
       const rotationAngle = effectiveProgress * maxRotation;
       
-      // 計算相機位置 (圍繞 Y 軸旋轉)
+      // 計算相機位置 (圍繞 Y 軸旋轉)，從基礎位置開始
       const targetX = Math.sin(rotationAngle) * radius;
       const targetZ = Math.cos(rotationAngle) * radius;
       const targetY = basePosition.position[1] + (pointer.y * 2); // 滑鼠 Y 軸視差
@@ -207,52 +278,6 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         progress={sectionProgress}
       />
 
-      {/* 相機位置偵錯器 */}
-      <Html 
-        position={[0, 0, 0]} 
-        transform={false}
-        occlude={false}
-        style={{
-          position: 'fixed',
-          top: '10px',
-          left: '10px',
-          backgroundColor: 'rgba(0, 0, 0, 0.85)',
-          color: 'white',
-          padding: '15px',
-          borderRadius: '10px',
-          fontSize: '13px',
-          fontFamily: 'monospace',
-          zIndex: 9999,
-          minWidth: '220px',
-          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
-        }}
-      >
-        <div>
-          <div style={{ color: '#4CAF50', fontWeight: 'bold', marginBottom: '8px' }}>
-            📷 相機位置偵錯器
-          </div>
-          <div>相機位置:</div>
-          <div style={{ marginLeft: '10px', color: '#FFD700' }}>
-            X: {cameraInfo.position.x}<br/>
-            Y: {cameraInfo.position.y}<br/>
-            Z: {cameraInfo.position.z}
-          </div>
-          <div style={{ marginTop: '8px' }}>目標位置:</div>
-          <div style={{ marginLeft: '10px', color: '#87CEEB' }}>
-            X: {cameraInfo.target.x}<br/>
-            Y: {cameraInfo.target.y}<br/>
-            Z: {cameraInfo.target.z}
-          </div>
-          <div style={{ marginTop: '8px' }}>當前段落:</div>
-          <div style={{ marginLeft: '10px', color: '#FF6B6B' }}>
-            {cameraInfo.section}
-          </div>
-          <div style={{ marginTop: '8px' }}>進度:</div>
-          <div style={{ marginLeft: '10px', color: '#4ECDC4' }}>
-            {(cameraInfo.progress * 100).toFixed(1)}%
-          </div>
-        </div>
-      </Html>
     </>
   );
 }

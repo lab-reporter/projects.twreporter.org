@@ -150,11 +150,7 @@ export default function InnovationSection({ visible, progress }) {
   
   useFrame((state, delta) => {
     if (groupRef.current && visible) {
-      // 相機向前移動，讓物件由遠而近出現
-      const zOffset = progress * 30; // 向前移動 30 單位
-      groupRef.current.position.z = zOffset;
-      
-      // 計算當前聚焦的項目
+      // 計算當前聚焦的項目（移除 zOffset 動態位移）
       const currentIndex = Math.floor(progress * innovationData.length);
       const currentItem = innovationData[currentIndex];
       if (currentItem && currentItem.id !== focusedItem?.id) {
@@ -166,7 +162,7 @@ export default function InnovationSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, -40, 0]}>
+    <group position={[0, 0, 0]}>
       <group ref={groupRef}>
         {innovationData.map((item, index) => (
           <InnovationCube

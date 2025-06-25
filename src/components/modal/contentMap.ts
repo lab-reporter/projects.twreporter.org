@@ -3,19 +3,54 @@ import { ContentProps } from './types';
 
 // 動態引入內容組件
 import DefaultContent from './contents/DefaultContent';
+
+// Reports 系列組件
 import Reports1Content from './contents/Reports1Content';
+import Reports2Content from './contents/Reports2Content';
 import Reports3Content from './contents/Reports3Content';
+import Reports4Content from './contents/Reports4Content';
+import Reports5Content from './contents/Reports5Content';
+import Reports6Content from './contents/Reports6Content';
+import Reports7Content from './contents/Reports7Content';
+import Reports8Content from './contents/Reports8Content';
+import Reports9Content from './contents/Reports9Content';
+import Reports10Content from './contents/Reports10Content';
+import Reports11Content from './contents/Reports11Content';
+import Reports12Content from './contents/Reports12Content';
+
+// Innovation 系列組件
+import Innovation1Content from './contents/Innovation1Content';
+import Innovation2Content from './contents/Innovation2Content';
+import Innovation3Content from './contents/Innovation3Content';
+import Innovation4Content from './contents/Innovation4Content';
+
+// Enhanced 版本
 import EnhancedReports3Content from './contents/EnhancedReports3Content';
 
 // 內容組件映射表
 const contentMap: Record<string, ComponentType<ContentProps>> = {
-  // Reports section
+  // Reports section - 完整的 12 個報導
   'reports-1': Reports1Content,
-  'reports-3': EnhancedReports3Content, // 使用增強版本展示新組件
+  'reports-2': Reports2Content,
+  'reports-3': Reports3Content,
+  'reports-4': Reports4Content,
+  'reports-5': Reports5Content,
+  'reports-6': Reports6Content,
+  'reports-7': Reports7Content,
+  'reports-8': Reports8Content,
+  'reports-9': Reports9Content,
+  'reports-10': Reports10Content,
+  'reports-11': Reports11Content,
+  'reports-12': Reports12Content,
   
-  // 可以繼續添加更多組件
-  // 'reports-2': Reports2Content,
-  // 'innovation-1': Innovation1Content,
+  // Innovation section - 4 個創新項目
+  'innovation-1': Innovation1Content,
+  'innovation-2': Innovation2Content,
+  'innovation-3': Innovation3Content,
+  'innovation-4': Innovation4Content,
+  
+  // Enhanced 版本（可選用）
+  'enhanced-reports-3': EnhancedReports3Content,
   
   // 默認組件
   default: DefaultContent

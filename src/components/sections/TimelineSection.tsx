@@ -187,11 +187,7 @@ export default function TimelineSection({ visible, progress }) {
   
   useFrame((state, delta) => {
     if (groupRef.current && visible) {
-      // 相機向前移動，照片由遠而近
-      const zOffset = progress * 25;
-      groupRef.current.position.z = zOffset;
-      
-      // 計算當前顯示的文字
+      // 計算當前顯示的文字（移除 zOffset 動態位移）
       const textIndex = Math.floor((state.clock.elapsedTime * 0.5) % timelineData.length);
       if (textIndex !== currentTextIndex) {
         setCurrentTextIndex(textIndex);
@@ -202,7 +198,7 @@ export default function TimelineSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, -60, 0]}>
+    <group position={[0, 0, 0]}>
       <group ref={groupRef}>
         {/* 照片序列 */}
         {timelineData.map((item, index) => (
