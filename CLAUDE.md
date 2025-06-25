@@ -67,15 +67,16 @@
   ```
 
 ## 📋 Git Commit 規範
-- **格式**: `<type>: <description>` (第一行不超過 50 字符)
+- **格式**: `<type>: <繁體中文描述>` (第一行不超過 50 字符)
 - **語氣**: 使用祈使語氣，不用句號結尾
+- **語言**: 描述使用繁體中文，類型使用英文
 - **重點**: 說明「做了什麼」而非「為什麼」
 
 ### **Commit 類型**
 - `feat`: 新功能
 - `fix`: 修復問題
-- `refactor`: 重構代碼
-- `perf`: 性能優化
+- `refactor`: 重構程式碼
+- `perf`: 效能優化
 - `style`: 格式/樣式調整
 - `docs`: 文檔更新
 - `test`: 測試相關
@@ -90,7 +91,7 @@
 ...
 
 # ✅ 簡潔版本  
-style: standardize code comments format
+style: 統一程式碼註解規範
 
 # ❌ 冗長版本
 ⚡ 優化相機旋轉系統與 3D 互動體驗
@@ -98,7 +99,13 @@ style: standardize code comments format
 • **相機旋轉優化**: 改為旋轉相機而非 carousel...
 
 # ✅ 簡潔版本
-perf: optimize camera rotation system
+perf: 優化相機旋轉系統
+
+# 更多範例
+feat: 新增 Modal 點擊機制
+fix: 修正相機旋轉衝突問題
+refactor: 重構 ReportsSection 組件
+docs: 新增開發規範文檔
 ```
 
 ## 📋 重構工作流程（重要）
