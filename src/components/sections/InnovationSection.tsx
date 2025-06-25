@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import projectsData from '@/app/data/projects.json';
+import { applyMaterialConfig, defaultMaterialConfigs, debugModelStructure } from '@/utils/materialUtils';
 
 // 類型定義
 interface ModelData {
@@ -81,23 +82,6 @@ function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: In
       loadedModel.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.renderOrder = 1;
-          if (child.material) {
-            if (Array.isArray(child.material)) {
-              child.material.forEach(mat => {
-                mat.transparent = true;
-                mat.depthWrite = true;
-                mat.depthTest = true;
-                mat.needsUpdate = true;
-                if ('opacity' in mat) mat.opacity = 1;
-              });
-            } else {
-              child.material.transparent = true;
-              child.material.depthWrite = true;
-              child.material.depthTest = true;
-              child.material.needsUpdate = true;
-              if ('opacity' in child.material) child.material.opacity = 1;
-            }
-          }
           child.visible = true;
           child.castShadow = true;
           child.receiveShadow = true;
@@ -133,6 +117,11 @@ function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: In
           z: modelData.position.z
         }
       };
+
+      // 應用材質配置 - 這是關鍵步驟，防止粉紅色材質
+      debugModelStructure(loadedModel, modelData.id);
+      const materialConfig = defaultMaterialConfigs[modelData.id];
+      applyMaterialConfig(loadedModel, materialConfig);
 
       setModel(loadedModel);
       setIsLoading(false);

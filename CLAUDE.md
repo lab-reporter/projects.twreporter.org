@@ -57,6 +57,14 @@
   - 載入狀態與錯誤處理機制 ✅
   - 環境光照與聚光燈跟隨系統 ✅
 
+- **3D 模型粉紅色材質問題修復** (2025-06-25)
+  - 建立 materialUtils.ts 工具函數庫 ✅
+  - 引入 applyMaterialConfig 材質配置系統 ✅
+  - 引入 debugModelStructure 模型結構調試工具 ✅
+  - 引入 defaultMaterialConfigs 預設材質配置 ✅
+  - 修復 3D 模型顯示粉紅色的問題 ✅
+  - 確保模型材質正確載入與顯示 ✅
+
 ## 🎯 當前狀態
 - **專案架構**: 完全獨立運行，符合 QUICK_START.md 要求
 - **參照程式碼**: copy/ 資料夾（git ignored）
