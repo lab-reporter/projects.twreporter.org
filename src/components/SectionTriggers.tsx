@@ -21,11 +21,11 @@ if (typeof window !== 'undefined') {
 
 // 定義每個 Section 的高度配置
 const SECTION_HEIGHTS = {
-  reports: 300,        // Reports 3D 圓柱體場景高度
-  innovation: 100,     // Innovation 3D 物件場景高度
-  timeline: 100,       // Timeline 時間軸高度
-  feedback: 100,       // 贊助者證言高度
-  support: 100         // 贊助支持高度
+  reports: 500,        // Reports 3D 圓柱體場景高度
+  innovation: 500,     // Innovation 3D 物件場景高度
+  timeline: 500,       // Timeline 時間軸高度
+  feedback: 500,       // 贊助者證言高度
+  support: 500         // 贊助支持高度
 };
 
 const sections = [

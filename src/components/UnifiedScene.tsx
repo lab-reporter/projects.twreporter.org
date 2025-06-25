@@ -49,6 +49,9 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     progress: 0
   });
 
+  // 軸線顯示控制狀態
+  const [showAxes, setShowAxes] = useState(true);
+
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
     reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
@@ -166,9 +169,48 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         <div style="margin-left: 10px; color: #4ECDC4;">
           ${(cameraInfo.progress * 100).toFixed(1)}%
         </div>
+        <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="color: #ffffff; font-size: 12px;">軸線輔助</span>
+            <div 
+              id="axes-toggle"
+              style="
+                position: relative;
+                width: 44px;
+                height: 24px;
+                background: ${showAxes ? '#4ecdc4' : '#666666'};
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: none;
+                outline: none;
+              "
+            >
+              <div style="
+                position: absolute;
+                top: 2px;
+                left: ${showAxes ? '22px' : '2px'};
+                width: 20px;
+                height: 20px;
+                background: white;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+              "></div>
+            </div>
+          </div>
+        </div>
       `;
+      
+      // 添加toggle按鈕事件監聽器
+      const toggleButton = document.getElementById('axes-toggle');
+      if (toggleButton) {
+        toggleButton.onclick = () => {
+          setShowAxes(prev => !prev);
+        };
+      }
     }
-  }, [cameraInfo]);
+  }, [cameraInfo, showAxes]);
 
   // 滑鼠視差效果和相機旋轉邏輯
   useFrame((state, delta) => {
@@ -241,9 +283,13 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         position={[0, 0, 10]}
       />
 
-      {/* 3D 輔助軸線 */}
-      <axesHelper args={[10]} />
-      <gridHelper args={[20, 20]} />
+      {/* 3D 輔助軸線 - 可切換顯示 */}
+      {showAxes && (
+        <>
+          <axesHelper args={[10]} />
+          <gridHelper args={[20, 20]} />
+        </>
+      )}
       
       {/* 環境光照 - 調整為更接近 codesandbox */}
       <Environment preset="dawn" background={false} blur={0.5} />
