@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useMemo, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { PerspectiveCamera, Environment, OrbitControls, Html } from '@react-three/drei';
+import { PerspectiveCamera, OrbitControls, Html } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
@@ -24,12 +24,16 @@ interface CameraConfig {
 
 interface UnifiedSceneProps {
   onCurrentProjectChange?: (project: any) => void;
+  onInnovationFocusChange?: (project: any) => void;
 }
 
-export default function UnifiedScene({ onCurrentProjectChange }: UnifiedSceneProps) {
+export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocusChange }: UnifiedSceneProps) {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const { currentSection, sectionProgress } = useStore();
   const { pointer } = useThree();
+  
+  // Innovation 聚焦物件狀態
+  const [focusedInnovationItem, setFocusedInnovationItem] = useState<any>(null);
 
   // 計算 reports 項目總數
   const reportsCount = useMemo(() => {
@@ -58,10 +62,10 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
     reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
-    innovation: { position: [0, 0, 16], target: [0, 0, 8], fov: 45 }, // Z 軸往前移動
-    timeline: { position: [0, 0, 24], target: [0, 0, 16], fov: 45 }, // 繼續往前
-    feedback: { position: [0, 0, 32], target: [0, 0, 24], fov: 45 }, // 繼續往前
-    support: { position: [0, 0, 40], target: [0, 0, 32], fov: 45 } // 最前位置
+    innovation: { position: [0, 0, 40], target: [0, 0, 8], fov: 45 }, // Z 軸往前移動
+    timeline: { position: [0, 0, 60], target: [0, 0, 16], fov: 45 }, // 繼續往前
+    feedback: { position: [0, 0, 80], target: [0, 0, 24], fov: 45 }, // 繼續往前
+    support: { position: [0, 0, 100], target: [0, 0, 32], fov: 45 } // 最前位置
   };
 
   // 相機平滑移動
@@ -287,7 +291,33 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     // 當 orbit 模式開啟時，不執行滾動控制相機邏輯
     if (orbitEnabled || !cameraRef.current) return;
     
-    if (cameraRef.current && currentSection === 'reports') {
+    if (cameraRef.current && currentSection === 'innovation' && focusedInnovationItem) {
+      // Innovation section: 相機平滑移動到聚焦物件前方
+      const targetPosition = new THREE.Vector3(
+        focusedInnovationItem.position.x,
+        focusedInnovationItem.position.y,
+        focusedInnovationItem.position.z + 20  // 保持 Z 軸 20 單位距離
+      );
+      
+      // 使用更快的 lerp 係數實現平滑但不會太慢的動畫
+      cameraRef.current.position.lerp(targetPosition, 0.05);
+      
+      // 平滑相機朝向 - 使用 lookAt 插值
+      const lookAtTarget = new THREE.Vector3(
+        focusedInnovationItem.position.x,
+        focusedInnovationItem.position.y,
+        focusedInnovationItem.position.z
+      );
+      
+      // 創建一個臨時的目標四元數來平滑旋轉
+      const tempCamera = new THREE.PerspectiveCamera();
+      tempCamera.position.copy(cameraRef.current.position);
+      tempCamera.lookAt(lookAtTarget);
+      
+      // 平滑插值四元數實現平滑旋轉
+      cameraRef.current.quaternion.slerp(tempCamera.quaternion, 0.05);
+      
+    } else if (cameraRef.current && currentSection === 'reports') {
       // Reports section: 相機圍繞 carousel 旋轉
       const basePosition = cameraPositions[currentSection];
       const radius = 8; // 相機距離 carousel 中心的半徑
@@ -380,11 +410,15 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         </>
       )}
       
-      {/* 環境光照 - 調整為更接近 codesandbox */}
-      <Environment preset="dawn" background={false} blur={0.5} />
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 5]} intensity={0.8} castShadow />
-      {/* 移除霧化效果，避免遠處物件顯示為粉紅色 */}
+      {/* 基礎光照系統 - 匹配原始 Combined3DScene.jsx */}
+      <ambientLight intensity={0.3} color="#ffffff" />
+      <directionalLight 
+        position={[10, 10, 10]} 
+        intensity={1} 
+        color="#ffffff" 
+        castShadow 
+      />
+      {/* 移除 Environment 組件，避免影響材質顏色 */}
 
       {/* Section 組件 (移除 OpeningSection) */}
       <ReportsSection 
@@ -396,6 +430,8 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       <InnovationSection 
         visible={currentSection === 'innovation'} 
         progress={sectionProgress}
+        onFocusedItemChange={setFocusedInnovationItem}
+        onCurrentProjectChange={onInnovationFocusChange}
       />
       
       <TimelineSection 

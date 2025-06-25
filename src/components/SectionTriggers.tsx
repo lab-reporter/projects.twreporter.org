@@ -41,6 +41,7 @@ export default function SectionTriggers() {
   const canvasContainerRef = useRef(null);
   const { setCurrentSection, setSectionProgress, currentSection } = useStore();
   const [currentProject, setCurrentProject] = useState<any>(null);
+  const [currentInnovationProject, setCurrentInnovationProject] = useState<any>(null);
   
   // 計算總高度
   const totalVH = sections.reduce((sum, s) => sum + s.height, 0);
@@ -48,6 +49,11 @@ export default function SectionTriggers() {
   // 處理當前項目變化
   const handleCurrentProjectChange = (project: any) => {
     setCurrentProject(project);
+  };
+  
+  // 處理 Innovation 聚焦項目變化
+  const handleInnovationFocusChange = (project: any) => {
+    setCurrentInnovationProject(project);
   };
 
   useEffect(() => {
@@ -66,6 +72,16 @@ export default function SectionTriggers() {
         scrub: 2,
         onUpdate: (self) => {
           const progress = self.progress;
+          
+          // 除錯：記錄 GSAP ScrollTrigger 狀態
+          if (process.env.NODE_ENV === 'development') {
+            window.gsapScrollInfo = {
+              progress,
+              scrollY: window.scrollY,
+              isScrolling: true,
+              timestamp: Date.now()
+            };
+          }
           
           // 計算當前 section
           let accumulatedProgress = 0;
@@ -120,6 +136,19 @@ export default function SectionTriggers() {
       }}
       id="main-3d-section"
     >
+      {/* 添加隱藏的 HTML 錨點，每個 section 佔 500vh */}
+      {sections.map((section, index) => (
+        <div
+          key={section.id}
+          id={`section-${section.id}`}
+          className="absolute w-full"
+          style={{
+            height: '1px',
+            top: `${index * 500}vh`,
+            pointerEvents: 'none'
+          }}
+        />
+      ))}
       {/* Sticky 3D Canvas 容器 - 基於 Combined3DScene.jsx */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
         <div
@@ -137,7 +166,10 @@ export default function SectionTriggers() {
             gl={{ 
               antialias: true,
               alpha: true,
-              powerPreference: "high-performance"
+              powerPreference: "high-performance",
+              outputColorSpace: "srgb",      // 匹配原始程式碼
+              toneMapping: 0,                // THREE.NoToneMapping = 0
+              toneMappingExposure: 1.0       // 匹配原始程式碼
             }}
             dpr={[1, 2]}
             style={{ cursor: 'auto' }}
@@ -146,7 +178,10 @@ export default function SectionTriggers() {
             }}
           >
             <Suspense fallback={null}>
-              <UnifiedScene onCurrentProjectChange={handleCurrentProjectChange} />
+              <UnifiedScene 
+                onCurrentProjectChange={handleCurrentProjectChange}
+                onInnovationFocusChange={handleInnovationFocusChange}
+              />
             </Suspense>
           </Canvas>
         </div>
@@ -159,6 +194,18 @@ export default function SectionTriggers() {
             </h2>
             <h3 className="text-xl sm:text-2xl">
               {currentProject.subtitle}
+            </h3>
+          </div>
+        )}
+
+        {/* Innovation Title - 固定顯示在畫面中央下方 */}
+        {currentSection === 'innovation' && currentInnovationProject && (
+          <div className="absolute w-full px-2 bottom-12 left-1/2 -translate-x-1/2 text-center z-10 text-black">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-2">
+              {currentInnovationProject.title}
+            </h2>
+            <h3 className="text-xl sm:text-2xl">
+              {currentInnovationProject.subtitle}
             </h3>
           </div>
         )}

@@ -34,6 +34,8 @@ interface InnovationModelProps {
 interface InnovationSectionProps {
   visible: boolean;
   progress: number;
+  onFocusedItemChange?: (item: ModelData | null) => void;
+  onCurrentProjectChange?: (project: any) => void;
 }
 
 // 創新 3D 模型組件
@@ -153,25 +155,13 @@ function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: In
         mixer.update(delta);
       }
 
-      // 聚焦效果
+      // 旋轉動畫（不移動物件位置，不縮放）
       if (focused) {
-        // 放大並移動到前方
-        const targetScale = model.userData.originalScale.clone().multiplyScalar(1.3);
-        model.scale.lerp(targetScale, 0.05);
-        
-        // 移動到相機前方
-        const targetPos = new THREE.Vector3(0, 0, 20);
-        model.position.lerp(targetPos, 0.05);
-        
-        // 輕微旋轉動畫
-        model.rotation.y += delta * 0.5;
+        // 聚焦時加速旋轉，不放大
+        model.rotation.y += delta * 0.8; // 聚焦時旋轉更快
       } else {
-        // 恢復原始狀態
-        model.scale.lerp(model.userData.originalScale, 0.05);
-        model.position.lerp(model.userData.originalPosition, 0.05);
-        
         // 緩慢自轉
-        model.rotation.y += delta * 0.2;
+        model.rotation.y += delta * 0.3; // 正常自轉速度
       }
 
       // 浮動效果
@@ -250,7 +240,7 @@ function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: In
   );
 }
 
-export default function InnovationSection({ visible, progress }: InnovationSectionProps) {
+export default function InnovationSection({ visible, progress, onFocusedItemChange, onCurrentProjectChange }: InnovationSectionProps) {
   const groupRef = useRef<THREE.Group>(null);
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const [focusedItem, setFocusedItem] = useState<ModelData | null>(null);
@@ -281,8 +271,12 @@ export default function InnovationSection({ visible, progress }: InnovationSecti
       const currentItem = currentIndex >= 0 ? innovationProjects[currentIndex] : null;
       if (currentItem && currentItem.id !== focusedItem?.id) {
         setFocusedItem(currentItem);
+        onFocusedItemChange?.(currentItem); // 通知父組件
+        onCurrentProjectChange?.(currentItem); // 通知標題顯示
       } else if (!currentItem && focusedItem) {
         setFocusedItem(null);
+        onFocusedItemChange?.(null); // 通知父組件
+        onCurrentProjectChange?.(null); // 通知標題顯示
       }
     }
   });
@@ -304,50 +298,29 @@ export default function InnovationSection({ visible, progress }: InnovationSecti
         ))}
       </group>
 
-      {/* 當前聚焦項目的詳細資訊 */}
-      {focusedItem && (
-        <group position={[0, -8, 25]}>
-          <Text
-            fontSize={1.2}
-            color="white"
-            anchorX="center"
-            anchorY="middle"
-            maxWidth={12}
-            textAlign="center"
-          >
-            {focusedItem.title}
-          </Text>
-          <Text
-            position={[0, -2, 0]}
-            fontSize={0.6}
-            color="#cccccc"
-            anchorX="center"
-            anchorY="middle"
-            maxWidth={16}
-            textAlign="center"
-          >
-            {focusedItem.subtitle}
-          </Text>
-        </group>
-      )}
+      {/* 移除內部標題顯示，改由外部統一顯示 */}
 
-      {/* 環境光照增強 */}
-      <ambientLight intensity={0.4} color="#ffffff" />
-      <pointLight position={[0, 10, 0]} intensity={1} color="#ffffff" />
-      <pointLight position={[-10, 5, -10]} intensity={0.5} color="#4ecdc4" />
-      <pointLight position={[10, 5, -10]} intensity={0.5} color="#ff6b6b" />
+      {/* 光照系統 - 匹配原始 Combined3DScene.jsx 設定 */}
+      <ambientLight intensity={0.3} color="#ffffff" />
+      <directionalLight 
+        position={[10, 10, 10]} 
+        intensity={1} 
+        color="#ffffff"
+        castShadow={true}
+      />
       
-      {/* 聚光燈跟隨聚焦項目 */}
-      {focusedItem && (
-        <spotLight
-          position={[0, 15, 30]}
-          target-position={[0, 0, 20]}
-          intensity={2}
-          angle={Math.PI * 0.3}
-          penumbra={0.5}
-          color="#ffffff"
-        />
-      )}
+      {/* 主要聚光燈 - 使用原始程式碼的高強度設定 */}
+      <spotLight
+        position={[0, 15, 20]}
+        target-position={[0, 0, 0]}
+        intensity={5}
+        angle={Math.PI * 0.6}
+        penumbra={0.2}
+        distance={60}
+        decay={1}
+        color="#ffffff"
+        castShadow={true}
+      />
     </group>
   );
 }
