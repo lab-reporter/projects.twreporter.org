@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { PerspectiveCamera, Environment, OrbitControls } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
+import projectsData from '@/app/data/projects.json';
 
 // 匯入各個 Section 組件 (移除 OpeningSection)
 import ReportsSection from './sections/ReportsSection';
@@ -29,6 +30,13 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const { currentSection, sectionProgress } = useStore();
   const { pointer } = useThree();
+
+  // 計算 reports 項目總數
+  const reportsCount = useMemo(() => {
+    return projectsData.filter((p: any) =>
+      p.section && (p.section.includes('reports') || p.section === 'reports')
+    ).length;
+  }, []);
 
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
@@ -78,8 +86,10 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       const basePosition = cameraPositions[currentSection];
       const radius = 8; // 相機距離 carousel 中心的半徑
       
-      // 根據 sectionProgress 計算旋轉角度 (一圈) - 恢復原本邏輯
-      const rotationAngle = sectionProgress * Math.PI * 2;
+      // 根據滾動進度計算旋轉角度，停在最後一張照片
+      // 計算需要旋轉的角度：幾乎一圈但停在最後一張
+      const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount; // 動態計算旋轉角度
+      const rotationAngle = sectionProgress * maxRotation;
       
       // 計算相機位置 (圍繞 Y 軸旋轉)
       const targetX = Math.sin(rotationAngle) * radius;
