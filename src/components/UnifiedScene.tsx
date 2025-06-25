@@ -38,6 +38,9 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     ).length;
   }, []);
 
+  // 旋轉緩衝區參數 - 控制最後項目的停留時間
+  const ROTATION_BUFFER = 0.05; // 5% 的緩衝區，可調整
+
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
     reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
@@ -93,9 +96,10 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       const radius = 8; // 相機距離 carousel 中心的半徑
       
       // 根據滾動進度計算旋轉角度，停在最後一張照片
-      // 計算需要旋轉的角度：幾乎一圈但停在最後一張
-      const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount; // 動態計算旋轉角度
-      const rotationAngle = sectionProgress * maxRotation;
+      // 加入緩衝區：0-95% 的滾動距離對應 0-100% 的旋轉進度
+      const effectiveProgress = Math.min(sectionProgress / (1 - ROTATION_BUFFER), 1);
+      const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount;
+      const rotationAngle = effectiveProgress * maxRotation;
       
       // 計算相機位置 (圍繞 Y 軸旋轉)
       const targetX = Math.sin(rotationAngle) * radius;
