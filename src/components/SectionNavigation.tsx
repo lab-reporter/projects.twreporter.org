@@ -3,7 +3,6 @@
 import { useStore } from '@/stores';
 
 const sections = [
-  { id: 'opening', name: '開場', icon: '🎬' },
   { id: 'reports', name: '報導', icon: '📰' },
   { id: 'innovation', name: '創新', icon: '💡' },
   { id: 'timeline', name: '歷程', icon: '⏳' },

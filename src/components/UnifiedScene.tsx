@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { PerspectiveCamera, Environment } from '@react-three/drei';
+import { PerspectiveCamera, Environment, OrbitControls } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
@@ -71,18 +71,27 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     }
   }, [currentSection]);
 
-  // 滑鼠視差效果 - 基於 codesandbox 的實作
+  // 滑鼠視差效果和相機旋轉邏輯
   useFrame((state, delta) => {
     if (cameraRef.current && currentSection === 'reports') {
-      // Reports section 使用相機移動邏輯，但保持正確的 Z 距離
+      // Reports section: 相機圍繞 carousel 旋轉
       const basePosition = cameraPositions[currentSection];
-      const targetX = basePosition.position[0] + (-pointer.x * 1);
-      const targetY = basePosition.position[1] + (pointer.y * 0.5);
-      const targetZ = basePosition.position[2]; // 保持設定的 Z 距離
+      const radius = 8; // 相機距離 carousel 中心的半徑
       
-      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1;
-      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1;
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.1;
+      // 根據 sectionProgress 計算旋轉角度 (一圈)
+      const rotationAngle = sectionProgress * Math.PI * 2;
+      
+      // 計算相機位置 (圍繞 Y 軸旋轉)
+      const targetX = Math.sin(rotationAngle) * radius;
+      const targetZ = Math.cos(rotationAngle) * radius;
+      const targetY = basePosition.position[1] + (pointer.y * 0.3); // 減少滑鼠視差影響
+      
+      // 不同速度的插值：X 方向快，Z 方向慢，保留視覺落差效果
+      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1; // X 方向正常速度
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.075; // Z 方向 50% 速度
+      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1; // Y 方向正常速度
+      
+      // 相機始終看向 carousel 中心
       cameraRef.current.lookAt(0, 0, 0);
     } else if (cameraRef.current) {
       // 其他 section 使用原來的輕微視差效果
@@ -106,6 +115,10 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         position={[0, 0, 10]}
       />
 
+      {/* 3D 輔助軸線 */}
+      <axesHelper args={[10]} />
+      <gridHelper args={[20, 20]} />
+      
       {/* 環境光照 - 調整為更接近 codesandbox */}
       <Environment preset="dawn" background={false} blur={0.5} />
       <ambientLight intensity={0.4} />

@@ -233,9 +233,13 @@ function ReportCard({ report, index, count, radius = 5, focused = false, onClick
   const pointerOver = (e: any) => {
     e?.stopPropagation?.();
     setHovered(true);
+    document.body.style.cursor = 'pointer';
   };
   
-  const pointerOut = () => setHovered(false);
+  const pointerOut = () => {
+    setHovered(false);
+    document.body.style.cursor = 'auto';
+  };
   const handleClick = () => onClick?.(report);
 
   useFrame((state, delta) => {
@@ -285,29 +289,14 @@ function ReportCard({ report, index, count, radius = 5, focused = false, onClick
   );
 }
 
-// Rig 組件 - 負責旋轉控制
-interface RigProps {
+// 靜態容器組件 - carousel 保持不動，由相機旋轉
+interface StaticContainerProps {
   children: React.ReactNode;
-  progress: number;
 }
 
-function Rig({ children, progress }: RigProps) {
-  const ref = useRef<THREE.Group>(null);
-  
-  useFrame(() => {
-    if (ref.current) {
-      // 根據滾動進度旋轉 - 調整為1圈
-      const rotationY = -progress * (Math.PI * 2); // 1圈
-      ref.current.rotation.y = THREE.MathUtils.lerp(
-        ref.current.rotation.y,
-        rotationY,
-        0.1
-      );
-    }
-  });
-
+function StaticContainer({ children }: StaticContainerProps) {
   return (
-    <group ref={ref} rotation={[0, 0, 0.15]}>
+    <group rotation={[0, 0, 0]}>
       {children}
     </group>
   );
@@ -399,13 +388,13 @@ export default function ReportsSection({ visible, progress, onCurrentProjectChan
 
   return (
     <group>
-      <Rig progress={progress}>
+      <StaticContainer>
         <Carousel
           radius={5}
           progress={progress}
           onProjectClick={handleProjectClick}
         />
-      </Rig>
+      </StaticContainer>
       
       {/* 簡化燈光系統 */}
       <ambientLight intensity={0.5} />

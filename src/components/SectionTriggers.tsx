@@ -141,6 +141,10 @@ export default function SectionTriggers() {
               powerPreference: "high-performance"
             }}
             dpr={[1, 2]}
+            style={{ cursor: 'auto' }}
+            onPointerMissed={() => {
+              document.body.style.cursor = 'auto';
+            }}
           >
             <Suspense fallback={null}>
               <UnifiedScene onCurrentProjectChange={handleCurrentProjectChange} />
