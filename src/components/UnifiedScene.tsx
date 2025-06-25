@@ -41,6 +41,14 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
   // 旋轉緩衝區參數 - 控制最後項目的停留時間
   const ROTATION_BUFFER = 0.05; // 5% 的緩衝區，可調整
 
+  // 相機位置顯示器狀態
+  const [cameraInfo, setCameraInfo] = useState({
+    position: { x: 0, y: 0, z: 0 },
+    target: { x: 0, y: 0, z: 0 },
+    section: '',
+    progress: 0
+  });
+
   // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
   const cameraPositions: Record<string, CameraConfig> = {
     reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
@@ -88,6 +96,9 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
     }
   }, [currentSection]);
 
+  // 相機位置更新計時器
+  const lastUpdateRef = useRef(0);
+
   // 滑鼠視差效果和相機旋轉邏輯
   useFrame((state, delta) => {
     if (cameraRef.current && currentSection === 'reports') {
@@ -126,6 +137,24 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       
       cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.02;
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.02;
+    }
+
+    // 每秒更新一次相機位置信息
+    const currentTime = state.clock.elapsedTime;
+    if (currentTime - lastUpdateRef.current > 1 && cameraRef.current) {
+      lastUpdateRef.current = currentTime;
+      setCameraInfo({
+        position: {
+          x: Math.round(cameraRef.current.position.x * 100) / 100,
+          y: Math.round(cameraRef.current.position.y * 100) / 100,
+          z: Math.round(cameraRef.current.position.z * 100) / 100
+        },
+        target: {
+          x: 0, y: 0, z: 0 // 大部分情況下看向原點
+        },
+        section: currentSection,
+        progress: Math.round(sectionProgress * 100) / 100
+      });
     }
   });
 
@@ -177,6 +206,53 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
         visible={currentSection === 'support'} 
         progress={sectionProgress}
       />
+
+      {/* 相機位置偵錯器 */}
+      <Html 
+        position={[0, 0, 0]} 
+        transform={false}
+        occlude={false}
+        style={{
+          position: 'fixed',
+          top: '10px',
+          left: '10px',
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          color: 'white',
+          padding: '15px',
+          borderRadius: '10px',
+          fontSize: '13px',
+          fontFamily: 'monospace',
+          zIndex: 9999,
+          minWidth: '220px',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
+        }}
+      >
+        <div>
+          <div style={{ color: '#4CAF50', fontWeight: 'bold', marginBottom: '8px' }}>
+            📷 相機位置偵錯器
+          </div>
+          <div>相機位置:</div>
+          <div style={{ marginLeft: '10px', color: '#FFD700' }}>
+            X: {cameraInfo.position.x}<br/>
+            Y: {cameraInfo.position.y}<br/>
+            Z: {cameraInfo.position.z}
+          </div>
+          <div style={{ marginTop: '8px' }}>目標位置:</div>
+          <div style={{ marginLeft: '10px', color: '#87CEEB' }}>
+            X: {cameraInfo.target.x}<br/>
+            Y: {cameraInfo.target.y}<br/>
+            Z: {cameraInfo.target.z}
+          </div>
+          <div style={{ marginTop: '8px' }}>當前段落:</div>
+          <div style={{ marginLeft: '10px', color: '#FF6B6B' }}>
+            {cameraInfo.section}
+          </div>
+          <div style={{ marginTop: '8px' }}>進度:</div>
+          <div style={{ marginLeft: '10px', color: '#4ECDC4' }}>
+            {(cameraInfo.progress * 100).toFixed(1)}%
+          </div>
+        </div>
+      </Html>
     </>
   );
 }

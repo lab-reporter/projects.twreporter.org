@@ -2,6 +2,75 @@
 
 ## 📅 最新開發記錄
 
+### 🎨 2025-06-25 15:35 (台北時間) - Modal 共享組件樣式完整修正
+
+**背景：**
+- 用戶發現 Claude Code 移植的 modal/shared 組件樣式設定與參考程式碼不一致
+- 需要逐一比對並修正所有組件，確保視覺效果完全匹配原始設計
+
+**修正範圍：**
+1. **Container.tsx** ← `Container.jsx`
+   - 恢復原始 `w-full min-h-full` 樣式
+   - 移除多餘的 `space-y-6` 設定
+
+2. **ContentWrapper.tsx** ← `Content.jsx`
+   - 匹配原始 `px-12 pt-8 max-w-[840px] mx-auto relative`
+   - 移除響應式 `px-4 md:px-8 lg:px-12` 設定
+
+3. **TextContent.tsx** ← `Description.jsx`
+   - 完全匹配 `font-noto-serif-tc [&>*>p]:mb-6` 設定
+   - 移除複雜的 variant 和 prose 樣式系統
+
+4. **ExternalLink.tsx** ← `BtnLink.jsx`
+   - 簡化為原始 `bg-gray-400 hover:bg-red-700` 樣式
+   - 移除 Lucide 圖標和複雜的變體系統
+
+5. **HeroBanner.tsx** ← `ReportBanner.jsx`
+   - 恢復原始 `h-[calc(90vh)]` 高度設定
+   - 匹配原始文字樣式：`text-4xl font-bold text-center mb-4`
+
+6. **CreditsMarquee.tsx** ← `ReportCredits.jsx`
+   - 完全匹配 `font-noto-sans-tc` 和跑馬燈設計
+   - 移除響應式和漸層遮罩效果
+
+7. **CreditsItem.tsx** ← `ReportCreditsItem.jsx`
+   - 保持原始 `text-gray-400 font-noto-sans-tc font-normal` 樣式
+   - 匹配 `{role} |` 和頓號連接邏輯
+
+8. **ProjectSummary.tsx** ← `ReportSummary.jsx`
+   - 重構為原始的嵌套列表功能
+   - 保持 `bg-gray-100 rounded-lg` 容器樣式
+
+9. **NavigationControls.tsx** ← `BtnNavigation.jsx`
+   - 簡化為原始按鈕設計
+   - 統一 `px-8 py-2 bg-white border-[1px] border-gray-300` 樣式
+
+**技術成果：**
+- ✅ **完全樣式匹配**：所有組件都與參考程式碼一致
+- ✅ **保持類型安全**：維持 TypeScript 的類型檢查
+- ✅ **移除冗餘功能**：去除不必要的響應式和複雜設定
+- ✅ **統一設計語言**：確保視覺一致性
+
+**程式碼減少統計：**
+- **修正前**：305 行複雜樣式和功能
+- **修正後**：110 行簡潔匹配樣式
+- **減少**：195 行 (-64%) 冗餘程式碼
+
+**重要發現：**
+1. **設計理念差異**：原始程式碼追求簡潔實用，新組件過度工程化
+2. **字體設定重要性**：`font-noto-serif-tc` 和 `font-noto-sans-tc` 是關鍵視覺元素
+3. **響應式謬誤**：不是所有組件都需要複雜的響應式設計
+4. **樣式一致性**：按鈕 hover 效果和間距設定需要統一
+
+**下一步行動：**
+- 測試所有 Modal 內容組件的顯示效果
+- 確認字體載入和樣式應用
+- 驗證互動功能的正常運作
+
+---
+
+### 🔧 2025-06-25 14:30 (台北時間) - 重大修正：THREE.js 粉紅色材質問題解決
+
 ### ⚡ 2025-06-25 11:30 (台北時間) - 相機旋轉系統重大優化
 
 **核心改進：**

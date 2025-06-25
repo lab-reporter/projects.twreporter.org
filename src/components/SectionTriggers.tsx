@@ -181,14 +181,6 @@ export default function SectionTriggers() {
           </div>
         ))}
       </div>
-      
-      {/* 除錯資訊顯示 */}
-      <div className="fixed bottom-4 left-4 z-50 text-black text-sm bg-white/70 p-4 rounded backdrop-blur-sm border border-gray-300">
-        <h3 className="font-bold mb-2">🔧 GSAP ScrollTrigger</h3>
-        <p>總高度: {totalVH}vh</p>
-        <p>Reports: {SECTION_HEIGHTS.reports}vh</p>
-        <p>使用 GSAP 滾動控制</p>
-      </div>
     </div>
   );
 }
