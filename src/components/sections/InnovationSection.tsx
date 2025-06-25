@@ -1,160 +1,299 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Box, Text } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import { useStore } from '@/stores';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import projectsData from '@/app/data/projects.json';
 
-// 創新項目資料 - 配合相機 Z=16 的位置
-const innovationData = [
-  {
-    id: "innovation-1",
-    title: "數位敘事平台",
-    description: "互動式多媒體報導工具",
-    color: "#ff6b6b",
-    position: [-3, 2, 8] // 放在相機前方
-  },
-  {
-    id: "innovation-2", 
-    title: "資料視覺化引擎",
-    description: "動態圖表與地圖系統",
-    color: "#4ecdc4",
-    position: [2, -1, 10] // 稍微遠一點
-  },
-  {
-    id: "innovation-3",
-    title: "AI 輔助寫作",
-    description: "智能新聞編輯工具",
-    color: "#45b7d1",
-    position: [-1, 3, 12] // 更遠的位置
-  },
-  {
-    id: "innovation-4",
-    title: "VR 沉浸式報導",
-    description: "虛擬實境新聞體驗",
-    color: "#96ceb4",
-    position: [4, 0, 14] // 調整為正值
-  },
-  {
-    id: "innovation-5",
-    title: "區塊鏈驗證",
-    description: "新聞真實性認證系統",
-    color: "#feca57",
-    position: [-2, -2, 16] // 調整為正值
-  },
-  {
-    id: "innovation-6",
-    title: "開源工具包",
-    description: "媒體技術開發框架",
-    color: "#ff9ff3",
-    position: [1, 1, 18] // 調整為正值
-  },
-  {
-    id: "innovation-7",
-    title: "社群互動平台",
-    description: "讀者參與式新聞",
-    color: "#54a0ff",
-    position: [-4, -1, 20] // 調整為正值
-  },
-  {
-    id: "innovation-8",
-    title: "跨媒體協作",
-    description: "國際媒體合作網絡",
-    color: "#5f27cd",
-    position: [3, 2, 22] // 調整為正值
-  },
-  {
-    id: "innovation-9",
-    title: "事實查核AI",
-    description: "自動化假訊息檢測",
-    color: "#00d2d3",
-    position: [0, -3, 24] // 調整為正值
-  },
-  {
-    id: "innovation-10",
-    title: "永續媒體模式",
-    description: "非營利營運創新",
-    color: "#ff6348",
-    position: [-1, 1, 26] // 調整為正值
-  }
-];
+// 類型定義
+interface ModelData {
+  id: string;
+  path: string;
+  title: string;
+  subtitle?: string;
+  section: string[];
+  position: { x: number; y: number; z: number };
+  scale?: { x: number; y: number; z: number };
+  rotation?: { x: number; y: number; z: number };
+  is3DModel: boolean;
+}
 
-// 創新項目立方體
-function InnovationCube({ item, focused, onClick, onHover, onUnhover }) {
-  const meshRef = useRef();
-  const textRef = useRef();
-  
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      // 緩慢旋轉
-      meshRef.current.rotation.y += delta * 0.5;
-      meshRef.current.rotation.x += delta * 0.3;
-      
-      // 聚焦縮放效果
-      const targetScale = focused ? 1.5 : 1;
-      meshRef.current.scale.lerp({ x: targetScale, y: targetScale, z: targetScale }, 0.1);
-      
-      // 浮動效果
-      meshRef.current.position.y += Math.sin(state.clock.elapsedTime * 2) * 0.01;
+interface InnovationModelProps {
+  modelData: ModelData;
+  focused: boolean;
+  onClick: (item: ModelData) => void;
+  onHover: () => void;
+  onUnhover: () => void;
+}
+
+interface InnovationSectionProps {
+  visible: boolean;
+  progress: number;
+}
+
+// 創新 3D 模型組件
+function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: InnovationModelProps) {
+  const groupRef = useRef<THREE.Group>(null);
+  const [model, setModel] = useState<THREE.Group | null>(null);
+  const [mixer, setMixer] = useState<THREE.AnimationMixer | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  // 載入 3D 模型
+  const loadModel = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.setDRACOLoader(dracoLoader);
+
+      const gltf = await new Promise<any>((resolve, reject) => {
+        gltfLoader.load(
+          modelData.path,
+          resolve,
+          undefined,
+          reject
+        );
+      });
+
+      const loadedModel = gltf.scene as THREE.Group;
+
+      // 處理動畫
+      if (gltf.animations && gltf.animations.length > 0) {
+        const animationMixer = new THREE.AnimationMixer(loadedModel);
+        gltf.animations.forEach((clip: THREE.AnimationClip) => {
+          const action = animationMixer.clipAction(clip);
+          action.loop = THREE.LoopRepeat;
+          action.play();
+        });
+        setMixer(animationMixer);
+      }
+
+      // 設置材質和陰影
+      loadedModel.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.renderOrder = 1;
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach(mat => {
+                mat.transparent = true;
+                mat.depthWrite = true;
+                mat.depthTest = true;
+                mat.needsUpdate = true;
+                if ('opacity' in mat) mat.opacity = 1;
+              });
+            } else {
+              child.material.transparent = true;
+              child.material.depthWrite = true;
+              child.material.depthTest = true;
+              child.material.needsUpdate = true;
+              if ('opacity' in child.material) child.material.opacity = 1;
+            }
+          }
+          child.visible = true;
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      loadedModel.castShadow = true;
+      loadedModel.receiveShadow = true;
+
+      // 設置比例
+      if (modelData.scale) {
+        loadedModel.scale.set(modelData.scale.x, modelData.scale.y, modelData.scale.z);
+      } else {
+        loadedModel.scale.set(0.25, 0.25, 0.25);
+      }
+
+      // 設置旋轉
+      if (modelData.rotation) {
+        loadedModel.rotation.set(modelData.rotation.x, modelData.rotation.y, modelData.rotation.z);
+      }
+
+      // 設置位置
+      loadedModel.position.set(modelData.position.x, modelData.position.y, modelData.position.z);
+
+      // 儲存原始比例和位置資訊
+      loadedModel.userData = {
+        originalScale: loadedModel.scale.clone(),
+        originalPosition: loadedModel.position.clone(),
+        projectId: modelData.id,
+        targetPosition: {
+          x: modelData.position.x,
+          y: modelData.position.y,
+          z: modelData.position.z
+        }
+      };
+
+      setModel(loadedModel);
+      setIsLoading(false);
+
+    } catch (error) {
+      console.error('Error loading GLTF model:', modelData.id, error);
+      setError(error as Error);
+      setIsLoading(false);
     }
+  }, [modelData]);
+
+  // 載入模型
+  useEffect(() => {
+    loadModel();
     
-    if (textRef.current && focused) {
-      // 聚焦時文字輕微擺動
-      textRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 3) * 0.1;
+    return () => {
+      // 清理資源
+      if (mixer) {
+        mixer.stopAllAction();
+        mixer.uncacheRoot(mixer.getRoot());
+      }
+    };
+  }, [loadModel, mixer]);
+
+  useFrame((state, delta) => {
+    if (groupRef.current && model) {
+      // 更新動畫
+      if (mixer) {
+        mixer.update(delta);
+      }
+
+      // 聚焦效果
+      if (focused) {
+        // 放大並移動到前方
+        const targetScale = model.userData.originalScale.clone().multiplyScalar(1.3);
+        model.scale.lerp(targetScale, 0.05);
+        
+        // 移動到相機前方
+        const targetPos = new THREE.Vector3(0, 0, 20);
+        model.position.lerp(targetPos, 0.05);
+        
+        // 輕微旋轉動畫
+        model.rotation.y += delta * 0.5;
+      } else {
+        // 恢復原始狀態
+        model.scale.lerp(model.userData.originalScale, 0.05);
+        model.position.lerp(model.userData.originalPosition, 0.05);
+        
+        // 緩慢自轉
+        model.rotation.y += delta * 0.2;
+      }
+
+      // 浮動效果
+      const originalY = model.userData.originalPosition.y;
+      const floatOffset = Math.sin(state.clock.elapsedTime * 2 + modelData.position.x) * 0.3;
+      if (!focused) {
+        model.position.y = originalY + floatOffset;
+      }
     }
   });
 
-  return (
-    <group position={item.position}>
-      <Box
-        ref={meshRef}
-        args={[1, 1, 1]}
-        onPointerOver={onHover}
-        onPointerOut={onUnhover}
-        onClick={() => onClick(item)}
-      >
-        <meshStandardMaterial
-          color={item.color}
-          emissive={focused ? item.color : '#000000'}
-          emissiveIntensity={focused ? 0.3 : 0}
-          roughness={0.3}
-          metalness={0.8}
-        />
-      </Box>
-      
-      {/* 項目標題（聚焦時顯示） */}
-      {focused && (
+  if (isLoading) {
+    return (
+      <group position={[modelData.position.x, modelData.position.y, modelData.position.z]}>
+        <mesh>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color="#666666" transparent opacity={0.5} />
+        </mesh>
         <Text
-          ref={textRef}
           position={[0, 2, 0]}
           fontSize={0.3}
           color="white"
           anchorX="center"
-          anchorY="center"
-          maxWidth={4}
+          anchorY="middle"
+        >
+          載入中...
+        </Text>
+      </group>
+    );
+  }
+
+  if (error) {
+    return (
+      <group position={[modelData.position.x, modelData.position.y, modelData.position.z]}>
+        <mesh>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color="#ff0000" />
+        </mesh>
+        <Text
+          position={[0, 2, 0]}
+          fontSize={0.3}
+          color="white"
+          anchorX="center"
+          anchorY="middle"
+        >
+          載入失敗
+        </Text>
+      </group>
+    );
+  }
+
+  return (
+    <group 
+      ref={groupRef}
+      onPointerOver={onHover}
+      onPointerOut={onUnhover}
+      onClick={() => onClick(modelData)}
+    >
+      {model && <primitive object={model} />}
+      
+      {/* 項目標題（聚焦時顯示） */}
+      {focused && (
+        <Text
+          position={[0, 8, 0]}
+          fontSize={0.8}
+          color="white"
+          anchorX="center"
+          anchorY="middle"
+          maxWidth={6}
           textAlign="center"
         >
-          {item.title}
+          {modelData.title}
         </Text>
       )}
     </group>
   );
 }
 
-export default function InnovationSection({ visible, progress }) {
-  const groupRef = useRef();
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [focusedItem, setFocusedItem] = useState(null);
+export default function InnovationSection({ visible, progress }: InnovationSectionProps) {
+  const groupRef = useRef<THREE.Group>(null);
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [focusedItem, setFocusedItem] = useState<ModelData | null>(null);
   const { openModal } = useStore();
-  
+
+  // 篩選創新項目資料
+  const innovationProjects = projectsData.filter((p) => {
+    const hasInnovationSection = p.section && 
+      (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation');
+    const hasRequiredFields = 'is3DModel' in p && p.is3DModel === true && 'position' in p;
+    return hasInnovationSection && hasRequiredFields;
+  }) as ModelData[];
+
   useFrame((state, delta) => {
-    if (groupRef.current && visible) {
-      // 計算當前聚焦的項目（移除 zOffset 動態位移）
-      const currentIndex = Math.floor(progress * innovationData.length);
-      const currentItem = innovationData[currentIndex];
+    if (groupRef.current && visible && innovationProjects.length > 0) {
+      // 根據滾動進度計算當前聚焦的項目
+      const bufferStart = 0.1;    // 前10%緩衝區
+      const bufferEnd = 0.9;      // 後10%緩衝區
+      
+      let currentIndex = -1;      // 當前在鏡頭前的模型索引，-1表示無
+      if (progress >= bufferStart && progress <= bufferEnd) {
+        // 在有效區間內，計算當前應該顯示哪個模型
+        const effectiveProgress = (progress - bufferStart) / (bufferEnd - bufferStart);
+        currentIndex = Math.floor(effectiveProgress * innovationProjects.length);
+        currentIndex = Math.min(currentIndex, innovationProjects.length - 1);
+      }
+
+      const currentItem = currentIndex >= 0 ? innovationProjects[currentIndex] : null;
       if (currentItem && currentItem.id !== focusedItem?.id) {
         setFocusedItem(currentItem);
+      } else if (!currentItem && focusedItem) {
+        setFocusedItem(null);
       }
     }
   });
@@ -164,10 +303,10 @@ export default function InnovationSection({ visible, progress }) {
   return (
     <group position={[0, 0, 0]}>
       <group ref={groupRef}>
-        {innovationData.map((item, index) => (
-          <InnovationCube
+        {innovationProjects.map((item, index) => (
+          <InnovationModel
             key={item.id}
-            item={item}
+            modelData={item}
             focused={focusedItem?.id === item.id || hoveredItem === index}
             onClick={(item) => openModal(item.id, item)}
             onHover={() => setHoveredItem(index)}
@@ -178,35 +317,48 @@ export default function InnovationSection({ visible, progress }) {
 
       {/* 當前聚焦項目的詳細資訊 */}
       {focusedItem && (
-        <group position={[0, -6, 0]}>
+        <group position={[0, -8, 25]}>
           <Text
-            fontSize={0.6}
+            fontSize={1.2}
             color="white"
             anchorX="center"
-            anchorY="center"
-            maxWidth={8}
+            anchorY="middle"
+            maxWidth={12}
             textAlign="center"
           >
             {focusedItem.title}
           </Text>
           <Text
-            position={[0, -1, 0]}
-            fontSize={0.3}
+            position={[0, -2, 0]}
+            fontSize={0.6}
             color="#cccccc"
             anchorX="center"
-            anchorY="center"
-            maxWidth={10}
+            anchorY="middle"
+            maxWidth={16}
             textAlign="center"
           >
-            {focusedItem.description}
+            {focusedItem.subtitle}
           </Text>
         </group>
       )}
 
       {/* 環境光照增強 */}
-      <pointLight position={[0, 5, 0]} intensity={0.5} color="#ffffff" />
-      <pointLight position={[-5, 0, -10]} intensity={0.3} color={focusedItem?.color || "#ffffff"} />
-      <pointLight position={[5, 0, -10]} intensity={0.3} color={focusedItem?.color || "#ffffff"} />
+      <ambientLight intensity={0.4} color="#ffffff" />
+      <pointLight position={[0, 10, 0]} intensity={1} color="#ffffff" />
+      <pointLight position={[-10, 5, -10]} intensity={0.5} color="#4ecdc4" />
+      <pointLight position={[10, 5, -10]} intensity={0.5} color="#ff6b6b" />
+      
+      {/* 聚光燈跟隨聚焦項目 */}
+      {focusedItem && (
+        <spotLight
+          position={[0, 15, 30]}
+          target-position={[0, 0, 20]}
+          intensity={2}
+          angle={Math.PI * 0.3}
+          penumbra={0.5}
+          color="#ffffff"
+        />
+      )}
     </group>
   );
 }
