@@ -22,13 +22,13 @@ interface ReportData {
 class BentPlaneGeometry extends THREE.PlaneGeometry {
   constructor(width: number, height: number, cylinderRadius: number, segments: number = 15) {
     // 計算合適的分段數
-    const segmentsX = segments * 6; // X軸分段數：90
-    const segmentsY = Math.floor(height * 15); // Y軸分段數：根據高度計算
+    const segmentsX = segments * 6; // X 軸分段數
+    const segmentsY = Math.floor(height * 15); // Y 軸分段數
     
     super(width, height, segmentsX, segmentsY);
     
     // 計算彎曲角度 - 照片寬度與圓柱半徑的關係
-    const theta = (width / cylinderRadius) * 1.2; // 1.2 係數增加彎曲效果
+    const theta = (width / cylinderRadius) * 1.2; // 彎曲係數
     
     const position = this.attributes.position;
     const uv = this.attributes.uv;
@@ -38,20 +38,20 @@ class BentPlaneGeometry extends THREE.PlaneGeometry {
       const x = position.getX(i);
       const y = position.getY(i);
       
-      // 計算 X 軸上的角度比例 (-0.5 到 0.5)
+      // 計算 X 軸上的角度比例
       const xRatio = x / width;
       const xAngle = xRatio * theta;
       
       // 計算圓弧上的新位置
       const newX = Math.sin(xAngle) * cylinderRadius;
-      const newZ = Math.cos(xAngle) * cylinderRadius - cylinderRadius; // 減去半徑使中心在原點
+      const newZ = Math.cos(xAngle) * cylinderRadius - cylinderRadius; // 調整中心位置
       
       position.setXYZ(i, newX, y, newZ);
       
       // 調整 UV 座標避免邊緣拉伸
       const u = uv.getX(i);
       const v = uv.getY(i);
-      uv.setXY(i, u * 0.8 + 0.1, v); // U 座標留 10% 邊距
+      uv.setXY(i, u * 0.8 + 0.1, v); // U 座標邊距調整
     }
     
     position.needsUpdate = true;
@@ -87,7 +87,7 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
     setLoading(true);
     
     const videoElement = document.createElement('video');
-    // 測試絕對路徑
+    // 構建完整 URL 路徑
     const absolutePath = `http://localhost:3001${report.path}`;
     console.log('🔗 使用絕對路徑:', absolutePath);
     videoElement.src = absolutePath;
@@ -111,7 +111,7 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
     // 多個事件監聽器確保載入
     const handleCanPlay = () => {
       console.log('✅ 影片可以播放:', report.path);
-      videoElement.currentTime = 1; // 跳到第一秒確保有內容
+      videoElement.currentTime = 1; // 跳過開頭確保有畫面內容
       setTexture(videoTexture);
       setLoading(false);
       
@@ -141,7 +141,7 @@ function VideoCard({ report, position, rotation, hovered, onPointerOver, onPoint
       console.log('📊 影片元數據載入完成:', report.path);
     });
     
-    // 超時處理
+    // 載入超時處理
     const timeout = setTimeout(() => {
       if (loading) {
         console.warn('⚠️ 影片載入超時:', report.path);
@@ -205,12 +205,12 @@ function ReportCard({ report, index, count, radius = 5, focused = false, onClick
   const calculateImageSize = () => {
     const circumference = 2 * Math.PI * radius;
     const availableSpacePerImage = circumference / count;
-    const imageWidth = availableSpacePerImage * 0.75; // 75% 避免重疊
-    const imageHeight = imageWidth * 0.8; // 4:5 比例
+    const imageWidth = availableSpacePerImage * 0.75; // 適當間距避免重疊
+    const imageHeight = imageWidth * 0.8; // 照片比例
     
     return {
-      width: Math.max(imageWidth, 1.5), // 最小寬度
-      height: Math.max(imageHeight, 1.0) // 最小高度
+      width: Math.max(imageWidth, 1.5), // 最小寬度限制
+      height: Math.max(imageHeight, 1.0) // 最小高度限制
     };
   };
   

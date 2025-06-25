@@ -3,8 +3,8 @@
 import { useStore } from '@/stores';
 
 const sections = [
-  { id: 'reports', name: '報導', icon: '📰' },
-  { id: 'innovation', name: '創新', icon: '💡' },
+  { id: 'reports', name: '影響力報導', icon: '📰' },
+  { id: 'innovation', name: '多元創新', icon: '💡' },
   { id: 'timeline', name: '歷程', icon: '⏳' },
   { id: 'feedback', name: '見證', icon: '💬' },
   { id: 'support', name: '支持', icon: '❤️' }

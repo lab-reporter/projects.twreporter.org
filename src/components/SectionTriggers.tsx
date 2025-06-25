@@ -19,13 +19,13 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 定義每個 Section 的高度配置 (基於 Combined3DScene.jsx)
+// 定義每個 Section 的高度配置
 const SECTION_HEIGHTS = {
-  reports: 300,        // Reports 3D圓柱體場景：300vh (測試用，原本是 800vh)
-  innovation: 100,     // Innovation 3D物件場景：100vh
-  timeline: 100,       // Timeline 時間軸：100vh
-  feedback: 100,       // 贊助者證言：100vh
-  support: 100         // 贊助支持：100vh
+  reports: 300,        // Reports 3D 圓柱體場景高度
+  innovation: 100,     // Innovation 3D 物件場景高度
+  timeline: 100,       // Timeline 時間軸高度
+  feedback: 100,       // 贊助者證言高度
+  support: 100         // 贊助支持高度
 };
 
 const sections = [
@@ -106,7 +106,7 @@ export default function SectionTriggers() {
       scrollTriggers.push(trigger);
     };
 
-    // 延遲初始化確保 DOM 準備就緒
+    // 延遲初始化確保 DOM 準備完成
     const timeoutId = setTimeout(initializeScrollTrigger, 100);
 
     return () => {

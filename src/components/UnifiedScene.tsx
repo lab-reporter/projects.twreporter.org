@@ -78,21 +78,27 @@ export default function UnifiedScene({ onCurrentProjectChange }: UnifiedScenePro
       const basePosition = cameraPositions[currentSection];
       const radius = 8; // 相機距離 carousel 中心的半徑
       
-      // 根據 sectionProgress 計算旋轉角度 (一圈)
+      // 根據 sectionProgress 計算旋轉角度 (一圈) - 恢復原本邏輯
       const rotationAngle = sectionProgress * Math.PI * 2;
       
       // 計算相機位置 (圍繞 Y 軸旋轉)
       const targetX = Math.sin(rotationAngle) * radius;
       const targetZ = Math.cos(rotationAngle) * radius;
-      const targetY = basePosition.position[1] + (pointer.y * 0.3); // 減少滑鼠視差影響
+      const targetY = basePosition.position[1] + (pointer.y * 2); // 滑鼠 Y 軸視差
       
       // 不同速度的插值：X 方向快，Z 方向慢，保留視覺落差效果
       cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1; // X 方向正常速度
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.075; // Z 方向 50% 速度
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.075; // Z方向移動速度由此控制
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1; // Y 方向正常速度
       
-      // 相機始終看向 carousel 中心
+      // 先讓相機看向 carousel 中心
       cameraRef.current.lookAt(0, 0, 0);
+      
+      // 使用四元數安全地添加 Z 軸傾斜 (roll)
+      const tiltAngle = pointer.x * 0.1; // 傾斜角度係數 
+      const rollQuaternion = new THREE.Quaternion();
+      rollQuaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), tiltAngle);
+      cameraRef.current.quaternion.multiply(rollQuaternion);
     } else if (cameraRef.current) {
       // 其他 section 使用原來的輕微視差效果
       const targetX = pointer.x * 0.5;
