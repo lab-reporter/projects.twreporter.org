@@ -2,6 +2,55 @@
 
 ## 📅 最新開發記錄
 
+### 🛠️ 2025-06-25 17:30 (台北時間) - Tailwind CSS v4 配置修復完成
+
+**背景：**
+- 用戶反映 padding 等基本 utility 類名無法正常工作
+- 自定義色彩系統 (bg-red-90) 正常運作，但基本樣式失效
+- 需要診斷 Tailwind CSS 配置問題並徹底解決
+
+**問題根因：**
+- **主要問題**: 專案使用 Tailwind v4，但殘留 v3 配置檔案 `tailwind.config.js`
+- **配置衝突**: v3/v4 混合配置導致 CSS 編譯失敗
+- **症狀表現**: 自定義色彩有效，基本 utility 類名 (px-4, py-2) 無效
+
+**解決步驟：**
+1. **刪除不相容配置**: 移除 `tailwind.config.js` (v3 格式)
+2. **確認正確配置**: 
+   - `postcss.config.mjs` 使用 `@tailwindcss/postcss` 插件 ✅
+   - `globals.css` 使用 v4 `@theme` 語法定義自定義色彩 ✅
+3. **重啟開發伺服器**: 讓配置變更生效
+4. **測試修復**: 將 SectionNavigation 從內聯樣式改為 Tailwind 類名
+
+**修復驗證：**
+```typescript
+// 修復前：被迫使用內聯樣式
+style={{ padding: '8px' }}
+
+// 修復後：正常使用 Tailwind 類名
+className="px-2 py-2"  // 8px 垂直padding
+```
+
+**技術成果：**
+- ✅ **Tailwind v4 完全正常**: 所有 utility 類名正確應用
+- ✅ **自定義色彩系統**: `bg-red-90` 等品牌色彩正常運作  
+- ✅ **配置標準化**: 統一使用 v4 配置格式
+- ✅ **開發體驗提升**: 不再需要內聯樣式 fallback
+
+**重要發現：**
+1. **版本一致性關鍵**: Tailwind v3/v4 配置無法混用
+2. **故障模式特殊**: 自定義色彩正常但基本類名失效是典型的配置衝突症狀
+3. **v4 配置簡化**: v4 使用 CSS-based 配置，更簡潔且強大
+4. **重啟必要性**: PostCSS 配置變更需要重啟開發伺服器才能生效
+
+**專案狀態：**
+- **Tailwind CSS v4**: 完全正常運作 ✅
+- **PostCSS 配置**: `@tailwindcss/postcss` 正確設置 ✅  
+- **品牌色彩系統**: 完整支援 red/green/blue/gold 色票 ✅
+- **開發工具鏈**: 統一且穩定 ✅
+
+---
+
 ### 🎨 2025-06-25 15:35 (台北時間) - Modal 共享組件樣式完整修正
 
 **背景：**
