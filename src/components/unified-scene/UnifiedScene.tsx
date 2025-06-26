@@ -46,20 +46,32 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
       window.addEventListener('wheel', preventScroll, { passive: false });
       window.addEventListener('touchmove', preventScroll, { passive: false });
     } else {
-      // 恢復滾動
-      document.body.style.overflow = 'auto';
+      // 恢復滾動 - 但不覆蓋 Modal 的設定
+      if (!document.querySelector('[data-modal-open="true"]')) {
+        document.body.style.overflow = 'auto';
+      }
       window.removeEventListener('scroll', preventScroll);
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
     }
 
     return () => {
-      // 清理
-      document.body.style.overflow = 'auto';
+      // 清理 - 但不覆蓋 Modal 的設定
+      if (!document.querySelector('[data-modal-open="true"]')) {
+        document.body.style.overflow = 'auto';
+      }
       window.removeEventListener('scroll', preventScroll);
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
     };
+  }, [orbitEnabled]);
+
+  // 確保初始狀態正確
+  useEffect(() => {
+    // 強制確保滾動條可見，除非 Modal 開啟或 orbit 模式啟用
+    if (!document.querySelector('[data-modal-open="true"]') && !orbitEnabled) {
+      document.body.style.overflow = 'auto';
+    }
   }, [orbitEnabled]);
 
   // Innovation 聚焦處理

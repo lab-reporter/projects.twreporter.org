@@ -1,15 +1,11 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Plane, Text } from '@react-three/drei';
-import { useStore } from '@/stores';
-import * as THREE from 'three';
+import { useState } from 'react';
 
 // 贊助者證言資料
 const feedbackData = [
   "報導者的深度報導讓我看見台灣社會的真實面貌",
-  "專業的調查新聞是民主社會的重要支柱",
+  "專業的調查新聞是民主社會的重要支柱", 
   "感謝報導者持續關注弱勢族群的聲音",
   "技術創新讓新聞報導更加生動有力",
   "非營利模式證明了另一種媒體可能性",
@@ -18,168 +14,86 @@ const feedbackData = [
   "深度調查報導是推動社會進步的力量"
 ];
 
-// 漂浮的背景卡片
-function FloatingCard({ position, rotation, index }) {
-  const meshRef = useRef();
-  
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.2;
-      meshRef.current.rotation.y += delta * 0.1;
-      meshRef.current.position.y += Math.sin(state.clock.elapsedTime + index) * 0.01;
-    }
-  });
-
-  return (
-    <Plane
-      ref={meshRef}
-      position={position}
-      rotation={rotation}
-      args={[1, 1.4]}
-    >
-      <meshStandardMaterial
-        color="#663399"
-        transparent
-        opacity={0.3}
-        side={THREE.DoubleSide}
-      />
-    </Plane>
-  );
+interface FeedbackSectionProps {
+  visible: boolean;
+  progress: number;
 }
 
-// 中央證言卡片
-function TestimonialCard({ text, active, position }) {
-  const meshRef = useRef();
-  
-  useFrame((state, delta) => {
-    if (meshRef.current && active) {
-      const targetScale = 1.1;
-      meshRef.current.scale.lerp({ x: targetScale, y: targetScale, z: targetScale }, 0.1);
-    } else if (meshRef.current) {
-      meshRef.current.scale.lerp({ x: 1, y: 1, z: 1 }, 0.1);
-    }
-  });
-
-  return (
-    <group position={position}>
-      <Plane ref={meshRef} args={[4, 2]}>
-        <meshStandardMaterial
-          color="white"
-          side={THREE.DoubleSide}
-        />
-      </Plane>
-      <Text
-        position={[0, 0, 0.01]}
-        fontSize={0.2}
-        color="#333333"
-        anchorX="center"
-        anchorY="center"
-        maxWidth={3.5}
-        textAlign="center"
-      >
-        "{text}"
-      </Text>
-    </group>
-  );
-}
-
-export default function FeedbackSection({ visible, progress }) {
-  const groupRef = useRef();
+export default function FeedbackSection({ visible, progress }: FeedbackSectionProps) {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const { openModal } = useStore();
-  
-  useFrame((state, delta) => {
-    if (groupRef.current && visible) {
-      // 背景從淺灰變黑色（通過 fog 控制）
-      const fogIntensity = progress;
-      // 這裡可以動態調整 fog 顏色
-      
-      // 證言卡片切換
-      const testimonialIndex = Math.floor((state.clock.elapsedTime * 0.5) % feedbackData.length);
-      if (testimonialIndex !== currentTestimonial) {
-        setCurrentTestimonial(testimonialIndex);
-      }
-    }
-  });
+
+  // 切換證言
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % feedbackData.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + feedbackData.length) % feedbackData.length);
+  };
 
   if (!visible) return null;
 
   return (
-    <group position={[0, 0, 450]}>
-      {/* 背景漂浮卡片 */}
-      <group ref={groupRef}>
-        {Array.from({ length: 30 }).map((_, i) => (
-          <FloatingCard
-            key={i}
-            position={[
-              (Math.random() - 0.5) * 40,
-              (Math.random() - 0.5) * 20,
-              Math.random() * 14 + 0
-            ]}
-            rotation={[
-              Math.random() * Math.PI,
-              Math.random() * Math.PI,
-              Math.random() * Math.PI
-            ]}
-            index={i}
-          />
-        ))}
-      </group>
-
-      {/* 中央證言卡片 */}
-      <group position={[0, 0, 0]}>
-        {feedbackData.map((text, index) => (
-          <TestimonialCard
-            key={index}
-            text={text}
-            active={index === currentTestimonial}
-            position={[
-              (index - currentTestimonial) * 5,
-              Math.sin((index - currentTestimonial) * 0.5) * 2,
-              50
-            ]}
-          />
-        ))}
-      </group>
-
+    <div 
+      className="w-full h-screen flex flex-col justify-center items-center text-white relative z-10"
+      onWheel={(e) => {
+        // 將滾動事件傳遞給 window，讓 GSAP ScrollTrigger 能夠正常工作
+        window.scrollBy(0, e.deltaY);
+      }}
+    >
       {/* 標題 */}
-      <group position={[0, 4, 0]}>
-        <Text
-          fontSize={1}
-          color="white"
-          anchorX="center"
-          anchorY="center"
+      <div className="text-center mb-8">
+        <h2 className="text-4xl font-bold mb-4">持續求真的路上</h2>
+        <h3 className="text-3xl font-semibold mb-8">感謝有眾聲同行</h3>
+      </div>
+
+      {/* 證言卡片 */}
+      <div className="relative w-full max-w-2xl mx-auto">
+        <div className="bg-white text-gray-900 p-8 rounded-2xl shadow-xl min-h-[200px] flex items-center justify-center">
+          <p className="text-xl font-medium text-center leading-relaxed">
+            "{feedbackData[currentTestimonial]}"
+          </p>
+        </div>
+
+        {/* 導航按鈕 */}
+        <button
+          onClick={prevTestimonial}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
         >
-          贊助者證言
-        </Text>
-        <Text
-          position={[0, -1, 0]}
-          fontSize={0.4}
-          color="#cccccc"
-          anchorX="center"
-          anchorY="center"
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <button
+          onClick={nextTestimonial}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
         >
-          感謝每一位支持者的信任
-        </Text>
-      </group>
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* 指示器 */}
+      <div className="flex space-x-2 mt-8">
+        {feedbackData.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentTestimonial(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentTestimonial 
+                ? 'bg-white' 
+                : 'bg-white bg-opacity-30 hover:bg-opacity-50'
+            }`}
+          />
+        ))}
+      </div>
 
       {/* 互動提示 */}
-      <Text
-        position={[0, -4, 0]}
-        fontSize={0.3}
-        color="#888888"
-        anchorX="center"
-        anchorY="center"
-      >
-        點擊卡片查看更多證言
-      </Text>
-
-      {/* 動態光照 */}
-      <pointLight position={[0, 10, 10]} intensity={0.8} color="#663399" />
-      <ambientLight intensity={0.2} />
-      
-      {/* 背景霧效 */}
-      <fog attach="fog" args={[`hsl(${280}, 50%, ${20 - progress * 15}%)`, 10, 50]} />
-    </group>
+      <p className="text-sm text-gray-300 mt-6 text-center">
+        感謝每一位支持者的信任
+      </p>
+    </div>
   );
 }

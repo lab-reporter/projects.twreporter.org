@@ -85,7 +85,13 @@ export default function SectionTriggers() {
             const section = sections[i];
             const sectionWeight = section.height / totalVH;
             
-            if (progress >= accumulatedProgress && progress < accumulatedProgress + sectionWeight) {
+            // 修正邊界條件：最後一個 section 使用 <= 來包含 100% 的情況
+            const isLastSection = i === sections.length - 1;
+            const conditionMet = isLastSection 
+              ? (progress >= accumulatedProgress && progress <= accumulatedProgress + sectionWeight)
+              : (progress >= accumulatedProgress && progress < accumulatedProgress + sectionWeight);
+            
+            if (conditionMet) {
               currentSectionData = section;
               sectionProgress = (progress - accumulatedProgress) / sectionWeight;
               break;
@@ -94,6 +100,7 @@ export default function SectionTriggers() {
             accumulatedProgress += sectionWeight;
           }
           
+          // 保險機制：如果沒有找到對應的 section，使用最後一個
           if (!currentSectionData) {
             currentSectionData = sections[sections.length - 1];
             sectionProgress = 1;

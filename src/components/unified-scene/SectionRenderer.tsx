@@ -6,8 +6,7 @@ import { useStore } from '@/stores';
 import ReportsSection from '../sections/ReportsSection';
 import InnovationSection from '../sections/InnovationSection';
 import TimelineSection from '../sections/TimelineSection';
-import FeedbackSection from '../sections/FeedbackSection';
-import SupportSection from '../sections/SupportSection';
+import CallToActionSection from '../sections/CallToActionSection';
 
 interface SectionRendererProps {
   onCurrentProjectChange?: (project: any) => void;
@@ -45,15 +44,9 @@ export default function SectionRenderer({
         progress={sectionProgress}
       />
       
-      {/* Feedback Section - 回饋互動 */}
-      <FeedbackSection 
-        visible={currentSection === 'feedback'} 
-        progress={sectionProgress}
-      />
-      
-      {/* Support Section - 支持者展示 */}
-      <SupportSection 
-        visible={currentSection === 'support'} 
+      {/* CallToAction 背景 - 在 Feedback 和 Support Section 時顯示 */}
+      <CallToActionSection 
+        visible={currentSection === 'feedback' || currentSection === 'support'} 
         progress={sectionProgress}
       />
     </>

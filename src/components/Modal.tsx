@@ -50,12 +50,15 @@ export default function Modal() {
   useEffect(() => {
     if (modal.isOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.setAttribute('data-modal-open', 'true');
     } else {
       document.body.style.overflow = 'auto';
+      document.body.removeAttribute('data-modal-open');
     }
 
     return () => {
       document.body.style.overflow = 'auto';
+      document.body.removeAttribute('data-modal-open');
     };
   }, [modal.isOpen]);
 
