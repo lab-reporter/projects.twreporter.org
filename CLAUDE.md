@@ -90,10 +90,10 @@
 - **重構第二階段**: ReportsSection.tsx 完成組件群組拆分 ✅
 
 ## 📋 下一步行動（按優先級）
-1. **重構 InnovationSection.tsx** - 3D 模型展示 (310行) 🔥
-2. **重構 materialUtils.ts** - 材質管理系統 (311行)
+1. **重構 materialUtils.ts** - 材質管理系統 (311行) 🔥
+2. **優化 VideoPlayer.tsx** - 影片播放器 (245行)
 3. **優化其他 Section 組件** - Timeline, Feedback, Support
-4. **最佳化效能與載入速度** - 達成 60 FPS 目標
+4. **效能測試與優化** - 達成 60 FPS 目標
 
 ## 🔧 開發規則
 - **自動執行**: 所有指令除了刪除檔案外都自動執行
