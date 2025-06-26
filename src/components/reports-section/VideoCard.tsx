@@ -105,7 +105,9 @@ export default function VideoCard({
     };
     
     const handleError = (event: any) => {
-      console.error('❌ 影片載入失敗:', report.path, event);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('影片載入失敗:', report.path, event);
+      }
       setTexture(null);
       setLoading(false);
     };

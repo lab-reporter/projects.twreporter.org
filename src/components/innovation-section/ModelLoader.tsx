@@ -81,7 +81,11 @@ export function useModelLoader(
       });
 
     } catch (error) {
-      console.error('Error loading GLTF model:', modelData.id, error);
+      // 只在開發環境且非 Array buffer allocation 錯誤時輸出
+      if (process.env.NODE_ENV === 'development' && 
+          !(error instanceof Error && error.message.includes('Array buffer allocation failed'))) {
+        console.error('Error loading GLTF model:', modelData.id, error);
+      }
       onStateChangeRef.current({ 
         error: error as Error, 
         isLoading: false 

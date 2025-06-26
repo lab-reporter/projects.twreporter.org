@@ -76,16 +76,6 @@ export default function SectionTriggers() {
         onUpdate: (self) => {
           const progress = self.progress;
           
-          // 更新全局滾動資訊（供偵錯面板使用）
-          if (typeof window !== 'undefined') {
-            window.gsapScrollInfo = {
-              progress,
-              scrollY: window.scrollY,
-              isScrolling: true,
-              timestamp: Date.now()
-            };
-          }
-          
           // 計算當前 section
           let accumulatedProgress = 0;
           let currentSectionData = null;
