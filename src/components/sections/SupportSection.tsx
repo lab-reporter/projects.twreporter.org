@@ -39,7 +39,7 @@ function ParticleFormation({ progress }) {
         const radius = 3;
         const targetX = Math.cos(angle) * radius;
         const targetY = Math.sin(angle) * radius * 0.5;
-        const targetZ = Math.sin(angle * 2) * 2 + 38;
+        const targetZ = Math.sin(angle * 2) * 2 + 250;
         
         // 根據進度插值到目標位置
         const lerpFactor = Math.min(progress * 2, 1);
@@ -87,7 +87,7 @@ export default function SupportSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, 0, 0]}>
+    <group position={[0, 0, 250]}>
       {/* Section 5 聚集的粒子效果 */}
       <ParticleFormation progress={progress} />
       

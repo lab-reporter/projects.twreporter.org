@@ -7,7 +7,7 @@ export default function TimelineSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, 0, 25]}>
+    <group position={[0, 0, 650]}>
       {/* 保留一個紅色正方體作為參考 */}
       <mesh>
         <boxGeometry args={[2, 2, 2]} />

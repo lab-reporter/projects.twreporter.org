@@ -59,13 +59,13 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
   // Orbit 控制狀態
   const [orbitEnabled, setOrbitEnabled] = useState(false);
 
-  // 定義每個 Section 的相機位置配置 - 統一使用 Z 軸往前移動
+  // 定義每個 Section 的相機位置配置 - Z 軸遞減實現向前推進
   const cameraPositions: Record<string, CameraConfig> = {
-    reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
-    innovation: { position: [0, 0, 40], target: [0, 0, 8], fov: 45 }, // Z 軸往前移動
-    timeline: { position: [0, 5, 5], target: [0, 0, 25], fov: 75 }, // 修復：相機在物件前方
-    feedback: { position: [0, 0, 80], target: [0, 0, 24], fov: 45 }, // 繼續往前
-    support: { position: [0, 0, 100], target: [0, 0, 32], fov: 45 } // 最前位置
+    reports: { position: [0, 0, 950], target: [0, 0, 1000], fov: 80 }, // 從遠處開始，寬視角
+    innovation: { position: [0, 0, 880], target: [0, 0, 500], fov: 45 }, // 確保大於聚焦時的相機位置
+    timeline: { position: [0, 5, 600], target: [0, 0, 650], fov: 75 }, // 繼續向前
+    feedback: { position: [0, 0, 400], target: [0, 0, 450], fov: 45 }, // 持續向前
+    support: { position: [0, 0, 200], target: [0, 0, 250], fov: 45 } // 最近位置
   };
 
   // 相機平滑移動 - 暫時禁用 GSAP 動畫測試
@@ -283,35 +283,38 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
     if (orbitEnabled || !cameraRef.current) return;
     
     if (cameraRef.current && currentSection === 'innovation' && focusedInnovationItem) {
-      // Innovation section: 相機平滑移動到聚焦物件前方
+      // Innovation section: 移動到物件前方，使用漸進式旋轉避免跳躍
       const targetPosition = new THREE.Vector3(
         focusedInnovationItem.position.x,
         focusedInnovationItem.position.y,
-        focusedInnovationItem.position.z + 20  // 保持 Z 軸 20 單位距離
+        focusedInnovationItem.position.z + 20  // 相機在物件後方
       );
       
-      // 使用更快的 lerp 係數實現平滑但不會太慢的動畫
+      // 平滑移動相機位置
       cameraRef.current.position.lerp(targetPosition, 0.05);
       
-      // 平滑相機朝向 - 使用 lookAt 插值
+      // 計算目標朝向，但使用漸進式更新避免大幅旋轉
       const lookAtTarget = new THREE.Vector3(
         focusedInnovationItem.position.x,
         focusedInnovationItem.position.y,
         focusedInnovationItem.position.z
       );
       
-      // 創建一個臨時的目標四元數來平滑旋轉
-      const tempCamera = new THREE.PerspectiveCamera();
-      tempCamera.position.copy(cameraRef.current.position);
-      tempCamera.lookAt(lookAtTarget);
+      // 創建目標四元數
+      const currentPosition = cameraRef.current.position.clone();
+      const direction = lookAtTarget.sub(currentPosition).normalize();
+      const targetQuaternion = new THREE.Quaternion();
+      const matrix = new THREE.Matrix4();
+      matrix.lookAt(currentPosition, currentPosition.clone().add(direction), new THREE.Vector3(0, 1, 0));
+      targetQuaternion.setFromRotationMatrix(matrix);
       
-      // 平滑插值四元數實現平滑旋轉
-      cameraRef.current.quaternion.slerp(tempCamera.quaternion, 0.05);
+      // 使用非常小的插值係數避免劇烈旋轉
+      cameraRef.current.quaternion.slerp(targetQuaternion, 0.005);
       
     } else if (cameraRef.current && currentSection === 'reports') {
       // Reports section: 相機圍繞 carousel 旋轉
       const basePosition = cameraPositions[currentSection];
-      const radius = 8; // 相機距離 carousel 中心的半徑
+      const radius = 8; // 相機距離圓柱中心的半徑
       
       // 根據滾動進度計算旋轉角度，停在最後一張照片
       // 加入緩衝區：0-95% 的滾動距離對應 0-100% 的旋轉進度
@@ -319,36 +322,36 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
       const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount;
       const rotationAngle = effectiveProgress * maxRotation;
       
-      // 計算相機位置 (圍繞 Y 軸旋轉)，從基礎位置開始
+      // 計算相機圍繞圓柱旋轉的目標位置
       const targetX = Math.sin(rotationAngle) * radius;
-      const targetZ = Math.cos(rotationAngle) * radius;
-      const targetY = basePosition.position[1] + (pointer.y * 2); // 滑鼠 Y 軸視差
+      const targetZ = basePosition.target[2] + Math.cos(rotationAngle) * radius; // 計算相機圍繞圓柱的 Z 軸位置
+      const targetY = basePosition.position[1] + (pointer.y * 2); // 滑鼠 Y 軸控制相機高度
       
-      // 不同速度的插值：X 方向快，Z 方向慢，保留視覺落差效果
-      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1; // X 方向正常速度
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.09; // Z方向移動速度由此控制
-      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1; // Y 方向正常速度
+      // 使用不同插值速度創造視覺落差效果
+      cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.1; // 平滑移動相機 X 軸位置
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.09; // 平滑移動相機 Z 軸位置
+      cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.1; // 平滑移動相機 Y 軸位置
       
-      // 先讓相機看向 carousel 中心
-      cameraRef.current.lookAt(0, 0, 0);
+      // 讓相機看向圓柱畫廊中心位置
+      cameraRef.current.lookAt(0, 0, basePosition.target[2]);
       
-      // 使用四元數安全地添加 Z 軸傾斜 (roll)
-      const tiltAngle = pointer.x * 0.1; // 傾斜角度係數 
+      // 使用四元數添加相機滾轉效果
+      const tiltAngle = pointer.x * 0.1; // 滑鼠 X 軸控制相機傾斜角度
       const rollQuaternion = new THREE.Quaternion();
       rollQuaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), tiltAngle);
       cameraRef.current.quaternion.multiply(rollQuaternion);
     } else if (cameraRef.current && ['timeline', 'feedback', 'support'].includes(currentSection)) {
-      // Timeline 和其他 section 使用配置的基礎位置加輕微視差效果
+      // 其他 Section 使用基礎位置配合滑鼠視差效果
       const basePosition = cameraPositions[currentSection];
       const targetX = basePosition.position[0] + pointer.x * 0.5;
       const targetY = basePosition.position[1] + pointer.y * 0.5;
-      const targetZ = basePosition.position[2]; // 關鍵：加入 Z 軸位置
+      const targetZ = basePosition.position[2]; // 維持 Z 軸深度位置
       
       cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.02;
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.02;
-      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.02; // 修復：添加 Z 軸更新
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.02; // 更新相機 Z 軸位置
       
-      // 確保相機朝向正確方向
+      // 設定相機朝向目標位置
       const targetLookAt = new THREE.Vector3(
         basePosition.target[0],
         basePosition.target[1], 
@@ -384,7 +387,7 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
         makeDefault
         fov={45}
         near={0.1}
-        far={1000}
+        far={10000}
         position={[0, 0, 10]}
       />
 
@@ -398,7 +401,7 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
           panSpeed={0.5}
           rotateSpeed={0.5}
           minDistance={5}
-          maxDistance={50}
+          maxDistance={500}
           minPolarAngle={0}
           maxPolarAngle={Math.PI}
         />
@@ -408,7 +411,7 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
       {showAxes && (
         <>
           <axesHelper args={[10]} />
-          <gridHelper args={[20, 20]} />
+          <gridHelper args={[3000, 300]} />
         </>
       )}
       

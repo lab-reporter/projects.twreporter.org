@@ -212,12 +212,12 @@ function ReportCard({ report, index, count, radius = 5, focused = false, onClick
   
   const { width: imageWidth, height: imageHeight } = calculateImageSize();
   
-  // 計算位置
+  // 設定Carousel 圓柱位置
   const angle = (index / count) * Math.PI * 2;
   const position: [number, number, number] = [
     Math.sin(angle) * radius,
     0,
-    Math.cos(angle) * radius
+    1000 + Math.cos(angle) * radius  // 以 Z=1000 為中心的圓柱
   ];
   const rotation: [number, number, number] = [0, Math.PI + angle, 0];
   

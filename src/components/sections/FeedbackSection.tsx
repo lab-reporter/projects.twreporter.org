@@ -105,7 +105,7 @@ export default function FeedbackSection({ visible, progress }) {
   if (!visible) return null;
 
   return (
-    <group position={[0, 0, 0]}>
+    <group position={[0, 0, 450]}>
       {/* 背景漂浮卡片 */}
       <group ref={groupRef}>
         {Array.from({ length: 30 }).map((_, i) => (
@@ -114,7 +114,7 @@ export default function FeedbackSection({ visible, progress }) {
             position={[
               (Math.random() - 0.5) * 40,
               (Math.random() - 0.5) * 20,
-              Math.random() * 14 + 24
+              Math.random() * 14 + 0
             ]}
             rotation={[
               Math.random() * Math.PI,
@@ -136,7 +136,7 @@ export default function FeedbackSection({ visible, progress }) {
             position={[
               (index - currentTestimonial) * 5,
               Math.sin((index - currentTestimonial) * 0.5) * 2,
-              30
+              50
             ]}
           />
         ))}
