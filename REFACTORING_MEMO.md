@@ -2,6 +2,82 @@
 
 ## 📅 最新開發記錄
 
+### 🔧 2025-06-25 23:05 (台北時間) - SectionNavigation 跳轉同步問題修復
+
+**背景：**
+- 用戶反映點擊 SectionNavigation 按鈕後，滾動條會移動到正確位置
+- 但 3D Canvas 畫面沒有改變，仍停留在原本的 section
+- 只有手動滾動時才會觸發 3D 場景更新
+
+**問題根因：**
+- **程式化滾動 vs 滾輪滾動**: GSAP ScrollTrigger 只監聽滾輪滾動事件
+- **事件觸發缺失**: `window.scrollTo()` 不會自動觸發 ScrollTrigger 更新
+- **狀態不同步**: 滾動條位置與 3D 場景狀態出現分離
+
+**解決方案：**
+1. **手動觸發 ScrollTrigger 更新**:
+   ```typescript
+   // 等待滾動完成後，手動觸發 ScrollTrigger 更新
+   setTimeout(() => {
+     ScrollTrigger.refresh();
+     window.dispatchEvent(new Event('scroll'));
+   }, 1000);
+   ```
+
+2. **雙重跳轉機制**:
+   - **方法1**: HTML ID 錨點跳轉 (`scrollIntoView`)
+   - **方法2**: 百分比位置計算 (`window.scrollTo`)
+
+3. **完整除錯系統**:
+   - 滾動前後狀態對比
+   - GSAP ScrollTrigger 狀態監控
+   - 跳轉成功率驗證
+
+**技術細節：**
+```typescript
+// 新增 GSAP ScrollTrigger 導入
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// HTML 錨點支援
+{sections.map((section, index) => (
+  <div
+    key={section.id}
+    id={`section-${section.id}`}
+    style={{ top: `${index * 500}vh` }}
+  />
+))}
+
+// 強制同步機制
+ScrollTrigger.refresh();
+window.dispatchEvent(new Event('scroll'));
+```
+
+**修復驗證：**
+- ✅ **滾動條位置**: 正確跳轉到目標位置
+- ✅ **3D 場景同步**: 相機和模型狀態即時更新
+- ✅ **相機面板同步**: 位置和 section 資訊正確顯示
+- ✅ **除錯機制**: 完整的跳轉狀態追蹤
+
+**影響範圍：**
+- **SectionNavigation.tsx**: 新增 ScrollTrigger 手動更新機制
+- **SectionTriggers.tsx**: 新增 HTML 錨點支援
+- **用戶體驗**: 導航按鈕功能完全正常
+
+**重要發現：**
+1. **事件機制差異**: 程式化滾動與用戶滾動的事件觸發不同
+2. **GSAP 限制**: ScrollTrigger 需要手動刷新才能響應程式化滾動
+3. **時序控制**: 1秒延遲確保滾動動畫完成後再觸發更新
+4. **除錯重要性**: 完整的除錯機制幫助快速定位問題
+
+**專案狀態：**
+- **導航系統**: 完全功能正常，點擊即跳轉 ✅
+- **3D 場景同步**: 滾動與 3D 內容完美同步 ✅
+- **相機系統**: 位置追蹤和顯示正確 ✅
+- **除錯工具**: 完整的開發除錯支援 ✅
+
+---
+
 ### 🎯 2025-06-25 18:26 (台北時間) - 霧化效果問題徹底解決
 
 **背景：**
