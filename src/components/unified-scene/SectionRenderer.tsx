@@ -3,11 +3,11 @@
 import { useStore } from '@/stores';
 
 // 匯入各個 Section 組件
-import ReportsSection from './sections/ReportsSection';
-import InnovationSection from './sections/InnovationSection';
-import TimelineSection from './sections/TimelineSection';
-import FeedbackSection from './sections/FeedbackSection';
-import SupportSection from './sections/SupportSection';
+import ReportsSection from '../sections/ReportsSection';
+import InnovationSection from '../sections/InnovationSection';
+import TimelineSection from '../sections/TimelineSection';
+import FeedbackSection from '../sections/FeedbackSection';
+import SupportSection from '../sections/SupportSection';
 
 interface SectionRendererProps {
   onCurrentProjectChange?: (project: any) => void;

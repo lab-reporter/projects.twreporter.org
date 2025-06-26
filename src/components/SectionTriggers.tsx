@@ -9,7 +9,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // 動態載入 3D 組件
-const UnifiedScene = dynamic(() => import('@/components/UnifiedScene'), {
+const UnifiedScene = dynamic(() => import('@/components/unified-scene'), {
   ssr: false,
   loading: () => null
 });
