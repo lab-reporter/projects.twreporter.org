@@ -43,6 +43,9 @@ export default function SectionTriggers() {
   const [currentProject, setCurrentProject] = useState<any>(null);
   const [currentInnovationProject, setCurrentInnovationProject] = useState<any>(null);
   
+  // Canvas容器狀態監控 - 已禁用
+  // useEffect(() => {}, [currentSection]);
+  
   // 計算總高度
   const totalVH = sections.reduce((sum, s) => sum + s.height, 0);
 
@@ -73,8 +76,8 @@ export default function SectionTriggers() {
         onUpdate: (self) => {
           const progress = self.progress;
           
-          // 除錯：記錄 GSAP ScrollTrigger 狀態
-          if (process.env.NODE_ENV === 'development') {
+          // 更新全局滾動資訊（供偵錯面板使用）
+          if (typeof window !== 'undefined') {
             window.gsapScrollInfo = {
               progress,
               scrollY: window.scrollY,
@@ -154,7 +157,9 @@ export default function SectionTriggers() {
         <div
           ref={canvasContainerRef}
           className="absolute inset-0 bg-transparent"
-          style={{ zIndex: 1 }}
+          style={{ 
+            zIndex: 1
+          }}
         >
           <Canvas
             camera={{ 

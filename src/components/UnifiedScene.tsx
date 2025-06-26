@@ -63,55 +63,38 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
   const cameraPositions: Record<string, CameraConfig> = {
     reports: { position: [0, 0, 8], target: [0, 0, 0], fov: 80 }, // 起始位置，寬視角
     innovation: { position: [0, 0, 40], target: [0, 0, 8], fov: 45 }, // Z 軸往前移動
-    timeline: { position: [0, 0, 60], target: [0, 0, 16], fov: 45 }, // 繼續往前
+    timeline: { position: [0, 5, 5], target: [0, 0, 25], fov: 75 }, // 修復：相機在物件前方
     feedback: { position: [0, 0, 80], target: [0, 0, 24], fov: 45 }, // 繼續往前
     support: { position: [0, 0, 100], target: [0, 0, 32], fov: 45 } // 最前位置
   };
 
-  // 相機平滑移動
+  // 相機平滑移動 - 暫時禁用 GSAP 動畫測試
   useEffect(() => {
     if (cameraRef.current && cameraPositions[currentSection]) {
       const targetCamera = cameraPositions[currentSection];
       
-      // Reports section 需要設定基礎位置，其他 section 進行位置移動
-      if (currentSection === 'reports') {
-        // Reports section 設定基礎圓形軌道位置，具體旋轉由 useFrame 控制
-        gsap.to(cameraRef.current.position, {
-          x: targetCamera.position[0],
-          y: targetCamera.position[1], 
-          z: targetCamera.position[2],
-          duration: 1.5,
-          ease: "power2.out"
-        });
-      } else {
-        gsap.to(cameraRef.current.position, {
-          x: targetCamera.position[0],
-          y: targetCamera.position[1],
-          z: targetCamera.position[2],
-          duration: 1.5,
-          ease: "power2.out"
-        });
+      // 相機移動日誌已禁用
+      
+      // 暫時移除 GSAP 動畫，直接設置位置
+      cameraRef.current.position.set(
+        targetCamera.position[0],
+        targetCamera.position[1], 
+        targetCamera.position[2]
+      );
+      
+      cameraRef.current.fov = targetCamera.fov;
+      cameraRef.current.updateProjectionMatrix();
+      
+      // 直接設置 lookAt
+      if (currentSection !== 'reports') {
+        cameraRef.current.lookAt(
+          targetCamera.target[0],
+          targetCamera.target[1],
+          targetCamera.target[2]
+        );
       }
-
-      // 所有 section 都需要調整 FOV
-      gsap.to(cameraRef.current, {
-        fov: targetCamera.fov,
-        duration: 0.5,
-        ease: "power2.out",
-        onUpdate: () => {
-          if (cameraRef.current) {
-            cameraRef.current.updateProjectionMatrix();
-            // Reports section 的 lookAt 由 useFrame 控制
-            if (currentSection !== 'reports') {
-              cameraRef.current.lookAt(
-                targetCamera.target[0],
-                targetCamera.target[1],
-                targetCamera.target[2]
-              );
-            }
-          }
-        }
-      });
+      
+      // 相機位置設置完成
     }
   }, [currentSection]);
 
@@ -205,6 +188,14 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
         <div style="margin-top: 8px;">進度:</div>
         <div style="margin-left: 10px; color: #4ECDC4;">
           ${(cameraInfo.progress * 100).toFixed(1)}%
+        </div>
+        <div style="margin-top: 8px;">滾動位置:</div>
+        <div style="margin-left: 10px; color: #FFA500;">
+          ${Math.round(window.scrollY)}px / ${Math.round(document.documentElement.scrollHeight)}px
+        </div>
+        <div style="margin-top: 8px;">GSAP 進度:</div>
+        <div style="margin-left: 10px; color: #9370DB;">
+          ${window.gsapScrollInfo ? (window.gsapScrollInfo.progress * 100).toFixed(1) + '%' : 'N/A'}
         </div>
         <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.2);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
@@ -346,13 +337,24 @@ export default function UnifiedScene({ onCurrentProjectChange, onInnovationFocus
       const rollQuaternion = new THREE.Quaternion();
       rollQuaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), tiltAngle);
       cameraRef.current.quaternion.multiply(rollQuaternion);
-    } else if (cameraRef.current) {
-      // 其他 section 使用原來的輕微視差效果
-      const targetX = pointer.x * 0.5;
-      const targetY = pointer.y * 0.5;
+    } else if (cameraRef.current && ['timeline', 'feedback', 'support'].includes(currentSection)) {
+      // Timeline 和其他 section 使用配置的基礎位置加輕微視差效果
+      const basePosition = cameraPositions[currentSection];
+      const targetX = basePosition.position[0] + pointer.x * 0.5;
+      const targetY = basePosition.position[1] + pointer.y * 0.5;
+      const targetZ = basePosition.position[2]; // 關鍵：加入 Z 軸位置
       
       cameraRef.current.position.x += (targetX - cameraRef.current.position.x) * 0.02;
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * 0.02;
+      cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * 0.02; // 修復：添加 Z 軸更新
+      
+      // 確保相機朝向正確方向
+      const targetLookAt = new THREE.Vector3(
+        basePosition.target[0],
+        basePosition.target[1], 
+        basePosition.target[2]
+      );
+      cameraRef.current.lookAt(targetLookAt);
     }
 
     // 每秒更新一次相機位置信息

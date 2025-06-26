@@ -1,7 +1,6 @@
 'use client';
 
 import { useStore } from '@/stores';
-import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const sections = [
@@ -16,32 +15,19 @@ export default function SectionNavigation() {
   const { currentSection } = useStore();
 
   const scrollToSection = (sectionId) => {
-    console.log('🔧 點擊導航按鈕:', sectionId);
-    
-    // 檢查 GSAP ScrollTrigger 狀態
-    const gsapInfo = (window as any).gsapScrollInfo;
-    if (gsapInfo) {
-      console.log('📡 GSAP ScrollTrigger 狀態:', gsapInfo);
-    }
-    
     const sectionIndex = sections.findIndex(s => s.id === sectionId);
-    if (sectionIndex === -1) {
-      console.error('❌ 找不到 section:', sectionId);
-      return;
-    }
+    if (sectionIndex === -1) return;
 
-    // 方法 1: 嘗試使用 HTML ID 錨點跳轉
+    // 使用 HTML ID 錨點跳轉
     const targetElement = document.getElementById(`section-${sectionId}`);
     if (targetElement) {
-      console.log('✅ 使用 HTML ID 錨點跳轉:', `section-${sectionId}`);
       targetElement.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       });
       
-      // 同樣需要手動觸發 ScrollTrigger 更新
+      // 手動觸發 ScrollTrigger 更新
       setTimeout(() => {
-        console.log('🔄 HTML ID 跳轉後手動觸發 ScrollTrigger 更新');
         ScrollTrigger.refresh();
         window.dispatchEvent(new Event('scroll'));
       }, 1000);
@@ -55,18 +41,8 @@ export default function SectionNavigation() {
     const currentScrollY = window.scrollY;
     const targetY = sectionProgress * totalHeight;
     
-    console.log('📊 滾動除錯資訊:', {
-      sectionIndex,
-      sectionProgress: `${(sectionProgress * 100).toFixed(1)}%`,
-      totalHeight,
-      currentScrollY,
-      targetY,
-      willScroll: targetY !== currentScrollY
-    });
-    
     if (Math.abs(targetY - currentScrollY) < 10) {
-      console.log('⚠️ 目標位置與當前位置太接近，跳過滾動');
-      return;
+      return; // 目標位置與當前位置太接近
     }
     
     window.scrollTo({
@@ -76,19 +52,7 @@ export default function SectionNavigation() {
     
     // 等待滾動完成後，手動觸發 ScrollTrigger 更新
     setTimeout(() => {
-      const newScrollY = window.scrollY;
-      console.log('🔍 滾動結果檢查:', {
-        期望位置: targetY,
-        實際位置: newScrollY,
-        差異: Math.abs(targetY - newScrollY),
-        滾動成功: Math.abs(targetY - newScrollY) < 50
-      });
-      
-      // 手動刷新 ScrollTrigger 讓 3D 場景同步
-      console.log('🔄 手動觸發 ScrollTrigger 更新');
       ScrollTrigger.refresh();
-      
-      // 如果還是不同步，強制觸發 scroll 事件
       window.dispatchEvent(new Event('scroll'));
     }, 1000);
   };

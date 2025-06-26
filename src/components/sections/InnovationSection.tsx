@@ -221,21 +221,6 @@ function InnovationModel({ modelData, focused, onClick, onHover, onUnhover }: In
       onClick={() => onClick(modelData)}
     >
       {model && <primitive object={model} />}
-      
-      {/* 項目標題（聚焦時顯示） */}
-      {focused && (
-        <Text
-          position={[0, 8, 0]}
-          fontSize={0.8}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={6}
-          textAlign="center"
-        >
-          {modelData.title}
-        </Text>
-      )}
     </group>
   );
 }

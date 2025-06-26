@@ -1,19 +1,10 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
 import LoadingScreen from '@/components/LoadingScreen';
 import SectionTriggers from '@/components/SectionTriggers';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
-
-// 動態載入 3D 組件以避免 SSR 問題
-const UnifiedScene = dynamic(() => import('@/components/UnifiedScene'), {
-  ssr: false,
-  loading: () => null // Canvas 內不能有 DOM 元素
-});
 
 export default function Home() {
 
