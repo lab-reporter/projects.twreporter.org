@@ -68,7 +68,7 @@ export default function SectionNavigation() {
               group relative flex items-center justify-center transition-all duration-300 hover:scale-105 px-4 py-2 cursor-pointer
               ${currentSection === section.id 
                 ? 'bg-red-90 text-white' 
-                : 'bg-transparent text-black hover:bg-gray-100'
+                : 'bg-transparent text-gray-400 hover:bg-white hover:text-black'
               }
             `}
             style={{

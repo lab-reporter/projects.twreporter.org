@@ -67,80 +67,142 @@ export default function VideoCard({
   
   useEffect(() => {
     setLoading(true);
+    setTexture(null); // 重置紋理狀態
     
     const videoElement = document.createElement('video');
-    // 構建完整 URL 路徑
-    const absolutePath = `http://localhost:3001${report.path}`;
-    videoElement.src = absolutePath;
-    // 移除 crossOrigin 設定以避免 CORS 問題
-    // videoElement.crossOrigin = 'anonymous';
-    videoElement.loop = true;
-    videoElement.muted = true;
-    videoElement.playsInline = true;
-    videoElement.autoplay = false;
-    videoElement.preload = 'metadata';
     
+    // 設置影片屬性（參考原始實作）
+    videoElement.crossOrigin = 'anonymous';
+    videoElement.muted = true;
+    videoElement.loop = true;
+    videoElement.playsInline = true;
+    videoElement.preload = 'metadata';
+    videoElement.autoplay = false; // 明確設定不自動播放
+    
+    // 創建影片紋理
     const videoTexture = new THREE.VideoTexture(videoElement);
-    videoTexture.colorSpace = THREE.SRGBColorSpace;
+    videoTexture.generateMipmaps = false;
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.generateMipmaps = false;
+    videoTexture.format = THREE.RGBAFormat;
+    videoTexture.colorSpace = THREE.SRGBColorSpace;
     videoTexture.wrapS = THREE.ClampToEdgeWrapping;
     videoTexture.wrapT = THREE.ClampToEdgeWrapping;
-    videoTexture.flipY = false;
     
-    // 多個事件監聽器確保載入
-    const handleCanPlay = () => {
-      videoElement.currentTime = 1; // 跳過開頭確保有畫面內容
+    let isDisposed = false; // 追蹤是否已清理
+    let hasLoaded = false; // 追蹤是否已載入
+    
+    // 監聽影片載入事件
+    const onCanPlayThrough = () => {
+      if (isDisposed || hasLoaded) return;
+      
+      hasLoaded = true;
+      
+      // 嘗試播放影片
+      videoElement.play().catch((error) => {
+        // 自動播放可能失敗，靜默處理
+      });
+      
+      videoTexture.needsUpdate = true;
       setTexture(videoTexture);
       setLoading(false);
+    };
+    
+    const onLoadedMetadata = () => {
+      if (isDisposed) return;
       
-      // 嘗試播放
-      const playPromise = videoElement.play();
-      if (playPromise) {
-        playPromise.catch(() => {
-          // 影片自動播放被阻擋，不做處理
-        });
+      // 設定影片到第一幀
+      videoElement.currentTime = 0.1;
+    };
+    
+    const onLoadedData = () => {
+      if (isDisposed || hasLoaded) return;
+      
+      // 如果 canplaythrough 事件沒有觸發，這裡也可以設定紋理
+      if (videoElement.readyState >= 2) { // HAVE_CURRENT_DATA - 降低要求
+        hasLoaded = true;
+        videoTexture.needsUpdate = true;
+        setTexture(videoTexture);
+        setLoading(false);
       }
     };
     
-    const handleError = (event: any) => {
+    const onError = (error: any) => {
+      if (isDisposed) return;
+      
       if (process.env.NODE_ENV === 'development') {
-        console.error('影片載入失敗:', report.path, event);
+        console.error('影片載入錯誤:', report.path, error);
       }
       setTexture(null);
       setLoading(false);
     };
     
-    const handleLoadStart = () => {
+    const onLoadStart = () => {
+      if (isDisposed) return;
       // 影片開始載入
     };
     
-    videoElement.addEventListener('canplay', handleCanPlay);
-    videoElement.addEventListener('error', handleError);
-    videoElement.addEventListener('loadstart', handleLoadStart);
-    videoElement.addEventListener('loadedmetadata', () => {
-      // 影片元數據載入完成
-    });
+    // 綁定事件監聽器
+    videoElement.addEventListener('loadstart', onLoadStart);
+    videoElement.addEventListener('loadedmetadata', onLoadedMetadata);
+    videoElement.addEventListener('loadeddata', onLoadedData);
+    videoElement.addEventListener('canplaythrough', onCanPlayThrough);
+    videoElement.addEventListener('error', onError);
     
-    // 載入超時處理
-    const timeout = setTimeout(() => {
-      if (loading) {
-        setTexture(null);
-        setLoading(false);
+    // 處理路徑編碼 - 確保中文字符正確編碼
+    try {
+      // 如果路徑已經編碼就直接使用，否則進行編碼
+      const encodedPath = report.path.includes('%') ? report.path : encodeURI(report.path);
+      videoElement.src = encodedPath;
+      videoElement.load();
+    } catch (encodingError) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('路徑編碼失敗，使用原始路徑:', report.path);
       }
-    }, 10000);
+      videoElement.src = report.path; // 回退到原始路徑
+      videoElement.load();
+    }
+    
+    // 設置超時處理 - 只有在真正載入失敗時才觸發
+    const timeout = setTimeout(() => {
+      if (isDisposed || hasLoaded) return;
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('影片載入超時:', report.path);
+      }
+      setTexture(null);
+      setLoading(false);
+    }, 15000); // 15秒超時
     
     return () => {
+      isDisposed = true;
       clearTimeout(timeout);
-      videoElement.removeEventListener('canplay', handleCanPlay);
-      videoElement.removeEventListener('error', handleError);
-      videoElement.removeEventListener('loadstart', handleLoadStart);
+      
+      // 移除所有事件監聽器
+      videoElement.removeEventListener('loadstart', onLoadStart);
+      videoElement.removeEventListener('loadedmetadata', onLoadedMetadata);
+      videoElement.removeEventListener('loadeddata', onLoadedData);
+      videoElement.removeEventListener('canplaythrough', onCanPlayThrough);
+      videoElement.removeEventListener('error', onError);
+      
+      // 清理影片元素
       videoElement.pause();
       videoElement.src = '';
-      videoTexture.dispose();
+      videoElement.load();
+      
+      // 清理紋理
+      if (videoTexture) {
+        videoTexture.dispose();
+      }
     };
-  }, [report.path, loading]);
+  }, [report.path]);
+
+  // 更新影片紋理
+  useFrame(() => {
+    if (texture && texture.image && texture.image.tagName === 'VIDEO') {
+      texture.needsUpdate = true;
+    }
+  });
 
   // 移除 hover 縮放效果
   
@@ -154,11 +216,11 @@ export default function VideoCard({
       onClick={onClick}
     >
       <bentPlaneGeometry args={[imageWidth, imageHeight, cylinderRadius, 15]} />
-      <meshBasicMaterial 
+      <meshPhongMaterial 
         map={texture} 
         side={THREE.DoubleSide} 
         toneMapped={false}
-        color={loading ? '#444444' : (texture ? '#ffffff' : '#ff0000')}
+        color={loading ? '#666666' : (texture ? '#ffffff' : '#333333')}
       />
     </mesh>
   );

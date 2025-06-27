@@ -62,7 +62,7 @@ export const INTERPOLATION_CONFIG: InterpolationConfig = {
   innovationFocus: 0.05, // Innovation 聚焦時的位置插值
   innovationRotation: 0.005, // Innovation 聚焦時的旋轉插值
   reportsX: 0.1, // Reports X 軸插值速度
-  reportsZ: 0.09, // Reports Z 軸插值速度（創造視覺落差）
+  reportsZ: 0.1, // Reports Z 軸插值速度（與X軸同步）
   reportsY: 0.1, // Reports Y 軸插值速度
   otherSections: 0.02 // 其他 Section 的插值速度
 };
