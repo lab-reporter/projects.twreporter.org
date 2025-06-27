@@ -5,6 +5,7 @@ import { Text } from '@react-three/drei';
 import projectsData from '@/app/data/projects.json';
 import ReportCard, { type ReportCardProps } from './ReportCard';
 import { type ReportData } from './VideoCard';
+import { SCENE_CONFIG } from '../unified-scene/SceneConstants';
 
 // 圓柱畫廊組件 Props
 export interface CylinderCarouselProps {
@@ -35,8 +36,9 @@ export default function CylinderCarousel({
     ) as ReportData[];
   }, []);
   
-  // 計算當前聚焦項目
-  const currentImageIndex = Math.round(progress * (reportsProjects.length - 1));
+  // 計算當前聚焦項目 - 與相機旋轉使用相同的緩衝區邏輯
+  const effectiveProgress = Math.min(progress / (1 - SCENE_CONFIG.reports.rotationBuffer), 1);
+  const currentImageIndex = Math.round(effectiveProgress * (reportsProjects.length - 1));
   const clampedIndex = Math.max(0, Math.min(currentImageIndex, reportsProjects.length - 1));
 
   // 錯誤狀態處理

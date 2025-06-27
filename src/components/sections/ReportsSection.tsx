@@ -5,6 +5,7 @@ import { useStore } from '@/stores';
 import projectsData from '@/app/data/projects.json';
 import CylinderCarousel from '../reports-section/CylinderCarousel';
 import { type ReportData } from '../reports-section/VideoCard';
+import { SCENE_CONFIG } from '../unified-scene/SceneConstants';
 import '../reports-section/BentPlaneGeometry'; // 確保幾何體已註冊
 
 // 靜態容器組件 - carousel 保持不動，由相機旋轉
@@ -57,8 +58,9 @@ export default function ReportsSection({ visible, progress, onCurrentProjectChan
     openModal(report.id, report);
   };
 
-  // 計算當前項目
-  const currentImageIndex = Math.round(progress * (reportsProjects.length - 1));
+  // 計算當前項目 - 與相機旋轉使用相同的緩衝區邏輯
+  const effectiveProgress = Math.min(progress / (1 - SCENE_CONFIG.reports.rotationBuffer), 1);
+  const currentImageIndex = Math.round(effectiveProgress * (reportsProjects.length - 1));
   const clampedIndex = Math.max(0, Math.min(currentImageIndex, reportsProjects.length - 1));
   const currentProject = reportsProjects[clampedIndex];
 

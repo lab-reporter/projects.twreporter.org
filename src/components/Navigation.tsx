@@ -8,10 +8,13 @@ const Navigation = () => {
   const { modal, currentSection } = useStore();
   const { showNav, setShowNav } = useScrollManager();
 
-  // 當 Modal 打開時，強制隱藏導航欄
+  // 當 Modal 打開/關閉時，控制導航欄顯示狀態
   useEffect(() => {
     if (modal.isOpen) {
       setShowNav(false);
+    } else {
+      // Modal 關閉時，重置導航欄為顯示狀態
+      setShowNav(true);
     }
   }, [modal.isOpen, setShowNav]);
 
@@ -26,9 +29,10 @@ const Navigation = () => {
     <>
       {/* navigation 外層容器 */}
       <div
-        className="w-full fixed top-4 right-auto left-auto flex justify-center items-center z-[9999] text-black transition-transform duration-300 ease-in-out"
+        className="w-full fixed top-4 right-auto left-auto flex justify-center items-center z-[9999] text-black"
         style={{
-          transform: shouldShowNav ? 'translateY(0)' : 'translateY(-100%)'
+          transform: shouldShowNav ? 'translateY(0)' : 'translateY(-100%)',
+          transition: modal.isOpen || !modal.isOpen ? 'none' : 'transform 300ms ease-in-out'
         }}
       >
         {/* navigation 本體 */}

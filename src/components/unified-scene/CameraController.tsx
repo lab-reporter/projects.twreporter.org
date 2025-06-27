@@ -104,11 +104,17 @@ export default function CameraController({
       const basePosition = CAMERA_POSITIONS[currentSection];
       const { radius, rotationBuffer, mouseInfluenceY, tiltInfluenceX } = SCENE_CONFIG.reports;
       
-      // 根據滾動進度計算旋轉角度，停在最後一張照片
+      // 根據滾動進度計算旋轉角度，每次剛好旋轉一張照片的角度
       // 加入緩衝區：0-95% 的滾動距離對應 0-100% 的旋轉進度
       const effectiveProgress = Math.min(sectionProgress / (1 - rotationBuffer), 1);
-      const maxRotation = (Math.PI * 2) * (reportsCount - 1) / reportsCount;
-      const rotationAngle = effectiveProgress * maxRotation;
+      
+      // 計算當前應該聚焦的照片索引（0 到 reportsCount-1）
+      const currentPhotoIndex = Math.round(effectiveProgress * (reportsCount - 1));
+      const clampedPhotoIndex = Math.max(0, Math.min(currentPhotoIndex, reportsCount - 1));
+      
+      // 計算該照片對應的旋轉角度（固定步進）
+      const anglePerPhoto = (Math.PI * 2) / reportsCount;
+      const rotationAngle = clampedPhotoIndex * anglePerPhoto;
       
       // 計算相機圍繞圓柱旋轉的目標位置
       const targetX = Math.sin(rotationAngle) * radius;
