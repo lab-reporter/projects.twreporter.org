@@ -30,9 +30,9 @@ export class BentPlaneGeometry extends THREE.PlaneGeometry {
       const xRatio = x / width;
       const xAngle = xRatio * theta;
       
-      // 計算圓弧上的新位置
+      // 計算圓弧上的新位置（外凸效果）
       const newX = Math.sin(xAngle) * cylinderRadius;
-      const newZ = Math.cos(xAngle) * cylinderRadius - cylinderRadius; // 調整中心位置
+      const newZ = cylinderRadius - Math.cos(xAngle) * cylinderRadius; // 外凸：反向調整中心位置
       
       position.setXYZ(i, newX, y, newZ);
       

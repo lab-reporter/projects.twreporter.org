@@ -31,6 +31,10 @@ export default function CameraController({
   
   // 相機位置更新計時器
   const lastUpdateRef = useRef(0);
+  
+  // Reports section 旋轉動畫狀態
+  const targetRotationAngleRef = useRef(0);
+  const currentRotationAngleRef = useRef(0);
 
   // 計算 reports 項目總數
   const reportsCount = useMemo(() => {
@@ -114,9 +118,20 @@ export default function CameraController({
       
       // 計算該照片對應的旋轉角度（固定步進）
       const anglePerPhoto = (Math.PI * 2) / reportsCount;
-      const rotationAngle = clampedPhotoIndex * anglePerPhoto;
+      const targetAngle = clampedPhotoIndex * anglePerPhoto;
       
-      // 計算相機圍繞圓柱旋轉的目標位置
+      // 更新目標角度
+      targetRotationAngleRef.current = targetAngle;
+      
+      // 平滑插值到目標角度（0.3秒動畫效果）
+      const angleDiff = targetRotationAngleRef.current - currentRotationAngleRef.current;
+      // 處理角度跨越邊界的情況（例如從359度到1度）
+      const normalizedDiff = ((angleDiff + Math.PI) % (Math.PI * 2)) - Math.PI;
+      currentRotationAngleRef.current += normalizedDiff * 0.15; // 約0.3秒的動畫
+      
+      const rotationAngle = currentRotationAngleRef.current;
+      
+      // 相機在小同心圓（半徑2.5）上旋轉
       const targetX = Math.sin(rotationAngle) * radius;
       const targetZ = basePosition.target[2] + Math.cos(rotationAngle) * radius;
       const targetY = basePosition.position[1] + (pointer.y * mouseInfluenceY);
@@ -126,8 +141,13 @@ export default function CameraController({
       cameraRef.current.position.z += (targetZ - cameraRef.current.position.z) * INTERPOLATION_CONFIG.reportsZ;
       cameraRef.current.position.y += (targetY - cameraRef.current.position.y) * INTERPOLATION_CONFIG.reportsY;
       
-      // 讓相機看向圓柱畫廊中心位置
-      cameraRef.current.lookAt(0, 0, basePosition.target[2]);
+      // 計算相機朝向目標位置（在外圍圓周上，半徑5）
+      const lookAtRadius = 5; // 照片圓柱半徑
+      const lookAtX = Math.sin(rotationAngle) * lookAtRadius;
+      const lookAtZ = basePosition.target[2] + Math.cos(rotationAngle) * lookAtRadius;
+      
+      // 讓相機朝向外圍圓周上的照片位置
+      cameraRef.current.lookAt(lookAtX, 0, lookAtZ);
       
       // 使用四元數添加相機滾轉效果
       const tiltAngle = pointer.x * tiltInfluenceX;

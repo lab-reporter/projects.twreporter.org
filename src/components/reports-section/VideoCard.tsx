@@ -142,11 +142,7 @@ export default function VideoCard({
     };
   }, [report.path, loading]);
 
-  useFrame((state, delta) => {
-    if (ref.current) {
-      easing.damp3(ref.current.scale, hovered ? 1.15 : 1, 0.1, delta);
-    }
-  });
+  // 移除 hover 縮放效果
   
   return (
     <mesh

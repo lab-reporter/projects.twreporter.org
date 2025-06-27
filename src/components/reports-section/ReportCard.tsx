@@ -90,13 +90,7 @@ export default function ReportCard({
   
   const handleClick = () => onClick?.(report);
 
-  useFrame((state, delta) => {
-    if (ref.current && !isVideo) {
-      // 只對圖片卡片應用簡化的縮放動畫
-      easing.damp3(ref.current.scale, hovered ? 1.15 : 1, 0.1, delta);
-      // 移除 material 動畫以避免尺寸震動
-    }
-  });
+  // 移除 hover 縮放效果
 
   return (
     <group>

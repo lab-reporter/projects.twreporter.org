@@ -48,7 +48,7 @@ export interface SceneConfig {
 
 // 每個 Section 的相機位置配置 - Z 軸遞減實現向前推進
 export const CAMERA_POSITIONS: Record<string, CameraConfig> = {
-  reports: { position: [0, 0, 1050], target: [0, 0, 1000], fov: 80 }, // 從遠處開始，寬視角
+  reports: { position: [0, 0, 1000], target: [0, 0, 1000], fov: 80 }, // 相機在 Carousel 中心位置
   innovation: { position: [0, 0, 880], target: [0, 0, 500], fov: 45 }, // 確保大於聚焦時的相機位置
   timeline: { position: [0, 5, 600], target: [0, 0, 650], fov: 75 }, // 繼續向前
   feedback: { position: [0, 0, 400], target: [0, 0, 450], fov: 45 }, // 持續向前
@@ -76,10 +76,10 @@ export const SCENE_CONFIG: SceneConfig = {
     defaultPosition: [0, 0, 10]
   },
   reports: {
-    radius: 8, // 相機距離圓柱中心的半徑
+    radius: 2.5, // 相機在 1/2 半徑的小同心圓內旋轉（Carousel半徑5的一半）
     rotationBuffer: 0.05, // 5% 的緩衝區，控制最後項目的停留時間
-    mouseInfluenceY: 2, // 滑鼠 Y 軸對相機高度的影響係數
-    tiltInfluenceX: 0.1 // 滑鼠 X 軸對相機傾斜的影響係數
+    mouseInfluenceY: 0.5, // 滑鼠 Y 軸對相機高度的影響係數（減少到25%）
+    tiltInfluenceX: 0.025 // 滑鼠 X 軸對相機傾斜的影響係數（減少到25%）
   },
   innovation: {
     focusDistance: 20 // 聚焦時相機在物件後方的距離
