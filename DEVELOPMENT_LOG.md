@@ -7,7 +7,7 @@
 
 ## 📅 2025-06-29 開發紀錄
 
-### ⏰ 11:30-12:30 專案架構重構
+### ⏰ 19:00-20:00 專案架構重構
 **任務**: 清除 R3F 相關組件，建立 2D 架構基礎
 
 **刪除的檔案**:
@@ -25,14 +25,14 @@
 - UI 組件庫 (`src/components/ui/`)
 - Navigation 系統
 
-### ⏰ 12:30-13:00 文檔重寫
+### ⏰ 20:00-20:30 文檔重寫
 **更新檔案**:
 - `CLAUDE.md`: 移除 3D 技術說明，加入 2D 開發原則
 - `README.md`: 更新專案描述與技術堆疊
 - `QUICK_START.md`: 重寫快速開始指南
 - 加入分支保護警告：dev-2d 不得直接合併到 main
 
-### ⏰ 13:00-14:30 Section 組件建立
+### ⏰ 20:30-21:30 Section 組件建立
 **建立 6 個 Section 組件**:
 1. `src/components/sections/opening/OpeningSection.tsx`
 2. `src/components/sections/reports/ReportsSection.tsx`
@@ -46,7 +46,7 @@
 - 高度設定為 `h-screen` 確保全螢幕顯示
 - GSAP ScrollTrigger 整合準備
 
-### ⏰ 14:30-15:30 ScrollTrigger 系統實作
+### ⏰ 21:30-22:30 ScrollTrigger 系統實作
 **建立 `src/hooks/useScrollTrigger.ts`**:
 - 解決 "context is not a function" 初始化錯誤
 - 實作異步 GSAP 載入機制
@@ -59,7 +59,7 @@
 - 加入 6 個 Section 組件
 - 加入 GSAP 全域初始化邏輯
 
-### ⏰ 15:30-16:00 Navigation 簡化
+### ⏰ 22:30-23:00 Navigation 簡化
 **問題**: 用戶反映不需要 Navigation 隱藏機制
 **解決**: 完全移除所有 show/hide 條件邏輯，簡化為永遠顯示的固定導航
 
@@ -76,7 +76,7 @@ const Navigation = () => {
 };
 ```
 
-### ⏰ 16:00-16:30 滾動偵測問題修復
+### ⏰ 23:00-23:30 滾動偵測問題修復
 **問題**: SectionNavigation 在快速滾動時顯示錯誤的當前區塊
 **原因**: 缺少雙向滾動偵測 (`onEnterBack` callback)
 
@@ -136,4 +136,4 @@ ScrollTrigger.create({
 
 ---
 
-*最後更新: 2025-06-29 16:30 (台北時間)*
+*最後更新: 2025-06-29 23:32 CST (台北時間)*
