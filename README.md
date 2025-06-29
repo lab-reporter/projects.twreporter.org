@@ -39,19 +39,43 @@ npm run build
 
 ### 分支架構
 - **`main`** - 穩定的生產版本
-- **`dev`** - 主要開發分支（日常開發）
+- **`dev-3d`** - 3D/R3F 解決方案開發分支
+- **`dev-2d`** - 2D 解決方案開發分支
+
+### 雙軌開發策略
+為了找到最佳的技術解決方案，專案採用雙軌開發模式：
+
+**3D 路線 (dev-3d)**
+- ✅ 豐富的視覺效果和互動體驗
+- ✅ 現有程式碼基礎完整
+- ⚠️ 在低階設備上可能有效能問題
+- ⚠️ 檔案大小和載入時間較長
+
+**2D 路線 (dev-2d)**  
+- ✅ 更好的設備兼容性和效能
+- ✅ 較小的檔案大小和快速載入
+- ✅ 更容易維護和除錯
+- ⚠️ 視覺效果相對較為有限
+
+兩個分支平行開發，最終將比較效果、效能和維護性後選擇最適合的方案。
 
 ### 開發流程
 ```bash
-# 日常開發
-git checkout dev
+# 3D 方案開發
+git checkout dev-3d
 git add .
-git commit -m "feat: 新功能描述"
-git push origin dev
+git commit -m "feat: 3D功能優化"
+git push origin dev-3d
 
-# 發布穩定版本
+# 2D 方案開發
+git checkout dev-2d
+git add .
+git commit -m "feat: 2D動畫實作"
+git push origin dev-2d
+
+# 發布穩定版本（選擇最佳方案）
 git checkout main
-git merge dev
+git merge dev-3d  # 或 dev-2d
 git push origin main
 ```
 
