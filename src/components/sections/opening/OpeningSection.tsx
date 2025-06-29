@@ -9,62 +9,64 @@ export default function OpeningSection() {
   });
 
   return (
-    <section 
-      id="section-opening" 
+    <section
+      id="section-opening"
       className="w-full h-screen overflow-hidden relative"
     >
       {/* Container */}
-      <div 
+      <div
         className="w-full h-full absolute inset-0 m-auto"
         style={{
           transformStyle: 'preserve-3d',
-          perspective: '100px',
-          perspectiveOrigin: 'center center'
+          perspective: '300px',
+          perspectiveOrigin: 'center center',
         }}
       >
         {/* Left Face */}
-        <div 
+        <div
           className="w-full h-full absolute border border-black bg-white"
           style={{
             transform: 'rotateY(90deg)',
             transformOrigin: 'left',
           }}
-        />
+        >
+          <img src="/assets/img2.png" className="absolute top-[10%] right-[0%] w-[40%] h-auto" alt="" />
+        </div>
 
         {/* Right Face */}
-        <div 
+        <div
           className="w-full h-full absolute border border-black bg-white"
           style={{
             transform: 'rotateY(-90deg)',
             transformOrigin: 'right',
           }}
-        />
+        ></div>
 
         {/* Top Face */}
-        <div 
+        <div
           className="w-full h-full absolute border border-black bg-white"
           style={{
             transform: 'rotateX(-90deg)',
             transformOrigin: 'top',
           }}
-        />
+        ></div>
 
         {/* Bottom Face */}
-        <div 
+        <div
           className="w-full h-full absolute border border-black bg-white"
           style={{
             transform: 'rotateX(90deg)',
             transformOrigin: 'bottom',
           }}
-        />
+        ></div>
 
         {/* Back Face */}
-        <div 
+        <div
           className="w-full h-full absolute border border-black bg-white flex items-center justify-center"
           style={{
-            transform: 'translateZ(-400px)',
+            transform: 'translateZ(-1400px)',
           }}
-        ><img className="w-[50%] h-auto mx-auto" src="/assets/nav_logo--light.svg" alt="" />
+        ><img className="w-[80%] h-auto mx-auto" src="/assets/nav_logo--light.svg" alt="" />
         </div>
       </div>
     </section>

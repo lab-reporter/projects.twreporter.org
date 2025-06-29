@@ -4,10 +4,10 @@ import { useStore } from '@/stores';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const sections = [
-  { id: 'reports', name: '影響力報導' },
-  { id: 'innovations', name: '多元創新' },
-  { id: 'challenges', name: '挑戰與成長' },
-  { id: 'feedbacks', name: '贊助者證言' },
+  { id: 'reports', name: '影響力' },
+  { id: 'innovations', name: '創新' },
+  { id: 'challenges', name: '突圍' },
+  { id: 'feedbacks', name: '證言' },
   { id: 'support', name: '贊助支持' }
 ];
 
@@ -21,17 +21,17 @@ export default function SectionNavigation() {
     // 使用 HTML ID 錨點跳轉
     const targetElement = document.getElementById(`section-${sectionId}`);
     if (targetElement) {
-      targetElement.scrollIntoView({ 
+      targetElement.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
-      
+
       // 手動觸發 ScrollTrigger 更新
       setTimeout(() => {
         ScrollTrigger.refresh();
         window.dispatchEvent(new Event('scroll'));
       }, 1000);
-      
+
       return;
     }
 
@@ -40,16 +40,16 @@ export default function SectionNavigation() {
     const totalHeight = document.documentElement.scrollHeight;
     const currentScrollY = window.scrollY;
     const targetY = sectionProgress * totalHeight;
-    
+
     if (Math.abs(targetY - currentScrollY) < 10) {
       return; // 目標位置與當前位置太接近
     }
-    
+
     window.scrollTo({
       top: targetY,
       behavior: 'smooth'
     });
-    
+
     // 等待滾動完成後，手動觸發 ScrollTrigger 更新
     setTimeout(() => {
       ScrollTrigger.refresh();
@@ -65,9 +65,9 @@ export default function SectionNavigation() {
             key={section.id}
             onClick={() => scrollToSection(section.id)}
             className={`
-              group relative flex items-center justify-center transition-all duration-300 hover:scale-105 px-4 py-2 cursor-pointer
-              ${currentSection === section.id 
-                ? 'bg-red-90 text-white' 
+              group relative flex items-center justify-center transition-all duration-300 px-2 py-2 cursor-pointer
+              ${currentSection === section.id
+                ? 'bg-red-90 text-white'
                 : 'bg-transparent text-gray-400 hover:bg-white hover:text-black'
               }
             `}
@@ -81,7 +81,8 @@ export default function SectionNavigation() {
               className="text-base font-medium tracking-wider"
               style={{
                 writingMode: 'vertical-rl',
-                textOrientation: 'mixed'
+                textOrientation: 'mixed',
+                lineHeight: '1'
               }}
             >
               {section.name}
