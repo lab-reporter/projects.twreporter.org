@@ -3,7 +3,6 @@
 import { useStore } from '@/stores';
 import { useEffect } from 'react';
 import LoadingScreen from '@/components/LoadingScreen';
-import SectionTriggers from '@/components/SectionTriggers';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
@@ -65,9 +64,15 @@ export default function Home() {
       {/* 載入畫面 */}
       <LoadingScreen />
 
-      {/* 主要內容容器 - 基於原始Combined3DScene架構 */}
+      {/* 主要內容容器 - 2D 版本 */}
       <div className="relative w-full">
-        <SectionTriggers />
+        {/* TODO: 2D Section 組件將在這裡實作 */}
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-4">報導者 10 週年回顧</h1>
+            <p className="text-xl opacity-75">2D 版本開發中...</p>
+          </div>
+        </div>
       </div>
 
       {/* DOM 覆蓋層 - Feedback 和 Support Section */}

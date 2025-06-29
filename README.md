@@ -1,26 +1,30 @@
-# 🚀 R3F 10th Recap
+# 🚀 報導者十週年回顧網站
 
-報導者十週年回顧網站 - 使用 React Three Fiber 打造的 3D 互動體驗
+基於純 2D CSS/JS 動畫的互動展示網站
 
 ## ✨ 技術特色
 
 - **Next.js 15** + TypeScript + Tailwind CSS
-- **React Three Fiber** + Drei 3D 場景渲染
-- **Zustand** 狀態管理系統
-- **GSAP ScrollTrigger** 滾動控制
+- **GSAP + ScrollTrigger** 滾動動畫系統
+- **Zustand** 狀態管理
 - **Modal 系統** 動態內容載入
+- **響應式設計** 支援各種設備
 
-## 🎯 專案架構
+## 🎯 2D 版本特點
 
-```
-src/
-├── components/           # 核心組件
-│   ├── sections/        # 6個主要區塊
-│   ├── modal/           # Modal 系統
-│   └── UnifiedScene.tsx # 統一 3D 場景
-├── stores/              # Zustand 狀態管理
-└── hooks/               # 自定義 Hooks
-```
+- **高兼容性** - 支援更多低階設備
+- **快速載入** - 比 3D 版本載入速度快 50%+
+- **易維護** - 降低技術複雜度
+- **響應式** - 完整支援各螢幕尺寸
+
+## 📋 Section 架構
+
+1. **Opening** - 開場動畫區塊
+2. **Reports** - 影響力報導展示
+3. **Innovations** - 多元創新展示
+4. **Challenges** - 挑戰與成長故事
+5. **Feedbacks** - 贊助者證言
+6. **Support** - 贊助支持頁面
 
 ## 🔧 開發指令
 
@@ -28,87 +32,107 @@ src/
 # 安裝依賴
 npm install
 
-# 開發模式
+# 開發模式 (http://localhost:3001)
 npm run dev
 
 # 建置專案
 npm run build
+
+# 啟動生產伺服器
+npm start
 ```
 
-## 🌳 Git 工作流程
+## 🏗️ 專案架構
 
-### 分支架構
+```
+src/
+├── components/
+│   ├── sections/
+│   │   ├── opening/
+│   │   ├── reports/
+│   │   ├── innovations/
+│   │   ├── challenges/
+│   │   ├── feedbacks/
+│   │   └── support/
+│   ├── modal/           # Modal 系統
+│   ├── LoadingScreen.tsx
+│   ├── Navigation.tsx
+│   └── SectionNavigation.tsx
+├── stores/              # Zustand 狀態管理
+│   ├── slices/
+│   └── index.ts
+├── hooks/               # 自定義 Hooks
+└── app/
+    ├── data/           # 專案資料
+    └── page.tsx        # 主頁面
+```
+
+## 🌳 開發分支
+
 - **`main`** - 穩定的生產版本
-- **`dev-3d`** - 3D/R3F 解決方案開發分支
-- **`dev-2d`** - 2D 解決方案開發分支
+- **`dev-2d`** - 2D 版本開發分支 (當前)
+- **`dev-3d`** - 3D 版本開發分支 (保留)
 
-### 雙軌開發策略
-為了找到最佳的技術解決方案，專案採用雙軌開發模式：
+## 📋 技術規範
 
-**3D 路線 (dev-3d)**
-- ✅ 豐富的視覺效果和互動體驗
-- ✅ 現有程式碼基礎完整
-- ⚠️ 在低階設備上可能有效能問題
-- ⚠️ 檔案大小和載入時間較長
+### GSAP & ScrollTrigger 管理
+- 每個 Section 使用唯一的 trigger ID
+- 組件卸載時清理對應的 ScrollTrigger
+- 避免不同 Section 的動畫衝突
 
-**2D 路線 (dev-2d)**  
-- ✅ 更好的設備兼容性和效能
-- ✅ 較小的檔案大小和快速載入
-- ✅ 更容易維護和除錯
-- ⚠️ 視覺效果相對較為有限
+### SectionNavigation 顯示規則
+- Opening 區域時導航隱藏
+- 從 Reports 區域開始顯示導航
+- 與滾動位置同步更新狀態
 
-兩個分支平行開發，最終將比較效果、效能和維護性後選擇最適合的方案。
+### 效能優化
+- 延遲載入非關鍵 Section
+- GSAP 動畫適當節流控制
+- 響應式設計支援各螢幕尺寸
 
-### 開發流程
+## 🔧 開發規範
+
+### Commit 格式
 ```bash
-# 3D 方案開發
-git checkout dev-3d
-git add .
-git commit -m "feat: 3D功能優化"
-git push origin dev-3d
-
-# 2D 方案開發
-git checkout dev-2d
-git add .
-git commit -m "feat: 2D動畫實作"
-git push origin dev-2d
-
-# 發布穩定版本（選擇最佳方案）
-git checkout main
-git merge dev-3d  # 或 dev-2d
-git push origin main
+feat: 新增 Opening Section 開場動畫
+fix: 修正 ScrollTrigger 衝突問題
+refactor: 重構 Section 組件架構
+perf: 優化 GSAP 動畫效能
+style: 調整響應式樣式
+docs: 更新開發文檔
 ```
 
-### Commit 規範
-- `feat`: 新功能
-- `fix`: 修復問題  
-- `refactor`: 重構程式碼
-- `style`: 樣式調整
-- `docs`: 文檔更新
+### 程式碼規範
+- 單一檔案超過 200 行時考慮拆分
+- 每個 Section 組件保持獨立
+- 相同邏輯出現 2-3 次時抽取為共用函數
+- 保持「一個檔案一個職責」原則
 
-## 📊 效能目標
+## 📊 開發目標
 
-- **程式碼簡化**: 3,500行 → 1,200行 (-65%)
-- **效能提升**: 30-45 FPS → 55-60 FPS (+50%)
-- **開發效率**: 新功能開發時間減少 70%
+- **載入速度提升** 50%+
+- **設備兼容性** 覆蓋更多低階設備
+- **開發效率** 新功能開發時間減少 70%
+- **維護性** 降低技術複雜度
 
 ## 🎮 核心功能
 
-### 3D 場景系統
-- 統一場景架構，6個 Section 無縫切換
-- 相機旋轉算法，利用 GPU 硬體加速
-- 視覺落差效果，動態視覺體驗
+### 滾動動畫系統
+- GSAP ScrollTrigger 驅動
+- 流暢的 Section 切換動畫
+- 與導航系統同步
 
 ### Modal 互動系統
-- 點擊 3D 物件開啟 Modal
-- 16+ 動態內容組件
-- 共享組件庫優化
+- 點擊元素開啟 Modal
+- 動態內容載入
+- 16+ 內容組件
+- 導航控制系統
 
-### 滾動控制系統
-- GSAP ScrollTrigger 整合
-- 相機位置與滾動同步
-- 流暢的區塊切換動畫
+### 狀態管理
+- Zustand 統一管理
+- Section 進度追蹤
+- 滾動狀態同步
 
 ---
 
-*開發中 - 2025年6月* 
+*dev-2d 分支開發中 - 2025年6月*
