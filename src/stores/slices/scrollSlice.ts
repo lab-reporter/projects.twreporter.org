@@ -23,7 +23,7 @@ export const scrollSlice: StateCreator<
 > = (set, get) => ({
   scrollProgress: 0,
   scrollDirection: 'down',
-  currentSection: 'reports',
+  currentSection: 'opening',
   sectionProgress: 0,
   
   setScrollProgress: (progress) =>

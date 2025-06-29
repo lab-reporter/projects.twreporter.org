@@ -188,18 +188,20 @@ const handleItemClick = (itemId) => {
 - **`dev-2d`** - 2D 版本開發 (當前)
 - **`dev-3d`** - 3D 版本開發 (保留)
 
+### ⚠️ **重要分支規則**
+**dev-2d 分支不直接合併到 main**，保持作為獨立的 2D 技術方案開發分支。
+
 ### **開發流程**
 ```bash
-# 2D 版本開發
+# 2D 版本開發（正常流程）
 git checkout dev-2d
 git add .
 git commit -m "feat: 新增 Reports Section 動畫"
 git push origin dev-2d
 
-# 提交穩定版本
-git checkout main
-git merge dev-2d
-git push origin main
+# ⚠️ 不執行以下操作（需特別確認）
+# git checkout main
+# git merge dev-2d  # 需要再次確認
 ```
 
 ## 🔍 除錯和問題解決

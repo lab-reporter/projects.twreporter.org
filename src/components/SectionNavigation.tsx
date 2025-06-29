@@ -5,9 +5,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const sections = [
   { id: 'reports', name: '影響力報導' },
-  { id: 'innovation', name: '多元創新' },
-  { id: 'timeline', name: '非營利媒體之路' },
-  { id: 'feedback', name: '贊助者證言' },
+  { id: 'innovations', name: '多元創新' },
+  { id: 'challenges', name: '挑戰與成長' },
+  { id: 'feedbacks', name: '贊助者證言' },
   { id: 'support', name: '贊助支持' }
 ];
 

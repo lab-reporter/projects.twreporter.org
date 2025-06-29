@@ -6,120 +6,57 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
-import FeedbackSection from '@/components/sections/FeedbackSection';
-import SupportSection from '@/components/sections/SupportSection';
+
+// 2D Section 組件
+import OpeningSection from '@/components/sections/opening/OpeningSection';
+import ReportsSection from '@/components/sections/reports/ReportsSection';
+import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
+import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
+import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
+import SupportSection from '@/components/sections/support/SupportSection';
 
 export default function Home() {
-  const { currentSection, sectionProgress } = useStore();
+  const { currentSection } = useStore();
 
-  // 調試用：監控 body overflow 狀態
+  // 初始化 GSAP 和 ScrollTrigger
   useEffect(() => {
-    const checkOverflow = () => {
-      const bodyOverflow = window.getComputedStyle(document.body).overflow;
-      const bodyOverflowY = window.getComputedStyle(document.body).overflowY;
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`Section: ${currentSection}, Body overflow: ${bodyOverflow}, overflowY: ${bodyOverflowY}`);
+    const initScrollTrigger = async () => {
+      if (typeof window !== 'undefined') {
+        const { gsap } = await import('gsap');
+        const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+        
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // 延遲一點時間讓組件完全載入
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
       }
     };
     
-    checkOverflow();
-    
-    // 監聽 overflow 變化
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-          checkOverflow();
-        }
-      });
-    });
-    
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ['style']
-    });
-    
-    return () => observer.disconnect();
-  }, [currentSection]);
-
-  // 強制確保滾動條可見
-  useEffect(() => {
-    // 當進入 feedback 或 support section 時，確保滾動條可見
-    if (currentSection === 'feedback' || currentSection === 'support') {
-      // 延遲一點執行，確保其他組件的 useEffect 已經執行
-      const timer = setTimeout(() => {
-        if (document.body.style.overflow === 'hidden') {
-          document.body.style.overflow = 'auto';
-          if (process.env.NODE_ENV === 'development') {
-            console.log('強制重置 body overflow 為 auto');
-          }
-        }
-      }, 100);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [currentSection]);
+    initScrollTrigger();
+  }, []);
 
   return (
     <div className="relative w-full">
       {/* 載入畫面 */}
       <LoadingScreen />
 
-      {/* 主要內容容器 - 2D 版本 */}
-      <div className="relative w-full">
-        {/* TODO: 2D Section 組件將在這裡實作 */}
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">報導者 10 週年回顧</h1>
-            <p className="text-xl opacity-75">2D 版本開發中...</p>
-          </div>
-        </div>
-      </div>
-
-      {/* DOM 覆蓋層 - Feedback 和 Support Section */}
-      {currentSection === 'feedback' && (
-        <div 
-          className="fixed inset-0 z-20 bg-black bg-opacity-60"
-          style={{ 
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100vw',
-            height: '100vh'
-          }}
-        >
-          <FeedbackSection 
-            visible={true} 
-            progress={sectionProgress}
-          />
-        </div>
-      )}
-      
-      {currentSection === 'support' && (
-        <div 
-          className="fixed inset-0 z-20 bg-black bg-opacity-60"
-          style={{ 
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            width: '100vw',
-            height: '100vh'
-          }}
-        >
-          <SupportSection 
-            visible={true} 
-            progress={sectionProgress}
-          />
-        </div>
-      )}
+      {/* 主要內容 - 6 個 Section */}
+      <main className="relative w-full">
+        <OpeningSection />
+        <ReportsSection />
+        <InnovationsSection />
+        <ChallengesSection />
+        <FeedbacksSection />
+        <SupportSection />
+      </main>
 
       {/* UI 組件 */}
       <Navigation />
       <Modal />
-      <SectionNavigation />
+      {/* SectionNavigation 只在 Reports 開始顯示 */}
+      {currentSection !== 'opening' && <SectionNavigation />}
     </div>
   );
 }
