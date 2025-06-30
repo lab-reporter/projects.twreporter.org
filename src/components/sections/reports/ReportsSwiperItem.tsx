@@ -10,14 +10,14 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }
   const isVideo = path.endsWith('.mp4');
 
   return (
-    <div 
+    <div
       className="relative w-full h-full rounded-lg overflow-hidden shadow-lg cursor-pointer group"
       style={{ backgroundColor: bgColor || '#F1F1F1' }}
     >
-      {/* 媒體內容 */}
-      <div className="w-full h-60 overflow-hidden">
+      {/* 媒體內容 - 3:2 比例 */}
+      <div className="w-full aspect-[3/2] overflow-hidden">
         {isVideo ? (
-          <video 
+          <video
             src={path}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             muted
@@ -25,12 +25,27 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }
             playsInline
             onMouseEnter={(e) => e.currentTarget.play()}
             onMouseLeave={(e) => e.currentTarget.pause()}
+            onError={(e) => {
+              console.error('影片載入失敗:', path);
+              e.currentTarget.style.backgroundColor = '#f3f4f6';
+            }}
+            onLoadedData={() => {
+              console.log('影片載入成功:', path);
+            }}
           />
         ) : (
-          <img 
+          <img
             src={path}
             alt={title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              console.error('圖片載入失敗:', path);
+              e.currentTarget.style.backgroundColor = '#f3f4f6';
+              e.currentTarget.style.border = '2px dashed #d1d5db';
+            }}
+            onLoad={() => {
+              console.log('圖片載入成功:', path);
+            }}
           />
         )}
       </div>
