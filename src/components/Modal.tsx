@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '@/stores';
 import { X } from 'lucide-react';
 import { getContentComponentByProjectId } from './modal/contentMap';
@@ -10,14 +10,15 @@ import projectsData from '@/app/data/projects.json';
 
 export default function Modal() {
   const { modal, closeModal, openModal } = useStore();
-  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   // 篩選所有報導項目用於導航
   const allReports = useMemo(() => {
     return projectsData.filter((p: any) =>
       p.section && (Array.isArray(p.section) ? p.section.includes('reports') : p.section === 'reports')
     );
   }, []);
-  
+
   // 計算相鄰項目
   const adjacentProjects = useMemo(() => {
     if (!modal.data || !modal.isOpen) {
@@ -25,7 +26,7 @@ export default function Modal() {
     }
     return getAdjacentProjects(modal.data, allReports as any);
   }, [modal.data, modal.isOpen, allReports]);
-  
+
   // 處理導航
   const handleNavigate = (direction: 'prev' | 'next') => {
     const targetProject = direction === 'prev' ? adjacentProjects.prev : adjacentProjects.next;
@@ -33,6 +34,14 @@ export default function Modal() {
       openModal(targetProject.id, targetProject);
     }
   };
+
+  // 當 Modal 內容改變時，重置滾動位置到頂部
+  useEffect(() => {
+    if (modal.isOpen && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+      console.log('🔄 Modal 滾動位置已重置到頂部');
+    }
+  }, [modal.data?.id, modal.contentId, modal.isOpen]);
 
   // ESC 鍵關閉
   useEffect(() => {
@@ -69,7 +78,7 @@ export default function Modal() {
 
     // 使用動態內容組件系統
     const ContentComponent = getContentComponentByProjectId(modal.data.id || modal.contentId || '');
-    
+
     return (
       <div>
         <ContentComponent
@@ -92,11 +101,12 @@ export default function Modal() {
 
       {/* 側邊欄主體 - 完全模仿 SidePanel 樣式 */}
       <div className={`fixed top-0 right-0 h-full w-full px-[5vw] py-[5vh] backdrop-blur-lg z-[9999] transform transition-transform duration-300 ease-in-out ${modal.isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        
+
         {/* 內容區域 */}
         <div
           className="relative h-full overflow-y-auto bg-gray-100 shadow-2xl rounded-md"
           style={{ scrollBehavior: 'auto' }}
+          ref={scrollContainerRef}
         >
           {/* 內容 */}
           <div className="sidepanel-content">

@@ -153,6 +153,16 @@ perf: 優化 GSAP 動畫效能
 
 ## 📝 開發記錄
 
+### **2025-06-30 17:23 (台北時間)**
+- **Modal 滾動重置功能實作完成**
+  - 實作 NavigationControls 導航切換功能
+  - 新增滾動容器 useRef 引用機制
+  - 實現內容切換時自動重置滾動位置到頂部
+  - 添加 useEffect 監聽 modal.data.id 和 modal.contentId 變化
+  - 完整的用戶體驗優化：上一則/下一則切換時從頂部開始閱讀
+  - 灰階色彩系統集成到 Tailwind 配置（gray-white ~ gray-black）
+  - **Git Commit**: `feat: 實作 Modal 滾動重置功能與 Tailwind 灰階系統`
+
 ### **2025-06-30 16:30 (台北時間)**
   - **Reports Section 影片播放系統優化完成**
     - 修復 TailwindCSS v4 到 v3.4.17 兼容性問題
@@ -174,6 +184,16 @@ perf: 優化 GSAP 動畫效能
     - 完整的互動流程：點擊 → 事件處理 → Modal 開啟 → 內容載入
     - **Git Commit**: `feat: 實作 Reports Section 點擊開啟 Modal 互動功能`
 
+### **2025-06-30 17:06 (台北時間)**
+  - **媒體檔案路徑修正與錯誤處理優化完成**
+    - 統一修正所有 Reports Content 的 mediaSrc 檔名 (report-* → reports-*)
+    - 移除 HeroBanner 和 ReportsSwiperItem 錯誤狀態判斷機制
+    - 清除 Modal Content 文件中的 text-white 樣式類別
+    - 新增 .cursorrules 文件設置 Git Commit 限制規範
+    - 簡化媒體載入邏輯，提升檔案載入穩定性
+    - 建立完整檔案路徑對應表，確保媒體正確載入
+    - **Git Commit**: `fix: 修正媒體檔案路徑並優化錯誤處理機制`
+
 ### **2025-06-30 18:30 (台北時間)**
 - **Reports Section GSAP ScrollTrigger 實作完成**
   - 完全重構原有 Swiper 為 GSAP ScrollTrigger 系統
@@ -191,4 +211,4 @@ perf: 優化 GSAP 動畫效能
 - **技術路線確立**: dev-2d 分支獨立開發，提升設備兼容性
 
 ---
-*最後更新: 2025-06-30 16:43 - Reports Section Modal 互動系統實作完成*
+*最後更新: 2025-06-30 17:23 - Modal 滾動重置功能與 Tailwind 灰階系統實作完成*

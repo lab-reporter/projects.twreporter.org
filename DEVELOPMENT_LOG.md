@@ -167,4 +167,51 @@ ScrollTrigger.create({
 
 ---
 
-*最後更新: 2025-06-30 16:43 CST (台北時間)*
+## 📅 2025-06-30 開發紀錄
+
+### ⏰ 17:06 媒體檔案路徑修正與錯誤處理優化
+**任務**: 修正所有媒體檔案路徑問題並優化錯誤處理機制
+
+**主要修改**:
+- **媒體檔案路徑統一**: 
+  - 修正所有 Reports Content 文件的 `mediaSrc` 檔名
+  - 統一格式：`report-*` → `reports-*` (對應實際 assets 檔案)
+  - 涵蓋 Reports 1-12 共 12 個內容文件
+- **錯誤處理機制簡化**:
+  - 移除 `HeroBanner.tsx` 和 `ReportsSwiperItem.tsx` 的錯誤狀態判斷
+  - 刪除 `mediaError`, `hasError` 狀態管理
+  - 移除錯誤 UI 顯示組件
+  - 簡化為純媒體類型判斷（影片/圖片）
+- **樣式清理**:
+  - 移除所有 Modal Content 文件中的 `text-white` 樣式類別
+  - 保持 `space-y-4` 間距樣式
+- **開發規範建立**:
+  - 新增 `.cursorrules` 文件
+  - 設置 Git Commit 限制規範
+  - 禁止擅自 git commit 的安全機制
+
+**技術優化**:
+- 載入邏輯簡化：只處理成功載入，不處理失敗狀態
+- 檔案路徑對應：根據 `/public/assets/` 實際檔名修正
+- 效能提升：移除不必要的錯誤處理代碼
+- 開發安全：防止意外 commit 操作
+
+**檔案對應表**:
+```
+reports-1.jpg (2.9MB)   → Reports1Content.tsx
+reports-2.mp4 (20MB)    → Reports2Content.tsx  
+reports-3.mp4 (11MB)    → Reports3Content.tsx
+reports-4.jpg (330KB)   → Reports4Content.tsx
+reports-5.jpg (122KB)   → Reports5Content.tsx
+reports-6.jpg (493KB)   → Reports6Content.tsx
+reports-7.mp4 (13MB)    → Reports7Content.tsx
+reports-8.mp4 (21MB)    → Reports8Content.tsx
+reports-9.jpg (128KB)   → Reports9Content.tsx
+reports-10.jpg (457KB)  → Reports10Content.tsx
+reports-11.png (2.8MB)  → Reports11Content.tsx
+reports-12.mp4 (14MB)   → Reports12Content.tsx
+```
+
+---
+
+*最後更新: 2025-06-30 17:06 CST (台北時間)*

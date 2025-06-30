@@ -82,6 +82,19 @@
   --color-gold-50: #EDC39D;
   --color-gold-70: #9E7A4E;
   --color-gold-90: #493018;
+
+  /* 灰階系列 */
+  --color-gray-white: #FFFFFF;
+  --color-gray-100: #F1F1F1;
+  --color-gray-200: #E2E2E2;
+  --color-gray-300: #D8D8D8;
+  --color-gray-400: #CDCDCD;
+  --color-gray-500: #9C9C9C;
+  --color-gray-600: #808080;
+  --color-gray-700: #4A4A4A;
+  --color-gray-800: #404040;
+  --color-gray-900: #262626;
+  --color-gray-black: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
