@@ -8,13 +8,14 @@ interface ReportsSwiperItemProps {
   title: string;
   subtitle: string;
   bgColor?: string;
+  shouldPlay?: boolean; // 控制是否應該播放
 }
 
-export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, shouldPlay = false }: ReportsSwiperItemProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  
+
   const isVideo = path.endsWith('.mp4');
 
   const handleVideoLoad = () => {
@@ -48,22 +49,43 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }
     return () => clearTimeout(timer);
   }, []);
 
-  const handleMouseEnter = () => {
-    if (videoRef.current && !hasError) {
-      videoRef.current.play().catch(console.warn);
-    }
-  };
+  // 根據 shouldPlay 控制影片播放
+  useEffect(() => {
+    if (isVideo && videoRef.current && !isLoading) {
+      const video = videoRef.current;
+      
+      // 設置基本屬性
+      video.muted = true;
+      video.loop = true;
+      
+      if (shouldPlay) {
+        // 應該播放：啟動播放
+        const startPlayback = () => {
+          video.play().then(() => {
+            console.log('✅ 影片開始播放:', title);
+          }).catch((error) => {
+            console.warn('⚠️ 播放失敗:', title, error);
+          });
+        };
 
-  const handleMouseLeave = () => {
-    if (videoRef.current && !hasError) {
-      videoRef.current.pause();
+        if (video.readyState >= 2) { // HAVE_CURRENT_DATA
+          startPlayback();
+        } else {
+          video.addEventListener('canplay', startPlayback, { once: true });
+        }
+      } else {
+        // 不應該播放：暫停影片
+        video.pause();
+        video.currentTime = 0; // 重置到開始位置
+        console.log('⏸️ 影片暫停（效能優化）:', title);
+      }
     }
-  };
+  }, [isVideo, isLoading, shouldPlay, title]);
 
 
   return (
     <div
-      className="relative w-full h-full rounded-lg overflow-hidden shadow-lg cursor-pointer group bg-gray-100"
+      className="relative w-full h-full overflow-hidden cursor-pointer group bg-gray-100"
       style={{ backgroundColor: bgColor || '#F1F1F1' }}
     >
       {/* 媒體內容 */}
@@ -74,7 +96,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
           </div>
         )}
-        
+
         {/* 錯誤狀態 */}
         {hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-300">
@@ -93,9 +115,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor }
             muted
             loop
             playsInline
-            preload="metadata"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            preload="auto"
           />
         ) : (
           <img

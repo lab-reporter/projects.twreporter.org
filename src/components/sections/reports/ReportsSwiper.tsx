@@ -116,6 +116,15 @@ export default function ReportsSwiper() {
 
     const currentItem = reportsData[currentSlide] || reportsData[0];
 
+    // 計算哪些項目應該播放影片（當前項目和前後相鄰項目）
+    const shouldPlayVideo = (index: number) => {
+        const totalItems = reportsData.length;
+        const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
+        const nextIndex = (currentSlide + 1) % totalItems;
+        
+        return index === currentSlide || index === prevIndex || index === nextIndex;
+    };
+
     return (
         <div ref={sectionRef} className="relative h-[500vh] overflow-visible">
             <div className="sticky top-0 w-full h-screen overflow-hidden">
@@ -152,6 +161,7 @@ export default function ReportsSwiper() {
                                         title={item.title}
                                         subtitle={item.subtitle}
                                         bgColor={item.bgColor}
+                                        shouldPlay={shouldPlayVideo(index)}
                                     />
                                 </div>
                             ))}
