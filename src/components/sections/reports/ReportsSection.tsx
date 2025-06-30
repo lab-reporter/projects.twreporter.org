@@ -30,7 +30,7 @@ export default function ReportsSection() {
         opacity: 1, // 到 opacity: 1 結束
         scrollTrigger: {
           trigger: sectionHeading,
-          start: 'top -10%',
+          start: 'top 0%',
           end: '+=100',
           markers: true,
           scrub: true,
