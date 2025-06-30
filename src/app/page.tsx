@@ -24,16 +24,16 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         const { gsap } = await import('gsap');
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-        
+
         gsap.registerPlugin(ScrollTrigger);
-        
+
         // 延遲一點時間讓組件完全載入
         setTimeout(() => {
           ScrollTrigger.refresh();
         }, 100);
       }
     };
-    
+
     initScrollTrigger();
   }, []);
 

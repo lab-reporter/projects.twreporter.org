@@ -37,17 +37,29 @@
 
 ## 🔧 技術規範
 
+### **用戶自定義參數保留原則**
+- **⚠️ 重要**: 如果發現用戶修改過的參數，代表那是刻意調整，應該盡可能保留該設定
+- **謹慎修改**: 如果該設定導致功能實現有問題，不要擅自修改，應先徵詢用戶同意
+- **保留範圍**: 包含但不限於 GSAP 動畫參數、CSS 樣式、組件配置等
+- **識別方式**: 透過 git diff 或與預設值比較來識別用戶自定義設定
+- **溝通原則**: 優先詢問用戶意圖，而非直接修改參數
+
 ### **GSAP & ScrollTrigger 管理**
 - **命名空間隔離**: 每個 Section 使用唯一 trigger ID
 - **統一清理機制**: 組件卸載時清理對應 ScrollTrigger
 - **衝突預防**: 避免不同 Section 的動畫互相干擾
+- **Playback 機制**: 所有 ScrollTrigger 動畫必須支援往回滾動恢復原狀態
 - **範例**:
   ```javascript
   useEffect(() => {
     ScrollTrigger.create({
       trigger: `#section-${sectionName}`,
       id: `${sectionName}-main`,
-      // ... 配置
+      onEnter: () => { /* 進入動畫 */ },
+      onLeave: () => { /* 離開動畫 */ },
+      onEnterBack: () => { /* 往回進入動畫 */ },
+      onLeaveBack: () => { /* 往回離開動畫 */ },
+      // ... 其他配置
     });
     
     return () => {
@@ -153,6 +165,16 @@ perf: 優化 GSAP 動畫效能
 
 ## 📝 開發記錄
 
+### **2025-06-30 18:14 (台北時間)**
+- **GSAP ScrollTrigger Playback 機制實作完成**
+  - Navigation 動畫添加完整的 playback 機制（onLeave, onEnterBack, onLeaveBack）
+  - SectionHeadings 淡入動畫添加完整的 playback 機制
+  - 實現往回滾動時恢復原始狀態：Navigation 回到中央 + scale(1.5)
+  - 實現往回滾動時恢復透明狀態：SectionHeadings opacity 回到 0
+  - 建立用戶自定義參數保留原則：尊重用戶調整的參數設定
+  - 更新技術規範：所有 ScrollTrigger 動畫必須支援 playback 機制
+  - 保留用戶自定義設定：trigger 位置、scale 參數、動畫參數等
+
 ### **2025-06-30 17:23 (台北時間)**
 - **Modal 滾動重置功能實作完成**
   - 實作 NavigationControls 導航切換功能
@@ -211,4 +233,4 @@ perf: 優化 GSAP 動畫效能
 - **技術路線確立**: dev-2d 分支獨立開發，提升設備兼容性
 
 ---
-*最後更新: 2025-06-30 17:23 - Modal 滾動重置功能與 Tailwind 灰階系統實作完成*
+*最後更新: 2025-06-30 18:14 - GSAP ScrollTrigger Playback 機制與用戶參數保留原則實作完成*

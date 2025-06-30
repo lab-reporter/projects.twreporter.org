@@ -130,7 +130,11 @@ export default function ReportsSwiper() {
             <div className="sticky top-0 w-full h-screen overflow-hidden">
                 <div ref={sliderContainerRef} className="absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                     {/* 3D 輪播部分 */}
-                    <div className="w-full h-screen text-center overflow-hidden">
+                    <div className="w-full h-screen text-center overflow-hidden"
+                        style={{
+                            transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
+                        }}
+                    >
                         <div
                             ref={sliderWrapperRef}
                             className="absolute z-10"
@@ -140,7 +144,7 @@ export default function ReportsSwiper() {
                                 width: `${sliderSize * 3}vw`,
                                 height: `${sliderSize * 2}vw`,
                                 transformStyle: 'preserve-3d',
-                                transform: 'perspective(600px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
+                                transform: 'perspective(600px) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
                             }}
                         >
                             {/* 使用 React 組件渲染項目 */}
@@ -171,8 +175,8 @@ export default function ReportsSwiper() {
                 </div>
 
                 {/* 顯示當前項目資訊 */}
-                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-                    <h2 className="text-2xl font-bold mb-2 text-gray-800">
+                <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 text-center">
+                    <h2 className="text-4xl font-bold mb-2 text-gray-800">
                         {currentItem?.title || ''}
                     </h2>
                     <p className="text-xl text-gray-600">

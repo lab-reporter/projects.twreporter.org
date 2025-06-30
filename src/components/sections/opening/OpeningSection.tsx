@@ -11,7 +11,7 @@ export default function OpeningSection() {
   return (
     <section
       id="section-opening"
-      className="w-full h-screen overflow-hidden relative"
+      className="sticky top-0 w-full h-screen overflow-hidden relative z-0"
     >
       {/* Container */}
       <div
@@ -30,7 +30,7 @@ export default function OpeningSection() {
             transformOrigin: 'left',
           }}
         >
-          <img src="/assets/img2.png" className="absolute top-[10%] right-[0%] w-[40%] h-auto" alt="" />
+          {/* <img src="/assets/img2.png" className="absolute top-[10%] right-[0%] w-[40%] h-auto" alt="" /> */}
         </div>
 
         {/* Right Face */}
@@ -66,7 +66,7 @@ export default function OpeningSection() {
           style={{
             transform: 'translateZ(-1400px)',
           }}
-        ><img className="w-[80%] h-auto mx-auto" src="/assets/nav_logo--light.svg" alt="" />
+        >
         </div>
       </div>
     </section>

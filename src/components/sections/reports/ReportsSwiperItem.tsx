@@ -83,7 +83,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden cursor-pointer group bg-gray-100"
+      className="relative w-full h-full rounded-sm overflow-hidden cursor-pointer group bg-gray-100"
       style={{ backgroundColor: bgColor || '#F1F1F1' }}
       onClick={handleClick}
     >

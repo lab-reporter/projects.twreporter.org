@@ -12,7 +12,7 @@ export default function InnovationsSection() {
   return (
     <section
       id="section-innovations"
-      className="w-full h-screen bg-white text-black flex items-center justify-center"
+      className="w-full h-auto bg-white text-black flex items-center justify-center"
     >
       <SectionHeadings
         titleEn="INNOVATION"
