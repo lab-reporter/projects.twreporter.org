@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
+import ReportsSwiperItem from './ReportsSwiperItem';
 
 interface ReportItem {
     id: string;
@@ -15,7 +16,6 @@ interface ReportItem {
 }
 
 export default function ReportsSwiper() {
-    const sliderRef = useRef<HTMLDivElement>(null);
     const sliderWrapperRef = useRef<HTMLDivElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
     const sliderContainerRef = useRef<HTMLDivElement>(null);
@@ -55,79 +55,16 @@ export default function ReportsSwiper() {
 
         gsap.registerPlugin(ScrollTrigger);
 
-        const slider = sliderRef.current;
         const sliderWrapper = sliderWrapperRef.current;
         const section = sectionRef.current;
         const sliderContainer = sliderContainerRef.current;
 
-        if (!slider || !section || !sliderWrapper || !sliderContainer) return;
+        if (!section || !sliderWrapper || !sliderContainer) return;
 
         // 設定初始狀態
         gsap.set(sliderContainer, {
             opacity: 1,
             scale: 1
-        });
-
-        // 清除先前可能存在的項目
-        while (slider.firstChild) {
-            slider.removeChild(slider.firstChild);
-        }
-
-        // 創建項目
-        reportsData.forEach((item, index) => {
-            const itemElement = document.createElement('div');
-            itemElement.className = 'absolute inset-0 cursor-pointer';
-            itemElement.style.transformStyle = 'preserve-3d';
-            itemElement.style.transform = `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * translateZMultiplier}vw)`;
-            itemElement.style.width = '100%';
-            itemElement.style.height = '100%';
-
-            // 檢查是否為影片
-            const isVideo = item.path.endsWith('.mp4');
-            let mediaElement: HTMLElement;
-
-            if (isVideo) {
-                const video = document.createElement('video');
-                video.src = item.path;
-                video.className = 'w-full h-full object-cover';
-                video.autoplay = false;
-                video.muted = true;
-                video.loop = true;
-                video.playsInline = true;
-                video.controls = false;
-
-                video.addEventListener('loadeddata', () => {
-                    if (process.env.NODE_ENV === 'development') {
-                        console.log(`✅ 影片載入完成: ${item.title}`);
-                    }
-                });
-
-                video.addEventListener('error', (e) => {
-                    console.error(`❌ 影片載入失敗: ${item.title}`, e);
-                });
-
-                mediaElement = video;
-            } else {
-                const img = document.createElement('img');
-                img.src = item.path;
-                img.alt = item.title;
-                img.className = 'w-full h-full object-cover';
-
-                img.addEventListener('load', () => {
-                    if (process.env.NODE_ENV === 'development') {
-                        console.log(`✅ 圖片載入完成: ${item.title}`);
-                    }
-                });
-
-                img.addEventListener('error', (e) => {
-                    console.error(`❌ 圖片載入失敗: ${item.title}`, e);
-                });
-
-                mediaElement = img;
-            }
-
-            itemElement.appendChild(mediaElement);
-            slider.appendChild(itemElement);
         });
 
         // 使用 ScrollTrigger 控制旋轉
@@ -175,7 +112,7 @@ export default function ReportsSwiper() {
         return () => {
             trigger.kill();
         };
-    }, [reportsData]);
+    }, [reportsData, sliderSize, translateZMultiplier]);
 
     const currentItem = reportsData[currentSlide] || reportsData[0];
 
@@ -197,16 +134,27 @@ export default function ReportsSwiper() {
                                 transform: 'perspective(600px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
                             }}
                         >
-                            <div
-                                ref={sliderRef}
-                                className="relative w-full h-full"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    transform: 'rotateX(0deg) rotateY(0deg)'
-                                }}
-                            >
-                                {/* 項目會通過 JavaScript 動態添加 */}
-                            </div>
+                            {/* 使用 React 組件渲染項目 */}
+                            {reportsData.map((item, index) => (
+                                <div
+                                    key={item.id}
+                                    className="absolute inset-0 cursor-pointer"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * translateZMultiplier}vw)`,
+                                        width: '100%',
+                                        height: '100%'
+                                    }}
+                                >
+                                    <ReportsSwiperItem
+                                        id={item.id}
+                                        path={item.path}
+                                        title={item.title}
+                                        subtitle={item.subtitle}
+                                        bgColor={item.bgColor}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

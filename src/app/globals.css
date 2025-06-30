@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -10,6 +12,7 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-100%);
   }
@@ -19,6 +22,7 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-100%);
   }
@@ -28,6 +32,7 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-100%);
   }
@@ -49,33 +54,28 @@
   animation-play-state: paused !important;
 }
 
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* 報導者品牌色系 */
+/* 報導者品牌色系 */
+:root {
   --color-red-10: #F4C6C6;
   --color-red-30: #F76977;
   --color-red-50: #F80B28;
   --color-red-70: #C40D23;
   --color-red-90: #9B051E;
-  
+
   /* 綠色系列 */
   --color-green-10: #C4F2DC;
   --color-green-30: #99CCC9;
   --color-green-50: #6EE5B5;
   --color-green-70: #3C927A;
   --color-green-90: #0E3532;
-  
+
   /* 藍色系列 */
   --color-blue-10: #ABDEF4;
   --color-blue-30: #6D9BE0;
   --color-blue-50: #2F58CC;
   --color-blue-70: #143071;
   --color-blue-90: #052142;
-  
+
   /* 金色系列 */
   --color-gold-10: #F0D5BE;
   --color-gold-30: #E3BE98;
@@ -111,7 +111,8 @@ body {
 }
 
 /* 禁用 iOS Safari 的回彈效果 */
-html, body {
+html,
+body {
   height: 100%;
   touch-action: manipulation;
 }
@@ -125,4 +126,3 @@ canvas {
 .no-list-style {
   list-style: none;
 }
-

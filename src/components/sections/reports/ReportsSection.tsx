@@ -13,9 +13,9 @@ export default function ReportsSection() {
   return (
     <section
       id="section-reports"
-      className="w-full h-auto bg-white text-black flex flex-col items-center justify-center px-8"
+      className="w-full h-auto bg-white tet-black flex flex-col items-center justify-center px-8"
     >
-      <div className="py-8 mt-8">
+      <div>
         <SectionHeadings
           titleEn="IMPACT"
           titleZh="深度報導・影響力"

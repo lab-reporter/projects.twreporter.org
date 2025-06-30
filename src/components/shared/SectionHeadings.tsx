@@ -8,7 +8,7 @@ interface SectionHeadingsProps {
 
 export default function SectionHeadings({ titleEn, titleZh, children }: SectionHeadingsProps) {
   return (
-    <div className="w-full mx-auto px-4 max-w-[50rem]">
+    <div className="w-full mx-auto px-4 py-16 max-w-[50rem]">
       <div className="mb-4">
         <h1 className="text-center text-[5rem] leading-none font-serif font-normal">
           {titleEn}
