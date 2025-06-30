@@ -12,6 +12,12 @@ export default function OpeningSection() {
     <section
       id="section-opening"
       className="sticky top-0 w-full h-screen overflow-hidden relative z-0"
+      style={{
+        backgroundImage: 'url(/assets/bg_grid.svg)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}
     >
       {/* Container */}
       <div
@@ -24,7 +30,7 @@ export default function OpeningSection() {
       >
         {/* Left Face */}
         <div
-          className="w-full h-full absolute border border-black bg-white"
+          className="w-full h-full absolute"
           style={{
             transform: 'rotateY(90deg)',
             transformOrigin: 'left',
@@ -35,7 +41,7 @@ export default function OpeningSection() {
 
         {/* Right Face */}
         <div
-          className="w-full h-full absolute border border-black bg-white"
+          className="w-full h-full absolute"
           style={{
             transform: 'rotateY(-90deg)',
             transformOrigin: 'right',
@@ -44,7 +50,7 @@ export default function OpeningSection() {
 
         {/* Top Face */}
         <div
-          className="w-full h-full absolute border border-black bg-white"
+          className="w-full h-full absolute"
           style={{
             transform: 'rotateX(-90deg)',
             transformOrigin: 'top',
@@ -53,7 +59,7 @@ export default function OpeningSection() {
 
         {/* Bottom Face */}
         <div
-          className="w-full h-full absolute border border-black bg-white"
+          className="w-full h-full absolute"
           style={{
             transform: 'rotateX(90deg)',
             transformOrigin: 'bottom',
@@ -62,9 +68,9 @@ export default function OpeningSection() {
 
         {/* Back Face */}
         <div
-          className="w-full h-full absolute border border-black bg-white flex items-center justify-center"
+          className="w-full h-full absolute flex items-center justify-center"
           style={{
-            transform: 'translateZ(-1400px)',
+            transform: 'translateZ(-800px)',
           }}
         >
         </div>

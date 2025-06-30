@@ -21,6 +21,24 @@
   - **智能播放管理** - 只播放當前項+前後相鄰項，節省70%+效能 ✅
   - **Modal 互動整合** - 點擊項目開啟對應 Modal，完整內容展示 ✅
 
+### **字型系統整合** (2025-06-30 18:41:29)
+- **Google Fonts 集成** - Noto Serif TC, Noto Sans TC, Roboto Slab ✅
+- **Adobe Fonts 支援** - Alverata 字型透過 TypeKit 載入 ✅
+- **Tailwind 字型配置** - 完整的字型族與自定義 utilities ✅
+- **字型載入優化** - font-display: swap 與渲染優化 ✅
+- **多語言支援** - 中英文混排字型配置 ✅
+- **字型展示組件** - FontDemo 組件測試所有字型效果 ✅
+- **強制字型 utilities** - font-*-force 類別確保字型應用 ✅
+- **中英文混排設定** - Body 英文用 Roboto Slab，標題英文用 Alverata (2025-06-30 18:47:06) ✅
+- **混排 utilities** - font-body-mixed, font-heading-mixed 等組合類別 ✅
+
+### **SectionNavigation 顯示機制修復** (2025-06-30 19:03:06)
+- **ScrollTrigger 衝突修復** - 解決 Reports Section 滾動時 SectionNavigation 消失問題 ✅
+- **獨立狀態檢測** - SectionNavigation 使用本地 localCurrentSection 狀態 ✅
+- **滾動位置檢測** - 基於元素位置而非全域狀態控制顯示/隱藏 ✅
+- **Active 狀態修復** - 修復按鈕 active 狀態消失問題 ✅
+- **避免狀態依賴** - 不依賴可能有衝突的全域 currentSection 狀態 ✅
+
 ## 🎯 當前狀態
 - **技術路線**: 2D CSS/JS 動畫，避免 3D 渲染負擔
 - **目標設備**: 提升低階設備兼容性與載入速度
@@ -233,4 +251,4 @@ perf: 優化 GSAP 動畫效能
 - **技術路線確立**: dev-2d 分支獨立開發，提升設備兼容性
 
 ---
-*最後更新: 2025-06-30 18:14 - GSAP ScrollTrigger Playback 機制與用戶參數保留原則實作完成*
+*最後更新: 2025-06-30 19:03 - SectionNavigation 顯示機制修復完成，解決 ScrollTrigger 衝突與 active 狀態問題*

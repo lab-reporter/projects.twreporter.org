@@ -1,6 +1,7 @@
 'use client';
 
 import { useStore } from '@/stores';
+import { useEffect, useState } from 'react';
 
 const sections = [
   { id: 'reports', name: '影響力' },
@@ -11,7 +12,38 @@ const sections = [
 ];
 
 export default function SectionNavigation() {
-  const { currentSection } = useStore();
+  const { currentSection } = useStore(); // 恢復使用全域狀態
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Debug: 監聽 currentSection 變化
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`🔍 SectionNavigation: currentSection 變更為 "${currentSection}"`);
+    }
+  }, [currentSection]);
+
+  // 使用滾動位置來控制顯示
+  useEffect(() => {
+    const checkVisibility = () => {
+      const reportsSection = document.getElementById('section-reports');
+      if (reportsSection) {
+        const rect = reportsSection.getBoundingClientRect();
+        // 當 Reports Section 進入視窗範圍時顯示導航
+        const shouldShow = rect.top <= window.innerHeight * 0.8;
+        setIsVisible(shouldShow);
+      }
+    };
+
+    // 初始檢查
+    checkVisibility();
+
+    // 監聽滾動事件
+    window.addEventListener('scroll', checkVisibility);
+
+    return () => {
+      window.removeEventListener('scroll', checkVisibility);
+    };
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const targetElement = document.getElementById(`section-${sectionId}`);
@@ -22,6 +54,11 @@ export default function SectionNavigation() {
       });
     }
   };
+
+  // 如果不可見，返回 null
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-[9998]">
@@ -40,14 +77,14 @@ export default function SectionNavigation() {
             }}
             onMouseEnter={(e) => {
               if (currentSection !== section.id) {
-                e.target.style.backgroundColor = 'white';
-                e.target.style.color = 'black';
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.color = 'black';
               }
             }}
             onMouseLeave={(e) => {
               if (currentSection !== section.id) {
-                e.target.style.backgroundColor = 'transparent';
-                e.target.style.color = '#9CA3AF';
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#9CA3AF';
               }
             }}
             title={section.name}

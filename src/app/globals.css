@@ -2,6 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 字型載入優化 */
+@layer base {
+
+  /* 字型顯示優化 */
+  html {
+    font-feature-settings: "kern" 1, "liga" 1, "clig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 預設字型設定 - 英文用 Roboto Slab，中文用思源宋體 */
+  * {
+    font-family: var(--font-roboto-slab), 'Roboto Slab', var(--font-noto-serif-tc), 'Noto Serif TC', serif;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* 標題字型優化 - 英文用 Alverata，中文用思源宋體 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'alverata', var(--font-noto-serif-tc), 'Noto Serif TC', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* 字型 utilities */
+@layer utilities {
+  .font-display-swap {
+    font-display: swap;
+  }
+
+  .text-optimize {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -110,30 +155,6 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-body {
-  background: white;
-  color: #000000;
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* 禁用 iOS Safari 的回彈效果 */
-html,
-body {
-  height: 100%;
-  touch-action: manipulation;
-}
-
-/* 3D 場景專用樣式 */
-canvas {
-  touch-action: none;
-}
 
 /* 專案摘要樣式 */
 .no-list-style {

@@ -52,6 +52,13 @@ module.exports = {
           black: 'var(--color-gray-black)',
         },
       },
+      fontFamily: {
+        'noto-serif-tc': ['var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
+        'noto-sans-tc': ['var(--font-noto-sans-tc)', 'Noto Sans TC', 'sans-serif'],
+        'roboto-slab': ['var(--font-roboto-slab)', 'Roboto Slab', 'serif'],
+        'alverata': ['alverata', 'var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
+        'alverata-mixed': ['alverata', 'var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
+      },
       animation: {
         marquee: 'marquee 30s linear infinite',
         'marquee-slow': 'marquee-slow 45s linear infinite',
@@ -73,5 +80,52 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-hide': {
+          /* Firefox */
+          'scrollbar-width': 'none',
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+        },
+        '.scrollbar-hide::-webkit-scrollbar': {
+          /* Chrome, Safari and Opera */
+          display: 'none',
+        },
+        '.transform-style-preserve-3d': {
+          'transform-style': 'preserve-3d',
+        },
+        '.font-noto-sans-force': {
+          'font-family': 'var(--font-noto-sans-tc), "Noto Sans TC", sans-serif !important',
+        },
+        '.font-noto-serif-force': {
+          'font-family': 'var(--font-noto-serif-tc), "Noto Serif TC", serif !important',
+        },
+        '.font-roboto-slab-force': {
+          'font-family': 'var(--font-roboto-slab), "Roboto Slab", serif !important',
+        },
+        '.font-alverata': {
+          'font-family': 'alverata, serif',
+        },
+        '.font-alverata-mixed': {
+          'font-family': 'alverata, serif',
+        },
+        /* 中英文混排字型組合 */
+        '.font-body-mixed': {
+          'font-family': 'var(--font-roboto-slab), "Roboto Slab", var(--font-noto-serif-tc), "Noto Serif TC", serif',
+        },
+        '.font-heading-mixed': {
+          'font-family': 'alverata, var(--font-noto-serif-tc), "Noto Serif TC", serif',
+        },
+        '.font-sans-mixed': {
+          'font-family': 'var(--font-roboto-slab), "Roboto Slab", var(--font-noto-sans-tc), "Noto Sans TC", sans-serif',
+        },
+        '.font-serif-mixed': {
+          'font-family': 'alverata, var(--font-noto-serif-tc), "Noto Serif TC", serif',
+        },
+      }
+      addUtilities(newUtilities);
+    }
+  ],
 }

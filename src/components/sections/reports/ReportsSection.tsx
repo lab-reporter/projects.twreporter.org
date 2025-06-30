@@ -23,54 +23,24 @@ export default function ReportsSection() {
     const sectionHeading = sectionHeadingRef.current;
     if (!sectionHeading) return;
 
-    // 設定初始狀態：opacity: 0
-    gsap.set(sectionHeading, {
-      opacity: 0
-    });
-
-    // 創建 ScrollTrigger 動畫
-    const trigger = ScrollTrigger.create({
-      trigger: sectionHeading,
-      start: 'top top', // 當 sectionHeading 的 top 碰到螢幕的 top
-      end: '+=100',   // 立即執行
-      markers: true,
-      onEnter: () => {
-        // 執行 0.5 秒的淡入動畫
-        gsap.to(sectionHeading, {
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power2.out'
-        });
-      },
-      onLeave: () => {
-        // 當滾動超過動畫區域時，確保停留在顯示狀態
-        gsap.to(sectionHeading, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      },
-      onEnterBack: () => {
-        // 往回滾動進入動畫區域時，保持顯示狀態
-        gsap.to(sectionHeading, {
-          opacity: 1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      },
-      onLeaveBack: () => {
-        // 往回滾動離開動畫區域時，恢復到透明狀態
-        gsap.to(sectionHeading, {
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      },
-      id: 'reports-section-heading-fade-in'
-    });
+    // 使用 gsap.fromTo 搭配 ScrollTrigger 的精簡寫法
+    gsap.fromTo(sectionHeading,
+      { opacity: 0 }, // 從 opacity: 0 開始
+      {
+        opacity: 1, // 到 opacity: 1 結束
+        scrollTrigger: {
+          trigger: sectionHeading,
+          start: 'top -10%',
+          end: '+=100',
+          markers: true,
+          scrub: true,
+          id: 'reports-section-heading-fade-in'
+        }
+      }
+    );
 
     return () => {
-      trigger.kill();
+      ScrollTrigger.getById('reports-section-heading-fade-in')?.kill();
     };
   }, []);
 

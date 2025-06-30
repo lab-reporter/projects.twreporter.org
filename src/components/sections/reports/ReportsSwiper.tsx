@@ -24,7 +24,7 @@ export default function ReportsSwiper() {
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
     // 響應式 slider 尺寸變數
-    const sliderSize = windowWidth < 768 ? 6 : 4;
+    const sliderSize = windowWidth < 768 ? 6 : 4.8;
 
     // 響應式 translateZ 倍數
     const translateZMultiplier = windowWidth < 768 ? 6 : 6;
@@ -175,7 +175,7 @@ export default function ReportsSwiper() {
                 </div>
 
                 {/* 顯示當前項目資訊 */}
-                <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 text-center">
+                <div className="absolute w-full bottom-16 transform text-center flex flex-col items-center justify-center">
                     <h2 className="text-4xl font-bold mb-2 text-gray-800">
                         {currentItem?.title || ''}
                     </h2>
