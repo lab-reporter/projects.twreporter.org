@@ -10,7 +10,7 @@ interface ReportItem {
     id: string;
     path: string;
     title: string;
-    subtitle: string;
+    subtitle?: string; // 修改為可選屬性，解決 TypeScript 類型錯誤
     section: string[];
     bgColor?: string;
 }
@@ -121,7 +121,7 @@ export default function ReportsSwiper() {
         const totalItems = reportsData.length;
         const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
         const nextIndex = (currentSlide + 1) % totalItems;
-        
+
         return index === currentSlide || index === prevIndex || index === nextIndex;
     };
 
@@ -159,9 +159,10 @@ export default function ReportsSwiper() {
                                         id={item.id}
                                         path={item.path}
                                         title={item.title}
-                                        subtitle={item.subtitle}
+                                        subtitle={item.subtitle || ''}
                                         bgColor={item.bgColor}
                                         shouldPlay={shouldPlayVideo(index)}
+                                        projectData={item}
                                     />
                                 </div>
                             ))}

@@ -136,4 +136,35 @@ ScrollTrigger.create({
 
 ---
 
-*最後更新: 2025-06-29 23:32 CST (台北時間)*
+## 📅 2025-06-30 開發紀錄
+
+### ⏰ 16:43 Reports Section Modal 互動系統實作
+**任務**: 實作點擊 ReportsSwiperItem 開啟對應 Modal 功能
+
+**主要修改**:
+- **ReportsSwiperItem.tsx**: 
+  - 新增 `projectData` 屬性接收完整專案資料
+  - 導入 `useStore` 進行狀態管理
+  - 實作 `handleClick` 點擊事件處理器
+  - 呼叫 `openModal(id, projectData)` 開啟對應 Modal
+- **ReportsSwiper.tsx**:
+  - 傳遞完整 `item` 資料到 `ReportsSwiperItem`
+  - 修正 `subtitle` 為可選屬性，解決 TypeScript 類型錯誤
+  - 加入安全檢查 `item.subtitle || ''`
+
+**技術整合**:
+- 使用現有的 Modal 系統 (`src/components/Modal.tsx`)
+- 透過 `contentMap.ts` 動態載入對應的內容組件
+- Zustand 狀態管理：`openModal` 方法統一管理 Modal 狀態
+- 完整的 Reports 1-12 內容組件支援
+
+**互動流程**:
+1. 用戶點擊 ReportsSwiperItem
+2. 觸發 `handleClick` 事件處理器
+3. 呼叫 `openModal` 傳遞項目 ID 和完整資料
+4. Modal 系統根據 ID 從 `contentMap` 載入對應組件
+5. 顯示完整的報導內容和互動功能
+
+---
+
+*最後更新: 2025-06-30 16:43 CST (台北時間)*

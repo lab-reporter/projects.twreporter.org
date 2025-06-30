@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import { useStore } from '@/stores';
 
 interface ReportsSwiperItemProps {
   id: string;
@@ -9,14 +10,24 @@ interface ReportsSwiperItemProps {
   subtitle: string;
   bgColor?: string;
   shouldPlay?: boolean; // 控制是否應該播放
+  projectData?: any; // 完整的專案資料，用於 Modal 顯示
 }
 
-export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, shouldPlay = false }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, shouldPlay = false, projectData }: ReportsSwiperItemProps) {
+  const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   const isVideo = path.endsWith('.mp4');
+
+  // 點擊事件處理器 - 開啟對應的 Modal
+  const handleClick = () => {
+    if (projectData) {
+      console.log('🔗 點擊報導項目:', title, '(ID:', id, ')');
+      openModal(id, projectData);
+    }
+  };
 
   const handleVideoLoad = () => {
     console.log('✅ 影片載入成功:', title);
@@ -53,11 +64,11 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
   useEffect(() => {
     if (isVideo && videoRef.current && !isLoading) {
       const video = videoRef.current;
-      
+
       // 設置基本屬性
       video.muted = true;
       video.loop = true;
-      
+
       if (shouldPlay) {
         // 應該播放：啟動播放
         const startPlayback = () => {
@@ -87,6 +98,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
     <div
       className="relative w-full h-full overflow-hidden cursor-pointer group bg-gray-100"
       style={{ backgroundColor: bgColor || '#F1F1F1' }}
+      onClick={handleClick}
     >
       {/* 媒體內容 */}
       <div className="w-full h-full overflow-hidden relative">
