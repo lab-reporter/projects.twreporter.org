@@ -16,7 +16,7 @@ interface ProjectSummaryProps {
   className?: string;
 }
 
-export default function ProjectSummary({ 
+export default function ProjectSummary({
   items,
   children,
   itemClass = "mb-4 last:mb-0 last:border-b-0 last:pb-0 leading-relaxed font-noto-sans-tc border-b border-gray-300 pb-4",
@@ -24,7 +24,7 @@ export default function ProjectSummary({
   childItemClass = "mb-1 last:mb-0 leading-relaxed font-noto-sans-tc text-base",
   className = ''
 }: ProjectSummaryProps) {
-  
+
   // 渲染單個項目的函數 - 完全匹配原始邏輯
   const renderItem = (item: string | SummaryItem, index: number, isChild: boolean = false) => {
     // 選擇要使用的樣式類別
@@ -60,7 +60,7 @@ export default function ProjectSummary({
   };
 
   return (
-    <div className={`p-4 px-8 mb-8 bg-gray-100 rounded-lg ${className}`}>
+    <div className={`p-4 px-8 mb-8 bg-white rounded-lg ${className}`}>
       <ul className="my-4 no-list-style text-lg font-noto-sans-tc">
         {items ? (
           items.map((item, index) => renderItem(item, index, false))

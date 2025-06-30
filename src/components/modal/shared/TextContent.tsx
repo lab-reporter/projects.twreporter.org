@@ -7,12 +7,12 @@ interface TextContentProps {
   className?: string;
 }
 
-export default function TextContent({ 
-  children, 
+export default function TextContent({
+  children,
   className = ''
 }: TextContentProps) {
   return (
-    <div className={`project-description font-noto-serif-tc [&>*>p]:mb-6 [&>*>p]:leading-relaxed [&>*>p:last-child]:mb-0 [&>*>p]:text-[1.125rem] ${className}`}>
+    <div className={`text-black project-description font-noto-serif-tc [&>*>p]:mb-6 [&>*>p]:leading-relaxed [&>*>p:last-child]:mb-0 [&>*>p]:text-[1.125rem] ${className}`}>
       {children}
     </div>
   );

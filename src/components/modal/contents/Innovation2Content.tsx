@@ -32,7 +32,7 @@ export default function Innovation2Content({ projectData, onClose, onNavigate, a
 
         {/* 導言 */}
         <Shared.TextContent>
-          <div className="text-white space-y-4">
+          <div className="space-y-4">
             <p>專題內容段落...</p>
           </div>
         </Shared.TextContent>

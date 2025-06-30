@@ -9,7 +9,7 @@ export default function Reports12Content({ projectData, onClose, onNavigate, adj
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/placeholder.svg"
+        mediaSrc="/assets/reports-12.mp4"
         title="專題標題"
         subtitle="專題副標題"
       />
@@ -32,7 +32,7 @@ export default function Reports12Content({ projectData, onClose, onNavigate, adj
 
         {/* 導言 */}
         <Shared.TextContent>
-          <div className="text-white space-y-4">
+          <div className="space-y-4">
             <p>專題內容段落...</p>
           </div>
         </Shared.TextContent>

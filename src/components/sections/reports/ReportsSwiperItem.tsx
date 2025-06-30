@@ -17,9 +17,13 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
   const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
 
   const isVideo = path.endsWith('.mp4');
+
+  // 當 path 改變時重置載入狀態
+  useEffect(() => {
+    setIsLoading(true);
+  }, [path]);
 
   // 點擊事件處理器 - 開啟對應的 Modal
   const handleClick = () => {
@@ -29,26 +33,9 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
     }
   };
 
-  const handleVideoLoad = () => {
-    console.log('✅ 影片載入成功:', title);
+  const handleMediaLoad = () => {
+    console.log('✅ 媒體載入成功:', title);
     setIsLoading(false);
-  };
-
-  const handleVideoError = (e: any) => {
-    console.error('❌ 影片載入失敗:', title, path);
-    setIsLoading(false);
-    setHasError(true);
-  };
-
-  const handleImageLoad = () => {
-    console.log('✅ 圖片載入成功:', title);
-    setIsLoading(false);
-  };
-
-  const handleImageError = (e: any) => {
-    console.error('❌ 圖片載入失敗:', title, path);
-    setIsLoading(false);
-    setHasError(true);
   };
 
   // 簡化載入檢測 - 直接在渲染後設為載入完成
@@ -109,16 +96,6 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
           </div>
         )}
 
-        {/* 錯誤狀態 */}
-        {hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-300">
-            <div className="text-center">
-              <div className="text-2xl mb-2">⚠️</div>
-              <p className="text-sm text-gray-600">載入失敗</p>
-            </div>
-          </div>
-        )}
-
         {isVideo ? (
           <video
             ref={videoRef}
@@ -128,12 +105,14 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
             loop
             playsInline
             preload="auto"
+            onLoadedData={handleMediaLoad}
           />
         ) : (
           <img
             src={path}
             alt={title}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            onLoad={handleMediaLoad}
           />
         )}
       </div>

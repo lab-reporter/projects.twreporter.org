@@ -12,7 +12,7 @@ export default function Reports2Content({ projectData, onClose, onNavigate, adja
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="https://www.twreporter.org/images/20210816135933-03d98b61a3742ad5cfb80bce7d2493af-mobile.jpg"
+        mediaSrc="/assets/reports-2.mp4"
         title="山頭上的掠奪"
         subtitle="揭露全台原住民保留地流失亂象"
       />
@@ -38,7 +38,7 @@ export default function Reports2Content({ projectData, onClose, onNavigate, adja
 
         {/* 導言 */}
         <Shared.TextContent>
-          <div className="text-white space-y-4">
+          <div className="space-y-4">
             <p>
               16位烏干達學生2019年在彰化中州科技大學的強力招募下，千里迢迢赴台讀書，但學校卻未兌現當初的獎學金、英語授課等承諾，甚至讓學生淪為黑工，陷入債務的漩渦等惡性循環中。
             </p>
