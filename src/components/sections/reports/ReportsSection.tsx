@@ -1,6 +1,8 @@
 'use client';
 
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import SectionHeadings from '@/components/shared/SectionHeadings';
+import ReportsSwiper from './ReportsSwiper';
 
 export default function ReportsSection() {
   useScrollTrigger({
@@ -9,13 +11,25 @@ export default function ReportsSection() {
   });
 
   return (
-    <section 
-      id="section-reports" 
-      className="w-full h-screen bg-white text-black flex items-center justify-center"
+    <section
+      id="section-reports"
+      className="w-full h-screen bg-white text-black flex flex-col items-center justify-center px-8"
     >
-      <div className="text-center">
-        <h2 className="text-4xl font-bold mb-4">影響力報導</h2>
-        <p className="text-xl opacity-75">深度調查 × 社會影響</p>
+      <div className="mb-8">
+        <SectionHeadings
+          titleEn="IMPACT"
+          titleZh="深度報導・影響力"
+        >
+          <p>
+            「深度報導並不朝生暮死，它們帶著應該被聽見的聲音，持續發聲。」<br />
+            《報導者》許多報導因為讀者的迴響，具體改變了政策與受訪者處境。
+            點開報導，你將看見這些改變如何發生。
+          </p>
+        </SectionHeadings>
+      </div>
+      
+      <div className="w-full max-w-6xl">
+        <ReportsSwiper />
       </div>
     </section>
   );

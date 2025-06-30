@@ -1,6 +1,7 @@
 'use client';
 
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import SectionHeadings from '@/components/shared/SectionHeadings';
 
 export default function InnovationsSection() {
   useScrollTrigger({
@@ -9,14 +10,19 @@ export default function InnovationsSection() {
   });
 
   return (
-    <section 
-      id="section-innovations" 
+    <section
+      id="section-innovations"
       className="w-full h-screen bg-white text-black flex items-center justify-center"
     >
-      <div className="text-center">
-        <h2 className="text-4xl font-bold mb-4">多元創新</h2>
-        <p className="text-xl opacity-75">數位敘事 × 新聞實驗</p>
-      </div>
+      <SectionHeadings
+        titleEn="INNOVATION"
+        titleZh="開放新聞室・創新"
+      >
+        <p>
+          《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。<br />
+          點點物件，看10年來的新嘗試，你參與了多少呢？
+        </p>
+      </SectionHeadings>
     </section>
   );
 }
