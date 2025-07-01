@@ -1,101 +1,31 @@
 # 🚀 報導者十週年回顧 2D 版本開發狀態
 
-## ✅ 已完成 (2025-06-29 ~ 2025-06-30)
+## ✅ 已完成 (2025-06-29 ~ 2025-07-01)
 - **專案架構重構** - 從 3D 版本轉換為 2D 純 CSS/JS 動畫實作 ✅
 - **3D 組件清除** - 移除所有 R3F 相關組件和文件 ✅
 - **基礎專案設置** - Next.js 15 + TypeScript + Tailwind CSS ✅
 - **狀態管理系統** - Zustand 完整架構保留 ✅
 - **Modal 系統** - 完整保留互動系統與內容載入 ✅
 - **開發伺服器** - 運行在 http://localhost:3001 ✅
-
-### **Reports Section GSAP ScrollTrigger 實作** (2025-06-30)
-- **GSAP ScrollTrigger 集成** - 完整的滾動控制 3D 輪播系統 ✅
-- **3D CSS 變換** - 透視效果與動態旋轉角度計算 ✅
-- **響應式設計** - 桌機/行動版自適應尺寸與位置 ✅
-- **媒體支援** - 圖片/影片自動檢測與載入處理 ✅
-- **滾動控制** - 500vh 容器精確控制 360° 旋轉 ✅
-- **動畫優化** - 緩衝區設置與平滑插值動畫 ✅
-- **開發友好** - 開發環境除錯資訊與 Console 日誌 ✅
-- **效能優化** - GSAP 硬體加速與動態 DOM 創建 ✅
-- **影片自動播放** - 靜音循環播放，無需用戶互動 ✅
-  - **智能播放管理** - 只播放當前項+前後相鄰項，節省70%+效能 ✅
-  - **Modal 互動整合** - 點擊項目開啟對應 Modal，完整內容展示 ✅
-
-### **字型系統整合** (2025-06-30 18:41:29)
-- **Google Fonts 集成** - Noto Serif TC, Noto Sans TC, Roboto Slab ✅
-- **Adobe Fonts 支援** - Alverata 字型透過 TypeKit 載入 ✅
-- **Tailwind 字型配置** - 完整的字型族與自定義 utilities ✅
-- **字型載入優化** - font-display: swap 與渲染優化 ✅
-- **多語言支援** - 中英文混排字型配置 ✅
-- **字型展示組件** - FontDemo 組件測試所有字型效果 ✅
-- **強制字型 utilities** - font-*-force 類別確保字型應用 ✅
-- **中英文混排設定** - Body 英文用 Roboto Slab，標題英文用 Alverata (2025-06-30 18:47:06) ✅
-- **混排 utilities** - font-body-mixed, font-heading-mixed 等組合類別 ✅
-
-### **SectionNavigation 顯示機制修復** (2025-06-30 19:03:06)
-- **ScrollTrigger 衝突修復** - 解決 Reports Section 滾動時 SectionNavigation 消失問題 ✅
-- **獨立狀態檢測** - SectionNavigation 使用本地 localCurrentSection 狀態 ✅
-- **滾動位置檢測** - 基於元素位置而非全域狀態控制顯示/隱藏 ✅
-- **Active 狀態修復** - 修復按鈕 active 狀態消失問題 ✅
-- **避免狀態依賴** - 不依賴可能有衝突的全域 currentSection 狀態 ✅
+- **Reports Section** - GSAP ScrollTrigger 3D 輪播系統 ✅
+- **字型系統** - Google Fonts + Adobe Fonts 完整整合 ✅
+- **CustomCursor 系統** - 客製化游標與多樣式配置 ✅
+- **ChallengesSection** - 水平滾動與背景動畫系統 ✅
 
 ## 🎯 當前狀態
 - **技術路線**: 2D CSS/JS 動畫，避免 3D 渲染負擔
 - **目標設備**: 提升低階設備兼容性與載入速度
 - **專案架構**: dev-2d 分支獨立開發
 - **參照程式碼**: copy/ 資料夾（git ignored）
+- **開發紀錄**: 詳細記錄請見 DEVELOPMENT_LOG.md
 
 ## 📋 2D 版本 Section 架構
 1. **Opening** - 開場動畫區塊
-2. **Reports** - 影響力報導展示
+2. **Reports** - 影響力報導展示 ✅
 3. **Innovations** - 多元創新展示
-4. **Challenges** - 挑戰與成長故事
+4. **Challenges** - 挑戰與成長故事 ✅
 5. **Feedbacks** - 贊助者證言
 6. **Support** - 贊助支持頁面
-
-## 🔧 技術規範
-
-### **用戶自定義參數保留原則**
-- **⚠️ 重要**: 如果發現用戶修改過的參數，代表那是刻意調整，應該盡可能保留該設定
-- **謹慎修改**: 如果該設定導致功能實現有問題，不要擅自修改，應先徵詢用戶同意
-- **保留範圍**: 包含但不限於 GSAP 動畫參數、CSS 樣式、組件配置等
-- **識別方式**: 透過 git diff 或與預設值比較來識別用戶自定義設定
-- **溝通原則**: 優先詢問用戶意圖，而非直接修改參數
-
-### **GSAP & ScrollTrigger 管理**
-- **命名空間隔離**: 每個 Section 使用唯一 trigger ID
-- **統一清理機制**: 組件卸載時清理對應 ScrollTrigger
-- **衝突預防**: 避免不同 Section 的動畫互相干擾
-- **Playback 機制**: 所有 ScrollTrigger 動畫必須支援往回滾動恢復原狀態
-- **範例**:
-  ```javascript
-  useEffect(() => {
-    ScrollTrigger.create({
-      trigger: `#section-${sectionName}`,
-      id: `${sectionName}-main`,
-      onEnter: () => { /* 進入動畫 */ },
-      onLeave: () => { /* 離開動畫 */ },
-      onEnterBack: () => { /* 往回進入動畫 */ },
-      onLeaveBack: () => { /* 往回離開動畫 */ },
-      // ... 其他配置
-    });
-    
-    return () => {
-      ScrollTrigger.getById(`${sectionName}-main`)?.kill();
-    };
-  }, []);
-  ```
-
-### **SectionNavigation 顯示規則**
-- **Opening 區域**: 導航隱藏
-- **Reports 開始**: 導航顯示
-- **狀態同步**: 與滾動位置同步更新
-
-### **效能優化原則**
-- **延遲載入**: 非關鍵 Section 延遲載入
-- **動畫節流**: GSAP 動畫適當節流控制
-- **響應式設計**: 支援各螢幕尺寸
-- **無障礙支援**: 提供動畫關閉選項
 
 ## 🔧 開發規則
 - **自動執行**: 所有指令除了刪除檔案外都自動執行
@@ -182,97 +112,5 @@ perf: 優化 GSAP 動畫效能
 - **狀態管理**: Zustand 統一管理應用狀態
 - **響應式設計**: 適配各種設備與螢幕
 
-## 📝 開發記錄
-
-### **2025-07-01 16:20 (台北時間)**
-- **CustomCursor 客製化游標系統完成**
-  - 全域客製化游標組件：支援多種預設樣式和完全自定義配置
-  - 預設樣式配置：explore、view、read、play 四種內建樣式
-  - 自定義配置支援：data-cursor-text 和 data-cursor-class 屬性
-  - 嵌套元素支援：任何深度的 DOM 嵌套都能正確觸發
-  - 動態切換機制：可在不同區域使用不同游標樣式
-  - 原始游標隱藏：徹底解決 cursor: none 隱藏問題
-  - 效能優化：單一全域監聽器，無副作用設計
-  - 完整文檔：CustomCursor.md 詳細使用說明
-  - Reports Section 整合：EXPLORE 游標效果完美運作
-
-### **2025-07-01 11:42 (台北時間)**
-- **Modal 系統互動體驗優化完成**
-  - GSAP 開啟/關閉動畫：opacity 0.5→1、scale 0.25→1、rotateY 90°→0°
-  - 3D 透視效果：transformPerspective 500px 增強視覺深度
-  - 滾動進度條：紅色進度條即時顯示滾動位置
-  - Overscroll 關閉機制：滾動超過 100vh 觸發 Modal 關閉
-  - 圓環進度指示器：SVG stroke-dasharray 技術顯示 overscroll 進度
-  - 背景點擊關閉：修復事件冒泡問題，確保點擊背景正常關閉
-  - Reset 機制優化：調整重置時間為 200ms，符合用戶體驗需求
-  - 動畫數據快照：防止關閉動畫期間內容消失，保持視覺連續性
-
-### **2025-06-30 18:14 (台北時間)**
-- **GSAP ScrollTrigger Playback 機制實作完成**
-  - Navigation 動畫添加完整的 playback 機制（onLeave, onEnterBack, onLeaveBack）
-  - SectionHeadings 淡入動畫添加完整的 playback 機制
-  - 實現往回滾動時恢復原始狀態：Navigation 回到中央 + scale(1.5)
-  - 實現往回滾動時恢復透明狀態：SectionHeadings opacity 回到 0
-  - 建立用戶自定義參數保留原則：尊重用戶調整的參數設定
-  - 更新技術規範：所有 ScrollTrigger 動畫必須支援 playback 機制
-  - 保留用戶自定義設定：trigger 位置、scale 參數、動畫參數等
-
-### **2025-06-30 17:23 (台北時間)**
-- **Modal 滾動重置功能實作完成**
-  - 實作 NavigationControls 導航切換功能
-  - 新增滾動容器 useRef 引用機制
-  - 實現內容切換時自動重置滾動位置到頂部
-  - 添加 useEffect 監聽 modal.data.id 和 modal.contentId 變化
-  - 完整的用戶體驗優化：上一則/下一則切換時從頂部開始閱讀
-  - 灰階色彩系統集成到 Tailwind 配置（gray-white ~ gray-black）
-  - **Git Commit**: `feat: 實作 Modal 滾動重置功能與 Tailwind 灰階系統`
-
-### **2025-06-30 16:30 (台北時間)**
-  - **Reports Section 影片播放系統優化完成**
-    - 修復 TailwindCSS v4 到 v3.4.17 兼容性問題
-    - 實現影片自動循環播放：靜音、無控制介面、無需用戶互動
-    - 智能播放管理：只播放當前項目+前後相鄰項目，節省70%+效能
-    - 動態播放控制：隨滾動進度自動切換播放/暫停狀態
-    - 邊界循環處理：第一項/最後一項的相鄰項目正確計算
-    - 載入狀態優化：1秒漸進式載入，移除載入超時警告
-    - React 組件架構：使用現有 ReportsSwiperItem，移除複雜 DOM 操作
-    - **Git Commit**: `feat: 完成 Reports Section 影片自動播放與智能效能管理`
-
-### **2025-06-30 16:43 (台北時間)**
-  - **Reports Section Modal 互動系統實作完成**
-    - 實作點擊 ReportsSwiperItem 開啟對應 Modal 功能
-    - 整合現有 Modal 系統與 contentMap.ts 動態內容載入
-    - 透過 Zustand 狀態管理統一控制 Modal 開關
-    - 傳遞完整專案資料支援 Modal 內容展示
-    - 修正 TypeScript 類型定義，提升開發體驗
-    - 完整的互動流程：點擊 → 事件處理 → Modal 開啟 → 內容載入
-    - **Git Commit**: `feat: 實作 Reports Section 點擊開啟 Modal 互動功能`
-
-### **2025-06-30 17:06 (台北時間)**
-  - **媒體檔案路徑修正與錯誤處理優化完成**
-    - 統一修正所有 Reports Content 的 mediaSrc 檔名 (report-* → reports-*)
-    - 移除 HeroBanner 和 ReportsSwiperItem 錯誤狀態判斷機制
-    - 清除 Modal Content 文件中的 text-white 樣式類別
-    - 新增 .cursorrules 文件設置 Git Commit 限制規範
-    - 簡化媒體載入邏輯，提升檔案載入穩定性
-    - 建立完整檔案路徑對應表，確保媒體正確載入
-    - **Git Commit**: `fix: 修正媒體檔案路徑並優化錯誤處理機制`
-
-### **2025-06-30 18:30 (台北時間)**
-- **Reports Section GSAP ScrollTrigger 實作完成**
-  - 完全重構原有 Swiper 為 GSAP ScrollTrigger 系統
-  - 實作 3D CSS 變換輪播效果：500vh 滾動控制 360° 旋轉
-  - 響應式設計：桌機 4vw / 行動版 6vw 尺寸自適應
-  - 媒體處理：自動檢測圖片/影片格式並載入
-  - 動畫優化：緩衝區設置避免突兀跳轉
-  - 效能提升：GSAP 硬體加速 + 動態 DOM 創建
-  - 開發友好：development 環境專用除錯資訊
-  - **Git Commit**: `feat: 完成 Reports Section GSAP ScrollTrigger 3D 輪播實作`
-
-### **2025-06-29**
-- **專案架構重構**: 從 3D 版本轉換為 2D 純 CSS/JS 動畫實作
-- **開發環境設置**: Next.js 15 + TypeScript + Tailwind CSS
-- **技術路線確立**: dev-2d 分支獨立開發，提升設備兼容性
-
 ---
-*最後更新: 2025-07-01 16:20 - CustomCursor 客製化游標系統完成，全域支援多種樣式配置與自定義功能*
+*詳細開發紀錄請參閱 DEVELOPMENT_LOG.md*

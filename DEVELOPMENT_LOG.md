@@ -214,4 +214,41 @@ reports-12.mp4 (14MB)   → Reports12Content.tsx
 
 ---
 
-*最後更新: 2025-06-30 17:06 CST (台北時間)*
+## 📅 2025-07-01 開發紀錄
+
+### ⏰ 16:20 CustomCursor 客製化游標系統完成
+- **全域客製化游標組件**：支援多種預設樣式和完全自定義配置
+- **預設樣式配置**：explore、view、read、play 四種內建樣式
+- **自定義配置支援**：data-cursor-text 和 data-cursor-class 屬性
+- **嵌套元素支援**：任何深度的 DOM 嵌套都能正確觸發
+- **動態切換機制**：可在不同區域使用不同游標樣式
+- **原始游標隱藏**：徹底解決 cursor: none 隱藏問題
+- **效能優化**：單一全域監聽器，無副作用設計
+- **完整文檔**：CustomCursor.md 詳細使用說明
+- **Reports Section 整合**：EXPLORE 游標效果完美運作
+
+### ⏰ 11:42 Modal 系統互動體驗優化完成
+- **GSAP 開啟/關閉動畫**：opacity 0.5→1、scale 0.25→1、rotateY 90°→0°
+- **3D 透視效果**：transformPerspective 500px 增強視覺深度
+- **滾動進度條**：紅色進度條即時顯示滾動位置
+- **Overscroll 關閉機制**：滾動超過 100vh 觸發 Modal 關閉
+- **圓環進度指示器**：SVG stroke-dasharray 技術顯示 overscroll 進度
+- **背景點擊關閉**：修復事件冒泡問題，確保點擊背景正常關閉
+- **Reset 機制優化**：調整重置時間為 200ms，符合用戶體驗需求
+- **動畫數據快照**：防止關閉動畫期間內容消失，保持視覺連續性
+
+### ⏰ 17:04 ChallengesSection 水平滾動系統完成
+- **React 組件架構**：完全基於 React/TypeScript 實作，取代原始 DOM 操作
+- **GSAP ScrollTrigger 整合**：水平滾動 + 背景照片 3D 動畫同步
+- **模組化設計**：拆分為 ChallengesSlider、ChallengeItem、ChallengesBackground 等組件
+- **Hook 系統**：useChallengesData 和 useChallengesScroll 分離邏輯
+- **配置系統**：challenges.config.ts 集中管理照片位置與滾動參數
+- **容器高度修正**：動態高度計算 + sticky positioning 架構
+- **Modal 整合**：點擊挑戰項目開啟對應 Modal 內容
+- **CustomCursor 支援**：VIEW 游標樣式整合
+- **動畫同步**：文字水平滾動與背景照片 3D 變換完美同步
+- **效能優化**：緩衝區設置與漸進式動畫避免突兀跳躍
+
+---
+
+*最後更新: 2025-07-01 17:04:50 CST (台北時間)*

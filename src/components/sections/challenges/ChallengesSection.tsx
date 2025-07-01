@@ -48,8 +48,8 @@ export default function ChallengesSection() {
   });
 
   return (
-    <div 
-      className="relative overflow-hidden"
+    <div
+      className="relative"
       style={{ height: containerHeight }}
       id="challenges-section"
     >
