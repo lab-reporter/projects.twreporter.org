@@ -121,7 +121,7 @@
     },
     {
         "id": "innovation-1",
-        "path": "/assets/apple_watch_new.glb",
+        "path": "/assets/innovations/innovation-1.webm",
         "position": {
             "x": 0,
             "y": 0,
@@ -141,7 +141,7 @@
     },
     {
         "id": "innovation-2",
-        "path": "/assets/polaroid_go_new.glb",
+        "path": "/assets/innovations/innovation-2.webm",
         "position": {
             "x": 18,
             "y": -2.4,
@@ -161,7 +161,7 @@
     },
     {
         "id": "innovation-3",
-        "path": "/assets/toolbox.glb",
+        "path": "/assets/innovations/innovation-3.webm",
         "position": {
             "x": -8.3,
             "y": 4.4,
@@ -181,7 +181,7 @@
     },
     {
         "id": "innovation-4",
-        "path": "assets/magazine_mockup_in_case.glb",
+        "path": "/assets/innovations/innovation-4.webm",
         "position": {
             "x": 4.8,
             "y": -2.6,
@@ -201,7 +201,7 @@
     },
     {
         "id": "innovation-5",
-        "path": "/assets/robot.glb",
+        "path": "/assets/innovations/innovation-5.webm",
         "position": {
             "x": -10,
             "y": 5,
@@ -221,7 +221,7 @@
     },
     {
         "id": "innovation-6",
-        "path": "/assets/chat_gpt_keyboard.glb",
+        "path": "/assets/innovations/innovation-6.webm",
         "position": {
             "x": 0,
             "y": -8,
@@ -241,27 +241,7 @@
     },
     {
         "id": "innovation-7",
-        "path": "/assets/earth.glb",
-        "position": {
-            "x": -17,
-            "y": -5,
-            "z": 670
-        },
-        "title": "國際新聞／跨國調查",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
-        "section": [
-            "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 0.0075,
-            "y": 0.0075,
-            "z": 0.0075
-        }
-    },
-    {
-        "id": "innovation-8",
-        "path": "/assets/cute_computer_follow_cursor.glb",
+        "path": "/assets/innovations/innovation-7.webm",
         "position": {
             "x": 17,
             "y": 10,
@@ -280,8 +260,8 @@
         }
     },
     {
-        "id": "innovation-9",
-        "path": "/assets/head_phones.glb",
+        "id": "innovation-8",
+        "path": "/assets/innovations/innovation-8.webm",
         "position": {
             "x": 2.9,
             "y": 12,
@@ -300,8 +280,8 @@
         }
     },
     {
-        "id": "innovation-10",
-        "path": "/assets/macbook.glb",
+        "id": "innovation-9",
+        "path": "/assets/innovations/innovation-9.webm",
         "position": {
             "x": 4.9,
             "y": 5,
@@ -320,8 +300,8 @@
         }
     },
     {
-        "id": "innovation-11",
-        "path": "/assets/nintendo_switch.glb",
+        "id": "innovation-10",
+        "path": "/assets/innovations/innovation-10.webm",
         "position": {
             "x": 14,
             "y": 5,

@@ -10,10 +10,10 @@ interface ChallengesSliderProps {
   className?: string;
 }
 
-export default function ChallengesSlider({ 
-  challengeProjects, 
-  onChallengeClick, 
-  className = '' 
+export default function ChallengesSlider({
+  challengeProjects,
+  onChallengeClick,
+  className = ''
 }: ChallengesSliderProps) {
   return (
     <div

@@ -15,10 +15,10 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
       // 循環使用位置配置
       const positionIndex = i % CARD_POSITIONS.length;
       const position = CARD_POSITIONS[positionIndex];
-      
+
       // 循環使用照片檔案
       const imageNumber = PHOTO_CONFIG.startNumber + (i % PHOTO_CONFIG.availableImageCount);
-      
+
       return {
         index: i,
         position,
@@ -31,9 +31,9 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
       <div
         ref={ref}
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh] -z-10 ${className}`}
-        style={{ 
-          transformStyle: 'preserve-3d', 
-          perspective: '2000px' 
+        style={{
+          transformStyle: 'preserve-3d',
+          perspective: '2000px'
         }}
       >
         {photos.map((photo) => (

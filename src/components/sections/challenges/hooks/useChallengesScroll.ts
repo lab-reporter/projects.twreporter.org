@@ -9,32 +9,32 @@ interface UseChallengesScrollProps {
   onChallengeClick: (title: string) => void;
 }
 
-export const useChallengesScroll = ({ 
-  challengeProjects, 
-  onChallengeClick 
+export const useChallengesScroll = ({
+  challengeProjects,
+  onChallengeClick
 }: UseChallengesScrollProps) => {
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     gsap.registerPlugin(ScrollTrigger);
 
     const { CONTAINER_WIDTH_VW, moveDistance, scrollHeight } = calculateScrollParams(challengeProjects.length);
-    
+
     const titlesContainer = document.querySelector('[data-challenges-container]') as HTMLElement;
-    
+
     if (!titlesContainer) return;
-    
+
     // 設置容器寬度
     titlesContainer.style.width = `${CONTAINER_WIDTH_VW}vw`;
 
     // 等待卡片渲染完成
     setTimeout(() => {
       const cards = document.querySelectorAll('#challenges-section .card') as NodeListOf<HTMLElement>;
-      
+
       console.log(`🎯 找到 ${cards.length} 張照片卡片`);
-      
+
       // 設置卡片初始狀態
       cards.forEach((card) => {
         gsap.set(card, {
@@ -48,7 +48,7 @@ export const useChallengesScroll = ({
       challengeTitles.forEach((title) => {
         const clickHandler = () => onChallengeClick(title.textContent || '');
         title.addEventListener('click', clickHandler);
-        
+
         // 儲存handler以便清理
         (title as any)._clickHandler = clickHandler;
       });
@@ -88,7 +88,7 @@ export const useChallengesScroll = ({
           // 標題動畫效果
           document.querySelectorAll('#challenges-section .challenge').forEach((titleContainer) => {
             const challengeTitle = titleContainer.querySelector('.challengeTitle') as HTMLElement;
-            
+
             if (!challengeTitle) return;
 
             if (isAtEdge) {
@@ -138,7 +138,7 @@ export const useChallengesScroll = ({
         scrollTriggerRef.current.kill();
         scrollTriggerRef.current = null;
       }
-      
+
       // 清理點擊事件
       const challengeTitles = document.querySelectorAll('#challenges-section .challengeTitle');
       challengeTitles.forEach((title) => {

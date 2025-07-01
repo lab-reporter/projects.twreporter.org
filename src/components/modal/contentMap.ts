@@ -23,6 +23,12 @@ import Innovation1Content from './contents/Innovation1Content';
 import Innovation2Content from './contents/Innovation2Content';
 import Innovation3Content from './contents/Innovation3Content';
 import Innovation4Content from './contents/Innovation4Content';
+import Innovation5Content from './contents/Innovation5Content';
+import Innovation6Content from './contents/Innovation6Content';
+import Innovation7Content from './contents/Innovation7Content';
+import Innovation8Content from './contents/Innovation8Content';
+import Innovation9Content from './contents/Innovation9Content';
+import Innovation10Content from './contents/Innovation10Content';
 
 // Enhanced 版本
 import EnhancedReports3Content from './contents/EnhancedReports3Content';
@@ -42,16 +48,22 @@ const contentMap: Record<string, ComponentType<ContentProps>> = {
   'reports-10': Reports10Content,
   'reports-11': Reports11Content,
   'reports-12': Reports12Content,
-  
-  // Innovation section - 4 個創新項目
+
+  // Innovation section - 完整的 10 個創新項目
   'innovation-1': Innovation1Content,
   'innovation-2': Innovation2Content,
   'innovation-3': Innovation3Content,
   'innovation-4': Innovation4Content,
-  
+  'innovation-5': Innovation5Content,
+  'innovation-6': Innovation6Content,
+  'innovation-7': Innovation7Content,
+  'innovation-8': Innovation8Content,
+  'innovation-9': Innovation9Content,
+  'innovation-10': Innovation10Content,
+
   // Enhanced 版本（可選用）
   'enhanced-reports-3': EnhancedReports3Content,
-  
+
   // 默認組件
   default: DefaultContent
 };
@@ -66,7 +78,7 @@ export const getContentComponentByProjectId = (projectId: string): ComponentType
   if (contentMap[projectId]) {
     return contentMap[projectId];
   }
-  
+
   return contentMap.default;
 };
 
