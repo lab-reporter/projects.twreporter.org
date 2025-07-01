@@ -1,31 +1,69 @@
 'use client';
 
+import { useRef, useMemo } from 'react';
+import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
-import SectionHeadings from '@/components/shared/SectionHeadings';
+import { useChallengesData } from './hooks/useChallengesData';
+import { useChallengesScroll } from './hooks/useChallengesScroll';
+import ChallengesSlider from './ChallengesSlider';
+import ChallengesBackground from './ChallengesBackground';
+import projectsData from '@/app/data/projects.json';
 
 export default function ChallengesSection() {
+  const { openModal } = useStore();
+  const { challengeProjects } = useChallengesData();
+  const imagesRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  // 計算容器高度：(挑戰數量 + 1) * 100vh
+  const containerHeight = useMemo(() => {
+    const totalSections = challengeProjects.length + 1; // +1 for intro
+    return `${totalSections * 100}vh`;
+  }, [challengeProjects.length]);
+
+  // 註冊 section 狀態追蹤
   useScrollTrigger({
-    sectionId: 'section-challenges',
+    sectionId: 'challenges-section',
     sectionName: 'challenges'
   });
 
+  // 處理挑戰項目點擊
+  const handleChallengeClick = (title: string) => {
+    // 根據標題查找對應的項目數據
+    const projectData = projectsData.find((p: any) =>
+      p.title === title &&
+      p.section &&
+      (p.section.includes('challenge') || p.section === 'challenge')
+    );
+
+    if (projectData) {
+      openModal(projectData.id, projectData);
+    }
+  };
+
+  // 初始化滾動控制
+  useChallengesScroll({
+    challengeProjects,
+    onChallengeClick: handleChallengeClick
+  });
+
   return (
-    <section
-      id="section-challenges"
-      className="w-full h-screen bg-white text-black flex items-center justify-center"
+    <div 
+      className="relative overflow-hidden"
+      style={{ height: containerHeight }}
+      id="challenges-section"
     >
-      <SectionHeadings
-        titleEn="BREAKTHROUGH"
-        titleZh="非營利媒體・突圍"
-      >
-        <p>
-          非營利媒體的10年路，背後是數不清的辯證、碰壁，和重新出發。<br />
-          既有新聞創業與媒體營運甘苦談，也有不同路徑的艱難選擇。<br />
-          一起走進新聞室的幕後，看這條獨立媒體之路的心路歷程。
-        </p>
-      </SectionHeadings>
+      {/* Sticky 容器 */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden">
+        {/* 水平滑動容器 */}
+        <ChallengesSlider
+          challengeProjects={challengeProjects}
+          onChallengeClick={handleChallengeClick}
+        />
 
-
-    </section>
+        {/* 背景照片動畫 */}
+        <ChallengesBackground ref={imagesRef} />
+      </div>
+    </div>
   );
 }

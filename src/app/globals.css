@@ -156,6 +156,11 @@
 }
 
 
+p a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* 專案摘要樣式 */
 .no-list-style {
   list-style: none;

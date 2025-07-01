@@ -345,7 +345,7 @@ export default function Modal() {
         </div>
 
         {/* 關閉按鈕與過度滾動進度圓環 */}
-        <div className="fixed top-[2vh] right-[2vw] z-[10000]">
+        <div className="fixed top-[2vh] right-[0vw] z-[10000]">
           <div className="relative w-12 h-12">
             {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
             {isAtBottom && overScrollDistance > 0 && (() => {
@@ -356,7 +356,7 @@ export default function Modal() {
 
               return (
                 <svg
-                  className="absolute inset-0 w-12 h-12 -rotate-90"
+                  className="absolute inset-0 w-9 h-9 -rotate-90"
                   viewBox="0 0 44 44"
                 >
                   {/* 背景圓環 */}
@@ -388,8 +388,7 @@ export default function Modal() {
             {/* 關閉按鈕 */}
             <button
               onClick={closeModal}
-              className="group absolute inset-0 flex items-center justify-center rounded-full bg-[rgba(255,255,255,0.25)] shadow-md hover:bg-black transition-colors duration-300"
-              aria-label="關閉側邊欄"
+              className="group absolute p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
             >
               <svg
                 width="16"
