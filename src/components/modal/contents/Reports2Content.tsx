@@ -57,19 +57,20 @@ export default function Reports2Content({ projectData, onClose, onNavigate, adja
         </Shared.TextContent>
 
         {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/a/indigenous-land-grab-taiwan">
+        <Shared.ExternalLink href="https://www.twreporter.org/topics/aboriginal-reserve-dispute">
           閱讀完整專題
         </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>
-          <Shared.CreditsItem role="監製" names="李雪莉" />
-          <Shared.CreditsItem role="文字" names={["楊智強", "何柏均", "嚴文廷", "李雪莉"]} />
-          <Shared.CreditsItem role="攝影" names="楊子磊" />
-          <Shared.CreditsItem role="漫畫" names="柳廣成" />
-          <Shared.CreditsItem role="設計" names="黃禹禎" />
-          <Shared.CreditsItem role="專案管理" names="洪琴宣" />
-          <Shared.CreditsItem role="編輯" names={["張詩芸", "陳思樺"]} />
+          <Shared.CreditsItem role="監製" names="何榮幸" />
+          <Shared.CreditsItem role="文字" names={["何柏均", "嚴文廷", "林慧貞", "何榮幸"]} />
+          <Shared.CreditsItem role="攝影" names={["陳曉威", "鄭宇辰", "余志偉"]} />
+          <Shared.CreditsItem role="封面攝影" names="陳曉威" />
+          <Shared.CreditsItem role="漫畫多媒體、設計" names="黃禹禎" />
+          <Shared.CreditsItem role="資料整理與地圖製作" names={["戴淨妍", "柯皓翔", "何柏均"]} />
+          <Shared.CreditsItem role="編輯" names={["張詩芸", "洪琴宣", "陳思樺"]} />
+          <Shared.CreditsItem role="特別感謝" names={["政治大學民族系名譽教授林修澈", "政治大學原住民族研究中心主任黃季平"]} />
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
 

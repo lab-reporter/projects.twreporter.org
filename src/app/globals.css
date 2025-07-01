@@ -160,3 +160,8 @@
 .no-list-style {
   list-style: none;
 }
+
+/* 客製化 cursor 樣式 */
+.cursor-none-custom {
+  cursor: none;
+}

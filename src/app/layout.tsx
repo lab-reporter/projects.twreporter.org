@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC, Roboto_Slab } from 'next/font/google'
 import "./globals.css";
+import CustomCursor from "@/components/shared/CustomCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,6 +65,7 @@ export default function RootLayout({
         className={`${geistSans.className} antialiased font-noto-serif-tc overflow-x-hidden scrollbar-hide`}
       >
         {children}
+        <CustomCursor />
       </body>
     </html>
   );

@@ -151,7 +151,7 @@ export default function ReportsSwiper() {
                             {reportsData.map((item, index) => (
                                 <div
                                     key={item.id}
-                                    className="absolute inset-0 cursor-pointer"
+                                    className="absolute inset-0"
                                     style={{
                                         transformStyle: 'preserve-3d',
                                         transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * translateZMultiplier}vw)`,

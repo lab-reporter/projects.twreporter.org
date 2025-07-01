@@ -83,7 +83,6 @@ export default function Reports1Content({ projectData, onClose, onNavigate, adja
       {/* 導航按鈕 */}
       <Shared.NavigationControls
         onNavigate={onNavigate}
-        onHome={onClose}
         adjacentProjects={adjacentProjects}
       />
     </Shared.Container>

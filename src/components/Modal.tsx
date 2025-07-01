@@ -177,7 +177,7 @@ export default function Modal() {
             // 使用 ref 記錄開始重置時的初始距離
             resetStartDistance.current = overScrollDistance;
             const resetStartTime = Date.now();
-            const resetDuration = 200; // 2秒完全歸零
+            const resetDuration = 200; // 設置重置時間
 
             overScrollResetInterval.current = setInterval(() => {
               const elapsed = Date.now() - resetStartTime;

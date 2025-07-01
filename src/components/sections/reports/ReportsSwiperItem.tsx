@@ -83,12 +83,13 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
 
   return (
     <div
-      className="relative w-full h-full rounded-sm overflow-hidden cursor-pointer group bg-gray-100"
-      style={{ backgroundColor: bgColor || '#F1F1F1' }}
+      className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100"
+      style={{ backgroundColor: bgColor || '#F1F1F1', cursor: 'none' }}
       onClick={handleClick}
+      data-custom-cursor="explore"
     >
       {/* 媒體內容 */}
-      <div className="w-full h-full overflow-hidden relative">
+      <div className="w-full h-full overflow-hidden relative" style={{ cursor: 'none' }}>
         {/* 載入指示器 */}
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
@@ -101,6 +102,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
             ref={videoRef}
             src={path}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            style={{ cursor: 'none' }}
             muted
             loop
             playsInline
@@ -112,6 +114,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
             src={path}
             alt={title}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            style={{ cursor: 'none' }}
             onLoad={handleMediaLoad}
           />
         )}
