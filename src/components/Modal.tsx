@@ -95,18 +95,26 @@ export default function Modal() {
     <>
       {/* 背景遮罩 */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-[9998] transition-opacity duration-300"
-        onClick={closeModal}
+        className="fixed inset-0 bg-black bg-opacity-50 z-[9999] backdrop-blur-lg transition-opacity duration-300"
+        onClick={(e) => {
+          console.log('🎯 背景遮罩被點擊了！', e.target);
+          console.log('🎯 點擊位置:', e.clientX, e.clientY);
+          console.log('🎯 事件目標className:', (e.target as HTMLElement).className);
+          closeModal();
+        }}
       />
 
       {/* 側邊欄主體 - 完全模仿 SidePanel 樣式 */}
-      <div className={`fixed top-0 right-0 h-full w-full px-[5vw] py-[5vh] backdrop-blur-lg z-[9999] transform transition-transform duration-300 ease-in-out ${modal.isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div
+        className={`fixed top-[4vh] left-[4vw] h-[92vh] w-[92vw] backdrop-blur-lg z-[9999] transform transition-transform duration-300 ease-in-out ${modal.isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      >
 
         {/* 內容區域 */}
         <div
           className="relative h-full overflow-y-auto bg-gray-100 shadow-2xl rounded-md"
           style={{ scrollBehavior: 'auto' }}
           ref={scrollContainerRef}
+          onClick={(e) => e.stopPropagation()}
         >
           {/* 內容 */}
           <div className="sidepanel-content">
@@ -114,8 +122,8 @@ export default function Modal() {
           </div>
         </div>
 
-        {/* 關閉按鈕 - 固定在視窗位置，完全模仿 SidePanel */}
-        <div className="fixed top-[7vh] right-[6vw] z-[10000]">
+        {/* 關閉按鈕 */}
+        <div className="fixed top-[2vh] right-[2vw] z-[10000]">
           <div className="relative w-12 h-12">
             <button
               onClick={closeModal}

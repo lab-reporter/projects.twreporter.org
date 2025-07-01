@@ -61,7 +61,7 @@ export default function SectionNavigation() {
   }
 
   return (
-    <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-[9998]">
+    <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-[999]">
       <div className="flex flex-col gap-2">
         {sections.map((section) => (
           <button

@@ -24,7 +24,7 @@ export default function ReportsSwiper() {
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
     // 響應式 slider 尺寸變數
-    const sliderSize = windowWidth < 768 ? 6 : 4.8;
+    const sliderSize = windowWidth < 768 ? 6 : 4;
 
     // 響應式 translateZ 倍數
     const translateZMultiplier = windowWidth < 768 ? 6 : 6;
@@ -67,7 +67,7 @@ export default function ReportsSwiper() {
             scale: 1
         });
 
-        // 使用 ScrollTrigger 控制旋轉
+        // 使用 ScrollTrigger 控制 Carousel 旋轉
         const trigger = ScrollTrigger.create({
             trigger: section,
             start: 'top top',
@@ -127,6 +127,7 @@ export default function ReportsSwiper() {
 
     return (
         <div ref={sectionRef} className="relative h-[500vh] overflow-visible">
+            {/* Sticky */}
             <div className="sticky top-0 w-full h-screen overflow-hidden">
                 <div ref={sliderContainerRef} className="absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                     {/* 3D 輪播部分 */}
@@ -144,10 +145,9 @@ export default function ReportsSwiper() {
                                 width: `${sliderSize * 3}vw`,
                                 height: `${sliderSize * 2}vw`,
                                 transformStyle: 'preserve-3d',
-                                transform: 'perspective(600px) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
+                                transform: 'perspective(35vw) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
                             }}
                         >
-                            {/* 使用 React 組件渲染項目 */}
                             {reportsData.map((item, index) => (
                                 <div
                                     key={item.id}

@@ -47,7 +47,7 @@ export default function ReportsSection() {
   return (
     <section
       id="section-reports"
-      className="relative w-full h-auto text-black flex flex-col items-center justify-center px-8"
+      className="relative w-full h-auto text-black flex flex-col items-center justify-center"
     >
       <div ref={sectionHeadingRef}>
         <SectionHeadings

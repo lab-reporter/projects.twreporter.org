@@ -6,16 +6,16 @@ interface CreditsItemProps {
   className?: string;
 }
 
-export default function CreditsItem({ 
-  role, 
-  names, 
+export default function CreditsItem({
+  role,
+  names,
   className = ''
 }: CreditsItemProps) {
   // 將多個名字用頓號連接 - 完全匹配原始邏輯
   const namesText = Array.isArray(names) ? names.join('、') : names;
 
   return (
-    <div className={`flex items-center text-gray-400 font-noto-sans-tc font-normal whitespace-nowrap ${className}`}>
+    <div className={`flex items-center text-gray-600 font-noto-sans-tc font-normal whitespace-nowrap ${className}`}>
       <span className="mr-2">{role} |</span>
       <span>{namesText}</span>
     </div>
