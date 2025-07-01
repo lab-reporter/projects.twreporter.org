@@ -6,7 +6,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
-import FontDemo from '@/components/shared/FontDemo';
+// import FontDemo from '@/components/shared/FontDemo';
 
 // 2D Section 組件
 import OpeningSection from '@/components/sections/opening/OpeningSection';
