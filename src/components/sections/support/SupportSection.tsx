@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
+import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
 export default function SupportSection() {
@@ -30,6 +31,15 @@ export default function SupportSection() {
 
   // 金額選項
   const amountOptions = [500, 1000, 3000];
+  
+  // 彩帶效果配置
+  const CONFETTI_COLORS = {
+    500: ['#FFC107', '#FF5722', '#03A9F4'],  // 黃橙藍
+    1000: ['#4CAF50', '#9C27B0', '#E91E63'], // 綠紫紅
+    3000: ['#c9a156', '#FF4081', '#3F51B5']  // 金紅藍
+  } as const;
+  
+  const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
   // 使用者選擇的金額
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   // 自訂金額
@@ -39,51 +49,33 @@ export default function SupportSection() {
 
   // 數字動畫效果
   useEffect(() => {
+    if (typeof window === 'undefined' || !supporterRef.current) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !animationStarted) {
             setAnimationStarted(true);
 
-            // 數字動畫邏輯
-            const animationDuration = 3000; // 3秒
-            const startTime = Date.now();
-            const startSupporterValue = 0;
-            const endSupporterValue = finalSupporterCount;
-            const startNextValue = 1;
-            const endNextValue = finalNextSupporterNumber;
-
-            const animate = () => {
-              const currentTime = Date.now();
-              const elapsed = currentTime - startTime;
-              const progress = Math.min(elapsed / animationDuration, 1);
-
-              // 使用 easeOutQuart 緩動函數讓動畫更自然
-              const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-
-              // 計算當前支持者人數
-              const currentSupporterValue = Math.floor(startSupporterValue + (endSupporterValue - startSupporterValue) * easeOutQuart);
-              // 計算當前下一位支持者序號（同步增加）
-              const currentNextValue = Math.floor(startNextValue + (endNextValue - startNextValue) * easeOutQuart);
-
-              setDisplaySupporterCount(currentSupporterValue);
-              setDisplayNextSupporterNumber(currentNextValue);
-
-              if (progress < 1) {
-                requestAnimationFrame(animate);
-              } else {
-                setDisplaySupporterCount(endSupporterValue);
-                setDisplayNextSupporterNumber(endNextValue);
+            // 使用 GSAP 動畫
+            const timeline = gsap.timeline();
+            
+            timeline.to({ count: 0 }, {
+              count: finalSupporterCount,
+              duration: 3,
+              ease: "power2.out",
+              onUpdate: function() {
+                const currentCount = Math.floor(this.targets()[0].count);
+                setDisplaySupporterCount(currentCount);
+                setDisplayNextSupporterNumber(currentCount + 1);
               }
-            };
-
-            requestAnimationFrame(animate);
+            });
           }
         });
       },
       {
-        threshold: 0.3, // 當元件30%進入視窗時觸發
-        rootMargin: '0px 0px -100px 0px' // 提前一些觸發
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
       }
     );
 
@@ -96,19 +88,12 @@ export default function SupportSection() {
         observer.unobserve(supporterRef.current);
       }
     };
-  }, [finalSupporterCount, animationStarted, finalNextSupporterNumber]);
+  }, [finalSupporterCount, animationStarted]);
 
   // 觸發彩帶效果的函數
   const fireConfetti = useCallback((amount: number) => {
-    // 根據金額設定不同的彩帶效果
-    const confettiColors: Record<number, string[]> = {
-      500: ['#FFC107', '#FF5722', '#03A9F4'],  // 黃橙藍
-      1000: ['#4CAF50', '#9C27B0', '#E91E63'], // 綠紫紅
-      3000: ['#c9a156', '#FF4081', '#3F51B5']  // 金紅藍
-    };
-
-    // 獲取當前選擇金額的顏色，或默認顏色
-    const colors = confettiColors[amount] || ['#c9a156', '#FFFFFF', '#888888'];
+    // 獲取當前選擇金額的顏色，或預設顏色
+    const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
     // 基本彩帶效果
     confetti({
@@ -141,7 +126,6 @@ export default function SupportSection() {
 
   // 處理金額選擇
   const handleAmountSelection = (amount: number) => {
-    console.log('Amount selected:', amount);
     setSelectedAmount(amount);
     setCustomAmount('');
     setErrorMessage('');
@@ -169,9 +153,7 @@ export default function SupportSection() {
 
   // 處理立即支持按鈕點擊
   const handleSupport = () => {
-    console.log('Support button clicked');
     const finalAmount = selectedAmount || Number(customAmount);
-    console.log('Final amount:', finalAmount);
 
     // 檢查金額是否有效
     if (!finalAmount) {
