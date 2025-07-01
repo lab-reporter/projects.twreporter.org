@@ -9,7 +9,7 @@ export default function Reports11Content({ projectData, onClose, onNavigate, adj
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/reports-11.png"
+        mediaSrc={projectData.path}
         title="出口禁令下的紅線交易"
         subtitle="揭開MIT工具機流入俄羅斯軍工業隱蹤"
         date="2024.01"

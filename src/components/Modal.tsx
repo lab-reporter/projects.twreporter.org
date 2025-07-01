@@ -345,24 +345,24 @@ export default function Modal() {
         </div>
 
         {/* 關閉按鈕與過度滾動進度圓環 */}
-        <div className="fixed top-[2vh] right-[0vw] z-[10000]">
+        <div className="fixed top-[2vh] right-[1vw] z-[10000]">
           <div className="relative w-12 h-12">
             {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
             {isAtBottom && overScrollDistance > 0 && (() => {
-              const radius = 20;
+              const radius = 18;
               const circumference = 2 * Math.PI * radius;
               const progress = Math.min(overScrollDistance / window.innerHeight, 1);
               const strokeDashoffset = circumference - (progress * circumference);
 
               return (
                 <svg
-                  className="absolute inset-0 w-9 h-9 -rotate-90"
-                  viewBox="0 0 44 44"
+                  className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 -rotate-90"
+                  viewBox="0 0 40 40"
                 >
                   {/* 背景圓環 */}
                   <circle
-                    cx="22"
-                    cy="22"
+                    cx="20"
+                    cy="20"
                     r={radius}
                     fill="none"
                     stroke="rgba(255,255,255,0.2)"
@@ -370,8 +370,8 @@ export default function Modal() {
                   />
                   {/* 進度圓環 */}
                   <circle
-                    cx="22"
-                    cy="22"
+                    cx="20"
+                    cy="20"
                     r={radius}
                     fill="none"
                     stroke="#C40D23"
@@ -388,7 +388,8 @@ export default function Modal() {
             {/* 關閉按鈕 */}
             <button
               onClick={closeModal}
-              className="group absolute p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+              className="
+              group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
             >
               <svg
                 width="16"

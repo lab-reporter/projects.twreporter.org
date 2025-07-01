@@ -1,7 +1,7 @@
 [
     {
         "id": "reports-1",
-        "path": "/assets/reports-1.jpg",
+        "path": "/assets/reports-1.webp",
         "title": "綁債．黑工．留學陷阱",
         "subtitle": "失控的高教技職國際招生",
         "section": [
@@ -11,7 +11,7 @@
     },
     {
         "id": "reports-2",
-        "path": "/assets/reports-2.mp4",
+        "path": "/assets/reports-2.webm",
         "title": "山頭上的掠奪",
         "subtitle": "揭露全台原住民保留地流失亂象",
         "section": [
@@ -21,7 +21,7 @@
     },
     {
         "id": "reports-3",
-        "path": "/assets/reports-3.mp4",
+        "path": "/assets/reports-3.webm",
         "title": "造假．剝削．血淚漁場",
         "subtitle": "跨國直擊台灣遠洋漁業真相",
         "section": [
@@ -31,7 +31,7 @@
     },
     {
         "id": "reports-4",
-        "path": "/assets/reports-4.jpg",
+        "path": "/assets/reports-4.webp",
         "title": "廢墟裡的少年",
         "subtitle": "兩萬名被遺忘的高風險家庭孩子們",
         "section": [
@@ -41,7 +41,7 @@
     },
     {
         "id": "reports-5",
-        "path": "/assets/reports-5.jpg",
+        "path": "/assets/reports-5.webp",
         "title": "六輕營運20年",
         "subtitle": "科學戰爭下的環境難民",
         "section": [
@@ -51,7 +51,7 @@
     },
     {
         "id": "reports-6",
-        "path": "/assets/reports-6.jpg",
+        "path": "/assets/reports-6.webp",
         "title": "國家不願面對的真相",
         "subtitle": "獨家揭露台鐵體檢報告",
         "section": [
@@ -61,7 +61,7 @@
     },
     {
         "id": "reports-7",
-        "path": "/assets/reports-7.mp4",
+        "path": "/assets/reports-7.webm",
         "title": "每天我們失去5個孩子",
         "subtitle": "搶救兒童高死亡率",
         "section": [
@@ -71,7 +71,7 @@
     },
     {
         "id": "reports-8",
-        "path": "/assets/reports-8.mp4",
+        "path": "/assets/reports-8.webm",
         "title": "看不見的線上博弈帝國",
         "subtitle": "中國金主、菲國總部、台灣代工",
         "section": [
@@ -81,7 +81,7 @@
     },
     {
         "id": "reports-9",
-        "path": "/assets/reports-9.jpg",
+        "path": "/assets/reports-9.webp",
         "title": "1年26萬公斤的工業笑氣，如何毒害年輕人？",
         "subtitle": "合法、廉價、24小時到貨",
         "section": [
@@ -91,7 +91,7 @@
     },
     {
         "id": "reports-10",
-        "path": "/assets/reports-10.jpg",
+        "path": "/assets/reports-10.webp",
         "title": "沖繩如何成為台海危機的熱點？",
         "subtitle": "中國虎視下的島鏈",
         "section": [
@@ -101,7 +101,7 @@
     },
     {
         "id": "reports-11",
-        "path": "/assets/reports-11.png",
+        "path": "/assets/reports-11.webp",
         "title": "出口禁令下的紅線交易",
         "subtitle": "揭開MIT工具機流入俄羅斯軍工業隱蹤",
         "section": [
@@ -111,7 +111,7 @@
     },
     {
         "id": "reports-12",
-        "path": "/assets/reports-12.mp4",
+        "path": "/assets/reports-12.webm",
         "title": "獵童風暴",
         "subtitle": "揭開未成年性剝削影像的暗黑產業鏈",
         "section": [

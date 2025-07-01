@@ -9,7 +9,7 @@ export default function Reports7Content({ projectData, onClose, onNavigate, adja
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/reports-7.mp4"
+        mediaSrc={projectData.path}
         title="搶救兒童高死亡率"
         subtitle="每天我們失去5個孩子"
         date="2018.04"

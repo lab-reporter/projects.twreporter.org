@@ -9,7 +9,7 @@ export default function Reports9Content({ projectData, onClose, onNavigate, adja
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/reports-9.jpg"
+        mediaSrc={projectData.path}
         title="1年26萬公斤的工業笑氣，如何毒害年輕人？"
         subtitle="合法、廉價、24小時到貨"
         date="2020.03"

@@ -18,7 +18,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isVideo = path.endsWith('.mp4');
+  const isVideo = path.endsWith('.mp4') || path.endsWith('.webm');
 
   // 當 path 改變時重置載入狀態
   useEffect(() => {

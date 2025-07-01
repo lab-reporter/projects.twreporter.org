@@ -9,7 +9,7 @@ export default function Reports3Content({ projectData, onClose, onNavigate, adja
   return (
     <Shared.Container>
       <Shared.HeroBanner
-        mediaSrc="/assets/reports-3.mp4"
+        mediaSrc={projectData.path}
         title="造假．剝削．血淚漁場"
         subtitle="跨國直擊台灣遠洋漁業真相"
         date="2016.12"
