@@ -189,7 +189,7 @@ export default function InnovationsSection() {
                 onClick={() => handleItemClick(item)}
                 data-custom-cursor="view"
               >
-                <div className="w-full h-full rounded-lg overflow-hidden shadow-xl bg-white">
+                <div className="w-full h-full rounded-lg overflow-hidden">
                   <video
                     src={item.path}
                     autoPlay
