@@ -183,6 +183,17 @@ perf: 優化 GSAP 動畫效能
 
 ## 📝 開發記錄
 
+### **2025-07-01 11:42 (台北時間)**
+- **Modal 系統互動體驗優化完成**
+  - GSAP 開啟/關閉動畫：opacity 0.5→1、scale 0.25→1、rotateY 90°→0°
+  - 3D 透視效果：transformPerspective 500px 增強視覺深度
+  - 滾動進度條：紅色進度條即時顯示滾動位置
+  - Overscroll 關閉機制：滾動超過 100vh 觸發 Modal 關閉
+  - 圓環進度指示器：SVG stroke-dasharray 技術顯示 overscroll 進度
+  - 背景點擊關閉：修復事件冒泡問題，確保點擊背景正常關閉
+  - Reset 機制優化：調整重置時間為 200ms，符合用戶體驗需求
+  - 動畫數據快照：防止關閉動畫期間內容消失，保持視覺連續性
+
 ### **2025-06-30 18:14 (台北時間)**
 - **GSAP ScrollTrigger Playback 機制實作完成**
   - Navigation 動畫添加完整的 playback 機制（onLeave, onEnterBack, onLeaveBack）
@@ -251,4 +262,4 @@ perf: 優化 GSAP 動畫效能
 - **技術路線確立**: dev-2d 分支獨立開發，提升設備兼容性
 
 ---
-*最後更新: 2025-06-30 19:03 - SectionNavigation 顯示機制修復完成，解決 ScrollTrigger 衝突與 active 狀態問題*
+*最後更新: 2025-07-01 11:42 - Modal 系統互動體驗優化完成，包含 GSAP 動畫、滾動進度、overscroll 關閉機制*

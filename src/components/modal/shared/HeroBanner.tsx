@@ -29,7 +29,7 @@ export default function HeroBanner({
 
   return (
     <div className={`relative ${className}`}>
-      <div className="w-full h-[calc(90vh)]">
+      <div className="w-full h-[92vh]">
         {mediaSrc ? (
           // 有媒體來源
           mediaType === 'video' ? (
