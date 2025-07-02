@@ -2,6 +2,7 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import InnovationBanner from '../shared/InnovationBanner';
 
 // 媒體項目介面
 interface MediaItem {
@@ -79,6 +80,13 @@ export default function Innovation1Content({ projectData, onClose, onNavigate, a
 
   return (
     <Shared.Container>
+
+      <InnovationBanner
+        videoSrc={projectData.path}
+        title={projectData.title}
+        subtitle={projectData.subtitle}
+      />
+
       {/* 滾動觸發的媒體與文字系統 */}
       <Shared.ScrollTriggeredMedia
         mediaItems={mediaItems}

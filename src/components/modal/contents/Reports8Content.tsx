@@ -8,7 +8,7 @@ export default function Reports8Content({ projectData, onClose, onNavigate, adja
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="看不見的線上博弈帝國"
         subtitle="中國金主、菲國總部、台灣代工"

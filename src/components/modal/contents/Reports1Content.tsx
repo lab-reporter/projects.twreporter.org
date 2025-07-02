@@ -8,7 +8,7 @@ export default function Reports1Content({ projectData, onClose, onNavigate, adja
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="綁債．黑工．留學陷阱"
         subtitle="失控的高教技職國際招生"

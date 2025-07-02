@@ -12,7 +12,7 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
     { role: '工程', name: '王聖雯' },
     { role: '編輯', name: '劉致昕' },
   ];
-  
+
   // 統計數據
   const stats = [
     { label: '調查期間', value: '12個月', color: 'blue' as const },
@@ -20,17 +20,17 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
     { label: '受訪漁工', value: '30+', color: 'yellow' as const },
     { label: '獲得獎項', value: '國際獎', color: 'red' as const },
   ];
-  
+
   return (
     <Shared.Container>
       {/* Hero Banner */}
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title={projectData.title}
         subtitle={projectData.subtitle}
         date="2019.12.01"
       />
-      
+
       {/* 內容區域 */}
       <Shared.ContentWrapper>
         {/* 項目摘要 */}
@@ -44,7 +44,7 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
           ]}
           stats={stats}
         />
-        
+
         {/* 主要內容 */}
         <Shared.TextContent variant="prose" fontSize="lg">
           <p>
@@ -52,19 +52,19 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
             深入漁船、漁港、加工廠，追蹤台灣遠洋漁業的真實面貌。
             從印尼漁工的家鄉，到太平洋上的漁船，再到歐美的超市貨架。
           </p>
-          
+
           <p>
             調查發現，台灣遠洋漁業涉及系統性的勞權侵害、非法漁撈，
             以及漁獲來源造假等問題，影響全球海洋資源的永續發展。
           </p>
-          
+
           <h3>調查方法與過程</h3>
           <p>
             記者團隊採用多重驗證的調查方法，包括實地訪談、
             文件分析、數據比對等，確保報導的準確性和客觀性。
           </p>
         </Shared.TextContent>
-        
+
         {/* 影片播放器示例 */}
         {projectData.path && projectData.path.includes('.mp4') && (
           <div className="my-8">
@@ -78,7 +78,7 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
             />
           </div>
         )}
-        
+
         {/* 外部連結 */}
         <Shared.ExternalLink
           href="https://www.twreporter.org/topics/far-sea-fishing-investigative-report"
@@ -87,7 +87,7 @@ export default function EnhancedReports3Content({ projectData, onClose }: Conten
         >
           閱讀完整調查報導
         </Shared.ExternalLink>
-        
+
         {/* 製作團隊 */}
         <Shared.CreditsMarquee title="製作團隊">
           {credits.map((credit, index) => (

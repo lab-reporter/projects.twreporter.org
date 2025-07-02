@@ -8,7 +8,7 @@ export default function Reports5Content({ projectData, onClose, onNavigate, adja
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="石化工廠旁的環境難民"
         subtitle="六輕營運20年"

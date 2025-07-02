@@ -8,7 +8,7 @@ export default function Reports10Content({ projectData, onClose, onNavigate, adj
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="中國虎視下的島鏈"
         subtitle="沖繩如何成為台海危機的熱點？"

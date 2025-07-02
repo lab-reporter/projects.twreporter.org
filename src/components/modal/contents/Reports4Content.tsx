@@ -8,7 +8,7 @@ export default function Reports4Content({ projectData, onClose, onNavigate, adja
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="廢墟裡的少年"
         subtitle="兩萬名被遺忘的高風險家庭孩子們"

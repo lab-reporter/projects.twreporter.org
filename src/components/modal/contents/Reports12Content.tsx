@@ -8,7 +8,7 @@ export default function Reports12Content({ projectData, onClose, onNavigate, adj
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="獵童風暴"
         subtitle="揭開未成年性剝削影像的暗黑產業鏈"

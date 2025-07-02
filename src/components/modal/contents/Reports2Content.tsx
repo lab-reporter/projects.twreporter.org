@@ -11,7 +11,7 @@ export default function Reports2Content({ projectData, onClose, onNavigate, adja
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="山頭上的掠奪"
         subtitle="揭露全台原住民保留地流失亂象"

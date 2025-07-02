@@ -5,7 +5,7 @@ export { default as Container } from './Container';
 export { default as ContentWrapper } from './ContentWrapper';
 
 // 媒體展示組件
-export { default as HeroBanner } from './HeroBanner';
+export { default as ReportBanner } from './ReportBanner';
 export { default as MediaDisplay } from './MediaDisplay';
 export { default as VideoPlayer } from './VideoPlayer';
 export { default as ScrollTriggeredMedia } from './ScrollTriggeredMedia';
@@ -23,6 +23,3 @@ export { default as NavigationControls } from './NavigationControls';
 // 特殊效果組件
 export { default as CreditsMarquee } from './CreditsMarquee';
 export { default as CreditsItem } from './CreditsItem';
-
-// 保持向後兼容
-export { default as ReportBanner } from './ReportBanner';

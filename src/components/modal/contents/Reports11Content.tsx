@@ -8,7 +8,7 @@ export default function Reports11Content({ projectData, onClose, onNavigate, adj
 
   return (
     <Shared.Container>
-      <Shared.HeroBanner
+      <Shared.ReportBanner
         mediaSrc={projectData.path}
         title="出口禁令下的紅線交易"
         subtitle="揭開MIT工具機流入俄羅斯軍工業隱蹤"
