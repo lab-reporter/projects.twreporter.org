@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 export default function LoadingScreen() {
   const { isLoading, setLoadingProgress } = useStore()
   const [showLoading, setShowLoading] = useState(true)
-  
+
   // 快速完成載入，直接進入 Section 1 開場動畫
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,7 +15,7 @@ export default function LoadingScreen() {
 
     return () => clearTimeout(timer);
   }, [setLoadingProgress]);
-  
+
   useEffect(() => {
     if (!isLoading) {
       const timer = setTimeout(() => {
@@ -24,15 +24,14 @@ export default function LoadingScreen() {
       return () => clearTimeout(timer)
     }
   }, [isLoading])
-  
+
   if (!showLoading) return null
-  
+
   return (
-    <div className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-500 ${
-      isLoading ? 'opacity-100' : 'opacity-0'
-    }`}>
+    <div className={`fixed inset-0 z-[10000] bg-white flex items-center justify-center transition-opacity duration-500 ${isLoading ? 'opacity-100' : 'opacity-0'
+      }`}>
       {/* 簡潔的載入畫面，準備進入 Section 1 開場動畫 */}
-      <div className="text-center text-white">
+      <div className="text-center text-black">
         <div className="text-3xl font-light mb-4">報導者</div>
         <div className="text-lg text-gray-400">十週年回顧</div>
         <div className="mt-8">
