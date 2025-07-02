@@ -31,7 +31,7 @@ export default function FeedbacksSection() {
     <section
       // 頁面錨點 ID
       id="section-feedbacks"
-      className="w-full h-screen bg-black text-white flex flex-col justify-center items-center"
+      className="w-full h-screen text-white flex flex-col justify-center items-center"
     >
       {/* 標題區域：頁面主要標題 */}
       <div className="text-center mb-8">

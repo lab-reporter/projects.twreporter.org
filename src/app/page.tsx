@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/stores';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
@@ -17,6 +17,8 @@ import SupportSection from '@/components/sections/support/SupportSection';
 export default function Home() {
   // 從全域狀態取得目前頁面章節
   const { currentSection } = useStore();
+  // DOM 元素參考：主要內容區域，用於背景顏色動畫
+  const mainRef = useRef<HTMLElement>(null);
 
   // 初始化 GSAP 動畫套件和 ScrollTrigger 滾動觸發器
   useEffect(() => {
@@ -32,8 +34,40 @@ export default function Home() {
         // 註冊 ScrollTrigger 外掛程式
         gsap.registerPlugin(ScrollTrigger);
 
+        // 設定背景顏色切換動畫
+        const setupBackgroundAnimation = () => {
+          const mainElement = mainRef.current;
+          if (!mainElement) return;
+
+          // 建立背景顏色切換觸發器：FeedbacksSection 區域
+          ScrollTrigger.create({
+            // 觸發元素：FeedbacksSection
+            trigger: '#section-feedbacks',
+            // 開始觸發點：章節頂部到達視窗 90% 處
+            start: 'top 70%',
+            // 結束觸發點：章節頂部到達視窗 60% 處
+            end: 'top 40%',
+            // 滾動時執行的動畫
+            scrub: true,
+            // 動畫更新回調
+            markers: true,
+            onUpdate: (self) => {
+              // 根據滾動進度計算背景色透明度
+              const progress = self.progress;
+              // 設定背景色：從透明漸變到黑色
+              gsap.set(mainElement, {
+                backgroundColor: `rgba(0, 0, 0, ${progress})`
+              });
+            },
+            // 動畫識別 ID
+            id: 'main-background-animation'
+          });
+        };
+
+        // 執行背景動畫設定
+        setupBackgroundAnimation();
+
         // 延遲執行：等待所有組件完成渲染後刷新觸發器
-        // 等待時間
         setTimeout(() => {
           // 重新計算所有滾動觸發點
           ScrollTrigger.refresh();
@@ -43,6 +77,14 @@ export default function Home() {
 
     // 執行初始化函數
     initScrollTrigger();
+
+    // 清理函數：組件卸載時移除背景動畫觸發器
+    return () => {
+      if (typeof window !== 'undefined') {
+        const { ScrollTrigger } = require('gsap/ScrollTrigger');
+        ScrollTrigger.getById('main-background-animation')?.kill();
+      }
+    };
     // 空依賴陣列：只在組件首次載入時執行
   }, []);
 
@@ -53,7 +95,7 @@ export default function Home() {
       <LoadingScreen />
 
       {/* 主要內容區域：包含所有頁面章節 */}
-      <main className="relative w-full">
+      <main ref={mainRef} className="relative w-full transition-colors duration-300">
         <OpeningSection />
         <ReportsSection />
         <InnovationsSection />

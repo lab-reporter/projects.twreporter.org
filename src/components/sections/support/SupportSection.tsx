@@ -237,7 +237,7 @@ export default function SupportSection() {
     <section
       // 頁面錨點 ID
       id="section-support"
-      className="w-full min-h-screen bg-black text-white flex flex-col justify-center items-center px-8 py-20"
+      className="w-full min-h-screen text-white flex flex-col justify-center items-center px-8 py-20"
     >
       {/* 標題區塊：說明支持的重要性 */}
       <div className="text-center mb-8 leading-normal max-w-4xl">
