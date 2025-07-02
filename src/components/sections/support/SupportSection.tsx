@@ -5,68 +5,85 @@ import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 
+// 支持頁面主要組件
 export default function SupportSection() {
+  // 使用滾動觸發器來監控當前頁面位置
   useScrollTrigger({
     sectionId: 'section-support',
     sectionName: 'support'
   });
 
-  // 共用變數：總支持人數（最終目標數字）
+  // 狀態變數：目前的支持者總數（固定數值，不會改變）
   const [finalSupporterCount] = useState(7964);
-  // 動畫顯示的支持人數
+  // 狀態變數：動畫過程中顯示的支持人數（從0開始遞增）
   const [displaySupporterCount, setDisplaySupporterCount] = useState(0);
-  // 動畫顯示的下一位支持者序號
+  // 狀態變數：動畫過程中顯示的下一位支持者序號
   const [displayNextSupporterNumber, setDisplayNextSupporterNumber] = useState(1);
-  // 動畫是否已經開始
+  // 狀態變數：記錄數字動畫是否已經執行過
   const [animationStarted, setAnimationStarted] = useState(false);
-  // ref 用於 Intersection Observer
+  // DOM 元素參考：用於偵測元素是否進入視窗範圍
   const supporterRef = useRef(null);
 
-  // 最終的下一位支持者序號（用於計算進度條等）
+  // 計算值：下一位支持者的序號（當前支持者數量加一）
   const finalNextSupporterNumber = finalSupporterCount + 1;
-  // 目標支持人數
+  // 常數：目標支持者人數上限
   const targetSupporters = 10000;
-  // 進度百分比（使用最終數字計算）
+  // 計算值：目前進度的百分比（用於進度條顯示）
   const progressPercentage = (finalSupporterCount / targetSupporters) * 100;
 
-  // 金額選項
+  // 常數：預設的金額選項按鈕
   const amountOptions = [500, 1000, 3000];
-  
-  // 彩帶效果配置
+
+  // 常數：各金額對應的彩帶顏色配置
   const CONFETTI_COLORS = {
-    500: ['#FFC107', '#FF5722', '#03A9F4'],  // 黃橙藍
-    1000: ['#4CAF50', '#9C27B0', '#E91E63'], // 綠紫紅
-    3000: ['#c9a156', '#FF4081', '#3F51B5']  // 金紅藍
+    500: ['#FFC107', '#FF5722', '#03A9F4'],
+    1000: ['#4CAF50', '#9C27B0', '#E91E63'],
+    3000: ['#c9a156', '#FF4081', '#3F51B5']
   } as const;
-  
+
+  // 常數：未指定金額時的預設彩帶顏色
   const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
-  // 使用者選擇的金額
+
+  // 狀態變數：使用者選擇的預設金額（可為空值）
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
-  // 自訂金額
+  // 狀態變數：使用者輸入的自訂金額文字
   const [customAmount, setCustomAmount] = useState('');
-  // 錯誤訊息
+  // 狀態變數：表單驗證錯誤訊息
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 數字動畫效果
+  // 副作用：設定數字計數動畫效果
   useEffect(() => {
+    // 檢查是否在瀏覽器環境且 DOM 元素存在
     if (typeof window === 'undefined' || !supporterRef.current) return;
-    
+
+    // 建立觀察器：偵測元素是否進入視窗範圍
     const observer = new IntersectionObserver(
       (entries) => {
+        // 遍歷所有被觀察的元素
         entries.forEach((entry) => {
+          // 當元素進入視窗且動畫尚未開始時
           if (entry.isIntersecting && !animationStarted) {
+            // 標記動畫已開始（避免重複執行）
             setAnimationStarted(true);
 
-            // 使用 GSAP 動畫
+            // 建立 GSAP 時間軸動畫
             const timeline = gsap.timeline();
-            
+
+            // 執行數字遞增動畫
             timeline.to({ count: 0 }, {
+              // 動畫目標數值
               count: finalSupporterCount,
+              // 動畫執行時間
               duration: 3,
+              // 緩動函數類型
               ease: "power2.out",
-              onUpdate: function() {
+              // 動畫更新時的回調函數
+              onUpdate: function () {
+                // 取得當前動畫數值（無條件捨去）
                 const currentCount = Math.floor(this.targets()[0].count);
+                // 更新顯示的支持者人數
                 setDisplaySupporterCount(currentCount);
+                // 更新顯示的下一位支持者序號
                 setDisplayNextSupporterNumber(currentCount + 1);
               }
             });
@@ -74,114 +91,155 @@ export default function SupportSection() {
         });
       },
       {
+        // 元素進入視窗的觸發比例
         threshold: 0.3,
+        // 觸發範圍的邊界調整
         rootMargin: '0px 0px -100px 0px'
       }
     );
 
+    // 開始觀察指定的 DOM 元素
     if (supporterRef.current) {
       observer.observe(supporterRef.current);
     }
 
+    // 清理函數：組件卸載時停止觀察
     return () => {
       if (supporterRef.current) {
         observer.unobserve(supporterRef.current);
       }
     };
+    // 依賴變數：當這些值改變時重新執行
   }, [finalSupporterCount, animationStarted]);
 
-  // 觸發彩帶效果的函數
+  // 記憶化函數：觸發慶祝彩帶動畫效果
   const fireConfetti = useCallback((amount: number) => {
-    // 獲取當前選擇金額的顏色，或預設顏色
+    // 根據金額取得對應的顏色配置，無對應時使用預設顏色
     const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
-    // 基本彩帶效果
+    // 第一階段：中央基本彩帶效果
     confetti({
+      // 彩帶粒子數量
       particleCount: 100,
+      // 散佈角度範圍
       spread: 70,
+      // 發射起始位置（垂直方向）
       origin: { y: 0.6 },
+      // 使用對應金額的顏色
       colors: colors,
+      // 支援減少動畫的無障礙設定
       disableForReducedMotion: true
     });
 
-    // 更華麗的效果：左右兩側噴發
+    // 第二階段：延遲執行左右兩側噴發效果
     setTimeout(() => {
+      // 左側彩帶噴發
       confetti({
+        // 粒子數量
         particleCount: 50,
+        // 噴發角度
         angle: 60,
+        // 散佈範圍
         spread: 55,
+        // 發射位置（左側）
         origin: { x: 0.2, y: 0.6 },
+        // 使用相同顏色配置
         colors: colors
       });
 
+      // 右側彩帶噴發
       confetti({
+        // 粒子數量
         particleCount: 50,
+        // 噴發角度（向左）
         angle: 120,
+        // 散佈範圍
         spread: 55,
+        // 發射位置（右側）
         origin: { x: 0.8, y: 0.6 },
+        // 使用相同顏色配置
         colors: colors
       });
+      // 延遲執行時間
     }, 250);
+    // 空依賴陣列：函數內容不依賴外部變數
   }, []);
 
-  // 處理金額選擇
+  // 事件處理函數：處理預設金額按鈕的點擊
   const handleAmountSelection = (amount: number) => {
+    // 設定選中的金額
     setSelectedAmount(amount);
+    // 清空自訂金額輸入框
     setCustomAmount('');
+    // 清除錯誤訊息
     setErrorMessage('');
 
-    // 觸發彩帶效果
+    // 播放慶祝彩帶動畫
     fireConfetti(amount);
   };
 
-  // 處理自訂金額輸入
+  // 事件處理函數：處理自訂金額輸入框的變更
   const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 取得輸入框的新值
     const value = e.target.value;
-    // 確保只能輸入數字
+    // 驗證輸入：只允許空值或純數字
     if (value === '' || /^\d+$/.test(value)) {
+      // 更新自訂金額狀態
       setCustomAmount(value);
+      // 清除預設金額選擇
       setSelectedAmount(null);
 
-      // 如果輸入了數字且金額小於 100，顯示錯誤訊息
+      // 金額驗證：檢查是否達到最低金額要求
       if (value !== '' && Number(value) < 100) {
+        // 顯示最低金額錯誤訊息
         setErrorMessage('請輸入至少 100 元');
       } else {
+        // 清除錯誤訊息
         setErrorMessage('');
       }
     }
+    // 註：不符合數字格式的輸入會被忽略
   };
 
-  // 處理立即支持按鈕點擊
+  // 事件處理函數：處理立即支持按鈕的點擊
   const handleSupport = () => {
+    // 決定最終金額：優先使用預設金額，否則使用自訂金額
     const finalAmount = selectedAmount || Number(customAmount);
 
-    // 檢查金額是否有效
+    // 第一層驗證：檢查是否有選擇任何金額
     if (!finalAmount) {
       setErrorMessage('請選擇或輸入金額');
+      // 中止執行
       return;
     }
 
-    // 檢查自訂金額是否達到最低要求
+    // 第二層驗證：檢查自訂金額是否符合最低要求
     if (!selectedAmount && finalAmount < 100) {
       setErrorMessage('請輸入至少 100 元');
+      // 中止執行
       return;
     }
 
-    // 構建支持頁面的 URL
+    // 建構外部支持網站的 URL（包含金額參數）
     const supportUrl = `https://support.twreporter.org/authenticate?frequency=monthly&amount=${finalAmount}`;
 
-    // 另開視窗導向支持頁面
+    // 在新分頁開啟支持頁面（安全設定：防止反向連結攻擊）
     window.open(supportUrl, '_blank', 'noopener,noreferrer');
   };
 
-  // 確認是否可以點擊立即支持按鈕
+  // 計算值：判斷立即支持按鈕是否可點擊
+  // 條件：有選擇預設金額 或 (有輸入自訂金額 且 金額達到最低要求)
   const canSupport = selectedAmount || (customAmount && Number(customAmount) >= 100);
 
+  // 組件渲染輸出
   return (
+    // 主要頁面區塊：支持頁面
     <section
+      // 頁面錨點 ID
       id="section-support"
       className="w-full min-h-screen bg-black text-white flex flex-col justify-center items-center px-8 py-20"
     >
+      {/* 標題區塊：說明支持的重要性 */}
       <div className="text-center mb-8 leading-normal max-w-4xl">
         <h3 className="text-white text-xl mb-2">為了投入足夠資源產製深度報導、開發多元產品</h3>
         <h2 className="text-white text-2xl mb-4">讓報導者永續發展、小額捐款占9成</h2>
@@ -193,37 +251,41 @@ export default function SupportSection() {
         <h4 className="text-white text-lg">幫助我們度過下一個十年的種種挑戰</h4>
       </div>
 
-      {/* 進度條區域 */}
+      {/* 進度條區域：視覺化顯示目前支持進度 */}
       <div className="w-4/5 max-w-[1000px] h-6 bg-gray-800 rounded-xl overflow-hidden relative shadow-[0_0_20px_5px_rgba(201,161,86,0.3)] mb-4">
+        {/* 進度條內部填充：根據達成百分比動態調整寬度 */}
         <div
           className="h-full bg-[#c9a156] rounded-xl absolute top-0 left-0 transition-all duration-500 ease-in-out"
           style={{ width: `${progressPercentage}%` }}
         ></div>
       </div>
 
-      {/* 目前支持人數 */}
+      {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
+      {/* 綁定 ref 用於動畫觸發偵測 */}
       <div ref={supporterRef} className="text-center mb-8">
         <p className="text-white text-base mb-6 opacity-80">
           現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
         </p>
 
-        {/* 主標題 */}
+        {/* 主要呼籲標題 */}
         <h1 className="text-white text-5xl font-bold mb-4">
           成為第{displayNextSupporterNumber.toLocaleString()}位定期定額支持者
         </h1>
       </div>
 
-      {/* 副標題 */}
+      {/* 副標題：情感呼籲 */}
       <p className="text-white text-2xl mb-12 max-w-[700px] text-gray-300 text-center">
         和我們一起開創深度報導的媒體道路
       </p>
 
-      {/* 金額選擇區域 */}
+      {/* 表單區域：金額選擇與輸入 */}
       <div className="flex flex-col items-center w-full max-w-[700px]">
+        {/* 表單標籤：說明捐款類型 */}
         <div className="text-lg mb-6 bg-gray-200 text-black py-3 px-8 rounded-full">
           每月定額
         </div>
 
+        {/* 預設金額按鈕群組 */}
         <div className="flex justify-center gap-4 mb-6 w-full">
           {amountOptions.map((amount) => (
             <button
@@ -240,6 +302,7 @@ export default function SupportSection() {
           ))}
         </div>
 
+        {/* 自訂金額輸入區域 */}
         <div className="flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
           <input
             type="text"
@@ -248,15 +311,16 @@ export default function SupportSection() {
             placeholder="自訂金額"
             className="w-full bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
           />
+          {/* 金額單位標示 */}
           <span className="absolute right-4 text-gray-500">元/月</span>
         </div>
 
-        {/* 錯誤訊息 */}
+        {/* 錯誤訊息顯示區域（條件渲染） */}
         {errorMessage && (
           <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
         )}
 
-        {/* 立即支持按鈕 */}
+        {/* 主要行動按鈕：立即支持 */}
         <button
           type="button"
           onClick={handleSupport}

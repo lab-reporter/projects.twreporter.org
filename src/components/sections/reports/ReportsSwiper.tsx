@@ -6,159 +6,230 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import ReportsSwiperItem from './ReportsSwiperItem';
 
+// 報導項目的資料結構定義
 interface ReportItem {
+    // 項目唯一識別碼
     id: string;
+    // 項目媒體檔案路徑
     path: string;
+    // 項目標題
     title: string;
-    subtitle?: string; // 修改為可選屬性，解決 TypeScript 類型錯誤
+    // 項目副標題（可選）
+    subtitle?: string;
+    // 項目所屬章節陣列
     section: string[];
+    // 項目背景顏色（可選）
     bgColor?: string;
 }
 
+// 報導輪播組件主函數
 export default function ReportsSwiper() {
+    // DOM 元素參考：輪播容器的旋轉外框
     const sliderWrapperRef = useRef<HTMLDivElement>(null);
+    // DOM 元素參考：整個章節區域
     const sectionRef = useRef<HTMLDivElement>(null);
+    // DOM 元素參考：輪播展示容器
     const sliderContainerRef = useRef<HTMLDivElement>(null);
 
+    // 狀態變數：當前顯示的輪播項目索引
     const [currentSlide, setCurrentSlide] = useState(0);
+    // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
-    // 響應式 slider 尺寸變數
+    // 計算值：根據螢幕寬度決定輪播尺寸（手機版較大，桌面版較小）
     const sliderSize = windowWidth < 768 ? 6 : 4;
 
-    // 響應式 translateZ 倍數
+    // 計算值：3D 深度位移的倍數係數
     const translateZMultiplier = windowWidth < 768 ? 6 : 6;
 
-    // 過濾出 reports section 的項目
+    // 資料篩選：從專案資料中篩選出報導章節的項目
     const reportsData: ReportItem[] = projectsData.filter((item: any) =>
         item.section.includes('reports')
     );
 
-    // 監聽視窗大小變化
+    // 副作用：監聽瀏覽器視窗大小變化
     useEffect(() => {
+        // 檢查是否在瀏覽器環境中運行
         if (typeof window === 'undefined') return;
 
+        // 事件處理函數：更新視窗寬度狀態
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
         };
 
+        // 註冊視窗大小變化監聽器
         window.addEventListener('resize', handleResize);
+        // 立即執行一次以獲取初始寬度
         handleResize();
 
+        // 清理函數：移除事件監聽器
         return () => {
             window.removeEventListener('resize', handleResize);
         };
+        // 空依賴陣列：只在組件載入時執行一次
     }, []);
 
+    // 副作用：設定 3D 輪播的滾動觸發動畫
     useEffect(() => {
+        // 檢查是否在瀏覽器環境中運行
         if (typeof window === 'undefined') return;
 
+        // 註冊 ScrollTrigger 外掛程式
         gsap.registerPlugin(ScrollTrigger);
 
+        // 取得所需的 DOM 元素參考
         const sliderWrapper = sliderWrapperRef.current;
         const section = sectionRef.current;
         const sliderContainer = sliderContainerRef.current;
 
+        // 確保所有必要元素都存在
         if (!section || !sliderWrapper || !sliderContainer) return;
 
-        // 設定初始狀態
+        // 設定輪播容器的初始顯示狀態
         gsap.set(sliderContainer, {
+            // 完全不透明
             opacity: 1,
+            // 正常大小
             scale: 1
         });
 
-        // 使用 ScrollTrigger 控制 Carousel 旋轉
+        // 建立滾動觸發器：控制 3D 輪播旋轉動畫
         const trigger = ScrollTrigger.create({
+            // 觸發元素：整個章節區域
             trigger: section,
+            // 開始觸發點：章節頂部到達視窗頂部
             start: 'top top',
+            // 結束觸發點：章節底部離開視窗底部
             end: 'bottom bottom',
+            // 動畫與滾動同步程度（數值越大越平滑）
             scrub: 2,
+            // 關閉開發標記
             markers: false,
+            // 滾動更新時的回調函數
             onUpdate: (self) => {
+                // 計算輪播項目的總數量
                 const totalItems = reportsData.length;
+                // 計算每個項目間的角度間隔
                 const anglePerItem = 360 / totalItems;
 
-                // 設定緩衝區
+                // 設定滾動範圍的緩衝區域（避免過快切換）
                 const startBuffer = 0.025;
                 const endBuffer = 0.025;
                 const activeRange = 1 - startBuffer - endBuffer;
 
+                // 初始化當前項目索引
                 let currentIndex = 0;
 
+                // 根據滾動進度計算當前應顯示的項目
                 if (self.progress <= startBuffer) {
+                    // 滾動進度在起始緩衝區內：顯示第一個項目
                     currentIndex = 0;
                 } else if (self.progress >= (1 - endBuffer)) {
+                    // 滾動進度在結束緩衝區內：顯示最後一個項目
                     currentIndex = totalItems - 1;
                 } else {
+                    // 滾動進度在主要範圍內：根據進度計算項目索引
                     const adjustedProgress = (self.progress - startBuffer) / activeRange;
                     currentIndex = Math.round(adjustedProgress * (totalItems - 1));
+                    // 確保索引在有效範圍內
                     currentIndex = Math.max(0, Math.min(currentIndex, totalItems - 1));
                 }
 
+                // 計算目標旋轉角度（負值表示順時針旋轉）
                 const targetRotation = -currentIndex * anglePerItem;
 
+                // 執行輪播容器的旋轉動畫
                 gsap.to(sliderWrapper, {
+                    // Y軸旋轉角度
                     rotateY: targetRotation,
+                    // 動畫持續時間
                     duration: 0.3,
+                    // 緩動函數
                     ease: "power2.out",
+                    // 覆寫模式：自動取消衝突的動畫
                     overwrite: 'auto'
                 });
 
+                // 更新當前顯示項目的狀態
                 setCurrentSlide(currentIndex);
             },
+            // 滾動觸發器識別 ID
             id: 'reports-trigger'
         });
 
+        // 清理函數：組件卸載時移除滾動觸發器
         return () => {
             trigger.kill();
         };
+        // 依賴變數：當這些值改變時重新建立動畫
     }, [reportsData, sliderSize, translateZMultiplier]);
 
+    // 計算值：取得當前顯示的報導項目資料
     const currentItem = reportsData[currentSlide] || reportsData[0];
 
-    // 計算哪些項目應該播放影片（當前項目和前後相鄰項目）
+    // 函數：判斷指定索引的影片是否應該播放
+    // 策略：當前項目及其前後相鄰項目才播放影片（效能最佳化）
     const shouldPlayVideo = (index: number) => {
+        // 取得項目總數
         const totalItems = reportsData.length;
+        // 計算前一個項目的索引（環形結構）
         const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
+        // 計算下一個項目的索引（環形結構）
         const nextIndex = (currentSlide + 1) % totalItems;
 
+        // 回傳是否為當前項目或相鄰項目
         return index === currentSlide || index === prevIndex || index === nextIndex;
     };
 
+    // 組件渲染輸出
     return (
+        // 主容器：設定總體滾動高度以提供足夠的滾動空間
         <div ref={sectionRef} className="relative h-[500vh] overflow-visible">
-            {/* Sticky */}
+            {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen overflow-hidden">
+                {/* 輪播展示容器：居中定位 */}
                 <div ref={sliderContainerRef} className="absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    {/* 3D 輪播部分 */}
+                    {/* 3D 輪播展示區域 */}
                     <div className="w-full h-screen text-center overflow-hidden"
                         style={{
+                            // 初始 3D 變換狀態
                             transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
                         }}
                     >
+                        {/* 3D 輪播旋轉容器：實際執行旋轉動畫的元素 */}
                         <div
                             ref={sliderWrapperRef}
                             className="absolute z-10"
                             style={{
+                                // 動態計算容器位置和尺寸（響應式）
                                 top: `calc(50% - ${sliderSize * 1}vw)`,
                                 left: `calc(50% - ${sliderSize * 1.5}vw)`,
                                 width: `${sliderSize * 3}vw`,
                                 height: `${sliderSize * 2}vw`,
+                                // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
+                                // 設定 3D 透視和初始變換
                                 transform: 'perspective(35vw) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
                             }}
                         >
+                            {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
                             {reportsData.map((item, index) => (
+                                // 單個報導項目容器
                                 <div
                                     key={item.id}
                                     className="absolute inset-0"
                                     style={{
+                                        // 保持 3D 變換樣式
                                         transformStyle: 'preserve-3d',
+                                        // 計算每個項目在圓形輪播中的位置
+                                        // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
                                         transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * translateZMultiplier}vw)`,
+                                        // 設定項目尺寸
                                         width: '100%',
                                         height: '100%'
                                     }}
                                 >
+                                    {/* 報導項目內容組件 */}
                                     <ReportsSwiperItem
                                         id={item.id}
                                         path={item.path}
@@ -174,11 +245,13 @@ export default function ReportsSwiper() {
                     </div>
                 </div>
 
-                {/* 顯示當前項目資訊 */}
+                {/* 當前項目資訊展示區域：顯示在輪播下方 */}
                 <div className="absolute w-full bottom-16 transform text-center flex flex-col items-center justify-center">
+                    {/* 當前項目標題 */}
                     <h2 className="text-4xl font-bold mb-2 text-gray-800">
                         {currentItem?.title || ''}
                     </h2>
+                    {/* 當前項目副標題 */}
                     <p className="text-xl text-gray-600">
                         {currentItem?.subtitle || ''}
                     </p>
