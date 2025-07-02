@@ -12,6 +12,7 @@ export interface ContentProps {
   onClose: () => void;
   onNavigate?: (direction: 'prev' | 'next') => void;
   adjacentProjects: AdjacentProjects;
+  scrollContainer?: HTMLElement | null;
 }
 
 export interface AdjacentProjects {

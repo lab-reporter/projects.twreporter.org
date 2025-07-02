@@ -75,15 +75,16 @@ const textBlocks: TextBlock[] = [
   }
 ];
 
-export default function Innovation1Content({ projectData, onClose, onNavigate, adjacentProjects }: ContentProps) {
+export default function Innovation1Content({ projectData, onClose, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
   if (!projectData) return null;
 
   return (
     <Shared.Container>
       {/* 滾動觸發的媒體與文字系統 */}
-      <ScrollTriggeredMedia 
+      <ScrollTriggeredMedia
         mediaItems={mediaItems}
         textBlocks={textBlocks}
+        scrollContainer={scrollContainer}
       />
 
       {/* 導航按鈕 */}

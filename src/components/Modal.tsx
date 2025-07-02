@@ -298,6 +298,7 @@ export default function Modal() {
           onClose={closeModal}
           onNavigate={handleNavigate}
           adjacentProjects={adjacentProjects}
+          scrollContainer={scrollContainerRef.current}
         />
       </div>
     );

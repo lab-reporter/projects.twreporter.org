@@ -37,113 +37,24 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
   const videoRefs = useRef<Record<string, HTMLVideoElement>>({});
   // DOM 元素參考：文字觸發器陣列
   const textTriggersRef = useRef<HTMLDivElement[]>([]);
-  
-  // Debug 狀態
-  const [debugInfo, setDebugInfo] = useState({
-    currentTextInView: '',
-    currentMedia: '',
-    scrollPosition: 0,
-    containerHeight: 0,
-    triggerStates: [] as any[]
-  });
 
-  // Debug: 滾動監聽器
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
 
-    let actualScrollContainer = scrollContainer;
-    if (!actualScrollContainer) {
-      actualScrollContainer = document.querySelector('.sidepanel-content')?.parentElement as HTMLElement;
-    }
-
-    if (!actualScrollContainer) return;
-
-    let debugInterval: NodeJS.Timeout;
-
-    const updateDebugInfo = () => {
-      const containerRect = actualScrollContainer!.getBoundingClientRect();
-      const containerCenter = containerRect.top + containerRect.height / 2;
-      
-      // 找到當前在中央的文字區塊
-      let currentTextInView = '';
-      const triggerStates = textBlocks.map((block, index) => {
-        const textElement = textTriggersRef.current[index];
-        if (!textElement) return { blockId: block.id, inView: false, distance: 999 };
-        
-        const textRect = textElement.getBoundingClientRect();
-        const textCenter = textRect.top + textRect.height / 2;
-        const distance = Math.abs(textCenter - containerCenter);
-        const inView = distance < containerRect.height / 2;
-        
-        if (inView && distance < 100) { // 最接近中央的文字
-          currentTextInView = block.id;
-        }
-        
-        return {
-          blockId: block.id,
-          mediaId: block.mediaId,
-          inView,
-          distance: Math.round(distance),
-          textCenter: Math.round(textCenter),
-          containerCenter: Math.round(containerCenter)
-        };
-      });
-
-      const currentMedia = mediaItems.find(item => item.id === currentMediaId);
-      
-      const newDebugInfo = {
-        currentTextInView,
-        currentMedia: currentMedia ? `${currentMedia.id} (${currentMedia.type})` : 'none',
-        scrollPosition: Math.round(actualScrollContainer!.scrollTop),
-        containerHeight: Math.round(containerRect.height),
-        triggerStates
-      };
-
-      setDebugInfo(newDebugInfo);
-
-      // Console 輸出調試資訊
-      console.log('=== ScrollTriggered Media Debug ===');
-      console.log(`當前顯示媒體: ${newDebugInfo.currentMedia}`);
-      console.log(`最近中央文字: ${newDebugInfo.currentTextInView}`);
-      console.log(`滾動位置: ${newDebugInfo.scrollPosition}px / 容器高度: ${newDebugInfo.containerHeight}px`);
-      console.table(newDebugInfo.triggerStates.map(state => ({
-        '文字ID': state.blockId,
-        '對應媒體': state.mediaId,
-        '在視窗內': state.inView ? '✓' : '✗',
-        '距離中心': `${state.distance}px`,
-        '文字中心位置': `${state.textCenter}px`,
-        '容器中心位置': `${state.containerCenter}px`
-      })));
-      console.log('=====================================');
-    };
-
-    // 每200ms更新一次debug資訊
-    debugInterval = setInterval(updateDebugInfo, 200);
-    
-    return () => {
-      if (debugInterval) clearInterval(debugInterval);
-    };
-  }, [textBlocks, mediaItems, currentMediaId, scrollContainer]);
 
   // 副作用：設定 ScrollTrigger 動畫
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
-    // 尋找滾動容器：如果沒有傳入，則查找最近的可滾動父元素
-    let actualScrollContainer = scrollContainer;
-    if (!actualScrollContainer) {
-      // 查找 Modal 的滾動容器
-      actualScrollContainer = document.querySelector('.sidepanel-content')?.parentElement as HTMLElement;
-      if (!actualScrollContainer) {
-        actualScrollContainer = window as any;
-      }
-    }
 
     // 註冊 ScrollTrigger 外掛程式
     gsap.registerPlugin(ScrollTrigger);
 
     // 延遲設定觸發器，確保 DOM 元素已正確渲染
     const setupTriggers = () => {
+      // 尋找滾動容器：優先使用傳入的容器，否則查找 Modal 的滾動容器
+      let actualScrollContainer = scrollContainer;
+      if (!actualScrollContainer) {
+        // 查找 Modal 的滾動容器
+        actualScrollContainer = document.querySelector('.sidepanel-content')?.parentElement as HTMLElement;
+      }
 
       // 建立每個文字區塊的滾動觸發器
       const triggers = textBlocks.map((block, index) => {
@@ -155,8 +66,8 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
         return ScrollTrigger.create({
           // 觸發元素：對應的文字區塊
           trigger: textElement,
-          // 指定滾動容器：使用 Modal 內部的滾動容器而非視窗
-          scroller: actualScrollContainer,
+          // 指定滾動容器：使用找到的容器，如果找不到則使用默認（window）
+          scroller: actualScrollContainer || undefined,
           // 開始觸發點：文字區塊中心點到達容器中心
           start: 'center center',
           // 結束觸發點：文字區塊中心點離開容器中心向上
@@ -171,36 +82,38 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           },
           // 動畫識別 ID
           id: `media-trigger-${block.id}`,
-          // 開發時顯示標記
           // 防止初始觸發
           refreshPriority: 1
         });
       });
 
-      return triggers;
+      return triggers.filter(trigger => trigger !== null);
     };
 
     // 延遲執行以確保 DOM 完全渲染
     const timeoutId = setTimeout(() => {
       // 確保初始狀態正確（顯示第一個媒體）
-      setCurrentMediaId(textBlocks[0]?.mediaId || mediaItems[0]?.id || '');
+      const initialMediaId = textBlocks[0]?.mediaId || mediaItems[0]?.id || '';
+      setCurrentMediaId(initialMediaId);
 
       const triggers = setupTriggers();
 
-      // 刷新 ScrollTrigger 以正確計算位置
-      ScrollTrigger.refresh();
+      // 延遲刷新以確保佈局完成
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
 
       // 清理函數：移除所有觸發器
       return () => {
         triggers.forEach(trigger => trigger?.kill());
       };
-    }, 200);
+    }, 500); // 增加延遲時間確保 Modal 完全載入
 
     // 立即清理函數
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [textBlocks, scrollContainer]);
+  }, [textBlocks, scrollContainer, mediaItems]);
 
   // 副作用：處理影片播放控制
   useEffect(() => {
@@ -215,7 +128,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
     if (currentMedia?.type === 'video') {
       const currentVideo = videoRefs.current[currentMediaId];
       if (currentVideo) {
-        currentVideo.play().catch(() => {});
+        currentVideo.play().catch(() => { });
       }
     }
   }, [currentMediaId, mediaItems]);
@@ -257,42 +170,6 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
 
   return (
     <>
-      {/* Debug 表格 */}
-      <div className="fixed top-4 left-4 z-50 bg-black bg-opacity-80 text-white p-4 rounded-lg text-xs max-w-[600px] overflow-hidden">
-        <h3 className="text-yellow-400 font-bold mb-2">ScrollTriggered Media Debug</h3>
-        <div className="mb-2">
-          <span className="text-green-400">當前顯示媒體：</span> {debugInfo.currentMedia}
-        </div>
-        <div className="mb-2">
-          <span className="text-blue-400">最近中央文字：</span> {debugInfo.currentTextInView}
-        </div>
-        <div className="mb-2">
-          <span className="text-purple-400">滾動位置：</span> {debugInfo.scrollPosition}px / 容器高度：{debugInfo.containerHeight}px
-        </div>
-        
-        <table className="w-full text-xs border-collapse">
-          <thead>
-            <tr className="border-b border-gray-600">
-              <th className="text-left p-1">文字ID</th>
-              <th className="text-left p-1">對應媒體</th>
-              <th className="text-left p-1">在視窗內</th>
-              <th className="text-left p-1">距離中心</th>
-              <th className="text-left p-1">文字中心位置</th>
-            </tr>
-          </thead>
-          <tbody>
-            {debugInfo.triggerStates.map((state, index) => (
-              <tr key={index} className={`border-b border-gray-700 ${state.inView ? 'bg-green-900' : ''} ${debugInfo.currentTextInView === state.blockId ? 'bg-yellow-900' : ''}`}>
-                <td className="p-1">{state.blockId}</td>
-                <td className="p-1">{state.mediaId}</td>
-                <td className="p-1">{state.inView ? '✓' : '✗'}</td>
-                <td className="p-1">{state.distance}px</td>
-                <td className="p-1">{state.textCenter}px</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
       {/* 媒體顯示區域：固定在背景 */}
       <div ref={mediaContainerRef} className="fixed w-full h-[92vh] overflow-hidden z-0">
