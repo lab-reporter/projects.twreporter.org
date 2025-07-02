@@ -50,7 +50,6 @@ export default function Home() {
             // 滾動時執行的動畫
             scrub: true,
             // 動畫更新回調
-            markers: true,
             onUpdate: (self) => {
               // 根據滾動進度計算背景色透明度
               const progress = self.progress;

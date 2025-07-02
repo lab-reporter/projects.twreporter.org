@@ -28,13 +28,11 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
   // 點擊事件處理器 - 開啟對應的 Modal
   const handleClick = () => {
     if (projectData) {
-      console.log('🔗 點擊報導項目:', title, '(ID:', id, ')');
       openModal(id, projectData);
     }
   };
 
   const handleMediaLoad = () => {
-    console.log('✅ 媒體載入成功:', title);
     setIsLoading(false);
   };
 
@@ -60,9 +58,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
         // 應該播放：啟動播放
         const startPlayback = () => {
           video.play().then(() => {
-            console.log('✅ 影片開始播放:', title);
           }).catch((error) => {
-            console.warn('⚠️ 播放失敗:', title, error);
           });
         };
 
@@ -75,7 +71,6 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
         // 不應該播放：暫停影片
         video.pause();
         video.currentTime = 0; // 重置到開始位置
-        console.log('⏸️ 影片暫停（效能優化）:', title);
       }
     }
   }, [isVideo, isLoading, shouldPlay, title]);

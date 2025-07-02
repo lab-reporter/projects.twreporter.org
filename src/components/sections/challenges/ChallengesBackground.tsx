@@ -40,11 +40,6 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
       containerRef
     });
 
-    // 開發環境顯示載入進度
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`📸 照片載入進度: ${loadedPhotosCount}/${totalPhotos}`);
-    }
-
     return (
       <div
         ref={containerRef}

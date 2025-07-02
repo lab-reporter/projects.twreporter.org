@@ -33,8 +33,6 @@ export const useChallengesScroll = ({
     setTimeout(() => {
       const cards = document.querySelectorAll('#challenges-section .card') as NodeListOf<HTMLElement>;
 
-      console.log(`🎯 找到 ${cards.length} 張照片卡片`);
-
       // 設置卡片初始狀態
       cards.forEach((card) => {
         gsap.set(card, {
