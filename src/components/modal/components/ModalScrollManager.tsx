@@ -22,9 +22,18 @@ export default function ModalScrollManager({
     const [scrollProgress, setScrollProgress] = useState(0);
     const [overScrollDistance, setOverScrollDistance] = useState(0);
     const [isAtBottom, setIsAtBottom] = useState(false);
+    const [hasScrolledAfterReachingBottom, setHasScrolledAfterReachingBottom] = useState(false);
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
+
+    // 使用 ref 來追蹤最新狀態，避免閉包問題
+    const isAtBottomRef = useRef(false);
+    const hasScrolledAfterReachingBottomRef = useRef(false);
+    const overScrollDistanceRef = useRef(0);
+    const reachedBottomTimeRef = useRef<number>(0); // 記錄到達底部的時間
+    const lastWheelTimeRef = useRef<number>(0); // 記錄最後一次滾輪事件時間
+    const cooldownPeriod = 300; // 冷卻期時間（毫秒）
 
     // 當 Modal 內容改變時，重置滾動位置到頂部
     useEffect(() => {
@@ -33,6 +42,14 @@ export default function ModalScrollManager({
             setScrollProgress(0);
             setOverScrollDistance(0);
             setIsAtBottom(false);
+            setHasScrolledAfterReachingBottom(false);
+
+            // 同時更新 ref
+            isAtBottomRef.current = false;
+            hasScrolledAfterReachingBottomRef.current = false;
+            overScrollDistanceRef.current = 0;
+            reachedBottomTimeRef.current = 0;
+            lastWheelTimeRef.current = 0;
 
             // 清理計時器
             if (overScrollResetInterval.current) {
@@ -62,11 +79,28 @@ export default function ModalScrollManager({
 
             // 檢測是否到達底部（容許1px誤差）
             const atBottom = scrollTop >= maxScroll - 1;
-            setIsAtBottom(atBottom);
+            const wasAtBottom = isAtBottomRef.current;
 
-            // 如果不在底部，重置過度滾動距離
+            setIsAtBottom(atBottom);
+            isAtBottomRef.current = atBottom;
+
+            // 如果剛到達底部，重置緩衝狀態並記錄時間
+            if (atBottom && !wasAtBottom) {
+                const now = Date.now();
+                reachedBottomTimeRef.current = now;
+                console.log('🏁 剛到達底部 - 重置緩衝狀態，記錄時間:', now);
+                setHasScrolledAfterReachingBottom(false);
+                hasScrolledAfterReachingBottomRef.current = false;
+            }
+
+            // 如果不在底部，重置過度滾動距離和緩衝狀態
             if (!atBottom) {
                 setOverScrollDistance(0);
+                setHasScrolledAfterReachingBottom(false);
+                overScrollDistanceRef.current = 0;
+                hasScrolledAfterReachingBottomRef.current = false;
+                reachedBottomTimeRef.current = 0;
+                lastWheelTimeRef.current = 0;
                 if (overScrollResetInterval.current) {
                     clearInterval(overScrollResetInterval.current);
                     overScrollResetInterval.current = null;
@@ -76,17 +110,45 @@ export default function ModalScrollManager({
 
         // 處理過度滾動（在底部時的滾輪事件）
         const handleWheel = (e: WheelEvent) => {
-            if (!isAtBottom) return;
-
-            // 只處理向下滾動
+            // 只處理向下滑動
             if (e.deltaY > 0) {
+                const now = Date.now();
+
+                // 確保當前在底部
+                if (!isAtBottomRef.current) {
+                    console.log('🚫 當前未在底部，忽略 overscroll 檢測');
+                    return; // 允許正常滾動，不處理 overscroll
+                }
+
+                // 檢查冷卻期：剛到達底部後需要等待冷卻期
+                const timeSinceReachedBottom = now - reachedBottomTimeRef.current;
+                if (timeSinceReachedBottom < cooldownPeriod) {
+                    console.log('❄️ 冷卻期內，忽略 overscroll 檢測，時間差:', timeSinceReachedBottom + 'ms');
+                    lastWheelTimeRef.current = now; // 更新最後滾輪時間
+                    return; // 冷卻期內忽略
+                }
+
+                lastWheelTimeRef.current = now;
+                console.log('⚡ 處理 overscroll，deltaY:', e.deltaY);
                 e.preventDefault(); // 阻止默認滾動行為
 
-                // 更新最後滾動時間
-                lastScrollTime.current = Date.now();
+                // 如果還沒有進行過"緩衝滑動"，設置緩衝狀態但不累積距離
+                if (!hasScrolledAfterReachingBottomRef.current) {
+                    console.log('🎯 緩衝滑動啟動 - 第一次滑動');
+                    setHasScrolledAfterReachingBottom(true);
+                    hasScrolledAfterReachingBottomRef.current = true;
+                    return; // 第一次滑動只是啟動緩衝，不累積距離
+                }
 
-                const newDistance = overScrollDistance + Math.abs(e.deltaY);
+                // 已經進行過緩衝滑動，開始累積overscroll距離
+                console.log('🔥 開始累積 overscroll 距離:', Math.abs(e.deltaY));
+                // 更新最後滾動時間
+                lastScrollTime.current = now;
+
+                const newDistance = overScrollDistanceRef.current + Math.abs(e.deltaY);
                 setOverScrollDistance(newDistance);
+                overScrollDistanceRef.current = newDistance;
+                console.log('📏 當前累積距離:', newDistance, '/ 目標:', window.innerHeight);
 
                 // 檢查是否達到關閉閾值（100vh）
                 const viewportHeight = window.innerHeight;
@@ -124,11 +186,11 @@ export default function ModalScrollManager({
                 overScrollResetInterval.current = null;
             }
         };
-    }, [scrollContainer, isModalOpen, isAtBottom, overScrollDistance, onClose]);
+    }, [scrollContainer, isModalOpen, onClose]);
 
     // 管理過度滾動重置計時器 - 在滾動停止500ms後開始重置
     useEffect(() => {
-        if (overScrollDistance > 0 && isAtBottom) {
+        if (overScrollDistance > 0 && isAtBottom && hasScrolledAfterReachingBottom) {
             // 啟動檢查計時器，每100ms檢查一次是否停止滾動
             const checkTimer = setInterval(() => {
                 const now = Date.now();
@@ -177,7 +239,7 @@ export default function ModalScrollManager({
                 overScrollResetInterval.current = null;
             }
         }
-    }, [overScrollDistance, isAtBottom]);
+    }, [overScrollDistance, isAtBottom, hasScrolledAfterReachingBottom]);
 
     return (
         <>
@@ -204,7 +266,7 @@ export default function ModalScrollManager({
             <div className="fixed top-[2vh] right-[1vw] z-[10000]">
                 <div className="relative w-12 h-12">
                     {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
-                    {isAtBottom && overScrollDistance > 0 && (() => {
+                    {isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
                         const radius = 18;
                         const circumference = 2 * Math.PI * radius;
                         const progress = Math.min(overScrollDistance / window.innerHeight, 1);
