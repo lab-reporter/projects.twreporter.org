@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useMemo } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import SectionHeadings from '@/components/shared/SectionHeadings';
+import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -200,7 +201,7 @@ export default function InnovationsSection() {
                     style={{ pointerEvents: 'none' }}
                   />
                   {/* 項目資訊覆蓋層 */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-end">
+                  <div className="absolute inset-0 hover:border hover:border-red-70 transition-all duration-300 flex items-end">
                     <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
                       <h3 className="text-lg font-bold">{item.title}</h3>
                       <p className="text-sm opacity-80">{item.subtitle}</p>
@@ -212,15 +213,7 @@ export default function InnovationsSection() {
           </div>
 
           {/* 當前項目資訊顯示 */}
-          {currentItem && (
-            <div className="absolute bottom-[15%] left-1/2 transform -translate-x-1/2 z-30 bg-white bg-opacity-90 backdrop-blur-md border border-gray-200 rounded-lg p-6 text-center max-w-md">
-              <h3 className="text-2xl font-bold mb-2 text-black">{currentItem.title}</h3>
-              <p className="text-gray-600">{currentItem.subtitle}</p>
-              <div className="mt-4 text-sm text-gray-500">
-                點擊項目查看詳細內容
-              </div>
-            </div>
-          )}
+          <CurrentItemDisplay currentItem={currentItem} />
         </div>
       </div>
     </div>

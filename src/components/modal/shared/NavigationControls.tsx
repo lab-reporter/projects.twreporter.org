@@ -17,7 +17,7 @@ export default function NavigationControls({
 }: NavigationControlsProps) {
 
   return (
-    <div className={`w-full flex justify-center px-8 gap-4 my-8 ${className}`}>
+    <div className={`w-full relative z-10 flex justify-center py-16 gap-4 ${className}`}>
       {/* 上一個按鈕 */}
       {adjacentProjects.prev ? (
         <button
@@ -27,18 +27,10 @@ export default function NavigationControls({
           上一則
         </button>
       ) : (
-        <div className="px-8 py-2 bg-gray-100 border-[1px] border-gray-200 text-gray-400 cursor-not-allowed">
+        <div className="px-8 py-2 bg-gray-200 border-[1px] border-gray-300 text-gray-400 cursor-not-allowed">
           上一則
         </div>
       )}
-
-      {/* 回到首頁按鈕，目前停用 */}
-      {/* <div
-        onClick={onHome}
-        className="px-8 py-2 bg-white border-[1px] border-gray-300 transition-colors duration-300 hover:bg-gray-700 hover:text-white cursor-pointer"
-      >
-        回到首頁
-      </div> */}
 
       {/* 下一個按鈕 */}
       {adjacentProjects.next ? (
@@ -49,7 +41,7 @@ export default function NavigationControls({
           下一則
         </button>
       ) : (
-        <div className="px-8 py-2 bg-gray-100 border-[1px] border-gray-200 text-gray-400 cursor-not-allowed">
+        <div className="px-8 py-2 bg-gray-200 border-[1px] border-gray-300 text-gray-400 cursor-not-allowed">
           下一則
         </div>
       )}

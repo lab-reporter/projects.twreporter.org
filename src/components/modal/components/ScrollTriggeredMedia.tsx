@@ -69,9 +69,10 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           // 指定滾動容器：使用找到的容器，如果找不到則使用默認（window）
           scroller: actualScrollContainer || undefined,
           // 開始觸發點：文字區塊中心點到達容器中心
-          start: 'center center',
+          start: 'top 90%',
           // 結束觸發點：文字區塊中心點離開容器中心向上
-          end: 'center center-=1',
+          end: 'top 90%',
+          // markers: true,
           // 進入時執行：切換到對應媒體
           onEnter: () => {
             setCurrentMediaId(block.mediaId);
@@ -136,12 +137,12 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
   // 渲染媒體元素
   const renderMedia = (media: MediaItem) => {
     const isActive = media.id === currentMediaId;
-    const baseStyles = "w-full h-full absolute top-0 left-0 transition-opacity duration-500";
+    const baseStyles = "w-full h-full absolute top-0 left-0 transition-opacity duration-1000";
     const visibilityStyles = isActive ? "opacity-100 z-10" : "opacity-0 z-0";
 
     if (media.type === 'video') {
       return (
-        <div key={media.id} className={`${baseStyles} ${visibilityStyles}`}>
+        <div key={media.id} className={`p-[2.5%] ${baseStyles} ${visibilityStyles}`}>
           <video
             ref={el => {
               if (el) videoRefs.current[media.id] = el;
@@ -149,7 +150,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             src={media.src}
             muted
             loop
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             style={{ display: isActive ? 'block' : 'none' }}
           />
         </div>
@@ -169,10 +170,9 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
   };
 
   return (
-    <>
-
+    <div>
       {/* 媒體顯示區域：固定在背景 */}
-      <div ref={mediaContainerRef} className="fixed w-full h-[92vh] overflow-hidden z-0">
+      <div ref={mediaContainerRef} className="sticky top-0 w-full h-[92vh] overflow-hidden z-0">
         {mediaItems.map(media => renderMedia(media))}
       </div>
 
@@ -186,12 +186,12 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             }}
             className="w-full h-screen flex justify-center items-center"
           >
-            <div className="px-4 py-2 max-w-[20rem] bg-white bg-opacity-70 backdrop-blur-lg border border-black rounded-lg">
+            <div className="px-4 py-2 max-w-[20rem] bg-white bg-opacity-70 backdrop-blur-md border border-white rounded-lg">
               {block.text}
             </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

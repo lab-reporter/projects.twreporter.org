@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
+import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
 
 // 報導項目的資料結構定義
@@ -246,16 +247,7 @@ export default function ReportsSwiper() {
                 </div>
 
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
-                <div className="absolute w-full bottom-16 transform text-center flex flex-col items-center justify-center">
-                    {/* 當前項目標題 */}
-                    <h2 className="text-4xl font-bold mb-2 text-gray-800">
-                        {currentItem?.title || ''}
-                    </h2>
-                    {/* 當前項目副標題 */}
-                    <p className="text-xl text-gray-600">
-                        {currentItem?.subtitle || ''}
-                    </p>
-                </div>
+                <CurrentItemDisplay currentItem={currentItem} />
             </div>
         </div>
     );
