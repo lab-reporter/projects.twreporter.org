@@ -33,7 +33,11 @@ export default function ModalScrollManager({
     const overScrollDistanceRef = useRef(0);
     const reachedBottomTimeRef = useRef<number>(0); // 記錄到達底部的時間
     const lastWheelTimeRef = useRef<number>(0); // 記錄最後一次滾輪事件時間
+    const lastScrollTopRef = useRef<number>(0); // 記錄上次滾動位置
+    const scrollVelocityRef = useRef<number>(0); // 記錄滾動速度
+    const isInertiaScrollingRef = useRef(false); // 是否正在慣性滾動
     const cooldownPeriod = 300; // 冷卻期時間（毫秒）
+    const inertiaThreshold = 800; // 慣性滾動檢測閾值（毫秒）
 
     // 當 Modal 內容改變時，重置滾動位置到頂部
     useEffect(() => {
@@ -50,6 +54,9 @@ export default function ModalScrollManager({
             overScrollDistanceRef.current = 0;
             reachedBottomTimeRef.current = 0;
             lastWheelTimeRef.current = 0;
+            lastScrollTopRef.current = 0;
+            scrollVelocityRef.current = 0;
+            isInertiaScrollingRef.current = false;
 
             // 清理計時器
             if (overScrollResetInterval.current) {
@@ -67,15 +74,35 @@ export default function ModalScrollManager({
         const handleScroll = () => {
             const { scrollTop, scrollHeight, clientHeight } = container;
             const maxScroll = scrollHeight - clientHeight;
+            const now = Date.now();
 
-            // 計算滾動進度
+            // 先立即更新滾動進度，避免延遲
             let progress = 0;
             if (maxScroll > 0) {
                 progress = scrollTop / maxScroll;
             }
             const clampedProgress = Math.min(Math.max(progress, 0), 1);
-
             setScrollProgress(clampedProgress);
+
+            // 計算滾動速度（像素/毫秒）- 移到進度更新後
+            const timeDelta = now - (lastScrollTime.current || now);
+            const scrollDelta = Math.abs(scrollTop - lastScrollTopRef.current);
+            if (timeDelta > 0) {
+                scrollVelocityRef.current = scrollDelta / timeDelta;
+            }
+            
+            lastScrollTopRef.current = scrollTop;
+            lastScrollTime.current = now;
+
+            // 檢測是否正在慣性滾動（速度較高且持續滾動）
+            const isHighVelocity = scrollVelocityRef.current > 2; // 速度閾值
+            if (isHighVelocity) {
+                isInertiaScrollingRef.current = true;
+                // 延遲重置慣性滾動狀態
+                setTimeout(() => {
+                    isInertiaScrollingRef.current = false;
+                }, inertiaThreshold);
+            }
 
             // 檢測是否到達底部（容許1px誤差）
             const atBottom = scrollTop >= maxScroll - 1;
@@ -86,9 +113,8 @@ export default function ModalScrollManager({
 
             // 如果剛到達底部，重置緩衝狀態並記錄時間
             if (atBottom && !wasAtBottom) {
-                const now = Date.now();
                 reachedBottomTimeRef.current = now;
-                console.log('🏁 剛到達底部 - 重置緩衝狀態，記錄時間:', now);
+                console.log('🏁 剛到達底部 - 重置緩衝狀態，記錄時間:', now, '慣性滾動:', isInertiaScrollingRef.current);
                 setHasScrolledAfterReachingBottom(false);
                 hasScrolledAfterReachingBottomRef.current = false;
             }
@@ -101,6 +127,7 @@ export default function ModalScrollManager({
                 hasScrolledAfterReachingBottomRef.current = false;
                 reachedBottomTimeRef.current = 0;
                 lastWheelTimeRef.current = 0;
+                isInertiaScrollingRef.current = false;
                 if (overScrollResetInterval.current) {
                     clearInterval(overScrollResetInterval.current);
                     overScrollResetInterval.current = null;
@@ -118,6 +145,13 @@ export default function ModalScrollManager({
                 if (!isAtBottomRef.current) {
                     console.log('🚫 當前未在底部，忽略 overscroll 檢測');
                     return; // 允許正常滾動，不處理 overscroll
+                }
+
+                // 檢查是否正在慣性滾動
+                if (isInertiaScrollingRef.current) {
+                    console.log('🌀 慣性滾動中，忽略 overscroll 檢測');
+                    lastWheelTimeRef.current = now;
+                    return; // 慣性滾動期間忽略
                 }
 
                 // 檢查冷卻期：剛到達底部後需要等待冷卻期
@@ -253,7 +287,7 @@ export default function ModalScrollManager({
                 {/* 滾動進度條 */}
                 <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
                     <div
-                        className="h-full bg-red-70 transition-all duration-300 ease-out"
+                        className="h-full bg-red-70"
                         style={{ width: `${scrollProgress * 100}%` }}
                     ></div>
                 </div>
