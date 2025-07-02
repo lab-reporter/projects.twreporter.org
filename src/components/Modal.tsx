@@ -20,25 +20,40 @@ export default function Modal() {
   const lastScrollTime = useRef<number>(0);
   const resetStartDistance = useRef<number>(0);
 
-  // 篩選所有報導項目用於 NavigationControls
-  const allReports = useMemo(() => {
-    return projectsData.filter((p: any) =>
-      p.section && (Array.isArray(p.section) ? p.section.includes('reports') : p.section === 'reports')
-    );
-  }, []);
+  // 根據當前項目的 section 篩選同類型項目用於 NavigationControls
+  const sameTypeProjects = useMemo(() => {
+    // 導航時使用最新的 modal.data，只有在動畫期間才使用快照
+    const dataToUse = modal.data;
+    if (!dataToUse) {
+      return [];
+    }
 
-  // 計算相鄰項目 - 使用快照數據在動畫期間保持數據
+    // 取得當前項目的第一個 section
+    const currentSection = Array.isArray(dataToUse.section)
+      ? dataToUse.section[0]
+      : dataToUse.section;
+
+    // 篩選相同 section 的項目
+    return projectsData.filter((p: any) => {
+      if (!p.section) return false;
+      const pSection = Array.isArray(p.section) ? p.section[0] : p.section;
+      return pSection === currentSection;
+    });
+  }, [modal.data]);
+
+  // 計算相鄰項目 - 使用最新數據計算
   const adjacentProjects = useMemo(() => {
-    const dataToUse = modalDataSnapshot || modal.data;
-    if (!dataToUse || (!modal.isOpen && !shouldRender)) {
+    const dataToUse = modal.data;
+    if (!dataToUse) {
       return { prev: null, next: null };
     }
-    return getAdjacentProjects(dataToUse, allReports as any);
-  }, [modalDataSnapshot, modal.data, modal.isOpen, shouldRender, allReports]);
+    return getAdjacentProjects(dataToUse, sameTypeProjects as any);
+  }, [modal.data, sameTypeProjects]);
 
   // 處理導航
   const handleNavigate = (direction: 'prev' | 'next') => {
     const targetProject = direction === 'prev' ? adjacentProjects.prev : adjacentProjects.next;
+
     if (targetProject) {
       openModal(targetProject.id, targetProject);
     }
@@ -57,8 +72,6 @@ export default function Modal() {
         clearInterval(overScrollResetInterval.current);
         overScrollResetInterval.current = null;
       }
-
-      console.log('🔄 Modal 滾動位置已重置到頂部');
     }
   }, [modal.data?.id, modal.contentId, modal.isOpen]);
 
@@ -228,14 +241,20 @@ export default function Modal() {
     };
   }, [modal.isOpen]);
 
-  // Modal 開啟/關閉動畫
+  // Modal 開啟/關閉動畫 和 數據變更處理
   useEffect(() => {
     const modalBody = modalBodyRef.current;
 
     if (modal.isOpen) {
-      // 保存當前 modal 數據快照
+      // 更新數據快照（包含導航時的數據變更）
       setModalDataSnapshot(modal.data);
-      // 立即顯示組件
+
+      // 如果 Modal 已經顯示中，直接更新內容，不需要動畫
+      if (shouldRender) {
+        return;
+      }
+
+      // 首次開啟時顯示組件
       setShouldRender(true);
 
       // 等待下一幀再開始動畫，確保 DOM 已渲染
@@ -279,7 +298,7 @@ export default function Modal() {
         });
       }
     }
-  }, [modal.isOpen, shouldRender]);
+  }, [modal.isOpen, modal.data, shouldRender]);
 
   if (!shouldRender) return null;
 

@@ -24,9 +24,10 @@ interface ScrollTriggeredMediaProps {
   mediaItems: MediaItem[];
   textBlocks: TextBlock[];
   scrollContainer?: HTMLElement | null;
+  navigationControls?: React.ReactNode;
 }
 
-export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollContainer }: ScrollTriggeredMediaProps) {
+export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollContainer, navigationControls }: ScrollTriggeredMediaProps) {
   // 狀態變數：當前顯示的媒體 ID（初始化為第一個文字區塊對應的媒體）
   const [currentMediaId, setCurrentMediaId] = useState(() => {
     return textBlocks[0]?.mediaId || mediaItems[0]?.id || '';
@@ -191,6 +192,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             </div>
           </div>
         ))}
+        {navigationControls}
       </div>
     </div>
   );

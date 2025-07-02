@@ -2,7 +2,6 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import ScrollTriggeredMedia from '../components/ScrollTriggeredMedia';
 
 // 媒體項目介面
 interface MediaItem {
@@ -81,7 +80,7 @@ export default function Innovation1Content({ projectData, onClose, onNavigate, a
   return (
     <Shared.Container>
       {/* 滾動觸發的媒體與文字系統 */}
-      <ScrollTriggeredMedia
+      <Shared.ScrollTriggeredMedia
         mediaItems={mediaItems}
         textBlocks={textBlocks}
         scrollContainer={scrollContainer}

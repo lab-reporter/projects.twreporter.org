@@ -13,16 +13,16 @@ export const getAdjacentProjects = (
   if (!currentProject || !allProjects || allProjects.length === 0) {
     return { prev: null, next: null };
   }
-  
+
   const currentIndex = allProjects.findIndex(project => project.id === currentProject.id);
-  
+
   if (currentIndex === -1) {
     return { prev: null, next: null };
   }
-  
+
   const prev = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
   const next = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
-  
+
   return { prev, next };
 };
 
@@ -49,7 +49,7 @@ export const getAdjacentProject = (
  */
 export const isVideoProject = (project: ReportData): boolean => {
   if (!project.path) return false;
-  
+
   const fileExtension = project.path.split('.').pop()?.toLowerCase() || '';
   const videoFormats = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'ogg'];
   return videoFormats.includes(fileExtension);
@@ -66,6 +66,6 @@ export const formatProjectTags = (sections: string[]): string[] => {
     'innovation': '多元創新',
     'challenge': '挑戰'
   };
-  
+
   return sections.map(section => tagMap[section] || section);
 };
