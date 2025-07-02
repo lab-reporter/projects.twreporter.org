@@ -213,7 +213,12 @@ export default function InnovationsSection() {
           </div>
 
           {/* 當前項目資訊顯示 */}
-          <CurrentItemDisplay currentItem={currentItem} />
+          <div className="absolute bottom-16 w-full">
+            <CurrentItemDisplay
+              title={currentItem?.title}
+              subtitle={currentItem?.subtitle}
+            />
+          </div>
         </div>
       </div>
     </div>
