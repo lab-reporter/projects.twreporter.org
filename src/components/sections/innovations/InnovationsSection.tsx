@@ -215,13 +215,24 @@ export default function InnovationsSection() {
             activeIndex = index;
           }
 
-          // 計算錯位位置（隨深度變化）
+          // 取得物件的基本錯位位置
           const offset = getOffsetPosition(index);
-          const depthFactor = Math.max(0, Math.min(1, (currentDepth + 950) / 1000)); // 調整計算範圍：從-950vw到50vw
+          
+          // 計算錯位漸變因子：從 background 狀態到 active 狀態過程中逐漸歸零
+          // 當物件從 -300vw 移動到 -25vw 時，錯位從 100% 降到 0%
+          let offsetFactor = 1; // 預設保持完整錯位
+          if (currentDepth >= -300 && currentDepth <= -25) {
+            // background 到 active 的過渡階段：錯位逐漸減少
+            const transitionProgress = (currentDepth + 300) / 275; // 0-1
+            offsetFactor = 1 - transitionProgress; // 從 1 減少到 0
+          } else if (currentDepth > -25) {
+            // active 狀態及之後：保持無錯位
+            offsetFactor = 0;
+          }
 
-          // 計算最終位置（使用 vw/vh 單位）
-          const finalX = `${offset.x * (1 - depthFactor * 0.5)}vw`;
-          const finalY = `${offset.y * (1 - depthFactor * 0.5)}vh`;
+          // 計算物件的最終位置，在接近 active 狀態時錯位歸零
+          const finalX = `${offset.x * offsetFactor}vw`;
+          const finalY = `${offset.y * offsetFactor}vh`;
 
           // 應用狀態到元素（加入 transition 效果）
           gsap.to(element, {
@@ -259,8 +270,8 @@ export default function InnovationsSection() {
           debugItems.push({
             index,
             id: item.id,
-            x: Math.round(offset.x * (1 - depthFactor * 0.5) * 100) / 100,
-            y: Math.round(offset.y * (1 - depthFactor * 0.5) * 100) / 100,
+            x: Math.round(offset.x * offsetFactor * 100) / 100,
+            y: Math.round(offset.y * offsetFactor * 100) / 100,
             z: Math.round(currentDepth * 100) / 100,
             state: stateName,
             opacity: Math.round(state.opacity * 100) / 100,
