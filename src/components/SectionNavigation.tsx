@@ -19,12 +19,6 @@ export default function SectionNavigation() {
   // 控制導航是否顯示的狀態
   const [isVisible, setIsVisible] = useState(false);
 
-  // 副作用：開發環境中記錄章節變化
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`🔍 SectionNavigation: currentSection 變更為 "${currentSection}"`);
-    }
-  }, [currentSection]);
 
   // 副作用：根據滾動位置控制導航顯示
   useEffect(() => {

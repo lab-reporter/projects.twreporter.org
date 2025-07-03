@@ -114,7 +114,6 @@ export default function ModalScrollManager({
             // 如果剛到達底部，重置緩衝狀態並記錄時間
             if (atBottom && !wasAtBottom) {
                 reachedBottomTimeRef.current = now;
-                console.log('🏁 剛到達底部 - 重置緩衝狀態，記錄時間:', now, '慣性滾動:', isInertiaScrollingRef.current);
                 setHasScrolledAfterReachingBottom(false);
                 hasScrolledAfterReachingBottomRef.current = false;
             }
@@ -143,13 +142,11 @@ export default function ModalScrollManager({
 
                 // 確保當前在底部
                 if (!isAtBottomRef.current) {
-                    console.log('🚫 當前未在底部，忽略 overscroll 檢測');
                     return; // 允許正常滾動，不處理 overscroll
                 }
 
                 // 檢查是否正在慣性滾動
                 if (isInertiaScrollingRef.current) {
-                    console.log('🌀 慣性滾動中，忽略 overscroll 檢測');
                     lastWheelTimeRef.current = now;
                     return; // 慣性滾動期間忽略
                 }
@@ -157,32 +154,27 @@ export default function ModalScrollManager({
                 // 檢查冷卻期：剛到達底部後需要等待冷卻期
                 const timeSinceReachedBottom = now - reachedBottomTimeRef.current;
                 if (timeSinceReachedBottom < cooldownPeriod) {
-                    console.log('❄️ 冷卻期內，忽略 overscroll 檢測，時間差:', timeSinceReachedBottom + 'ms');
                     lastWheelTimeRef.current = now; // 更新最後滾輪時間
                     return; // 冷卻期內忽略
                 }
 
                 lastWheelTimeRef.current = now;
-                console.log('⚡ 處理 overscroll，deltaY:', e.deltaY);
                 e.preventDefault(); // 阻止默認滾動行為
 
                 // 如果還沒有進行過"緩衝滑動"，設置緩衝狀態但不累積距離
                 if (!hasScrolledAfterReachingBottomRef.current) {
-                    console.log('🎯 緩衝滑動啟動 - 第一次滑動');
                     setHasScrolledAfterReachingBottom(true);
                     hasScrolledAfterReachingBottomRef.current = true;
                     return; // 第一次滑動只是啟動緩衝，不累積距離
                 }
 
                 // 已經進行過緩衝滑動，開始累積overscroll距離
-                console.log('🔥 開始累積 overscroll 距離:', Math.abs(e.deltaY));
                 // 更新最後滾動時間
                 lastScrollTime.current = now;
 
                 const newDistance = overScrollDistanceRef.current + Math.abs(e.deltaY);
                 setOverScrollDistance(newDistance);
                 overScrollDistanceRef.current = newDistance;
-                console.log('📏 當前累積距離:', newDistance, '/ 目標:', window.innerHeight);
 
                 // 檢查是否達到關閉閾值（100vh）
                 const viewportHeight = window.innerHeight;
