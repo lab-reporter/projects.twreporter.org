@@ -30,8 +30,8 @@ import Innovation8Content from './contents/Innovation8Content';
 import Innovation9Content from './contents/Innovation9Content';
 import Innovation10Content from './contents/Innovation10Content';
 
-// Enhanced 版本
-import EnhancedReports3Content from './contents/EnhancedReports3Content';
+// Challenge 系列組件
+import Challenge1Content from './contents/Challenge1Content';
 
 // 內容組件映射表
 const contentMap: Record<string, ComponentType<ContentProps>> = {
@@ -61,8 +61,10 @@ const contentMap: Record<string, ComponentType<ContentProps>> = {
   'innovation-9': Innovation9Content,
   'innovation-10': Innovation10Content,
 
-  // Enhanced 版本（可選用）
-  'enhanced-reports-3': EnhancedReports3Content,
+
+  // Challenge section - 完整的 10 個挑戰項目
+  'challenge-1': Challenge1Content,
+
 
   // 默認組件
   default: DefaultContent

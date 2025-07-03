@@ -41,7 +41,7 @@ export default function Modal() {
     if (modal.isOpen) {
       // 更新數據快照（包含導航時的數據變更）
       setModalDataSnapshot(modal.data);
-      
+
       // 立即顯示組件
       setShouldRender(true);
 
@@ -111,10 +111,10 @@ export default function Modal() {
   return (
     <>
       {/* 背景遮罩 */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-[9998] backdrop-blur-lg transition-opacity duration-300" onClick={closeModal} />
+      <div className="fixed z-[9998] transition-opacity duration-800" onClick={closeModal} />
 
       {/* 側邊欄主體 - 帶有動畫效果 */}
-      <div ref={modalBodyRef} className="fixed top-[4vh] left-[4vw] h-[92vh] w-[92vw] backdrop-blur-lg z-[9999]">
+      <div ref={modalBodyRef} className="fixed top-[4vh] left-[4vw] h-[92vh] w-[92vw] z-[9999] rounded-xl shadow-lg overflow-hidden">
         {/* 滾動管理組件 - 包含滾動容器、進度條、過度滾動和關閉按鈕 */}
         <ModalScrollManager
           scrollContainer={scrollContainerRef}
@@ -123,7 +123,7 @@ export default function Modal() {
           modalContentId={modal.contentId || undefined}
           onClose={closeModal}
         >
-          <div className="sidepanel-content">{renderContent()}</div>
+          <div className="sidepanel-content bg-white">{renderContent()}</div>
         </ModalScrollManager>
       </div>
     </>

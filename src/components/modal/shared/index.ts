@@ -6,6 +6,7 @@ export { default as ContentWrapper } from './ContentWrapper';
 
 // 媒體展示組件
 export { default as ReportBanner } from './ReportBanner';
+export { default as InnovationBanner } from './InnovationBanner';
 export { default as MediaDisplay } from './MediaDisplay';
 export { default as VideoPlayer } from './VideoPlayer';
 export { default as ScrollTriggeredMedia } from './ScrollTriggeredMedia';

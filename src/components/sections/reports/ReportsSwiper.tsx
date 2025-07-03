@@ -37,11 +37,32 @@ export default function ReportsSwiper() {
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
-    // 計算值：根據螢幕寬度決定輪播尺寸（手機版較大，桌面版較小）
-    const sliderSize = windowWidth < 768 ? 6 : 4;
+    // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
+    const getResponsiveValues = (width: number) => {
+        // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
+        if (width < 640) {
+            // 小於 640px：手機直立模式
+            return { sliderSize: 7, translateZMultiplier: 7 };
+        } else if (width < 768) {
+            // 640px - 768px：手機橫向/小平板
+            return { sliderSize: 6, translateZMultiplier: 6.5 };
+        } else if (width < 1024) {
+            // 768px - 1024px：平板模式
+            return { sliderSize: 5, translateZMultiplier: 6 };
+        } else if (width < 1280) {
+            // 1024px - 1280px：小桌面
+            return { sliderSize: 4, translateZMultiplier: 5.5 };
+        } else if (width < 1536) {
+            // 1280px - 1536px：大桌面
+            return { sliderSize: 3.5, translateZMultiplier: 5 };
+        } else {
+            // 1536px+：超大桌面
+            return { sliderSize: 3, translateZMultiplier: 4.5 };
+        }
+    };
 
-    // 計算值：3D 深度位移的倍數係數
-    const translateZMultiplier = windowWidth < 768 ? 6 : 6;
+    // 計算值：根據當前視窗寬度取得響應式參數
+    const { sliderSize, translateZMultiplier } = getResponsiveValues(windowWidth);
 
     // 資料篩選：從專案資料中篩選出報導章節的項目
     const reportsData: ReportItem[] = projectsData.filter((item: any) =>
@@ -209,8 +230,8 @@ export default function ReportsSwiper() {
                                 height: `${sliderSize * 2}vw`,
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
-                                // 設定 3D 透視和初始變換
-                                transform: 'perspective(35vw) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
+                                // 設定 3D 透視和初始變換（響應式透視距離）
+                                transform: `perspective(${windowWidth < 768 ? '40vw' : windowWidth < 1280 ? '35vw' : '30vw'}) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}

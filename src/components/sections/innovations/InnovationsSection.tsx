@@ -144,18 +144,16 @@ export default function InnovationsSection() {
   return (
     <div ref={sectionRef} id="section-innovations" className="relative w-full h-[1000vh]">
       {/* SectionHeadings */}
-      <div className="w-full h-[200vh] relative">
-        <div className="w-full h-screen sticky top-0 flex items-center justify-center">
-          <SectionHeadings
-            titleEn="INNOVATION"
-            titleZh="開放新聞室・創新"
-          >
-            <p>
-              《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。<br />
-              點點物件，看10年來的新嘗試，你參與了多少呢？
-            </p>
-          </SectionHeadings>
-        </div>
+      <div className="w-full h-screen relative flex items-center justify-center">
+        <SectionHeadings
+          titleEn="INNOVATION"
+          titleZh="開放新聞室・創新"
+        >
+          <p>
+            《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。<br />
+            點點物件，看10年來的新嘗試，你參與了多少呢？
+          </p>
+        </SectionHeadings>
       </div>
 
       {/* 3D 容器 */}
