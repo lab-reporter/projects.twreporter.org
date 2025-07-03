@@ -34,67 +34,77 @@ export default function ReportsSwiper() {
 
     // 狀態變數：當前顯示的輪播項目索引
     const [currentSlide, setCurrentSlide] = useState(0);
+    // 狀態變數：是否已完成客戶端初始化（解決 SSR/CSR 不匹配問題）
+    const [isClient, setIsClient] = useState(false);
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
-    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+    const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
     const getResponsiveValues = (width: number) => {
         // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
         if (width < 640) {
             // 小於 640px：手機直立模式
-            return { sliderSize: 7, translateZMultiplier: 7 };
+            return { sliderSize: 9, translateZMultiplier: 9, perspective: '25vw' };
         } else if (width < 768) {
             // 640px - 768px：手機橫向/小平板
-            return { sliderSize: 6, translateZMultiplier: 6.5 };
+            return { sliderSize: 8, translateZMultiplier: 8.5, perspective: '35vw' };
         } else if (width < 1024) {
             // 768px - 1024px：平板模式
-            return { sliderSize: 5, translateZMultiplier: 6 };
+            return { sliderSize: 7, translateZMultiplier: 8, perspective: '35vw' };
         } else if (width < 1280) {
             // 1024px - 1280px：小桌面
-            return { sliderSize: 4, translateZMultiplier: 5.5 };
+            return { sliderSize: 6, translateZMultiplier: 7.5, perspective: '35vw' };
         } else if (width < 1536) {
             // 1280px - 1536px：大桌面
-            return { sliderSize: 3.5, translateZMultiplier: 5 };
+            return { sliderSize: 5, translateZMultiplier: 7, perspective: '35vw' };
         } else {
             // 1536px+：超大桌面
-            return { sliderSize: 3, translateZMultiplier: 4.5 };
+            return { sliderSize: 4, translateZMultiplier: 6, perspective: '35vw' };
         }
     };
 
-    // 計算值：根據當前視窗寬度取得響應式參數
-    const { sliderSize, translateZMultiplier } = getResponsiveValues(windowWidth);
+    // 計算值：根據當前視窗寬度取得響應式參數（只在客戶端初始化後使用實際寬度）
+    const { sliderSize, translateZMultiplier, perspective } = getResponsiveValues(isClient ? windowWidth : 1024);
 
     // 資料篩選：從專案資料中篩選出報導章節的項目
     const reportsData: ReportItem[] = projectsData.filter((item: any) =>
         item.section.includes('reports')
     );
 
-    // 副作用：監聽瀏覽器視窗大小變化
+    // 副作用：初始化客戶端狀態和監聽視窗大小變化
     useEffect(() => {
-        // 檢查是否在瀏覽器環境中運行
-        if (typeof window === 'undefined') return;
+        // 標記客戶端已初始化，啟用響應式功能
+        setIsClient(true);
+
+        // 立即設定當前視窗寬度
+        if (typeof window !== 'undefined') {
+            setWindowWidth(window.innerWidth);
+        }
 
         // 事件處理函數：更新視窗寬度狀態
         const handleResize = () => {
-            setWindowWidth(window.innerWidth);
+            if (typeof window !== 'undefined') {
+                setWindowWidth(window.innerWidth);
+            }
         };
 
         // 註冊視窗大小變化監聽器
-        window.addEventListener('resize', handleResize);
-        // 立即執行一次以獲取初始寬度
-        handleResize();
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', handleResize);
+        }
 
         // 清理函數：移除事件監聽器
         return () => {
-            window.removeEventListener('resize', handleResize);
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('resize', handleResize);
+            }
         };
-        // 空依賴陣列：只在組件載入時執行一次
-    }, []);
+    }, []); // 空依賴陣列：只在組件載入時執行一次
 
     // 副作用：設定 3D 輪播的滾動觸發動畫
     useEffect(() => {
-        // 檢查是否在瀏覽器環境中運行
-        if (typeof window === 'undefined') return;
+        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
+        if (typeof window === 'undefined' || !isClient) return;
 
         // 註冊 ScrollTrigger 外掛程式
         gsap.registerPlugin(ScrollTrigger);
@@ -183,8 +193,8 @@ export default function ReportsSwiper() {
         return () => {
             trigger.kill();
         };
-        // 依賴變數：當這些值改變時重新建立動畫
-    }, [reportsData, sliderSize, translateZMultiplier]);
+        // 依賴變數：當這些值改變時重新建立動畫（等待客戶端初始化完成）
+    }, [reportsData, sliderSize, translateZMultiplier, perspective, isClient]);
 
     // 計算值：取得當前顯示的報導項目資料
     const currentItem = reportsData[currentSlide] || reportsData[0];
@@ -203,7 +213,7 @@ export default function ReportsSwiper() {
         return index === currentSlide || index === prevIndex || index === nextIndex;
     };
 
-    // 組件渲染輸出
+    // 組件渲染輸出（等待客戶端初始化完成後再顯示 3D 效果）
     return (
         // 主容器：設定總體滾動高度以提供足夠的滾動空間
         <div ref={sectionRef} className="relative h-[500vh] overflow-visible">
@@ -215,7 +225,9 @@ export default function ReportsSwiper() {
                     <div className="w-full h-screen text-center overflow-hidden"
                         style={{
                             // 初始 3D 變換狀態
-                            transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'
+                            transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',
+                            // 確保 3D 渲染環境
+                            transformStyle: 'preserve-3d'
                         }}
                     >
                         {/* 3D 輪播旋轉容器：實際執行旋轉動畫的元素 */}
@@ -230,8 +242,8 @@ export default function ReportsSwiper() {
                                 height: `${sliderSize * 2}vw`,
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
-                                // 設定 3D 透視和初始變換（響應式透視距離）
-                                transform: `perspective(${windowWidth < 768 ? '40vw' : windowWidth < 1280 ? '35vw' : '30vw'}) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)'`
+                                // 設定 3D 透視和初始變換（使用響應式透視值）
+                                transform: `perspective(${sliderSize * 9}vw) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
@@ -245,7 +257,7 @@ export default function ReportsSwiper() {
                                         transformStyle: 'preserve-3d',
                                         // 計算每個項目在圓形輪播中的位置
                                         // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * translateZMultiplier}vw)`,
+                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * 6}vw)`,
                                         // 設定項目尺寸
                                         width: '100%',
                                         height: '100%'
