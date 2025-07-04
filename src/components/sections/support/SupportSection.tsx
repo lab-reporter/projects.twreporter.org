@@ -126,7 +126,7 @@ export default function SupportSection() {
       // 發射起始位置（垂直方向）
       origin: { y: 0.6 },
       // 使用對應金額的顏色
-      colors: colors,
+      colors: [...colors],
       // 支援減少動畫的無障礙設定
       disableForReducedMotion: true
     });
@@ -144,7 +144,7 @@ export default function SupportSection() {
         // 發射位置（左側）
         origin: { x: 0.2, y: 0.6 },
         // 使用相同顏色配置
-        colors: colors
+        colors: [...colors]
       });
 
       // 右側彩帶噴發
@@ -158,7 +158,7 @@ export default function SupportSection() {
         // 發射位置（右側）
         origin: { x: 0.8, y: 0.6 },
         // 使用相同顏色配置
-        colors: colors
+        colors: [...colors]
       });
       // 延遲執行時間
     }, 250);

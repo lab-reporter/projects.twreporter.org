@@ -5,6 +5,7 @@ export interface ReportData {
   subtitle: string;
   section: string[];
   bgColor?: string;
+  [key: string]: unknown;
 }
 
 export interface ContentProps {

@@ -32,7 +32,7 @@ export function usePerformanceMonitor(
 
   const frameCountRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(0);
 
   // FPS 計算函數
   const calculateFPS = () => {

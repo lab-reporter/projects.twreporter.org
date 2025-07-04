@@ -33,6 +33,7 @@ export default function ChallengesSection() {
       id: string;
       title: string;
       section: string | string[];
+      [key: string]: unknown;
     }
     const projectData = (projectsData as ProjectItem[]).find((p: ProjectItem) =>
       p.title === title &&

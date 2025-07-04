@@ -27,7 +27,7 @@ export function useOptimizedMouseTracking(
   } = options;
 
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 50, y: 50 });
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number>(0);
   const lastUpdateRef = useRef<number>(0);
 
   // 使用 useCallback 避免重複創建函數

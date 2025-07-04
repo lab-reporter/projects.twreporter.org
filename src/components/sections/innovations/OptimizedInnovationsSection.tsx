@@ -19,6 +19,7 @@ interface InnovationItem {
   subtitle: string;
   position: { x: number; y: number; z: number };
   scale: { x: number; y: number; z: number };
+  [key: string]: unknown;
 }
 
 // 簡化的物件狀態定義
@@ -68,17 +69,22 @@ export default function OptimizedInnovationsSection() {
   });
 
   // 預先快取元素引用
-  const elementRefsCache = useRef<Map<string, HTMLElement>>(new Map());
+  const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
 
   // 從 projects.json 篩選項目
   const innovationItems = useMemo(() => {
-    return projectsData
-      .filter((p: Record<string, unknown>) => p.section && (p.section.includes('innovation') || p.section === 'innovation'))
-      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
+    interface ProjectItem {
+      id: string;
+      section: string | string[];
+      [key: string]: unknown;
+    }
+    return (projectsData as unknown as InnovationItem[])
+      .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
+      .sort((a: InnovationItem, b: InnovationItem) => {
         const numA = parseInt(a.id.split('-')[1]);
         const numB = parseInt(b.id.split('-')[1]);
         return numA - numB;
-      }) as InnovationItem[];
+      });
   }, []);
 
   // 分層漸進式載入
@@ -166,7 +172,7 @@ export default function OptimizedInnovationsSection() {
     // 快取元素引用
     elementRefsCache.current.clear();
     innovationItems.forEach((item) => {
-      const element = document.getElementById(`innovation-item-${item.id}`);
+      const element = document.getElementById(`innovation-item-${item.id}`) as HTMLDivElement;
       if (element) {
         elementRefsCache.current.set(item.id, element);
       }

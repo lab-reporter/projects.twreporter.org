@@ -11,7 +11,7 @@ import type { VideoPlayerProps, VideoPlayerState, VideoPlayerActions } from './t
  * - 進度控制
  */
 export function useVideoPlayer(props: VideoPlayerProps): {
-  videoRef: React.RefObject<HTMLVideoElement>;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
   state: VideoPlayerState;
   actions: VideoPlayerActions;
 } {

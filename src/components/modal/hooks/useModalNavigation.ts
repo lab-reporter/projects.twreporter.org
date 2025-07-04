@@ -11,6 +11,7 @@ interface ProjectData {
     subtitle: string;
     section: string[];
     bgColor: string;
+    [key: string]: unknown;
 }
 
 export const useModalNavigation = () => {
@@ -44,7 +45,8 @@ export const useModalNavigation = () => {
             path: (dataToUse as { path?: string })?.path || '',
             title: (dataToUse as { title?: string })?.title || '',
             subtitle: (dataToUse as { subtitle?: string })?.subtitle || '',
-            section: (dataToUse as { section?: string[] })?.section || []
+            section: (dataToUse as { section?: string[] })?.section || [],
+            bgColor: (dataToUse as { bgColor?: string })?.bgColor || '#F1F1F1'
         };
         return getAdjacentProjects(safeData, sameTypeProjects);
     }, [modal.data, sameTypeProjects]);

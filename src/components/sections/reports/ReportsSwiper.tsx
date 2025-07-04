@@ -23,6 +23,7 @@ interface ReportItem {
     section: string[];
     // 項目背景顏色（可選）
     bgColor?: string;
+    [key: string]: unknown;
 }
 
 // 報導輪播組件主函數

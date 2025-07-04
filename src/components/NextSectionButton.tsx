@@ -27,7 +27,7 @@ export default function NextSectionButton() {
   // 副作用：根據當前章節控制按鈕顯示
   useEffect(() => {
     // 只在指定的三個章節顯示按鈕
-    const shouldShow = currentSection && sectionNextMap[currentSection];
+    const shouldShow = Boolean(currentSection && sectionNextMap[currentSection]);
     setIsVisible(shouldShow);
   }, [currentSection]);
 
