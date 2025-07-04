@@ -95,16 +95,33 @@ export default function Modal() {
     const dataToUse = modalDataSnapshot || modal.data;
     if (!dataToUse) return null;
 
-    // 類型檢查：確保 dataToUse 有 id 屬性
-    const projectId = (dataToUse as { id?: string })?.id || modal.contentId || '';
+    // 類型檢查：確保 dataToUse 符合 ReportData 介面
+    const projectData = dataToUse as {
+      id?: string;
+      path?: string;
+      title?: string;
+      subtitle?: string;
+      section?: string[];
+      bgColor?: string;
+    };
+
+    // 提供默認值以符合 ReportData 介面
+    const safeProjectData = {
+      id: projectData.id || modal.contentId || '',
+      path: projectData.path || '',
+      title: projectData.title || '',
+      subtitle: projectData.subtitle || '',
+      section: projectData.section || [],
+      bgColor: projectData.bgColor
+    };
     
     // 使用動態內容組件系統
-    const ContentComponent = getContentComponentByProjectId(projectId);
+    const ContentComponent = getContentComponentByProjectId(safeProjectData.id);
 
     return (
       <div>
         <ContentComponent
-          projectData={dataToUse} onClose={closeModal} onNavigate={handleNavigate}
+          projectData={safeProjectData} onClose={closeModal} onNavigate={handleNavigate}
           adjacentProjects={adjacentProjects} scrollContainer={scrollContainerRef.current}
         />
       </div>
