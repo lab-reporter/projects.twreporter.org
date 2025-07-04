@@ -25,8 +25,8 @@ const photosData: PhotoData[] = [
   { id: 'img6', src: '/assets/img6.png', top: '0%', right: '80%', width: '20%' }
 ];
 
-// 開場動畫區塊組件
-export default function OpeningSection() {
+// 優化版開場動畫區塊組件
+export default function OptimizedOpeningSection() {
   // 使用滾動觸發器來監控當前頁面位置
   useScrollTrigger({
     sectionId: 'section-opening',
@@ -56,7 +56,7 @@ export default function OpeningSection() {
     rangeMax: 60
   });
 
-  // 分層漸進式載入
+  // 4. 分層漸進式載入
   useEffect(() => {
     if (!isVisible) return;
 
@@ -103,7 +103,7 @@ export default function OpeningSection() {
     });
   }, [is3DEnabled]);
 
-  // 視窗外時停用 3D 效果
+  // 2. 視窗外時停用 3D 效果
   useEffect(() => {
     if (!containerRef.current) return;
 

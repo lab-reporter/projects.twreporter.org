@@ -37,19 +37,13 @@ const getAnimationStates = (isLowPerformance: boolean) => ({
   foreground: { depth: 200, opacity: 0, blur: isLowPerformance ? 0 : 8, scale: 1 }
 });
 
-export default function InnovationsSection() {
+export default function OptimizedInnovationsSection() {
   const { openModal } = useStore();
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
 
-  // SectionHeading 可見性偵測（提前觸發）
-  const { elementRef: headingRef, isVisible: headingVisible } = useIntersectionObserver({
-    threshold: 0.1,
-    rootMargin: '200px' // 提前 200px 開始準備
-  });
-
-  // 整個 Section 可見性偵測
+  // 視窗可見性偵測
   const { elementRef: observerRef, isVisible } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px'
@@ -87,22 +81,25 @@ export default function InnovationsSection() {
       }) as InnovationItem[];
   }, []);
 
-  // 分層漸進式載入 - 基於 SectionHeading 可見性提前觸發
+  // 分層漸進式載入
   useEffect(() => {
-    if (!headingVisible) return;
+    if (!isVisible) return;
 
-    // 第一階段：當 SectionHeading 可見時立即啟用 3D（避免可見的切換）
-    setIs3DEnabled(true);
+    // 第一階段：基本載入
+    const timer1 = setTimeout(() => {
+      setIs3DEnabled(true);
+    }, 100);
 
-    // 第二階段：稍微延遲啟用動畫
-    const timer = setTimeout(() => {
+    // 第二階段：啟用動畫（根據效能調整延遲）
+    const timer2 = setTimeout(() => {
       setAnimationsEnabled(true);
-    }, isLowPerformance ? 300 : 150); // 縮短延遲時間
+    }, isLowPerformance ? 500 : 200);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
     };
-  }, [headingVisible, isLowPerformance]);
+  }, [isVisible, isLowPerformance]);
 
   useScrollTrigger({
     sectionId: 'section-innovations',
@@ -182,15 +179,13 @@ export default function InnovationsSection() {
     elements.forEach((element, index) => {
       const initialDepth = -50 - (index * 100);
       const offset = getOffsetPosition(index);
-      const isFirstItem = index === 0;
       
       gsap.set(element, {
-        // 第一個項目初始就在中央，其他項目有偏移
-        x: isFirstItem ? '0vw' : `${offset.x}vw`,
-        y: isFirstItem ? '0vh' : `${offset.y}vh`,
+        x: `${offset.x}vw`,
+        y: `${offset.y}vh`,
         z: `${initialDepth}vw`,
         scale: 1,
-        opacity: initialDepth < -300 ? 0 : (isFirstItem ? 1 : 0.6), // 第一個項目完全不透明
+        opacity: initialDepth < -300 ? 0 : 0.6,
         filter: isLowPerformance ? 'none' : `blur(0px)`,
         rotationX: 0,
         rotationY: 0,
@@ -199,10 +194,10 @@ export default function InnovationsSection() {
       });
     });
 
-    // 創建滾動觸發器 - 提前開始觸發，避免突然跳躍
+    // 創建滾動觸發器
     const scrollTrigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: 'top-=200px top', // 提前 200px 開始觸發
+      start: 'top top',
       end: 'bottom bottom',
       scrub: isLowPerformance ? 1 : 2, // 低效能時降低 scrub 值
       onUpdate: (self) => {
@@ -223,19 +218,13 @@ export default function InnovationsSection() {
           }
 
           const offset = getOffsetPosition(index);
-          const isFirstItem = index === 0;
           let offsetFactor = 1;
           
-          // 第一個項目特殊處理：始終保持在中央
-          if (isFirstItem) {
-            offsetFactor = 0; // 第一個項目不使用偏移
-          } else {
-            if (currentDepth >= -300 && currentDepth <= -25) {
-              const transitionProgress = (currentDepth + 300) / 275;
-              offsetFactor = 1 - transitionProgress;
-            } else if (currentDepth > -25) {
-              offsetFactor = 0;
-            }
+          if (currentDepth >= -300 && currentDepth <= -25) {
+            const transitionProgress = (currentDepth + 300) / 275;
+            offsetFactor = 1 - transitionProgress;
+          } else if (currentDepth > -25) {
+            offsetFactor = 0;
           }
 
           const finalX = `${offset.x * offsetFactor}vw`;
@@ -294,8 +283,8 @@ export default function InnovationsSection() {
 
   return (
     <div ref={observerRef}>
-      {/* SectionHeadings - 使用專門的 ref 來提前觸發 3D 載入 */}
-      <div ref={headingRef} className="w-full h-screen relative flex items-center justify-center">
+      {/* SectionHeadings */}
+      <div className="w-full h-screen relative flex items-center justify-center">
         <SectionHeadings
           titleEn="INNOVATION"
           titleZh="開放新聞室・創新"
@@ -327,56 +316,39 @@ export default function InnovationsSection() {
                 transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
               }}
             >
-              {innovationItems.map((item, index) => {
-                // 計算初始錯位位置，避免啟用前的跳躍
-                const offset = getOffsetPosition(index);
-                const initialDepth = -50 - (index * 100);
-                
-                // 特別處理第一個項目：始終保持在中央
-                const isFirstItem = index === 0;
-                const shouldCenterFirst = isFirstItem && !animationsEnabled;
-                
-                return (
-                  <div
-                    key={item.id}
-                    id={`innovation-item-${item.id}`}
-                    className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
-                    style={{
-                      transformOrigin: 'center center',
-                      width: '500px',
-                      height: '500px',
-                      transform: 'translate(-50%, -50%)',
-                      // 在 3D 啟用前設定初始 opacity，避免突然出現
-                      opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
-                      // 第一個項目保持在中央，其他項目有偏移
-                      left: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.x}vw)` : '50%'),
-                      top: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.y}vh)` : '50%'),
-                      // 第一個項目的特殊樣式
-                      zIndex: isFirstItem ? 10 : 1
-                    }}
-                    onClick={() => handleItemClick(item)}
-                    data-custom-cursor="view"
-                  >
-                    <div className="w-full h-full rounded-lg overflow-hidden">
-                      <video
-                        src={item.path}
-                        autoPlay={isVisible && !isLowPerformance} // 低效能時停用自動播放
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                        style={{ pointerEvents: 'none' }}
-                      />
-                      <div className="absolute inset-0 hover:border hover:border-red-70 transition-all duration-300 flex items-end">
-                        <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
-                          <h3 className="text-lg font-bold">{item.title}</h3>
-                          <p className="text-sm opacity-80">{item.subtitle}</p>
-                        </div>
+              {innovationItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  id={`innovation-item-${item.id}`}
+                  className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
+                  style={{
+                    transformOrigin: 'center center',
+                    width: '500px',
+                    height: '500px',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                  onClick={() => handleItemClick(item)}
+                  data-custom-cursor="view"
+                >
+                  <div className="w-full h-full rounded-lg overflow-hidden">
+                    <video
+                      src={item.path}
+                      autoPlay={isVisible && !isLowPerformance} // 低效能時停用自動播放
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                      style={{ pointerEvents: 'none' }}
+                    />
+                    <div className="absolute inset-0 hover:border hover:border-red-70 transition-all duration-300 flex items-end">
+                      <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <h3 className="text-lg font-bold">{item.title}</h3>
+                        <p className="text-sm opacity-80">{item.subtitle}</p>
                       </div>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
 
             {/* 效能指示器 */}
