@@ -25,6 +25,12 @@ const photosData: PhotoData[] = [
   { id: 'img6', src: '/assets/img6.png', top: '0%', right: '80%', width: '20%' }
 ];
 
+// 創建全域照片引用，供其他組件使用
+export const openingPhotosRef = { current: [] as (HTMLImageElement | null)[] };
+
+// 導出照片數據，供其他組件使用
+export { photosData };
+
 // 開場動畫區塊組件
 export default function OpeningSection() {
   // 使用滾動觸發器來監控當前頁面位置
@@ -41,9 +47,9 @@ export default function OpeningSection() {
 
   // 3D 容器引用
   const containerRef = useRef<HTMLDivElement>(null);
-  // 照片引用陣列
-  const photosRef = useRef<(HTMLImageElement | null)[]>([]);
-  
+  // 照片引用陣列（使用全域引用）
+  const photosRef = openingPhotosRef;
+
   // 效能控制狀態
   const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [animationsLoaded, setAnimationsLoaded] = useState(false);
@@ -92,9 +98,16 @@ export default function OpeningSection() {
             duration: 1,
             delay: index * 0.1,
             ease: 'power3.out',
-            // 動畫完成後移除 will-change
+            // 動畫完成後移除 will-change 並確保照片處於正確狀態
             onComplete: () => {
-              gsap.set(photo, { willChange: 'auto' });
+              gsap.set(photo, { 
+                willChange: 'auto',
+                // 確保照片在原始位置和完全透明
+                right: photosData[index].right,
+                opacity: 1,
+                visibility: 'visible',
+                pointerEvents: 'auto'
+              });
             }
           });
         }
@@ -145,8 +158,8 @@ export default function OpeningSection() {
           transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat',
           perspective: is3DEnabled && isVisible ? '500px' : 'none',
           // 根據滑鼠位置動態設定透視中心點（只在啟用時）
-          perspectiveOrigin: is3DEnabled && isVisible 
-            ? `${mousePosition.x}% ${mousePosition.y}%` 
+          perspectiveOrigin: is3DEnabled && isVisible
+            ? `${mousePosition.x}% ${mousePosition.y}%`
             : 'center center',
         }}
       >

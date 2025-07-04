@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
+import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 // 報導項目的資料結構定義
 interface ReportItem {
@@ -38,6 +40,24 @@ export default function ReportsSwiper() {
     const [isClient, setIsClient] = useState(false);
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
+
+    // 可見性偵測
+    const { elementRef: observerRef, isVisible } = useIntersectionObserver({
+        threshold: 0.1,
+        rootMargin: '100px'
+    });
+
+    // 優化的滑鼠追蹤
+    const mousePosition = useOptimizedMouseTracking({
+        // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
+        enabled: isClient && isVisible,
+        // 節流時間：每16毫秒更新一次（約60fps），平衡流暢度與效能
+        throttleMs: 16,
+        // 範圍最小值
+        rangeMin: 47.5,
+        // 範圍最大值
+        rangeMax: 52.5
+    });
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
     const getResponsiveValues = (width: number) => {
@@ -214,7 +234,10 @@ export default function ReportsSwiper() {
     // 組件渲染輸出（等待客戶端初始化完成後再顯示 3D 效果）
     return (
         // 主容器：設定總體滾動高度以提供足夠的滾動空間
-        <div ref={sectionRef} className="relative h-[500vh] overflow-visible">
+        <div ref={(el) => {
+            sectionRef.current = el;
+            observerRef.current = el;
+        }} className="relative h-[500vh] overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen overflow-hidden">
                 {/* 輪播展示容器：居中定位 */}
@@ -225,7 +248,12 @@ export default function ReportsSwiper() {
                             // 初始 3D 變換狀態
                             transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',
                             // 確保 3D 渲染環境
-                            transformStyle: 'preserve-3d'
+                            transformStyle: 'preserve-3d',
+                            // 設定透視距離和動態透視中心點
+                            perspective: `${sliderSize * 9}vw`,
+                            perspectiveOrigin: isClient && isVisible
+                                ? `${mousePosition.x}% ${mousePosition.y}%`
+                                : 'center center'
                         }}
                     >
                         {/* 3D 輪播旋轉容器：實際執行旋轉動畫的元素 */}
@@ -241,7 +269,7 @@ export default function ReportsSwiper() {
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
                                 // 設定 3D 透視和初始變換（使用響應式透視值）
-                                transform: `perspective(${sliderSize * 9}vw) translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`
+                                transform: `translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}

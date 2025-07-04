@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { openingPhotosRef, photosData } from '@/components/sections/opening/OpeningSection';
 
 // 主導航組件
 const Navigation = () => {
@@ -49,7 +50,36 @@ const Navigation = () => {
           scrub: 1,
           // markers: true,
           // 動畫識別 ID
-          id: 'navigation-position'
+          id: 'navigation-position',
+          // 動畫更新回調：同步控制開場照片消失動畫
+          onUpdate: (self) => {
+            // 取得開場照片引用
+            const photos = openingPhotosRef.current.filter(Boolean);
+            if (photos.length === 0) return;
+
+            // 根據滾動進度控制照片動畫
+            const progress = self.progress;
+            
+            photos.forEach((photo, index) => {
+              if (photo && photosData[index]) {
+                // 取得照片的原始 right 值
+                const originalRight = parseFloat(photosData[index].right.replace('%', ''));
+                const targetRight = -100;
+                
+                // 計算當前位置：從原始位置線性插值到 -100%
+                const animatedRight = originalRight + (targetRight - originalRight) * progress;
+                
+                // 設定照片位置和透明度
+                gsap.set(photo, {
+                  right: `${animatedRight}%`,
+                  opacity: 1 - progress,
+                  // 動畫完成後設定為不可見以節省效能
+                  visibility: progress >= 0.99 ? 'hidden' : 'visible',
+                  pointerEvents: progress >= 0.99 ? 'none' : 'auto'
+                });
+              }
+            });
+          }
         }
       }
     );
