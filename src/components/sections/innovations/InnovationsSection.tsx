@@ -293,7 +293,7 @@ export default function InnovationsSection() {
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
   return (
-    <div ref={observerRef}>
+    <div ref={observerRef} id="section-innovations">
       {/* SectionHeadings - 使用專門的 ref 來提前觸發 3D 載入 */}
       <div ref={headingRef} className="w-full h-screen relative flex items-center justify-center">
         <SectionHeadings
@@ -307,7 +307,7 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
       
-      <div ref={sectionRef} id="section-innovations" className="relative w-full h-[1000vh]">
+      <div ref={sectionRef} className="relative w-full h-[1000vh]">
         {/* 3D 容器 */}
         <div className="w-full h-screen sticky top-0">
           <div

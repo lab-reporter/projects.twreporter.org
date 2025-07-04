@@ -23,7 +23,7 @@ export default function ChallengesSection() {
 
   // 註冊 section 狀態追蹤
   useScrollTrigger({
-    sectionId: 'challenges-section',
+    sectionId: 'section-challenges',
     sectionName: 'challenges'
   });
 
@@ -51,7 +51,7 @@ export default function ChallengesSection() {
     <div
       className="relative"
       style={{ height: containerHeight }}
-      id="challenges-section"
+      id="section-challenges"
     >
       {/* Sticky 容器 */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">

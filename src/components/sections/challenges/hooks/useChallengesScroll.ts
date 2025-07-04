@@ -31,7 +31,7 @@ export const useChallengesScroll = ({
 
     // 等待卡片渲染完成
     setTimeout(() => {
-      const cards = document.querySelectorAll('#challenges-section .card') as NodeListOf<HTMLElement>;
+      const cards = document.querySelectorAll('#section-challenges .card') as NodeListOf<HTMLElement>;
 
       // 設置卡片初始狀態
       cards.forEach((card) => {
@@ -42,7 +42,7 @@ export const useChallengesScroll = ({
       });
 
       // 為所有標題添加點擊事件
-      const challengeTitles = document.querySelectorAll('#challenges-section .challengeTitle');
+      const challengeTitles = document.querySelectorAll('#section-challenges .challengeTitle');
       challengeTitles.forEach((title) => {
         const clickHandler = () => onChallengeClick(title.textContent || '');
         title.addEventListener('click', clickHandler);
@@ -53,7 +53,7 @@ export const useChallengesScroll = ({
 
       // 創建 ScrollTrigger
       const scrollTrigger = ScrollTrigger.create({
-        trigger: '#challenges-section',
+        trigger: '#section-challenges',
         start: 'top top',
         end: 'bottom bottom',
         scrub: SCROLL_CONFIG.scrub,
@@ -84,7 +84,7 @@ export const useChallengesScroll = ({
           const isAtEdge = self.progress <= 0 || self.progress >= 1;
 
           // 標題動畫效果
-          document.querySelectorAll('#challenges-section .challenge').forEach((titleContainer) => {
+          document.querySelectorAll('#section-challenges .challenge').forEach((titleContainer) => {
             const challengeTitle = titleContainer.querySelector('.challengeTitle') as HTMLElement;
 
             if (!challengeTitle) return;

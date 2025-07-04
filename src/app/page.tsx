@@ -6,6 +6,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
+import NextSectionButton from '@/components/NextSectionButton';
 import OpeningSection from '@/components/sections/opening/OpeningSection';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
@@ -107,6 +108,7 @@ export default function Home() {
       <Navigation />
       <Modal />
       <SectionNavigation />
+      <NextSectionButton />
     </div>
   );
 }
