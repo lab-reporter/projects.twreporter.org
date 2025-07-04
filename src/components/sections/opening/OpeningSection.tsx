@@ -112,7 +112,7 @@ export default function OpeningSection() {
       >
         {/* 左側面：3D 立方體的左面 */}
         <div
-          className="w-full h-full absolute bg-gray-100"
+          className="w-full h-full absolute border-t-2 border-b-2 border-gray-200"
           style={{
             // Y 軸旋轉 90 度
             transform: 'rotateY(90deg)',
@@ -141,7 +141,7 @@ export default function OpeningSection() {
 
         {/* 右側面：3D 立方體的右面 */}
         <div
-          className="w-full h-full absolute bg-gray-100"
+          className="w-full h-full absolute border-t-2 border-b-2 border-gray-200"
           style={{
             // Y 軸旋轉 -90 度
             transform: 'rotateY(-90deg)',
@@ -152,7 +152,7 @@ export default function OpeningSection() {
 
         {/* 頂面：3D 立方體的上面 */}
         <div
-          className="w-full h-full absolute bg-gray-200"
+          className="w-full h-full absolute"
           style={{
             // X 軸旋轉 -90 度
             transform: 'rotateX(-90deg)',
@@ -163,7 +163,7 @@ export default function OpeningSection() {
 
         {/* 底面：3D 立方體的下面 */}
         <div
-          className="w-full h-full absolute bg-gray-200"
+          className="w-full h-full absolute"
           style={{
             // X 軸旋轉 90 度
             transform: 'rotateX(90deg)',
@@ -172,12 +172,12 @@ export default function OpeningSection() {
           }}
         ></div>
 
-        {/* 背面：3D 立方體的後面 */}
+        {/* 背面：3D 立方體的中央 */}
         <div
-          className="w-full h-full absolute flex items-center justify-center bg-white"
+          className="w-full h-full absolute flex items-center justify-center border-2 border-gray-200"
           style={{
             // Z 軸向後移動
-            transform: 'translateZ(-800px)',
+            transform: 'translateZ(-1400px)',
           }}
         >
         </div>

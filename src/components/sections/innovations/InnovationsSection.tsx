@@ -82,6 +82,8 @@ export default function InnovationsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
+  // 滑鼠位置狀態
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
 
   // 預先快取元素引用以優化效能
   const elementRefsCache = useRef<Map<string, HTMLElement>>(new Map());
@@ -114,6 +116,24 @@ export default function InnovationsSection() {
         const numB = parseInt(b.id.split('-')[1]);
         return numA - numB;
       }) as InnovationItem[];
+  }, []);
+
+  // 處理滑鼠移動事件
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // 計算滑鼠位置的百分比 (0-100)
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+
+      // 將範圍限制在 40%-60%
+      const mappedX = 40 + (x / 100) * 20;
+      const mappedY = 40 + (y / 100) * 20;
+
+      setMousePosition({ x: mappedX, y: mappedY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   useScrollTrigger({
@@ -309,7 +329,7 @@ export default function InnovationsSection() {
   // 設定定時器在 Debug 模式開啟時輸出除錯資訊到控制台
   useEffect(() => {
     if (!DEBUG_ENABLED) return;
-    
+
     const interval = setInterval(() => {
       if (debugInfo.items.length > 0) {
         console.table(debugInfo.items.map(item => ({
@@ -354,7 +374,7 @@ export default function InnovationsSection() {
             className="w-full h-full relative overflow-hidden"
             style={{
               perspective: '1000px', // 降低透視距離以配合 vw 單位
-              perspectiveOrigin: 'center center'
+              perspectiveOrigin: `${mousePosition.x}% ${mousePosition.y}%`
             }}
           >
             {/* 3D 場景容器 */}
@@ -370,7 +390,7 @@ export default function InnovationsSection() {
                   id={`innovation-item-${item.id}`}
                   className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
                   style={{
-                    transformStyle: 'preserve-3d',
+                    // transformStyle: 'preserve-3d',
                     transformOrigin: 'center center',
                     width: '500px', // 調整尺寸以配合新的動畫
                     height: '500px',
