@@ -79,11 +79,6 @@ export default function InnovationsSection() {
 
   // 從 projects.json 篩選項目
   const innovationItems = useMemo(() => {
-    interface ProjectItem {
-      id: string;
-      section: string | string[];
-      [key: string]: unknown;
-    }
     return (projectsData as unknown as InnovationItem[])
       .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
       .sort((a: InnovationItem, b: InnovationItem) => {
