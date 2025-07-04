@@ -146,5 +146,81 @@ perf: 優化 GSAP 動畫效能
 - **狀態管理**: Zustand 統一管理應用狀態
 - **響應式設計**: 適配各種設備與螢幕
 
+## 🚨 Vercel 部署常見錯誤與解決方案
+
+### ❌ 常見錯誤類型
+
+#### 1. **pnpm-lock.yaml 與 package.json 不同步**
+**錯誤訊息**: `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"`
+**解決方案**: 
+```bash
+pnpm install  # 重新安裝並更新 lockfile
+git add pnpm-lock.yaml
+git commit -m "fix: 更新 pnpm-lock.yaml"
+```
+
+#### 2. **TypeScript 類型錯誤**
+**常見問題**:
+- `unknown` 類型無法訪問屬性
+- 介面屬性缺失（`id`, `path`, `title` 等）
+- `boolean` 與 `string` 類型不匹配
+- `Record<string, unknown>` 缺少索引簽名
+
+**解決方案**:
+```typescript
+// ✅ 正確的類型轉換
+const projectId = (modal.data as { id?: string })?.id || '';
+
+// ✅ 正確的 boolean 轉換
+const shouldShow = Boolean(condition);
+
+// ✅ 正確的介面定義
+interface MyInterface {
+  id: string;
+  title: string;
+  [key: string]: unknown; // 索引簽名
+}
+```
+
+#### 3. **ESLint 錯誤**
+**常見問題**:
+- 未使用的變數和參數
+- `any` 類型使用
+- React Hook 依賴警告
+
+**解決方案**:
+```typescript
+// ✅ 移除未使用的參數
+}: ModalContentProps) => {  // 移除 onClose, scrollContainer
+
+// ✅ 使用具體類型替代 any
+const data: Record<string, unknown> = {};
+
+// ✅ 修正 Hook 依賴
+useEffect(() => {
+  // ...
+}, [modal.data]); // 添加缺失的依賴
+```
+
+### ⚠️ 重要提醒
+
+1. **謙遜原則**: 不要過度自信聲稱「完全修復」，始終保持驗證
+2. **實際驗證**: 使用 `pnpm run build` 本地測試，不僅依賴工具分析
+3. **分批修復**: 一次修復一類錯誤，避免引入新問題
+4. **完整檢查**: 確保修復後沒有遺漏的錯誤
+
+### 🔧 驗證指令
+
+```bash
+# TypeScript 類型檢查
+npx tsc --noEmit
+
+# ESLint 檢查（僅源代碼）
+npx eslint src --ext .ts,.tsx
+
+# 完整構建測試
+pnpm run build
+```
+
 ---
 *詳細開發紀錄請參閱 DEVELOPMENT_LOG.md*
