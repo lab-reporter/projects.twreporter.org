@@ -95,8 +95,11 @@ export default function Modal() {
     const dataToUse = modalDataSnapshot || modal.data;
     if (!dataToUse) return null;
 
+    // 類型檢查：確保 dataToUse 有 id 屬性
+    const projectId = (dataToUse as { id?: string })?.id || modal.contentId || '';
+    
     // 使用動態內容組件系統
-    const ContentComponent = getContentComponentByProjectId(dataToUse.id || modal.contentId || '');
+    const ContentComponent = getContentComponentByProjectId(projectId);
 
     return (
       <div>
