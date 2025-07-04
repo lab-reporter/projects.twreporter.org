@@ -47,8 +47,7 @@ const Navigation = () => {
           end: 'top 50%',
           // 滾動同步程度
           scrub: 1,
-          // 開發時顯示標記
-          markers: true,
+          // markers: true,
           // 動畫識別 ID
           id: 'navigation-position'
         }

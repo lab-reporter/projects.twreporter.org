@@ -86,6 +86,9 @@ export default function InnovationsSection() {
   // 預先快取元素引用以優化效能
   const elementRefsCache = useRef<Map<string, HTMLElement>>(new Map());
 
+  // Debug 功能控制開關（預設關閉）
+  const DEBUG_ENABLED = false;
+
   // Debug 狀態追蹤
   const [debugInfo, setDebugInfo] = useState<{
     scrollProgress: number;
@@ -217,7 +220,7 @@ export default function InnovationsSection() {
 
           // 取得物件的基本錯位位置
           const offset = getOffsetPosition(index);
-          
+
           // 計算錯位漸變因子：從 background 狀態到 active 狀態過程中逐漸歸零
           // 當物件從 -300vw 移動到 -25vw 時，錯位從 100% 降到 0%
           let offsetFactor = 1; // 預設保持完整錯位
@@ -260,24 +263,26 @@ export default function InnovationsSection() {
             });
           }
 
-          // 收集 debug 資訊
-          let stateName = 'hidden';
-          if (currentDepth >= -300 && currentDepth < -25) stateName = 'background';
-          else if (currentDepth >= -25 && currentDepth < 25) stateName = 'active';
-          else if (currentDepth >= 25 && currentDepth < 50) stateName = 'foreground';
-          else if (currentDepth >= 50) stateName = 'invisible';
+          // 只在 Debug 模式開啟時才收集資訊
+          if (DEBUG_ENABLED) {
+            let stateName = 'hidden';
+            if (currentDepth >= -300 && currentDepth < -25) stateName = 'background';
+            else if (currentDepth >= -25 && currentDepth < 25) stateName = 'active';
+            else if (currentDepth >= 25 && currentDepth < 50) stateName = 'foreground';
+            else if (currentDepth >= 50) stateName = 'invisible';
 
-          debugItems.push({
-            index,
-            id: item.id,
-            x: Math.round(offset.x * offsetFactor * 100) / 100,
-            y: Math.round(offset.y * offsetFactor * 100) / 100,
-            z: Math.round(currentDepth * 100) / 100,
-            state: stateName,
-            opacity: Math.round(state.opacity * 100) / 100,
-            scale: Math.round(state.scale * 100) / 100,
-            blur: state.blur
-          });
+            debugItems.push({
+              index,
+              id: item.id,
+              x: Math.round(offset.x * offsetFactor * 100) / 100,
+              y: Math.round(offset.y * offsetFactor * 100) / 100,
+              z: Math.round(currentDepth * 100) / 100,
+              state: stateName,
+              opacity: Math.round(state.opacity * 100) / 100,
+              scale: Math.round(state.scale * 100) / 100,
+              blur: state.blur
+            });
+          }
         });
 
         // 更新當前活躍項目索引
@@ -285,11 +290,13 @@ export default function InnovationsSection() {
           setCurrentItemIndex(activeIndex);
         }
 
-        // 更新 debug 資訊
-        setDebugInfo({
-          scrollProgress: Math.round(progress * 1000) / 1000,
-          items: debugItems
-        });
+        // 只在 Debug 模式開啟時才更新除錯資訊
+        if (DEBUG_ENABLED) {
+          setDebugInfo({
+            scrollProgress: Math.round(progress * 1000) / 1000,
+            items: debugItems
+          });
+        }
       },
     });
 
@@ -299,8 +306,10 @@ export default function InnovationsSection() {
     };
   }, [innovationItems]);
 
-  // Debug console.table 輸出 (每500ms)
+  // 設定定時器在 Debug 模式開啟時輸出除錯資訊到控制台
   useEffect(() => {
+    if (!DEBUG_ENABLED) return;
+    
     const interval = setInterval(() => {
       if (debugInfo.items.length > 0) {
         console.table(debugInfo.items.map(item => ({
@@ -319,7 +328,7 @@ export default function InnovationsSection() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, [debugInfo]);
+  }, [debugInfo, DEBUG_ENABLED]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
@@ -393,7 +402,7 @@ export default function InnovationsSection() {
             </div>
 
             {/* Debug GUI - 左上角 */}
-            {process.env.NODE_ENV === 'development' && (
+            {DEBUG_ENABLED && process.env.NODE_ENV === 'development' && (
               <div className="absolute top-4 left-4 bg-black/80 text-white p-4 rounded-lg text-xs font-mono max-h-96 overflow-y-auto z-50">
                 <div className="mb-3 text-green-400 font-bold">
                   3D Debug Info - Scroll: {debugInfo.scrollProgress}
@@ -403,18 +412,18 @@ export default function InnovationsSection() {
                     <div
                       key={item.id}
                       className={`grid grid-cols-4 gap-2 py-1 px-2 rounded ${item.state === 'active' ? 'bg-green-600/30' :
-                          item.state === 'background' ? 'bg-yellow-600/30' :
-                            item.state === 'foreground' ? 'bg-blue-600/30' :
-                              item.state === 'invisible' ? 'bg-red-600/30' :
-                                'bg-gray-600/30'
+                        item.state === 'background' ? 'bg-yellow-600/30' :
+                          item.state === 'foreground' ? 'bg-blue-600/30' :
+                            item.state === 'invisible' ? 'bg-red-600/30' :
+                              'bg-gray-600/30'
                         }`}
                     >
                       <span className="text-white">{item.index + 1}</span>
                       <span className={`font-bold ${item.state === 'active' ? 'text-green-400' :
-                          item.state === 'background' ? 'text-yellow-400' :
-                            item.state === 'foreground' ? 'text-blue-400' :
-                              item.state === 'invisible' ? 'text-red-400' :
-                                'text-gray-400'
+                        item.state === 'background' ? 'text-yellow-400' :
+                          item.state === 'foreground' ? 'text-blue-400' :
+                            item.state === 'invisible' ? 'text-red-400' :
+                              'text-gray-400'
                         }`}>{item.state.toUpperCase()}</span>
                       <span className="text-cyan-300">Z:{item.z}</span>
                       <span className="text-pink-300">O:{item.opacity}</span>

@@ -56,10 +56,10 @@ export default function ReportsSwiper() {
             return { sliderSize: 7, translateZMultiplier: 7.5, perspective: '35vw' };
         } else if (width < 1536) {
             // 1280px - 1536px：大桌面
-            return { sliderSize: 6, translateZMultiplier: 7, perspective: '35vw' };
+            return { sliderSize: 5, translateZMultiplier: 7, perspective: '35vw' };
         } else {
             // 1536px+：超大桌面
-            return { sliderSize: 5, translateZMultiplier: 6, perspective: '35vw' };
+            return { sliderSize: 4, translateZMultiplier: 6, perspective: '35vw' };
         }
     };
 
@@ -135,8 +135,6 @@ export default function ReportsSwiper() {
             end: 'bottom bottom',
             // 動畫與滾動同步程度（數值越大越平滑）
             scrub: 2,
-            // 關閉開發標記
-            markers: false,
             // 滾動更新時的回調函數
             onUpdate: (self) => {
                 // 計算輪播項目的總數量

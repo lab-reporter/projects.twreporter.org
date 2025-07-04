@@ -49,7 +49,7 @@ export default function ReportsSection() {
           // 動畫結束時機：向下滾動一定距離後
           end: '+=100',
           // 開發時顯示標記
-          markers: true,
+          // markers: true,
           // 與滾動同步的動畫
           scrub: true,
           // 動畫識別 ID
