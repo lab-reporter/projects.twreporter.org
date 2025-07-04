@@ -50,7 +50,7 @@ export function usePerformanceMonitor(
         // 取得記憶體使用情況（如果瀏覽器支援）
         let memoryUsage: number | undefined;
         if ('memory' in performance) {
-          const memory = (performance as any).memory;
+          const memory = (performance as { memory: { usedJSHeapSize: number } }).memory;
           memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024);
         }
         
@@ -81,7 +81,7 @@ export function usePerformanceMonitor(
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [enabled, monitorInterval, lowPerformanceThreshold]);
+  }, [enabled, monitorInterval, lowPerformanceThreshold, calculateFPS]);
 
   return stats;
 }

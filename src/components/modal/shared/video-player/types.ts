@@ -43,7 +43,7 @@ export interface VideoErrorStateProps {
 }
 
 export interface VideoLoadingStateProps {
-  // 載入狀態組件暫無特殊 props
+  className?: string;
 }
 
 export interface VideoPlayerState {

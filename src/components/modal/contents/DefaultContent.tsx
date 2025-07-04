@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function DefaultContent({ projectData, onClose }: ContentProps) {
+export default function DefaultContent({ projectData }: ContentProps) {
   return (
     <Shared.Container>
 

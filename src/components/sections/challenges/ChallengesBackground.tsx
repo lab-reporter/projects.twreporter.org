@@ -2,7 +2,7 @@
 
 import { forwardRef, useRef, useImperativeHandle } from 'react';
 import ChallengePhoto from './ChallengePhoto';
-import { PHOTO_CONFIG, CARD_POSITIONS, PhotoPosition } from './challenges.config';
+import { PHOTO_CONFIG, CARD_POSITIONS } from './challenges.config';
 import { useProgressiveLoading } from './hooks/useProgressiveLoading';
 
 interface ChallengesBackgroundProps {

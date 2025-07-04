@@ -73,8 +73,8 @@ export default function OptimizedInnovationsSection() {
   // 從 projects.json 篩選項目
   const innovationItems = useMemo(() => {
     return projectsData
-      .filter((p: any) => p.section && (p.section.includes('innovation') || p.section === 'innovation'))
-      .sort((a: any, b: any) => {
+      .filter((p: Record<string, unknown>) => p.section && (p.section.includes('innovation') || p.section === 'innovation'))
+      .sort((a: Record<string, unknown>, b: Record<string, unknown>) => {
         const numA = parseInt(a.id.split('-')[1]);
         const numB = parseInt(b.id.split('-')[1]);
         return numA - numB;
@@ -277,7 +277,7 @@ export default function OptimizedInnovationsSection() {
       scrollTrigger.kill();
       elementRefsCache.current.clear();
     };
-  }, [innovationItems, animationsEnabled, isLowPerformance]);
+  }, [innovationItems, animationsEnabled, isLowPerformance, calculateOptimizedState]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
@@ -316,7 +316,7 @@ export default function OptimizedInnovationsSection() {
                 transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
               }}
             >
-              {innovationItems.map((item, index) => (
+              {innovationItems.map((item) => (
                 <div
                   key={item.id}
                   id={`innovation-item-${item.id}`}

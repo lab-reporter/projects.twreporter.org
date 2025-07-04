@@ -33,7 +33,7 @@ export const sceneSlice: StateCreator<
   [['zustand/immer', never], ['zustand/devtools', never]],
   [],
   SceneSlice
-> = (set, get) => ({
+> = (set) => ({
   cameraPosition: [0, 0, 1000],
   cameraTarget: [0, 0, 0],
   cameraFOV: 75,

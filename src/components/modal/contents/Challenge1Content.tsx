@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Innovation1Content({ projectData, onClose, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
+export default function Innovation1Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
   if (!projectData) return null;
 
   return (

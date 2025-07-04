@@ -10,10 +10,10 @@ interface ReportsSwiperItemProps {
   subtitle: string;
   bgColor?: string;
   shouldPlay?: boolean; // 控制是否應該播放
-  projectData?: any; // 完整的專案資料，用於 Modal 顯示
+  projectData?: Record<string, unknown>; // 完整的專案資料，用於 Modal 顯示
 }
 
-export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, shouldPlay = false, projectData }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData }: ReportsSwiperItemProps) {
   const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,7 +58,7 @@ export default function ReportsSwiperItem({ id, path, title, subtitle, bgColor, 
         // 應該播放：啟動播放
         const startPlayback = () => {
           video.play().then(() => {
-          }).catch((error) => {
+          }).catch(() => {
           });
         };
 

@@ -114,7 +114,7 @@ export default function OpeningSection() {
       });
       setAnimationsLoaded(true);
     });
-  }, [is3DEnabled]);
+  }, [is3DEnabled, photosRef]);
 
   // 視窗外時停用 3D 效果
   useEffect(() => {

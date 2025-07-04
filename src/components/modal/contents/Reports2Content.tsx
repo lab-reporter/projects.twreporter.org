@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Reports2Content({ projectData, onClose, onNavigate, adjacentProjects }: ContentProps) {
-  const [activeTab, setActiveTab] = useState('overview');
+export default function Reports2Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
 
   if (!projectData) return null;
 
@@ -77,7 +75,6 @@ export default function Reports2Content({ projectData, onClose, onNavigate, adja
       {/* 導航按鈕 */}
       <Shared.NavigationControls
         onNavigate={onNavigate}
-        onHome={onClose}
         adjacentProjects={adjacentProjects}
       />
     </Shared.Container>

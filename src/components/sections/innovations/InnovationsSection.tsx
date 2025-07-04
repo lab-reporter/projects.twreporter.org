@@ -78,9 +78,13 @@ export default function InnovationsSection() {
 
   // 從 projects.json 篩選項目
   const innovationItems = useMemo(() => {
-    return projectsData
-      .filter((p: any) => p.section && (p.section.includes('innovation') || p.section === 'innovation'))
-      .sort((a: any, b: any) => {
+    interface ProjectItem {
+      id: string;
+      section: string | string[];
+    }
+    return (projectsData as ProjectItem[])
+      .filter((p: ProjectItem) => p.section && (p.section.includes('innovation') || p.section === 'innovation'))
+      .sort((a: ProjectItem, b: ProjectItem) => {
         const numA = parseInt(a.id.split('-')[1]);
         const numB = parseInt(b.id.split('-')[1]);
         return numA - numB;
@@ -288,7 +292,7 @@ export default function InnovationsSection() {
       scrollTrigger.kill();
       elementRefsCache.current.clear();
     };
-  }, [innovationItems, animationsEnabled, isLowPerformance]);
+  }, [innovationItems, animationsEnabled, isLowPerformance, calculateOptimizedState]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 

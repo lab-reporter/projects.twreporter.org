@@ -20,7 +20,7 @@ export const scrollSlice: StateCreator<
   [['zustand/immer', never], ['zustand/devtools', never]],
   [],
   ScrollSlice
-> = (set, get) => ({
+> = (set) => ({
   scrollProgress: 0,
   scrollDirection: 'down',
   currentSection: 'opening',

@@ -20,7 +20,7 @@ export const useChallengesScroll = ({
 
     gsap.registerPlugin(ScrollTrigger);
 
-    const { CONTAINER_WIDTH_VW, moveDistance, scrollHeight } = calculateScrollParams(challengeProjects.length);
+    const { CONTAINER_WIDTH_VW, moveDistance } = calculateScrollParams(challengeProjects.length);
 
     const titlesContainer = document.querySelector('[data-challenges-container]') as HTMLElement;
 
@@ -48,7 +48,7 @@ export const useChallengesScroll = ({
         title.addEventListener('click', clickHandler);
 
         // 儲存handler以便清理
-        (title as any)._clickHandler = clickHandler;
+        (title as HTMLElement & { _clickHandler?: () => void })._clickHandler = clickHandler;
       });
 
       // 創建 ScrollTrigger
@@ -140,9 +140,10 @@ export const useChallengesScroll = ({
       // 清理點擊事件
       const challengeTitles = document.querySelectorAll('#challenges-section .challengeTitle');
       challengeTitles.forEach((title) => {
-        if ((title as any)._clickHandler) {
-          title.removeEventListener('click', (title as any)._clickHandler);
-          delete (title as any)._clickHandler;
+        const titleElement = title as HTMLElement & { _clickHandler?: () => void };
+        if (titleElement._clickHandler) {
+          title.removeEventListener('click', titleElement._clickHandler);
+          delete titleElement._clickHandler;
         }
       });
     };

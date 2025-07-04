@@ -25,7 +25,7 @@ export default function SupportSection() {
   const supporterRef = useRef(null);
 
   // 計算值：下一位支持者的序號（當前支持者數量加一）
-  const finalNextSupporterNumber = finalSupporterCount + 1;
+  // const finalNextSupporterNumber = finalSupporterCount + 1;
   // 常數：目標支持者人數上限
   const targetSupporters = 10000;
   // 計算值：目前進度的百分比（用於進度條顯示）
@@ -163,7 +163,7 @@ export default function SupportSection() {
       // 延遲執行時間
     }, 250);
     // 空依賴陣列：函數內容不依賴外部變數
-  }, []);
+  }, [CONFETTI_COLORS, DEFAULT_CONFETTI_COLORS]);
 
   // 事件處理函數：處理預設金額按鈕的點擊
   const handleAmountSelection = (amount: number) => {

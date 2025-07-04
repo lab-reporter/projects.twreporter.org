@@ -11,7 +11,7 @@ export interface UISlice {
   modal: {
     isOpen: boolean
     contentId: string | null
-    data: any
+    data: Record<string, unknown> | null
   }
   
   // 主題和響應式
@@ -27,7 +27,7 @@ export interface UISlice {
   setNavigationOpen: (isOpen: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
-  openModal: (contentId: string, data?: any) => void
+  openModal: (contentId: string, data?: Record<string, unknown> | null) => void
   closeModal: () => void
   setTheme: (theme: 'light' | 'dark') => void
   setDeviceType: (isMobile: boolean, isTablet: boolean) => void
@@ -39,7 +39,7 @@ export const uiSlice: StateCreator<
   [['zustand/immer', never], ['zustand/devtools', never]],
   [],
   UISlice
-> = (set, get) => ({
+> = (set) => ({
   isNavigationOpen: false,
   isSidePanelOpen: false,
   sidePanelContent: null,

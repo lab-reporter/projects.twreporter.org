@@ -13,7 +13,6 @@ export default function ChallengesSection() {
   const { openModal } = useStore();
   const { challengeProjects } = useChallengesData();
   const imagesRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   // 計算容器高度：(挑戰數量 + 1) * 100vh
   const containerHeight = useMemo(() => {
@@ -30,7 +29,12 @@ export default function ChallengesSection() {
   // 處理挑戰項目點擊
   const handleChallengeClick = (title: string) => {
     // 根據標題查找對應的項目數據
-    const projectData = projectsData.find((p: any) =>
+    interface ProjectItem {
+      id: string;
+      title: string;
+      section: string | string[];
+    }
+    const projectData = (projectsData as ProjectItem[]).find((p: ProjectItem) =>
       p.title === title &&
       p.section &&
       (p.section.includes('challenge') || p.section === 'challenge')

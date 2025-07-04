@@ -87,7 +87,7 @@ export default function ReportsSwiper() {
     const { sliderSize, translateZMultiplier, perspective } = getResponsiveValues(isClient ? windowWidth : 1024);
 
     // 資料篩選：從專案資料中篩選出報導章節的項目
-    const reportsData: ReportItem[] = projectsData.filter((item: any) =>
+    const reportsData: ReportItem[] = (projectsData as ReportItem[]).filter((item: ReportItem) =>
         item.section.includes('reports')
     );
 

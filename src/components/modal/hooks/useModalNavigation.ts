@@ -3,6 +3,16 @@ import { useStore } from '@/stores';
 import { getAdjacentProjects } from '../utils';
 import projectsData from '@/app/data/projects.json';
 
+// 定義項目數據類型
+interface ProjectData {
+    id: string;
+    path: string;
+    title: string;
+    subtitle: string;
+    section: string[];
+    bgColor: string;
+}
+
 export const useModalNavigation = () => {
     const { modal, openModal } = useStore();
 
@@ -15,7 +25,7 @@ export const useModalNavigation = () => {
             ? dataToUse.section[0]
             : dataToUse.section;
 
-        return projectsData.filter((p: any) => {
+        return (projectsData as ProjectData[]).filter((p: ProjectData) => {
             if (!p.section) return false;
             const pSection = Array.isArray(p.section) ? p.section[0] : p.section;
             return pSection === currentSection;
@@ -28,7 +38,7 @@ export const useModalNavigation = () => {
         if (!dataToUse) {
             return { prev: null, next: null };
         }
-        return getAdjacentProjects(dataToUse, sameTypeProjects as any);
+        return getAdjacentProjects(dataToUse, sameTypeProjects);
     }, [modal.data, sameTypeProjects]);
 
     // 處理導航

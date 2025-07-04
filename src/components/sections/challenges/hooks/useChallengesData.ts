@@ -12,7 +12,10 @@ export interface ChallengeProject {
 // 獲取挑戰數據的 hook
 export const useChallengesData = () => {
   return useMemo(() => {
-    const challengeProjects = projectsData.filter((p: any) =>
+    interface ProjectItem {
+      section: string | string[];
+    }
+    const challengeProjects = (projectsData as ProjectItem[]).filter((p: ProjectItem) =>
       p.section && (p.section.includes('challenge') || p.section === 'challenge')
     ) as ChallengeProject[];
 

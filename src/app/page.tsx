@@ -17,7 +17,7 @@ import SupportSection from '@/components/sections/support/SupportSection';
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {
   // 從全域狀態取得目前頁面章節
-  const { currentSection } = useStore();
+  const {} = useStore();
   // DOM 元素參考：主要內容區域，用於背景顏色動畫
   const mainRef = useRef<HTMLElement>(null);
 
@@ -81,8 +81,9 @@ export default function Home() {
     // 清理函數：組件卸載時移除背景動畫觸發器
     return () => {
       if (typeof window !== 'undefined') {
-        const { ScrollTrigger } = require('gsap/ScrollTrigger');
-        ScrollTrigger.getById('main-background-animation')?.kill();
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          ScrollTrigger.getById('main-background-animation')?.kill();
+        });
       }
     };
     // 空依賴陣列：只在組件首次載入時執行

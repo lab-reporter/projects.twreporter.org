@@ -11,7 +11,6 @@ interface NavigationControlsProps {
 
 export default function NavigationControls({
   onNavigate,
-  onHome,
   adjacentProjects,
   className = ''
 }: NavigationControlsProps) {

@@ -24,7 +24,7 @@ export default function ChallengesSlider({
       <ChallengesIntro />
 
       {/* 挑戰項目 */}
-      {challengeProjects.map((challenge, index) => (
+      {challengeProjects.map((challenge) => (
         <ChallengeItem
           key={challenge.id}
           title={challenge.title}

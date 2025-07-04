@@ -75,7 +75,7 @@ const textBlocks: TextBlock[] = [
   }
 ];
 
-export default function Innovation7Content({ projectData, onClose, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
+export default function Innovation7Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
     if (!projectData) return null;
 
     return (

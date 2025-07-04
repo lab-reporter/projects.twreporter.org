@@ -12,7 +12,7 @@ export default function Modal() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const modalBodyRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(false);
-  const [modalDataSnapshot, setModalDataSnapshot] = useState<any>(null);
+  const [modalDataSnapshot, setModalDataSnapshot] = useState<unknown>(null);
 
   // 使用導航和鍵盤 hooks
   const { adjacentProjects, handleNavigate } = useModalNavigation();
@@ -86,7 +86,7 @@ export default function Modal() {
         });
       }
     }
-  }, [modal.isOpen, shouldRender]);
+  }, [modal.isOpen, modal.data, shouldRender]);
 
   if (!shouldRender) return null;
 

@@ -44,7 +44,7 @@ export const dataSlice: StateCreator<
   [['zustand/immer', never], ['zustand/devtools', never]],
   [],
   DataSlice
-> = (set, get) => ({
+> = (set) => ({
   projects: [],
   filteredProjects: [],
   currentProject: null,
