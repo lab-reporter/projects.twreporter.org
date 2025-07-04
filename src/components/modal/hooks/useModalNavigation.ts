@@ -38,7 +38,15 @@ export const useModalNavigation = () => {
         if (!dataToUse) {
             return { prev: null, next: null };
         }
-        return getAdjacentProjects(dataToUse, sameTypeProjects);
+        // 類型轉換：確保 dataToUse 符合 ProjectData 介面
+        const safeData: ProjectData = {
+            id: (dataToUse as { id?: string })?.id || '',
+            path: (dataToUse as { path?: string })?.path || '',
+            title: (dataToUse as { title?: string })?.title || '',
+            subtitle: (dataToUse as { subtitle?: string })?.subtitle || '',
+            section: (dataToUse as { section?: string[] })?.section || []
+        };
+        return getAdjacentProjects(safeData, sameTypeProjects);
     }, [modal.data, sameTypeProjects]);
 
     // 處理導航

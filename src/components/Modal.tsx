@@ -139,7 +139,7 @@ export default function Modal() {
         <ModalScrollManager
           scrollContainer={scrollContainerRef}
           isModalOpen={modal.isOpen}
-          modalDataId={modal.data?.id}
+          modalDataId={(modal.data as { id?: string })?.id}
           modalContentId={modal.contentId || undefined}
           onClose={closeModal}
         >
