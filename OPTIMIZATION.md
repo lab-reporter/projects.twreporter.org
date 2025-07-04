@@ -933,4 +933,115 @@ export const useSmartLoading = <T extends MediaItem>(
 
 ---
 
+## 📊 Lighthouse 效能分析報告
+
+### **測試環境**
+- **測試日期**: 2025-07-04 17:20:55 UTC
+- **測試網址**: https://10th-recap-dev-2d.vercel.app/
+- **Lighthouse 版本**: 12.6.0
+- **瀏覽器**: Chrome 138.0.0.0
+
+### **核心效能指標**
+| 指標 | 數值 | 分數 | 狀態 |
+|------|------|------|------|
+| **總體效能** | - | **45/100** | ❌ **需大幅改善** |
+| **First Contentful Paint** | 1.5秒 | 56/100 | ⚠️ 需改善 |
+| **Largest Contentful Paint** | 4.0秒 | 17/100 | ❌ 嚴重問題 |
+| **Speed Index** | 2.3秒 | 51/100 | ⚠️ 需改善 |
+| **Cumulative Layout Shift** | - | - | ❌ 15次版面偏移 |
+
+### **關鍵問題分析**
+
+#### **1. LCP (Largest Contentful Paint) - 4.0秒**
+- **問題**: 最大內容繪製時間過長
+- **影響**: 使用者感知載入速度極慢
+- **原因**: 大型媒體檔案（視頻/圖片）同時載入
+
+#### **2. 版面偏移問題 - 15次**
+- **問題**: 頁面載入過程中發生多次版面跳動
+- **影響**: 使用者體驗不佳，可能誤觸按鈕
+- **原因**: 動畫載入順序不當
+
+#### **3. 媒體優化機會**
+- **節省空間**: 7,297 KiB (約7.1MB)
+- **問題**: 圖片/視頻未經適當壓縮和格式優化
+- **影響**: 網路頻寬浪費，載入時間延長
+
+#### **4. JavaScript 資源浪費**
+- **未使用代碼**: 729 KiB
+- **問題**: 打包了不必要的 JavaScript 代碼
+- **影響**: 增加下載時間和解析時間
+
+### **即時優化建議**
+
+#### **🔥 高優先級修復**
+1. **實作媒體懶載入**
+   - Reports 和 Innovations 章節採用視窗內載入
+   - 預載入僅限首屏內容
+   - 預期改善：LCP 減少 50%
+
+2. **啟用圖片/視頻壓縮**
+   - 使用 Next.js Image 組件
+   - 實作 WebP/AVIF 格式
+   - 預期改善：載入時間減少 60%
+
+3. **解決版面偏移問題**
+   - 為所有媒體元素設定固定尺寸
+   - 優化動畫載入順序
+   - 預期改善：CLS 降至 0.1 以下
+
+#### **⚠️ 中優先級改善**
+1. **代碼分割優化**
+   - 按章節分割 JavaScript 代碼
+   - 移除未使用的庫和函數
+   - 預期改善：JS 體積減少 40%
+
+2. **字體載入優化**
+   - 實作字體預載入
+   - 使用 font-display: swap
+   - 預期改善：FCP 減少 0.3秒
+
+### **技術實作建議**
+
+#### **Next.js 配置優化**
+```typescript
+// next.config.ts
+const nextConfig: NextConfig = {
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 31536000,
+  },
+  experimental: {
+    optimizePackageImports: ['gsap', 'zustand'],
+  },
+};
+```
+
+#### **媒體懶載入實作**
+```typescript
+// 視頻懶載入策略
+const VideoLazyLoad = ({ src, ...props }) => {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const { ref, inView } = useInView({ threshold: 0.1 });
+  
+  useEffect(() => {
+    if (inView) setShouldLoad(true);
+  }, [inView]);
+  
+  return (
+    <div ref={ref}>
+      {shouldLoad && <video src={src} {...props} />}
+    </div>
+  );
+};
+```
+
+### **預期效能提升**
+- **總體效能分數**: 45 → 75+ (提升 67%)
+- **LCP 時間**: 4.0秒 → 2.0秒 (減少 50%)
+- **CLS 分數**: 15次偏移 → 0次偏移 (完全解決)
+- **載入體積**: 減少 7MB+ 媒體資源
+
+---
+
 *本分析已在所有功能開發完成後執行，預期為專案帶來顯著的效能提升和用戶體驗改善。*
