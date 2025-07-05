@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC, Roboto_Slab } from 'next/font/google'
 import "./globals.css";
 import CustomCursor from "@/components/shared/CustomCursor";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default function RootLayout({
       >
         {children}
         <CustomCursor />
+        <SpeedInsights />
       </body>
     </html>
   );
