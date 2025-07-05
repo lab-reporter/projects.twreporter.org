@@ -67,7 +67,7 @@ export default function RootLayout({
       >
         {children}
         <CustomCursor />
-        <SpeedInsights />
+        <SpeedInsights debug={process.env.NODE_ENV === 'development'} />
       </body>
     </html>
   );
