@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { openingPhotosRef, photosData } from '@/components/sections/opening/OpeningSection';
+import Image from 'next/image';
 
 // 主導航組件
 const Navigation = () => {
@@ -100,10 +101,13 @@ const Navigation = () => {
         {/* 導航內容容器 */}
         <div className="mx-auto w-auto h-auto flex flex-row justify-between items-center rounded-sm">
           {/* 網站標誌 */}
-          <img
-            className="h-10 w-auto"
+          <Image
             src="/assets/nav_logo--light.svg"
             alt="Logo"
+            width={160}
+            height={40}
+            priority={true}
+            className="h-10 w-auto"
           />
         </div>
       </div>

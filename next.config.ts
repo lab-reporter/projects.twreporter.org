@@ -1,7 +1,26 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    // 啟用現代圖片格式
+    formats: ['image/webp', 'image/avif'],
+    // 設定圖片快取時間（1年）
+    minimumCacheTTL: 31536000,
+    // 允許的圖片大小
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 500, 750, 1000],
+    // 允許的設備尺寸
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  },
+  // 實驗性功能
+  experimental: {
+    // 優化套件匯入
+    optimizePackageImports: ['gsap', 'zustand'],
+  },
+  // 編譯器優化
+  compiler: {
+    // 移除 console.log（生產環境）
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
 };
 
 export default nextConfig;

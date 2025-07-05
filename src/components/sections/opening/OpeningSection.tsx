@@ -5,6 +5,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import Image from 'next/image';
 
 // 照片數據結構
 type PhotoData = {
@@ -174,12 +175,19 @@ export default function OpeningSection() {
         >
           {/* 動態生成照片元件 */}
           {photosData.map((photo, index) => (
-            <img
+            <Image
               key={photo.id}
               ref={(el) => {
                 photosRef.current[index] = el;
               }}
               src={photo.src}
+              alt={`Opening photo ${index + 1}`}
+              width={300}
+              height={200}
+              quality={85}
+              priority={index < 2} // 前2張優先載入
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
               className="absolute h-auto shadow-lg"
               style={{
                 top: photo.top,
@@ -188,8 +196,8 @@ export default function OpeningSection() {
                 // 效能優化：使用 transform3d 觸發硬體加速
                 transform: animationsLoaded ? 'translate3d(0,0,0)' : undefined,
               }}
-              alt=""
-              loading="lazy" // 延遲載入圖片
+              loading={index < 2 ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
             />
           ))}
         </div>
