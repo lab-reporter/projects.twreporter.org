@@ -9,66 +9,47 @@ interface UseScrollTriggerOptions {
   delay?: number;
 }
 
-// 章節優先級配置：數字越大優先級越高
-const SECTION_PRIORITY: Record<string, number> = {
-  'opening': 0,      // 最低優先級
-  'reports': 1,
-  'innovations': 2,
-  'challenges': 3,
-  'feedbacks': 4,
-  'support': 5       // 最高優先級
-};
-
-// 檢查是否有更高優先級的章節在視窗中
-const hasHigherPrioritySectionInView = (currentSectionName: string): boolean => {
-  const currentPriority = SECTION_PRIORITY[currentSectionName] || 0;
-
-  // 檢查所有優先級更高的章節
-  const higherPrioritySections = Object.entries(SECTION_PRIORITY)
-    .filter(([_, priority]) => priority > currentPriority)
-    .map(([sectionName, _]) => sectionName);
-
-  // 檢查這些章節是否在視窗中
-  for (const sectionName of higherPrioritySections) {
+// 找出目前視窗中最合適的章節
+const findActiveSection = (): string | null => {
+  // 排除 opening，因為它是 fixed 定位
+  const sections = ['reports', 'innovations', 'challenges', 'feedbacks', 'support'];
+  
+  // 視窗中心點
+  const viewportCenter = window.innerHeight / 2;
+  let closestSection: { name: string; distance: number } | null = null;
+  
+  // 不再返回 opening，因為它是 fixed 定位且 SectionNavigation 只在動畫後顯示
+  // 預設返回 reports
+  if (window.scrollY < window.innerHeight * 0.5) {
+    return 'reports';
+  }
+  
+  for (const sectionName of sections) {
     const element = document.getElementById(`section-${sectionName}`);
     if (element) {
       const rect = element.getBoundingClientRect();
-      // 更嚴格的檢查：章節必須有顯著部分在視窗中（至少 30% 的視窗高度）
-      const significantHeight = window.innerHeight * 0.3;
-      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-      const isSignificantlyInView = visibleHeight > significantHeight && rect.top < window.innerHeight * 0.7;
-
-      if (isSignificantlyInView) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`🚫 Higher priority section "${sectionName}" is significantly in view, blocking "${currentSectionName}"`);
+      
+      // 檢查章節是否在視窗內
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        // 優先選擇頂部在視窗上半部的章節
+        if (rect.top >= 0 && rect.top < viewportCenter) {
+          return sectionName;
         }
-        return true;
+        
+        // 計算章節中心到視窗中心的距離
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - viewportCenter);
+        
+        // 找出最接近視窗中心的章節
+        if (!closestSection || distance < closestSection.distance) {
+          closestSection = { name: sectionName, distance };
+        }
       }
     }
   }
-
-  return false;
-};
-
-// 檢查當前章節是否應該被設為 active（基於滾動方向的智能檢查）
-const shouldSetCurrentSection = (sectionName: string, isEnteringFromTop: boolean = true): boolean => {
-  // 對於往回滾動的情況，需要更寬鬆的檢查
-  if (!isEnteringFromTop) {
-    // 檢查當前章節是否在視窗的主要區域
-    const element = document.getElementById(`section-${sectionName}`);
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const isInMainView = rect.top < window.innerHeight * 0.5 && rect.bottom > window.innerHeight * 0.1;
-
-      if (isInMainView && !hasHigherPrioritySectionInView(sectionName)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // 正常進入時的檢查
-  return !hasHigherPrioritySectionInView(sectionName);
+  
+  // 如果找到最接近的章節就返回，否則預設返回 reports
+  return closestSection?.name || 'reports';
 };
 
 export function useScrollTrigger({
@@ -85,81 +66,57 @@ export function useScrollTrigger({
       if (typeof window !== 'undefined') {
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 
-        // 對於 Opening Section，使用修正的邏輯
-        if (sectionName === 'opening') {
-          ScrollTrigger.create({
-            trigger: `#${sectionId}`,
-            id: `${sectionName}-main`,
-            start: "top top",
-            end: "+=100px", // 滾動 100px 後結束 opening 狀態
-            onEnter: () => {
-              // 檢查是否有更高優先級的章節在視窗中
-              if (shouldSetCurrentSection(sectionName, true)) {
-                setCurrentSection(sectionName);
-                if (process.env.NODE_ENV === 'development') {
-                  console.log(`✅ Setting current section to: ${sectionName}`);
-                }
-              }
-            },
-            onLeave: () => {
+        ScrollTrigger.create({
+          trigger: `#${sectionId}`,
+          id: `${sectionName}-main`,
+          start: sectionName === 'opening' ? "top top" : start,
+          end: sectionName === 'opening' ? "bottom center" : end,
+          markers: false, // 調試時可設為 true
+          onEnter: () => {
+            // 進入章節時，檢查是否應該更新
+            const activeSection = findActiveSection();
+            if (activeSection === sectionName) {
+              setCurrentSection(sectionName);
               if (process.env.NODE_ENV === 'development') {
-                console.log('🔄 Leaving opening section');
-              }
-            },
-            onEnterBack: () => {
-              // 回到頂部時，檢查是否應該設為 opening
-              if (shouldSetCurrentSection(sectionName, false)) {
-                setCurrentSection(sectionName);
-                if (process.env.NODE_ENV === 'development') {
-                  console.log(`✅ EnterBack: Setting current section to: ${sectionName}`);
-                }
-              }
-            },
-            onLeaveBack: () => {
-              if (process.env.NODE_ENV === 'development') {
-                console.log('🔄 LeaveBack: Leaving opening section (going down)');
+                console.log(`✅ onEnter: Setting current section to: ${sectionName}`);
               }
             }
-          });
-        } else {
-          // 其他 Section 使用優先級檢查邏輯
-          ScrollTrigger.create({
-            trigger: `#${sectionId}`,
-            id: `${sectionName}-main`,
-            start,
-            end,
-            onEnter: () => {
-              // 從上方進入時，總是設定較高優先級的章節
-              if (shouldSetCurrentSection(sectionName, true)) {
-                setCurrentSection(sectionName);
+          },
+          onLeave: () => {
+            // 離開時重新計算最合適的章節
+            setTimeout(() => {
+              const activeSection = findActiveSection();
+              if (activeSection && activeSection !== sectionName) {
+                setCurrentSection(activeSection);
                 if (process.env.NODE_ENV === 'development') {
-                  console.log(`✅ Setting current section to: ${sectionName} (priority: ${SECTION_PRIORITY[sectionName]})`);
+                  console.log(`🔄 onLeave: Updating section from ${sectionName} to ${activeSection}`);
                 }
               }
-            },
-            onLeave: () => {
-              // 離開時的處理（向下滾動離開）
+            }, 50);
+          },
+          onEnterBack: () => {
+            // 往回進入章節時
+            const activeSection = findActiveSection();
+            if (activeSection === sectionName) {
+              setCurrentSection(sectionName);
               if (process.env.NODE_ENV === 'development') {
-                console.log(`🔄 Leaving section: ${sectionName} (scrolling down)`);
-              }
-            },
-            onEnterBack: () => {
-              // 回到章節時（從下方回來），使用逆向滾動檢查
-              if (shouldSetCurrentSection(sectionName, false)) {
-                setCurrentSection(sectionName);
-                if (process.env.NODE_ENV === 'development') {
-                  console.log(`✅ EnterBack: Setting current section to: ${sectionName} (scrolling back up)`);
-                }
-              }
-            },
-            onLeaveBack: () => {
-              // 往回離開時的處理（向上滾動離開）
-              if (process.env.NODE_ENV === 'development') {
-                console.log(`🔄 LeaveBack: Leaving section: ${sectionName} (scrolling up)`);
+                console.log(`✅ onEnterBack: Setting current section to: ${sectionName}`);
               }
             }
-          });
-        }
+          },
+          onLeaveBack: () => {
+            // 往回離開時重新計算
+            setTimeout(() => {
+              const activeSection = findActiveSection();
+              if (activeSection && activeSection !== sectionName) {
+                setCurrentSection(activeSection);
+                if (process.env.NODE_ENV === 'development') {
+                  console.log(`🔄 onLeaveBack: Updating section from ${sectionName} to ${activeSection}`);
+                }
+              }
+            }, 50);
+          }
+        });
       }
     };
 

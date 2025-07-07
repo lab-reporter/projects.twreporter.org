@@ -2,8 +2,7 @@
 
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
-import { useMainTimeline } from '@/hooks/useMainTimeline';
+import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
@@ -92,11 +91,8 @@ export default function OpeningSection() {
   const [is3DEnabled, setIs3DEnabled] = useState(false);
 
   // 優化的滑鼠追蹤（只在 3D 啟用且可見時運作）
-  const mousePosition = useOptimizedMouseTracking({
-    enabled: is3DEnabled && isVisible,
-    throttleMs: 16,
-    rangeMin: 45,
-    rangeMax: 55
+  const mousePosition = useMouseTracking3D({
+    enabled: is3DEnabled && isVisible
   });
 
   // 啟用 3D 效果

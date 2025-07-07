@@ -1,10 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
+import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
@@ -57,7 +57,7 @@ export default function InnovationsSection() {
   });
 
   // 效能監控
-  const { fps, isLowPerformance } = usePerformanceMonitor({
+  const { isLowPerformance } = usePerformanceMonitor({
     enabled: isVisible,
     lowPerformanceThreshold: 30
   });
@@ -67,11 +67,9 @@ export default function InnovationsSection() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   // 優化的滑鼠追蹤
-  const mousePosition = useOptimizedMouseTracking({
+  const mousePosition = useMouseTracking3D({
     enabled: is3DEnabled && isVisible && !isLowPerformance,
-    throttleMs: isLowPerformance ? 32 : 16, // 低效能時降低更新頻率
-    rangeMin: 40,
-    rangeMax: 60
+    isLowPerformance
   });
 
   // 預先快取元素引用
@@ -116,7 +114,7 @@ export default function InnovationsSection() {
   };
 
   // 計算平滑過渡狀態（效能優化版）
-  const calculateOptimizedState = (currentDepth: number): ItemState => {
+  const calculateOptimizedState = useCallback((currentDepth: number): ItemState => {
     const states = getAnimationStates(isLowPerformance);
 
     if (currentDepth < -300) {
@@ -152,7 +150,7 @@ export default function InnovationsSection() {
         scale: 1
       };
     }
-  };
+  }, [isLowPerformance]);
 
   // 計算錯位位置
   const getOffsetPosition = (index: number) => {
@@ -167,14 +165,16 @@ export default function InnovationsSection() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // 快取元素引用
-    elementRefsCache.current.clear();
-    innovationItems.forEach((item) => {
-      const element = document.getElementById(`innovation-item-${item.id}`) as HTMLDivElement;
-      if (element) {
-        elementRefsCache.current.set(item.id, element);
-      }
-    });
+    // 快取元素引用 - 只在需要時更新
+    if (elementRefsCache.current.size !== innovationItems.length) {
+      elementRefsCache.current.clear();
+      innovationItems.forEach((item) => {
+        const element = document.getElementById(`innovation-item-${item.id}`) as HTMLDivElement;
+        if (element) {
+          elementRefsCache.current.set(item.id, element);
+        }
+      });
+    }
 
     // 批次設定初始狀態
     const elements = Array.from(elementRefsCache.current.values());
@@ -212,8 +212,8 @@ export default function InnovationsSection() {
         const currentOffset = progress * totalDistance;
         let activeIndex = -1;
 
-        innovationItems.forEach((item, index) => {
-          const element = elementRefsCache.current.get(item.id);
+        // 使用快取的元素陣列，避免重複查詢
+        elements.forEach((element, index) => {
           if (!element) return;
 
           const currentDepth = (-50 - index * 100) + currentOffset;
@@ -287,7 +287,9 @@ export default function InnovationsSection() {
 
     return () => {
       scrollTrigger.kill();
-      elementRefsCache.current.clear();
+      // 複製引用以避免 cleanup 時的警告
+      const cacheRef = elementRefsCache.current;
+      cacheRef.clear();
     };
   }, [innovationItems, animationsEnabled, isLowPerformance, calculateOptimizedState]);
 

@@ -23,7 +23,7 @@ export const scrollSlice: StateCreator<
 > = (set) => ({
   scrollProgress: 0,
   scrollDirection: 'down',
-  currentSection: 'opening',
+  currentSection: 'reports', // 預設為 reports，因為 SectionNavigation 顯示時一定在 reports section
   sectionProgress: 0,
   
   setScrollProgress: (progress) =>

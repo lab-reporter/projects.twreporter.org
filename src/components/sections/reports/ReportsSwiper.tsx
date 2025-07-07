@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
-import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
+import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 // 報導項目的資料結構定義
@@ -49,15 +49,9 @@ export default function ReportsSwiper() {
     });
 
     // 優化的滑鼠追蹤
-    const mousePosition = useOptimizedMouseTracking({
+    const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
-        enabled: isClient && isVisible,
-        // 節流時間：每16毫秒更新一次（約60fps），平衡流暢度與效能
-        throttleMs: 16,
-        // 範圍最小值
-        rangeMin: 47.5,
-        // 範圍最大值
-        rangeMax: 52.5
+        enabled: isClient && isVisible
     });
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數

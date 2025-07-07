@@ -3,6 +3,7 @@
 import { useStore } from '@/stores';
 import { useEffect, useRef } from 'react';
 import { useMainTimeline } from '@/hooks/useMainTimeline';
+import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
 import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
@@ -25,6 +26,9 @@ export default function Home() {
   const { startMainTimeline, cleanup } = useMainTimeline();
   // 防止重複觸發
   const animationTriggeredRef = useRef(false);
+  
+  // 啟用全域滾動監控
+  useGlobalScrollMonitor();
 
   // 頁面載入時強制回到頂部
   useEffect(() => {

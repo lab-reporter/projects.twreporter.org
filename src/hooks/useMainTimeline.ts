@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { openingPhotosRef, facesPhotosData } from '@/components/sections/opening/OpeningSection';
 
@@ -57,7 +57,7 @@ export const useMainTimeline = () => {
             photos.forEach((photo, index) => {
                 if (photo && facesPhotosData[faceType][index]) {
                     const photoData = facesPhotosData[faceType][index];
-                    const initialState: any = {
+                    const initialState: Record<string, string | number> = {
                         opacity: 0,
                         visibility: 'hidden',
                         pointerEvents: 'none'
@@ -104,7 +104,7 @@ export const useMainTimeline = () => {
                 const config = ANIMATION_CONFIG.entrance[face];
                 const delay = index * 0.1 + (['right', 'top', 'bottom'].indexOf(face) + 1) * 0.2;
 
-                const animationProps: any = {
+                const animationProps: Record<string, string | number | gsap.EaseFunction | (() => void)> = {
                     opacity: 1,
                     duration: 1,
                     ease: 'power3.out',
@@ -134,10 +134,9 @@ export const useMainTimeline = () => {
 
             facePhotos.forEach((photo, index) => {
                 if (photo && facesPhotosData[faceType][index]) {
-                    const photoData = facesPhotosData[faceType][index];
                     const exitConfig = ANIMATION_CONFIG.exit[faceType];
 
-                    let animationProps: any = {
+                    const animationProps: Record<string, string | number | gsap.EaseFunction | (() => void)> = {
                         opacity: 0,
                         duration: 0.5,
                         ease: 'power2.in',

@@ -37,6 +37,9 @@ export default function Modal() {
   // Modal 開啟/關閉動畫 和 數據變更處理
   useEffect(() => {
     const modalBody = modalBodyRef.current;
+    let openTween: gsap.core.Tween | null = null;
+    let closeTween: gsap.core.Tween | null = null;
+    let rafId: number | null = null;
 
     if (modal.isOpen) {
       // 更新數據快照（包含導航時的數據變更）
@@ -46,7 +49,7 @@ export default function Modal() {
       setShouldRender(true);
 
       // 等待下一幀再開始動畫，確保 DOM 已渲染
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         if (!modalBody) return;
 
         // 設定初始狀態（隱藏）
@@ -59,7 +62,7 @@ export default function Modal() {
         });
 
         // 開啟動畫：從隱藏狀態到完全顯示
-        gsap.to(modalBody, {
+        openTween = gsap.to(modalBody, {
           opacity: 1,
           scale: 1,
           rotateY: 0,
@@ -71,7 +74,7 @@ export default function Modal() {
     } else if (shouldRender) {
       // 關閉動畫：回到隱藏狀態
       if (modalBody) {
-        gsap.to(modalBody, {
+        closeTween = gsap.to(modalBody, {
           opacity: 0.5,
           scale: 0.25,
           rotateY: 90,
@@ -86,6 +89,13 @@ export default function Modal() {
         });
       }
     }
+
+    // 清理函數：確保動畫和 RAF 被正確清除
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      openTween?.kill();
+      closeTween?.kill();
+    };
   }, [modal.isOpen, modal.data, shouldRender]);
 
   if (!shouldRender) return null;
