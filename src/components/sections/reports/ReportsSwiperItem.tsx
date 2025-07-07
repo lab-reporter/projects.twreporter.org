@@ -122,9 +122,6 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
           />
         )}
       </div>
-
-      {/* Hover 效果 */}
-      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 pointer-events-none" />
     </div>
   );
 }

@@ -284,7 +284,7 @@ export default function ReportsSwiper() {
                                         transformStyle: 'preserve-3d',
                                         // 計算每個項目在圓形輪播中的位置
                                         // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * 6}vw)`,
+                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) rotateZ(10deg) translateZ(${sliderSize * 6}vw)`,
                                         // 設定項目尺寸
                                         width: '100%',
                                         height: '100%'

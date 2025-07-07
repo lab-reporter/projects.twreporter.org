@@ -342,6 +342,7 @@ export default function InnovationsSection() {
                     key={item.id}
                     id={`innovation-item-${item.id}`}
                     className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
+                    data-custom-cursor="explore"
                     style={{
                       transformOrigin: 'center center',
                       width: '800px',
@@ -380,12 +381,6 @@ export default function InnovationsSection() {
               })}
             </div>
 
-            {/* 效能指示器 */}
-            {/* {process.env.NODE_ENV === 'development' && (
-              <div className="absolute top-4 right-4 bg-black/80 text-white p-2 rounded text-xs">
-                FPS: {fps} {isLowPerformance && '(低效能模式)'}
-              </div>
-            )} */}
 
             {/* 當前項目資訊顯示 */}
             <div className="absolute bottom-16 w-full">

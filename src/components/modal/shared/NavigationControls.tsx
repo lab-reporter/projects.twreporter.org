@@ -70,46 +70,49 @@ export default function NavigationControls({
         className="flex-1 bg-white rounded-lg overflow-hidden border-[1px] border-gray-200 transition-all duration-300 cursor-pointer group"
         onClick={() => onNavigate?.(direction)}
       >
-        {/* 上方標籤區域 */}
-        <div className="px-6 py-4 border-b">
-          <div className={`flex items-center justify-between ${isNext ? 'flex-row-reverse' : ''}`}>
-            <span className="text-gray-700 font-bold text-lg tracking-wider">
-              {label}
-            </span>
-            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white group-hover:bg-gray-800 transition-colors">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                {direction === 'prev' ? (
-                  <path d="M15 18l-6-6 6-6" />
-                ) : (
-                  <path d="M9 18l6-6-6-6" />
-                )}
-              </svg>
+
+        <div className={`flex ${isNext ? 'flex-row-reverse' : ''}`}>
+
+          {/* 內容區域 */}
+          <div className="flex-1 p-6 flex flex-col justify-between">
+            {/* 文字內容 */}
+            <div>
+              <h3 className={`font-bold mb-2 text-xl text-gray-800 line-clamp-2 leading-tight ${isNext ? 'text-right' : ''}`}>
+                {project.title}
+              </h3>
+              {project.subtitle && (
+                <p className={`text-gray-600 text-base line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
+                  {project.subtitle}
+                </p>
+              )}
+            </div>
+
+            {/* 切換按鈕區域 */}
+            <div className={`flex items-center justify-start gap-2 ${isNext ? 'flex-row-reverse' : ''}`}>
+              <div className="w-5 h-5 bg-gray-400 rounded-full flex items-center justify-center text-white group-hover:bg-gray-800 transition-colors">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  {direction === 'prev' ? (
+                    <path d="M15 18l-6-6 6-6" />
+                  ) : (
+                    <path d="M9 18l6-6-6-6" />
+                  )}
+                </svg>
+              </div>
+              {/* 按鈕文字 PREV or NEXT */}
+              <span className="text-gray-400 font-bold text-lg tracking-wider group-hover:text-gray-800 transition-colors">
+                {label}
+              </span>
             </div>
           </div>
-        </div>
 
-        {/* 內容區域 */}
-        <div className={`flex ${isNext ? 'flex-row-reverse' : ''}`}>
-          {/* 文字內容 */}
-          <div className="flex-1 p-6">
-            <h3 className={`font-bold text-xl mb-3 text-gray-800 line-clamp-2 leading-tight ${isNext ? 'text-right' : ''}`}>
-              {project.title}
-            </h3>
-            {project.subtitle && (
-              <p className={`text-gray-600 text-base line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
-                {project.subtitle}
-              </p>
-            )}
-          </div>
-
-          {/* 媒體預覽 */}
+          {/* 圖片影片區域 */}
           <div className="w-48 h-36 bg-gray-200 overflow-hidden">
             {renderMedia(project.path, project.title)}
           </div>
@@ -119,7 +122,7 @@ export default function NavigationControls({
   };
 
   return (
-    <div className={`w-full relative z-10 py-16 ${className}`}>
+    <div className={`w-full flex items-center relative z-10 py-40 ${className}`}>
       <div className="max-w-7xl mx-auto px-6">
         {/* 導航預覽區域 */}
         <div className="flex gap-8">

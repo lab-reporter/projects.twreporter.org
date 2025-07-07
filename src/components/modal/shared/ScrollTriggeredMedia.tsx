@@ -70,9 +70,9 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           // 指定滾動容器：使用找到的容器，如果找不到則使用默認（window）
           scroller: actualScrollContainer || undefined,
           // 開始觸發點：文字區塊中心點到達容器中心
-          start: 'top 90%',
+          start: 'top 50%',
           // 結束觸發點：文字區塊中心點離開容器中心向上
-          end: 'top 90%',
+          end: 'top 50%',
           // markers: true,
           // 進入時執行：切換到對應媒體
           onEnter: () => {
@@ -187,7 +187,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             }}
             className="w-full h-screen flex justify-center items-center"
           >
-            <div className="px-4 py-2 max-w-[20rem] bg-white bg-opacity-70 backdrop-blur-md border border-white rounded-lg">
+            <div className="px-4 py-2 max-w-[20rem] bg-white bg-opacity-70 backdrop-blur-md border border-gray-200 rounded-lg">
               {block.text}
             </div>
           </div>
