@@ -46,18 +46,12 @@ export default function SectionNavigation() {
 
       // 取得 reports 章節的 DOM 元素
       const reportsSection = document.getElementById('section-reports');
-      const reportsHeading = document.getElementById('reports-section-heading');
 
-      if (reportsSection && reportsHeading) {
-        // 檢查 reports 標題是否已經可見（透明度大於0.5）
-        const headingStyles = window.getComputedStyle(reportsHeading);
-        const headingOpacity = parseFloat(headingStyles.opacity);
-        const isHeadingVisible = headingOpacity > 0.5;
-
+      if (reportsSection) {
         // 取得 reports 章節的位置資訊
         const rect = reportsSection.getBoundingClientRect();
-        // 當 Reports 章節進入視窗且標題已顯示時顯示導航
-        const shouldShow = rect.top <= window.innerHeight * 0.5 && isHeadingVisible;
+        // 當 Reports 章節進入視窗時顯示導航（簡化條件）
+        const shouldShow = rect.top <= window.innerHeight * 0.6; // 當章節頂部進入視窗 60% 時顯示
 
         setIsVisible(shouldShow);
       } else {
@@ -74,8 +68,8 @@ export default function SectionNavigation() {
     // 額外監聽 resize 事件，確保響應式正確
     window.addEventListener('resize', checkVisibility);
 
-    // 定期檢查狀態（用於動畫完成後的同步）
-    const intervalCheck = setInterval(checkVisibility, 100);
+    // 定期檢查狀態（減少頻率，因為已經簡化邏輯）
+    const intervalCheck = setInterval(checkVisibility, 200);
 
     // 清理函數：移除事件監聽器
     return () => {
@@ -88,9 +82,12 @@ export default function SectionNavigation() {
   // 副作用：debug 當前章節狀態（開發環境）
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      // console.log('Current section:', currentSection); // 調試用，可視需要開啟
+      console.log('🎯 SectionNavigation - Current section changed:', currentSection);
+      // 移除過於頻繁的調試輸出
+      // console.log('🎯 SectionNavigation - Is visible:', isVisible);
+      // console.log('🎯 SectionNavigation - Animation completed:', isAnimationCompleted);
     }
-  }, [currentSection]);
+  }, [currentSection]); // 只監聽 currentSection 變化
 
   // 滾動到指定章節的函數
   const scrollToSection = (sectionId: string) => {

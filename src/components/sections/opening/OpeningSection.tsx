@@ -187,7 +187,7 @@ export default function OpeningSection() {
           <>
             {/* 左側面：3D 立方體的左面 */}
             <div
-              className="w-full h-full absolute border border-2 border-gray-200"
+              className="w-[1000px] h-full absolute border border-2 border-gray-200"
               style={{
                 // 只在 3D 啟用時應用變換
                 transform: is3DEnabled && isVisible ? 'rotateY(90deg)' : 'none',
@@ -199,7 +199,7 @@ export default function OpeningSection() {
 
             {/* 右側面：3D 立方體的右面 */}
             <div
-              className="w-full h-full absolute border border-2 border-gray-200"
+              className="w-[1000px] h-full right-0 absolute border border-2 border-gray-200"
               style={{
                 transform: 'rotateY(-90deg)',
                 transformOrigin: 'right',
@@ -210,7 +210,7 @@ export default function OpeningSection() {
 
             {/* 頂面：3D 立方體的上面 */}
             <div
-              className="w-full h-full absolute"
+              className="w-full h-[1000px] absolute"
               style={{
                 transform: 'rotateX(-90deg)',
                 transformOrigin: 'top center',
@@ -221,7 +221,7 @@ export default function OpeningSection() {
 
             {/* 底面：3D 立方體的下面 */}
             <div
-              className="w-full h-full absolute"
+              className="w-full h-[1000px] absolute"
               style={{
                 transform: 'rotateX(90deg)',
                 transformOrigin: 'bottom center',

@@ -156,8 +156,8 @@ export default function InnovationsSection() {
 
   // 計算錯位位置
   const getOffsetPosition = (index: number) => {
-    const offsetX = (index % 5 - 2) * 24;
-    const offsetY = (Math.floor(index / 5) % 3 - 1) * 18;
+    const offsetX = (index % 5 - 2) * 96;
+    const offsetY = (Math.floor(index / 5) % 3 - 1) * 144;
     return { x: offsetX, y: offsetY };
   };
 

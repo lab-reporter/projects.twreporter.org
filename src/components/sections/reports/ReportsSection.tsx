@@ -7,11 +7,18 @@ import ReportsSwiper from './ReportsSwiper';
 // 影響力報導章節主組件
 export default function ReportsSection() {
   // 使用滾動觸發器來監控當前頁面位置
+  // 調整觸發參數以適應動畫完成後的滾動檢測
   useScrollTrigger({
     // 對應的 HTML 元素 ID
     sectionId: 'section-reports',
     // 頁面名稱識別
-    sectionName: 'reports'
+    sectionName: 'reports',
+    // 當章節頂部進入視窗 90% 位置時觸發（更早觸發）
+    start: "top 90%",
+    // 當章節底部離開視窗頂部時結束
+    end: "bottom top",
+    // 減少延遲，確保動畫完成後立即生效
+    delay: 100
   });
 
   return (
