@@ -307,7 +307,7 @@ export default function ReportsSwiper() {
                 </div>
 
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
-                <div className="absolute bottom-16 w-full">
+                <div className="absolute bottom-8 w-full">
                     <CurrentItemDisplay
                         title={currentItem?.title}
                         subtitle={currentItem?.subtitle}

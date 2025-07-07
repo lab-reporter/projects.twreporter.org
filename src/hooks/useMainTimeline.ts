@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { openingPhotosRef, facesPhotosData } from '@/components/sections/opening/OpeningSection';
 
+
 // 面的類型定義
 type FaceType = 'left' | 'right' | 'top' | 'bottom';
 
@@ -78,7 +79,7 @@ export const useMainTimeline = () => {
     };
 
     // 照片入場動畫
-    const addPhotosEntranceAnimation = (timeline: gsap.core.Timeline) => {
+    const addPhotosEntranceAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {
         // 收集所有面的照片元素
         const allPhotoElements: { element: HTMLImageElement; face: FaceType; index: number }[] = [];
 
@@ -119,13 +120,14 @@ export const useMainTimeline = () => {
                     animationProps.top = photoData.top;
                 }
 
-                timeline.to(element, animationProps, 0.5 + delay);
+                // 🎯 動畫時序: PHOTOS_ENTRANCE_START + delay
+                timeline.to(element, animationProps, startTime + delay);
             }
         });
     };
 
     // 照片離場動畫
-    const addPhotosExitAnimation = (timeline: gsap.core.Timeline) => {
+    const addPhotosExitAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {
         Object.entries(openingPhotosRef.current).forEach(([face, photos]) => {
             const faceType = face as FaceType;
             const facePhotos = photos.filter(Boolean);
@@ -151,14 +153,15 @@ export const useMainTimeline = () => {
                         animationProps.top = `${exitConfig.targetTop}%`;
                     }
 
-                    timeline.to(photo, animationProps, 4.0);
+                    // 🎯 動畫時序: PHOTOS_EXIT_START
+                    timeline.to(photo, animationProps, startTime);
                 }
             });
         });
     };
 
     // 導航動畫
-    const addNavigationAnimation = (timeline: gsap.core.Timeline) => {
+    const addNavigationAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {
         const nav = document.querySelector('#main-navigation');
         if (nav) {
             // 設定初始位置（使用 transform 正中央且放大）
@@ -168,6 +171,7 @@ export const useMainTimeline = () => {
             });
 
             // 然後執行動畫到最終位置（頂部且正常大小）
+            // 🎯 動畫時序: PHOTOS_EXIT_START - 與照片離場同時進行
             timeline.to(nav,
                 {
                     top: '3rem',
@@ -175,33 +179,39 @@ export const useMainTimeline = () => {
                     duration: 0.5,
                     ease: 'power3.out'
                 },
-                4.0
+                startTime
             );
         }
     };
 
     // Reports 標題淡入動畫
-    const addReportsHeadingAnimation = (timeline: gsap.core.Timeline) => {
+    const addReportsHeadingAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {
         const reportsHeading = document.querySelector('#reports-section-heading');
         if (reportsHeading) {
             // 確保初始狀態是隱藏的
-            gsap.set(reportsHeading, { opacity: 0 });
+            gsap.set(reportsHeading, {
+                opacity: 0,
+                scale: 0
+            });
 
+            // 🎯 動畫時序: REPORTS_HEADING_START - 延遲0.5s後開始
             timeline.to(reportsHeading,
                 {
                     opacity: 1,
-                    duration: 0.5,
+                    scale: 1,
+                    duration: 1,
                     ease: 'power2.out'
                 },
-                4.0
+                startTime
             );
         }
     };
 
     // Opening Section 淡出動畫
-    const addOpeningSectionFadeOut = (timeline: gsap.core.Timeline) => {
+    const addOpeningSectionFadeOut = (timeline: gsap.core.Timeline, startTime: number = 0) => {
         const openingSection = document.querySelector('#section-opening');
         if (openingSection) {
+            // 🎯 動畫時序: PHOTOS_EXIT_START - 與照片離場同時進行
             timeline.to(openingSection,
                 {
                     opacity: 0,
@@ -211,7 +221,7 @@ export const useMainTimeline = () => {
                         gsap.set(openingSection, { visibility: 'hidden', pointerEvents: 'none' });
                     }
                 },
-                4.0
+                startTime
             );
         }
     };
@@ -251,22 +261,26 @@ export const useMainTimeline = () => {
         // 創建主時間軸
         const tl = gsap.timeline();
 
-        console.log('✅ Timeline animation started');
 
-        // 1. 延遲 0.5 秒後開始照片入場動畫
-        tl.add(() => console.log('✅ Photos entrance phase'), 0);
-        addPhotosEntranceAnimation(tl);
+        const TIMELINE_CONFIG = {
+            PHOTOS_ENTRANCE_START: 0,    // 照片入場開始時間
+            PHOTOS_EXIT_START: 3.0,      // 照片離場開始時間  
+            REPORTS_HEADING_START: 3.5,  // Reports標題淡入開始時間
+            ANIMATION_END: 4.5           // 動畫結束時間
+        };
 
-        // 2. 照片入場後間隔 3 秒
-        tl.add(() => console.log('✅ Photos exit phase'), 1.5);
+        // 📸 階段1: 照片入場動畫 (0.0s 開始)
+        addPhotosEntranceAnimation(tl, TIMELINE_CONFIG.PHOTOS_ENTRANCE_START);
 
-        // 3. 照片離場 + Nav 上移 + Reports 標題淡入（同時進行）
-        addPhotosExitAnimation(tl);
-        addNavigationAnimation(tl);
-        addReportsHeadingAnimation(tl);
-        addOpeningSectionFadeOut(tl);
+        // 🚀 階段2: 照片離場 + Nav上移 + Opening淡出 (3.0s 開始)
+        addPhotosExitAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // 照片離場動畫
+        addNavigationAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // Navigation 往上移動
+        addOpeningSectionFadeOut(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);   // Opening Section 淡出
 
-        tl.add(() => console.log('✅ Reports heading fade phase'), 2.5);
+        // 📝 階段3: Reports標題淡入 (3.5s 開始，延遲0.5s)
+        addReportsHeadingAnimation(tl, TIMELINE_CONFIG.REPORTS_HEADING_START); // Reports 標題淡入
+
+
 
         timelineRef.current = tl;
         isAnimationStartedRef.current = true;

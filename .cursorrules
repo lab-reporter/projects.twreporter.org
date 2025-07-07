@@ -1,6 +1,6 @@
 # 🚀 報導者十週年回顧 2D 版本開發狀態
 
-## ✅ 已完成 (2025-06-29 ~ 2025-07-01)
+## ✅ 已完成 (2025-06-29 ~ 2025-07-04)
 - **專案架構重構** - 從 3D 版本轉換為 2D 純 CSS/JS 動畫實作 ✅
 - **3D 組件清除** - 移除所有 R3F 相關組件和文件 ✅
 - **基礎專案設置** - Next.js 15 + TypeScript + Tailwind CSS ✅
@@ -11,6 +11,11 @@
 - **字型系統** - Google Fonts + Adobe Fonts 完整整合 ✅
 - **CustomCursor 系統** - 客製化游標與多樣式配置 ✅
 - **ChallengesSection** - 水平滾動與背景動畫系統 ✅
+- **InnovationsSection** - 3D 深度動畫與效能優化系統 ✅
+- **Opening 照片動畫** - 與 Navigation LOGO 同步的淡出效果 ✅
+- **滑鼠追蹤透視** - Reports 與 Innovations 滑鼠控制 perspectiveOrigin ✅
+- **章節導航系統** - NextSectionButton 跳轉到下一章節功能 ✅
+- **ID 命名一致性** - 統一所有 Section 使用 section-{name} 格式 ✅
 
 ## 🎯 當前狀態
 - **技術路線**: 2D CSS/JS 動畫，避免 3D 渲染負擔
@@ -20,9 +25,9 @@
 - **開發紀錄**: 詳細記錄請見 DEVELOPMENT_LOG.md
 
 ## 📋 2D 版本 Section 架構
-1. **Opening** - 開場動畫區塊
+1. **Opening** - 開場動畫區塊 ✅
 2. **Reports** - 影響力報導展示 ✅
-3. **Innovations** - 多元創新展示
+3. **Innovations** - 多元創新展示 ✅
 4. **Challenges** - 挑戰與成長故事 ✅
 5. **Feedbacks** - 贊助者證言
 6. **Support** - 贊助支持頁面
@@ -74,7 +79,11 @@
 - **格式**: `<type>: <繁體中文描述>` (第一行不超過 50 字符)
 - **語氣**: 使用祈使語氣，不用句號結尾
 - **語言**: 描述使用繁體中文，類型使用英文
-- **限制**：不加入是AI協作的資訊
+- **嚴格禁止**：
+  - 任何 AI 協作相關字詞（Claude、AI、助手、協作等）
+  - 自動生成的標記或署名
+  - 提及工具或協助者資訊
+- **專注內容**：只描述程式碼變更的技術內容和目的
 
 ### **Commit 類型**
 - `feat`: 新功能
@@ -99,6 +108,25 @@ perf: 優化 GSAP 動畫效能
 4. **一檔一責**: 保持「一個檔案一個職責」原則
 5. **開發效率**: 以開發效率和可讀性為優先考量
 
+## 💬 程式碼註解規範
+- **語言**: 統一使用繁體中文註解
+- **位置**: 註解置於程式碼上方，避免與程式碼同行
+- **內容描述**: 避免具體數值，專注於功能和用途描述
+- **詳細程度**: 註解應詳細到讓非 React 開發者也能理解
+- **簡化原則**: 
+  - 最開頭的 `'use client'` 和 `import` 語句不需要註解
+  - 色票配置只需簡單說明用途，不用詳細描述每個顏色
+- **範例**:
+  ```typescript
+  // 狀態變數：當前顯示的項目索引
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // 事件處理函數：處理使用者點擊動作
+  const handleClick = () => {
+    // 函數邏輯...
+  };
+  ```
+
 ## 📊 2D 版本目標
 - **兼容性提升**: 支援更多低階設備
 - **載入速度**: 比 3D 版本快 50%+
@@ -106,11 +134,93 @@ perf: 優化 GSAP 動畫效能
 - **響應式**: 完整支援各螢幕尺寸
 
 ## 🎮 技術亮點
-- **GSAP 動畫系統**: 高效能 2D 動畫實作
+- **GSAP 動畫系統**: 高效能 2D/3D 混合動畫實作
 - **ScrollTrigger 整合**: 滾動驅動的動畫體驗
+- **3D 深度動畫**: InnovationsSection Z 軸深度變化與錯位佈局
+- **效能優化系統**: FPS 監控、低效能模式、漸進式載入
+- **滑鼠追蹤透視**: 動態 perspectiveOrigin 控制 3D 視角
+- **同步動畫控制**: Opening 照片與 Navigation 聯動效果
 - **Modal 系統**: 完整保留 3D 版本的互動功能
+- **CustomCursor 系統**: 多樣式客製化游標體驗
+- **章節導航系統**: NextSectionButton + SectionNavigation 完整跳轉
 - **狀態管理**: Zustand 統一管理應用狀態
 - **響應式設計**: 適配各種設備與螢幕
+
+## 🚨 Vercel 部署常見錯誤與解決方案
+
+### ❌ 常見錯誤類型
+
+#### 1. **pnpm-lock.yaml 與 package.json 不同步**
+**錯誤訊息**: `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"`
+**解決方案**: 
+```bash
+pnpm install  # 重新安裝並更新 lockfile
+git add pnpm-lock.yaml
+git commit -m "fix: 更新 pnpm-lock.yaml"
+```
+
+#### 2. **TypeScript 類型錯誤**
+**常見問題**:
+- `unknown` 類型無法訪問屬性
+- 介面屬性缺失（`id`, `path`, `title` 等）
+- `boolean` 與 `string` 類型不匹配
+- `Record<string, unknown>` 缺少索引簽名
+
+**解決方案**:
+```typescript
+// ✅ 正確的類型轉換
+const projectId = (modal.data as { id?: string })?.id || '';
+
+// ✅ 正確的 boolean 轉換
+const shouldShow = Boolean(condition);
+
+// ✅ 正確的介面定義
+interface MyInterface {
+  id: string;
+  title: string;
+  [key: string]: unknown; // 索引簽名
+}
+```
+
+#### 3. **ESLint 錯誤**
+**常見問題**:
+- 未使用的變數和參數
+- `any` 類型使用
+- React Hook 依賴警告
+
+**解決方案**:
+```typescript
+// ✅ 移除未使用的參數
+}: ModalContentProps) => {  // 移除 onClose, scrollContainer
+
+// ✅ 使用具體類型替代 any
+const data: Record<string, unknown> = {};
+
+// ✅ 修正 Hook 依賴
+useEffect(() => {
+  // ...
+}, [modal.data]); // 添加缺失的依賴
+```
+
+### ⚠️ 重要提醒
+
+1. **謙遜原則**: 不要過度自信聲稱「完全修復」，始終保持驗證
+2. **實際驗證**: 使用 `pnpm run build` 本地測試，不僅依賴工具分析
+3. **分批修復**: 一次修復一類錯誤，避免引入新問題
+4. **完整檢查**: 確保修復後沒有遺漏的錯誤
+
+### 🔧 驗證指令
+
+```bash
+# TypeScript 類型檢查
+npx tsc --noEmit
+
+# ESLint 檢查（僅源代碼）
+npx eslint src --ext .ts,.tsx
+
+# 完整構建測試
+pnpm run build
+```
 
 ---
 *詳細開發紀錄請參閱 DEVELOPMENT_LOG.md*

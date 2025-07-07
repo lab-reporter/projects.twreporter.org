@@ -118,7 +118,7 @@ export default function InnovationsSection() {
   // 計算平滑過渡狀態（效能優化版）
   const calculateOptimizedState = (currentDepth: number): ItemState => {
     const states = getAnimationStates(isLowPerformance);
-    
+
     if (currentDepth < -300) {
       return states.hidden;
     } else if (currentDepth < -25) {
@@ -178,13 +178,13 @@ export default function InnovationsSection() {
 
     // 批次設定初始狀態
     const elements = Array.from(elementRefsCache.current.values());
-    
+
     // 設定所有元素的初始狀態
     elements.forEach((element, index) => {
       const initialDepth = -50 - (index * 100);
       const offset = getOffsetPosition(index);
       const isFirstItem = index === 0;
-      
+
       gsap.set(element, {
         // 第一個項目初始就在中央，其他項目有偏移
         x: isFirstItem ? '0vw' : `${offset.x}vw`,
@@ -226,7 +226,7 @@ export default function InnovationsSection() {
           const offset = getOffsetPosition(index);
           const isFirstItem = index === 0;
           let offsetFactor = 1;
-          
+
           // 第一個項目特殊處理：始終保持在中央
           if (isFirstItem) {
             offsetFactor = 0; // 第一個項目不使用偏移
@@ -307,7 +307,7 @@ export default function InnovationsSection() {
           </p>
         </SectionHeadings>
       </div>
-      
+
       <div ref={sectionRef} className="relative w-full h-[1000vh]">
         {/* 3D 容器 */}
         <div className="w-full h-screen sticky top-0">
@@ -332,11 +332,11 @@ export default function InnovationsSection() {
                 // 計算初始錯位位置，避免啟用前的跳躍
                 const offset = getOffsetPosition(index);
                 const initialDepth = -50 - (index * 100);
-                
+
                 // 特別處理第一個項目：始終保持在中央
                 const isFirstItem = index === 0;
                 const shouldCenterFirst = isFirstItem && !animationsEnabled;
-                
+
                 return (
                   <div
                     key={item.id}
@@ -356,7 +356,7 @@ export default function InnovationsSection() {
                       zIndex: isFirstItem ? 10 : 1
                     }}
                     onClick={() => handleItemClick(item)}
-                    data-custom-cursor="view"
+                  // data-custom-cursor="view"
                   >
                     <div className="w-full h-full rounded-lg overflow-hidden">
                       <video
@@ -368,7 +368,7 @@ export default function InnovationsSection() {
                         className="w-full h-full object-cover"
                         style={{ pointerEvents: 'none' }}
                       />
-                      <div className="absolute inset-0 hover:border hover:border-red-70 transition-all duration-300 flex items-end">
+                      <div className="absolute inset-0 transition-all duration-300 flex items-end">
                         <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
                           <h3 className="text-lg font-bold">{item.title}</h3>
                           <p className="text-sm opacity-80">{item.subtitle}</p>
@@ -381,11 +381,11 @@ export default function InnovationsSection() {
             </div>
 
             {/* 效能指示器 */}
-            {process.env.NODE_ENV === 'development' && (
+            {/* {process.env.NODE_ENV === 'development' && (
               <div className="absolute top-4 right-4 bg-black/80 text-white p-2 rounded text-xs">
                 FPS: {fps} {isLowPerformance && '(低效能模式)'}
               </div>
-            )}
+            )} */}
 
             {/* 當前項目資訊顯示 */}
             <div className="absolute bottom-16 w-full">
