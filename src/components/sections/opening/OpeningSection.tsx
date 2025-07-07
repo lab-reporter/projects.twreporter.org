@@ -164,7 +164,7 @@ export default function OpeningSection() {
     <section
       ref={sectionRef}
       id="section-opening"
-      className="fixed top-0 w-full h-screen overflow-hidden z-10"
+      className="fixed top-0 w-full h-screen overflow-hidden z-0"
     >
       {/* 3D 容器：設定透視效果 */}
       <div
@@ -180,24 +180,26 @@ export default function OpeningSection() {
             : 'center center',
         }}
       >
-        {/* 左側面：3D 立方體的左面 */}
-        <div
-          className="w-full h-full absolute"
-          style={{
-            // 只在 3D 啟用時應用變換
-            transform: is3DEnabled && isVisible ? 'rotateY(90deg)' : 'none',
-            transformOrigin: 'left',
-          }}
-        >
-          {renderFacePhotos('left', facesPhotosData.left)}
-        </div>
+
 
         {/* 3D 立方體的其他面 - 只在 3D 啟用時渲染 */}
         {is3DEnabled && isVisible && (
           <>
+            {/* 左側面：3D 立方體的左面 */}
+            <div
+              className="w-full h-full absolute border border-2 border-gray-200"
+              style={{
+                // 只在 3D 啟用時應用變換
+                transform: is3DEnabled && isVisible ? 'rotateY(90deg)' : 'none',
+                transformOrigin: 'left',
+              }}
+            >
+              {renderFacePhotos('left', facesPhotosData.left)}
+            </div>
+
             {/* 右側面：3D 立方體的右面 */}
             <div
-              className="w-full h-full absolute"
+              className="w-full h-full absolute border border-2 border-gray-200"
               style={{
                 transform: 'rotateY(-90deg)',
                 transformOrigin: 'right',

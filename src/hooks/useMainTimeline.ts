@@ -207,25 +207,6 @@ export const useMainTimeline = () => {
         }
     };
 
-    // Opening Section 淡出動畫
-    const addOpeningSectionFadeOut = (timeline: gsap.core.Timeline, startTime: number = 0) => {
-        const openingSection = document.querySelector('#section-opening');
-        if (openingSection) {
-            // 🎯 動畫時序: PHOTOS_EXIT_START - 與照片離場同時進行
-            timeline.to(openingSection,
-                {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: 'power2.in',
-                    onComplete: () => {
-                        gsap.set(openingSection, { visibility: 'hidden', pointerEvents: 'none' });
-                    }
-                },
-                startTime
-            );
-        }
-    };
-
     // 檢查所有必要的 DOM 元素是否存在
     const checkDOMElements = () => {
         const nav = document.querySelector('#main-navigation');
@@ -261,7 +242,6 @@ export const useMainTimeline = () => {
         // 創建主時間軸
         const tl = gsap.timeline();
 
-
         const TIMELINE_CONFIG = {
             PHOTOS_ENTRANCE_START: 0,    // 照片入場開始時間
             PHOTOS_EXIT_START: 3.0,      // 照片離場開始時間  
@@ -272,15 +252,13 @@ export const useMainTimeline = () => {
         // 📸 階段1: 照片入場動畫 (0.0s 開始)
         addPhotosEntranceAnimation(tl, TIMELINE_CONFIG.PHOTOS_ENTRANCE_START);
 
-        // 🚀 階段2: 照片離場 + Nav上移 + Opening淡出 (3.0s 開始)
+        // 🚀 階段2: 照片離場 + Nav上移 (3.0s 開始)
+        // 注意：移除了 addOpeningSectionFadeOut，保持 3D 立方體容器可見
         addPhotosExitAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // 照片離場動畫
         addNavigationAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // Navigation 往上移動
-        addOpeningSectionFadeOut(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);   // Opening Section 淡出
 
         // 📝 階段3: Reports標題淡入 (3.5s 開始，延遲0.5s)
         addReportsHeadingAnimation(tl, TIMELINE_CONFIG.REPORTS_HEADING_START); // Reports 標題淡入
-
-
 
         timelineRef.current = tl;
         isAnimationStartedRef.current = true;

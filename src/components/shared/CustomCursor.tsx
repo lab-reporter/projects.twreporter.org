@@ -38,10 +38,10 @@ export default function CustomCursor() {
 
       // 檢查當前滑鼠位置下的元素
       const target = e.target as HTMLElement;
-      
+
       // 尋找所有可能的客製化 cursor 屬性
       let foundCursor: CursorConfig | null = null;
-      
+
       for (const [key, config] of Object.entries(cursorConfigs)) {
         const element = target.closest(`[data-custom-cursor="${key}"]`);
         if (element) {
@@ -49,13 +49,13 @@ export default function CustomCursor() {
           break;
         }
       }
-      
+
       // 檢查是否有自定義配置（data-cursor-text 屬性）
       const customElement = target.closest('[data-cursor-text]');
       if (customElement && !foundCursor) {
         const customText = customElement.getAttribute('data-cursor-text');
         const customClass = customElement.getAttribute('data-cursor-class');
-        
+
         if (customText) {
           foundCursor = {
             text: customText,
@@ -63,7 +63,7 @@ export default function CustomCursor() {
           };
         }
       }
-      
+
       setCurrentCursor(foundCursor);
     };
 
@@ -84,7 +84,7 @@ export default function CustomCursor() {
         transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) translate(-50%, -50%)`,
       }}
     >
-      <div 
+      <div
         className={currentCursor.className}
         style={currentCursor.style}
       >

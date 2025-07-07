@@ -1,0 +1,226 @@
+# 🚀 報導者十週年回顧 2D 版本開發狀態
+
+## ✅ 已完成 (2025-06-29 ~ 2025-07-04)
+- **專案架構重構** - 從 3D 版本轉換為 2D 純 CSS/JS 動畫實作 ✅
+- **3D 組件清除** - 移除所有 R3F 相關組件和文件 ✅
+- **基礎專案設置** - Next.js 15 + TypeScript + Tailwind CSS ✅
+- **狀態管理系統** - Zustand 完整架構保留 ✅
+- **Modal 系統** - 完整保留互動系統與內容載入 ✅
+- **開發伺服器** - 運行在 http://localhost:3001 ✅
+- **Reports Section** - GSAP ScrollTrigger 3D 輪播系統 ✅
+- **字型系統** - Google Fonts + Adobe Fonts 完整整合 ✅
+- **CustomCursor 系統** - 客製化游標與多樣式配置 ✅
+- **ChallengesSection** - 水平滾動與背景動畫系統 ✅
+- **InnovationsSection** - 3D 深度動畫與效能優化系統 ✅
+- **Opening 照片動畫** - 與 Navigation LOGO 同步的淡出效果 ✅
+- **滑鼠追蹤透視** - Reports 與 Innovations 滑鼠控制 perspectiveOrigin ✅
+- **章節導航系統** - NextSectionButton 跳轉到下一章節功能 ✅
+- **ID 命名一致性** - 統一所有 Section 使用 section-{name} 格式 ✅
+
+## 🎯 當前狀態
+- **技術路線**: 2D CSS/JS 動畫，避免 3D 渲染負擔
+- **目標設備**: 提升低階設備兼容性與載入速度
+- **專案架構**: dev-2d 分支獨立開發
+- **參照程式碼**: copy/ 資料夾（git ignored）
+- **開發紀錄**: 詳細記錄請見 DEVELOPMENT_LOG.md
+
+## 📋 2D 版本 Section 架構
+1. **Opening** - 開場動畫區塊 ✅
+2. **Reports** - 影響力報導展示 ✅
+3. **Innovations** - 多元創新展示 ✅
+4. **Challenges** - 挑戰與成長故事 ✅
+5. **Feedbacks** - 贊助者證言
+6. **Support** - 贊助支持頁面
+
+## 🔧 開發規則
+- **自動執行**: 所有指令除了刪除檔案外都自動執行
+- **不需詢問**: 安裝套件、建立檔案、編輯程式碼
+- **⚠️ Git Commit 限制**: **除非用戶明確要求，否則不主動進行 git commit**
+- **需要詢問**: 刪除檔案或目錄的操作、git commit
+- **⚠️ 特別注意**: Git merge/rebase 到 main 分支**必須再次確認**
+
+## ⏰ 時間記錄規範
+- **精確時間取得**: 任何需要記錄時間的操作，必須使用 `TZ='Asia/Taipei' date '+%Y-%m-%d %H:%M:%S %Z'` 指令取得台北時區精確時間
+- **開發紀錄**: 建立或更新開發紀錄時，務必先取得當前精確時間
+- **時間格式**: 統一使用 `YYYY-MM-DD HH:MM:SS CST` 格式
+- **範例指令**:
+  ```bash
+  # 取得台北時區精確時間
+  TZ='Asia/Taipei' date '+%Y-%m-%d %H:%M:%S %Z'
+  
+  # 輸出範例: 2025-06-29 23:32:26 CST
+  ```
+- **時間記錄場景**:
+  - 開發紀錄文檔建立/更新
+  - Git commit 時的時間記錄
+  - 重要功能完成時的里程碑記錄
+  - 問題解決過程的時間軸記錄
+
+## 🐛 Console.log 使用規範
+- **調試目的**: console.log 僅用於開發階段的問題調試
+- **及時清理**: 調試完成後必須立即移除相關 console.log 程式碼
+- **頻率控制**: 避免大量或高頻率的 console.log 輸出
+- **保留原則**: 只保留必要的錯誤處理 console.error 和用戶操作回饋
+- **開發環境限制**: 使用 `process.env.NODE_ENV === 'development'` 條件限制輸出
+
+## 🌳 Git 工作流程規範
+- **主分支**: `main` - 穩定版本
+- **開發分支**: `dev-2d` - 2D 版本開發
+- **技術路線**: 純 2D CSS/JS 動畫實作
+- **GitHub Repository**: https://github.com/itisalongway574/r3f-10th-repo
+
+### ⚠️ **重要：dev-2d 分支合併限制**
+- **原則**: dev-2d 分支**不直接合併**到 main 分支
+- **目的**: 保持 main 分支作為最終選擇的技術方案
+- **AI 助手責任**: 如果用戶下達任何 merge、rebase 到 main 的指令，**必須再次確認**
+- **確認提醒**: "您確定要將 dev-2d 合併到 main 嗎？這會改變主分支的技術路線。"
+
+## 📋 Git Commit 規範
+- **格式**: `<type>: <繁體中文描述>` (第一行不超過 50 字符)
+- **語氣**: 使用祈使語氣，不用句號結尾
+- **語言**: 描述使用繁體中文，類型使用英文
+- **嚴格禁止**：
+  - 任何 AI 協作相關字詞（Claude、AI、助手、協作等）
+  - 自動生成的標記或署名
+  - 提及工具或協助者資訊
+- **專注內容**：只描述程式碼變更的技術內容和目的
+
+### **Commit 類型**
+- `feat`: 新功能
+- `fix`: 修復問題
+- `refactor`: 重構程式碼
+- `perf`: 效能優化
+- `style`: 格式/樣式調整
+- `docs`: 文檔更新
+
+### **範例**
+```bash
+feat: 新增 Opening Section 開場動畫
+fix: 修正 ScrollTrigger 衝突問題
+refactor: 重構 Section 組件架構
+perf: 優化 GSAP 動畫效能
+```
+
+## 📋 程式碼精簡化原則
+1. **功能獨立性**: 每個 Section 組件保持獨立，避免相互依賴
+2. **組件拆分**: 單一檔案超過 200 行時考慮拆分
+3. **共用邏輯**: 相同邏輯出現 2-3 次時抽取為共用函數
+4. **一檔一責**: 保持「一個檔案一個職責」原則
+5. **開發效率**: 以開發效率和可讀性為優先考量
+
+## 💬 程式碼註解規範
+- **語言**: 統一使用繁體中文註解
+- **位置**: 註解置於程式碼上方，避免與程式碼同行
+- **內容描述**: 避免具體數值，專注於功能和用途描述
+- **詳細程度**: 註解應詳細到讓非 React 開發者也能理解
+- **簡化原則**: 
+  - 最開頭的 `'use client'` 和 `import` 語句不需要註解
+  - 色票配置只需簡單說明用途，不用詳細描述每個顏色
+- **範例**:
+  ```typescript
+  // 狀態變數：當前顯示的項目索引
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // 事件處理函數：處理使用者點擊動作
+  const handleClick = () => {
+    // 函數邏輯...
+  };
+  ```
+
+## 📊 2D 版本目標
+- **兼容性提升**: 支援更多低階設備
+- **載入速度**: 比 3D 版本快 50%+
+- **維護性**: 降低技術複雜度
+- **響應式**: 完整支援各螢幕尺寸
+
+## 🎮 技術亮點
+- **GSAP 動畫系統**: 高效能 2D/3D 混合動畫實作
+- **ScrollTrigger 整合**: 滾動驅動的動畫體驗
+- **3D 深度動畫**: InnovationsSection Z 軸深度變化與錯位佈局
+- **效能優化系統**: FPS 監控、低效能模式、漸進式載入
+- **滑鼠追蹤透視**: 動態 perspectiveOrigin 控制 3D 視角
+- **同步動畫控制**: Opening 照片與 Navigation 聯動效果
+- **Modal 系統**: 完整保留 3D 版本的互動功能
+- **CustomCursor 系統**: 多樣式客製化游標體驗
+- **章節導航系統**: NextSectionButton + SectionNavigation 完整跳轉
+- **狀態管理**: Zustand 統一管理應用狀態
+- **響應式設計**: 適配各種設備與螢幕
+
+## 🚨 Vercel 部署常見錯誤與解決方案
+
+### ❌ 常見錯誤類型
+
+#### 1. **pnpm-lock.yaml 與 package.json 不同步**
+**錯誤訊息**: `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"`
+**解決方案**: 
+```bash
+pnpm install  # 重新安裝並更新 lockfile
+git add pnpm-lock.yaml
+git commit -m "fix: 更新 pnpm-lock.yaml"
+```
+
+#### 2. **TypeScript 類型錯誤**
+**常見問題**:
+- `unknown` 類型無法訪問屬性
+- 介面屬性缺失（`id`, `path`, `title` 等）
+- `boolean` 與 `string` 類型不匹配
+- `Record<string, unknown>` 缺少索引簽名
+
+**解決方案**:
+```typescript
+// ✅ 正確的類型轉換
+const projectId = (modal.data as { id?: string })?.id || '';
+
+// ✅ 正確的 boolean 轉換
+const shouldShow = Boolean(condition);
+
+// ✅ 正確的介面定義
+interface MyInterface {
+  id: string;
+  title: string;
+  [key: string]: unknown; // 索引簽名
+}
+```
+
+#### 3. **ESLint 錯誤**
+**常見問題**:
+- 未使用的變數和參數
+- `any` 類型使用
+- React Hook 依賴警告
+
+**解決方案**:
+```typescript
+// ✅ 移除未使用的參數
+}: ModalContentProps) => {  // 移除 onClose, scrollContainer
+
+// ✅ 使用具體類型替代 any
+const data: Record<string, unknown> = {};
+
+// ✅ 修正 Hook 依賴
+useEffect(() => {
+  // ...
+}, [modal.data]); // 添加缺失的依賴
+```
+
+### ⚠️ 重要提醒
+
+1. **謙遜原則**: 不要過度自信聲稱「完全修復」，始終保持驗證
+2. **實際驗證**: 使用 `pnpm run build` 本地測試，不僅依賴工具分析
+3. **分批修復**: 一次修復一類錯誤，避免引入新問題
+4. **完整檢查**: 確保修復後沒有遺漏的錯誤
+
+### 🔧 驗證指令
+
+```bash
+# TypeScript 類型檢查
+npx tsc --noEmit
+
+# ESLint 檢查（僅源代碼）
+npx eslint src --ext .ts,.tsx
+
+# 完整構建測試
+pnpm run build
+```
+
+---
+*詳細開發紀錄請參閱 DEVELOPMENT_LOG.md*
