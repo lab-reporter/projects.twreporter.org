@@ -131,7 +131,7 @@ export default function Modal() {
   return (
     <>
       {/* 背景遮罩 */}
-      <div className="fixed z-[9998] transition-opacity duration-800" onClick={closeModal} />
+      <div className="fixed z-[9998] bg-[rgba(0,0,0,0.5)] transition-opacity duration-800" onClick={closeModal} />
 
       {/* 側邊欄主體 - 帶有動畫效果 */}
       <div ref={modalBodyRef} className="fixed top-[4vh] left-[4vw] h-[92vh] w-[92vw] z-[9999] rounded-xl shadow-lg overflow-hidden">

@@ -1,7 +1,7 @@
 import { ReportData, AdjacentProjects } from './types';
 
 /**
- * 根據當前項目計算前一個和下一個項目
+ * 根據當前項目計算前一個和下一個項目（支援循環導航）
  * @param currentProject 當前項目
  * @param allProjects 所有項目列表
  * @returns 前一個和下一個項目
@@ -14,14 +14,25 @@ export const getAdjacentProjects = (
     return { prev: null, next: null };
   }
 
+  // 如果只有一個項目，沒有上一則和下一則
+  if (allProjects.length === 1) {
+    return { prev: null, next: null };
+  }
+
   const currentIndex = allProjects.findIndex(project => project.id === currentProject.id);
 
   if (currentIndex === -1) {
     return { prev: null, next: null };
   }
 
-  const prev = currentIndex > 0 ? allProjects[currentIndex - 1] : null;
-  const next = currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : null;
+  // 循環導航邏輯
+  // 上一則：如果是第一個項目，則上一則為最後一個項目
+  const prevIndex = currentIndex === 0 ? allProjects.length - 1 : currentIndex - 1;
+  const prev = allProjects[prevIndex];
+
+  // 下一則：如果是最後一個項目，則下一則為第一個項目  
+  const nextIndex = currentIndex === allProjects.length - 1 ? 0 : currentIndex + 1;
+  const next = allProjects[nextIndex];
 
   return { prev, next };
 };
