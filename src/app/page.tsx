@@ -2,6 +2,7 @@
 
 import { useStore } from '@/stores';
 import { useEffect, useRef } from 'react';
+import { useMainTimeline } from '@/hooks/useMainTimeline';
 import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
@@ -16,10 +17,27 @@ import SupportSection from '@/components/sections/support/SupportSection';
 
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {
-  // 從全域狀態取得目前頁面章節
-  const {} = useStore();
+  // 從全域狀態取得目前頁面章節和載入狀態
+  const { isLoading } = useStore();
   // DOM 元素參考：主要內容區域，用於背景顏色動畫
   const mainRef = useRef<HTMLElement>(null);
+  // 主動畫時間軸
+  const { startMainTimeline, cleanup } = useMainTimeline();
+  // 防止重複觸發
+  const animationTriggeredRef = useRef(false);
+
+  // 監聽載入狀態，在載入完成後啟動動畫
+  useEffect(() => {
+    if (!isLoading && !animationTriggeredRef.current) {
+      animationTriggeredRef.current = true;
+      // 載入完成後延遲啟動動畫，確保所有組件已渲染
+      const timer = setTimeout(() => {
+        startMainTimeline();
+      }, 1000); // 減少延遲時間到 1 秒
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, startMainTimeline]);
 
   // 初始化 GSAP 動畫套件和 ScrollTrigger 滾動觸發器
   useEffect(() => {
@@ -80,6 +98,7 @@ export default function Home() {
 
     // 清理函數：組件卸載時移除背景動畫觸發器
     return () => {
+      cleanup(); // 清理主時間軸
       if (typeof window !== 'undefined') {
         import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
           ScrollTrigger.getById('main-background-animation')?.kill();
@@ -87,7 +106,7 @@ export default function Home() {
       }
     };
     // 空依賴陣列：只在組件首次載入時執行
-  }, []);
+  }, [cleanup]);
 
   // 組件渲染輸出
   return (

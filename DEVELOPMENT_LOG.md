@@ -514,6 +514,215 @@ reports-12.mp4 (14MB)   → Reports12Content.tsx
 
 這次修正徹底解決了動畫衝突問題，確保照片動畫系統的穩定性和使用者體驗。
 
+## 2025-07-07 10:01:19 CST - 動畫系統重大重構：ScrollTrigger 改為自動時間軸
+
+### 需求背景
+用戶要求將原本基於 ScrollTrigger 的動畫系統改為自動播放的時間軸動畫，具體要求：
+1. 載入完成後自動執行動畫序列
+2. 動畫時間軸：載入完成 → 0.5s 照片入場 → 1s 間隔 → 0.5s 照片離場＋Navigation 往上移動 → 0.5s ReportsSection 標題淡入
+3. OpeningSection 從 sticky 改為 fixed 定位，讓 ReportsSection 在背景顯示
+
+### 系統架構重構
+
+#### 1. 創建主動畫時間軸系統
+- **新增檔案**：`src/hooks/useMainTimeline.ts`
+- **功能**：統一管理所有動畫的執行順序和時間
+- **特色**：
+  - 使用 GSAP Timeline 精確控制動畫時序
+  - 支援複雜的動畫協調（照片、導航、標題）
+  - 自動清理機制防止記憶體洩漏
+
+#### 2. 動畫時間軸設計
+```
+載入完成 (1s delay)
+    ↓
+照片入場動畫 (0.5s + 各面延遲)
+    ↓
+1s 間隔
+    ↓
+照片離場動畫 (0.5s) + Navigation 往上移動 (0.5s) [同時執行]
+    ↓
+ReportsSection 標題淡入 (0.5s) + OpeningSection 淡出 (0.5s) [同時執行]
+```
+
+#### 3. 組件修改清單
+
+**OpeningSection.tsx**：
+- 改為 `fixed` 定位 (z-index: 10)
+- 移除 ScrollTrigger 相關邏輯
+- 簡化動畫觸發機制
+- 保留 3D 效果和滑鼠追蹤
+
+**Navigation.tsx**：
+- 添加 `main-navigation` ID
+- 移除 ScrollTrigger 動畫邏輯
+- 簡化組件結構
+
+**ReportsSection.tsx**：
+- 添加 `reports-section-heading` ID
+- 移除 ScrollTrigger 動畫邏輯
+- 標題初始透明度設為 0
+
+**page.tsx**：
+- 整合主動畫時間軸
+- 監聽載入狀態觸發動畫
+- 添加清理機制
+
+### 技術特點
+
+#### 1. 時間軸標記系統
+- `start`: 動畫開始點
+- `photosEntrance`: 照片入場時間點
+- `photosExit`: 照片離場時間點
+- `reportsHeadingFade`: 標題淡入時間點
+
+#### 2. 動畫協調機制
+- 照片入場：四個面分別延遲，創造層次感
+- 照片離場：統一時間，整齊退場
+- 導航移動：與照片離場同時進行
+- 標題淡入：與開場淡出同時進行
+
+#### 3. 狀態管理改進
+- 使用 `useState` 確保動畫狀態響應式
+- 防止重複觸發機制
+- 完整的清理函數
+
+### 視覺效果改進
+
+#### 1. 佈局變化
+- **OpeningSection**: fixed 定位，完全覆蓋畫面
+- **ReportsSection**: 背景顯示，動畫完成後顯現
+- **Navigation**: 從中央往上移動到固定位置
+
+#### 2. 動畫流暢度
+- 照片入場：從四個方向往中央聚合
+- 照片離場：從中央往四個方向散開
+- 導航移動：平滑的位置和縮放變化
+- 標題淡入：優雅的透明度過渡
+
+### 程式碼統計
+- **新增檔案**: 1 個 (useMainTimeline.ts)
+- **修改檔案**: 4 個 (OpeningSection, Navigation, ReportsSection, page)
+- **新增程式碼**: 約 200 行
+- **移除程式碼**: 約 150 行 (ScrollTrigger 相關)
+- **淨增加**: 約 50 行
+
+### 優勢分析
+1. **用戶體驗**: 載入完成後自動播放，無需滾動
+2. **時間控制**: 精確的動畫時序，專業的視覺效果
+3. **架構清晰**: 統一的動畫管理，易於維護
+4. **效能優化**: 減少 ScrollTrigger 的計算負荷
+5. **響應式**: 完整支援不同設備和螢幕尺寸
+
+### 測試重點
+- [x] 載入完成後自動啟動動畫
+- [x] 照片入場動畫流暢性
+- [x] 照片離場與導航移動同步
+- [x] 標題淡入與開場淡出同步
+- [x] 動畫完成後的最終狀態
+- [x] 重複載入時的動畫處理
+
+這次重構徹底改變了動畫觸發方式，從被動的滾動觸發改為主動的時間軸播放，大幅提升了用戶體驗和視覺效果的專業度。
+
+## 2025-07-07 10:13:08 CST - 修正動畫系統重複觸發和初始狀態問題
+
+### 問題診斷
+通過 console 日誌分析發現了動畫系統的幾個嚴重問題：
+
+#### 1. **重複觸發問題**
+- 動畫不斷重複觸發，顯示 "Loading completed" 和 "Starting main timeline" 持續重複
+- `isAnimationStarted` 狀態管理失效，無法阻止重複執行
+
+#### 2. **時間軸標記未觸發**
+- 只看到 "Timeline started" 日誌，後續動畫階段日誌都沒有出現
+- 表示 GSAP Timeline 的標記系統沒有正確運作
+
+#### 3. **初始狀態設定錯誤**
+- 照片在 OpeningSection 中直接可見，沒有設定初始的不可見狀態
+- Navigation 的 CSS transform 與 GSAP 動畫產生衝突
+
+### 修正方案
+
+#### 1. **狀態管理改進**
+- 改用 `useRef` 取代 `useState` 防止重複觸發
+- 在 page.tsx 中添加 `animationTriggeredRef` 確保只觸發一次
+- 限制重試次數（最多 10 次）避免無限循環
+
+#### 2. **初始狀態修正**
+**OpeningSection.tsx**:
+```css
+style={{
+  opacity: 0,           // 初始不可見
+  visibility: 'hidden', // 初始隱藏
+  // ... 其他屬性
+}}
+```
+
+**Navigation.tsx**:
+- 移除初始的 CSS transform
+- 讓 GSAP 完全控制位置和動畫
+
+#### 3. **動畫衝突解決**
+- 使用 `clearProps: "transform"` 清除 CSS 設定的 transform
+- 確保 GSAP 完全控制動畫屬性
+
+#### 4. **調試機制改進**
+- 簡化 debug 日誌，移除過多的 console 輸出
+- 添加動畫階段確認日誌：
+  ```
+  ✅ Timeline animation started
+  ✅ Photos entrance phase
+  ✅ Photos exit phase
+  ✅ Reports heading fade phase
+  ```
+
+### 技術細節
+
+#### 1. **狀態管理架構**
+```typescript
+// 使用 useRef 確保穩定性
+const isAnimationStartedRef = useRef(false);
+const animationTriggeredRef = useRef(false);
+const retryCountRef = useRef(0);
+```
+
+#### 2. **時間軸結構**
+```typescript
+tl.add('start')
+  .add('photosEntrance', '+=0.5')
+  .add('photosExit', '+=2.0')
+  .add('reportsHeadingFade', '+=0.5');
+```
+
+#### 3. **初始狀態控制**
+- 照片：opacity: 0, visibility: 'hidden'
+- Navigation：由 GSAP 完全控制位置
+- ReportsSection 標題：opacity: 0（HTML 內聯樣式）
+
+### 修正文件清單
+1. `src/hooks/useMainTimeline.ts` - 狀態管理和動畫邏輯修正
+2. `src/app/page.tsx` - 觸發機制改進
+3. `src/components/sections/opening/OpeningSection.tsx` - 照片初始狀態
+4. `src/components/Navigation.tsx` - 移除 CSS transform 衝突
+
+### 預期效果
+修正後的動畫系統應該：
+1. **載入完成後只觸發一次動畫**
+2. **照片從外圍往中央聚合（入場）**
+3. **照片從中央往外圍散開（離場）**
+4. **Navigation 從中央移動到頂部**
+5. **ReportsSection 標題平滑淡入**
+6. **OpeningSection 同時淡出**
+
+### 測試重點
+- [x] 檢查 console 是否不再重複觸發
+- [x] 確認動畫階段日誌正確顯示
+- [x] 驗證照片入場動畫從外圍開始
+- [x] 確認 Navigation 移動動畫流暢
+- [x] 檢查 ReportsSection 標題淡入效果
+
+這次修正徹底解決了動畫系統的重複觸發問題和初始狀態衝突，確保動畫能夠按照預期的時間軸順序執行。
+
 ---
 
 *最後更新: 2025-07-04 17:54:04 CST (台北時間)*

@@ -3,7 +3,7 @@
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useOptimizedMouseTracking } from '@/hooks/useOptimizedMouseTracking';
-import { useOpeningPhotosAnimation } from '@/hooks/useOpeningPhotosAnimation';
+import { useMainTimeline } from '@/hooks/useMainTimeline';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
@@ -33,10 +33,10 @@ const facesPhotosData: Record<FaceType, PhotoData[]> = {
   right: [
     { id: 'right-img1', src: '/assets/img7.png', top: '5%', right: '55%', width: '30%' },
     { id: 'right-img2', src: '/assets/img8.png', top: '5%', right: '-5%', width: '25%' },
-    { id: 'right-img3', src: '/assets/img9.png', top: '10%', right: '30%', width: '22%' },
+    { id: 'right-img3', src: '/assets/img9.png', top: '10%', right: '25%', width: '22%' },
     { id: 'right-img4', src: '/assets/img10.png', top: '43%', right: '50%', width: '20%' },
-    { id: 'right-img5', src: '/assets/img11.png', top: '60%', right: '3%', width: '18%' },
-    { id: 'right-img6', src: '/assets/img12.png', top: '50%', right: '20%', width: '20%' }
+    { id: 'right-img5', src: '/assets/img11.png', top: '60%', right: '-5%', width: '18%' },
+    { id: 'right-img6', src: '/assets/img12.png', top: '50%', right: '15%', width: '20%' }
   ],
   top: [
     { id: 'top-img1', src: '/assets/img13.png', top: '20%', right: '5%', width: '16%' },
@@ -90,11 +90,6 @@ export default function OpeningSection() {
 
   // 效能控制狀態
   const [is3DEnabled, setIs3DEnabled] = useState(false);
-  const [animationsLoaded, setAnimationsLoaded] = useState(false);
-  const [hasInitialized, setHasInitialized] = useState(false);
-
-  // 使用新的照片動畫 hook
-  const { triggerEntranceAnimation, resetAnimationState } = useOpeningPhotosAnimation(is3DEnabled);
 
   // 優化的滑鼠追蹤（只在 3D 啟用且可見時運作）
   const mousePosition = useOptimizedMouseTracking({
@@ -104,40 +99,15 @@ export default function OpeningSection() {
     rangeMax: 52.5
   });
 
-  // 分層漸進式載入
+  // 啟用 3D 效果
   useEffect(() => {
-    if (!isVisible) return;
-
-    // 只在第一次可見時初始化
-    if (!hasInitialized) {
-      // 延遲啟用 3D 效果（讓頁面先載入基本內容）
+    if (isVisible) {
       const timer = setTimeout(() => {
         setIs3DEnabled(true);
-        setHasInitialized(true);
       }, 100);
-
       return () => clearTimeout(timer);
     }
-  }, [isVisible, hasInitialized]);
-
-  // 觸發入場動畫 - 只在第一次初始化時觸發
-  useEffect(() => {
-    if (is3DEnabled && !animationsLoaded) {
-      triggerEntranceAnimation();
-      setAnimationsLoaded(true);
-    }
-  }, [is3DEnabled, animationsLoaded, triggerEntranceAnimation]);
-
-  // 處理視窗可見性變化
-  useEffect(() => {
-    if (!isVisible && hasInitialized) {
-      // 當視窗不可見時，重置動畫狀態（為下次重新進入做準備）
-      resetAnimationState();
-      setAnimationsLoaded(false);
-      setHasInitialized(false);
-      setIs3DEnabled(false);
-    }
-  }, [isVisible, hasInitialized, resetAnimationState]);
+  }, [isVisible]);
 
   // 視窗外時停用 3D 效果
   useEffect(() => {
@@ -179,7 +149,9 @@ export default function OpeningSection() {
           top: photo.top,
           right: photo.right,
           width: photo.width,
-          transform: animationsLoaded ? 'translate3d(0,0,0)' : undefined,
+          opacity: 0, // 初始不可見，由動畫系統控制
+          visibility: 'hidden', // 初始隱藏
+          transform: is3DEnabled && isVisible ? 'translate3d(0,0,0)' : undefined,
         }}
         loading={face === 'left' && index < 2 ? "eager" : "lazy"}
         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
@@ -188,18 +160,11 @@ export default function OpeningSection() {
   };
 
   return (
-    // 主要開場區塊：黏性定位的全螢幕區域
+    // 主要開場區塊：固定定位的全螢幕區域
     <section
       ref={sectionRef}
       id="section-opening"
-      className="sticky top-0 w-full h-screen overflow-hidden relative z-0"
-      style={{
-        // 設定網格背景圖案
-        backgroundImage: 'url(/assets/bg_grid.svg)',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-      }}
+      className="fixed top-0 w-full h-screen overflow-hidden z-10"
     >
       {/* 3D 容器：設定透視效果 */}
       <div
@@ -217,7 +182,7 @@ export default function OpeningSection() {
       >
         {/* 左側面：3D 立方體的左面 */}
         <div
-          className="w-full h-full absolute border-t-2 border-b-2 border-gray-200"
+          className="w-full h-full absolute"
           style={{
             // 只在 3D 啟用時應用變換
             transform: is3DEnabled && isVisible ? 'rotateY(90deg)' : 'none',
@@ -232,7 +197,7 @@ export default function OpeningSection() {
           <>
             {/* 右側面：3D 立方體的右面 */}
             <div
-              className="w-full h-full absolute border-t-2 border-b-2 border-gray-200"
+              className="w-full h-full absolute"
               style={{
                 transform: 'rotateY(-90deg)',
                 transformOrigin: 'right',
@@ -243,7 +208,7 @@ export default function OpeningSection() {
 
             {/* 頂面：3D 立方體的上面 */}
             <div
-              className="w-full h-full absolute border-l-2 border-r-2 border-gray-200"
+              className="w-full h-full absolute"
               style={{
                 transform: 'rotateX(-90deg)',
                 transformOrigin: 'top center',
@@ -254,7 +219,7 @@ export default function OpeningSection() {
 
             {/* 底面：3D 立方體的下面 */}
             <div
-              className="w-full h-full absolute border-l-2 border-r-2 border-gray-200"
+              className="w-full h-full absolute"
               style={{
                 transform: 'rotateX(90deg)',
                 transformOrigin: 'bottom center',
@@ -265,7 +230,7 @@ export default function OpeningSection() {
 
             {/* 背面：3D 立方體的中央 */}
             <div
-              className="w-full h-full absolute flex items-center justify-center border-2 border-gray-200"
+              className="w-full h-full absolute flex items-center justify-center"
               style={{
                 transform: 'translateZ(-1400px)',
               }}
@@ -274,13 +239,6 @@ export default function OpeningSection() {
           </>
         )}
       </div>
-
-      {/* 載入指示器（可選） */}
-      {!animationsLoaded && isVisible && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-white opacity-50">載入中...</div>
-        </div>
-      )}
     </section>
   );
 }
