@@ -18,20 +18,50 @@ export default function SectionNavigation() {
   const { currentSection } = useStore();
   // 控制導航是否顯示的狀態
   const [isVisible, setIsVisible] = useState(false);
+  // 動畫完成狀態追蹤
+  const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
 
+  // 副作用：監聽主動畫完成狀態
+  useEffect(() => {
+    // 計算動畫完成時間：1秒延遲 + 4.5秒動畫 = 5.5秒
+    const ANIMATION_DURATION = 5500;
 
-  // 副作用：根據滾動位置控制導航顯示
+    // 標記動畫完成
+    const animationTimer = setTimeout(() => {
+      setIsAnimationCompleted(true);
+    }, ANIMATION_DURATION);
+
+    return () => clearTimeout(animationTimer);
+  }, []);
+
+  // 副作用：根據滾動位置和動畫狀態控制導航顯示
   useEffect(() => {
     // 檢查導航是否應該顯示的函數
     const checkVisibility = () => {
+      // 只有在動畫完成後才進行檢查
+      if (!isAnimationCompleted) {
+        setIsVisible(false);
+        return;
+      }
+
       // 取得 reports 章節的 DOM 元素
       const reportsSection = document.getElementById('section-reports');
-      if (reportsSection) {
-        // 取得元素的位置資訊
+      const reportsHeading = document.getElementById('reports-section-heading');
+
+      if (reportsSection && reportsHeading) {
+        // 檢查 reports 標題是否已經可見（透明度大於0.5）
+        const headingStyles = window.getComputedStyle(reportsHeading);
+        const headingOpacity = parseFloat(headingStyles.opacity);
+        const isHeadingVisible = headingOpacity > 0.5;
+
+        // 取得 reports 章節的位置資訊
         const rect = reportsSection.getBoundingClientRect();
-        // 當 Reports 章節進入視窗範圍時顯示導航
-        const shouldShow = rect.top <= window.innerHeight * 0.8;
+        // 當 Reports 章節進入視窗且標題已顯示時顯示導航
+        const shouldShow = rect.top <= window.innerHeight * 0.5 && isHeadingVisible;
+
         setIsVisible(shouldShow);
+      } else {
+        setIsVisible(false);
       }
     };
 
@@ -41,11 +71,26 @@ export default function SectionNavigation() {
     // 監聽滾動事件來動態調整可見性
     window.addEventListener('scroll', checkVisibility);
 
+    // 額外監聽 resize 事件，確保響應式正確
+    window.addEventListener('resize', checkVisibility);
+
+    // 定期檢查狀態（用於動畫完成後的同步）
+    const intervalCheck = setInterval(checkVisibility, 100);
+
     // 清理函數：移除事件監聽器
     return () => {
       window.removeEventListener('scroll', checkVisibility);
+      window.removeEventListener('resize', checkVisibility);
+      clearInterval(intervalCheck);
     };
-  }, []);
+  }, [isAnimationCompleted]); // 添加 isAnimationCompleted 作為依賴
+
+  // 副作用：debug 當前章節狀態（開發環境）
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      // console.log('Current section:', currentSection); // 調試用，可視需要開啟
+    }
+  }, [currentSection]);
 
   // 滾動到指定章節的函數
   const scrollToSection = (sectionId: string) => {
@@ -60,14 +105,21 @@ export default function SectionNavigation() {
     }
   };
 
-  // 如果導航不可見，不渲染任何內容
-  if (!isVisible) {
+  // 如果導航不可見或動畫未完成，不渲染任何內容
+  if (!isVisible || !isAnimationCompleted) {
     return null;
   }
 
   return (
-    // 導航容器：固定在右側中間位置
-    <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-[999]">
+    // 導航容器：固定在右側中間位置，簡單淡入效果
+    <nav
+      className="fixed right-4 top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: `translateY(-50%) translateX(${isVisible ? '0' : '20px'})`
+      }}
+    >
+
       <div className="flex flex-col gap-2">
         {sections.map((section) => (
           <button

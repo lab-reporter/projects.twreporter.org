@@ -114,7 +114,7 @@ export default function Modal() {
       section: projectData.section || [],
       bgColor: projectData.bgColor
     };
-    
+
     // 使用動態內容組件系統
     const ContentComponent = getContentComponentByProjectId(safeProjectData.id);
 

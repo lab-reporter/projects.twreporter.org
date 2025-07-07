@@ -26,16 +26,48 @@ export default function Home() {
   // 防止重複觸發
   const animationTriggeredRef = useRef(false);
 
-  // 監聽載入狀態，在載入完成後啟動動畫
+  // 頁面載入時強制回到頂部
+  useEffect(() => {
+    // 立即滾動到頂部
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 額外保險：確保 DOM 渲染後再次滾動到頂部
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []); // 空依賴，只在組件首次載入時執行
+
+  // 動畫期間禁止捲動的控制
   useEffect(() => {
     if (!isLoading && !animationTriggeredRef.current) {
       animationTriggeredRef.current = true;
-      // 載入完成後延遲啟動動畫，確保所有組件已渲染
-      const timer = setTimeout(() => {
-        startMainTimeline();
-      }, 1000); // 減少延遲時間到 1 秒
 
-      return () => clearTimeout(timer);
+      // 開始動畫前：禁止頁面捲動
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+
+      // 載入完成後延遲啟動動畫，確保所有組件已渲染
+      const startTimer = setTimeout(() => {
+        startMainTimeline();
+      }, 1000); // 1秒延遲
+
+      // 動畫結束後：恢復頁面捲動（總時間：1秒延遲 + 4.5秒動畫 = 5.5秒）
+      const endTimer = setTimeout(() => {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }, 5500); // 5.5秒後恢復捲動
+
+      return () => {
+        clearTimeout(startTimer);
+        clearTimeout(endTimer);
+        // 清理時也要恢復捲動
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      };
     }
   }, [isLoading, startMainTimeline]);
 

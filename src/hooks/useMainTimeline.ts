@@ -161,28 +161,29 @@ export const useMainTimeline = () => {
     };
 
     // 導航動畫
-    const addNavigationAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {
-        const nav = document.querySelector('#main-navigation');
-        if (nav) {
-            // 設定初始位置（使用 transform 正中央且放大）
-            gsap.set(nav, {
-                top: '50vh',
-                transform: 'translateY(-50%) scale(1.5)'
-            });
+    const addNavigationAnimation
+        = (timeline: gsap.core.Timeline, startTime: number = 0) => {
+            const nav = document.querySelector('#main-navigation');
+            if (nav) {
+                // 設定初始位置（使用 transform 正中央且放大）
+                gsap.set(nav, {
+                    top: '50vh',
+                    transform: 'translateY(-50%) scale(1.5)'
+                });
 
-            // 然後執行動畫到最終位置（頂部且正常大小）
-            // 🎯 動畫時序: PHOTOS_EXIT_START - 與照片離場同時進行
-            timeline.to(nav,
-                {
-                    top: '3rem',
-                    transform: 'translateY(0) scale(1)',
-                    duration: 0.5,
-                    ease: 'power3.out'
-                },
-                startTime
-            );
-        }
-    };
+                // 然後執行動畫到最終位置（頂部且正常大小）
+                // 🎯 動畫時序: PHOTOS_EXIT_START - 與照片離場同時進行
+                timeline.to(nav,
+                    {
+                        top: '3rem',
+                        transform: 'translateY(0) scale(1)',
+                        duration: 0.5,
+                        ease: 'power3.out'
+                    },
+                    startTime
+                );
+            }
+        };
 
     // Reports 標題淡入動畫
     const addReportsHeadingAnimation = (timeline: gsap.core.Timeline, startTime: number = 0) => {

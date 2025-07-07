@@ -95,8 +95,8 @@ export default function OpeningSection() {
   const mousePosition = useOptimizedMouseTracking({
     enabled: is3DEnabled && isVisible,
     throttleMs: 16,
-    rangeMin: 47.5,
-    rangeMax: 52.5
+    rangeMin: 45,
+    rangeMax: 55
   });
 
   // 啟用 3D 效果

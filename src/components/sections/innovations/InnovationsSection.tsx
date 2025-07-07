@@ -344,8 +344,8 @@ export default function InnovationsSection() {
                     className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
                     style={{
                       transformOrigin: 'center center',
-                      width: '500px',
-                      height: '500px',
+                      width: '800px',
+                      height: '800px',
                       transform: 'translate(-50%, -50%)',
                       // 在 3D 啟用前設定初始 opacity，避免突然出現
                       opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
