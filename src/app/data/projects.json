@@ -321,7 +321,7 @@
     },
     {
         "id": "challenge-1",
-        "path": "https://picsum.photos/id/106/800/600",
+        "path": "/assets/challenges/challenge-1/challenge-1-1.jpg",
         "title": "為何要創辦很冷門的公共媒體？",
         "section": [
             "challenge"
@@ -330,7 +330,7 @@
     },
     {
         "id": "challenge-2",
-        "path": "https://picsum.photos/id/106/800/600",
+        "path": "/assets/challenges/challenge-2/challenge-2-1.jpg",
         "title": "台灣人願意捐款給媒體嗎？",
         "section": [
             "challenge"
@@ -339,8 +339,8 @@
     },
     {
         "id": "challenge-3",
-        "path": "https://picsum.photos/id/107/800/600",
-        "title": "如何走向世界與各國媒體合作？",
+        "path": "/assets/challenges/challenge-3/challenge-3-1.jpg",
+        "title": "獨立媒體如何走向世界與各國媒體合作？",
         "section": [
             "challenge"
         ],
@@ -348,8 +348,8 @@
     },
     {
         "id": "challenge-4",
-        "path": "https://picsum.photos/id/108/800/600",
-        "title": "「員工董事」與「團體協約」的必要性？",
+        "path": "/assets/challenges/challenge-4/challenge-4-1.jpg",
+        "title": "如何確保新聞工作者的勞動條件？",
         "section": [
             "challenge"
         ],
@@ -357,8 +357,8 @@
     },
     {
         "id": "challenge-5",
-        "path": "https://picsum.photos/id/106/800/600",
-        "title": "「心理支持系統」要支持什麼？",
+        "path": "/assets/challenges/challenge-5/challenge-5-1.jpg",
+        "title": "新聞室為何要建立「心理支持系統」？",
         "section": [
             "challenge"
         ],
@@ -366,7 +366,7 @@
     },
     {
         "id": "challenge-6",
-        "path": "https://picsum.photos/id/106/800/600",
+        "path": "/assets/challenges/challenge-6/challenge-6-1.jpg",
         "title": "深度媒體也需要做即時報導嗎？",
         "section": [
             "challenge"
@@ -375,8 +375,8 @@
     },
     {
         "id": "challenge-7",
-        "path": "https://picsum.photos/id/107/800/600",
-        "title": "為什麼LINE、YAHOO都要付費給《報導者》？",
+        "path": "/assets/challenges/challenge-7/challenge-7-1.jpg",
+        "title": "為何LINE、Yahoo都要付費給《報導者》？",
         "section": [
             "challenge"
         ],
@@ -384,8 +384,8 @@
     },
     {
         "id": "challenge-8",
-        "path": "https://picsum.photos/id/108/800/600",
-        "title": "跨世代人才合作的困難？",
+        "path": "/assets/challenges/challenge-8/challenge-8-1.jpg",
+        "title": "如何打造跨世代合作的新聞團隊？",
         "section": [
             "challenge"
         ],
@@ -393,8 +393,8 @@
     },
     {
         "id": "challenge-9",
-        "path": "https://picsum.photos/id/106/800/600",
-        "title": "「影響力報告」是什麼碗糕？",
+        "path": "/assets/challenges/challenge-9/challenge-9-1.jpg",
+        "title": "新聞媒體為何要製作「影響力報告」？",
         "section": [
             "challenge"
         ],
@@ -402,26 +402,8 @@
     },
     {
         "id": "challenge-10",
-        "path": "https://picsum.photos/id/106/800/600",
-        "title": "在這個年代如何把新聞當做志業？",
-        "section": [
-            "challenge"
-        ],
-        "bgColor": "#F1F1F1"
-    },
-    {
-        "id": "challenge-11",
-        "path": "https://picsum.photos/id/107/800/600",
-        "title": "大學生為何捐出清寒獎學金？",
-        "section": [
-            "challenge"
-        ],
-        "bgColor": "#F1F1F1"
-    },
-    {
-        "id": "challenge-12",
-        "path": "https://picsum.photos/id/108/800/600",
-        "title": "跨國公司員工為何協助募款？",
+        "path": "/assets/challenges/challenge-10/challenge-10-1.jpg",
+        "title": "是什麼原因支撐《報導者》走過10年？",
         "section": [
             "challenge"
         ],

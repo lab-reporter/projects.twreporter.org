@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // 允許的外部圖片域名
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
+      },
+    ],
     // 啟用現代圖片格式
     formats: ['image/webp', 'image/avif'],
     // 設定圖片快取時間（1年）

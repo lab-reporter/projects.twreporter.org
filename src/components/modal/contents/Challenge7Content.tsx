@@ -1,0 +1,137 @@
+'use client';
+
+import { ContentProps } from '../types';
+import * as Shared from '../shared';
+
+export default function Challenge7Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
+  if (!projectData) return null;
+
+  return (
+    <Shared.Container>
+      {/* 固定背景 */}
+      <Shared.ChallengeFixedBackground 
+        src="/assets/challenges/challenge-bg.svg" 
+        alt="挑戰背景圖" 
+      />
+
+      <Shared.ContentWrapper>
+        <Shared.TextContent>
+          {/* 文章標題 */}
+          <Shared.ChallengeArticleTitle title={projectData.title} />
+          
+          <div className="space-y-4">
+            <Shared.ChallengeQuoteAuthor author="《報導者》創辦人兼執行長 何榮幸：" />
+            
+            <p className="text-xl leading-relaxed">
+              近年來，有愈來愈多讀者注意到，《報導者》的重要作品頻頻出現於LINE TODAY、Yahoo新聞等平台，從國內報紙、雜誌到國外媒體也都看得到《報導者》的深度報導；不僅如此，《報導者》的Podcast節目還出現在KKBOX平台，未來觀眾更可在電視機、電影院看到《報導者》內容改編的影視作品⋯⋯
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              是的，這是《報導者》長期努力建立的「付費授權」模式。從傳統媒體到社群平台付費給《報導者》取得授權，雙方同步刊登《報導者》重要作品，《報導者》也藉此延伸影響力及增加收入；而這種合作模式已更加多元，從聲音內容到影視作品的IP授權，都讓《報導者》走出同溫層而接觸到更多閱聽大眾。
+            </p>
+            
+            <Shared.ChallengeSectionHeading title="授權初體驗：《報導者》與《蘋果日報》首度聯手出擊" />
+            
+            <p className="text-xl leading-relaxed">
+              事實上，2015年12月《報導者》網站正式上線之後，來自國內外網路平台的刊登作品授權請求就接踵而至。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              然而，儘管這些網路平台都打著「可以協助《報導者》增加流量」的口號而來，但其實都只是為了拉抬該平台的網站流量以增加網路廣告。也就是說，這些內容農場式的網路平台做的都是「無本生意」，只要愈多媒體願意免費授權內容讓其刊登，這些網路平台就能在「流量變現」的商業模式下獲利。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              這種合作模式當然不是「雙贏」，因為《報導者》的作品在這些內容農場平台上並不會獲得重視與突顯，就算導回流量也必然只是曇花一現。因此這類邀約我們一律拒絕授權，不願讓同事們耗費人力與時間成本的精彩報導成為內容農場平台獲利工具。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              直到一年之後，我們在2016年12月初完成了《造假．剝削．血淚漁場：跨國直擊台灣遠洋漁業真相》重要調查報導，為了讓這項重要作品發揮最大影響力，因此主動與國內四大報之一的《蘋果日報》高層連繫，尋求雙方合作刊登的可能性。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              我們認為，網路新媒體與傳統媒體之間並非只有競爭關係，也有很多面向可以合作而真正促成互補雙贏。而《蘋果日報》是最願意與非營利媒體互惠合作的傳統媒體，因此成為我們主動出擊的首選。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              當時我以執行長兼總編輯的身分，和《血淚漁場》專題監製、總主筆雪莉一起前往內湖《蘋果日報》辦公室，和相識已久的《蘋果日報》社長陳裕鑫、總編輯莊勝鴻會談，雙方很快就達成合作共識：《蘋果日報》在最重要版面刊登此專題精華內容，並強調《報導者》授權及詳列文字記者、攝影記者、圖表設計者姓名，《蘋果日報》網站則與《報導者》同步刊登，雙方Facebook專頁共同宣傳推廣此項合作。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              於是，2016年12月19日的《蘋果日報》以A1、A2兩塊全版刊登《血淚漁場》專題精華內容，雙方聯手出擊獲得熱烈迴響並影響政策，屏東地檢署當天就宣布重啟調查印尼漁工Supriyanto死亡案，行政院長林全在行政院院會強調應重視外籍漁工權益，農委會主委曹啟鴻宣布將加強遠洋漁船勞動檢查，司法部門與行政部門都動了起來，《報導者》這項專題也發揮了重要影響力。
+            </p>
+            
+            <Shared.ChallengeImageWithCaption
+              src="/assets/challenges/challenge-7/challenge-7-1.jpg"
+              alt="《蘋果日報》刊登《血淚漁場》專題"
+              caption="2016年12月19日的《蘋果日報》以A1、A2兩塊全版刊登《血淚漁場》專題精華內容。"
+              width={800}
+              height={600}
+            />
+            
+            <Shared.ChallengeSectionHeading title="建立付費授權模式，長期簽約互惠合作" />
+            
+            <p className="text-xl leading-relaxed">
+              這次成功合作經驗顯示，由於《報導者》與《蘋果日報》各有不同受眾，雙方合作能夠讓《報導者》作品的影響力加乘擴散，《蘋果日報》的讀者也可以看到精彩調查報導內容。非營利媒體並沒有「獨家新聞」的需求，只要確立《報導者》授權的主體性，平等互惠的授權合作模式應該是多多益善。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              在此之後，我們打開了與傳統媒體及網路平台頻繁合作的大門，在報紙之外，我們也陸續與《今周刊》、《天下雜誌》、《商業周刊》等重要財經雜誌進行授權合作。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              由於《報導者》各項調查報導耗費龐大人力與時間成本，此後的合作模式也加入了「付費授權」原則，傳統媒體及網路平台以付費方式取得《報導者》授權刊登作品，有些合作案更是長期簽約。
+            </p>
+            
+            <Shared.ChallengeSectionHeading title="國際媒體多元合作，開拓聲音內容與IP授權" />
+            
+            <p className="text-xl leading-relaxed">
+              在與愈來愈多國內媒體授權合作之際，我們也努力走向國際，與各國媒體展開多元合作。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              《自由亞洲電台》（Radio Free Asia, RFA）率先踏出腳步，從2019年1月刊登〈西方的臉孔在東方悲鳴──亞美混血兒長達30年的尋親啟事〉至今，RFA網站每月固定刊登《報導者》的國際性作品。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              有些國際合作則較為特殊，例如美國重要大報《華盛頓郵報》（The Washington Post），因為欣賞《報導者》在《中國虎視下的島鏈：沖繩如何成為台海危機的熱點？》專題中製作的多媒體作品──〈【圖解】解放軍如何進逼第一島鏈：台海衝突下牽動的美日軍事布局〉，因此希望《報導者》授權其中圖表讓其重製，提供美國讀者了解中國軍機長期飛越海峽中線的路徑軌跡。
+            </p>
+            
+            <Shared.ChallengeImageWithCaption
+              src="/assets/challenges/challenge-7/challenge-7-2.jpg"
+              alt="《華盛頓郵報》轉譯《報導者》圖表"
+              caption="《華盛頓郵報》在《報導者》授權下，將《報導者》針對中國軍機與戰艦侵襲台灣海峽周邊的軌跡分析，轉譯成英文版。"
+              width={800}
+              height={600}
+            />
+            
+            <p className="text-xl leading-relaxed">
+              除了深度調查報導、多媒體作品，我們近年更開拓了聲音內容授權、影視作品IP授權等嶄新合作。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              在聲音內容授權方面，《報導者》時任副總編輯劉致昕精心製作的《On the Ground路邊攤計畫》系列Podcast節目，就授權給大型音樂平台KKBOX播出，讓更多喜愛音樂的朋友能夠透過《報導者》Podcast節目深入了解各項公共議題。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              而在影視作品授權方面，《報導者》已與「Giloo紀實影音」OTT平台合作，喜歡觀看紀錄片的朋友，都可以在Giloo上面看到《報導者》製作的〈人生的縫隙〉、〈我們仨〉、〈廢墟裡的少年〉、〈一位印尼漁工之死〉等紀錄短片。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              至於近年媒體與影視界高度重視的IP授權，《報導者》已與導演蔡銀娟簽約，授權蔡導演改編《廢墟裡的少年》專題／專書內容為電影《失樂園》，如今《失樂園》已獲得文化部優良電影劇本肯定，期待未來觀眾可以走進電影院欣賞此片。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              一路走來，《報導者》與各種媒體、平台乃至導演的授權合作，都是為了積極發揮影響力，而這些合作帶來的授權費，則已成為《報導者》在捐款之外努力開拓的收入。不論外在世界如何變化，我們都將秉持做好深度調查報導的初衷，盡一切可能將這些重要報導推向各方，並將因此獲得的授權費再度投入需要更多人力與時間成本的報導，期待形成一個良性循環生態圈而生生不息。
+            </p>
+          </div>
+        </Shared.TextContent>
+      </Shared.ContentWrapper>
+
+      {/* 導航按鈕 */}
+      <Shared.NavigationControls
+        onNavigate={onNavigate}
+        adjacentProjects={adjacentProjects}
+      />
+    </Shared.Container>
+  );
+}

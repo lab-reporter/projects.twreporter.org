@@ -11,7 +11,7 @@ export function useMouseTracking3D({ enabled, isLowPerformance = false }: Use3DM
   return useOptimizedMouseTracking({
     enabled,
     throttleMs: isLowPerformance ? 32 : 16,
-    rangeMin: 40,
-    rangeMax: 60
+    rangeMin: 47.5,
+    rangeMax: 52.5
   });
 }

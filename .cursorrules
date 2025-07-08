@@ -1,226 +1,282 @@
-# 🚀 報導者十週年回顧 2D 版本開發狀態
+# 報導者十週年回顧 2D 版本開發規範
 
-## ✅ 已完成 (2025-06-29 ~ 2025-07-04)
-- **專案架構重構** - 從 3D 版本轉換為 2D 純 CSS/JS 動畫實作 ✅
-- **3D 組件清除** - 移除所有 R3F 相關組件和文件 ✅
-- **基礎專案設置** - Next.js 15 + TypeScript + Tailwind CSS ✅
-- **狀態管理系統** - Zustand 完整架構保留 ✅
-- **Modal 系統** - 完整保留互動系統與內容載入 ✅
-- **開發伺服器** - 運行在 http://localhost:3001 ✅
-- **Reports Section** - GSAP ScrollTrigger 3D 輪播系統 ✅
-- **字型系統** - Google Fonts + Adobe Fonts 完整整合 ✅
-- **CustomCursor 系統** - 客製化游標與多樣式配置 ✅
-- **ChallengesSection** - 水平滾動與背景動畫系統 ✅
-- **InnovationsSection** - 3D 深度動畫與效能優化系統 ✅
-- **Opening 照片動畫** - 與 Navigation LOGO 同步的淡出效果 ✅
-- **滑鼠追蹤透視** - Reports 與 Innovations 滑鼠控制 perspectiveOrigin ✅
-- **章節導航系統** - NextSectionButton 跳轉到下一章節功能 ✅
-- **ID 命名一致性** - 統一所有 Section 使用 section-{name} 格式 ✅
+## 📌 專案總覽
 
-## 🎯 當前狀態
-- **技術路線**: 2D CSS/JS 動畫，避免 3D 渲染負擔
-- **目標設備**: 提升低階設備兼容性與載入速度
-- **專案架構**: dev-2d 分支獨立開發
-- **參照程式碼**: copy/ 資料夾（git ignored）
-- **開發紀錄**: 詳細記錄請見 DEVELOPMENT_LOG.md
+### 基本資訊
+- **專案名稱**: 報導者十週年回顧網站 (2D 版本)
+- **技術架構**: Next.js 15 + TypeScript + Tailwind CSS + GSAP
+- **開發分支**: `dev-2d`
+- **開發環境**: http://localhost:3001
+- **GitHub**: https://github.com/itisalongway574/r3f-10th-repo
 
-## 📋 2D 版本 Section 架構
-1. **Opening** - 開場動畫區塊 ✅
-2. **Reports** - 影響力報導展示 ✅
-3. **Innovations** - 多元創新展示 ✅
-4. **Challenges** - 挑戰與成長故事 ✅
+### 專案定位
+- **技術路線**: 2D CSS/JS 動畫（取代原 3D WebGL 版本）
+- **目標受眾**: 支援更多低階設備，提升載入速度
+- **核心價值**: 降低技術複雜度，提高維護性
+
+### 章節架構
+1. **Opening** - 開場動畫區塊（Fixed 背景）
+2. **Reports** - 影響力報導展示（3D 輪播）
+3. **Innovations** - 多元創新展示（深度動畫）
+4. **Challenges** - 挑戰與成長故事（水平滾動）
 5. **Feedbacks** - 贊助者證言
 6. **Support** - 贊助支持頁面
 
-## 🔧 開發規則
-- **自動執行**: 所有指令除了刪除檔案外都自動執行
-- **不需詢問**: 安裝套件、建立檔案、編輯程式碼
-- **⚠️ Git Commit 限制**: **除非用戶明確要求，否則不主動進行 git commit**
-- **需要詢問**: 刪除檔案或目錄的操作、git commit
-- **⚠️ 特別注意**: Git merge/rebase 到 main 分支**必須再次確認**
+## 🗂️ 檔案架構
 
-## ⏰ 時間記錄規範
-- **精確時間取得**: 任何需要記錄時間的操作，必須使用 `TZ='Asia/Taipei' date '+%Y-%m-%d %H:%M:%S %Z'` 指令取得台北時區精確時間
-- **開發紀錄**: 建立或更新開發紀錄時，務必先取得當前精確時間
-- **時間格式**: 統一使用 `YYYY-MM-DD HH:MM:SS CST` 格式
-- **範例指令**:
-  ```bash
-  # 取得台北時區精確時間
-  TZ='Asia/Taipei' date '+%Y-%m-%d %H:%M:%S %Z'
-  
-  # 輸出範例: 2025-06-29 23:32:26 CST
-  ```
-- **時間記錄場景**:
-  - 開發紀錄文檔建立/更新
-  - Git commit 時的時間記錄
-  - 重要功能完成時的里程碑記錄
-  - 問題解決過程的時間軸記錄
-
-## 🐛 Console.log 使用規範
-- **調試目的**: console.log 僅用於開發階段的問題調試
-- **及時清理**: 調試完成後必須立即移除相關 console.log 程式碼
-- **頻率控制**: 避免大量或高頻率的 console.log 輸出
-- **保留原則**: 只保留必要的錯誤處理 console.error 和用戶操作回饋
-- **開發環境限制**: 使用 `process.env.NODE_ENV === 'development'` 條件限制輸出
-
-## 🌳 Git 工作流程規範
-- **主分支**: `main` - 穩定版本
-- **開發分支**: `dev-2d` - 2D 版本開發
-- **技術路線**: 純 2D CSS/JS 動畫實作
-- **GitHub Repository**: https://github.com/itisalongway574/r3f-10th-repo
-
-### ⚠️ **重要：dev-2d 分支合併限制**
-- **原則**: dev-2d 分支**不直接合併**到 main 分支
-- **目的**: 保持 main 分支作為最終選擇的技術方案
-- **AI 助手責任**: 如果用戶下達任何 merge、rebase 到 main 的指令，**必須再次確認**
-- **確認提醒**: "您確定要將 dev-2d 合併到 main 嗎？這會改變主分支的技術路線。"
-
-## 📋 Git Commit 規範
-- **格式**: `<type>: <繁體中文描述>` (第一行不超過 50 字符)
-- **語氣**: 使用祈使語氣，不用句號結尾
-- **語言**: 描述使用繁體中文，類型使用英文
-- **嚴格禁止**：
-  - 任何 AI 協作相關字詞（Claude、AI、助手、協作等）
-  - 自動生成的標記或署名
-  - 提及工具或協助者資訊
-- **專注內容**：只描述程式碼變更的技術內容和目的
-
-### **Commit 類型**
-- `feat`: 新功能
-- `fix`: 修復問題
-- `refactor`: 重構程式碼
-- `perf`: 效能優化
-- `style`: 格式/樣式調整
-- `docs`: 文檔更新
-
-### **範例**
-```bash
-feat: 新增 Opening Section 開場動畫
-fix: 修正 ScrollTrigger 衝突問題
-refactor: 重構 Section 組件架構
-perf: 優化 GSAP 動畫效能
+```
+r3f-10th-recap/
+├── src/
+│   ├── app/                    # Next.js 15 App Router
+│   │   ├── page.tsx           # 首頁（唯一路由）
+│   │   └── layout.tsx         # 全域佈局
+│   ├── components/
+│   │   ├── sections/          # 各章節組件
+│   │   ├── modal/             # Modal 系統
+│   │   └── shared/            # 全域共用組件
+│   ├── hooks/                 # 自定義 Hooks
+│   ├── stores/                # Zustand 狀態管理
+│   │   └── slices/           # 各狀態切片
+│   ├── lib/                   # 工具函數
+│   └── styles/               # 全域樣式
+├── public/                    # 靜態資源
+├── CLAUDE.md                  # AI 助手開發規範（本檔案）
+├── DEVELOPMENT_LOG.md         # 詳細開發紀錄
+└── copy/                      # 參考程式碼（git ignored）
 ```
 
-## 📋 程式碼精簡化原則
-1. **功能獨立性**: 每個 Section 組件保持獨立，避免相互依賴
-2. **組件拆分**: 單一檔案超過 200 行時考慮拆分
-3. **共用邏輯**: 相同邏輯出現 2-3 次時抽取為共用函數
-4. **一檔一責**: 保持「一個檔案一個職責」原則
-5. **開發效率**: 以開發效率和可讀性為優先考量
+## 🤖 AI 助手工作規範
 
-## 💬 程式碼註解規範
-- **語言**: 統一使用繁體中文註解
-- **位置**: 註解置於程式碼上方，避免與程式碼同行
-- **內容描述**: 避免具體數值，專注於功能和用途描述
-- **詳細程度**: 註解應詳細到讓非 React 開發者也能理解
-- **簡化原則**: 
-  - 最開頭的 `'use client'` 和 `import` 語句不需要註解
-  - 色票配置只需簡單說明用途，不用詳細描述每個顏色
-- **範例**:
-  ```typescript
-  // 狀態變數：當前顯示的項目索引
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
-  // 事件處理函數：處理使用者點擊動作
-  const handleClick = () => {
-    // 函數邏輯...
-  };
-  ```
+### ✅ 自動執行項目（不需詢問）
+```
+套件管理      建立檔案      編輯程式碼
+pnpm install  新增組件      修復 bug
+pnpm add      建立 Hook     重構功能
+更新依賴      建立樣式      優化效能
+```
 
-## 📊 2D 版本目標
-- **兼容性提升**: 支援更多低階設備
-- **載入速度**: 比 3D 版本快 50%+
-- **維護性**: 降低技術複雜度
-- **響應式**: 完整支援各螢幕尺寸
+### ❌ 需要確認項目（必須詢問）
+```
+刪除操作         Git 操作              破壞性變更
+刪除檔案/目錄    git commit           重大架構調整
+清空檔案內容     git push             移除重要功能
+                git merge/rebase      變更核心邏輯
+```
 
-## 🎮 技術亮點
-- **GSAP 動畫系統**: 高效能 2D/3D 混合動畫實作
-- **ScrollTrigger 整合**: 滾動驅動的動畫體驗
-- **3D 深度動畫**: InnovationsSection Z 軸深度變化與錯位佈局
-- **效能優化系統**: FPS 監控、低效能模式、漸進式載入
-- **滑鼠追蹤透視**: 動態 perspectiveOrigin 控制 3D 視角
-- **同步動畫控制**: Opening 照片與 Navigation 聯動效果
-- **Modal 系統**: 完整保留 3D 版本的互動功能
-- **CustomCursor 系統**: 多樣式客製化游標體驗
-- **章節導航系統**: NextSectionButton + SectionNavigation 完整跳轉
-- **狀態管理**: Zustand 統一管理應用狀態
-- **響應式設計**: 適配各種設備與螢幕
+### ⚠️ 特別注意事項
 
-## 🚨 Vercel 部署常見錯誤與解決方案
+#### Git 分支管理
+- **絕對禁止**: dev-2d 直接合併到 main
+- **必須確認**: 任何 merge 到 main 的操作
+- **確認文字**: 「您確定要將 dev-2d 合併到 main 嗎？這會改變主分支的技術路線。」
 
-### ❌ 常見錯誤類型
+#### 程式碼品質檢查
+- **每次修改後**: 執行 `pnpm run lint`
+- **功能完成後**: 執行 `pnpm run build`
+- **部署前必做**: 執行完整測試流程
 
-#### 1. **pnpm-lock.yaml 與 package.json 不同步**
-**錯誤訊息**: `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile"`
-**解決方案**: 
+## 📝 開發規範
+
+### Git 工作流程
+```
+main (穩定版本)
+  └── dev-2d (2D 開發分支) ← 目前在此
+       └── feature/* (功能分支)
+```
+
+### Git Commit 規範
 ```bash
-pnpm install  # 重新安裝並更新 lockfile
+# 格式: <type>: <繁體中文描述>
+feat: 新增功能
+fix: 修復問題
+refactor: 重構程式碼
+perf: 效能優化
+style: 格式調整
+docs: 文檔更新
+
+# 範例
+feat: 新增 Modal 動畫效果
+fix: 修正滾動監聽記憶體洩漏
+```
+
+**嚴格禁止**: AI/Claude/助手等相關字詞
+
+### 時間記錄規範
+```bash
+# 取得台北時區時間
+TZ='Asia/Taipei' date '+%Y-%m-%d %H:%M:%S %Z'
+# 輸出: 2025-01-07 14:30:45 CST
+```
+
+使用場景：
+- 開發紀錄更新
+- 重要里程碑
+- 問題解決記錄
+
+### Console.log 規範
+```typescript
+// ✅ 開發環境限制
+if (process.env.NODE_ENV === 'development') {
+  console.log('Debug info');
+}
+
+// ❌ 避免生產環境輸出
+console.log('This will show in production');
+```
+
+原則：
+- 僅用於調試
+- 完成後立即清理
+- 保留必要的 console.error
+
+## 💻 程式碼規範
+
+### 架構原則
+| 原則 | 說明 | 標準 |
+|------|------|------|
+| 功能獨立 | Section 組件互不依賴 | 各自獨立運作 |
+| 檔案大小 | 超過 200 行要拆分 | 保持可讀性 |
+| 程式重用 | 重複 2-3 次要抽取 | 建立共用函數 |
+| 單一職責 | 一檔一功能 | 明確責任劃分 |
+
+### 註解規範
+
+#### ✅ 好的註解
+```typescript
+// 防止滾動時重複觸發昂貴的計算
+const debouncedHandler = useMemo(...)
+
+// TODO: 待後端 API 完成後串接真實資料
+const mockData = [...]
+
+// 使用 IntersectionObserver 實現懶加載以提升效能
+const [isVisible, setIsVisible] = useState(false);
+```
+
+#### ❌ 不好的註解
+```typescript
+// 設定狀態
+const [state, setState] = useState();
+
+// 引入 React
+import React from 'react';
+
+// 這是一個函數
+function doSomething() {}
+```
+
+#### 註解原則
+- 解釋「為什麼」而非「做什麼」
+- 使用繁體中文
+- 放在程式碼上方
+- 讓非技術人員也能理解
+
+## 🎯 技術架構
+
+### 核心技術棧
+| 類別 | 技術 | 用途 |
+|------|------|------|
+| 框架 | Next.js 15 | App Router + RSC |
+| 語言 | TypeScript | 型別安全 |
+| 樣式 | Tailwind CSS | 原子化 CSS |
+| 動畫 | GSAP 3 | 高效能動畫 |
+| 狀態 | Zustand | 輕量級狀態管理 |
+
+### 動畫系統架構
+```
+GSAP Timeline (主時間軸)
+├── ScrollTrigger (滾動驅動)
+├── Mouse Tracking (滑鼠追蹤)
+└── Performance Monitor (效能監控)
+    ├── FPS Detection
+    ├── Auto Degradation
+    └── DOM Cache
+```
+
+### 3D 效果實現（純 CSS）
+- `transform3d` + `perspective` 營造深度
+- `preserve-3d` 保持 3D 空間
+- 動態 `perspectiveOrigin` 追蹤滑鼠
+- 硬體加速 `will-change` 優化
+
+### 狀態管理結構
+```typescript
+Zustand Store
+├── scrollSlice      // 滾動進度、方向、當前章節
+├── uiSlice         // UI 狀態、載入、互動
+├── modalSlice      // Modal 開關、內容、動畫
+└── dataSlice       // 專案資料、快取管理
+```
+
+### 效能目標
+- **載入速度**: < 3秒首屏
+- **動畫流暢**: > 30 FPS
+- **兼容性**: 支援 2019+ 設備
+- **Lighthouse**: > 80 分
+
+## 🚀 部署指南
+
+### 部署前檢查清單
+```bash
+# 1. 清理快取
+rm -rf .next node_modules/.cache
+
+# 2. 重新安裝
+pnpm install
+
+# 3. 類型檢查
+pnpm run type-check
+
+# 4. Lint 檢查
+pnpm run lint
+
+# 5. 構建測試
+pnpm run build
+
+# 6. 本地預覽
+pnpm run start
+```
+
+### 常見錯誤處理
+
+#### 1. Lockfile 不同步
+```bash
+# 錯誤: ERR_PNPM_OUTDATED_LOCKFILE
+pnpm install
 git add pnpm-lock.yaml
 git commit -m "fix: 更新 pnpm-lock.yaml"
 ```
 
-#### 2. **TypeScript 類型錯誤**
-**常見問題**:
-- `unknown` 類型無法訪問屬性
-- 介面屬性缺失（`id`, `path`, `title` 等）
-- `boolean` 與 `string` 類型不匹配
-- `Record<string, unknown>` 缺少索引簽名
-
-**解決方案**:
+#### 2. TypeScript 類型錯誤
 ```typescript
-// ✅ 正確的類型轉換
-const projectId = (modal.data as { id?: string })?.id || '';
+// ❌ 錯誤寫法
+const id = modal.data.id; // unknown 類型
 
-// ✅ 正確的 boolean 轉換
-const shouldShow = Boolean(condition);
-
-// ✅ 正確的介面定義
-interface MyInterface {
-  id: string;
-  title: string;
-  [key: string]: unknown; // 索引簽名
-}
+// ✅ 正確寫法
+const id = (modal.data as { id?: string })?.id || '';
 ```
 
-#### 3. **ESLint 錯誤**
-**常見問題**:
-- 未使用的變數和參數
-- `any` 類型使用
-- React Hook 依賴警告
-
-**解決方案**:
+#### 3. ESLint 問題
 ```typescript
-// ✅ 移除未使用的參數
-}: ModalContentProps) => {  // 移除 onClose, scrollContainer
+// ❌ 未使用的變數
+const unused = 'value';
 
-// ✅ 使用具體類型替代 any
-const data: Record<string, unknown> = {};
-
-// ✅ 修正 Hook 依賴
-useEffect(() => {
-  // ...
-}, [modal.data]); // 添加缺失的依賴
+// ✅ 移除或使用
+// 直接刪除未使用的程式碼
 ```
 
-### ⚠️ 重要提醒
+### 效能檢測標準
+- **Lighthouse**: > 80 分
+- **首屏載入**: < 3 秒
+- **動畫 FPS**: > 30
+- **累積版面位移**: < 0.1
 
-1. **謙遜原則**: 不要過度自信聲稱「完全修復」，始終保持驗證
-2. **實際驗證**: 使用 `pnpm run build` 本地測試，不僅依賴工具分析
-3. **分批修復**: 一次修復一類錯誤，避免引入新問題
-4. **完整檢查**: 確保修復後沒有遺漏的錯誤
-
-### 🔧 驗證指令
-
-```bash
-# TypeScript 類型檢查
-npx tsc --noEmit
-
-# ESLint 檢查（僅源代碼）
-npx eslint src --ext .ts,.tsx
-
-# 完整構建測試
-pnpm run build
-```
+## 📚 相關資源
+- **開發紀錄**: [DEVELOPMENT_LOG.md](./DEVELOPMENT_LOG.md)
+- **GitHub**: https://github.com/itisalongway574/r3f-10th-repo
+- **設計稿**: [Figma 連結]
+- **API 文件**: [後端文件連結]
 
 ---
-*詳細開發紀錄請參閱 DEVELOPMENT_LOG.md*
+*最後更新: 2025-01-07*
+*維護者: 報導者技術團隊*

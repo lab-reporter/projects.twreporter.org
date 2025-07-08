@@ -24,3 +24,10 @@ export { default as NavigationControls } from './NavigationControls';
 // 特殊效果組件
 export { default as CreditsMarquee } from './CreditsMarquee';
 export { default as CreditsItem } from './CreditsItem';
+
+// Challenge 專屬組件
+export { default as ChallengeFixedBackground } from './ChallengeFixedBackground';
+export { default as ChallengeArticleTitle } from './ChallengeArticleTitle';
+export { default as ChallengeQuoteAuthor } from './ChallengeQuoteAuthor';
+export { default as ChallengeSectionHeading } from './ChallengeSectionHeading';
+export { default as ChallengeImageWithCaption } from './ChallengeImageWithCaption';

@@ -364,7 +364,7 @@ export default function InnovationsSection() {
                     <div className="w-full h-full rounded-lg overflow-hidden">
                       <video
                         src={item.path}
-                        autoPlay={isVisible && !isLowPerformance} // 低效能時停用自動播放
+                        autoPlay={isVisible}
                         loop
                         muted
                         playsInline

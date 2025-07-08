@@ -1,0 +1,107 @@
+'use client';
+
+import { ContentProps } from '../types';
+import * as Shared from '../shared';
+
+export default function Challenge9Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
+  if (!projectData) return null;
+
+  return (
+    <Shared.Container>
+      {/* 固定背景 */}
+      <Shared.ChallengeFixedBackground 
+        src="/assets/challenges/challenge-bg.svg" 
+        alt="挑戰背景圖" 
+      />
+
+      <Shared.ContentWrapper>
+        <Shared.TextContent>
+          {/* 文章標題 */}
+          <Shared.ChallengeArticleTitle title={projectData.title} />
+          
+          <div className="space-y-4">
+            <Shared.ChallengeQuoteAuthor author="《報導者》創辦人兼執行長 何榮幸：" />
+            
+            <p className="text-xl leading-relaxed">
+              每年農曆新年前夕，《報導者》影響力報告都會火熱出爐。從2019年至今，我們已經連續6年推出影響力報告了，這本報告書也已成為《報導者》與所有讀者及捐款者對話、溝通的重要橋梁。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              然而，這本呈現非營利媒體運作全貌的重要報告書，當初卻是我們摸著石子過河的實驗性產物。在不斷摸索、反覆思辨、長期學習以及注入創新精神後，《報導者》影響力報告才會長成現在這個樣子，而且還在持續進化當中。
+            </p>
+            
+            <Shared.ChallengeSectionHeading title="董事會催生，參考國外經驗設定影響力指標" />
+            
+            <p className="text-xl leading-relaxed">
+              坦白說，《報導者》成立前幾年，我們從未想過「影響力報告」這件事。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              2015年12月15日《報導者》網站正式上線後，我的腦海裡只有兩個念頭，一是如何持續推出優質報導，二是如何生存下去。在快速忙碌的新聞工作中，必須兼顧非營利組織募款營運，光是這兩件事就已經占去所有時間。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              時間匆匆過去，轉眼來到2019年報導者文化基金會第二屆董事會開會現場，當時《報導者》已經度過最艱難的前三年草創時期，第二屆董事會開始評估如何強化非營利組織經營治理，長期研究非營利組織的董事李怡志建議，報導者文化基金會應該推出「影響力報告」，以此做為透明責信的重要一步。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              《報導者》創立之初就強調不陷入點閱率迷思，全力追求影響力，因此怡志的建議立即成為董事會共識，我也將其列為重要工作目標。但問題是：怎麼做出一份「影響力報告」？
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              儘管台灣非營利組織風氣已盛行，但非營利媒體卻是寥寥可數，《報導者》更是第一家由公益基金會成立的非營利媒體。不少非營利組織固定出版的「年報」固然可以參考，但這些都是歷史悠久、規模很大的老牌非營利組織，《報導者》卻必須從「我們是誰」從頭說起；更何況非營利媒體仍是以產製內容為重心，與一般非營利組織以提供服務為宗旨大相逕庭，如何做出能夠彰顯非營利媒體影響力的報告？顯然是另一項挑戰。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              由於國內難以找到參考範例，怡志建議我和當時負責製作影響力報告的行銷經理王儀君把視野轉向國際。儀君廣泛參考《ProPublica》等國外非營利媒體發表的影響力報告後，發現國外非營利媒體除了重視報導產生的具體改變（例如促成修改法令或是影響政府新政策），亦將重要議題倡議及各項推廣行動視為影響力的延伸；也就是說，衡量非營利媒體的影響力必須與時俱進，除了古典新聞學重視的監督政府等第四權天職，也應納入建立媒體品牌、社群媒體出擊、多媒體呈現重要議題、實體演講及讀者活動等多元指標。
+            </p>
+            
+            <Shared.ChallengeImageWithCaption
+              src="/assets/challenges/challenge-9/challenge-9-1.jpg"
+              alt="第一本《報導者》影響力報告"
+              caption="2019年第一本《報導者》影響力報告，左為本冊，右為別冊。"
+              width={800}
+              height={600}
+            />
+            
+            <p className="text-xl leading-relaxed">
+              我們因此設定了「擴大能見度」、「主動發聲」、「產生回應」、「促成改變」這4項指標，以此評估《報導者》各項作品及線上、線下推廣行動所產生的影響力，儀君也寫下了「這些報導並不朝生暮死，它們帶著應該被聽見的聲音，持續發聲」的動人字句，讓影響力報告具備了最基本的骨幹。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              從2019年起，影響力報告就此成為「基本標配」，此後每年我們持續注入最新發展，加入捐款者與合作單位的心聲，具體說明如何因應不同階段的挑戰，清楚揭露收支財務報告，讓讀者、捐款者能夠整體掌握《報導者》發展全貌。設計師賴柏燁也協助讓每年影響力報告的封面到內頁設計推陳出新，讀者除了可以在《報導者》網站上閱讀全文，也可以購買具有質感的實體紙本做為收藏。
+            </p>
+            
+            <Shared.ChallengeSectionHeading title="開放透明、公益責信，一直是報導者的DNA" />
+            
+            <p className="text-xl leading-relaxed">
+              事實上，從《報導者》網站上線第一天開始，「捐款徵信」專區就詳細列出每一筆捐款，讓所有捐款都公開透明。「關於我們」專區則列出每一位專職工作者的姓名與職稱，彰顯對於每一篇報導的負責。而從第一年開始，報導者文化基金會每年都固定公布由會計師稽核的財務報告，所有讀者都可清楚了解報導者文化基金會每年收支狀況。
+            </p>
+            
+            <Shared.ChallengeImageWithCaption
+              src="/assets/challenges/challenge-9/challenge-9-2.jpg"
+              alt="台中科博館贊助者大會"
+              caption="2022年於台中科博館舉辦的贊助者大會現場，贊助者翻閱影響力報告。"
+              width={800}
+              height={600}
+            />
+            
+            <p className="text-xl leading-relaxed">
+              秉持「取之於社會，用之於社會」公共精神，《報導者》網站從一開始就標示，所有專職工作者產製的內容都適用於創用CC授權原則，只要是非商業用途，任何人都可以在創用CC原則下使用《報導者》網站內容。不僅如此，《報導者》網站也從第一天起就加入開源運動，向外界開放所有原始碼，提供各種交流分享的可能性。
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              在這層意義上，影響力報告其實是帶著《報導者》DNA的必然產物。我們一開始固然不知道如何做出一本影響力報告，卻已意識到這件事非做不可。如果沒有這種從誕生之初就具有的DNA，可能會視影響力報告為額外負擔或多餘產物，但只要流淌著這種DNA，影響力報告以及其他能夠促進公益責信的行動都將是理所當然。
+            </p>
+          </div>
+        </Shared.TextContent>
+      </Shared.ContentWrapper>
+
+      {/* 導航按鈕 */}
+      <Shared.NavigationControls
+        onNavigate={onNavigate}
+        adjacentProjects={adjacentProjects}
+      />
+    </Shared.Container>
+  );
+}

@@ -32,6 +32,15 @@ import Innovation10Content from './contents/Innovation10Content';
 
 // Challenge 系列組件
 import Challenge1Content from './contents/Challenge1Content';
+import Challenge2Content from './contents/Challenge2Content';
+import Challenge3Content from './contents/Challenge3Content';
+import Challenge4Content from './contents/Challenge4Content';
+import Challenge5Content from './contents/Challenge5Content';
+import Challenge6Content from './contents/Challenge6Content';
+import Challenge7Content from './contents/Challenge7Content';
+import Challenge8Content from './contents/Challenge8Content';
+import Challenge9Content from './contents/Challenge9Content';
+import Challenge10Content from './contents/Challenge10Content';
 
 // 內容組件映射表
 const contentMap: Record<string, ComponentType<ContentProps>> = {
@@ -64,6 +73,15 @@ const contentMap: Record<string, ComponentType<ContentProps>> = {
 
   // Challenge section - 完整的 10 個挑戰項目
   'challenge-1': Challenge1Content,
+  'challenge-2': Challenge2Content,
+  'challenge-3': Challenge3Content,
+  'challenge-4': Challenge4Content,
+  'challenge-5': Challenge5Content,
+  'challenge-6': Challenge6Content,
+  'challenge-7': Challenge7Content,
+  'challenge-8': Challenge8Content,
+  'challenge-9': Challenge9Content,
+  'challenge-10': Challenge10Content,
 
 
   // 默認組件

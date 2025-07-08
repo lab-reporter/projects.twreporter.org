@@ -191,7 +191,8 @@ export const useMainTimeline = () => {
             // 確保初始狀態是隱藏的
             gsap.set(reportsHeading, {
                 opacity: 0,
-                scale: 0
+                scale: 0,
+                transformOrigin: '60% 32.5%'
             });
 
             // 🎯 動畫時序: REPORTS_HEADING_START - 延遲0.5s後開始
@@ -245,7 +246,7 @@ export const useMainTimeline = () => {
         const TIMELINE_CONFIG = {
             PHOTOS_ENTRANCE_START: 0,    // 照片入場開始時間
             PHOTOS_EXIT_START: 3.0,      // 照片離場開始時間  
-            REPORTS_HEADING_START: 3.5,  // Reports標題淡入開始時間
+            REPORTS_HEADING_START: 3,  // Reports標題淡入開始時間
             ANIMATION_END: 4.5           // 動畫結束時間
         };
 
