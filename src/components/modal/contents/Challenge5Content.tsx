@@ -9,10 +9,7 @@ export default function Challenge5Content({ projectData, onNavigate, adjacentPro
   return (
     <Shared.Container>
       {/* 固定背景 */}
-      <Shared.ChallengeFixedBackground 
-        src="/assets/challenges/challenge-bg.svg" 
-        alt="挑戰背景圖" 
-      />
+      <Shared.ChallengeFixedBackground />
 
       <Shared.ContentWrapper>
         <Shared.TextContent>
@@ -20,7 +17,7 @@ export default function Challenge5Content({ projectData, onNavigate, adjacentPro
           <Shared.ChallengeArticleTitle title={projectData.title} />
           
           <div className="space-y-4">
-            <p className="text-xl leading-relaxed text-gray-600">
+            <p className="text-gray-600">
               此章節內容正在準備中，敬請期待...
             </p>
           </div>

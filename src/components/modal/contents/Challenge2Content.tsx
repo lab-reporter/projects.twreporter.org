@@ -9,10 +9,7 @@ export default function Challenge2Content({ projectData, onNavigate, adjacentPro
   return (
     <Shared.Container>
       {/* 固定背景 */}
-      <Shared.ChallengeFixedBackground 
-        src="/assets/challenges/challenge-bg.svg" 
-        alt="挑戰背景圖" 
-      />
+      <Shared.ChallengeFixedBackground />
 
       <Shared.ContentWrapper>
         <Shared.TextContent>

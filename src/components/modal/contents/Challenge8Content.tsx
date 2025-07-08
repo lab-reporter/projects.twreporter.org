@@ -9,10 +9,7 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
   return (
     <Shared.Container>
       {/* 固定背景 */}
-      <Shared.ChallengeFixedBackground
-        src="/assets/challenges/challenge-bg.svg"
-        alt="挑戰背景圖"
-      />
+      <Shared.ChallengeFixedBackground />
 
       <Shared.ContentWrapper>
         <Shared.TextContent>
@@ -22,11 +19,11 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
           <div className="space-y-4">
             <Shared.ChallengeQuoteAuthor author="《報導者》創辦人兼執行長 何榮幸：" />
 
-            <p className="text-xl leading-relaxed">
+            <p>
               《報導者》剛創立時既沒有知名度、影響力，非營利媒體這條路更是充滿不確定性，各媒體資深記者們的觀望與卻步都可想而知。我們決定以當時流行的「海選記者」方式擴大徵才，就是希望找到能夠擺脫傳統媒體及商業媒體包袱、初生之犢不畏虎的新生代人才。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               有趣的是，在年輕同事的發想與企劃下，我們以海鮮圖案公開徵求各類「海鮮記者」：從象徵調查報導的透抽、資訊圖表的章魚，到國際兩岸的鮪魚、本土議題的虱目魚，都是我們期待新聞人才具備的多元能力。於是，《報導者》第一批公開甄選的記者、設計師、社群小編應運而生。
             </p>
 
@@ -38,25 +35,25 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
 
-            <p className="text-xl leading-relaxed">
+            <p>
               坦白說，跨世代合作知易行難。來自四面八方，彼此沒有共同交集的創始成員與「海鮮記者」們，在草創時期歷經許多磨合波折。由於我們高度尊重每個成員的差異性，重要決定都採取共識決，因此成立初期出現若干大小衝突，決策過程也往往缺乏效率，這種非常容易產生挫敗感的創業過程實在是如人飲水、冷暖自知。但也因這些衝突磨合慢慢累積為彼此的互信默契，我們才能逐漸摸索出適合《報導者》的組織文化與前進方式。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               如今，《報導者》已經形成一幅世代同行的圖像：這些年毅然離開所處媒體舒適圈、勇敢加入這場媒體小革命的幾位資深記者，已是帶領組織前進的領導團隊；而在海選記者後報到的「海鮮記者」們，則紛紛承擔起中堅幹部重責大任；至於更加年輕的新生代，也早已擔任Data小組召集人、Podcast節目製作人、影音小組製作人。不同世代的新聞人才在《報導者》緊密合作，更加驗證「人才是媒體最大資產」的重要性。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               當然，也有不少「海鮮記者」在這段期間離去，有些人更喜歡獨立接案的自由狀態，至今仍與《報導者》維持特約合作關係；有些人則轉換跑道投入其他工作，在不同領域展露傑出表現。不論專職合作時間長短，我們都非常珍惜共同打拚的緣分與革命情誼。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               除此之外，報導者基金會年年舉辦的攝影工作坊，也已形成我們制度性人才養成的生態系。不少攝影工作坊的學員後來循序漸進擔任實習記者、特約記者，最後更成為正職記者；也有正職記者轉任紀錄片導演，繼續跟《報導者》長期合作，這些都是《報導者》培育人才開枝散葉的重要軌跡。
             </p>
 
             <Shared.ChallengeSectionHeading title="8週年的執行長功課" />
 
-            <p className="text-xl leading-relaxed">
+            <p>
               然而，尋找人才是一回事，如何留住人才是另一回事。過去10年我們努力健全勞動環境，才能讓不同世代的人才都能在《報導者》全力衝刺及安身立命。
             </p>
 
@@ -68,27 +65,27 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
 
-            <p className="text-xl leading-relaxed">
+            <p>
               而我在《報導者》8週年之際給自己的「執行長功課」：跟每一位同事單獨吃飯深談，也在9週年前夕達成任務。我跟每一位同事從工作、生活到興趣無所不談，一方面讓溝通管道保持暢通，另一方面更協助同事們解決各項疑難雜症，即便這項「執行長功課」花了一整年時間，我都認為責無旁貸。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               令我驚訝的是，有幾位平常沉默寡言的同事，在「執行長功課」中鼓起勇氣陳述他們碰到的人生難題。這些人生難題與工作未必直接相關，我也往往無法協助處理，但我很願意長時間傾聽。我不知道「執行長功課」究竟能夠發揮什麼作用，但我希望能讓碰到不同階段人生難題的同事感受到，他們在《報導者》並不孤單。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               因此，「執行長功課」並未就此結束，我的傾聽才剛剛開始。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               《報導者》成立之初，我常用「廢墟開出一朵花，亂世守護一畝田」來形容這場媒體小革命。10年之後，在所有同事的跨世代合作之下，我們開出了《報導者》、《少年報導者》、《The Real Story》Podcast節目、〈長大當記者〉長影音節目、〈這裡開始〉短影音節目、新聞元件、攝影工作坊、各項合作結盟等許多花朵，慢慢形成一座小花園。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               我們在獨立媒體這條路看見了不同的風景，但也深知自己還有許多不足之處。我們需要更加努力維持內容品質，也需要以多元途徑走出同溫層，更需要持續開拓非營利媒體生態系，而這些不足正是我們迎向下一個10年的重要前進動力。
             </p>
 
-            <p className="text-xl leading-relaxed">
+            <p>
               因為有你的贊助支持，當初「海鮮記者」們才可能存活到現在而沒有陣亡，《報導者》才可能建構讓跨世代人才可以放手合作的勞動環境，並且從一朵小花逐漸成為一座小花園。請繼續支持《報導者》，讓我們可以從一座小花園走向一個小森林，我們會保持獨立媒體的初心，持續前進，戰戰兢兢地做好每一則報導。
             </p>
           </div>
