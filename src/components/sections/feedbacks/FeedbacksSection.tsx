@@ -2,18 +2,16 @@
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFlip, Pagination, Navigation } from "swiper/modules";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { testimonials } from '@/data/testimonials';
 
 // 導入 Swiper 基本樣式
 import "swiper/css";
-// 導入 Swiper 翻轉效果樣式
-import "swiper/css/effect-flip";
+// 導入 Swiper 覆蓋流效果樣式
+import "swiper/css/effect-coverflow";
 // 導入 Swiper 分頁指示器樣式
 import "swiper/css/pagination";
-// 導入 Swiper 導航按鈕樣式
-import "swiper/css/navigation";
 
 // 證言回饋頁面主要組件
 export default function FeedbacksSection() {
@@ -40,31 +38,33 @@ export default function FeedbacksSection() {
       </div>
 
       {/* 輪播器容器：證言卡片展示區域 */}
-      {/* 響應式容器：手機版有內距，桌面版無內距 */}
-      <div className="w-full max-w-lg px-4 sm:px-0">
+      {/* 響應式容器：調整為支援覆蓋流效果的較大寬度，增加高度避免卡片被切到 */}
+      <div className="w-full px-4 flex items-center">
         <Swiper
-          modules={[EffectFlip, Pagination, Navigation]}
-          effect="flip"
+          effect="coverflow"
           grabCursor={true}
+          centeredSlides={false}
+          slidesPerView="auto"
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
           pagination={false}
-          navigation
           loop={true}
-          className="feedback-swiper"
+          modules={[EffectCoverflow, Pagination]}
+          className="feedback-swiper h-full"
         >
           {testimonials.map((quote) => (
-            <SwiperSlide key={quote.id}>
-              {/* 證言卡片容器：響應式設計支援不同螢幕尺寸 */}
-              <div className="mx-auto w-full max-w-[320px] sm:w-[320px] h-[400px] sm:h-[480px] bg-white text-gray-900 p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center">
+            <SwiperSlide key={quote.id} className="!w-[320px] sm:!w-[380px]">
+              {/* 證言卡片容器：響應式設計支援不同螢幕尺寸，適配覆蓋流效果 */}
+              <div className="w-full h-[400px] sm:h-[480px] my-8 bg-white text-gray-900 p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center">
                 {/* 證言文字區域：可滾動的主要內容 */}
-                <p className="mb-4 text-base sm:text-lg font-semibold leading-relaxed text-center overflow-y-auto flex-1 flex items-center">
+                <p className="mb-4 text-base sm:text-md font-semibold leading-relaxed text-center overflow-y-auto flex-1 flex items-center">
                   {quote.text}
                 </p>
-                {/* 作者資訊區域：固定在卡片底部 */}
-                <div className="mt-auto pt-4 border-t border-gray-200 w-full text-center flex-shrink-0">
-                  <p className="text-sm text-gray-600 font-medium">
-                    — {quote.author}
-                  </p>
-                </div>
               </div>
             </SwiperSlide>
           ))}
