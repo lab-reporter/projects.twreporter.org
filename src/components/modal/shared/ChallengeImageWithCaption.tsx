@@ -15,7 +15,7 @@ interface ChallengeImageWithCaptionProps {
 }
 
 // 挑戰章節圖片與說明文字元件
-export default function ChallengeImageWithCaption({ 
+export default function ChallengeImageWithCaption({
   src,
   alt,
   caption,
@@ -50,7 +50,7 @@ export default function ChallengeImageWithCaption({
           src={src}
           alt={alt}
           fill
-          className={`object-contain ${className}`}
+          className={`object-cover ${className}`}
           priority={priority}
           quality={85}
           onError={() => setImageError(true)}
@@ -58,7 +58,7 @@ export default function ChallengeImageWithCaption({
         />
       </div>
       {caption && (
-        <p className="mt-2 text-sm text-center text-gray-700">
+        <p className="text-sm mt-4 text-justify text-gray-700">
           {caption}
         </p>
       )}

@@ -241,14 +241,18 @@ export default function SupportSection() {
     >
       {/* 標題區塊：說明支持的重要性 */}
       <div className="text-center mb-8 leading-normal max-w-4xl">
-        <h3 className="text-white text-xl mb-2">為了投入足夠資源產製深度報導、開發多元產品</h3>
-        <h2 className="text-white text-2xl mb-4">讓報導者永續發展、小額捐款占9成</h2>
         <h1 className="text-white text-4xl my-4 leading-tight font-bold">
-          我們需要 <br />
-          10,000名 <br />
+          深度求真 眾聲同行
+        </h1>
+        <h3 className="text-white text-xl mb-2">獨立報導是民主社會的基石 <br />
+          為了讓《報導者》持續獨立運作、挖掘真相
+        </h3>
+        <h2 className="text-white text-2xl mb-4">在經費上我們需要提升小額捐款的比例</h2>
+        <h1 className="text-white text-4xl my-4 leading-tight font-bold">
+          號召至少10,000名 <br />
           定期定額捐款支持的夥伴
         </h1>
-        <h4 className="text-white text-lg">幫助我們度過下一個十年的種種挑戰</h4>
+        <h4 className="text-white text-xl">幫助我們度過下一個十年的種種挑戰</h4>
       </div>
 
       {/* 進度條區域：視覺化顯示目前支持進度 */}
