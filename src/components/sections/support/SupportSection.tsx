@@ -241,8 +241,10 @@ export default function SupportSection() {
     >
       {/* 標題區塊：說明支持的重要性 */}
       <div className="text-center mb-8 leading-normal max-w-4xl">
-        <h1 className="text-white text-4xl my-4 leading-tight font-bold">
-          深度求真 眾聲同行
+        <h1 className="text-white text-6xl my-4 leading-tight font-bold">
+          深度求真
+          <br />
+          眾聲同行
         </h1>
         <h3 className="text-white text-xl mb-2">獨立報導是民主社會的基石 <br />
           為了讓《報導者》持續獨立運作、挖掘真相
@@ -253,6 +255,18 @@ export default function SupportSection() {
           定期定額捐款支持的夥伴
         </h1>
         <h4 className="text-white text-xl">幫助我們度過下一個十年的種種挑戰</h4>
+      </div>
+      <div className="text-center mb-8 leading-normal max-w-4xl">
+        <h1 className="text-white text-4xl my-4 leading-tight font-bold">
+          十週年限定贊助回饋
+        </h1>
+        <h3 className="text-white text-xl mb-2">
+          凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
+          即可在《報導者》十週年活動領取十週年限定紀念品
+        </h3>
+        <button className="bg-gray-300 text-black py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10">
+          了解詳情
+        </button>
       </div>
 
       {/* 進度條區域：視覺化顯示目前支持進度 */}
