@@ -39,8 +39,8 @@ export default function NavigationControls({
         <Image
           src={path}
           alt={title}
-          width={400}
-          height={300}
+          width={480}
+          height={360}
           className="w-full h-full object-cover"
           quality={85}
         />
@@ -71,7 +71,7 @@ export default function NavigationControls({
         onClick={() => onNavigate?.(direction)}
       >
 
-        <div className={`flex ${isNext ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex h-full ${isNext ? 'flex-row-reverse' : ''}`}>
 
           {/* 內容區域 */}
           <div className="flex-1 p-6 flex flex-col justify-between">
@@ -113,7 +113,7 @@ export default function NavigationControls({
           </div>
 
           {/* 圖片影片區域 */}
-          <div className="w-48 h-36 bg-gray-200 overflow-hidden">
+          <div className="flex-1 bg-gray-200 overflow-hidden">
             {renderMedia(project.path, project.title)}
           </div>
         </div>

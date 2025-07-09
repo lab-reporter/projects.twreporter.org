@@ -26,7 +26,7 @@ export default function Home() {
   const { startMainTimeline, cleanup } = useMainTimeline();
   // 防止重複觸發
   const animationTriggeredRef = useRef(false);
-  
+
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
 
