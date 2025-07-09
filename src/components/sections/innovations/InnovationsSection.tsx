@@ -38,7 +38,6 @@ interface InnovationVideoItemProps {
   animationsEnabled: boolean;
   offset: { x: number; y: number };
   initialDepth: number;
-  isActive: boolean;
   onItemClick: (item: InnovationItem) => void;
 }
 
@@ -50,46 +49,53 @@ function InnovationVideoItem({
   animationsEnabled,
   offset,
   initialDepth,
-  isActive,
   onItemClick
 }: InnovationVideoItemProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
-  // 處理影片自動播放
+  // 處理影片自動播放 - 只使用 isVisible 狀態
   useEffect(() => {
-    if (!videoRef.current || !isVisible) return;
+    if (!videoRef.current) return;
 
     const video = videoRef.current;
-    
-    const attemptPlay = async () => {
-      try {
-        await video.play();
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Video ${item.id} started playing`);
+
+
+    // 只要 isVisible 就嘗試播放
+    if (isVisible) {
+      const attemptPlay = async () => {
+        try {
+          await video.play();
+        } catch (error) {
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Video ${item.id} autoplay failed:`, error);
+          }
         }
+      };
+
+      attemptPlay();
+    } else {
+      // 不可見時暫停
+      try {
+        video.pause();
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
-          console.log(`Video ${item.id} autoplay failed:`, error);
+          console.log(`Video ${item.id} pause failed:`, error);
         }
       }
-    };
-
-    // 如果影片已載入，立即嘗試播放
-    if (videoLoaded) {
-      attemptPlay();
     }
   }, [isVisible, videoLoaded, item.id]);
 
   // 監聽影片載入完成
   const handleVideoLoaded = useCallback(() => {
     setVideoLoaded(true);
-    
+
+
     // 如果此時已可見，立即嘗試播放
     if (isVisible && videoRef.current) {
-      videoRef.current.play().catch(() => {
+      videoRef.current.play().catch((error) => {
         if (process.env.NODE_ENV === 'development') {
-          console.log(`Video ${item.id} initial play failed`);
+          console.log(`Video ${item.id} initial play failed:`, error);
         }
       });
     }
@@ -137,6 +143,7 @@ function InnovationVideoItem({
             <p className="text-sm opacity-80">{item.subtitle}</p>
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -168,11 +175,13 @@ export default function InnovationsSection() {
     rootMargin: '100px'
   });
 
+
   // 效能監控
   const { isLowPerformance } = usePerformanceMonitor({
     enabled: isVisible,
     lowPerformanceThreshold: 30
   });
+
 
   // 分層載入控制
   const [is3DEnabled, setIs3DEnabled] = useState(false);
