@@ -64,8 +64,8 @@ export default function Home() {
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
         // 同時恢復 html 和 body 的 CSS overflow 設定
-        document.documentElement.style.setProperty('overflow', 'auto', 'important');
-        document.body.style.setProperty('overflow', 'auto', 'important');
+        document.documentElement.style.setProperty('overflow', 'visible', 'important');
+        document.body.style.setProperty('overflow', 'visible', 'important');
       }, 5500); // 5.5秒後恢復捲動
 
       return () => {
@@ -75,8 +75,8 @@ export default function Home() {
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
         // 同時恢復 html 和 body 的 CSS overflow 設定
-        document.documentElement.style.setProperty('overflow', 'auto', 'important');
-        document.body.style.setProperty('overflow', 'auto', 'important');
+        document.documentElement.style.setProperty('overflow', 'visible', 'important');
+        document.body.style.setProperty('overflow', 'visible', 'important');
       };
     }
   }, [isLoading, startMainTimeline]);
