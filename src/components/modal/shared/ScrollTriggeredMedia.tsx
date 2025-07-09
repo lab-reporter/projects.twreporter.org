@@ -72,8 +72,8 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           // 開始觸發點：文字區塊中心點到達容器中心
           start: 'top 50%',
           // 結束觸發點：文字區塊中心點離開容器中心向上
-          end: 'top 50%',
-          // markers: true,
+          end: 'top 20%',
+          markers: true,
           // 進入時執行：切換到對應媒體
           onEnter: () => {
             setCurrentMediaId(block.mediaId);

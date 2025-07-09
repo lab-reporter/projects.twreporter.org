@@ -155,6 +155,11 @@
   box-sizing: border-box;
 }
 
+/* 防止載入時出現 scrollbar 閃爍 */
+html, body {
+  overflow: hidden;
+}
+
 
 p a {
   color: inherit;

@@ -50,7 +50,7 @@ export default function FeedbacksSection() {
             stretch: 0,
             depth: 100,
             modifier: 1,
-            slideShadows: true,
+            slideShadows: false,
           }}
           pagination={false}
           loop={true}
@@ -60,7 +60,7 @@ export default function FeedbacksSection() {
           {testimonials.map((quote) => (
             <SwiperSlide key={quote.id} className="!w-[320px] sm:!w-[380px]">
               {/* 證言卡片容器：響應式設計支援不同螢幕尺寸，適配覆蓋流效果 */}
-              <div className="w-full h-[400px] sm:h-[480px] my-8 bg-white text-gray-900 p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center">
+              <div className="w-full h-[400px] sm:h-[480px] my-8 bg-white text-gray-900 p-6 sm:p-8 rounded-2xl flex flex-col justify-center items-center">
                 {/* 證言文字區域：可滾動的主要內容 */}
                 <p className="mb-4 text-base sm:text-md font-semibold leading-relaxed text-center overflow-y-auto flex-1 flex items-center">
                   {quote.text}
