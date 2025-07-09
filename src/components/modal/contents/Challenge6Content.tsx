@@ -23,7 +23,7 @@ export default function Challenge6Content({ projectData, onNavigate, adjacentPro
               從成立初期清一色是深度報導，到幾年後偶而出現即時新聞，再到即時新聞的頻率持續增加，《報導者》歷經了不同階段的衝突、學習與成長。
             </p>
 
-            <Shared.ChallengeSectionHeading title="2016台南維冠大樓倒塌那一夜" />
+            <Shared.ChallengeSectionHeading text="2016台南維冠大樓倒塌那一夜" />
 
             <p>
               那天是農曆春節小年夜，台南維冠大樓在家家戶戶準備過年的氛圍中轟然倒塌而死傷慘重，台灣社會高度關注搶救進度與善後究責，《報導者》內部通訊的Slack群組也立即出現熱烈討論。
@@ -45,7 +45,7 @@ export default function Challenge6Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
 
-            <Shared.ChallengeSectionHeading title="2018年普悠瑪號事故隔天的即時深度報導" />
+            <Shared.ChallengeSectionHeading text="2018年普悠瑪號事故隔天的即時深度報導" />
 
             <p>
               2018年10月21日台鐵普悠瑪自強號在蘇澳新馬車站前出軌發生重大事故，這一次，《報導者》內部已經沒有「是否報導」的拉鋸，只有「如何報導」的討論與規劃。長期主跑交通的資深記者嚴文廷，在事故隔天就推出〈【普悠瑪18死事故】2通簡訊示警，關鍵53分鐘危機處理待調查〉深度報導，既有第一時間獨家取得的台鐵內部簡訊示警內容，也有對於台鐵長期結構性問題的完整分析。
@@ -55,7 +55,7 @@ export default function Challenge6Content({ projectData, onNavigate, adjacentPro
               這則重大突發事件隔天就出現的即時深度報導，讓不少原本以為「《報導者》的追蹤報導都會很久之後才出現」的讀者感到驚喜。這系列相關報導之後還獲得了卓越新聞獎的即時新聞獎，這也讓不少認為《報導者》與即時新聞獎無緣的朋友跌破眼鏡。
             </p>
 
-            <Shared.ChallengeSectionHeading title="即時新聞的公共服務：從反送中運動到3年疫情" />
+            <Shared.ChallengeSectionHeading text="即時新聞的公共服務：從反送中運動到3年疫情" />
 
             <p>
               2019年6月香港爆發反送中運動之際，社會各界關切港台民主發展與對照，我們開始反思，《報導者》身為非營利媒體，只要行有餘力，應將重大事件的即時報導視為重要公共服務，盡可能在當天提供更加完整的資訊與學者專家解讀，以善盡非營利媒體的社會責任。
@@ -77,7 +77,7 @@ export default function Challenge6Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
 
-            <Shared.ChallengeSectionHeading title="量力而為，關切重大社會事件" />
+            <Shared.ChallengeSectionHeading text="量力而為，關切重大社會事件" />
 
             <p>
               經過磨合與摸索，我們已凝聚形成「量力而為」的內部最大共識。

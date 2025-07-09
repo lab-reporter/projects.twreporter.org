@@ -45,7 +45,7 @@ export default function Challenge10Content({ projectData, onNavigate, adjacentPr
               那一刻，我這個50多歲中年大叔的眼淚差點不爭氣掉了下來。這些年我和同事們在惡劣大環境中奮鬥不懈的辛苦，也彷彿得到了最大的慰撫。
             </p>
             
-            <Shared.ChallengeSectionHeading title="長期觀察《報導者》的捐款心路歷程" />
+            <Shared.ChallengeSectionHeading text="長期觀察《報導者》的捐款心路歷程" />
             
             <p>
               2024年11月底，行銷部同事向我回報一項令人驚喜的消息：某家科技公司的年度員工捐款活動，有超過400位員工捐款支持《報導者》，這些都是員工們積少成多、聚沙成塔的支持心意，在寒冷的天氣中格外溫暖。
@@ -103,7 +103,7 @@ export default function Challenge10Content({ projectData, onNavigate, adjacentPr
               至於《報導者》獲得的支持，則更歸功於所有同事的長期努力。如果不是同事在平常就有注意到《報導者》各項報導、Podcast節目、影音節目以及《少年報導者》的表現，即使《報導者》納入捐款名單，恐怕也無法獲得這麼多員工的支持。「所以你們最應該感謝的是《報導者》團隊每一個人。」Lilian以此作為此次參訪《報導者》的最後註腳。
             </p>
             
-            <Shared.ChallengeSectionHeading title="每一筆捐款都有同樣的重量" />
+            <Shared.ChallengeSectionHeading text="每一筆捐款都有同樣的重量" />
             
             <p>
               對我來說，這就是「捐款的重量」。無論捐款多少，也無論用什麼樣的方式表達支持，過去10年來每一筆捐款都具有同樣的重量。後來我跟同事們分享這些小故事時強調，每一筆捐款都是沈重的負託，我們必須更加努力做好每一項報導，也必須與時俱進讓報導發揮更大影響力，才能承擔起每一筆捐款的重量。

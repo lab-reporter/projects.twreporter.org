@@ -35,7 +35,7 @@ export default function Challenge3Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
 
-            <Shared.ChallengeSectionHeading title="碰撞中促成的國際合作" />
+            <Shared.ChallengeSectionHeading text="碰撞中促成的國際合作" />
 
             <p>
               2016年在GIJC尼泊爾的大會上，我像個新生一樣，在4天的會議裡沉浸於各國記者和編輯們在過去一年做出最佳的調查報導案例裡，每場會議投遞了大量的資訊，每天以6個時段安排，每個時段至少有6場到8場的活動同步進行，每一場有4位的講者同台，那是一個與會者必須快速聆聽、吸收、重整資訊的過程。
@@ -73,7 +73,7 @@ export default function Challenge3Content({ projectData, onNavigate, adjacentPro
               在英語世界的足跡讓不少外國媒體認識了《報導者》團隊，我們的故事從文字到Podcast也都被轉譯為英文，不少商業媒體包括《Nikkei Asia》也注意到我們。這增加了我們的能見度以及跨國合作的機會，從《Buzzfeed》、《OCCRP》、《R.Age》、《ERC》等，我們的同事有機會跟著各國記者一起練功，也協助同事拉高格局與跨域的視角看複雜的議題，避免搶快又無法深入的「降落傘式新聞」（Parachute Journalism）。
             </p>
 
-            <Shared.ChallengeSectionHeading title="捲動與世界的連結" />
+            <Shared.ChallengeSectionHeading text="捲動與世界的連結" />
 
             <p>
               回望這些年，我想起那位資深前輩對我說的那句話：「妳應該是那場會議收穫最多的人吧！」我的確收穫很多，但這收穫並不是成為「個人」的私藏，反而是希望能捲動台灣與國際專業社群的連結。特別是亞洲和太平洋是世界人口最多的區域，但這個區域有89%的人生活在獨裁、極權的政體下，自由報導愈顯困難，台灣角色更為重要。每次返往GIJN，我和同事們也會努力在「報導者開放實驗室」Medium上寫下自己的觀察，分享給台灣與外國的同業，就是希望不只是我們自己的成長，而是專業社群一起茁壯。

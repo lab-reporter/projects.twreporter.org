@@ -51,7 +51,7 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
               除此之外，報導者基金會年年舉辦的攝影工作坊，也已形成我們制度性人才養成的生態系。不少攝影工作坊的學員後來循序漸進擔任實習記者、特約記者，最後更成為正職記者；也有正職記者轉任紀錄片導演，繼續跟《報導者》長期合作，這些都是《報導者》培育人才開枝散葉的重要軌跡。
             </p>
 
-            <Shared.ChallengeSectionHeading title="8週年的執行長功課" />
+            <Shared.ChallengeSectionHeading text="8週年的執行長功課" />
 
             <p>
               然而，尋找人才是一回事，如何留住人才是另一回事。過去10年我們努力健全勞動環境，才能讓不同世代的人才都能在《報導者》全力衝刺及安身立命。

@@ -30,6 +30,118 @@ interface ItemState {
   scale: number;
 }
 
+interface InnovationVideoItemProps {
+  item: InnovationItem;
+  index: number;
+  isVisible: boolean;
+  is3DEnabled: boolean;
+  animationsEnabled: boolean;
+  offset: { x: number; y: number };
+  initialDepth: number;
+  isActive: boolean;
+  onItemClick: (item: InnovationItem) => void;
+}
+
+function InnovationVideoItem({
+  item,
+  index,
+  isVisible,
+  is3DEnabled,
+  animationsEnabled,
+  offset,
+  initialDepth,
+  isActive,
+  onItemClick
+}: InnovationVideoItemProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  // 處理影片自動播放
+  useEffect(() => {
+    if (!videoRef.current || !isVisible) return;
+
+    const video = videoRef.current;
+    
+    const attemptPlay = async () => {
+      try {
+        await video.play();
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Video ${item.id} started playing`);
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Video ${item.id} autoplay failed:`, error);
+        }
+      }
+    };
+
+    // 如果影片已載入，立即嘗試播放
+    if (videoLoaded) {
+      attemptPlay();
+    }
+  }, [isVisible, videoLoaded, item.id]);
+
+  // 監聽影片載入完成
+  const handleVideoLoaded = useCallback(() => {
+    setVideoLoaded(true);
+    
+    // 如果此時已可見，立即嘗試播放
+    if (isVisible && videoRef.current) {
+      videoRef.current.play().catch(() => {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`Video ${item.id} initial play failed`);
+        }
+      });
+    }
+  }, [isVisible, item.id]);
+
+  // 特別處理第一個項目：始終保持在中央
+  const isFirstItem = index === 0;
+  const shouldCenterFirst = isFirstItem && !animationsEnabled;
+
+  return (
+    <div
+      id={`innovation-item-${item.id}`}
+      className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
+      data-custom-cursor="explore"
+      style={{
+        transformOrigin: 'center center',
+        width: '800px',
+        height: '800px',
+        transform: 'translate(-50%, -50%)',
+        // 在 3D 啟用前設定初始 opacity，避免突然出現
+        opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
+        // 第一個項目保持在中央，其他項目有偏移
+        left: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.x}vw)` : '50%'),
+        top: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.y}vh)` : '50%'),
+        // 第一個項目的特殊樣式
+        zIndex: isFirstItem ? 10 : 1
+      }}
+      onClick={() => onItemClick(item)}
+    >
+      <div className="w-full h-full rounded-lg overflow-hidden">
+        <video
+          ref={videoRef}
+          src={item.path}
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          style={{ pointerEvents: 'none' }}
+          onLoadedData={handleVideoLoaded}
+          onCanPlayThrough={handleVideoLoaded}
+        />
+        <div className="absolute inset-0 transition-all duration-300 flex items-end">
+          <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+            <h3 className="text-lg font-bold">{item.title}</h3>
+            <p className="text-sm opacity-80">{item.subtitle}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 動畫狀態配置（根據效能調整）
 const getAnimationStates = (isLowPerformance: boolean) => ({
   hidden: { depth: -400, opacity: 0, blur: isLowPerformance ? 0 : 0, scale: 1 },
@@ -335,50 +447,19 @@ export default function InnovationsSection() {
                 const offset = getOffsetPosition(index);
                 const initialDepth = -50 - (index * 100);
 
-                // 特別處理第一個項目：始終保持在中央
-                const isFirstItem = index === 0;
-                const shouldCenterFirst = isFirstItem && !animationsEnabled;
 
                 return (
-                  <div
+                  <InnovationVideoItem
                     key={item.id}
-                    id={`innovation-item-${item.id}`}
-                    className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
-                    data-custom-cursor="explore"
-                    style={{
-                      transformOrigin: 'center center',
-                      width: '800px',
-                      height: '800px',
-                      transform: 'translate(-50%, -50%)',
-                      // 在 3D 啟用前設定初始 opacity，避免突然出現
-                      opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
-                      // 第一個項目保持在中央，其他項目有偏移
-                      left: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.x}vw)` : '50%'),
-                      top: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.y}vh)` : '50%'),
-                      // 第一個項目的特殊樣式
-                      zIndex: isFirstItem ? 10 : 1
-                    }}
-                    onClick={() => handleItemClick(item)}
-                  // data-custom-cursor="view"
-                  >
-                    <div className="w-full h-full rounded-lg overflow-hidden">
-                      <video
-                        src={item.path}
-                        autoPlay={isVisible}
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover"
-                        style={{ pointerEvents: 'none' }}
-                      />
-                      <div className="absolute inset-0 transition-all duration-300 flex items-end">
-                        <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
-                          <h3 className="text-lg font-bold">{item.title}</h3>
-                          <p className="text-sm opacity-80">{item.subtitle}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    item={item}
+                    index={index}
+                    isVisible={isVisible}
+                    is3DEnabled={is3DEnabled}
+                    animationsEnabled={animationsEnabled}
+                    offset={offset}
+                    initialDepth={initialDepth}
+                    onItemClick={handleItemClick}
+                  />
                 );
               })}
             </div>

@@ -27,7 +27,7 @@ export default function Challenge7Content({ projectData, onNavigate, adjacentPro
               是的，這是《報導者》長期努力建立的「付費授權」模式。從傳統媒體到社群平台付費給《報導者》取得授權，雙方同步刊登《報導者》重要作品，《報導者》也藉此延伸影響力及增加收入；而這種合作模式已更加多元，從聲音內容到影視作品的IP授權，都讓《報導者》走出同溫層而接觸到更多閱聽大眾。
             </p>
             
-            <Shared.ChallengeSectionHeading title="授權初體驗：《報導者》與《蘋果日報》首度聯手出擊" />
+            <Shared.ChallengeSectionHeading text="授權初體驗：《報導者》與《蘋果日報》首度聯手出擊" />
             
             <p>
               事實上，2015年12月《報導者》網站正式上線之後，來自國內外網路平台的刊登作品授權請求就接踵而至。
@@ -65,7 +65,7 @@ export default function Challenge7Content({ projectData, onNavigate, adjacentPro
               height={600}
             />
             
-            <Shared.ChallengeSectionHeading title="建立付費授權模式，長期簽約互惠合作" />
+            <Shared.ChallengeSectionHeading text="建立付費授權模式，長期簽約互惠合作" />
             
             <p>
               這次成功合作經驗顯示，由於《報導者》與《蘋果日報》各有不同受眾，雙方合作能夠讓《報導者》作品的影響力加乘擴散，《蘋果日報》的讀者也可以看到精彩調查報導內容。非營利媒體並沒有「獨家新聞」的需求，只要確立《報導者》授權的主體性，平等互惠的授權合作模式應該是多多益善。
@@ -79,7 +79,7 @@ export default function Challenge7Content({ projectData, onNavigate, adjacentPro
               由於《報導者》各項調查報導耗費龐大人力與時間成本，此後的合作模式也加入了「付費授權」原則，傳統媒體及網路平台以付費方式取得《報導者》授權刊登作品，有些合作案更是長期簽約。
             </p>
             
-            <Shared.ChallengeSectionHeading title="國際媒體多元合作，開拓聲音內容與IP授權" />
+            <Shared.ChallengeSectionHeading text="國際媒體多元合作，開拓聲音內容與IP授權" />
             
             <p>
               在與愈來愈多國內媒體授權合作之際，我們也努力走向國際，與各國媒體展開多元合作。

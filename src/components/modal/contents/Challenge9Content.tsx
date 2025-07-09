@@ -27,7 +27,7 @@ export default function Challenge9Content({ projectData, onNavigate, adjacentPro
               然而，這本呈現非營利媒體運作全貌的重要報告書，當初卻是我們摸著石子過河的實驗性產物。在不斷摸索、反覆思辨、長期學習以及注入創新精神後，《報導者》影響力報告才會長成現在這個樣子，而且還在持續進化當中。
             </p>
             
-            <Shared.ChallengeSectionHeading title="董事會催生，參考國外經驗設定影響力指標" />
+            <Shared.ChallengeSectionHeading text="董事會催生，參考國外經驗設定影響力指標" />
             
             <p>
               坦白說，《報導者》成立前幾年，我們從未想過「影響力報告」這件事。
@@ -69,7 +69,7 @@ export default function Challenge9Content({ projectData, onNavigate, adjacentPro
               從2019年起，影響力報告就此成為「基本標配」，此後每年我們持續注入最新發展，加入捐款者與合作單位的心聲，具體說明如何因應不同階段的挑戰，清楚揭露收支財務報告，讓讀者、捐款者能夠整體掌握《報導者》發展全貌。設計師賴柏燁也協助讓每年影響力報告的封面到內頁設計推陳出新，讀者除了可以在《報導者》網站上閱讀全文，也可以購買具有質感的實體紙本做為收藏。
             </p>
             
-            <Shared.ChallengeSectionHeading title="開放透明、公益責信，一直是報導者的DNA" />
+            <Shared.ChallengeSectionHeading text="開放透明、公益責信，一直是報導者的DNA" />
             
             <p>
               事實上，從《報導者》網站上線第一天開始，「捐款徵信」專區就詳細列出每一筆捐款，讓所有捐款都公開透明。「關於我們」專區則列出每一位專職工作者的姓名與職稱，彰顯對於每一篇報導的負責。而從第一年開始，報導者文化基金會每年都固定公布由會計師稽核的財務報告，所有讀者都可清楚了解報導者文化基金會每年收支狀況。

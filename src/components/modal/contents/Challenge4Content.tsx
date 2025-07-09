@@ -27,7 +27,7 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
               我既是決定員工薪水的執行長，也是董事會授權與勞方代表談判的資方代表，如何健全勞動環境、勞資關係，以避免走上「慣老闆」之路，就成了我成為「資方」後最重要的挑戰。
             </p>
             
-            <Shared.ChallengeSectionHeading title="主動設置員工董事，快速通過團體協約" />
+            <Shared.ChallengeSectionHeading text="主動設置員工董事，快速通過團體協約" />
             
             <p>
               《報導者》創立前幾年因員工人數未滿30人，尚未達到立工會的條件，因此我鼓勵同事們加入「全國傳播媒體產業工會（簡稱全傳媒）」，並且在董事會主動提案修改章程，明定納入由全體同事推選產生的「員工董事」。
@@ -61,7 +61,7 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
               當然，報導者基金會資源有限，不可能通過太多大幅增加營運成本的團體協約條文。但我認為，《報導者》捐款者也會認同「提升勞動權益才能產製優質報導」的核心理念，因此量力而為建構讓新聞工作者沒有後顧之憂的勞動環境。
             </p>
             
-            <Shared.ChallengeSectionHeading title="「勞資共創」健全新聞環境" />
+            <Shared.ChallengeSectionHeading text="「勞資共創」健全新聞環境" />
             
             <p>
               3年之後，第一次團體協約的效期將屆，這一回第三任董事長劉昌德自己跳下來，和報導者基金會監察人陳業鑫、我、淑芬代表資方，與已擔任全傳媒理事長的文廷、連任的員工董事雨佑及勞方代表進行協商。
@@ -95,7 +95,7 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
               對我來說，這種組織文化最可貴的精神在於「勞資共創」。也就是說，良性和諧的勞資關係必須依靠勞資雙方共同營造，勞方願意相信資方的誠意，資方願意尊重勞方的付出，雙方在善意與互信的基礎上不只是達成雙贏，更是共創組織永續發展的未來願景。
             </p>
             
-            <Shared.ChallengeSectionHeading title="非營利媒體的最重要資產：人才" />
+            <Shared.ChallengeSectionHeading text="非營利媒體的最重要資產：人才" />
             
             <p>
               冠上「資方」身分整整10年後，我更加深切體認，非營利媒體最重要的資產是：人才。
