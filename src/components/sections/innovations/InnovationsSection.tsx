@@ -329,7 +329,9 @@ export default function InnovationsSection() {
       scrub: isLowPerformance ? 1 : 2, // 低效能時降低 scrub 值
       onUpdate: (self) => {
         const progress = self.progress;
-        const totalDistance = 1000;
+        const itemCount = elements.length;
+        // 調整總距離，確保最後一個項目停在 active 狀態
+        const totalDistance = (itemCount - 1) * 100 + 50; // 最後一個項目到達 active 狀態的距離
         const currentOffset = progress * totalDistance;
         let activeIndex = -1;
 
@@ -337,7 +339,14 @@ export default function InnovationsSection() {
         elements.forEach((element, index) => {
           if (!element) return;
 
-          const currentDepth = (-50 - index * 100) + currentOffset;
+          const isLastItem = index === elements.length - 1;
+          let currentDepth = (-50 - index * 100) + currentOffset;
+          
+          // 特殊處理：讓最後一個項目保持在 active 狀態
+          if (isLastItem && currentDepth > 0) {
+            currentDepth = 0; // 鎖定在 active 狀態
+          }
+          
           const state = calculateOptimizedState(currentDepth);
 
           if (currentDepth >= -25 && currentDepth <= 25) {
@@ -415,6 +424,14 @@ export default function InnovationsSection() {
   }, [innovationItems, animationsEnabled, isLowPerformance, calculateOptimizedState]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
+  
+  // 動態計算 Section 高度，基於項目數量
+  const sectionHeight = useMemo(() => {
+    const itemCount = innovationItems.length;
+    // 每個項目需要約 100vh 的滾動距離，最後一個項目停在 active 狀態
+    const calculatedHeight = Math.max(300, (itemCount - 1) * 100 + 200); // 至少 300vh，最後加 200vh 緩衝
+    return `${calculatedHeight}vh`;
+  }, [innovationItems.length]);
 
   return (
     <div ref={observerRef} id="section-innovations">
@@ -431,7 +448,7 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      <div ref={sectionRef} className="relative w-full h-[1000vh]">
+      <div ref={sectionRef} className="relative w-full" style={{ height: sectionHeight }}>
         {/* 3D 容器 */}
         <div className="w-full h-screen sticky top-0">
           <div
