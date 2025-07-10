@@ -63,6 +63,17 @@
     font-weight: 700;
     @apply text-h6-mobile md:text-h6-tablet lg:text-h6-desktop;
   }
+
+  /* 自定義文字反白顏色 */
+  ::selection {
+    background-color: var(--color-red-90);
+    color: white;
+  }
+
+  ::-moz-selection {
+    background-color: var(--color-red-90);
+    color: white;
+  }
 }
 
 /* 字型 utilities */

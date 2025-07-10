@@ -29,13 +29,23 @@ const cursorConfigs: Record<string, CursorConfig> = {
     className:
       "bg-red-500 text-white p-2 text-sm font-medium rounded-full shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
+  prev: {
+    text: "PREV",
+    className:
+      "bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+  },
+  next: {
+    text: "NEXT",
+    className:
+      "bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+  },
 };
 
 const defaultCursor: CursorConfig = {
   text: "",
-  // className: "bg-transparent text-transparent text-[1px] w-0 h-0 ",
-  className:
-    "bg-transparent text-transparent text-[1px] w-6 h-6 rounded-[12px] backdrop-invert",
+  className: "bg-transparent text-transparent text-[1px] w-0 h-0 ",
+  // className:
+  // "bg-transparent text-transparent text-[1px] w-6 h-6 rounded-[12px] backdrop-invert",
 };
 
 const useAnimationFrame = (callback: (deltaTime: number) => void) => {
@@ -56,7 +66,7 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current as number);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Make sure the effect runs only once
 };
 

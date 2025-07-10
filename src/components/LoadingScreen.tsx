@@ -3,7 +3,6 @@
 import { useStore } from '@/stores'
 import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
-import { gsap } from 'gsap'
 
 export default function LoadingScreen() {
   const { isLoading, setLoadingProgress } = useStore()

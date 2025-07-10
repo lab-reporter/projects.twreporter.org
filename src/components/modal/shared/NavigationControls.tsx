@@ -67,8 +67,9 @@ export default function NavigationControls({
 
     return (
       <div
-        className="flex-1 bg-white rounded-lg overflow-hidden border-[1px] border-gray-200 transition-all duration-300 cursor-pointer group"
+        className="flex-1 bg-white rounded-lg overflow-hidden border-[1px] border-gray-200 hover:border-gray-600 transition-colors duration-300 cursor-pointer group"
         onClick={() => onNavigate?.(direction)}
+        data-custom-cursor={direction}
       >
 
         <div className={`flex h-full ${isNext ? 'flex-row-reverse' : ''}`}>
@@ -77,11 +78,11 @@ export default function NavigationControls({
           <div className="flex-1 p-6 flex flex-col justify-between">
             {/* 文字內容 */}
             <div>
-              <h3 className={`font-bold mb-2 text-xl text-gray-800 line-clamp-2 leading-tight ${isNext ? 'text-right' : ''}`}>
+              <h5 className={`mb-2 text-gray-500 group-hover:text-gray-800 transition-colors line-clamp-2 ${isNext ? 'text-right' : 'text-left '}`}>
                 {project.title}
-              </h3>
+              </h5>
               {project.subtitle && (
-                <p className={`text-gray-600 text-base line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
+                <p className={`text-gray-500 group-hover:text-gray-800 transition-colors text-base font-medium line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
                   {project.subtitle}
                 </p>
               )}
@@ -113,7 +114,7 @@ export default function NavigationControls({
           </div>
 
           {/* 圖片影片區域 */}
-          <div className="flex-1 bg-gray-200 overflow-hidden">
+          <div className="flex-1 opacity-60 filter grayscale group-hover:opacity-100 group-hover:filter-none transition-all duration-300 overflow-hidden">
             {renderMedia(project.path, project.title)}
           </div>
         </div>

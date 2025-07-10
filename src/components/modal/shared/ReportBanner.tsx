@@ -65,24 +65,24 @@ export default function ReportBanner({
       </div>
 
       {/* 文字內容疊加 - 完全匹配原始位置和樣式 */}
-      <div className="absolute bottom-10 left-0 w-full flex flex-col items-center">
+      <div className="text-white absolute bottom-10 left-0 w-full flex flex-col items-center">
         {/* 日期 - 原始樣式 */}
         {date && (
-          <h4 className="text-white text-xl font-bold text-center mb-4">
+          <h6 className="font-normal p-[0.25rem] leading-none bg-red-90 text-center mb-4">
             {date}
-          </h4>
+          </h6>
         )}
 
         {/* 主標題 - 原始樣式 */}
-        <h2 className="text-white text-4xl font-bold text-center mb-4">
+        <h2 className="mb-2">
           {title}
         </h2>
 
         {/* 副標題 - 原始樣式 */}
         {subtitle && (
-          <h3 className="text-white text-xl font-bold text-center">
+          <h5 className="text-center">
             {subtitle}
-          </h3>
+          </h5>
         )}
       </div>
     </div>

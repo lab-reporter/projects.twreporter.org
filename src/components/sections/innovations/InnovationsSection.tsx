@@ -4,8 +4,6 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
-import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';

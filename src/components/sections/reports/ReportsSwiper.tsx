@@ -51,7 +51,9 @@ export default function ReportsSwiper() {
     // 優化的滑鼠追蹤
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
-        enabled: isClient && isVisible
+        enabled: isClient && isVisible,
+        rangeMin: 49,
+        rangeMax: 51
     });
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
@@ -259,7 +261,7 @@ export default function ReportsSwiper() {
                             // 確保 3D 渲染環境
                             transformStyle: 'preserve-3d',
                             // 設定透視距離和動態透視中心點
-                            perspective: `${sliderSize * 9}vw`,
+                            perspective: `${sliderSize * 11}vw`,
                             perspectiveOrigin: isClient && isVisible
                                 ? `${mousePosition.x}% ${mousePosition.y}%`
                                 : 'center center'
