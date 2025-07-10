@@ -189,7 +189,7 @@
 /* 防止載入時出現 scrollbar 閃爍 */
 html,
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 

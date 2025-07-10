@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
@@ -197,15 +197,13 @@ export default function InnovationsSection() {
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
 
   // 從 projects.json 篩選項目
-  const innovationItems = useMemo(() => {
-    return (projectsData as unknown as InnovationItem[])
-      .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
-      .sort((a: InnovationItem, b: InnovationItem) => {
-        const numA = parseInt(a.id.split('-')[1]);
-        const numB = parseInt(b.id.split('-')[1]);
-        return numA - numB;
-      });
-  }, []);
+  const innovationItems = (projectsData as unknown as InnovationItem[])
+    .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
+    .sort((a: InnovationItem, b: InnovationItem) => {
+      const numA = parseInt(a.id.split('-')[1]);
+      const numB = parseInt(b.id.split('-')[1]);
+      return numA - numB;
+    });
 
   // 分層漸進式載入 - 基於 SectionHeading 可見性提前觸發
   useEffect(() => {
@@ -425,13 +423,6 @@ export default function InnovationsSection() {
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
-  // 動態計算 Section 高度，基於項目數量
-  const sectionHeight = useMemo(() => {
-    const itemCount = innovationItems.length;
-    // 每個項目需要約 100vh 的滾動距離，最後一個項目停在 active 狀態
-    const calculatedHeight = Math.max(300, (itemCount - 1) * 100 + 200); // 至少 300vh，最後加 200vh 緩衝
-    return `${calculatedHeight}vh`;
-  }, [innovationItems.length]);
 
   return (
     <div ref={observerRef} id="section-innovations">
@@ -448,7 +439,7 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      <div ref={sectionRef} className="relative w-full" style={{ height: sectionHeight }}>
+      <div ref={sectionRef} className="relative w-full h-[1000vh]">
         {/* 3D 容器 */}
         <div className="w-full h-screen sticky top-0">
           <div
