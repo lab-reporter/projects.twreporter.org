@@ -57,15 +57,38 @@ export function useOptimizedMouseTracking(
       
       setMousePosition({ x: mappedX, y: mappedY });
       lastUpdateRef.current = now;
+      
+      // DEBUG: 追蹤滑鼠位置更新
+      if (process.env.NODE_ENV === 'development') {
+        console.log('📍 滑鼠位置更新:', {
+          timestamp: new Date().toLocaleTimeString(),
+          x: mappedX.toFixed(2),
+          y: mappedY.toFixed(2),
+          enabled
+        });
+      }
     });
   }, [enabled, throttleMs, rangeMin, rangeMax]);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🎯 useOptimizedMouseTracking useEffect 觸發:', {
+        timestamp: new Date().toLocaleTimeString(),
+        enabled,
+        throttleMs,
+        rangeMin,
+        rangeMax
+      });
+    }
+
     if (!enabled) return;
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     return () => {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🧹 useOptimizedMouseTracking cleanup');
+      }
       window.removeEventListener('mousemove', handleMouseMove);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);

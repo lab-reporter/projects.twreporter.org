@@ -163,6 +163,7 @@ export default function InnovationsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
 
+
   // SectionHeading 可見性偵測（提前觸發）
   const { elementRef: headingRef, isVisible: headingVisible } = useIntersectionObserver({
     threshold: 0.1,
@@ -184,19 +185,55 @@ export default function InnovationsSection() {
   const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
-  // 優化的滑鼠追蹤
-  const mousePosition = useMouseTracking3D({
-    enabled: is3DEnabled && isVisible && !isLowPerformance,
-    isLowPerformance
-  });
-
-  // 使用 useEffect 來直接更新 perspectiveOrigin，避免組件重新渲染
+  // 使用 ref 來儲存滑鼠位置，避免重新渲染
+  const mousePositionRef = useRef({ x: 50, y: 50 });
+  
+  // 在組件掛載時設定滑鼠追蹤
   useEffect(() => {
+    if (!is3DEnabled || !isVisible || isLowPerformance) return;
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      mousePositionRef.current = { x, y };
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [is3DEnabled, isVisible, isLowPerformance]);
+
+  // 只在啟用狀態變化時觸發 useEffect，不監聽 mousePosition
+  useEffect(() => {
+
     if (!containerRef.current || !is3DEnabled || !isVisible || isLowPerformance) return;
     
     const container = containerRef.current;
-    container.style.perspectiveOrigin = `${mousePosition.x}% ${mousePosition.y}%`;
-  }, [mousePosition.x, mousePosition.y, is3DEnabled, isVisible, isLowPerformance]);
+    
+    // 建立 mousemove 事件監聽器來直接更新 perspectiveOrigin
+    const updatePerspectiveOrigin = () => {
+      if (mousePositionRef.current) {
+        container.style.perspectiveOrigin = `${mousePositionRef.current.x}% ${mousePositionRef.current.y}%`;
+      }
+    };
+
+    // 立即更新一次
+    updatePerspectiveOrigin();
+    
+    // 監聽 mousemove 事件
+    const handleMouseMove = () => {
+      updatePerspectiveOrigin();
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [is3DEnabled, isVisible, isLowPerformance]);
 
   // 預先快取元素引用
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -285,6 +322,7 @@ export default function InnovationsSection() {
 
   // 優化的 GSAP ScrollTrigger
   useEffect(() => {
+
     if (!sectionRef.current || !containerRef.current || !animationsEnabled) return;
 
     gsap.registerPlugin(ScrollTrigger);
@@ -417,6 +455,7 @@ export default function InnovationsSection() {
         }
       },
     });
+
 
     return () => {
       scrollTrigger.kill();
