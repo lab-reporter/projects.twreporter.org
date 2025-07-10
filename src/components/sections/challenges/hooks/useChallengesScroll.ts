@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { calculateScrollParams, SCROLL_CONFIG } from '../challenges.config';
@@ -7,13 +7,17 @@ import { ChallengeProject } from './useChallengesData';
 interface UseChallengesScrollProps {
   challengeProjects: ChallengeProject[];
   onChallengeClick: (title: string) => void;
+  onProjectIndexChange?: (index: number, progress: number) => void;
 }
 
 export const useChallengesScroll = ({
   challengeProjects,
-  onChallengeClick
+  onChallengeClick,
+  onProjectIndexChange
 }: UseChallengesScrollProps) => {
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+  const currentProjectIndexRef = useRef<number>(-1);
+  const currentProgressRef = useRef<number>(0);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -69,6 +73,22 @@ export const useChallengesScroll = ({
           } else if (self.progress > (1 - endBuffer)) {
             adjustedProgress = 1;
           }
+
+          // 計算當前項目索引和連續進度
+          const totalProjects = challengeProjects.length;
+          const rawProgress = adjustedProgress * totalProjects;
+          const currentProjectIndex = Math.min(Math.floor(rawProgress), totalProjects - 1);
+          
+          // 更新進度值
+          currentProgressRef.current = rawProgress;
+          
+          // 觸發回調（每次都更新以傳遞連續進度）
+          if (onProjectIndexChange) {
+            onProjectIndexChange(currentProjectIndex, rawProgress);
+          }
+          
+          // 更新索引參考
+          currentProjectIndexRef.current = currentProjectIndex;
 
           // 水平移動容器
           const xPosition = -moveDistance * adjustedProgress;
@@ -147,7 +167,10 @@ export const useChallengesScroll = ({
         }
       });
     };
-  }, [challengeProjects, onChallengeClick]);
+  }, [challengeProjects, onChallengeClick, onProjectIndexChange]);
 
-  return scrollTriggerRef;
+  return {
+    scrollTriggerRef,
+    getCurrentProjectIndex: useCallback(() => currentProjectIndexRef.current, [])
+  };
 };

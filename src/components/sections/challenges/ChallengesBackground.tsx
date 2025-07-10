@@ -2,43 +2,20 @@
 
 import { forwardRef, useRef, useImperativeHandle } from 'react';
 import ChallengePhoto from './ChallengePhoto';
-import { PHOTO_CONFIG, CARD_POSITIONS } from './challenges.config';
-import { useProgressiveLoading } from './hooks/useProgressiveLoading';
+import { CHALLENGE_PHOTOS } from './challenges.config';
 
 interface ChallengesBackgroundProps {
   className?: string;
+  currentProjectIndex?: number;
+  scrollProgress?: number;
 }
 
 const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProps>(
-  ({ className = '' }, ref) => {
+  ({ className = '', currentProjectIndex = 0, scrollProgress = 0 }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // 使用 useImperativeHandle 來暴露內部 ref
     useImperativeHandle(ref, () => containerRef.current as HTMLDivElement, []);
-
-    // 生成照片數據
-    const photos = Array.from({ length: PHOTO_CONFIG.count }, (_, i) => {
-      // 循環使用位置配置
-      const positionIndex = i % CARD_POSITIONS.length;
-      const position = CARD_POSITIONS[positionIndex];
-
-      // 循環使用照片檔案
-      const imageNumber = PHOTO_CONFIG.startNumber + (i % PHOTO_CONFIG.availableImageCount);
-
-      return {
-        index: i,
-        position,
-        imageNumber,
-        key: `challenge-photo-${i}`
-      };
-    });
-
-    // 使用漸進式載入 hook
-    const { shouldLoadPhoto, loadedPhotosCount, totalPhotos } = useProgressiveLoading({
-      photoCount: PHOTO_CONFIG.count,
-      positions: CARD_POSITIONS,
-      containerRef
-    });
 
     return (
       <div
@@ -49,22 +26,43 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
           perspective: '2000px'
         }}
       >
-        {photos.map((photo) => (
-          <ChallengePhoto
-            key={photo.key}
-            index={photo.index}
-            position={photo.position}
-            size={PHOTO_CONFIG.size}
-            imageNumber={photo.imageNumber}
-            filePrefix={PHOTO_CONFIG.filePrefix}
-            shouldLoad={shouldLoadPhoto(photo.index)}
-          />
-        ))}
+        {CHALLENGE_PHOTOS.map((photo, index) => {
+          // 使用連續的 scrollProgress 來計算每張照片的進度
+          const startProgress = photo.triggerRange.startIndex;
+          const endProgress = photo.triggerRange.endIndex + 1;
+          
+          // 計算照片在其觸發範圍內的進度
+          let progress = 0;
+          let hasPassedRange = false;
+          
+          if (scrollProgress >= startProgress && scrollProgress <= endProgress) {
+            // 在範圍內：計算 0-1 的進度
+            progress = (scrollProgress - startProgress) / (endProgress - startProgress);
+          } else if (scrollProgress > endProgress) {
+            // 已經通過：設定特殊值表示已通過
+            progress = 1;
+            hasPassedRange = true;
+          }
+          
+          const isActive = progress > 0 && !hasPassedRange;
+
+          return (
+            <ChallengePhoto
+              key={photo.id}
+              photoConfig={photo}
+              index={index}
+              isActive={isActive}
+              animationProgress={progress}
+              hasPassedRange={hasPassedRange}
+              scrollProgress={scrollProgress}
+            />
+          );
+        })}
 
         {/* 開發環境載入指示器 */}
         {process.env.NODE_ENV === 'development' && (
           <div className="fixed top-4 right-4 bg-black text-white px-3 py-2 rounded text-sm z-50">
-            載入: {loadedPhotosCount}/{totalPhotos}
+            當前項目: {currentProjectIndex + 1}/10
           </div>
         )}
       </div>

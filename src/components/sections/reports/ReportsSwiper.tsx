@@ -194,8 +194,8 @@ export default function ReportsSwiper() {
                             // 當前項目：使用特殊的 transform
                             gsap.to(itemElement, {
                                 transform: `rotateY(0deg) translateX(${sliderSize * 3}vw) translateZ(${sliderSize * 7}vw)`,
-                                duration: 0.3,
-                                ease: "power2.out",
+                                duration: 1.8,
+                                ease: "expo.out",
                                 overwrite: 'auto'
                             });
                         } else {
@@ -203,8 +203,8 @@ export default function ReportsSwiper() {
                             const baseRotation = index * anglePerItem + 90 - targetRotation;
                             gsap.to(itemElement, {
                                 transform: `translateZ(${sliderSize * 2.5}vw) rotateY(${baseRotation}deg)`,
-                                duration: 0.3,
-                                ease: "power2.out",
+                                duration: 1.2,
+                                ease: "expo.out",
                                 overwrite: 'auto'
                             });
                         }
@@ -229,17 +229,20 @@ export default function ReportsSwiper() {
     const currentItem = reportsData[currentSlide] || reportsData[0];
 
     // 函數：判斷指定索引的影片是否應該播放
-    // 策略：當前項目及其前後相鄰項目才播放影片（效能最佳化）
+    // 策略：當前項目及其前後各兩個項目才播放影片（效能最佳化）
     const shouldPlayVideo = (index: number) => {
         // 取得項目總數
         const totalItems = reportsData.length;
-        // 計算前一個項目的索引（環形結構）
-        const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
-        // 計算下一個項目的索引（環形結構）
-        const nextIndex = (currentSlide + 1) % totalItems;
+        // 計算前後兩個項目的索引（環形結構）
+        const prevIndex1 = (currentSlide - 1 + totalItems) % totalItems;
+        const prevIndex2 = (currentSlide - 2 + totalItems) % totalItems;
+        const nextIndex1 = (currentSlide + 1) % totalItems;
+        const nextIndex2 = (currentSlide + 2) % totalItems;
 
-        // 回傳是否為當前項目或相鄰項目
-        return index === currentSlide || index === prevIndex || index === nextIndex;
+        // 回傳是否為當前項目或前後各兩個項目
+        return index === currentSlide ||
+            index === prevIndex1 || index === prevIndex2 ||
+            index === nextIndex1 || index === nextIndex2;
     };
 
     // 組件渲染輸出（等待客戶端初始化完成後再顯示 3D 效果）
