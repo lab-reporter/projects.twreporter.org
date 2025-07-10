@@ -187,19 +187,19 @@ export default function InnovationsSection() {
 
   // 使用 ref 來儲存滑鼠位置，避免重新渲染
   const mousePositionRef = useRef({ x: 50, y: 50 });
-  
+
   // 在組件掛載時設定滑鼠追蹤
   useEffect(() => {
     if (!is3DEnabled || !isVisible || isLowPerformance) return;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth) * 100;
       const y = (e.clientY / window.innerHeight) * 100;
       mousePositionRef.current = { x, y };
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
@@ -209,9 +209,9 @@ export default function InnovationsSection() {
   useEffect(() => {
 
     if (!containerRef.current || !is3DEnabled || !isVisible || isLowPerformance) return;
-    
+
     const container = containerRef.current;
-    
+
     // 建立 mousemove 事件監聽器來直接更新 perspectiveOrigin
     const updatePerspectiveOrigin = () => {
       if (mousePositionRef.current) {
@@ -221,14 +221,14 @@ export default function InnovationsSection() {
 
     // 立即更新一次
     updatePerspectiveOrigin();
-    
+
     // 監聽 mousemove 事件
     const handleMouseMove = () => {
       updatePerspectiveOrigin();
     };
-    
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    
+
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -315,8 +315,8 @@ export default function InnovationsSection() {
 
   // 計算錯位位置
   const getOffsetPosition = (index: number) => {
-    const offsetX = (index % 5 - 2) * 96;
-    const offsetY = (Math.floor(index / 5) % 3 - 1) * 144;
+    const offsetX = (index % 5 - 2) * 72;
+    const offsetY = (Math.floor(index / 5) % 3 - 1) * 108;
     return { x: offsetX, y: offsetY };
   };
 

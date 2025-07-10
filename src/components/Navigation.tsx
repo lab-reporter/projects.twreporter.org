@@ -2,11 +2,27 @@
 
 import Image from 'next/image';
 import { useStore } from '@/stores';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 // 主導航組件
 const Navigation = () => {
   // 從全域狀態取得當前章節
-  const { currentSection } = useStore();
+  const { currentSection, isLoading } = useStore();
+  const navRef = useRef<HTMLDivElement>(null);
+  
+  // 設定初始狀態：載入時居中放大
+  useEffect(() => {
+    if (navRef.current) {
+      if (isLoading) {
+        // 載入時：居中放大
+        gsap.set(navRef.current, {
+          top: '50vh',
+          transform: 'translateY(-50%) scale(1.5)'
+        });
+      }
+    }
+  }, [isLoading]);
 
   // 根據當前章節決定使用哪個 logo
   // Reports/Innovations/Challenges 使用 light logo (預設)
@@ -19,6 +35,7 @@ const Navigation = () => {
       {/* 導航外層容器：永遠顯示在最上層 */}
       <div
         id="main-navigation"
+        ref={navRef}
         className="w-full fixed flex justify-center items-center z-[99] text-black"
       >
         {/* 導航內容容器 */}
