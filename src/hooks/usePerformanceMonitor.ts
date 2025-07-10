@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 interface PerformanceStats {
   fps: number;
@@ -35,7 +35,7 @@ export function usePerformanceMonitor(
   const rafRef = useRef<number>(0);
 
   // FPS 計算函數
-  const calculateFPS = () => {
+  const calculateFPS = useCallback(() => {
     frameCountRef.current++;
     
     rafRef.current = requestAnimationFrame(() => {
@@ -54,10 +54,16 @@ export function usePerformanceMonitor(
           memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024);
         }
         
-        setStats({
-          fps,
-          memoryUsage,
-          isLowPerformance
+        // 只有在狀態真正改變時才更新，避免重複渲染
+        setStats(prevStats => {
+          if (prevStats.fps !== fps || prevStats.isLowPerformance !== isLowPerformance) {
+            return {
+              fps,
+              memoryUsage,
+              isLowPerformance
+            };
+          }
+          return prevStats;
         });
         
         // 重設計數器
@@ -69,7 +75,7 @@ export function usePerformanceMonitor(
         calculateFPS();
       }
     });
-  };
+  }, [enabled, monitorInterval, lowPerformanceThreshold]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -81,7 +87,7 @@ export function usePerformanceMonitor(
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [enabled, monitorInterval, lowPerformanceThreshold, calculateFPS]);
+  }, [enabled, calculateFPS]);
 
   return stats;
 }

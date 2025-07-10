@@ -176,11 +176,8 @@ export default function InnovationsSection() {
   });
 
 
-  // 效能監控
-  const { isLowPerformance } = usePerformanceMonitor({
-    enabled: isVisible,
-    lowPerformanceThreshold: 30
-  });
+  // 效能監控 - 暫時禁用以避免重複動畫問題
+  const isLowPerformance = false;
 
 
   // 分層載入控制
@@ -192,6 +189,14 @@ export default function InnovationsSection() {
     enabled: is3DEnabled && isVisible && !isLowPerformance,
     isLowPerformance
   });
+
+  // 使用 useEffect 來直接更新 perspectiveOrigin，避免組件重新渲染
+  useEffect(() => {
+    if (!containerRef.current || !is3DEnabled || !isVisible || isLowPerformance) return;
+    
+    const container = containerRef.current;
+    container.style.perspectiveOrigin = `${mousePosition.x}% ${mousePosition.y}%`;
+  }, [mousePosition.x, mousePosition.y, is3DEnabled, isVisible, isLowPerformance]);
 
   // 預先快取元素引用
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -220,7 +225,7 @@ export default function InnovationsSection() {
     return () => {
       clearTimeout(timer);
     };
-  }, [headingVisible, isLowPerformance]);
+  }, [headingVisible]);
 
   useScrollTrigger({
     sectionId: 'section-innovations',
@@ -419,7 +424,7 @@ export default function InnovationsSection() {
       const cacheRef = elementRefsCache.current;
       cacheRef.clear();
     };
-  }, [innovationItems, animationsEnabled, isLowPerformance, calculateOptimizedState]);
+  }, [innovationItems, animationsEnabled]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
@@ -447,9 +452,7 @@ export default function InnovationsSection() {
             className="w-full h-full relative overflow-hidden"
             style={{
               perspective: is3DEnabled && isVisible ? '1000px' : 'none',
-              perspectiveOrigin: is3DEnabled && isVisible && !isLowPerformance
-                ? `${mousePosition.x}% ${mousePosition.y}%`
-                : 'center center'
+              perspectiveOrigin: 'center center' // 初始值，會被 useEffect 更新
             }}
           >
             {/* 3D 場景容器 */}
