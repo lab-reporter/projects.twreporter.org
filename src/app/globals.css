@@ -16,11 +16,13 @@
   /* 預設字型設定 - 英文用 Roboto Slab，中文用思源宋體 */
   * {
     font-family: var(--font-roboto-slab), 'Roboto Slab', var(--font-noto-serif-tc), 'Noto Serif TC', serif;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.6;
   }
 
   /* 標題字型優化 - 英文用 Alverata，中文用思源宋體 */
+  /* 響應式標題預設樣式 */
+
   h1,
   h2,
   h3,
@@ -28,9 +30,38 @@
   h5,
   h6 {
     font-family: 'alverata', var(--font-noto-serif-tc), 'Noto Serif TC', serif;
-    font-weight: 700;
-    line-height: 1.2;
     text-rendering: optimizeLegibility;
+    text-align: center;
+  }
+
+  h1 {
+    font-weight: 300;
+    @apply text-h1-mobile md:text-h1-tablet lg:text-h1-desktop;
+  }
+
+  h2 {
+    font-weight: 800;
+    @apply text-h2-mobile md:text-h2-tablet lg:text-h2-desktop;
+  }
+
+  h3 {
+    font-weight: 800;
+    @apply text-h3-mobile md:text-h3-tablet lg:text-h3-desktop;
+  }
+
+  h4 {
+    font-weight: 600;
+    @apply text-h4-mobile md:text-h4-tablet lg:text-h4-desktop;
+  }
+
+  h5 {
+    font-weight: 600;
+    @apply text-h5-mobile md:text-h5-tablet lg:text-h5-desktop;
+  }
+
+  h6 {
+    font-weight: 700;
+    @apply text-h6-mobile md:text-h6-tablet lg:text-h6-desktop;
   }
 }
 
@@ -156,7 +187,8 @@
 }
 
 /* 防止載入時出現 scrollbar 閃爍 */
-html, body {
+html,
+body {
   overflow: hidden;
 }
 
@@ -174,4 +206,8 @@ p a {
 /* 客製化 cursor 樣式 */
 .cursor-none-custom {
   cursor: none;
+}
+
+.debug {
+  border: 1px solid red;
 }

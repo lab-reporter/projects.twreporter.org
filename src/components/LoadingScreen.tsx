@@ -2,10 +2,12 @@
 
 import { useStore } from '@/stores'
 import { useEffect, useState } from 'react'
+import Image from 'next/image';
 
 export default function LoadingScreen() {
   const { isLoading, setLoadingProgress } = useStore()
   const [showLoading, setShowLoading] = useState(true)
+  const logoSrc = '/assets/nav_logo--light.svg'
 
   // 快速完成載入，直接進入 Section 1 開場動畫
   useEffect(() => {
@@ -31,14 +33,16 @@ export default function LoadingScreen() {
     <div className={`fixed inset-0 z-[10000] bg-white flex items-center justify-center transition-opacity duration-500 ${isLoading ? 'opacity-100' : 'opacity-0'
       }`}>
       {/* 簡潔的載入畫面，準備進入 Section 1 開場動畫 */}
-      <div className="text-center text-black">
-        <div className="text-3xl font-light mb-4">報導者</div>
-        <div className="text-lg text-gray-400">十週年回顧</div>
-        <div className="mt-8">
-          <div className="animate-pulse text-sm text-gray-500">
-            載入中...
-          </div>
-        </div>
+      <div className="mx-auto w-auto h-auto flex flex-row justify-between items-center rounded-sm">
+        {/* 網站標誌 */}
+        <Image
+          src={logoSrc}
+          alt="Logo"
+          width={240}
+          height={60}
+          priority={true}
+          className="h-15 w-auto scale-150"
+        />
       </div>
     </div>
   )

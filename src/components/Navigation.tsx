@@ -7,7 +7,7 @@ import { useStore } from '@/stores';
 const Navigation = () => {
   // 從全域狀態取得當前章節
   const { currentSection } = useStore();
-  
+
   // 根據當前章節決定使用哪個 logo
   // Reports/Innovations/Challenges 使用 light logo (預設)
   // Feedbacks/Support 使用 dark logo

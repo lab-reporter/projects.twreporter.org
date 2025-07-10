@@ -127,7 +127,7 @@
             "y": 0,
             "z": 850
         },
-        "title": "急診人生",
+        "title": "新聞遊戲",
         "subtitle": "台灣第一個急診室新聞遊戲",
         "section": [
             "innovation"
@@ -147,8 +147,8 @@
             "y": -2.4,
             "z": 820
         },
-        "title": "多媒體作品",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "title": "多媒體新聞",
+        "subtitle": "持續打造互動性更強、更吸引人的新聞體驗",
         "section": [
             "innovation"
         ],
@@ -168,7 +168,7 @@
             "z": 790
         },
         "title": "報導者數位敘事元件庫",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "subtitle": "所有人都可以分享的實用新聞工具",
         "section": [
             "innovation"
         ],
@@ -187,8 +187,8 @@
             "y": -2.6,
             "z": 760
         },
-        "title": "Podcast",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "title": "報導者Podcast",
+        "subtitle": "以聲音開路，為深度報導拓展廣大聽眾",
         "section": [
             "innovation"
         ],
@@ -207,8 +207,8 @@
             "y": 5,
             "z": 730
         },
-        "title": "影音",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "title": "報導者影音",
+        "subtitle": "用影音說故事，探索深度報導的新傳播形式",
         "section": [
             "innovation"
         ],
@@ -228,7 +228,7 @@
             "z": 700
         },
         "title": "少年報導者",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "subtitle": "首創以深度報導與兒少對話的平台",
         "section": [
             "innovation"
         ],
@@ -247,8 +247,8 @@
             "y": 10,
             "z": 640
         },
-        "title": "報導漫畫",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "title": "報導者事件簿",
+        "subtitle": "結合漫畫敘事，跟著漫畫家的筆觸走入新聞現場",
         "section": [
             "innovation"
         ],
@@ -267,8 +267,8 @@
             "y": 12,
             "z": 610
         },
-        "title": "讀者互動",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "title": "辦公室音樂會",
+        "subtitle": "開箱新聞編輯室，建立與讀者共感的新場域",
         "section": [
             "innovation"
         ],
@@ -288,7 +288,7 @@
             "z": 580
         },
         "title": "報導者在地影像紮根計畫",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "subtitle": "建立台灣新聞攝影培力與知識共創的新模式",
         "section": [
             "innovation"
         ],
@@ -308,7 +308,7 @@
             "z": 550
         },
         "title": "報導者觀測站",
-        "subtitle": "如何讓艱澀的公共議題更好消化？",
+        "subtitle": "以AI觀測民代問政內容，開創公民監督新途徑",
         "section": [
             "innovation"
         ],

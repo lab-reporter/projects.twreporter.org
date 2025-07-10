@@ -11,18 +11,18 @@ export default function CurrentItemDisplay({ title, subtitle, className = "" }: 
     if (!title && !subtitle) return null;
 
     return (
-        <div className={`w-full text-center flex flex-col items-center justify-center ${className}`}>
+        <div className={` ${className}`}>
             {/* 標題 */}
             {title && (
-                <h3 className="text-4xl font-bold mb-2 text-gray-900">
+                <h3 className="text-4xl mb-2">
                     {title}
                 </h3>
             )}
             {/* 副標題 */}
             {subtitle && (
-                <h4 className="text-xl text-gray-700">
+                <h5 className="text-gray-700">
                     {subtitle}
-                </h4>
+                </h5>
             )}
         </div>
     );

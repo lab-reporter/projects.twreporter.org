@@ -52,6 +52,38 @@ module.exports = {
           black: 'var(--color-gray-black)',
         },
       },
+      fontSize: {
+        // 自定義字級系統 - 響應式 H1-H6
+        'h1-desktop': ['6rem', { lineHeight: '1', letterSpacing: '-0.02em' }], // 72px
+        'h1-tablet': ['5rem', { lineHeight: '1', letterSpacing: '-0.02em' }],  // 56px
+        'h1-mobile': ['4rem', { lineHeight: '1', letterSpacing: '-0.02em' }],  // 40px
+
+        'h2-desktop': ['3rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }], // 56px
+        'h2-tablet': ['2.75rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }], // 44px
+        'h2-mobile': ['2rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }],    // 32px
+
+        'h3-desktop': ['2.5rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }], // 40px
+        'h3-tablet': ['2rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }],    // 32px
+        'h3-mobile': ['1.75rem', { lineHeight: '1.25', letterSpacing: '-0.01em' }], // 28px
+
+        'h4-desktop': ['2rem', { lineHeight: '1.3' }],    // 32px
+        'h4-tablet': ['1.75rem', { lineHeight: '1.3' }],  // 28px
+        'h4-mobile': ['1.5rem', { lineHeight: '1.3' }],   // 24px
+
+        'h5-desktop': ['1.5rem', { lineHeight: '1.4' }],  // 24px
+        'h5-tablet': ['1.375rem', { lineHeight: '1.4' }], // 22px
+        'h5-mobile': ['1.25rem', { lineHeight: '1.4' }],  // 20px
+
+        'h6-desktop': ['1.25rem', { lineHeight: '1.4' }], // 20px
+        'h6-tablet': ['1.125rem', { lineHeight: '1.4' }], // 18px
+        'h6-mobile': ['1rem', { lineHeight: '1.4' }],     // 16px
+
+        // 內文字級
+        'body-lg': ['1.125rem', { lineHeight: '1.6' }],   // 18px
+        'body-base': ['1rem', { lineHeight: '1.6' }],     // 16px
+        'body-sm': ['0.875rem', { lineHeight: '1.6' }],   // 14px
+        'caption': ['0.75rem', { lineHeight: '1.5' }],    // 12px
+      },
       fontFamily: {
         'noto-serif-tc': ['var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
         'noto-sans-tc': ['var(--font-noto-sans-tc)', 'Noto Sans TC', 'sans-serif'],
