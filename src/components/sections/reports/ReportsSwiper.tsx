@@ -180,19 +180,33 @@ export default function ReportsSwiper() {
                     currentIndex = Math.max(0, Math.min(currentIndex, totalItems - 1));
                 }
 
-                // 計算目標旋轉角度（負值表示順時針旋轉）
-                const targetRotation = -currentIndex * anglePerItem;
+                // 計算目標旋轉角度（正值表示順時針旋轉，配合新的 transform 順序）
+                const targetRotation = currentIndex * anglePerItem;
 
-                // 執行輪播容器的旋轉動畫
-                gsap.to(sliderWrapper, {
-                    // Y軸旋轉角度
-                    rotateY: targetRotation,
-                    // 動畫持續時間
-                    duration: 0.3,
-                    // 緩動函數
-                    ease: "power2.out",
-                    // 覆寫模式：自動取消衝突的動畫
-                    overwrite: 'auto'
+                // 為每個項目設定動態的 rotateY，根據滾動進度調整
+                reportsData.forEach((_, index) => {
+                    const itemElement = sliderWrapper.querySelector(`[data-item-index="${index}"]`);
+                    if (itemElement) {
+                        // 判斷是否為當前項目
+                        if (index === currentIndex) {
+                            // 當前項目：使用特殊的 transform
+                            gsap.to(itemElement, {
+                                transform: `rotateY(0deg) translateX(${sliderSize * 3}vw) translateZ(${sliderSize * 7}vw)`,
+                                duration: 0.3,
+                                ease: "power2.out",
+                                overwrite: 'auto'
+                            });
+                        } else {
+                            // 其他項目：根據滾動進度動態計算 rotateY
+                            const baseRotation = index * anglePerItem + 90 - targetRotation;
+                            gsap.to(itemElement, {
+                                transform: `translateZ(${sliderSize * 2.5}vw) rotateY(${baseRotation}deg)`,
+                                duration: 0.3,
+                                ease: "power2.out",
+                                overwrite: 'auto'
+                            });
+                        }
+                    }
                 });
 
                 // 更新當前顯示項目的狀態
@@ -258,8 +272,8 @@ export default function ReportsSwiper() {
                             style={{
                                 // 動態計算容器位置和尺寸（響應式）
                                 top: `calc(50% - ${sliderSize * 1}vw)`,
-                                left: `calc(50% - ${sliderSize * 1.5}vw)`,
-                                width: `${sliderSize * 3}vw`,
+                                left: `calc(50% - ${sliderSize * 4.5}vw)`,
+                                width: `${sliderSize * 4.5}vw`,
                                 height: `${sliderSize * 2}vw`,
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
@@ -273,15 +287,23 @@ export default function ReportsSwiper() {
                                 <div
                                     key={item.id}
                                     className="absolute inset-0"
+                                    data-item-index={index}
                                     style={{
                                         // 保持 3D 變換樣式
                                         transformStyle: 'preserve-3d',
                                         // 計算每個項目在圓形輪播中的位置
-                                        // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) rotateZ(10deg) translateZ(${sliderSize * 6}vw)`,
+                                        // 當前項目使用特殊的 transform，其他項目保持原本的圓形排列
+                                        transform: index === currentSlide
+                                            ? `rotateY(0deg) translateX(${sliderSize * 3}vw) translateZ(${sliderSize * 7}vw)`
+                                            : `translateZ(${sliderSize * 2.5}vw) rotateY(calc(  ${index} * (360 / ${reportsData.length}) * 1deg + 90deg))`,
                                         // 設定項目尺寸
+                                        transformOrigin: 'right 50%',
                                         width: '100%',
-                                        height: '100%'
+                                        height: '100%',
+                                        paddingRight: `${sliderSize * 1.5}vw`,
+                                        // 確保點擊事件正常工作
+                                        pointerEvents: 'auto',
+                                        zIndex: index === currentSlide ? 10 : 1
                                     }}
                                 >
                                     {/* 報導項目內容組件 */}
