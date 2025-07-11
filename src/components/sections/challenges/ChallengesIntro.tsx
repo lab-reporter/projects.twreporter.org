@@ -10,7 +10,7 @@ export default function ChallengesIntro({ className = '' }: ChallengesIntroProps
   return (
     <div className={`w-screen flex-1 mx-auto flex flex-col items-center justify-center gap-4 mb-10 mt-20 ${className}`}>
       <SectionHeadings
-        titleEn="BREAKTHROUGH"
+        titleEn="Breakthrough"
         titleZh="非營利媒體・突圍"
       >
         <p>

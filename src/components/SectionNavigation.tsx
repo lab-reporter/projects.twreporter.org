@@ -18,7 +18,7 @@ export default function SectionNavigation() {
   const { currentSection } = useStore();
   // 確保有預設值：如果 currentSection 為空，預設為 'reports'
   const activeSection = currentSection || 'reports';
-  
+
   // 開發環境調試
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -146,7 +146,7 @@ export default function SectionNavigation() {
             aria-label={`跳到 ${section.name} 區塊`}
           >
             <p
-              className="text-base font-medium tracking-wider"
+              className="text-sm font-medium tracking-wider font-noto-sans-tc"
               style={{
                 // 垂直排列文字
                 writingMode: 'vertical-rl',

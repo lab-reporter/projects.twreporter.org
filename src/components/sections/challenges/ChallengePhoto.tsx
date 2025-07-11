@@ -28,15 +28,15 @@ const ChallengePhoto = memo(({
   const cardRef = useRef<HTMLDivElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
-  
+
   // 使用 useMemo 快取動畫配置，避免依賴陣列問題
   const animationConfig = photoConfig.animationConfig || DEFAULT_ANIMATION_CONFIG;
   const { startZ, endZ, startScale, endScale } = useMemo(
     () => animationConfig,
-    [animationConfig.startZ, animationConfig.endZ, 
-     animationConfig.startScale, animationConfig.endScale]
+    [animationConfig.startZ, animationConfig.endZ,
+    animationConfig.startScale, animationConfig.endScale]
   );
-  
+
   const triggerEndIndex = photoConfig.triggerRange.endIndex;
 
   // 初始化照片位置
