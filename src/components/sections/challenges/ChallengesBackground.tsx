@@ -29,7 +29,7 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
         {CHALLENGE_PHOTOS.map((photo, index) => {
           // 使用連續的 scrollProgress 來計算每張照片的進度
           const startProgress = photo.triggerRange.startIndex;
-          const endProgress = photo.triggerRange.endIndex + 1;
+          const endProgress = photo.triggerRange.endIndex;
           
           // 計算照片在其觸發範圍內的進度
           let progress = 0;

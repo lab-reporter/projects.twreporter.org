@@ -55,7 +55,7 @@ const ChallengePhoto = memo(({
     if (!cardRef.current) return;
 
     const { startZ, endZ, startScale, endScale } = photoConfig.animationConfig;
-    
+
     // 清理之前的動畫
     if (tweenRef.current) {
       tweenRef.current.kill();
@@ -65,13 +65,13 @@ const ChallengePhoto = memo(({
     // 使用 RAF 優化更新
     const rafId = requestAnimationFrame(() => {
       if (!cardRef.current) return;
-      
-      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex + 1) {
+
+      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
         // 照片已經通過範圍，計算消失動畫
-        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex - 1);
-        const extendedZ = endZ + (overflowProgress * 3000); // 繼續往遠處移動
-        const fadeOpacity = Math.max(0, 1 - overflowProgress * 1.5); // 根據距離淡出
-        
+        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
+        const extendedZ = endZ + (overflowProgress * 5000); // 快速往遠處移動
+        const fadeOpacity = Math.max(0, 1 - overflowProgress * 5); // 非常快速地淡出
+
         // 使用 set 來即時更新位置，確保滾動時的流暢性
         gsap.set(cardRef.current, {
           z: extendedZ,
@@ -85,7 +85,7 @@ const ChallengePhoto = memo(({
         // 照片在顯示範圍內
         const targetZ = startZ + (endZ - startZ) * animationProgress;
         const targetScale = startScale + (endScale - startScale) * animationProgress;
-        
+
         // 即時更新位置
         gsap.set(cardRef.current, {
           z: targetZ,
@@ -107,7 +107,7 @@ const ChallengePhoto = memo(({
         });
       }
     });
-    
+
     return () => {
       cancelAnimationFrame(rafId);
     };
@@ -131,15 +131,14 @@ const ChallengePhoto = memo(({
       {!imageLoaded && (
         <div className="w-full h-full bg-gray-200 animate-pulse" />
       )}
-      
+
       <Image
         src={photoConfig.imagePath}
         alt={`Challenge ${photoConfig.id}`}
         width={200}
         height={200}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
-          imageLoaded ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
         onLoad={() => setImageLoaded(true)}
         loading={index < 6 ? 'eager' : 'lazy'}
       />
