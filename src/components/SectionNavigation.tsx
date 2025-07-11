@@ -84,16 +84,46 @@ export default function SectionNavigation() {
 
 
   // 滾動到指定章節的函數
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = async (sectionId: string) => {
     // 查找目標元素
     const targetElement = document.getElementById(`section-${sectionId}`);
-    if (targetElement) {
-      // 平滑滾動到目標位置
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    if (!targetElement) return;
+
+    // 立即更新當前章節狀態
+    const { setCurrentSection } = useStore.getState();
+    setCurrentSection(sectionId);
+    
+    // 獲取目標位置
+    const targetPosition = targetElement.offsetTop;
+    
+    // 手動處理背景顏色
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      // 如果跳轉到 feedbacks 或 support，背景應該是黑色
+      if (sectionId === 'feedbacks' || sectionId === 'support') {
+        mainElement.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+      } else {
+        // 其他區塊背景應該是白色
+        mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+      }
     }
+    
+    // 強制跳轉（無動畫）
+    window.scrollTo(0, targetPosition);
+    
+    // 確保 ScrollTrigger 更新並重新計算背景動畫
+    setTimeout(async () => {
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      
+      // 刷新所有 ScrollTrigger
+      ScrollTrigger.refresh();
+      
+      // 強制更新背景動畫的進度
+      const bgAnimation = ScrollTrigger.getById('main-background-animation');
+      if (bgAnimation) {
+        bgAnimation.refresh();
+      }
+    }, 50);
   };
 
   // 如果導航不可見或動畫未完成，不渲染任何內容

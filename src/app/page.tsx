@@ -61,22 +61,17 @@ export default function Home() {
 
       // 動畫結束後：恢復頁面捲動（總時間：1秒延遲 + 4.5秒動畫 = 5.5秒）
       const endTimer = setTimeout(() => {
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-        // 同時恢復 html 和 body 的 CSS overflow 設定
-        document.documentElement.style.setProperty('overflow', 'visible', 'important');
-        document.body.style.setProperty('overflow', 'visible', 'important');
+        // 移除 overflow 設定，讓 CSS 接管
+        document.body.style.removeProperty('overflow');
+        document.documentElement.style.removeProperty('overflow');
       }, 5500); // 5.5秒後恢復捲動
 
       return () => {
         clearTimeout(startTimer);
         clearTimeout(endTimer);
         // 清理時也要恢復捲動
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-        // 同時恢復 html 和 body 的 CSS overflow 設定
-        document.documentElement.style.setProperty('overflow', 'visible', 'important');
-        document.body.style.setProperty('overflow', 'visible', 'important');
+        document.body.style.removeProperty('overflow');
+        document.documentElement.style.removeProperty('overflow');
       };
     }
   }, [isLoading, startMainTimeline]);
