@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useChallengesData } from './hooks/useChallengesData';
@@ -14,7 +14,6 @@ export default function ChallengesSection() {
   const { challengeProjects } = useChallengesData();
   const imagesRef = useRef<HTMLDivElement>(null);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   // 計算容器高度：(挑戰數量 + 1) * 100vh
   const containerHeight = useMemo(() => {
@@ -49,13 +48,12 @@ export default function ChallengesSection() {
   };
 
   // 初始化滾動控制
-  useChallengesScroll({
+  const { scrollProgress } = useChallengesScroll({
     challengeProjects,
     onChallengeClick: handleChallengeClick,
-    onProjectIndexChange: (index, progress) => {
+    onProjectIndexChange: useCallback((index: number) => {
       setCurrentProjectIndex(index);
-      setScrollProgress(progress);
-    }
+    }, [])
   });
 
   return (

@@ -62,47 +62,55 @@ const ChallengePhoto = memo(({
       tweenRef.current = null;
     }
 
-    if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex + 1) {
-      // 照片已經通過範圍，計算消失動畫
-      const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex - 1);
-      const extendedZ = endZ + (overflowProgress * 3000); // 繼續往遠處移動
-      const fadeOpacity = Math.max(0, 1 - overflowProgress * 1.5); // 根據距離淡出
+    // 使用 RAF 優化更新
+    const rafId = requestAnimationFrame(() => {
+      if (!cardRef.current) return;
       
-      // 使用 set 來即時更新位置，確保滾動時的流暢性
-      gsap.set(cardRef.current, {
-        z: extendedZ,
-        scale: endScale,
-        opacity: fadeOpacity,
-        visibility: fadeOpacity > 0 ? 'visible' : 'hidden',
-        immediateRender: true,
-        overwrite: 'auto'
-      });
-    } else if (animationProgress > 0 && animationProgress <= 1) {
-      // 照片在顯示範圍內
-      const targetZ = startZ + (endZ - startZ) * animationProgress;
-      const targetScale = startScale + (endScale - startScale) * animationProgress;
-      
-      // 即時更新位置
-      gsap.set(cardRef.current, {
-        z: targetZ,
-        scale: targetScale,
-        opacity: 1,
-        visibility: 'visible',
-        immediateRender: true,
-        overwrite: 'auto'
-      });
-    } else {
-      // 照片還沒到範圍，保持隱藏
-      gsap.set(cardRef.current, {
-        z: startZ,
-        scale: 0,
-        opacity: 0,
-        visibility: 'hidden',
-        immediateRender: true,
-        overwrite: 'auto'
-      });
-    }
-
+      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex + 1) {
+        // 照片已經通過範圍，計算消失動畫
+        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex - 1);
+        const extendedZ = endZ + (overflowProgress * 3000); // 繼續往遠處移動
+        const fadeOpacity = Math.max(0, 1 - overflowProgress * 1.5); // 根據距離淡出
+        
+        // 使用 set 來即時更新位置，確保滾動時的流暢性
+        gsap.set(cardRef.current, {
+          z: extendedZ,
+          scale: endScale,
+          opacity: fadeOpacity,
+          visibility: fadeOpacity > 0 ? 'visible' : 'hidden',
+          immediateRender: true,
+          overwrite: 'auto'
+        });
+      } else if (animationProgress > 0 && animationProgress <= 1) {
+        // 照片在顯示範圍內
+        const targetZ = startZ + (endZ - startZ) * animationProgress;
+        const targetScale = startScale + (endScale - startScale) * animationProgress;
+        
+        // 即時更新位置
+        gsap.set(cardRef.current, {
+          z: targetZ,
+          scale: targetScale,
+          opacity: 1,
+          visibility: 'visible',
+          immediateRender: true,
+          overwrite: 'auto'
+        });
+      } else {
+        // 照片還沒到範圍，保持隱藏
+        gsap.set(cardRef.current, {
+          z: startZ,
+          scale: 0,
+          opacity: 0,
+          visibility: 'hidden',
+          immediateRender: true,
+          overwrite: 'auto'
+        });
+      }
+    });
+    
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
   }, [animationProgress, hasPassedRange, scrollProgress, photoConfig]);
 
   return (
@@ -115,8 +123,9 @@ const ChallengePhoto = memo(({
         width: '200px',
         height: '200px',
         transformStyle: 'preserve-3d',
-        willChange: 'transform opacity',
-        backfaceVisibility: 'hidden' // 防止閃爍
+        willChange: isActive ? 'transform' : 'auto',
+        backfaceVisibility: 'hidden', // 防止閃爍
+        contain: 'layout style paint'
       }}
     >
       {!imageLoaded && (
