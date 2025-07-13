@@ -15,9 +15,10 @@ export default function ChallengeItem({ title, onClick, className = '' }: Challe
         style={{ cursor: 'none', transform: 'translateX(-50%)' }}
         onClick={() => onClick(title)}
       >
-        <h2 className="text-2xl md:text-3xl font-bold text-black hover:text-gray-700 transition-colors duration-300">
-          {title}
-        </h2>
+        <h2 
+          className="text-2xl md:text-3xl font-bold text-black hover:text-gray-700 transition-colors duration-300"
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
       </div>
     </div>
   );
