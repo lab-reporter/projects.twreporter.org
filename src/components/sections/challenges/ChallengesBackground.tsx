@@ -22,8 +22,8 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
         ref={containerRef}
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vh] -z-10 ${className}`}
         style={{
-          transformStyle: 'preserve-3d',
-          perspective: '2000px'
+          transformStyle: 'preserve-3d'
+          // perspective 現在由父層容器控制
         }}
       >
         {CHALLENGE_PHOTOS.map((photo, index) => {

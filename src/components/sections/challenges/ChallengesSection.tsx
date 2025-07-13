@@ -3,6 +3,8 @@
 import { useRef, useMemo, useState, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useChallengesData } from './hooks/useChallengesData';
 import { useChallengesScroll } from './hooks/useChallengesScroll';
 import ChallengesSlider from './ChallengesSlider';
@@ -14,6 +16,24 @@ export default function ChallengesSection() {
   const { challengeProjects } = useChallengesData();
   const imagesRef = useRef<HTMLDivElement>(null);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  
+  // 3D 容器引用
+  const perspectiveContainerRef = useRef<HTMLDivElement>(null);
+  
+  // 使用視窗可見性偵測
+  const { elementRef: sectionRef, isVisible } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '50px'
+  });
+  
+  // 使用 useMouseTracking3D 控制 perspectiveOrigin
+  useMouseTracking3D({
+    enabled: isVisible,
+    targetRef: perspectiveContainerRef,
+    useLerp: true,
+    lerpFactor: 0.15,
+    cssProperty: 'perspectiveOrigin'
+  });
 
   // 計算容器高度：(挑戰數量 + 1) * 100vh
   const containerHeight = useMemo(() => {
@@ -58,24 +78,36 @@ export default function ChallengesSection() {
 
   return (
     <div
+      ref={sectionRef}
       className="relative"
       style={{ height: containerHeight }}
       id="section-challenges"
     >
       {/* Sticky 容器 */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
-        {/* 水平滑動容器 */}
-        <ChallengesSlider
-          challengeProjects={challengeProjects}
-          onChallengeClick={handleChallengeClick}
-        />
+        {/* 3D 容器 - 添加 perspectiveOrigin 控制 */}
+        <div
+          ref={perspectiveContainerRef}
+          className="relative w-full h-full"
+          style={{
+            transformStyle: 'preserve-3d',
+            perspective: '2000px',
+            perspectiveOrigin: 'center center' // 初始值，會被 useMouseTracking3D 更新
+          }}
+        >
+          {/* 水平滑動容器 */}
+          <ChallengesSlider
+            challengeProjects={challengeProjects}
+            onChallengeClick={handleChallengeClick}
+          />
 
-        {/* 背景照片動畫 */}
-        <ChallengesBackground
-          ref={imagesRef}
-          currentProjectIndex={currentProjectIndex}
-          scrollProgress={scrollProgress}
-        />
+          {/* 背景照片動畫 */}
+          <ChallengesBackground
+            ref={imagesRef}
+            currentProjectIndex={currentProjectIndex}
+            scrollProgress={scrollProgress}
+          />
+        </div>
       </div>
     </div>
   );
