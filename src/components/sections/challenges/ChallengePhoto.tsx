@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef, useEffect, useState, memo, useMemo } from 'react';
+import { useRef, useEffect, useState, memo } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
-import { PhotoItemConfig, DEFAULT_ANIMATION_CONFIG } from './challenges.config';
+import { PhotoItemConfig } from './challenges.config';
 
 interface ChallengePhotoProps {
   photoConfig: PhotoItemConfig;
@@ -29,23 +29,13 @@ const ChallengePhoto = memo(({
   const [imageLoaded, setImageLoaded] = useState(false);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
-  // 使用 useMemo 快取動畫配置，避免依賴陣列問題
-  const animationConfig = photoConfig.animationConfig || DEFAULT_ANIMATION_CONFIG;
-  const { startZ, endZ, startScale, endScale } = useMemo(
-    () => animationConfig,
-    [animationConfig.startZ, animationConfig.endZ,
-    animationConfig.startScale, animationConfig.endScale]
-  );
-
-  const triggerEndIndex = photoConfig.triggerRange.endIndex;
-
   // 初始化照片位置
   useEffect(() => {
     if (!cardRef.current) return;
 
     // 設置初始狀態 - 完全隱藏
     gsap.set(cardRef.current, {
-      z: startZ,
+      z: photoConfig.animationConfig.startZ,
       scale: 0,
       opacity: 0,
       visibility: 'hidden',
@@ -58,11 +48,13 @@ const ChallengePhoto = memo(({
         tweenRef.current.kill();
       }
     };
-  }, [startZ]); // 只在掛載時執行
+  }, []); // 只在掛載時執行
 
   // 處理動畫 - 根據滾動進度和是否在範圍內
   useEffect(() => {
     if (!cardRef.current) return;
+
+    const { startZ, endZ, startScale, endScale } = photoConfig.animationConfig;
 
     // 清理之前的動畫
     if (tweenRef.current) {
@@ -74,9 +66,9 @@ const ChallengePhoto = memo(({
     const rafId = requestAnimationFrame(() => {
       if (!cardRef.current) return;
 
-      if (hasPassedRange && scrollProgress > triggerEndIndex) {
+      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
         // 照片已經通過範圍，計算消失動畫
-        const overflowProgress = (scrollProgress - triggerEndIndex);
+        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
         const extendedZ = endZ + (overflowProgress * 5000); // 快速往遠處移動
         const fadeOpacity = Math.max(0, 1 - overflowProgress * 5); // 非常快速地淡出
 
@@ -119,7 +111,7 @@ const ChallengePhoto = memo(({
     return () => {
       cancelAnimationFrame(rafId);
     };
-  }, [animationProgress, hasPassedRange, scrollProgress, triggerEndIndex, startZ, endZ, startScale, endScale]);
+  }, [animationProgress, hasPassedRange, scrollProgress, photoConfig]);
 
   return (
     <div

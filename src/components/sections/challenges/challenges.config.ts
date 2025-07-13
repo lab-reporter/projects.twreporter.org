@@ -29,7 +29,7 @@ export interface PhotoItemConfig {
     startIndex: number;  // 從第幾個項目開始出現（0-9）
     endIndex: number;    // 到第幾個項目結束（0-9）
   };
-  animationConfig?: PhotoAnimationConfig;  // 改為可選，預設使用 DEFAULT_ANIMATION_CONFIG
+  animationConfig: PhotoAnimationConfig;
 }
 
 // 照片配置
@@ -88,7 +88,7 @@ export const SCROLL_CONFIG = {
 };
 
 // 照片動畫預設配置
-export const DEFAULT_ANIMATION_CONFIG: PhotoAnimationConfig = {
+const DEFAULT_ANIMATION_CONFIG: PhotoAnimationConfig = {
   startZ: -10000,   // 從較遠的位置開始
   endZ: 2000,      // 到達前景位置
   startScale: 0.3, // 從較小比例開始
@@ -110,6 +110,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-1/challenge-1-2.jpg',
     position: { top: "20%", left: "25%" },
     triggerRange: { startIndex: 0.5, endIndex: 1.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 2 照片 - 在 1.5-2.5 的範圍內出現
   {
@@ -124,6 +125,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-2/challenge-2-2.jpg',
     position: { top: "60%", left: "40%" },
     triggerRange: { startIndex: 1.5, endIndex: 2.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 3 照片 - 在 2.5-3.5 的範圍內出現
   {
@@ -138,6 +140,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-3/challenge-3-2.jpg',
     position: { top: "60%", left: "60%" },
     triggerRange: { startIndex: 2.5, endIndex: 3.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 4 照片 - 在 3.5-4.5 的範圍內出現
   {
@@ -152,6 +155,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-4/challenge-4-2.jpg',
     position: { top: "60%", left: "10%" },
     triggerRange: { startIndex: 3.5, endIndex: 4.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 5 缺少照片，但仍保持連續性
   // Challenge 6 照片 - 在 5.5-6.5 的範圍內出現
@@ -167,6 +171,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-6/challenge-6-2.jpg',
     position: { top: "45%", left: "55%" },
     triggerRange: { startIndex: 5.5, endIndex: 6.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 7 照片 - 在 6.5-7.5 的範圍內出現
   {
@@ -181,6 +186,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-7/challenge-7-2.jpg',
     position: { top: "75%", left: "35%" },
     triggerRange: { startIndex: 6.5, endIndex: 7.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 8 照片 - 在 7.5-8.5 的範圍內出現
   {
@@ -195,6 +201,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-8/challenge-8-2.jpg',
     position: { top: "55%", left: "20%" },
     triggerRange: { startIndex: 7.5, endIndex: 8.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 9 照片 - 在 8.5-9.5 的範圍內出現
   {
@@ -209,6 +216,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     imagePath: '/assets/challenges/challenge-9/challenge-9-2.jpg',
     position: { top: "50%", left: "55%" },
     triggerRange: { startIndex: 8.5, endIndex: 9.5 },
+    animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 10 照片 - 在 9.5-10.5 的範圍內出現
   {
