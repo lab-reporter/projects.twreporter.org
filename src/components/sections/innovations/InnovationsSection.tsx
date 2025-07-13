@@ -236,6 +236,17 @@ export default function InnovationsSection() {
   // 預先快取元素引用
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
 
+  // 使用 ref 儲存每個元素的動畫狀態，避免重複渲染
+  const itemStatesRef = useRef<Map<string, {
+    x: number;
+    y: number;
+    z: number;
+    opacity: number;
+    blur: number;
+    scale: number;
+    visibility: string;
+  }>>(new Map());
+
   // 從 projects.json 篩選項目
   const innovationItems = (projectsData as unknown as InnovationItem[])
     .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
@@ -260,7 +271,7 @@ export default function InnovationsSection() {
     return () => {
       clearTimeout(timer);
     };
-  }, [headingVisible]);
+  }, [headingVisible, isLowPerformance]);
 
   useScrollTrigger({
     sectionId: 'section-innovations',
@@ -344,15 +355,31 @@ export default function InnovationsSection() {
       const initialDepth = -50 - (index * 100);
       const offset = getOffsetPosition(index);
       const isFirstItem = index === 0;
+      const itemId = innovationItems[index]?.id;
+
+      const initialState = {
+        x: isFirstItem ? 0 : offset.x,
+        y: isFirstItem ? 0 : offset.y,
+        z: initialDepth,
+        scale: 1,
+        opacity: initialDepth < -300 ? 0 : (isFirstItem ? 1 : 0.6),
+        blur: 0,
+        visibility: 'visible'
+      };
+
+      // 儲存初始狀態
+      if (itemId) {
+        itemStatesRef.current.set(itemId, initialState);
+      }
 
       gsap.set(element, {
         // 第一個項目初始就在中央，其他項目有偏移
-        x: isFirstItem ? '0vw' : `${offset.x}vw`,
-        y: isFirstItem ? '0vh' : `${offset.y}vh`,
-        z: `${initialDepth}vw`,
-        scale: 1,
-        opacity: initialDepth < -300 ? 0 : (isFirstItem ? 1 : 0.6), // 第一個項目完全不透明
-        filter: isLowPerformance ? 'none' : `blur(0px)`,
+        x: `${initialState.x}vw`,
+        y: `${initialState.y}vh`,
+        z: `${initialState.z}vw`,
+        scale: initialState.scale,
+        opacity: initialState.opacity,
+        filter: isLowPerformance ? 'none' : `blur(${initialState.blur}px)`,
         rotationX: 0,
         rotationY: 0,
         transformOrigin: 'center center',
@@ -377,6 +404,12 @@ export default function InnovationsSection() {
         // 使用快取的元素陣列，避免重複查詢
         elements.forEach((element, index) => {
           if (!element) return;
+
+          const itemId = innovationItems[index]?.id;
+          if (!itemId) return;
+
+          const prevState = itemStatesRef.current.get(itemId);
+          if (!prevState) return;
 
           const isLastItem = index === elements.length - 1;
           let currentDepth = (-50 - index * 100) + currentOffset;
@@ -408,43 +441,69 @@ export default function InnovationsSection() {
             }
           }
 
-          const finalX = `${offset.x * offsetFactor}vw`;
-          const finalY = `${offset.y * offsetFactor}vh`;
+          const targetX = offset.x * offsetFactor;
+          const targetY = offset.y * offsetFactor;
+          const targetZ = currentDepth;
 
-          // 效能優化：低效能模式下使用更簡單的動畫
-          if (isLowPerformance) {
-            gsap.set(element, {
-              x: finalX,
-              y: finalY,
-              z: `${currentDepth}vw`,
-              opacity: state.opacity,
-              scale: state.scale
-            });
-          } else {
-            gsap.to(element, {
-              x: finalX,
-              y: finalY,
-              z: `${currentDepth}vw`,
-              opacity: state.opacity,
-              filter: `blur(${state.blur}px)`,
-              scale: state.scale,
-              duration: 0.3,
-              ease: "power2.out",
-              overwrite: 'auto'
-            });
+          // 使用閾值檢查，避免微小變化觸發更新
+          const positionChanged =
+            Math.abs(prevState.x - targetX) > 0.1 ||
+            Math.abs(prevState.y - targetY) > 0.1 ||
+            Math.abs(prevState.z - targetZ) > 1;
+
+          const opacityChanged = Math.abs(prevState.opacity - state.opacity) > 0.01;
+          const scaleChanged = Math.abs(prevState.scale - state.scale) > 0.01;
+
+          // Blur 使用更大的閾值，降低更新頻率
+          const blurChanged = Math.abs(prevState.blur - state.blur) > 0.5;
+
+          // 只在有顯著變化時更新
+          if (positionChanged || opacityChanged || scaleChanged || blurChanged) {
+            const updateObj: gsap.TweenVars = {};
+
+            if (positionChanged) {
+              updateObj.x = `${targetX}vw`;
+              updateObj.y = `${targetY}vh`;
+              updateObj.z = `${targetZ}vw`;
+              prevState.x = targetX;
+              prevState.y = targetY;
+              prevState.z = targetZ;
+            }
+
+            if (opacityChanged) {
+              updateObj.opacity = state.opacity;
+              prevState.opacity = state.opacity;
+            }
+
+            if (scaleChanged) {
+              updateObj.scale = state.scale;
+              prevState.scale = state.scale;
+            }
+
+            // Blur 更新使用較長的動畫時間，讓過渡更平滑
+            if (blurChanged && !isLowPerformance) {
+              updateObj.filter = `blur(${state.blur}px)`;
+              prevState.blur = state.blur;
+              updateObj.duration = 0.6; // 較長的 blur 過渡時間
+            } else if (Object.keys(updateObj).length > 0) {
+              updateObj.duration = 0.3;
+            }
+
+            if (Object.keys(updateObj).length > 0) {
+              updateObj.ease = "power2.out";
+              updateObj.overwrite = 'auto';
+              gsap.to(element, updateObj);
+            }
           }
 
-          // 可見性優化
-          if (state.opacity < 0.05) {
+          // 可見性優化 - 也使用閾值檢查
+          const newVisibility = state.opacity < 0.05 ? 'hidden' : 'visible';
+          if (prevState.visibility !== newVisibility) {
             gsap.set(element, {
-              visibility: 'hidden',
-              pointerEvents: 'none'
+              visibility: newVisibility,
+              pointerEvents: newVisibility === 'hidden' ? 'none' : 'auto'
             });
-          } else {
-            gsap.set(element, {
-              visibility: 'visible',
-              pointerEvents: 'auto'
-            });
+            prevState.visibility = newVisibility;
           }
         });
 
@@ -461,7 +520,7 @@ export default function InnovationsSection() {
       const cacheRef = elementRefsCache.current;
       cacheRef.clear();
     };
-  }, [innovationItems, animationsEnabled]);
+  }, [innovationItems, animationsEnabled, calculateOptimizedState, isLowPerformance]);
 
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
