@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState, memo } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
 import { PhotoItemConfig } from './challenges.config';
 
 interface ChallengePhotoProps {
@@ -27,104 +26,110 @@ const ChallengePhoto = memo(({
 }: ChallengePhotoProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
+
+  // 緩存動畫配置
+  const { startZ, endZ, startScale, endScale } = photoConfig.animationConfig;
+
+  // 使用 ref 儲存動畫狀態，避免重複渲染
+  const animationStateRef = useRef({
+    transform: '',
+    opacity: '0',
+    visibility: 'hidden' as 'hidden' | 'visible',
+    z: startZ,
+    scale: 0
+  });
 
   // 初始化照片位置
   useEffect(() => {
     if (!cardRef.current) return;
 
-    // 設置初始狀態 - 完全隱藏
-    gsap.set(cardRef.current, {
-      z: photoConfig.animationConfig.startZ,
-      scale: 0,
-      opacity: 0,
+    // 設置初始狀態
+    const initialTransform = `translate(-50%, -50%) translateZ(${startZ}px) scale(0)`;
+    animationStateRef.current = {
+      transform: initialTransform,
+      opacity: '0',
       visibility: 'hidden',
-      force3D: true
-    });
-
-    return () => {
-      // 清理動畫
-      if (tweenRef.current) {
-        tweenRef.current.kill();
-      }
+      z: startZ,
+      scale: 0
     };
-  }, []); // 只在掛載時執行
 
-  // 處理動畫 - 根據滾動進度和是否在範圍內
+    // 應用初始狀態
+    cardRef.current.style.transform = initialTransform;
+    cardRef.current.style.opacity = '0';
+    cardRef.current.style.visibility = 'hidden';
+  }, [startZ]);
+
+  // 處理動畫更新 - 使用 ref 避免重複渲染
   useEffect(() => {
     if (!cardRef.current) return;
 
-    const { startZ, endZ, startScale, endScale } = photoConfig.animationConfig;
+    const element = cardRef.current;
+    const state = animationStateRef.current;
 
-    // 清理之前的動畫
-    if (tweenRef.current) {
-      tweenRef.current.kill();
-      tweenRef.current = null;
+    // 計算新的動畫值
+    let targetZ: number;
+    let targetScale: number;
+    let targetOpacity: number;
+
+    if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
+      // 照片已經通過範圍
+      const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
+      targetZ = endZ + (overflowProgress * 5000);
+      targetScale = endScale;
+      targetOpacity = Math.max(0, 1 - overflowProgress * 5);
+    } else if (animationProgress > 0 && animationProgress <= 1) {
+      // 照片在顯示範圍內
+      targetZ = startZ + (endZ - startZ) * animationProgress;
+      targetScale = startScale + (endScale - startScale) * animationProgress;
+      targetOpacity = 1;
+    } else {
+      // 照片還沒到範圍
+      targetZ = startZ;
+      targetScale = 0;
+      targetOpacity = 0;
     }
 
-    // 使用 RAF 優化更新
-    const rafId = requestAnimationFrame(() => {
-      if (!cardRef.current) return;
+    // 使用閾值檢查，避免微小變化觸發更新
+    const zChanged = Math.abs(state.z - targetZ) > 1;
+    const scaleChanged = Math.abs(state.scale - targetScale) > 0.01;
+    const opacityChanged = Math.abs(parseFloat(state.opacity) - targetOpacity) > 0.01;
 
-      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
-        // 照片已經通過範圍，計算消失動畫
-        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
-        const extendedZ = endZ + (overflowProgress * 5000); // 快速往遠處移動
-        const fadeOpacity = Math.max(0, 1 - overflowProgress * 5); // 非常快速地淡出
+    // 只在有顯著變化時更新
+    if (zChanged || scaleChanged) {
+      const newTransform = `translate(-50%, -50%) translateZ(${targetZ}px) scale(${targetScale})`;
+      element.style.transform = newTransform;
+      state.transform = newTransform;
+      state.z = targetZ;
+      state.scale = targetScale;
+    }
 
-        // 使用 set 來即時更新位置，確保滾動時的流暢性
-        gsap.set(cardRef.current, {
-          z: extendedZ,
-          scale: endScale,
-          opacity: fadeOpacity,
-          visibility: fadeOpacity > 0 ? 'visible' : 'hidden',
-          immediateRender: true,
-          overwrite: 'auto'
-        });
-      } else if (animationProgress > 0 && animationProgress <= 1) {
-        // 照片在顯示範圍內
-        const targetZ = startZ + (endZ - startZ) * animationProgress;
-        const targetScale = startScale + (endScale - startScale) * animationProgress;
+    if (opacityChanged) {
+      const newOpacity = targetOpacity.toFixed(2);
+      element.style.opacity = newOpacity;
+      state.opacity = newOpacity;
 
-        // 即時更新位置
-        gsap.set(cardRef.current, {
-          z: targetZ,
-          scale: targetScale,
-          opacity: 1,
-          visibility: 'visible',
-          immediateRender: true,
-          overwrite: 'auto'
-        });
-      } else {
-        // 照片還沒到範圍，保持隱藏
-        gsap.set(cardRef.current, {
-          z: startZ,
-          scale: 0,
-          opacity: 0,
-          visibility: 'hidden',
-          immediateRender: true,
-          overwrite: 'auto'
-        });
+      // 更新 visibility
+      const newVisibility = targetOpacity > 0 ? 'visible' : 'hidden';
+      if (state.visibility !== newVisibility) {
+        element.style.visibility = newVisibility;
+        state.visibility = newVisibility;
       }
-    });
+    }
 
-    return () => {
-      cancelAnimationFrame(rafId);
-    };
-  }, [animationProgress, hasPassedRange, scrollProgress, photoConfig]);
+  }, [animationProgress, hasPassedRange, scrollProgress, startZ, endZ, startScale, endScale, photoConfig.triggerRange.endIndex]);
 
   return (
     <div
       ref={cardRef}
-      className={`absolute rounded-2xl bg-gray-300 overflow-hidden challenge-photo-${index} ${className}`}
+      className={`absolute rounded-md bg-gray-300 overflow-hidden challenge-photo-${index} ${className}`}
       style={{
         top: photoConfig.position.top,
         left: photoConfig.position.left,
-        width: '200px',
+        width: '300px',
         height: '200px',
         transformStyle: 'preserve-3d',
-        willChange: isActive ? 'transform' : 'auto',
-        backfaceVisibility: 'hidden', // 防止閃爍
+        willChange: isActive ? 'transform, opacity' : 'auto',
+        backfaceVisibility: 'hidden',
         contain: 'layout style paint'
       }}
     >
@@ -135,12 +140,13 @@ const ChallengePhoto = memo(({
       <Image
         src={photoConfig.imagePath}
         alt={`Challenge ${photoConfig.id}`}
-        width={200}
+        width={300}
         height={200}
         className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         onLoad={() => setImageLoaded(true)}
         loading={index < 6 ? 'eager' : 'lazy'}
+        priority={index < 2}
       />
     </div>
   );
