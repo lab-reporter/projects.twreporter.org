@@ -79,27 +79,26 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
 
   return (
     <div
-      className="relative w-full h-full rounded-sm overflow-hidden group"
-      style={{
-        backgroundColor: bgColor || '#F1F1F1',
-        transformStyle: 'preserve-3d',
-        pointerEvents: 'auto'
-      }}
+      className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100"
+      style={{ backgroundColor: bgColor || '#F1F1F1', cursor: 'pointer' }}
+      onClick={handleClick}
+      data-custom-cursor="explore"
     >
       {/* 媒體內容 */}
-      <div
-        className="w-full h-full overflow-hidden relative"
-        style={{ cursor: 'pointer' }}
-        onClick={handleClick}
-        data-custom-cursor="explore"
-      >
+      <div className="w-full h-full overflow-hidden relative" style={{ cursor: 'none' }}>
+        {/* 載入指示器 */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
+          </div>
+        )}
 
         {isVideo ? (
           <video
             ref={videoRef}
             src={path}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'none' }}
             muted
             loop
             playsInline
@@ -116,7 +115,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
             placeholder="blur"
             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'none' }}
             onLoad={handleMediaLoad}
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
