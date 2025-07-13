@@ -38,6 +38,9 @@ const ChallengePhoto = memo(({
     z: startZ,
     scale: 0
   });
+  
+  // RAF ref
+  const rafRef = useRef<number>();
 
   // 初始化照片位置
   useEffect(() => {
@@ -59,63 +62,80 @@ const ChallengePhoto = memo(({
     cardRef.current.style.visibility = 'hidden';
   }, [startZ]);
 
-  // 處理動畫更新 - 使用 ref 避免重複渲染
+  // 處理動畫更新 - 使用 RAF 優化
   useEffect(() => {
     if (!cardRef.current) return;
 
-    const element = cardRef.current;
-    const state = animationStateRef.current;
-
-    // 計算新的動畫值
-    let targetZ: number;
-    let targetScale: number;
-    let targetOpacity: number;
-
-    if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
-      // 照片已經通過範圍
-      const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
-      targetZ = endZ + (overflowProgress * 5000);
-      targetScale = endScale;
-      targetOpacity = Math.max(0, 1 - overflowProgress * 5);
-    } else if (animationProgress > 0 && animationProgress <= 1) {
-      // 照片在顯示範圍內
-      targetZ = startZ + (endZ - startZ) * animationProgress;
-      targetScale = startScale + (endScale - startScale) * animationProgress;
-      targetOpacity = 1;
-    } else {
-      // 照片還沒到範圍
-      targetZ = startZ;
-      targetScale = 0;
-      targetOpacity = 0;
+    // 取消之前的動畫
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
     }
 
-    // 使用閾值檢查，避免微小變化觸發更新
-    const zChanged = Math.abs(state.z - targetZ) > 1;
-    const scaleChanged = Math.abs(state.scale - targetScale) > 0.01;
-    const opacityChanged = Math.abs(parseFloat(state.opacity) - targetOpacity) > 0.01;
+    const updateAnimation = () => {
+      const element = cardRef.current;
+      if (!element) return;
+      
+      const state = animationStateRef.current;
 
-    // 只在有顯著變化時更新
-    if (zChanged || scaleChanged) {
-      const newTransform = `translate(-50%, -50%) translateZ(${targetZ}px) scale(${targetScale})`;
-      element.style.transform = newTransform;
-      state.transform = newTransform;
-      state.z = targetZ;
-      state.scale = targetScale;
-    }
+      // 計算新的動畫值
+      let targetZ: number;
+      let targetScale: number;
+      let targetOpacity: number;
 
-    if (opacityChanged) {
-      const newOpacity = targetOpacity.toFixed(2);
-      element.style.opacity = newOpacity;
-      state.opacity = newOpacity;
-
-      // 更新 visibility
-      const newVisibility = targetOpacity > 0 ? 'visible' : 'hidden';
-      if (state.visibility !== newVisibility) {
-        element.style.visibility = newVisibility;
-        state.visibility = newVisibility;
+      if (hasPassedRange && scrollProgress > photoConfig.triggerRange.endIndex) {
+        // 照片已經通過範圍
+        const overflowProgress = (scrollProgress - photoConfig.triggerRange.endIndex);
+        targetZ = endZ + (overflowProgress * 5000);
+        targetScale = endScale;
+        targetOpacity = Math.max(0, 1 - overflowProgress * 5);
+      } else if (animationProgress > 0 && animationProgress <= 1) {
+        // 照片在顯示範圍內
+        targetZ = startZ + (endZ - startZ) * animationProgress;
+        targetScale = startScale + (endScale - startScale) * animationProgress;
+        targetOpacity = 1;
+      } else {
+        // 照片還沒到範圍
+        targetZ = startZ;
+        targetScale = 0;
+        targetOpacity = 0;
       }
-    }
 
+      // 使用閾值檢查，避免微小變化觸發更新
+      const zChanged = Math.abs(state.z - targetZ) > 1;
+      const scaleChanged = Math.abs(state.scale - targetScale) > 0.01;
+      const opacityChanged = Math.abs(parseFloat(state.opacity) - targetOpacity) > 0.01;
+
+      // 只在有顯著變化時更新
+      if (zChanged || scaleChanged) {
+        const newTransform = `translate(-50%, -50%) translateZ(${targetZ}px) scale(${targetScale})`;
+        element.style.transform = newTransform;
+        state.transform = newTransform;
+        state.z = targetZ;
+        state.scale = targetScale;
+      }
+
+      if (opacityChanged) {
+        const newOpacity = targetOpacity.toFixed(2);
+        element.style.opacity = newOpacity;
+        state.opacity = newOpacity;
+
+        // 更新 visibility
+        const newVisibility = targetOpacity > 0 ? 'visible' : 'hidden';
+        if (state.visibility !== newVisibility) {
+          element.style.visibility = newVisibility;
+          state.visibility = newVisibility;
+        }
+      }
+    };
+
+    // 使用 RAF 執行動畫
+    rafRef.current = requestAnimationFrame(updateAnimation);
+
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, [animationProgress, hasPassedRange, scrollProgress, startZ, endZ, startScale, endScale, photoConfig.triggerRange.endIndex]);
 
   return (
