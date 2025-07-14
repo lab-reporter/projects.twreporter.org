@@ -30,8 +30,8 @@ const lerp = (start: number, end: number, amount: number) => {
 
 // 動畫 frame hook
 const useAnimationFrame = (callback: (deltaTime: number) => void, enabled: boolean) => {
-  const requestRef = useRef<number>();
-  const previousTimeRef = useRef<number>();
+  const requestRef = useRef<number | undefined>(undefined);
+  const previousTimeRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!enabled) return;

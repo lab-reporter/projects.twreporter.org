@@ -185,7 +185,7 @@ export default function InnovationsSection() {
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   // 使用統一的滑鼠追蹤 Hook
-  const mousePosition = useMouseTracking3D({
+  useMouseTracking3D({
     enabled: is3DEnabled && isVisible && !isLowPerformance,
     isLowPerformance,
     targetRef: containerRef,
@@ -477,10 +477,11 @@ export default function InnovationsSection() {
     });
 
 
+    // 複製引用以避免 cleanup 時的警告
+    const cacheRef = elementRefsCache.current;
+    
     return () => {
       scrollTrigger.kill();
-      // 複製引用以避免 cleanup 時的警告
-      const cacheRef = elementRefsCache.current;
       cacheRef.clear();
     };
   }, [innovationItems, animationsEnabled, calculateOptimizedState, isLowPerformance]);

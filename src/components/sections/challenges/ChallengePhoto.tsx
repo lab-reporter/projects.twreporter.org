@@ -40,7 +40,7 @@ const ChallengePhoto = memo(({
   });
   
   // RAF ref
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | undefined>(undefined);
 
   // 初始化照片位置
   useEffect(() => {

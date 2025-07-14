@@ -34,15 +34,6 @@ export default function SupportSection() {
   // 常數：預設的金額選項按鈕
   const amountOptions = [500, 1000, 3000];
 
-  // 常數：各金額對應的彩帶顏色配置
-  const CONFETTI_COLORS = {
-    500: ['#FFC107', '#FF5722', '#03A9F4'],
-    1000: ['#4CAF50', '#9C27B0', '#E91E63'],
-    3000: ['#c9a156', '#FF4081', '#3F51B5']
-  } as const;
-
-  // 常數：未指定金額時的預設彩帶顏色
-  const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
 
   // 狀態變數：使用者選擇的預設金額（可為空值）
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -98,15 +89,18 @@ export default function SupportSection() {
       }
     );
 
+    // 複製引用以避免 cleanup 時的警告
+    const element = supporterRef.current;
+    
     // 開始觀察指定的 DOM 元素
-    if (supporterRef.current) {
-      observer.observe(supporterRef.current);
+    if (element) {
+      observer.observe(element);
     }
 
     // 清理函數：組件卸載時停止觀察
     return () => {
-      if (supporterRef.current) {
-        observer.unobserve(supporterRef.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
     // 依賴變數：當這些值改變時重新執行
@@ -114,6 +108,15 @@ export default function SupportSection() {
 
   // 記憶化函數：觸發慶祝彩帶動畫效果
   const fireConfetti = useCallback((amount: number) => {
+    // 將常數移入 useCallback 內部以避免依賴警告
+    const CONFETTI_COLORS = {
+      500: ['#FFC107', '#FF5722', '#03A9F4'],
+      1000: ['#4CAF50', '#9C27B0', '#E91E63'],
+      3000: ['#c9a156', '#FF4081', '#3F51B5']
+    } as const;
+    
+    const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
+    
     // 根據金額取得對應的顏色配置，無對應時使用預設顏色
     const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
@@ -163,7 +166,7 @@ export default function SupportSection() {
       // 延遲執行時間
     }, 250);
     // 空依賴陣列：函數內容不依賴外部變數
-  }, [CONFETTI_COLORS, DEFAULT_CONFETTI_COLORS]);
+  }, []);
 
   // 事件處理函數：處理預設金額按鈕的點擊
   const handleAmountSelection = (amount: number) => {

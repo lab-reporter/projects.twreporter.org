@@ -63,7 +63,7 @@ export default function NextSectionButton() {
       <button
         onClick={scrollToNextSection}
         className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-      // aria-label={`跳到 ${nextSectionName} 章節`}
+        aria-label={`跳到 ${nextSectionName} 章節`}
       >
         {/* 箭頭圖示 */}
         <svg
