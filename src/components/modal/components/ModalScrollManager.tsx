@@ -90,7 +90,7 @@ export default function ModalScrollManager({
             if (timeDelta > 0) {
                 scrollVelocityRef.current = scrollDelta / timeDelta;
             }
-            
+
             lastScrollTopRef.current = scrollTop;
             lastScrollTime.current = now;
 

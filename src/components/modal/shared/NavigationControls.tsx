@@ -78,9 +78,10 @@ export default function NavigationControls({
           <div className="flex-1 p-6 flex flex-col justify-between">
             {/* 文字內容 */}
             <div>
-              <h5 className={`mb-2 text-gray-500 group-hover:text-gray-800 transition-colors line-clamp-2 ${isNext ? 'text-right' : 'text-left '}`}>
-                {project.title}
-              </h5>
+              <h6
+                className={`mb-2 text-gray-500 group-hover:text-gray-800 transition-colors line-clamp-2 ${isNext ? 'text-right' : 'text-left '}`}
+                dangerouslySetInnerHTML={{ __html: project.title }}
+              />
               {project.subtitle && (
                 <p className={`text-gray-500 group-hover:text-gray-800 transition-colors text-base font-medium line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
                   {project.subtitle}

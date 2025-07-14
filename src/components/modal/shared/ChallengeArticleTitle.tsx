@@ -11,8 +11,9 @@ export default function ChallengeArticleTitle({
   className = "" 
 }: ChallengeArticleTitleProps) {
   return (
-    <h2 className={`text-4xl py-12 font-bold text-center ${className}`}>
-      {title}
-    </h2>
+    <h2 
+      className={`text-4xl py-12 font-bold text-center ${className}`}
+      dangerouslySetInnerHTML={{ __html: title }}
+    />
   );
 }
