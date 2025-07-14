@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
@@ -183,55 +184,17 @@ export default function InnovationsSection() {
   const [is3DEnabled, setIs3DEnabled] = useState(false);
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
-  // 使用 ref 來儲存滑鼠位置，避免重新渲染
-  const mousePositionRef = useRef({ x: 50, y: 50 });
-
-  // 在組件掛載時設定滑鼠追蹤
-  useEffect(() => {
-    if (!is3DEnabled || !isVisible || isLowPerformance) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      mousePositionRef.current = { x, y };
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [is3DEnabled, isVisible, isLowPerformance]);
-
-  // 只在啟用狀態變化時觸發 useEffect，不監聽 mousePosition
-  useEffect(() => {
-
-    if (!containerRef.current || !is3DEnabled || !isVisible || isLowPerformance) return;
-
-    const container = containerRef.current;
-
-    // 建立 mousemove 事件監聽器來直接更新 perspectiveOrigin
-    const updatePerspectiveOrigin = () => {
-      if (mousePositionRef.current) {
-        container.style.perspectiveOrigin = `${mousePositionRef.current.x}% ${mousePositionRef.current.y}%`;
-      }
-    };
-
-    // 立即更新一次
-    updatePerspectiveOrigin();
-
-    // 監聽 mousemove 事件
-    const handleMouseMove = () => {
-      updatePerspectiveOrigin();
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [is3DEnabled, isVisible, isLowPerformance]);
+  // 使用統一的滑鼠追蹤 Hook
+  const mousePosition = useMouseTracking3D({
+    enabled: is3DEnabled && isVisible && !isLowPerformance,
+    isLowPerformance,
+    targetRef: containerRef,
+    cssProperty: 'perspectiveOrigin',
+    rangeMin: 30,
+    rangeMax: 70,
+    useLerp: true,
+    lerpFactor: 0.1
+  });
 
   // 預先快取元素引用
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -547,8 +510,8 @@ export default function InnovationsSection() {
             ref={containerRef}
             className="w-full h-full relative overflow-hidden"
             style={{
-              perspective: is3DEnabled && isVisible ? '1000px' : 'none',
-              perspectiveOrigin: 'center center' // 初始值，會被 useEffect 更新
+              perspective: is3DEnabled && isVisible ? '1000px' : 'none'
+              // perspectiveOrigin 由 useMouseTracking3D 自動管理
             }}
           >
             {/* 3D 場景容器 */}
