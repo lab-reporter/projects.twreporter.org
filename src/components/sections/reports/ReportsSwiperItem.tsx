@@ -85,19 +85,12 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
       data-custom-cursor="explore"
     >
       {/* 媒體內容 */}
-      <div className="w-full h-full overflow-hidden relative" style={{ cursor: 'none' }}>
-        {/* 載入指示器 */}
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600"></div>
-          </div>
-        )}
-
+      <div className="w-full h-full overflow-hidden relative bg-white" style={{ cursor: 'none' }}>
         {isVideo ? (
           <video
             ref={videoRef}
             src={path}
-            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ cursor: 'none' }}
             muted
             loop
@@ -112,9 +105,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
             width={500}
             height={500}
             quality={75}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
             style={{ cursor: 'none' }}
             onLoad={handleMediaLoad}
             loading="lazy"

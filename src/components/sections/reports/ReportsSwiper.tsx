@@ -51,7 +51,11 @@ export default function ReportsSwiper() {
     // 優化的滑鼠追蹤
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
-        enabled: isClient && isVisible
+        enabled: isClient && isVisible,
+        rangeMin: 42,
+        rangeMax: 58,
+        useLerp: true,
+        lerpFactor: 0.1
     });
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
@@ -188,7 +192,7 @@ export default function ReportsSwiper() {
                     // Y軸旋轉角度
                     rotateY: targetRotation,
                     // 動畫持續時間
-                    duration: 0.3,
+                    duration: 0.9,
                     // 緩動函數
                     ease: "power2.out",
                     // 覆寫模式：自動取消衝突的動畫
