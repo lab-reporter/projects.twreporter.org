@@ -67,3 +67,6 @@ temp/
 copy/
 analysis-docs/
 *.bak
+
+# 3D 模型檔案
+public/assets/3DModel/
