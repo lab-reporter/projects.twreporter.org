@@ -40,6 +40,7 @@ export default function FeedbacksSection() {
     gsap.set(swiperContainerRef.current, {
       width: 0,
       scale: 0,
+      margin: '0px 0px',
     });
 
     // 建立 ScrollTrigger 動畫
@@ -54,7 +55,8 @@ export default function FeedbacksSection() {
     });
 
     tl.to(swiperContainerRef.current, {
-      width: '500px',
+      width: 'auto',
+      margin: '0px 64px',
       scale: 1,
       duration: 1,
       ease: 'power2.out'
@@ -75,16 +77,16 @@ export default function FeedbacksSection() {
       className="w-full h-[500vh] text-white"
     >
       {/* 讀者證言區域 */}
-      <div data-feedbacks-trigger="testimonial-area" className="h-screen sticky top-0 text-center mb-8 flex flex-col md:flex-row justify-center items-center">
+      <div data-feedbacks-trigger="testimonial-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
         <h4 className="flex-1 text-right">持續求真的路上</h4>
         {/* swiper容器 */}
-        <div ref={swiperContainerRef} className="px-8 flex items-center justify-center">
+        <div ref={swiperContainerRef} className="px-4 flex items-center justify-center">
           <Swiper
             effect={"cards"}
             grabCursor={true}
             modules={[EffectCards]}
             loop={true}
-            className="feedback-swiper w-[400px] h-[500px]"
+            className="feedback-swiper w-[300px] h-[400px]"
           >
             {testimonials.map((quote) => (
               <SwiperSlide key={quote.id} className="w-full h-auto">
