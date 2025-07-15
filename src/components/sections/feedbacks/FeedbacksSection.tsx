@@ -34,6 +34,12 @@ export default function FeedbacksSection() {
   const halftoneRef = useRef<HTMLImageElement>(null);
   // 背景圓圈 ref
   const bgCircleRef = useRef<HTMLDivElement>(null);
+  // Canvas ref
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // 是否顯示灰色圓圈
+  const showHiddenCircles = useRef(false);
+  // 灰色圓圈的透明度
+  const grayCircleOpacity = useRef(0);
 
   // 使用滾動觸發器來監控當前頁面位置
   useScrollTrigger({
@@ -49,6 +55,7 @@ export default function FeedbacksSection() {
 
     // 創建 Canvas
     const canvas = document.createElement('canvas');
+    canvasRef.current = canvas;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -68,7 +75,7 @@ export default function FeedbacksSection() {
       const circleDiameter = 12.5 * vw;
       const circleRadius = circleDiameter / 2;
       const horizontalSpacing = 25 * vw; // 圓心到圓心的水平距離
-      const verticalSpacing = 18.75 * vw; // 列與列之間的距離
+      const verticalSpacing = 12.5 * vw; // 列與列之間的距離
 
       // 計算視窗中心
       const centerX = canvas.width / 2;
@@ -93,6 +100,37 @@ export default function FeedbacksSection() {
           ctx.fill();
         }
       }
+
+      // 如果需要顯示灰色外框圓圈，單獨繪製
+      if (showHiddenCircles.current) {
+        // 根據交錯排列的規律，繪製灰色圓圈
+        for (let row = -halfRows - 1; row <= halfRows + 1; row++) {
+          for (let col = -halfCols - 1; col <= halfCols + 1; col++) {
+            // 偶數列：灰色圓圈在奇數位置
+            if (row % 2 === 0) {
+              const x = centerX + col * horizontalSpacing + horizontalSpacing / 2;
+              const y = centerY + row * verticalSpacing;
+
+              ctx.beginPath();
+              ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+              ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
+              ctx.lineWidth = 2;
+              ctx.stroke();
+            }
+            // 奇數列：灰色圓圈在偶數位置
+            else {
+              const x = centerX + col * horizontalSpacing;
+              const y = centerY + row * verticalSpacing;
+
+              ctx.beginPath();
+              ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+              ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+      }
     };
 
     // 設定 Canvas 樣式
@@ -102,6 +140,23 @@ export default function FeedbacksSection() {
 
     // 監聽視窗變化
     window.addEventListener('resize', updateCanvasSize);
+
+    // 第四個動畫：顯示灰色外框圓圈
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: '[data-trigger="show-hidden-circle"]',
+        start: 'top 50%',
+        end: 'top 20%',
+        scrub: true,
+        markers: false,
+        onUpdate: (self) => {
+          // 根據滾動進度調整透明度
+          grayCircleOpacity.current = self.progress;
+          showHiddenCircles.current = self.progress > 0;
+          drawCircles();
+        }
+      }
+    });
 
     return () => {
       window.removeEventListener('resize', updateCanvasSize);
@@ -274,10 +329,10 @@ export default function FeedbacksSection() {
         <p className="text-red-70 p-2">data-trigger=thanks-area</p>
       </div>
 
-      <div data-trigger="halftone-area" className="h-[100vh] debug">
+      <div data-trigger="halftone-area" className="h-[100vh]">
       </div>
-      <div className="sticky top-0 z-1 h-[200vh]">
-        <div className="flex flex-col items-center justify-center h-screen">
+      <div className="z-1 h-auto">
+        <div className="relative debug flex flex-col items-center justify-center h-screen">
           <div>
             <h3>感謝目前</h3>
             <h1>
@@ -286,6 +341,21 @@ export default function FeedbacksSection() {
             </h1>
             <h3 className="mb-2">定期定額贊助者</h3>
             <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
+          </div>
+        </div>
+        <div data-trigger="show-hidden-circle" className="relative debug flex flex-col items-center justify-center h-screen">
+          <div>
+            <h5>
+              為了迎接下一個十年的種種挑戰 <br />
+              我們需要更多定期定額支持的夥伴與我們前行
+            </h5>
+            <h4>號招</h4>
+            <h1>
+              10000
+              <span className="text-4xl font-bold">位</span>
+            </h1>
+            <h3 className="mb-2">支持報導者的定期定額贊助者</h3>
+            <h6>和我們一起打造多元進步的公民社會</h6>
           </div>
         </div>
       </div>
