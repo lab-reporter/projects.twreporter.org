@@ -41,6 +41,9 @@ const robotoSlab = Roboto_Slab({
 export const metadata: Metadata = {
   title: "《報導者》十週年｜深度求真 眾聲同行",
   description: "《報導者》十週年特別企劃",
+  icons: {
+    icon: '/assets/favicon.svg',
+  },
 };
 
 export default function RootLayout({
