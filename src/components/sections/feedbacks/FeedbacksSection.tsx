@@ -40,6 +40,8 @@ export default function FeedbacksSection() {
   const showHiddenCircles = useRef(false);
   // 灰色圓圈的透明度
   const grayCircleOpacity = useRef(0);
+  // 圓圈縮放倍數
+  const circleScale = useRef(1);
 
   // 使用滾動觸發器來監控當前頁面位置
   useScrollTrigger({
@@ -72,10 +74,11 @@ export default function FeedbacksSection() {
 
       // 圓圈參數 (使用 vw 單位)
       const vw = canvas.width / 100;
-      const circleDiameter = 12.5 * vw;
+      const scale = circleScale.current;
+      const circleDiameter = 12.5 * vw * scale;
       const circleRadius = circleDiameter / 2;
-      const horizontalSpacing = 25 * vw; // 圓心到圓心的水平距離
-      const verticalSpacing = 12.5 * vw; // 列與列之間的距離
+      const horizontalSpacing = 25 * vw * scale; // 圓心到圓心的水平距離
+      const verticalSpacing = 12.5 * vw * scale; // 列與列之間的距離
 
       // 計算視窗中心
       const centerX = canvas.width / 2;
@@ -85,49 +88,47 @@ export default function FeedbacksSection() {
       const halfCols = Math.ceil(centerX / horizontalSpacing) + 1;
       const halfRows = Math.ceil(centerY / verticalSpacing) + 1;
 
-      // 從中心開始向外繪製
-      for (let row = -halfRows; row <= halfRows; row++) {
-        for (let col = -halfCols; col <= halfCols; col++) {
-          // 奇數列向右偏移半個水平間距
-          const xOffset = (row % 2) * (horizontalSpacing / 2);
-          const x = centerX + col * horizontalSpacing + xOffset;
-          const y = centerY + row * verticalSpacing;
-
-          // 繪製紅色圓圈
-          ctx.beginPath();
-          ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
-          ctx.fillStyle = '#F80B28';
-          ctx.fill();
+      // 從中心開始向外繪製紅色圓圈（使用原本灰色圓圈的邏輯）
+      for (let row = -halfRows - 1; row <= halfRows + 1; row++) {
+        for (let col = -halfCols - 1; col <= halfCols + 1; col++) {
+          // 偶數列：紅色圓圈在奇數位置
+          if (row % 2 === 0) {
+            const x = centerX + col * horizontalSpacing + horizontalSpacing / 2;
+            const y = centerY + row * verticalSpacing;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#F80B28';
+            ctx.fill();
+          }
+          // 奇數列：紅色圓圈在偶數位置
+          else {
+            const x = centerX + col * horizontalSpacing;
+            const y = centerY + row * verticalSpacing;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#F80B28';
+            ctx.fill();
+          }
         }
       }
 
-      // 如果需要顯示灰色外框圓圈，單獨繪製
+      // 如果需要顯示灰色外框圓圈，單獨繪製（使用原本紅色圓圈的邏輯）
       if (showHiddenCircles.current) {
-        // 根據交錯排列的規律，繪製灰色圓圈
-        for (let row = -halfRows - 1; row <= halfRows + 1; row++) {
-          for (let col = -halfCols - 1; col <= halfCols + 1; col++) {
-            // 偶數列：灰色圓圈在奇數位置
-            if (row % 2 === 0) {
-              const x = centerX + col * horizontalSpacing + horizontalSpacing / 2;
-              const y = centerY + row * verticalSpacing;
+        // 繪製灰色圓圈在原本紅色圓圈的位置
+        for (let row = -halfRows; row <= halfRows; row++) {
+          for (let col = -halfCols; col <= halfCols; col++) {
+            // 奇數列向右偏移半個水平間距
+            const xOffset = (row % 2) * (horizontalSpacing / 2);
+            const x = centerX + col * horizontalSpacing + xOffset;
+            const y = centerY + row * verticalSpacing;
 
-              ctx.beginPath();
-              ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
-              ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
-              ctx.lineWidth = 2;
-              ctx.stroke();
-            }
-            // 奇數列：灰色圓圈在偶數位置
-            else {
-              const x = centerX + col * horizontalSpacing;
-              const y = centerY + row * verticalSpacing;
-
-              ctx.beginPath();
-              ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
-              ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
-              ctx.lineWidth = 1;
-              ctx.stroke();
-            }
+            ctx.beginPath();
+            ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
           }
         }
       }
@@ -153,6 +154,22 @@ export default function FeedbacksSection() {
           // 根據滾動進度調整透明度
           grayCircleOpacity.current = self.progress;
           showHiddenCircles.current = self.progress > 0;
+          drawCircles();
+        }
+      }
+    });
+
+    // 第五個動畫：放大圓圈
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: '[data-trigger="bigger-circle"]',
+        start: 'top 50%',
+        end: 'bottom 50%',
+        scrub: true,
+        markers: false,
+        onUpdate: (self) => {
+          // 從 1 到 2 倍的平滑變化
+          circleScale.current = 1 + self.progress * 2;
           drawCircles();
         }
       }
@@ -275,7 +292,7 @@ export default function FeedbacksSection() {
       id="section-feedbacks"
       className="w-full h-[800vh] text-white"
     >
-      {/* 內容區域 */}
+      {/* feedback內容區域 */}
       <div data-trigger="content-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
         <div className="h-[28px] overflow-hidden">
           <div ref={leftTitleRef}>
@@ -329,8 +346,10 @@ export default function FeedbacksSection() {
         <p className="text-red-70 p-2">data-trigger=thanks-area</p>
       </div>
 
-      <div data-trigger="halftone-area" className="h-[100vh]">
+      <div data-trigger="halftone-area" className="h-[50vh]">
       </div>
+
+      {/* supoort內容 */}
       <div className="z-1 h-auto">
         <div className="relative debug flex flex-col items-center justify-center h-screen">
           <div>
@@ -357,6 +376,15 @@ export default function FeedbacksSection() {
             <h3 className="mb-2">支持報導者的定期定額贊助者</h3>
             <h6>和我們一起打造多元進步的公民社會</h6>
           </div>
+        </div>
+        <div data-trigger="bigger-circle" className="relative debug flex flex-col items-center justify-center h-screen">
+          <h4>
+            十週年限定贊助回饋
+          </h4>
+          <h5>
+            凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
+            即可在《報導者》十週年活動領取十週年限定紀念品
+          </h5>
         </div>
       </div>
     </section>
