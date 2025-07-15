@@ -70,14 +70,21 @@ export default function FeedbacksSection() {
       const horizontalSpacing = 25 * vw; // 圓心到圓心的水平距離
       const verticalSpacing = 18.75 * vw; // 列與列之間的距離
 
-      const rows = Math.ceil(canvas.height / verticalSpacing) + 2;
-      const cols = Math.ceil(canvas.width / horizontalSpacing) + 2;
+      // 計算視窗中心
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
 
-      // 繪製網格圓圈，從左上角開始
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const x = col * horizontalSpacing;
-          const y = row * verticalSpacing;
+      // 計算需要的行列數（從中心向外）
+      const halfCols = Math.ceil(centerX / horizontalSpacing) + 1;
+      const halfRows = Math.ceil(centerY / verticalSpacing) + 1;
+
+      // 從中心開始向外繪製
+      for (let row = -halfRows; row <= halfRows; row++) {
+        for (let col = -halfCols; col <= halfCols; col++) {
+          // 奇數列向右偏移半個水平間距
+          const xOffset = (row % 2) * (horizontalSpacing / 2);
+          const x = centerX + col * horizontalSpacing + xOffset;
+          const y = centerY + row * verticalSpacing;
 
           // 繪製紅色圓圈
           ctx.beginPath();
@@ -211,7 +218,7 @@ export default function FeedbacksSection() {
     <section
       // 頁面錨點 ID
       id="section-feedbacks"
-      className="w-full h-[500vh] text-white"
+      className="w-full h-[800vh] text-white"
     >
       {/* 內容區域 */}
       <div data-trigger="content-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
@@ -275,9 +282,9 @@ export default function FeedbacksSection() {
             <h3>感謝目前</h3>
             <h1>
               7964
-              <span className="text-xl">支持我們</span>
+              <span className="text-4xl font-bold">位</span>
             </h1>
-            <h3>定期定額贊助者</h3>
+            <h3 className="mb-2">定期定額贊助者</h3>
             <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
           </div>
         </div>
