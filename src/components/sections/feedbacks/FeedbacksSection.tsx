@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import { EffectCoverflow, Pagination } from "swiper/modules";
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { testimonials } from '@/data/testimonials';
 import { EffectCards } from "swiper/modules";
@@ -33,6 +32,8 @@ export default function FeedbacksSection() {
   const logoRef = useRef<HTMLImageElement>(null);
   // Halftone ref
   const halftoneRef = useRef<HTMLImageElement>(null);
+  // 背景圓圈 ref
+  const bgCircleRef = useRef<HTMLDivElement>(null);
 
   // 使用滾動觸發器來監控當前頁面位置
   useScrollTrigger({
@@ -41,6 +42,67 @@ export default function FeedbacksSection() {
     // 頁面名稱識別
     sectionName: 'feedbacks'
   });
+
+  // Canvas 繪製圓圈背景
+  useEffect(() => {
+    if (!bgCircleRef.current) return;
+
+    // 創建 Canvas
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // 設定 Canvas 尺寸
+    const updateCanvasSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawCircles();
+    };
+
+    // 繪製圓圈
+    const drawCircles = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 圓圈參數 (使用 vw 單位)
+      const vw = canvas.width / 100;
+      const circleDiameter = 12.5 * vw;
+      const circleRadius = circleDiameter / 2;
+      const horizontalSpacing = 25 * vw; // 圓心到圓心的水平距離
+      const verticalSpacing = 18.75 * vw; // 列與列之間的距離
+
+      const rows = Math.ceil(canvas.height / verticalSpacing) + 2;
+      const cols = Math.ceil(canvas.width / horizontalSpacing) + 2;
+
+      // 繪製網格圓圈，從左上角開始
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const x = col * horizontalSpacing;
+          const y = row * verticalSpacing;
+
+          // 繪製紅色圓圈
+          ctx.beginPath();
+          ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
+          ctx.fillStyle = '#F80B28';
+          ctx.fill();
+        }
+      }
+    };
+
+    // 設定 Canvas 樣式
+    canvas.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;';
+    bgCircleRef.current.appendChild(canvas);
+    updateCanvasSize();
+
+    // 監聽視窗變化
+    window.addEventListener('resize', updateCanvasSize);
+
+    return () => {
+      window.removeEventListener('resize', updateCanvasSize);
+      if (canvas.parentNode) {
+        canvas.parentNode.removeChild(canvas);
+      }
+    };
+  }, []);
 
   // 設定 GSAP ScrollTrigger 動畫
   useEffect(() => {
@@ -56,7 +118,7 @@ export default function FeedbacksSection() {
     // Swiper出現動畫
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '[data-trigger="testimonial-area"]',
+        trigger: '[data-trigger="content-area"]',
         start: 'top 20%',
         end: 'top 0%',
         scrub: true,
@@ -107,7 +169,7 @@ export default function FeedbacksSection() {
     }
 
     // 第三個動畫：halftone 放大
-    if (halftoneRef.current && logoRef.current && leftTitleRef.current && rightTitleRef.current) {
+    if (halftoneRef.current && logoRef.current && leftTitleRef.current && rightTitleRef.current && bgCircleRef.current) {
       const halftoneTl = gsap.timeline({
         scrollTrigger: {
           trigger: '[data-trigger="halftone-area"]',
@@ -131,6 +193,10 @@ export default function FeedbacksSection() {
         .to([logoRef.current, leftTitleRef.current, rightTitleRef.current], {
           display: 'none'
         }, '<')
+        .to(bgCircleRef.current.querySelector('canvas'), {
+          opacity: 1,
+          ease: 'power2.in'
+        }, '<')
     }
 
     // 清理函數
@@ -147,8 +213,8 @@ export default function FeedbacksSection() {
       id="section-feedbacks"
       className="w-full h-[500vh] text-white"
     >
-      {/* 讀者證言區域 */}
-      <div data-trigger="testimonial-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
+      {/* 內容區域 */}
+      <div data-trigger="content-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
         <div className="h-[28px] overflow-hidden">
           <div ref={leftTitleRef}>
             <h4 className="text-right leading-none">持續求真的路上</h4>
@@ -179,13 +245,21 @@ export default function FeedbacksSection() {
             </Swiper>
           </div>
         </div>
-        <img ref={halftoneRef} src="/assets/logo-halftone.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-        <img ref={logoRef} src="/assets/favicon.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <div className="h-[28px] overflow-hidden">
           <div ref={rightTitleRef}>
             <h4 className="text-left leading-none">感謝有眾聲同行</h4>
             <h4 className="text-left leading-none">才有報導者</h4>
           </div>
+        </div>
+
+
+        {/* 報導者LOGO */}
+        <img ref={halftoneRef} src="/assets/logo-halftone.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        <img ref={logoRef} src="/assets/favicon.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+
+
+        {/* 背景圓圈 */}
+        <div ref={bgCircleRef} className="w-full h-screen absolute top-0 left-0 -z-10">
         </div>
       </div>
 
@@ -194,7 +268,19 @@ export default function FeedbacksSection() {
       </div>
 
       <div data-trigger="halftone-area" className="h-[100vh] debug">
-        <p className="text-red-70 p-2">data-trigger=halftone-area</p>
+      </div>
+      <div className="sticky top-0 z-1 h-[200vh]">
+        <div className="flex flex-col items-center justify-center h-screen">
+          <div>
+            <h3>感謝目前</h3>
+            <h1>
+              7964
+              <span className="text-xl">支持我們</span>
+            </h1>
+            <h3>定期定額贊助者</h3>
+            <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
+          </div>
+        </div>
       </div>
     </section>
   );
