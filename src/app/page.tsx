@@ -14,7 +14,7 @@ import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
-import SupportSection from '@/components/sections/support/SupportSection';
+// import SupportSection from '@/components/sections/support/SupportSection';
 
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {
@@ -158,7 +158,7 @@ export default function Home() {
         <InnovationsSection />
         <ChallengesSection />
         <FeedbacksSection />
-        <SupportSection />
+        {/* <SupportSection /> */}
       </main>
 
       {/* 全域 UI 組件層：在所有內容之上 */}

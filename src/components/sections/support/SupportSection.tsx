@@ -91,7 +91,7 @@ export default function SupportSection() {
 
     // 複製引用以避免 cleanup 時的警告
     const element = supporterRef.current;
-    
+
     // 開始觀察指定的 DOM 元素
     if (element) {
       observer.observe(element);
@@ -114,9 +114,9 @@ export default function SupportSection() {
       1000: ['#4CAF50', '#9C27B0', '#E91E63'],
       3000: ['#c9a156', '#FF4081', '#3F51B5']
     } as const;
-    
+
     const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
-    
+
     // 根據金額取得對應的顏色配置，無對應時使用預設顏色
     const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
@@ -237,67 +237,39 @@ export default function SupportSection() {
   // 組件渲染輸出
   return (
     // 主要頁面區塊：支持頁面
-    <section
-      // 頁面錨點 ID
+    <div
       id="section-support"
       className="w-full min-h-screen text-white flex flex-col justify-center items-center px-8 py-20"
     >
-      {/* 標題區塊：說明支持的重要性 */}
-      <div className="text-center mb-8 leading-normal max-w-4xl">
-        <h1 className="text-white text-6xl my-4 leading-tight font-bold">
-          深度求真
-          <br />
-          眾聲同行
-        </h1>
-        <h3 className="text-white text-xl mb-2">獨立報導是民主社會的基石 <br />
-          為了讓《報導者》持續獨立運作、挖掘真相
-        </h3>
-        <h2 className="text-white text-2xl mb-4">在經費上我們需要提升小額捐款的比例</h2>
-        <h1 className="text-white text-4xl my-4 leading-tight font-bold">
-          號召至少10,000名 <br />
-          定期定額捐款支持的夥伴
-        </h1>
-        <h4 className="text-white text-xl">幫助我們度過下一個十年的種種挑戰</h4>
-      </div>
-      <div className="text-center mb-8 leading-normal max-w-4xl">
-        <h1 className="text-white text-4xl my-4 leading-tight font-bold">
-          十週年限定贊助回饋
-        </h1>
-        <h3 className="text-white text-xl mb-2">
-          凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
-          即可在《報導者》十週年活動領取十週年限定紀念品
-        </h3>
-        <button className="bg-gray-300 text-black py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10">
-          了解詳情
-        </button>
-      </div>
 
       {/* 進度條區域：視覺化顯示目前支持進度 */}
-      <div className="w-4/5 max-w-[1000px] h-6 bg-gray-800 rounded-xl overflow-hidden relative shadow-[0_0_20px_5px_rgba(201,161,86,0.3)] mb-4">
-        {/* 進度條內部填充：根據達成百分比動態調整寬度 */}
-        <div
-          className="h-full bg-[#c9a156] rounded-xl absolute top-0 left-0 transition-all duration-500 ease-in-out"
-          style={{ width: `${progressPercentage}%` }}
-        ></div>
-      </div>
+      {/* <div className="w-4/5 max-w-[1000px] h-6 bg-gray-800 rounded-xl overflow-hidden relative shadow-[0_0_20px_5px_rgba(201,161,86,0.3)] mb-4"> */}
+      {/* 進度條內部填充：根據達成百分比動態調整寬度 */}
+      {/* <div
+            className="h-full bg-[#c9a156] rounded-xl absolute top-0 left-0 transition-all duration-500 ease-in-out"
+            style={{ width: `${progressPercentage}%` }}
+          ></div>
+        </div> */}
 
       {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
       {/* 綁定 ref 用於動畫觸發偵測 */}
-      <div ref={supporterRef} className="text-center mb-8">
+      <div ref={supporterRef} className="text-center">
         <p className="text-white text-base mb-6 opacity-80">
           現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
         </p>
 
         {/* 主要呼籲標題 */}
-        <h1 className="text-white text-5xl font-bold mb-4">
-          成為第{displayNextSupporterNumber.toLocaleString()}位定期定額支持者
-        </h1>
+        <h3 className="text-white">
+          成為 <br />
+          第<span className="text-8xl font-normal">{displayNextSupporterNumber.toLocaleString()}</span>位<br />
+          定期定額支持者
+        </h3>
       </div>
 
       {/* 副標題：情感呼籲 */}
-      <p className="text-white text-2xl mb-12 max-w-[700px] text-gray-300 text-center">
+      <h6 className="text-white max-w-[700px]">
         和我們一起開創深度報導的媒體道路
-      </p>
+      </h6>
 
       {/* 表單區域：金額選擇與輸入 */}
       <div className="flex flex-col items-center w-full max-w-[700px]">
@@ -354,6 +326,6 @@ export default function SupportSection() {
           立即支持
         </button>
       </div>
-    </section>
+    </div>
   );
 }
