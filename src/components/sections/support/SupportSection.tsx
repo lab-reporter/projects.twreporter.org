@@ -15,21 +15,12 @@ export default function SupportSection() {
 
   // 狀態變數：目前的支持者總數（固定數值，不會改變）
   const [finalSupporterCount] = useState(7964);
-  // 狀態變數：動畫過程中顯示的支持人數（從0開始遞增）
-  const [displaySupporterCount, setDisplaySupporterCount] = useState(0);
   // 狀態變數：動畫過程中顯示的下一位支持者序號
   const [displayNextSupporterNumber, setDisplayNextSupporterNumber] = useState(1);
   // 狀態變數：記錄數字動畫是否已經執行過
   const [animationStarted, setAnimationStarted] = useState(false);
   // DOM 元素參考：用於偵測元素是否進入視窗範圍
   const supporterRef = useRef(null);
-
-  // 計算值：下一位支持者的序號（當前支持者數量加一）
-  // const finalNextSupporterNumber = finalSupporterCount + 1;
-  // 常數：目標支持者人數上限
-  const targetSupporters = 10000;
-  // 計算值：目前進度的百分比（用於進度條顯示）
-  const progressPercentage = (finalSupporterCount / targetSupporters) * 100;
 
   // 常數：預設的金額選項按鈕
   const amountOptions = [500, 1000, 3000];
@@ -72,8 +63,6 @@ export default function SupportSection() {
               onUpdate: function () {
                 // 取得當前動畫數值（無條件捨去）
                 const currentCount = Math.floor(this.targets()[0].count);
-                // 更新顯示的支持者人數
-                setDisplaySupporterCount(currentCount);
                 // 更新顯示的下一位支持者序號
                 setDisplayNextSupporterNumber(currentCount + 1);
               }
