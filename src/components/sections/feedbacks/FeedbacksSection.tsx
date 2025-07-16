@@ -170,7 +170,7 @@ export default function FeedbacksSection() {
         // markers: false,
         onUpdate: (self) => {
           // 從 1 到 2 倍的平滑變化
-          circleScale.current = 1 + self.progress * 3;
+          circleScale.current = 1 + self.progress * 5;
           drawCircles();
         }
       }
@@ -295,6 +295,7 @@ export default function FeedbacksSection() {
     >
       {/* feedback內容區域 */}
       <div data-trigger="content-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
+        {/* 左側標題 */}
         <div className="h-[28px] overflow-hidden">
           <div ref={leftTitleRef}>
             <h4 className="text-right leading-none">持續求真的路上</h4>
@@ -302,7 +303,9 @@ export default function FeedbacksSection() {
           </div>
         </div>
         {/* swiper容器 */}
-        <div ref={swiperContainerRef} className="px-4 flex flex-col items-center justify-center">
+        <div ref={swiperContainerRef}
+          className="px-4 flex flex-col items-center justify-center"
+          data-custom-cursor="grab">
           <div ref={swiperRef}>
             <Swiper
               effect={"cards"}
@@ -324,7 +327,11 @@ export default function FeedbacksSection() {
               ))}
             </Swiper>
           </div>
+          <p className="text-sm text-gray-700 mt-2">
+            grab to switch
+          </p>
         </div>
+        {/* 右側標題 */}
         <div className="h-[28px] overflow-hidden">
           <div ref={rightTitleRef}>
             <h4 className="text-left leading-none">感謝有眾聲同行</h4>
@@ -343,8 +350,9 @@ export default function FeedbacksSection() {
         </div>
       </div>
 
+      {/* 切換到「因為有你們才有報導者」 */}
       <div data-trigger="thanks-area" className="h-[50vh]">
-        <p className="text-red-70 p-2">data-trigger=thanks-area</p>
+        {/* <p className="text-red-70 p-2">data-trigger=thanks-area</p> */}
       </div>
 
       <div data-trigger="halftone-area" className="h-[50vh]">

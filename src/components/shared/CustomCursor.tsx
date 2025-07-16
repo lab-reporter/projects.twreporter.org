@@ -13,37 +13,42 @@ const cursorConfigs: Record<string, CursorConfig> = {
   explore: {
     text: "EXPLORE",
     className:
-      "bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
   view: {
     text: "VIEW",
-    className: "bg-black text-white p-2 text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+    className: "translate-x-1/2 translate-y-1/2 bg-black text-white p-2 text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
   read: {
     text: "READ MORE",
     className:
-      "bg-blue-500 text-white px-3 py-1 text-xs font-medium rounded shadow-lg w-[120px] h-10 flex items-center justify-center",
+      "translate-x-1/2 translate-y-1/2 bg-blue-500 text-white px-3 py-1 text-xs font-medium rounded shadow-lg w-[120px] h-10 flex items-center justify-center",
   },
   play: {
     text: "PLAY",
     className:
-      "bg-red-500 text-white p-2 text-sm font-medium rounded-full shadow-lg w-[82px] h-10 flex items-center justify-center",
+      "translate-x-1/2 translate-y-1/2 bg-red-500 text-white p-2 text-sm font-medium rounded-full shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
   prev: {
     text: "PREV",
     className:
-      "bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
   next: {
     text: "NEXT",
     className:
-      "bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
+  },
+  grab: {
+    text: "GRAB",
+    className:
+      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
   },
 };
 
 const defaultCursor: CursorConfig = {
   text: "",
-  className: "bg-transparent text-transparent text-[1px] w-0 h-0 ",
+  className: "bg-transparent text-transparent text-[1px] w-0 h-0",
   // className:
   // "bg-transparent text-transparent text-[1px] w-6 h-6 rounded-[12px] backdrop-invert",
 };
