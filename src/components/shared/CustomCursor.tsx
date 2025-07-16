@@ -9,7 +9,7 @@ interface CursorConfig {
 }
 
 // 預設的 cursor 樣式
-const defaultCursorClassName = "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center";
+const defaultCursorClassName = "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg px-4 py-2 flex items-center justify-center";
 
 const defaultCursor: CursorConfig = {
   text: "",
@@ -52,7 +52,7 @@ export default function CustomCursor() {
   // shared detection logic
   const detectCursorAt = (x: number, y: number): CursorConfig => {
     const el = document.elementFromPoint(x, y) as HTMLElement | null;
-    
+
     // 檢查 data-custom-cursor 屬性
     const customCursorEl = el?.closest("[data-custom-cursor]") as HTMLElement | null;
     if (customCursorEl) {
@@ -60,7 +60,7 @@ export default function CustomCursor() {
       const className = customCursorEl.getAttribute("data-cursor-class") || defaultCursorClassName;
       return { text, className };
     }
-    
+
     // fallback
     return defaultCursor;
   };

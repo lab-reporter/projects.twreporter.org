@@ -55,12 +55,12 @@
   }
 
   h5 {
-    font-weight: 600;
+    font-weight: 500;
     @apply text-h5-mobile md:text-h5-tablet lg:text-h5-desktop;
   }
 
   h6 {
-    font-weight: 700;
+    font-weight: 500;
     @apply text-h6-mobile md:text-h6-tablet lg:text-h6-desktop;
   }
 
