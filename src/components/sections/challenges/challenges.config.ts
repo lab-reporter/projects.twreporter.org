@@ -82,7 +82,7 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
   {
     id: 'challenge-1-photo-1',
     imagePath: '/assets/challenges/challenge-1/challenge-1-1.jpg',
-    position: { top: "60%", left: "60%" },
+    position: { top: "55%", left: "55%" },
     triggerRange: { startIndex: 0.25, endIndex: 1.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
@@ -90,29 +90,29 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     id: 'challenge-1-photo-2',
     imagePath: '/assets/challenges/challenge-1/challenge-1-2.jpg',
     position: { top: "40%", left: "45%" },
-    triggerRange: { startIndex: 0.25, endIndex: 1.25 },
+    triggerRange: { startIndex: 0.35, endIndex: 1.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 2 照片 - 在 1.25-2.25 的範圍內出現
   {
     id: 'challenge-2-photo-1',
     imagePath: '/assets/challenges/challenge-2/challenge-2-1.jpg',
-    position: { top: "40%", left: "60%" },
+    position: { top: "40%", left: "55%" },
     triggerRange: { startIndex: 1.25, endIndex: 2.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   {
     id: 'challenge-2-photo-2',
     imagePath: '/assets/challenges/challenge-2/challenge-2-2.jpg',
-    position: { top: "60%", left: "45%" },
-    triggerRange: { startIndex: 1.25, endIndex: 2.25 },
+    position: { top: "55%", left: "45%" },
+    triggerRange: { startIndex: 1.35, endIndex: 2.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 3 照片 - 在 2.25-3.25 的範圍內出現
   {
     id: 'challenge-3-photo-1',
     imagePath: '/assets/challenges/challenge-3/challenge-3-1.jpg',
-    position: { top: "60%", left: "60%" },
+    position: { top: "55%", left: "55%" },
     triggerRange: { startIndex: 2.25, endIndex: 3.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
@@ -120,22 +120,22 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     id: 'challenge-3-photo-2',
     imagePath: '/assets/challenges/challenge-3/challenge-3-2.jpg',
     position: { top: "40%", left: "45%" },
-    triggerRange: { startIndex: 2.25, endIndex: 3.25 },
+    triggerRange: { startIndex: 2.35, endIndex: 3.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 4 照片 - 在 3.25-4.25 的範圍內出現
   {
     id: 'challenge-4-photo-1',
     imagePath: '/assets/challenges/challenge-4/challenge-4-1.jpg',
-    position: { top: "40%", left: "60%" },
+    position: { top: "40%", left: "55%" },
     triggerRange: { startIndex: 3.25, endIndex: 4.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   {
     id: 'challenge-4-photo-2',
     imagePath: '/assets/challenges/challenge-4/challenge-4-2.jpg',
-    position: { top: "60%", left: "45%" },
-    triggerRange: { startIndex: 3.25, endIndex: 4.25 },
+    position: { top: "55%", left: "45%" },
+    triggerRange: { startIndex: 3.35, endIndex: 4.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 5 缺少照片，但仍保持連續性
@@ -143,15 +143,15 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
   {
     id: 'challenge-6-photo-1',
     imagePath: '/assets/challenges/challenge-6/challenge-6-1.jpg',
-    position: { top: "40%", left: "60%" },
+    position: { top: "40%", left: "55%" },
     triggerRange: { startIndex: 5.25, endIndex: 6.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   {
     id: 'challenge-6-photo-2',
     imagePath: '/assets/challenges/challenge-6/challenge-6-2.jpg',
-    position: { top: "60%", left: "45%" },
-    triggerRange: { startIndex: 5.25, endIndex: 6.25 },
+    position: { top: "55%", left: "45%" },
+    triggerRange: { startIndex: 5.35, endIndex: 6.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 7 照片 - 在 6.25-7.25 的範圍內出現
@@ -165,30 +165,30 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
   {
     id: 'challenge-7-photo-2',
     imagePath: '/assets/challenges/challenge-7/challenge-7-2.jpg',
-    position: { top: "60%", left: "60%" },
-    triggerRange: { startIndex: 6.25, endIndex: 7.25 },
+    position: { top: "55%", left: "55%" },
+    triggerRange: { startIndex: 6.35, endIndex: 7.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 8 照片 - 在 7.25-8.25 的範圍內出現
   {
     id: 'challenge-8-photo-1',
     imagePath: '/assets/challenges/challenge-8/challenge-8-1.jpg',
-    position: { top: "60%", left: "45%" },
+    position: { top: "55%", left: "45%" },
     triggerRange: { startIndex: 7.25, endIndex: 8.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   {
     id: 'challenge-8-photo-2',
     imagePath: '/assets/challenges/challenge-8/challenge-8-2.jpg',
-    position: { top: "40%", left: "60%" },
-    triggerRange: { startIndex: 7.25, endIndex: 8.25 },
+    position: { top: "40%", left: "55%" },
+    triggerRange: { startIndex: 7.35, endIndex: 8.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 9 照片 - 在 8.25-9.25 的範圍內出現
   {
     id: 'challenge-9-photo-1',
     imagePath: '/assets/challenges/challenge-9/challenge-9-1.jpg',
-    position: { top: "60%", left: "60%" },
+    position: { top: "55%", left: "55%" },
     triggerRange: { startIndex: 8.25, endIndex: 9.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
@@ -196,21 +196,21 @@ export const CHALLENGE_PHOTOS: PhotoItemConfig[] = [
     id: 'challenge-9-photo-2',
     imagePath: '/assets/challenges/challenge-9/challenge-9-2.jpg',
     position: { top: "40%", left: "45%" },
-    triggerRange: { startIndex: 8.25, endIndex: 9.25 },
+    triggerRange: { startIndex: 8.35, endIndex: 9.35 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   // Challenge 10 照片 - 在 9.25-10.25 的範圍內出現
   {
     id: 'challenge-10-photo-1',
     imagePath: '/assets/challenges/challenge-10/challenge-10-1.jpg',
-    position: { top: "40%", left: "60%" },
+    position: { top: "40%", left: "55%" },
     triggerRange: { startIndex: 9.25, endIndex: 10.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   },
   {
     id: 'challenge-10-photo-2',
     imagePath: '/assets/challenges/challenge-10/challenge-10-2.jpg',
-    position: { top: "60%", left: "45%" },
+    position: { top: "55%", left: "45%" },
     triggerRange: { startIndex: 9.25, endIndex: 10.25 },
     animationConfig: DEFAULT_ANIMATION_CONFIG
   }

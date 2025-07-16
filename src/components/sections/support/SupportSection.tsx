@@ -272,20 +272,20 @@ export default function SupportSection() {
       </h6>
 
       {/* 表單區域：金額選擇與輸入 */}
-      <div className="flex flex-col items-center w-full max-w-[700px]">
+      <div className="flex flex-col items-center w-auto max-w-[700px]">
         {/* 表單標籤：說明捐款類型 */}
-        <div className="text-lg mb-6 bg-gray-200 text-black py-3 px-8 rounded-full">
+        <div className="text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
           每月定額
         </div>
 
         {/* 預設金額按鈕群組 */}
-        <div className="flex justify-center gap-4 mb-6 w-full">
+        <div className="flex justify-center gap-2 mb-2 w-full">
           {amountOptions.map((amount) => (
             <button
               key={amount}
               type="button"
               onClick={() => handleAmountSelection(amount)}
-              className={`flex-1 max-w-[150px] py-3 px-6 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
+              className={`flex-1 max-w-[150px] py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
                 ? "bg-red-70 border border-red-70"
                 : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
                 }`}

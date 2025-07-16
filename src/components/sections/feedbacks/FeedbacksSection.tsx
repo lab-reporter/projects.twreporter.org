@@ -150,7 +150,7 @@ export default function FeedbacksSection() {
         start: 'top 50%',
         end: 'top 20%',
         scrub: true,
-        markers: false,
+        // markers: false,
         onUpdate: (self) => {
           // 根據滾動進度調整透明度
           grayCircleOpacity.current = self.progress;
@@ -167,7 +167,7 @@ export default function FeedbacksSection() {
         start: 'top 50%',
         end: 'bottom 50%',
         scrub: true,
-        markers: false,
+        // markers: false,
         onUpdate: (self) => {
           // 從 1 到 2 倍的平滑變化
           circleScale.current = 1 + self.progress * 3;
@@ -202,7 +202,7 @@ export default function FeedbacksSection() {
         start: 'top 20%',
         end: 'top 0%',
         scrub: true,
-        markers: true,
+        // markers: true,
       }
     });
 
@@ -222,7 +222,7 @@ export default function FeedbacksSection() {
           start: 'top 20%',
           end: 'top 0%',
           scrub: true,
-          markers: false,
+          // markers: false,
         }
       });
 
@@ -256,7 +256,7 @@ export default function FeedbacksSection() {
           start: 'top 20%',
           end: 'bottom 20%',
           scrub: true,
-          markers: false,
+          // markers: false,
         }
       });
 
