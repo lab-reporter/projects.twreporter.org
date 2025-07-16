@@ -305,7 +305,7 @@ export default function FeedbacksSection() {
         {/* swiper容器 */}
         <div ref={swiperContainerRef}
           className="px-4 flex flex-col items-center justify-center"
-          data-custom-cursor="grab">
+          data-custom-cursor="GRAB">
           <div ref={swiperRef}>
             <Swiper
               effect={"cards"}

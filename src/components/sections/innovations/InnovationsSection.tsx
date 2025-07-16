@@ -108,7 +108,7 @@ function InnovationVideoItem({
     <div
       id={`innovation-item-${item.id}`}
       className="absolute top-1/2 left-1/2 cursor-pointer will-change-transform"
-      data-custom-cursor="explore"
+      data-custom-cursor="VIEW"
       style={{
         transformOrigin: 'center center',
         width: '800px',

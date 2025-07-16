@@ -8,49 +8,12 @@ interface CursorConfig {
   style?: React.CSSProperties;
 }
 
-// 預設的 cursor 配置
-const cursorConfigs: Record<string, CursorConfig> = {
-  explore: {
-    text: "EXPLORE",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-  view: {
-    text: "VIEW",
-    className: "translate-x-1/2 translate-y-1/2 bg-black text-white p-2 text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-  read: {
-    text: "READ MORE",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-blue-500 text-white px-3 py-1 text-xs font-medium rounded shadow-lg w-[120px] h-10 flex items-center justify-center",
-  },
-  play: {
-    text: "PLAY",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-red-500 text-white p-2 text-sm font-medium rounded-full shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-  prev: {
-    text: "PREV",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-  next: {
-    text: "NEXT",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-  grab: {
-    text: "GRAB",
-    className:
-      "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center",
-  },
-};
+// 預設的 cursor 樣式
+const defaultCursorClassName = "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center";
 
 const defaultCursor: CursorConfig = {
   text: "",
   className: "bg-transparent text-transparent text-[1px] w-0 h-0",
-  // className:
-  // "bg-transparent text-transparent text-[1px] w-6 h-6 rounded-[12px] backdrop-invert",
 };
 
 const useAnimationFrame = (callback: (deltaTime: number) => void) => {
@@ -89,22 +52,16 @@ export default function CustomCursor() {
   // shared detection logic
   const detectCursorAt = (x: number, y: number): CursorConfig => {
     const el = document.elementFromPoint(x, y) as HTMLElement | null;
-    // 1) check for named cursors
-    for (const [key, cfg] of Object.entries(cursorConfigs)) {
-      if (el?.closest(`[data-custom-cursor="${key}"]`)) {
-        return cfg;
-      }
+    
+    // 檢查 data-custom-cursor 屬性
+    const customCursorEl = el?.closest("[data-custom-cursor]") as HTMLElement | null;
+    if (customCursorEl) {
+      const text = customCursorEl.getAttribute("data-custom-cursor")!;
+      const className = customCursorEl.getAttribute("data-cursor-class") || defaultCursorClassName;
+      return { text, className };
     }
-    // 2) check for arbitrary data-cursor-text
-    const custom = el?.closest("[data-cursor-text]") as HTMLElement | null;
-    if (custom) {
-      const text = custom.getAttribute("data-cursor-text")!;
-      const cls =
-        custom.getAttribute("data-cursor-class") ||
-        "bg-white border border-black p-2 text-sm font-medium shadow-lg";
-      return { text, className: cls };
-    }
-    // 3) fallback
+    
+    // fallback
     return defaultCursor;
   };
 

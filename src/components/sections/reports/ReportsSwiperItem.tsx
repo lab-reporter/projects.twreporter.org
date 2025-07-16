@@ -82,7 +82,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
       className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100"
       style={{ backgroundColor: bgColor || '#F1F1F1', cursor: 'pointer' }}
       onClick={handleClick}
-      data-custom-cursor="explore"
+      data-custom-cursor="VIEW"
     >
       {/* 媒體內容 */}
       <div className="w-full h-full overflow-hidden relative bg-white" style={{ cursor: 'none' }}>

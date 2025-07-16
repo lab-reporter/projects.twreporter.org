@@ -10,78 +10,73 @@
 組件已在 `src/app/layout.tsx` 中全域引入，無需額外配置。
 
 ### 基本使用
-只需在任何 HTML 元素上添加相應的 `data` 屬性即可觸發客製化游標。
+只需在任何 HTML 元素上添加 `data-custom-cursor` 屬性即可觸發客製化游標。
 
 ## 📋 使用方式
 
-### 方式一：預設配置
+### 基本用法
 
-組件內建了 4 種預設樣式，直接使用：
+直接在元素上添加 `data-custom-cursor` 屬性，值為要顯示的文字：
 
 ```tsx
-// 1. EXPLORE - 白色背景黑色邊框
-<div data-custom-cursor="explore">
+// 顯示 EXPLORE
+<div data-custom-cursor="EXPLORE">
   <img src="image.jpg" alt="圖片" />
 </div>
 
-// 2. VIEW - 黑色背景白色文字
-<div data-custom-cursor="view">
+// 顯示 VIEW
+<div data-custom-cursor="VIEW">
   <img src="gallery.jpg" alt="查看圖片" />
 </div>
 
-// 3. READ MORE - 藍色圓角背景
-<button data-custom-cursor="read">
+// 顯示 READ MORE
+<button data-custom-cursor="READ MORE">
   閱讀更多
 </button>
 
-// 4. PLAY - 紅色圓形背景
-<video data-custom-cursor="play">
+// 顯示 PLAY
+<video data-custom-cursor="PLAY">
   <source src="video.mp4" />
 </video>
 ```
 
-### 方式二：完全自定義
+### 自定義樣式
+
+如果需要自定義游標樣式，可以使用 `data-cursor-class` 屬性：
 
 ```tsx
-// 自定義文字和樣式
+// 使用自定義樣式
 <div 
-  data-cursor-text="DOWNLOAD"
+  data-custom-cursor="DOWNLOAD"
   data-cursor-class="bg-green-500 text-white px-4 py-2 rounded-lg font-bold"
 >
   下載檔案
 </div>
 
-// 只自定義文字，使用預設樣式
-<div data-cursor-text="CLICK ME">
-  點擊我
-</div>
-
 // 使用 Tailwind CSS 創建獨特樣式
 <button
-  data-cursor-text="BUY NOW"
+  data-custom-cursor="BUY NOW"
   data-cursor-class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 text-xs uppercase tracking-wide rounded-full shadow-xl"
 >
   購買商品
 </button>
 ```
 
-## 🎨 預設樣式配置
+## 🎨 預設樣式
 
-| 類型 | 文字 | 樣式描述 |
-|------|------|----------|
-| `explore` | EXPLORE | 白色背景，黑色邊框，陰影 |
-| `view` | VIEW | 黑色背景，白色文字，陰影 |
-| `read` | READ MORE | 藍色背景，白色文字，圓角 |
-| `play` | PLAY | 紅色背景，白色文字，圓形 |
+如果不指定 `data-cursor-class`，游標會使用以下預設樣式：
+- 白色背景
+- 黑色邊框
+- 14px 字體
+- 中等字重
+- 陰影效果
+- 82px 寬度 x 40px 高度
+- 文字居中對齊
 
 ## 📝 HTML 屬性說明
 
-### 預設配置屬性
-- `data-custom-cursor="類型名稱"` - 使用預設配置（explore, view, read, play）
-
-### 自定義配置屬性
-- `data-cursor-text="文字內容"` - 自定義顯示文字
-- `data-cursor-class="CSS類別"` - 自定義樣式類別（支援 Tailwind CSS）
+- `data-custom-cursor="文字內容"` - 設定游標顯示的文字（必填）
+- `data-cursor-class="CSS類別"` - 自定義樣式類別（選填，支援 Tailwind CSS）
 
 ## 💡 進階使用
 
@@ -89,11 +84,11 @@
 客製化游標支援任何深度的 DOM 嵌套：
 
 ```tsx
-<div data-custom-cursor="explore">
+<div data-custom-cursor="EXPLORE">
   <div className="content-wrapper">
     <img src="photo.jpg" />
     <h3>標題</h3>
-    <p>描述文字</p> {/* 這裡 hover 也會觸發 explore 游標 */}
+    <p>描述文字</p> {/* 這裡 hover 也會觸發 EXPLORE 游標 */}
   </div>
 </div>
 ```
@@ -103,15 +98,15 @@
 
 ```tsx
 <section>
-  <div data-custom-cursor="explore">
+  <div data-custom-cursor="EXPLORE">
     <img src="image1.jpg" />
   </div>
   
-  <div data-custom-cursor="play">
+  <div data-custom-cursor="PLAY">
     <video src="video.mp4" />
   </div>
   
-  <div data-cursor-text="SPECIAL" data-cursor-class="bg-yellow-400 text-black">
+  <div data-custom-cursor="SPECIAL" data-cursor-class="bg-yellow-400 text-black">
     特殊區域
   </div>
 </section>
@@ -123,7 +118,7 @@
 ```tsx
 // React 組件中
 <div 
-  data-custom-cursor="explore"
+  data-custom-cursor="EXPLORE"
   style={{ cursor: 'none' }}
   className="hover-element"
 >
@@ -145,6 +140,7 @@
 - **CSS 靈活性**：完全支援 Tailwind CSS 和自定義樣式
 - **TypeScript 支援**：完整的類型定義
 - **無副作用**：組件卸載時自動清理監聽器
+- **平滑動畫**：使用 lerp 插值實現流暢的跟隨效果
 
 ## 📊 使用範例
 
@@ -152,7 +148,7 @@
 ```tsx
 // src/components/sections/reports/ReportsSwiperItem.tsx
 <div
-  data-custom-cursor="explore"
+  data-custom-cursor="EXPLORE"
   style={{ cursor: 'none' }}
   onClick={handleClick}
 >
@@ -161,31 +157,49 @@
 </div>
 ```
 
-### Modal 內容區域
+### Modal 導航控制
 ```tsx
-// 可以在 Modal 內容中使用不同的游標
-<div data-cursor-text="閱讀完整報導" data-cursor-class="bg-blue-600 text-white px-3 py-1 rounded">
-  <a href="/full-article">查看更多</a>
+// src/components/modal/shared/NavigationControls.tsx
+<div
+  data-custom-cursor="PREV"
+  onClick={() => onNavigate('prev')}
+>
+  上一則內容
+</div>
+
+<div
+  data-custom-cursor="NEXT"
+  onClick={() => onNavigate('next')}
+>
+  下一則內容
 </div>
 ```
 
-## 🎯 擴展方式
-
-如需新增預設樣式，在 `CustomCursor.tsx` 的 `cursorConfigs` 中添加：
-
+### Challenges Section
 ```tsx
-const cursorConfigs: Record<string, CursorConfig> = {
-  // 現有配置...
-  
-  // 新增自定義配置
-  download: {
-    text: 'DOWNLOAD',
-    className: 'bg-green-500 text-white p-2 text-sm font-medium rounded shadow-lg'
-  }
-};
+// src/components/sections/challenges/ChallengeItem.tsx
+<div
+  data-custom-cursor="VIEW"
+  style={{ cursor: 'pointer' }}
+  onClick={() => onClick(title)}
+>
+  查看挑戰故事
+</div>
 ```
 
-然後就可以使用：
+### Feedbacks Section
 ```tsx
-<div data-custom-cursor="download">下載區域</div>
+// src/components/sections/feedbacks/FeedbacksSection.tsx
+<div data-custom-cursor="GRAB">
+  {/* Swiper 可拖曳區域 */}
+</div>
+```
+
+## 🛠️ 修改預設樣式
+
+如需修改預設樣式，請編輯 `CustomCursor.tsx` 中的 `defaultCursorClassName`：
+
+```tsx
+// 預設的 cursor 樣式
+const defaultCursorClassName = "translate-x-1/2 translate-y-1/2 bg-white border border-black text-sm font-medium shadow-lg w-[82px] h-10 flex items-center justify-center";
 ```

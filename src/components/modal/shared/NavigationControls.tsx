@@ -69,7 +69,7 @@ export default function NavigationControls({
       <div
         className="flex-1 bg-white rounded-lg overflow-hidden border-[1px] border-gray-200 hover:border-gray-600 transition-colors duration-300 cursor-pointer group"
         onClick={() => onNavigate?.(direction)}
-        data-custom-cursor={direction}
+        data-custom-cursor="VIEW"
       >
 
         <div className={`flex h-full ${isNext ? 'flex-row-reverse' : ''}`}>
