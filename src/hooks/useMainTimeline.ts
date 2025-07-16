@@ -159,6 +159,47 @@ export const useMainTimeline = () => {
         });
     };
 
+    // OpeningSection 容器淡出動畫
+    const addOpeningSectionFadeOut = (timeline: gsap.core.Timeline, startTime: number = 0) => {
+        const openingSection = document.querySelector('#section-opening');
+        if (openingSection) {
+            // 淡出整個 Opening Section
+            timeline.to(openingSection,
+                {
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        // 動畫完成後完全隱藏元素並釋放資源
+                        gsap.set(openingSection, { 
+                            visibility: 'hidden',
+                            pointerEvents: 'none',
+                            display: 'none'  // 完全移除渲染
+                        });
+                        
+                        // 清理所有照片引用，釋放記憶體
+                        Object.values(openingPhotosRef.current).forEach(photos => {
+                            photos.forEach((_, index) => {
+                                photos[index] = null;
+                            });
+                        });
+                        
+                        // 停用所有 3D 相關的樣式
+                        const container3D = openingSection.querySelector('[style*="perspective"]');
+                        if (container3D) {
+                            gsap.set(container3D, {
+                                transformStyle: 'flat',
+                                perspective: 'none',
+                                transform: 'none'
+                            });
+                        }
+                    }
+                },
+                startTime
+            );
+        }
+    };
+
     // 導航動畫
     const addNavigationAnimation
         = (timeline: gsap.core.Timeline, startTime: number = 0) => {
@@ -254,12 +295,14 @@ export const useMainTimeline = () => {
         addPhotosEntranceAnimation(tl, TIMELINE_CONFIG.PHOTOS_ENTRANCE_START);
 
         // 🚀 階段2: 照片離場 + Nav上移 (3.0s 開始)
-        // 注意：移除了 addOpeningSectionFadeOut，保持 3D 立方體容器可見
         addPhotosExitAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // 照片離場動畫
         addNavigationAnimation(tl, TIMELINE_CONFIG.PHOTOS_EXIT_START);     // Navigation 往上移動
 
         // 📝 階段3: Reports標題淡入 (3.5s 開始，延遲0.5s)
         addReportsHeadingAnimation(tl, TIMELINE_CONFIG.REPORTS_HEADING_START); // Reports 標題淡入
+        
+        // 🎬 階段4: OpeningSection 容器淡出 (3.5s 開始，與 Reports 標題同時)
+        addOpeningSectionFadeOut(tl, TIMELINE_CONFIG.REPORTS_HEADING_START);   // 整個開場區塊淡出
 
         timelineRef.current = tl;
         isAnimationStartedRef.current = true;

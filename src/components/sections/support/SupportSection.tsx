@@ -254,12 +254,12 @@ export default function SupportSection() {
       {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
       {/* 綁定 ref 用於動畫觸發偵測 */}
       <div ref={supporterRef} className="text-center">
-        <p className="text-white text-base mb-6 opacity-80">
+        {/* <p className="text-white text-base mb-6 opacity-80">
           現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
-        </p>
+        </p> */}
 
         {/* 主要呼籲標題 */}
-        <h3 className="text-white">
+        <h3 className="text-white leading-normal">
           成為 <br />
           第<span className="text-8xl font-normal">{displayNextSupporterNumber.toLocaleString()}</span>位<br />
           定期定額支持者
@@ -267,7 +267,7 @@ export default function SupportSection() {
       </div>
 
       {/* 副標題：情感呼籲 */}
-      <h6 className="text-white max-w-[700px]">
+      <h6 className="text-white mt-2 mb-4 max-w-[700px]">
         和我們一起開創深度報導的媒體道路
       </h6>
 
@@ -286,7 +286,7 @@ export default function SupportSection() {
               type="button"
               onClick={() => handleAmountSelection(amount)}
               className={`flex-1 max-w-[150px] py-3 px-6 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
-                ? "bg-gray-300 text-black"
+                ? "bg-red-70 border border-red-70"
                 : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
                 }`}
             >
