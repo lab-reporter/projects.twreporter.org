@@ -132,7 +132,8 @@ export default function Home() {
       {/* OpeningSpline 移到最外層，確保最高層級 */}
       <main className="w-full h-screen overflow-hidde m-0">
         <Spline
-          scene="https://prod.spline.design/r238ZLkUTwD7XGEN/scene.splinecode"
+          scene="scene.splinecode"
+          wasmPath="/"
         />
       </main>
 
