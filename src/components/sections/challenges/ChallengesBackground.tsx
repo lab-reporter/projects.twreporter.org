@@ -30,11 +30,11 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
           // 使用連續的 scrollProgress 來計算每張照片的進度
           const startProgress = photo.triggerRange.startIndex;
           const endProgress = photo.triggerRange.endIndex;
-          
+
           // 計算照片在其觸發範圍內的進度
           let progress = 0;
           let hasPassedRange = false;
-          
+
           if (scrollProgress >= startProgress && scrollProgress <= endProgress) {
             // 在範圍內：計算 0-1 的進度
             progress = (scrollProgress - startProgress) / (endProgress - startProgress);
@@ -43,7 +43,7 @@ const ChallengesBackground = forwardRef<HTMLDivElement, ChallengesBackgroundProp
             progress = 1;
             hasPassedRange = true;
           }
-          
+
           const isActive = progress > 0 && !hasPassedRange;
 
           return (

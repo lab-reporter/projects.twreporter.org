@@ -13,14 +13,14 @@ export default function EventSection() {
                 <div>
                     <img src="/assets/event_exhibition.jpg" alt="報導者十週年特展" />
                     <div className="mt-4">
-                        <p>Exhibition</p>
+                        <p className="mb-2 text-red-70">Exhibition</p>
                         <h4>報導者十週年特展</h4>
-                        <h6>
+                        <h6 className="leading-relaxed">
                             2025.12.04(THU.)–07(SUN.) <br />
                             11:00 - 19:00 <br />
                             華山1914文創園區 中4A館
                         </h6>
-                        <button>
+                        <button className="px-2 py-2 bg-gray-700 mt-4 leading-non ">
                             免費參觀
                         </button>
                     </div>
@@ -28,14 +28,14 @@ export default function EventSection() {
                 <div>
                     <img src="/assets/event_party.jpg" alt="報導者十週年特展" />
                     <div className="mt-4">
-                        <p>Party</p>
+                        <p className="mb-2 text-red-70">Party</p>
                         <h4>報導者十週年晚會</h4>
-                        <h6>
+                        <h6 className="leading-relaxed">
                             2025.12.06(SAT) <br />
                             19:00 - 21:30    <br />
                             華山1914文創園區 中4A館
                         </h6>
-                        <button>
+                        <button className="px-2 py-2 bg-gray-700 mt-4 leading-non ">
                             免費參觀
                         </button>
                     </div>

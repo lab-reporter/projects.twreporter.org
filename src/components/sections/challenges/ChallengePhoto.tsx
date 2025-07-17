@@ -38,7 +38,7 @@ const ChallengePhoto = memo(({
     z: startZ,
     scale: 0
   });
-  
+
   // RAF ref
   const rafRef = useRef<number | undefined>(undefined);
 
@@ -74,7 +74,7 @@ const ChallengePhoto = memo(({
     const updateAnimation = () => {
       const element = cardRef.current;
       if (!element) return;
-      
+
       const state = animationStateRef.current;
 
       // 計算新的動畫值
