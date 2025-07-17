@@ -12,34 +12,34 @@ interface UseScrollTriggerOptions {
 // 找出目前視窗中最合適的章節
 const findActiveSection = (): string | null => {
   // 排除 opening，因為它是 fixed 定位
-  const sections = ['reports', 'innovations', 'challenges', 'feedbacks', 'support'];
-  
+  const sections = ['reports', 'innovations', 'challenges', 'feedbacks', 'event', 'support'];
+
   // 視窗中心點
   const viewportCenter = window.innerHeight / 2;
   let closestSection: { name: string; distance: number } | null = null;
-  
+
   // 不再返回 opening，因為它是 fixed 定位且 SectionNavigation 只在動畫後顯示
   // 預設返回 reports
   if (window.scrollY < window.innerHeight * 0.5) {
     return 'reports';
   }
-  
+
   for (const sectionName of sections) {
     const element = document.getElementById(`section-${sectionName}`);
     if (element) {
       const rect = element.getBoundingClientRect();
-      
+
       // 檢查章節是否在視窗內
       if (rect.top < window.innerHeight && rect.bottom > 0) {
         // 優先選擇頂部在視窗上半部的章節
         if (rect.top >= 0 && rect.top < viewportCenter) {
           return sectionName;
         }
-        
+
         // 計算章節中心到視窗中心的距離
         const sectionCenter = rect.top + rect.height / 2;
         const distance = Math.abs(sectionCenter - viewportCenter);
-        
+
         // 找出最接近視窗中心的章節
         if (!closestSection || distance < closestSection.distance) {
           closestSection = { name: sectionName, distance };
@@ -47,7 +47,7 @@ const findActiveSection = (): string | null => {
       }
     }
   }
-  
+
   // 如果找到最接近的章節就返回，否則預設返回 reports
   return closestSection?.name || 'reports';
 };

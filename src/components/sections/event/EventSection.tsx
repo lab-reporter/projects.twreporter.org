@@ -2,7 +2,7 @@
 
 export default function EventSection() {
     return (
-        <section className="w-full min-h-screen text-white flex flex-col items-center justify-center">
+        <section id="section-event" className="w-full min-h-screen text-white flex flex-col items-center justify-center">
 
             <h3 className="text-center mb-16">
                 走進現場 <br />

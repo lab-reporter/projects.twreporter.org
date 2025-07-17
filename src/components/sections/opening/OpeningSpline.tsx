@@ -62,8 +62,10 @@ function SplineWrapper({ onLoaded }: SplineWrapperProps) {
 
 export default function OpeningSpline() {
     const [isVisible, setIsVisible] = useState(true);
+    const [isFading, setIsFading] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const timerRef = useRef<NodeJS.Timeout>();
+    const fadeTimerRef = useRef<NodeJS.Timeout>();
 
     useEffect(() => {
         setIsMounted(true);
@@ -73,14 +75,22 @@ export default function OpeningSpline() {
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
             }
+            if (fadeTimerRef.current) {
+                clearTimeout(fadeTimerRef.current);
+            }
         };
     }, []);
 
-    // Spline 載入完成後啟動 15 秒計時器
+    // Spline 載入完成後啟動 12 秒計時器
     const handleSplineLoaded = () => {
         timerRef.current = setTimeout(() => {
-            setIsVisible(false);
-        }, 12000); // 15 秒後自動隱藏
+            // 開始淡出動畫
+            setIsFading(true);
+            // 1 秒後完全隱藏
+            fadeTimerRef.current = setTimeout(() => {
+                setIsVisible(false);
+            }, 1000);
+        }, 12000); // 12 秒後開始淡出
     };
 
     // 手動點擊 SKIP
@@ -88,7 +98,14 @@ export default function OpeningSpline() {
         if (timerRef.current) {
             clearTimeout(timerRef.current);
         }
-        setIsVisible(false);
+        if (fadeTimerRef.current) {
+            clearTimeout(fadeTimerRef.current);
+        }
+        // 立即開始淡出
+        setIsFading(true);
+        setTimeout(() => {
+            setIsVisible(false);
+        }, 300); // 快速淡出
     };
 
     if (!isVisible) return null;
@@ -102,13 +119,16 @@ export default function OpeningSpline() {
     }
 
     return (
-        <div className="w-full h-screen fixed z-[99999] overflow-hidden m-0 bg-black">
+        <div
+            className={`w-full h-screen fixed z-[99999] overflow-hidden m-0 bg-black transition-opacity ${isFading ? 'opacity-0 duration-1000' : 'opacity-100'
+                }`}
+        >
             <div className="w-full h-full overflow-hidden m-0">
                 <SplineWrapper onLoaded={handleSplineLoaded} />
             </div>
             <button
                 onClick={handleSkip}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[99999] bg-black text-white px-4 py-2 rounded-md hover:bg-gray-200 transition-colors"
+                className="absolute leading-none bottom-4 right-4 z-[99999] bg-[rgba(0,0,0,0.5)] backdrop-blur-lg text-gray-200 px-2 py-2 text-sm hover:bg-gray-800 hover:text-white transition-colors"
             >
                 SKIP
             </button>
