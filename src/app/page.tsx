@@ -16,6 +16,7 @@ import InnovationsSection from '@/components/sections/innovations/InnovationsSec
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
+import Spline from '@splinetool/react-spline/next';
 // import SupportSection from '@/components/sections/support/SupportSection';
 
 // 主頁面組件：報導者十週年回顧網站
@@ -128,19 +129,24 @@ export default function Home() {
   // 組件渲染輸出
   return (
     <div className="relative w-full">
+      {/* OpeningSpline 移到最外層，確保最高層級 */}
+      <main className="w-full h-screen overflow-hidde m-0">
+        <Spline
+          scene="https://prod.spline.design/r238ZLkUTwD7XGEN/scene.splinecode"
+        />
+      </main>
+
       {/* 載入畫面：網站初始化時顯示 - 暫時停用 */}
       {/* <LoadingScreen /> */}
 
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
-        <OpeningSpline />
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />
         <FeedbacksSection />
         <EventSection />
         {/* <SupportSection /> */}
-
       </main>
 
       {/* 全域 UI 組件層：在所有內容之上 */}
