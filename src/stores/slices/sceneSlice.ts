@@ -38,8 +38,8 @@ export const sceneSlice: StateCreator<
   cameraTarget: [0, 0, 0],
   cameraFOV: 75,
   
-  isLoading: true,
-  loadingProgress: 0,
+  isLoading: false, // 預設為 false，直接顯示內容
+  loadingProgress: 1, // 預設為已完成
   
   fps: 60,
   memoryUsage: 0,

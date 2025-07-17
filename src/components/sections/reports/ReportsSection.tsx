@@ -28,8 +28,8 @@ export default function ReportsSection() {
       id="section-reports"
       className="relative w-full h-auto text-black flex flex-col items-center justify-center"
     >
-      {/* 章節標題區域：給主時間軸使用的 ID */}
-      <div id="reports-section-heading" style={{ opacity: 0 }}>
+      {/* 章節標題區域 */}
+      <div id="reports-section-heading">
         <SectionHeadings
           titleEn="IMPACT"
           titleZh="深度報導・影響力"

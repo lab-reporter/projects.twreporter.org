@@ -1,15 +1,16 @@
 'use client';
 
-import { useStore } from '@/stores';
+// import { useStore } from '@/stores';
 import { useEffect, useRef } from 'react';
-import { useMainTimeline } from '@/hooks/useMainTimeline';
+// import { useMainTimeline } from '@/hooks/useMainTimeline';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
-import LoadingScreen from '@/components/LoadingScreen';
+// import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
 import NextSectionButton from '@/components/NextSectionButton';
-import OpeningSection from '@/components/sections/opening/OpeningSection';
+// import OpeningSection from '@/components/sections/opening/OpeningSection';
+import OpeningSpline from '@/components/sections/opening/OpeningSpline';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
@@ -20,13 +21,13 @@ import EventSection from '@/components/sections/event/EventSection';
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {
   // 從全域狀態取得目前頁面章節和載入狀態
-  const { isLoading } = useStore();
+  // const { isLoading } = useStore();
   // DOM 元素參考：主要內容區域，用於背景顏色動畫
   const mainRef = useRef<HTMLElement>(null);
-  // 主動畫時間軸
-  const { startMainTimeline, cleanup } = useMainTimeline();
+  // 主動畫時間軸 - 暫時停用
+  // const { startMainTimeline, cleanup } = useMainTimeline();
   // 防止重複觸發
-  const animationTriggeredRef = useRef(false);
+  // const animationTriggeredRef = useRef(false);
 
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
@@ -46,36 +47,14 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []); // 空依賴，只在組件首次載入時執行
 
-  // 動畫期間禁止捲動的控制
-  useEffect(() => {
-    if (!isLoading && !animationTriggeredRef.current) {
-      animationTriggeredRef.current = true;
-
-      // 開始動畫前：禁止頁面捲動
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-
-      // 載入完成後延遲啟動動畫，確保所有組件已渲染
-      const startTimer = setTimeout(() => {
-        startMainTimeline();
-      }, 1000); // 1秒延遲
-
-      // 動畫結束後：恢復頁面捲動（總時間：1秒延遲 + 4.5秒動畫 = 5.5秒）
-      const endTimer = setTimeout(() => {
-        // 移除 overflow 設定，讓 CSS 接管
-        document.body.style.removeProperty('overflow');
-        document.documentElement.style.removeProperty('overflow');
-      }, 5500); // 5.5秒後恢復捲動
-
-      return () => {
-        clearTimeout(startTimer);
-        clearTimeout(endTimer);
-        // 清理時也要恢復捲動
-        document.body.style.removeProperty('overflow');
-        document.documentElement.style.removeProperty('overflow');
-      };
-    }
-  }, [isLoading, startMainTimeline]);
+  // 載入完成後的捲動控制 - 暫時停用
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     // 載入完成後，確保頁面可以捲動
+  //     document.body.style.removeProperty('overflow');
+  //     document.documentElement.style.removeProperty('overflow');
+  //   }
+  // }, [isLoading]);
 
   // 初始化 GSAP 動畫套件和 ScrollTrigger 滾動觸發器
   useEffect(() => {
@@ -136,7 +115,7 @@ export default function Home() {
 
     // 清理函數：組件卸載時移除背景動畫觸發器
     return () => {
-      cleanup(); // 清理主時間軸
+      // cleanup(); // 清理主時間軸
       if (typeof window !== 'undefined') {
         import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
           ScrollTrigger.getById('main-background-animation')?.kill();
@@ -144,17 +123,17 @@ export default function Home() {
       }
     };
     // 空依賴陣列：只在組件首次載入時執行
-  }, [cleanup]);
+  }, []);
 
   // 組件渲染輸出
   return (
     <div className="relative w-full">
-      {/* 載入畫面：網站初始化時顯示 */}
-      <LoadingScreen />
+      {/* 載入畫面：網站初始化時顯示 - 暫時停用 */}
+      {/* <LoadingScreen /> */}
 
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
-        <OpeningSection />
+        <OpeningSpline />
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />

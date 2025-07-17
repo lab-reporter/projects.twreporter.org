@@ -8,21 +8,19 @@ import { gsap } from 'gsap';
 // 主導航組件
 const Navigation = () => {
   // 從全域狀態取得當前章節
-  const { currentSection, isLoading } = useStore();
+  const { currentSection } = useStore();
   const navRef = useRef<HTMLDivElement>(null);
-  
-  // 設定初始狀態：載入時居中放大
+
+  // 設定初始狀態：直接顯示在正常位置
   useEffect(() => {
     if (navRef.current) {
-      if (isLoading) {
-        // 載入時：居中放大
-        gsap.set(navRef.current, {
-          top: '50vh',
-          transform: 'translateY(-50%) scale(1.5)'
-        });
-      }
+      // 設定正常位置
+      gsap.set(navRef.current, {
+        top: '3rem',
+        transform: 'translateY(0) scale(1)'
+      });
     }
-  }, [isLoading]);
+  }, []);
 
   // 根據當前章節決定使用哪個 logo
   // Reports/Innovations/Challenges 使用 light logo (預設)
