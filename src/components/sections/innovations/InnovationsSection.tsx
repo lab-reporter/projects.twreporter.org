@@ -479,7 +479,7 @@ export default function InnovationsSection() {
 
     // 複製引用以避免 cleanup 時的警告
     const cacheRef = elementRefsCache.current;
-    
+
     return () => {
       scrollTrigger.kill();
       cacheRef.clear();

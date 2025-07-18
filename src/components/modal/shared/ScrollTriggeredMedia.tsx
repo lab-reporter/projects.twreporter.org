@@ -65,7 +65,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
         }
 
         return ScrollTrigger.create({
-          // 觸發元素：對應的文字區塊
+          // 觸發元素：對應的文字區塊https://img.freepik.com/3d-models/v2/H/U/3/E/H/W/C/HU3EHWC7/emergency-stretcher-poster-1.png?t=st=1752809963~exp=1752813563~hmac=4ba27584c30c47f3ff68d6c0a95b7ecdf06f1be124f1e5c1fc5c1e83305711c2&w=1000
           trigger: textElement,
           // 指定滾動容器：使用找到的容器，如果找不到則使用默認（window）
           scroller: actualScrollContainer || undefined,
@@ -73,7 +73,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           start: 'top 50%',
           // 結束觸發點：文字區塊中心點離開容器中心向上
           end: 'top 20%',
-          markers: true,
+          // markers: true,
           // 進入時執行：切換到對應媒體
           onEnter: () => {
             setCurrentMediaId(block.mediaId);
