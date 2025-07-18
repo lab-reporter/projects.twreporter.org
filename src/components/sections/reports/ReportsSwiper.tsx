@@ -52,8 +52,8 @@ export default function ReportsSwiper() {
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
         enabled: isClient && isVisible,
-        rangeMin: 42,
-        rangeMax: 58,
+        rangeMin: 47,
+        rangeMax: 53,
         useLerp: true,
         lerpFactor: 0.1
     });

@@ -99,9 +99,9 @@ export default function SupportSection() {
   const fireConfetti = useCallback((amount: number) => {
     // 將常數移入 useCallback 內部以避免依賴警告
     const CONFETTI_COLORS = {
-      500: ['#FFC107', '#FF5722', '#03A9F4'],
-      1000: ['#4CAF50', '#9C27B0', '#E91E63'],
-      3000: ['#c9a156', '#FF4081', '#3F51B5']
+      500: ['#edc39d', '#9e7a4e', '#493018'],
+      1000: ['#6ee5b5', '#3c927a', '#0e3532'],
+      3000: ['#f80b28', '#c40d23', '#9b051e']
     } as const;
 
     const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
