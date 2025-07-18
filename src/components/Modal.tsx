@@ -153,7 +153,7 @@ export default function Modal() {
           modalContentId={modal.contentId || undefined}
           onClose={closeModal}
         >
-          <div className="sidepanel-content bg-white">{renderContent()}</div>
+          <div className="sidepanel-content bg-gray-100">{renderContent()}</div>
         </ModalScrollManager>
       </div>
     </>

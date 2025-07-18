@@ -29,6 +29,16 @@ export default function Reports7Content({ projectData, onNavigate, adjacentProje
           ]}
         />
 
+        <Shared.ReportsStickyPhoto
+          imgSrcs={[
+            "/assets/reports/report-7/report-7-1.webp",
+            "/assets/reports/report-7/report-7-2.webp",
+            "/assets/reports/report-7/report-7-3.webp",
+            "/assets/reports/report-7/report-7-4.webp",
+            "/assets/reports/report-7/report-7-5.webp"
+          ]}
+        />
+
         {/* 導言 */}
         <Shared.TextContent>
           <div className="space-y-4">

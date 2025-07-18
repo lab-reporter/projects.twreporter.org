@@ -67,7 +67,7 @@ export default function NavigationControls({
 
     return (
       <div
-        className="flex-1 bg-white rounded-lg overflow-hidden border-[1px] border-gray-200 hover:border-gray-600 transition-colors duration-300 cursor-pointer group"
+        className="flex-1 rounded-md overflow-hidden border-[1px] border-gray-200 hover:border-gray-600 transition-colors duration-300 cursor-pointer group"
         onClick={() => onNavigate?.(direction)}
         data-custom-cursor="VIEW"
       >
@@ -124,7 +124,7 @@ export default function NavigationControls({
   };
 
   return (
-    <div className={`w-full flex items-center relative z-10 py-40 ${className}`}>
+    <div className={`w-full h-screen flex items-center relative z-10 ${className}`}>
       <div className="max-w-7xl mx-auto px-6">
         {/* 導航預覽區域 */}
         <div className="flex gap-8">

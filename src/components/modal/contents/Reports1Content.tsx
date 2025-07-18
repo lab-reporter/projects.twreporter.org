@@ -39,6 +39,7 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
           ]}
         />
 
+        ``
         <Shared.ReportsStickyPhoto
           imgSrcs={[
             "/assets/reports/report-1/report-1-1.webp",

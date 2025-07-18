@@ -34,13 +34,14 @@ export default function ReportsStickyPhoto({ imgSrcs, alts }: ReportsStickyPhoto
     return (
         <div className="w-full relative">
             {imgSrcs.map((imgSrc, index) => (
-                <div key={index} className="w-full h-screen sticky top-0 flex justify-center items-center">
-                    <Image 
-                        src={imgSrc} 
-                        alt={alts?.[index] || `reports-photo-${index + 1}`} 
-                        width={2000} 
-                        height={1333} 
-                        className={`w-full h-auto ${getRotationClass(index)}`}
+                <div key={index}
+                    className="w-full h-screen sticky top-0 flex justify-center items-center">
+                    <Image
+                        src={imgSrc}
+                        alt={alts?.[index] || `reports-photo-${index + 1}`}
+                        width={2000}
+                        height={1333}
+                        className={`w-full h-auto border border-4 border-white shadow-lg ${getRotationClass(index)}`}
                     />
                 </div>
             ))}
