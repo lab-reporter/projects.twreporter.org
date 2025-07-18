@@ -45,7 +45,14 @@ export const useChallengesScroll = ({
 
       // 計算當前項目索引和連續進度
       const totalProjects = challengeProjects.length;
-      const rawProgress = adjustedProgress * totalProjects;
+      
+      // 調整進度計算以補償額外的空白區域
+      // 我們有 12 個區塊的寬度，但只有 11 個實際內容
+      // 所以需要將 adjustedProgress 映射到正確的範圍
+      const contentRatio = 11 / 12; // 實際內容佔總寬度的比例
+      const scaledProgress = Math.min(adjustedProgress / contentRatio, 1);
+      
+      const rawProgress = scaledProgress * totalProjects;
       const currentProjectIndex = Math.min(Math.floor(rawProgress), totalProjects - 1);
       
       // 更新索引參考

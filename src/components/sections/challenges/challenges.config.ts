@@ -45,7 +45,8 @@ export const PHOTO_CONFIG: PhotoConfig = {
 // 滾動參數計算
 export const calculateScrollParams = (projectCount: number) => {
   const contentSections = projectCount + 1; // +1 for intro section
-  const CONTAINER_WIDTH_VW = contentSections * 100;
+  const extraSections = 1; // +1 for extra space
+  const CONTAINER_WIDTH_VW = (contentSections + extraSections) * 100;
   const moveDistanceVW = CONTAINER_WIDTH_VW - 100;
 
   return {
@@ -64,7 +65,7 @@ export const calculateScrollParams = (projectCount: number) => {
 // ScrollTrigger 配置
 export const SCROLL_CONFIG = {
   startBuffer: 0.05,
-  endBuffer: 0.05,
+  endBuffer: 0,  // 移除結尾緩衝區，讓動畫可以完整執行到最後
   scrub: 1
 };
 

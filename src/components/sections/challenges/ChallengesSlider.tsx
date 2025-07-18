@@ -31,6 +31,9 @@ export default function ChallengesSlider({
           onClick={onChallengeClick}
         />
       ))}
+      
+      {/* 額外的空白區域，讓最後一個項目可以完全滾出畫面 */}
+      <div className="w-screen flex-shrink-0" />
     </div>
   );
 }

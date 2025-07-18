@@ -35,9 +35,9 @@ export default function ChallengesSection() {
     cssProperty: 'perspectiveOrigin'
   });
 
-  // 計算容器高度：(挑戰數量 + 1) * 100vh
+  // 計算容器高度：(挑戰數量 + 2) * 100vh
   const containerHeight = useMemo(() => {
-    const totalSections = challengeProjects.length + 1; // +1 for intro
+    const totalSections = challengeProjects.length + 2; // +1 for intro, +1 for extra space
     return `${totalSections * 100}vh`;
   }, [challengeProjects.length]);
 
