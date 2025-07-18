@@ -18,9 +18,17 @@ interface SplineWrapperProps {
 }
 
 function SplineWrapper({ onLoaded }: SplineWrapperProps) {
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isSplineLoaded, setIsSplineLoaded] = useState(false);
+    const [isMinTimeElapsed, setIsMinTimeElapsed] = useState(false);
+    const [showSpline, setShowSpline] = useState(false);
 
     useEffect(() => {
+        // 設定最小顯示時間計時器（1.5秒）
+        const minTimeTimer = setTimeout(() => {
+            setIsMinTimeElapsed(true);
+        }, 1500);
+
+        // 載入 Spline
         const script = document.createElement('script');
         script.type = 'module';
         script.innerHTML = `
@@ -32,22 +40,31 @@ function SplineWrapper({ onLoaded }: SplineWrapperProps) {
 
         const checkLoaded = setInterval(() => {
             if ((window as any).splineLoaded) {
-                setIsLoaded(true);
+                setIsSplineLoaded(true);
                 clearInterval(checkLoaded);
-                onLoaded();
             }
         }, 100);
 
         return () => {
+            clearTimeout(minTimeTimer);
             clearInterval(checkLoaded);
             document.head.removeChild(script);
         };
-    }, [onLoaded]);
+    }, []);
 
-    if (!isLoaded) {
+    // 當兩個條件都滿足時，顯示 Spline 並觸發 onLoaded
+    useEffect(() => {
+        if (isSplineLoaded && isMinTimeElapsed && !showSpline) {
+            setShowSpline(true);
+            onLoaded();
+        }
+    }, [isSplineLoaded, isMinTimeElapsed, showSpline, onLoaded]);
+
+    if (!showSpline) {
         return (
-            <div className="w-full h-screen flex items-center justify-center bg-black text-white">
-                Loading...
+            <div className="w-full h-screen flex flex-col items-center justify-center bg-black text-white">
+                <h4>報導者十週年</h4>
+                <h5>深度求真　眾聲同行</h5>
             </div>
         );
     }
@@ -113,7 +130,8 @@ export default function OpeningSpline() {
     if (!isMounted) {
         return (
             <div className="w-full h-screen fixed z-[99999] flex items-center justify-center bg-black text-white">
-                Loading...
+                <h4>報導者十週年</h4>
+                <h5>深度求真　眾聲同行</h5>
             </div>
         );
     }
