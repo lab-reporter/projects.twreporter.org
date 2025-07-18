@@ -8,6 +8,7 @@ import { EffectCards } from "swiper/modules";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SupportSection from "../support/SupportSection";
+import Image from "next/image";
 
 // 註冊 GSAP ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -127,7 +128,7 @@ export default function FeedbacksSection() {
 
             ctx.beginPath();
             ctx.arc(x, y, circleRadius, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(51, 51, 51, ${grayCircleOpacity.current})`;
+            ctx.strokeStyle = `rgba(100, 100, 100, ${grayCircleOpacity.current})`;
             ctx.lineWidth = 2;
             ctx.stroke();
           }
@@ -360,6 +361,7 @@ export default function FeedbacksSection() {
 
       {/* feedback過渡到supoort內容 */}
       <div className="z-1 h-auto">
+        {/* 感謝目前贊助者 */}
         <div className="relative flex flex-col items-center justify-center h-screen">
           <div>
             <h3>感謝目前</h3>
@@ -371,6 +373,7 @@ export default function FeedbacksSection() {
             <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
           </div>
         </div>
+        {/* 號招更多贊助者 */}
         <div data-trigger="show-hidden-circle" className="relative flex flex-col items-center justify-center h-screen">
           <div>
             <h5>
@@ -386,14 +389,21 @@ export default function FeedbacksSection() {
             <h6>和我們一起打造多元進步的公民社會</h6>
           </div>
         </div>
+        {/* 十週年限定贊助回饋 */}
         <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
-          <h4>
+          <Image
+            src="/assets/gift.png"
+            width={1000}
+            height={1000}
+            alt="十週年限定贊助回饋"
+            className="w-full h-auto max-w-[30rem]" />
+          <h4 className="mb-2 font-bold">
             十週年限定贊助回饋
           </h4>
-          <h5>
+          <h6 className="leading-relaxed">
             凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
             即可在《報導者》十週年活動領取十週年限定紀念品
-          </h5>
+          </h6>
         </div>
       </div>
 

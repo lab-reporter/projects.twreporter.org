@@ -263,7 +263,7 @@ export default function SupportSection() {
       {/* 表單區域：金額選擇與輸入 */}
       <div className="flex flex-col items-center w-auto max-w-[700px]">
         {/* 表單標籤：說明捐款類型 */}
-        <div className="text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
+        <div className="font-noto-sans-tc text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
           每月定額
         </div>
 
@@ -275,8 +275,8 @@ export default function SupportSection() {
               type="button"
               onClick={() => handleAmountSelection(amount)}
               className={`flex-1 max-w-[150px] py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
-                ? "bg-red-70 border border-red-70"
-                : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
+                ? "bg-red-70 border-red-70"
+                : "bg-transparent border border-2 border-gray-700 text-white hover:border-gray-300"
                 }`}
             >
               {amount}
@@ -285,16 +285,16 @@ export default function SupportSection() {
         </div>
 
         {/* 自訂金額輸入區域 */}
-        <div className="flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
+        <div className="font-noto-sans-tc  flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
           <input
             type="text"
             value={customAmount}
             onChange={handleCustomAmountChange}
             placeholder="自訂金額"
-            className="w-full bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
+            className="w-full text-xl bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
           />
           {/* 金額單位標示 */}
-          <span className="absolute right-4 text-gray-500">元/月</span>
+          <span className="font-noto-sans-tc absolute right-4 text-gray-500">元/月</span>
         </div>
 
         {/* 錯誤訊息顯示區域（條件渲染） */}
@@ -307,7 +307,7 @@ export default function SupportSection() {
           type="button"
           onClick={handleSupport}
           disabled={!canSupport}
-          className={`rounded-full py-3 px-10 text-lg transition-all duration-300 mt-4 relative z-10 ${canSupport
+          className={`py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10 ${canSupport
             ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
             : "bg-gray-800 text-gray-500 cursor-not-allowed"
             }`}
