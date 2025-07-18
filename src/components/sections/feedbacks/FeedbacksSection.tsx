@@ -294,7 +294,7 @@ export default function FeedbacksSection() {
       className="w-full h-[800vh] text-white"
     >
       {/* feedback內容區域 */}
-      <div data-trigger="content-area" className="h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
+      <div data-trigger="content-area" className="overflow-hidden h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
         {/* 左側標題 */}
         <div className="h-[28px] overflow-hidden">
           <div ref={leftTitleRef}>
