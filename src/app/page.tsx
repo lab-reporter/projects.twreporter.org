@@ -12,6 +12,7 @@ import NextSectionButton from '@/components/NextSectionButton';
 // import OpeningSection from '@/components/sections/opening/OpeningSection';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
+import ReportsSectionOrigin from '@/components/sections/reports/ReportsSectionOrigin';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
@@ -137,7 +138,14 @@ export default function Home() {
 
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
+        {/* 報導章節 - 可以切換或同時顯示兩個版本 */}
+
+        {/* 拖曳版本（新版） */}
         <ReportsSection />
+
+        {/* 滾動版本（原始版） - 取消註解來顯示 */}
+        {/* <ReportsSectionOrigin /> */}
+
         <InnovationsSection />
         <ChallengesSection />
         <FeedbacksSection />
