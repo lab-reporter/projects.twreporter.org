@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 專案概覽
 
 **報導者十週年回顧網站 (2D 版本)**
-- 技術架構: Next.js 15 + TypeScript + Tailwind CSS + GSAP
+- 技術架構: Next.js 15.3.4 + React 19 + TypeScript + Tailwind CSS + GSAP 3.13
+- 狀態管理: Zustand 5.0.5 + Immer
 - 開發分支: `dev-2d`
 - 開發環境: http://localhost:3001
 - GitHub: https://github.com/itisalongway574/r3f-10th-repo
@@ -26,7 +27,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 開發指令
 
 ```bash
-# 套件管理器：使用 pnpm
+# 套件管理器：使用 pnpm（推薦）或 npm
 pnpm install          # 安裝依賴
 pnpm add [package]    # 新增套件
 pnpm update          # 更新套件
@@ -43,9 +44,12 @@ pnpm start
 # ESLint 檢查
 pnpm lint
 
-# 類型檢查（需手動新增到 package.json）
+# 類型檢查（手動執行）
 npx tsc --noEmit
-# 或新增 script: "type-check": "tsc --noEmit"
+
+# 特殊指令
+pnpm setup           # 複製專案到 ../copy 目錄
+pnpm sync-copy       # 同步 copy 目錄與當前狀態
 ```
 
 ## 高階架構
@@ -98,6 +102,14 @@ interface Project {
 - 套件優化：gsap, zustand
 - 圖片格式：支援 WebP/AVIF
 - 圖片快取：1 年 TTL
+- Turbopack: 開發環境啟用
+
+### Tailwind 配置
+- 自訂色彩系統（CSS 變數）
+- 響應式字型系統（h1-h6 變體）
+- 自訂字型：Noto Serif/Sans TC, Roboto Slab, Alverata
+- 隱藏捲軸工具類別
+- 3D 變換工具類別
 
 ## 實驗性功能
 
@@ -106,6 +118,29 @@ interface Project {
 - 測試頁面：`/test-spline`
 - 使用 Web Component 避免 async 組件問題
 - 當前實作：12 秒後自動淡出，1 秒過渡動畫
+
+## 主要依賴套件
+
+### 核心框架
+- **Next.js 15.3.4**: App Router, Turbopack
+- **React 19**: 最新版本特性
+- **TypeScript 5**: 類型安全
+- **Tailwind CSS 3.4**: 原子化 CSS
+- **GSAP 3.13**: 進階動畫庫
+- **Zustand 5.0.5**: 狀態管理
+- **Immer 10.1**: 不可變狀態更新
+
+### UI 與動畫
+- **@splinetool/react-spline**: 3D 場景整合
+- **Swiper 11.2**: 輪播功能
+- **Lucide React**: 圖標系統
+- **Canvas Confetti**: 慶祝特效
+- **Lottie React**: 動畫支援
+
+### 待移除（3D 版本遺留）
+- @react-three/fiber
+- @react-three/drei
+- three
 
 ## AI 助手工作規範
 
@@ -223,6 +258,21 @@ git commit -m "fix: 更新 pnpm-lock.yaml"
 - 確認 display 屬性
 - 使用 fixed positioning
 - 考慮 Web Component 載入時序
+
+## 測試策略
+
+目前專案**尚未配置測試框架**。建議：
+- 單元測試：Vitest 或 Jest
+- E2E 測試：Playwright
+- 組件測試：React Testing Library
+
+## 分支策略
+
+- `main`: 生產環境程式碼
+- `dev-2d`: 當前 2D 開發（獨立分支）
+- `dev-3d`: 舊版 3D 版本（保留）
+
+注意：dev-2d 不應直接合併到 main，需特別確認。
 
 ## 相關資源
 - 開發紀錄: [DEVELOPMENT_LOG.md](./DEVELOPMENT_LOG.md)

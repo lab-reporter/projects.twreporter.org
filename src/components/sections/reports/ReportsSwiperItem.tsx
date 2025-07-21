@@ -79,24 +79,32 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
 
   return (
     <div
-      className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100"
-      style={{ backgroundColor: bgColor || '#F1F1F1', cursor: 'pointer' }}
+      className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100 select-none"
+      style={{ 
+        backgroundColor: bgColor || '#F1F1F1', 
+        cursor: 'pointer',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none'
+      }}
       onClick={handleClick}
       data-custom-cursor="VIEW"
     >
       {/* 媒體內容 */}
-      <div className="w-full h-full overflow-hidden relative bg-white" style={{ cursor: 'none' }}>
+      <div className="w-full h-full overflow-hidden relative bg-white select-none" style={{ cursor: 'none', userSelect: 'none' }}>
         {isVideo ? (
           <video
             ref={videoRef}
             src={path}
-            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'none' }}
+            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out select-none ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' }}
             muted
             loop
             playsInline
             preload="auto"
             onLoadedData={handleMediaLoad}
+            draggable={false}
           />
         ) : (
           <Image
@@ -105,11 +113,12 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
             width={500}
             height={500}
             quality={75}
-            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'none' }}
+            className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out select-none ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' }}
             onLoad={handleMediaLoad}
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            draggable={false}
           />
         )}
       </div>

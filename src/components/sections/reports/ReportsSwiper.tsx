@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
@@ -41,6 +41,36 @@ export default function ReportsSwiper() {
     const [isClient, setIsClient] = useState(false);
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
+
+    // 拖曳相關狀態
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [dragDelta, setDragDelta] = useState(0);
+    const [previewSlide, setPreviewSlide] = useState(0); // 預覽時的項目索引
+    const dragThreshold = 50; // 觸發切換的最小拖曳距離
+
+    // 使用 ref 來存儲不需要觸發重新渲染的值
+    const currentSlideRef = useRef(currentSlide);
+    const isDraggingRef = useRef(isDragging);
+    const startXRef = useRef(startX);
+    const dragDeltaRef = useRef(dragDelta);
+
+    // 更新 ref 的值
+    useEffect(() => {
+        currentSlideRef.current = currentSlide;
+    }, [currentSlide]);
+
+    useEffect(() => {
+        isDraggingRef.current = isDragging;
+    }, [isDragging]);
+
+    useEffect(() => {
+        startXRef.current = startX;
+    }, [startX]);
+
+    useEffect(() => {
+        dragDeltaRef.current = dragDelta;
+    }, [dragDelta]);
 
     // 可見性偵測
     const { elementRef: observerRef, isVisible } = useIntersectionObserver({
@@ -120,13 +150,10 @@ export default function ReportsSwiper() {
         };
     }, []); // 空依賴陣列：只在組件載入時執行一次
 
-    // 副作用：設定 3D 輪播的滾動觸發動畫
+    // 副作用：設定 3D 輪播的初始狀態（只執行一次）
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
         if (typeof window === 'undefined' || !isClient) return;
-
-        // 註冊 ScrollTrigger 外掛程式
-        gsap.registerPlugin(ScrollTrigger);
 
         // 取得所需的 DOM 元素參考
         const sliderWrapper = sliderWrapperRef.current;
@@ -144,77 +171,205 @@ export default function ReportsSwiper() {
             scale: 1
         });
 
-        // 建立滾動觸發器：控制 3D 輪播旋轉動畫
-        const trigger = ScrollTrigger.create({
-            // 觸發元素：整個章節區域
-            trigger: section,
-            // 開始觸發點：章節頂部到達視窗頂部
-            start: 'top top',
-            // 結束觸發點：章節底部離開視窗底部
-            end: 'bottom bottom',
-            // 動畫與滾動同步程度（數值越大越平滑）
-            scrub: 2,
-            // 滾動更新時的回調函數
-            onUpdate: (self) => {
-                // 計算輪播項目的總數量
-                const totalItems = reportsData.length;
-                // 計算每個項目間的角度間隔
-                const anglePerItem = 360 / totalItems;
-
-                // 設定滾動範圍的緩衝區域（避免過快切換）
-                const startBuffer = 0.025;
-                const endBuffer = 0.025;
-                const activeRange = 1 - startBuffer - endBuffer;
-
-                // 初始化當前項目索引
-                let currentIndex = 0;
-
-                // 根據滾動進度計算當前應顯示的項目
-                if (self.progress <= startBuffer) {
-                    // 滾動進度在起始緩衝區內：顯示第一個項目
-                    currentIndex = 0;
-                } else if (self.progress >= (1 - endBuffer)) {
-                    // 滾動進度在結束緩衝區內：顯示最後一個項目
-                    currentIndex = totalItems - 1;
-                } else {
-                    // 滾動進度在主要範圍內：根據進度計算項目索引
-                    const adjustedProgress = (self.progress - startBuffer) / activeRange;
-                    currentIndex = Math.round(adjustedProgress * (totalItems - 1));
-                    // 確保索引在有效範圍內
-                    currentIndex = Math.max(0, Math.min(currentIndex, totalItems - 1));
-                }
-
-                // 計算目標旋轉角度（負值表示順時針旋轉）
-                const targetRotation = -currentIndex * anglePerItem;
-
-                // 執行輪播容器的旋轉動畫
-                gsap.to(sliderWrapper, {
-                    // Y軸旋轉角度
-                    rotateY: targetRotation,
-                    // 動畫持續時間
-                    duration: 0.9,
-                    // 緩動函數
-                    ease: "power2.out",
-                    // 覆寫模式：自動取消衝突的動畫
-                    overwrite: 'auto'
-                });
-
-                // 更新當前顯示項目的狀態
-                setCurrentSlide(currentIndex);
-            },
-            // 滾動觸發器識別 ID
-            id: 'reports-trigger'
+        // 設定初始旋轉角度（顯示第一個項目）
+        gsap.set(sliderWrapper, {
+            rotateY: 0
         });
+    }, [isClient]); // 只依賴 isClient，避免重複初始化
 
-        // 清理函數：組件卸載時移除滾動觸發器
-        return () => {
-            trigger.kill();
+    // 副作用：設定拖曳功能
+    useEffect(() => {
+        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
+        if (typeof window === 'undefined' || !isClient) return;
+
+        const sliderWrapper = sliderWrapperRef.current;
+        const sliderContainer = sliderContainerRef.current;
+
+        if (!sliderWrapper || !sliderContainer) return;
+
+        // 計算輪播項目的總數量和角度
+        const totalItems = reportsData.length;
+        const anglePerItem = 360 / totalItems;
+
+        // 切換到指定索引的函數（支援最短路徑旋轉）
+        const goToSlide = (index: number, preferredDirection?: 'left' | 'right') => {
+            // 確保索引在有效範圍內
+            const validIndex = ((index % totalItems) + totalItems) % totalItems;
+
+            // 計算當前角度和目標角度
+            const currentRotation = -(currentSlideRef.current * anglePerItem);
+            const targetRotation = -validIndex * anglePerItem;
+
+            // 計算最短路徑
+            let rotationDiff = targetRotation - currentRotation;
+
+            // 如果有偏好方向，確保按照該方向旋轉
+            if (preferredDirection === 'left') {
+                // 向左拖曳，逆時針旋轉（負方向）
+                if (rotationDiff > 0) {
+                    rotationDiff -= 360;
+                }
+            } else if (preferredDirection === 'right') {
+                // 向右拖曳，順時針旋轉（正方向）
+                if (rotationDiff < 0) {
+                    rotationDiff += 360;
+                }
+            } else {
+                // 沒有偏好方向時，選擇最短路徑
+                if (rotationDiff > 180) {
+                    rotationDiff -= 360;
+                } else if (rotationDiff < -180) {
+                    rotationDiff += 360;
+                }
+            }
+
+            // 計算最終的旋轉角度
+            const finalRotation = currentRotation + rotationDiff;
+
+            gsap.to(sliderWrapper, {
+                rotateY: finalRotation,
+                duration: 0.6,
+                ease: "power2.out",
+                overwrite: 'auto',
+                onComplete: () => {
+                    // 動畫完成後，標準化角度
+                    gsap.set(sliderWrapper, {
+                        rotateY: targetRotation
+                    });
+                }
+            });
+
+            setCurrentSlide(validIndex);
         };
-        // 依賴變數：當這些值改變時重新建立動畫（等待客戶端初始化完成）
-    }, [reportsData, sliderSize, translateZMultiplier, perspective, isClient]);
 
-    // 計算值：取得當前顯示的報導項目資料
-    const currentItem = reportsData[currentSlide] || reportsData[0];
+        // 滑鼠/觸控開始事件處理
+        const handleStart = (clientX: number) => {
+            setIsDragging(true);
+            isDraggingRef.current = true;
+            setStartX(clientX);
+            startXRef.current = clientX;
+            setDragDelta(0);
+            dragDeltaRef.current = 0;
+            setPreviewSlide(currentSlideRef.current); // 開始拖曳時設定預覽索引
+        };
+
+        // 滑鼠/觸控移動事件處理
+        const handleMove = (clientX: number) => {
+            if (!isDraggingRef.current) return;
+
+            const delta = clientX - startXRef.current;
+            setDragDelta(delta);
+            dragDeltaRef.current = delta;
+
+            // 使用視窗寬度的 20% 作為一個項目的拖曳距離
+            const vwToPixels = window.innerWidth * 0.2; // 20vw
+            
+            // 計算預覽的項目索引（最多 5 個）
+            let itemsDelta = Math.round(delta / vwToPixels);
+            itemsDelta = Math.max(-5, Math.min(5, itemsDelta)); // 限制在 -5 到 5 之間
+            
+            let tempIndex = currentSlideRef.current - itemsDelta; // 向右為正，所以要減
+
+            // 確保索引在有效範圍內（支援循環）
+            tempIndex = ((tempIndex % totalItems) + totalItems) % totalItems;
+            setPreviewSlide(tempIndex);
+
+            // 即時旋轉預覽（調整係數讓預覽更貼近實際切換效果）
+            // 每 20vw 對應一個項目的旋轉角度
+            const rotationDelta = (delta / vwToPixels) * anglePerItem;
+            const tempRotation = -(currentSlideRef.current * anglePerItem) + rotationDelta;
+
+            gsap.set(sliderWrapper, {
+                rotateY: tempRotation,
+                overwrite: 'auto'
+            });
+        };
+
+        // 滑鼠/觸控結束事件處理
+        const handleEnd = () => {
+            if (!isDraggingRef.current) return;
+
+            setIsDragging(false);
+            isDraggingRef.current = false;
+
+            // 根據拖曳距離計算要切換幾個項目
+            const dragDistance = Math.abs(dragDeltaRef.current);
+
+            if (dragDistance > dragThreshold) {
+                // 使用視窗寬度的 20% 作為一個項目的拖曳距離
+                const vwToPixels = window.innerWidth * 0.2; // 20vw
+                
+                // 計算要切換的項目數量（每 20vw 切換一個項目，最多 5 個）
+                let itemsToSwitch = Math.floor(dragDistance / vwToPixels) || 1;
+                itemsToSwitch = Math.min(5, itemsToSwitch); // 限制最多切換 5 個
+
+                if (dragDeltaRef.current > 0) {
+                    // 向右滑動，切換到前面的項目，旋轉方向為右
+                    const newIndex = (currentSlideRef.current - itemsToSwitch + totalItems) % totalItems;
+                    goToSlide(newIndex, 'right');
+                } else {
+                    // 向左滑動，切換到後面的項目，旋轉方向為左
+                    const newIndex = (currentSlideRef.current + itemsToSwitch) % totalItems;
+                    goToSlide(newIndex, 'left');
+                }
+            } else {
+                // 滑動距離不足，回到當前項目
+                goToSlide(currentSlideRef.current);
+            }
+
+            setDragDelta(0);
+            dragDeltaRef.current = 0;
+            setPreviewSlide(currentSlideRef.current); // 結束拖曳時重設預覽索引
+        };
+
+        // 滑鼠事件監聽
+        const handleMouseDown = (e: MouseEvent) => handleStart(e.clientX);
+        const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX);
+        const handleMouseUp = () => handleEnd();
+
+        // 觸控事件監聽
+        const handleTouchStart = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                handleStart(e.touches[0].clientX);
+            }
+        };
+        const handleTouchMove = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                e.preventDefault(); // 防止頁面滾動
+                handleMove(e.touches[0].clientX);
+            }
+        };
+        const handleTouchEnd = () => handleEnd();
+
+        // 註冊事件監聽器
+        if (sliderContainer) {
+            // 滑鼠事件
+            sliderContainer.addEventListener('mousedown', handleMouseDown);
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+
+            // 觸控事件
+            sliderContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+            sliderContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+            sliderContainer.addEventListener('touchend', handleTouchEnd);
+        }
+
+        // 清理函數
+        return () => {
+            if (sliderContainer) {
+                sliderContainer.removeEventListener('mousedown', handleMouseDown);
+                sliderContainer.removeEventListener('touchstart', handleTouchStart);
+                sliderContainer.removeEventListener('touchmove', handleTouchMove);
+                sliderContainer.removeEventListener('touchend', handleTouchEnd);
+            }
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isClient, reportsData.length]); // 只依賴必要的值，避免重複綁定事件
+
+    // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
+    const displayIndex = isDragging ? previewSlide : currentSlide;
+    const currentItem = reportsData[displayIndex] || reportsData[0];
 
     // 函數：判斷指定索引的影片是否應該播放
     // 策略：當前項目及其前後相鄰項目才播放影片（效能最佳化）
@@ -240,7 +395,17 @@ export default function ReportsSwiper() {
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen overflow-hidden">
                 {/* 輪播展示容器：居中定位 */}
-                <div ref={sliderContainerRef} className="absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div
+                    ref={sliderContainerRef}
+                    className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'
+                        }`}
+                    style={{
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none',
+                        MozUserSelect: 'none',
+                        msUserSelect: 'none'
+                    }}
+                >
                     {/* 3D 輪播展示區域 */}
                     <div className="w-full h-screen text-center overflow-hidden"
                         style={{
