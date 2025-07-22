@@ -98,6 +98,25 @@ export default function OpeningSpline() {
         };
     }, []);
 
+    // 管理 body 滾動鎖定
+    useEffect(() => {
+        if (isVisible) {
+            // 鎖定滾動
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            // 解鎖滾動
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }
+
+        // 清理時確保恢復滾動
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
+    }, [isVisible]);
+
     // Spline 載入完成後啟動 12 秒計時器
     const handleSplineLoaded = () => {
         timerRef.current = setTimeout(() => {

@@ -12,12 +12,16 @@ interface ReportsSwiperItemProps {
   bgColor?: string;
   shouldPlay?: boolean; // 控制是否應該播放
   projectData?: Record<string, unknown>; // 完整的專案資料，用於 Modal 顯示
+  isDragging?: boolean; // 是否正在拖曳
+  dragDelta?: number; // 拖曳距離
 }
 
-export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData, isDragging = false, dragDelta = 0 }: ReportsSwiperItemProps) {
   const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [mouseDownTime, setMouseDownTime] = useState(0);
+  const [hasMouseMoved, setHasMouseMoved] = useState(false);
 
   const isVideo = path.endsWith('.mp4') || path.endsWith('.webm');
 
@@ -26,8 +30,24 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
     setIsLoading(true);
   }, [path]);
 
+  // 滑鼠按下處理
+  const handleMouseDown = () => {
+    setMouseDownTime(Date.now());
+    setHasMouseMoved(false);
+  };
+
   // 點擊事件處理器 - 開啟對應的 Modal
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // 計算按下到放開的時間
+    const clickDuration = Date.now() - mouseDownTime;
+    
+    // 如果正在拖曳、拖曳距離超過 10px、按住時間太長（超過 200ms）或有移動，都不觸發點擊
+    if (isDragging || Math.abs(dragDelta) > 10 || clickDuration > 200 || hasMouseMoved) {
+      return;
+    }
+    
     if (projectData) {
       openModal(id, projectData);
     }
@@ -76,6 +96,13 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
     }
   }, [isVideo, isLoading, shouldPlay, title]);
 
+  // 監測拖曳狀態變化
+  useEffect(() => {
+    if (isDragging || Math.abs(dragDelta) > 10) {
+      setHasMouseMoved(true);
+    }
+  }, [isDragging, dragDelta]);
+
 
   return (
     <div
@@ -88,6 +115,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
         MozUserSelect: 'none',
         msUserSelect: 'none'
       }}
+      onMouseDown={handleMouseDown}
       onClick={handleClick}
       data-custom-cursor="VIEW"
     >

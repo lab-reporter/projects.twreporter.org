@@ -462,6 +462,8 @@ export default function ReportsSwiper() {
                                         bgColor={item.bgColor}
                                         shouldPlay={shouldPlayVideo(index)}
                                         projectData={item}
+                                        isDragging={isDragging}
+                                        dragDelta={dragDelta}
                                     />
                                 </div>
                             ))}
