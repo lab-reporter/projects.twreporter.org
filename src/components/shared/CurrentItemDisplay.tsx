@@ -14,7 +14,7 @@ export default function CurrentItemDisplay({ title, subtitle, className = "" }: 
         <div className={` ${className}`}>
             {/* 標題 */}
             {title && (
-                <h3 className="text-4xl mb-2">
+                <h3 className="mb-2">
                     {title}
                 </h3>
             )}

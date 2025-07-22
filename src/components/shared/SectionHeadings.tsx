@@ -11,7 +11,7 @@ export default function SectionHeadings({ titleEn, titleZh, children }: SectionH
     // heading外層容器
     <div className="relative w-full h-[150vh] mx-auto">
       {/* heading內層sticky容器 */}
-      <div className="mb-4 mx-auto px-8 sticky top-0 h-screen flex flex-col items-center justify-center">
+      <div className="mb-4 mx-auto px-12 sticky top-0 h-screen flex flex-col items-center justify-center">
         <h1 className="text-center">
           {titleEn}
         </h1>
@@ -19,7 +19,7 @@ export default function SectionHeadings({ titleEn, titleZh, children }: SectionH
           {titleZh}
         </h2>
         <div
-          className="text-xl mt-4 max-w-[44rem] text-justify"
+          className="text-base md:text-lg lg:text-xl mt-4 max-w-[44rem] text-justify"
           style={{ textAlignLast: 'center' }}
         >
           {children}
