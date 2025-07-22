@@ -26,61 +26,15 @@ export default function SectionNavigation() {
       console.log('🎯 SectionNavigation - activeSection:', activeSection);
     }
   }, [currentSection, activeSection]);
-  // 控制導航是否顯示的狀態
-  const [isVisible, setIsVisible] = useState(false);
-  // 動畫完成狀態追蹤
-  const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
-  // Reports heading 動畫完成狀態
-  const [isReportsHeadingVisible, setIsReportsHeadingVisible] = useState(false);
+  // 控制導航是否顯示的狀態 - 預設為顯示
+  const [isVisible, setIsVisible] = useState(true);
 
-  // 副作用：監聽主動畫完成狀態
+
+  // 副作用：預設導航始終顯示，不需要特別的顯示邏輯
   useEffect(() => {
-    // 根據 useMainTimeline 的時間配置：
-    // REPORTS_HEADING_START: 3.5s + 動畫時長 1s = 4.5秒
-    const REPORTS_HEADING_COMPLETE = 4500;
-
-    // 標記動畫完成
-    const animationTimer = setTimeout(() => {
-      setIsAnimationCompleted(true);
-      setIsReportsHeadingVisible(true);
-    }, REPORTS_HEADING_COMPLETE);
-
-    return () => clearTimeout(animationTimer);
+    // 導航預設顯示，確保 isVisible 保持為 true
+    setIsVisible(true);
   }, []);
-
-  // 副作用：根據滾動位置和動畫狀態控制導航顯示
-  useEffect(() => {
-    // 檢查導航是否應該顯示的函數
-    const checkVisibility = () => {
-      // 只有在 Reports heading 動畫完成後才顯示導航
-      if (!isReportsHeadingVisible) {
-        setIsVisible(false);
-        return;
-      }
-
-      // Reports heading 動畫完成後即顯示導航
-      setIsVisible(true);
-    };
-
-    // 初始檢查導航可見性
-    checkVisibility();
-
-    // 監聽滾動事件來動態調整可見性
-    window.addEventListener('scroll', checkVisibility);
-
-    // 額外監聽 resize 事件，確保響應式正確
-    window.addEventListener('resize', checkVisibility);
-
-    // 定期檢查狀態（減少頻率，因為已經簡化邏輯）
-    const intervalCheck = setInterval(checkVisibility, 200);
-
-    // 清理函數：移除事件監聽器
-    return () => {
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
-      clearInterval(intervalCheck);
-    };
-  }, [isReportsHeadingVisible]); // 添加 isReportsHeadingVisible 作為依賴
 
 
   // 滾動到指定章節的函數
@@ -126,8 +80,8 @@ export default function SectionNavigation() {
     }, 50);
   };
 
-  // 如果導航不可見或動畫未完成，不渲染任何內容
-  if (!isVisible || !isAnimationCompleted) {
+  // 如果導航不可見，不渲染任何內容
+  if (!isVisible) {
     return null;
   }
 

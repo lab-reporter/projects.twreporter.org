@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { SectionHeadings } from '@/components/shared'
+import ChallengeParallax from '@/components/sections/challenges/ChallengeParallax'
 import { useScrollTrigger } from '@/hooks/useScrollTrigger'
 
 const ChallengesSection = () => {
@@ -12,8 +13,8 @@ const ChallengesSection = () => {
     })
 
     return (
-        <section id="section-challenges" className="relative h-screen">
-            <div>
+        <section id="section-challenges" className="relative">
+            <div className="relative w-full h-screen">
                 <SectionHeadings
                     titleEn="Breakthrough"
                     titleZh="非營利媒體・突圍"
@@ -24,6 +25,7 @@ const ChallengesSection = () => {
                         一起走進新聞室的幕後，看這條獨立媒體之路的心路歷程。
                     </p>
                 </SectionHeadings>
+                <ChallengeParallax />
             </div>
         </section>
     )
