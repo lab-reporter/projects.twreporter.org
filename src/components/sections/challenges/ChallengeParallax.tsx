@@ -31,7 +31,7 @@ const parallaxImages = [
         zIndex: 2
     },
     {
-        src: "/assets/challenges/challenge-2/challenge-2-1.jpg",
+        src: "/assets/challenges/challenge-2/challenge-2-2.jpg",
         alt: "Challenge Parallax Image 1",
         x: 0,
         y: 0,
@@ -48,8 +48,8 @@ const parallaxImages = [
         y: 0,
         z: 35,
         width: "12.5%",
-        top: "60%",
-        left: "75%",
+        top: "40%",
+        left: "15%",
         zIndex: 1
     },
     {
@@ -60,7 +60,7 @@ const parallaxImages = [
         z: 45,
         width: "12.5%",
         top: "15%",
-        left: "85%",
+        left: "75%",
         zIndex: 1
     },
     {
@@ -68,43 +68,43 @@ const parallaxImages = [
         alt: "Challenge Parallax Image 6",
         x: 0,
         y: 0,
-        z: 55,
+        z: 120,
         width: "12.5%",
-        top: "45%",
-        left: "60%",
+        top: "60%",
+        left: "70%",
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-7/challenge-7-1.jpg",
+        src: "/assets/challenges/challenge-7/challenge-7-2.jpg",
         alt: "Challenge Parallax Image 7",
         x: 0,
         y: 0,
-        z: 18,
+        z: 30,
         width: "12.5%",
         top: "80%",
-        left: "20%",
+        left: "10%",
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-8/challenge-8-1.jpg",
+        src: "/assets/challenges/challenge-8/challenge-8-2.jpg",
         alt: "Challenge Parallax Image 8",
         x: 0,
         y: 0,
-        z: 40,
+        z: 60,
         width: "12.5%",
-        top: "25%",
-        left: "65%",
+        top: "70%",
+        left: "45%",
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-9/challenge-9-1.jpg",
+        src: "/assets/challenges/challenge-9/challenge-9-2.jpg",
         alt: "Challenge Parallax Image 9",
         x: 0,
         y: 0,
         z: 28,
         width: "12.5%",
-        top: "50%",
-        left: "90%",
+        top: "35%",
+        left: "80%",
         zIndex: 1
     },
     {
@@ -114,7 +114,7 @@ const parallaxImages = [
         y: 0,
         z: 60,
         width: "12.5%",
-        top: "35%",
+        top: "20%",
         left: "50%",
         zIndex: 1
     },
