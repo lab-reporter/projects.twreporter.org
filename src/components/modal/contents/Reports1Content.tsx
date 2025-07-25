@@ -15,40 +15,40 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
         date="2022.01"
       />
 
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "揭露中州科大違法招募16位烏干達外籍生來台淪為學工，促使教育部勒令該校停止招生，該校正式走入歷史；檢調起訴學校高層、人力仲介以及公務員。" },
+              { text: "2024年，彰化地方法院一審重判中州科大時任副校長、苗栗縣政府勞青處前副處長。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2023 亞洲出版協會卓越新聞獎（SOPA）【卓越人權報導獎—首獎】" },
+              { text: "2023 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—優勝】" },
+              { text: "2023 人權新聞獎【華文調查報導 首獎】" },
+              { text: "2023 SND最佳新聞設計創意競賽【插圖類—優選】" },
+              { text: "2022 曾虛白新聞獎【公共服務報導獎 文字類】" }
+            ]
+          }
+        ]}
+      />
+
+
+      <Shared.ReportsStickyPhoto
+        imgSrcs={[
+          "/assets/reports/report-1/report-1-1.webp",
+          "/assets/reports/report-1/report-1-2.webp",
+          "/assets/reports/report-1/report-1-3.webp",
+          "/assets/reports/report-1/report-1-4.webp",
+          "/assets/reports/report-1/report-1-5.webp"
+        ]} />
+
       <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "揭露中州科大違法招募16位烏干達外籍生來台淪為學工，促使教育部勒令該校停止招生，該校正式走入歷史；檢調起訴學校高層、人力仲介以及公務員。" },
-                { text: "2024年，彰化地方法院一審重判中州科大時任副校長、苗栗縣政府勞青處前副處長。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2023 亞洲出版協會卓越新聞獎（SOPA）【卓越人權報導獎—首獎】" },
-                { text: "2023 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—優勝】" },
-                { text: "2023 人權新聞獎【華文調查報導 首獎】" },
-                { text: "2023 SND最佳新聞設計創意競賽【插圖類—優選】" },
-                { text: "2022 曾虛白新聞獎【公共服務報導獎 文字類】" }
-              ]
-            }
-          ]}
-        />
-
-        ``
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-1/report-1-1.webp",
-            "/assets/reports/report-1/report-1-2.webp",
-            "/assets/reports/report-1/report-1-3.webp",
-            "/assets/reports/report-1/report-1-4.webp",
-            "/assets/reports/report-1/report-1-5.webp"
-          ]} />
-
         {/* 導言 */}
         <Shared.TextContent>
           <div className="space-y-4">

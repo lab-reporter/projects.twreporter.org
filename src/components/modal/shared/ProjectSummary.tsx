@@ -60,7 +60,7 @@ export default function ProjectSummary({
   };
 
   return (
-    <div className={`p-4 px-8 mb-8 bg-white border border-gray-200 rounded-lg ${className}`}>
+    <div className={`max-w-[40rem] mx-auto p-4 px-8 my-16 bg-white border border-gray-200 rounded-lg ${className}`}>
       <ul className="my-4 no-list-style text-lg font-noto-sans-tc">
         {items ? (
           items.map((item, index) => renderItem(item, index, false))
