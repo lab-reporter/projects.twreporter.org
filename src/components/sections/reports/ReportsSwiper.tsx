@@ -404,46 +404,31 @@ export default function ReportsSwiper() {
         // 創建時間軸動畫（在 ScrollTrigger 外部，以便重複使用）
         const tl = gsap.timeline({ paused: true });
 
-        // 設定動畫內容
-        tl.fromTo(sliderWrapper,
-            {
-                // 起始狀態
-                rotateX: 90,
-                rotateY: 0,
-                translateZ: '10vw'  // 總是從 10vw 開始
-            },
-            {
-                // 結束狀態
-                rotateX: 0,
-                rotateY: 0,  // 總是回到第一個項目
-                translateZ: 0,
-                duration: 1,
-                ease: "power2.out",
-                onStart: () => {
-                    // 動畫開始時，停止 zoom out 動畫（如果還在進行中）
-                    if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
-                        zoomOutTweenRef.current.kill();
-                    }
-                    // 立即設定 opacity 確保正確的起始狀態
-                    gsap.set(sectionHeading, { opacity: 1 });
-                    gsap.set(currentItemDisplay, { opacity: 0 });
+        // 設定動畫內容 - 只往前播放，不需要反向
+        tl.to(sliderWrapper, {
+            rotateX: 0,
+            rotateY: 0,
+            translateZ: 0,
+            duration: 1,
+            ease: "power2.out",
+            onStart: () => {
+                // 動畫開始時，停止 zoom out 動畫（如果還在進行中）
+                if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
+                    zoomOutTweenRef.current.kill();
                 }
+            }
+        }, 0)
+            .to(sectionHeading, {
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.out"
             }, 0)
-            .fromTo(sectionHeading,
-                { opacity: 1 },
-                {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.out"
-                }, 0)
-            .fromTo(currentItemDisplay,
-                { opacity: 0 },
-                {
-                    opacity: 1,
-                    duration: 0.5,
-                    delay: 0.5,
-                    ease: "power2.in"
-                }, 0);
+            .to(currentItemDisplay, {
+                opacity: 1,
+                duration: 0.5,
+                delay: 0.5,
+                ease: "power2.in"
+            }, 0);
 
         // 動畫完成的回調
         tl.eventCallback("onComplete", () => {
@@ -478,7 +463,6 @@ export default function ReportsSwiper() {
         const scrollTrigger = ScrollTrigger.create({
             trigger: sectionHeading,
             start: 'top top',
-            end: 'bottom -20%',
             toggleActions: "none", // 禁用自動觸發
             onEnter: () => {
                 // 向下滾動進入時，正向播放
@@ -498,58 +482,8 @@ export default function ReportsSwiper() {
                     ease: "power2.in",
                     overwrite: "auto"
                 });
-            },
-            onLeaveBack: () => {
-                // 向上滾動離開時，重置到第一個項目
-                gsap.to(sliderWrapper, {
-                    rotateY: 0,
-                    duration: 0.3,
-                    ease: "power2.inOut",
-                    onComplete: () => {
-                        // 更新當前項目索引為 0
-                        setCurrentSlide(0);
-                        // 重置完成後再播放反向動畫
-                        tl.reverse();
-                    }
-                });
-
-                // 確保 opacity 也會恢復
-                gsap.to(sectionHeading, {
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: "power2.in",
-                    overwrite: "auto"
-                });
-                gsap.to(currentItemDisplay, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.out",
-                    overwrite: "auto"
-                });
-            },
-            onEnterBack: () => {
-                // 從下方再次進入時，直接正向播放（rotateY 已經是 0）
-                tl.play();
-
-                // 確保 opacity 狀態正確
-                gsap.to(sectionHeading, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.out",
-                    overwrite: "auto"
-                });
-                gsap.to(currentItemDisplay, {
-                    opacity: 1,
-                    duration: 0.5,
-                    delay: 0.5,
-                    ease: "power2.in",
-                    overwrite: "auto"
-                });
-            },
-            onLeave: () => {
-                // 向下滾動完全離開時，可選擇是否要反向播放
-                // tl.reverse();
             }
+            // 移除所有反向播放相關的事件
         });
 
         // 清理函數
@@ -591,14 +525,14 @@ export default function ReportsSwiper() {
         const handleScrollIntent = () => {
             if (!hasTriggeredAnimation && sectionHeading) {
                 hasTriggeredAnimation = true;
-                
+
                 // 手動觸發 ScrollTrigger 的 onEnter 事件
                 ScrollTrigger.getAll().forEach(trigger => {
                     if (trigger.trigger === sectionHeading && trigger.vars.onEnter) {
                         trigger.vars.onEnter(trigger);
                     }
                 });
-                
+
                 // 移除監聽器
                 window.removeEventListener('wheel', handleScrollIntent);
             }
