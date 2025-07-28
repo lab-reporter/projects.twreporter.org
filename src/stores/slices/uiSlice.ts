@@ -23,6 +23,9 @@ export interface UISlice {
   hasError: boolean
   errorMessage: string | null
   
+  // 開場動畫狀態
+  isOpeningComplete: boolean
+  
   // 動作
   setNavigationOpen: (isOpen: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
@@ -32,6 +35,7 @@ export interface UISlice {
   setTheme: (theme: 'light' | 'dark') => void
   setDeviceType: (isMobile: boolean, isTablet: boolean) => void
   setError: (error: string | null) => void
+  setOpeningComplete: (isComplete: boolean) => void
 }
 
 export const uiSlice: StateCreator<
@@ -56,6 +60,8 @@ export const uiSlice: StateCreator<
   
   hasError: false,
   errorMessage: null,
+  
+  isOpeningComplete: false,
   
   setNavigationOpen: (isOpen) =>
     set((state) => {
@@ -101,5 +107,10 @@ export const uiSlice: StateCreator<
     set((state) => {
       state.hasError = !!error
       state.errorMessage = error
+    }),
+    
+  setOpeningComplete: (isComplete) =>
+    set((state) => {
+      state.isOpeningComplete = isComplete
     }),
 })

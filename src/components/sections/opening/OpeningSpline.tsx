@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useStore } from '@/stores';
 
 // TypeScript 宣告 spline-viewer 元素
 declare global {
@@ -83,6 +84,7 @@ export default function OpeningSpline() {
     const [isMounted, setIsMounted] = useState(false);
     const timerRef = useRef<NodeJS.Timeout>();
     const fadeTimerRef = useRef<NodeJS.Timeout>();
+    const setOpeningComplete = useStore((state) => state.setOpeningComplete);
 
     useEffect(() => {
         setIsMounted(true);
@@ -125,6 +127,7 @@ export default function OpeningSpline() {
             // 1 秒後完全隱藏
             fadeTimerRef.current = setTimeout(() => {
                 setIsVisible(false);
+                setOpeningComplete(true);
             }, 1000);
         }, 12000); // 12 秒後開始淡出
     };
@@ -141,6 +144,7 @@ export default function OpeningSpline() {
         setIsFading(true);
         setTimeout(() => {
             setIsVisible(false);
+            setOpeningComplete(true);
         }, 300); // 快速淡出
     };
 

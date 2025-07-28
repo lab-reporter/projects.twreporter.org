@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useStore } from '@/stores';
 
 // 報導項目的資料結構定義
 interface ReportItem {
@@ -34,6 +35,11 @@ export default function ReportsSwiper() {
     const sectionRef = useRef<HTMLDivElement>(null);
     // DOM 元素參考：輪播展示容器
     const sliderContainerRef = useRef<HTMLDivElement>(null);
+    // DOM 元素參考：當前項目資訊展示區域
+    const currentItemDisplayRef = useRef<HTMLDivElement>(null);
+
+    // 從 store 取得開場動畫完成狀態
+    const isOpeningComplete = useStore((state) => state.isOpeningComplete);
 
     // 狀態變數：當前顯示的輪播項目索引
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -82,8 +88,8 @@ export default function ReportsSwiper() {
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
         enabled: isClient && isVisible,
-        rangeMin: 47,
-        rangeMax: 53,
+        rangeMin: 40,
+        rangeMax: 60,
         useLerp: true,
         lerpFactor: 0.1
     });
@@ -367,6 +373,84 @@ export default function ReportsSwiper() {
         };
     }, [isClient, reportsData.length]); // 只依賴必要的值，避免重複綁定事件
 
+    // 副作用：設定 ScrollTrigger 動畫
+    useEffect(() => {
+        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
+        if (typeof window === 'undefined' || !isClient) return;
+
+        // 註冊 ScrollTrigger 插件
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sliderWrapper = sliderWrapperRef.current;
+        const currentItemDisplay = currentItemDisplayRef.current;
+        const sectionHeading = document.querySelector('#reports-section-heading');
+
+        if (!sliderWrapper || !sectionHeading || !currentItemDisplay) return;
+
+        // 建立 ScrollTrigger 動畫
+        const scrollTrigger = ScrollTrigger.create({
+            trigger: sectionHeading,
+            start: 'top top',
+            end: '50% top',
+            scrub: 1,
+            markers: true,
+            onUpdate: (self) => {
+                // 計算進度 (0 到 1)
+                const progress = self.progress;
+                // 從 90deg 到 0deg 的旋轉
+                const rotateX = 90 * (1 - progress);
+
+                // translateZ 從當前值（可能是 40vw 或 10vw）逐漸減少到 0
+                const currentTranslateZ = isOpeningComplete ? 10 : 40;
+                const translateZ = currentTranslateZ * (1 - progress);
+
+                const opacitySectionHeading = Math.max(1 - progress * 2, 0);
+                const opacityCurrentItemDisplay = Math.min(progress * 2, 1);
+
+
+                gsap.set(sliderWrapper, {
+                    rotateX: rotateX,
+                    translateZ: translateZ + 'vw',
+                    overwrite: 'auto'
+                });
+
+                gsap.set(sectionHeading, {
+                    opacity: opacitySectionHeading
+                });
+
+                gsap.set(currentItemDisplay, {
+                    opacity: opacityCurrentItemDisplay
+                });
+            }
+        });
+
+        // 清理函數
+        return () => {
+            scrollTrigger.kill();
+        };
+    }, [isClient, isOpeningComplete]);
+
+    // 副作用：開場動畫完成後的 zoom out 效果
+    useEffect(() => {
+        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
+        if (typeof window === 'undefined' || !isClient || !isOpeningComplete) return;
+
+        const sliderWrapper = sliderWrapperRef.current;
+        if (!sliderWrapper) return;
+
+        // 設定初始狀態（40vw）
+        gsap.set(sliderWrapper, {
+            translateZ: '40vw'
+        });
+
+        // 動畫到最終狀態（10vw）
+        gsap.to(sliderWrapper, {
+            translateZ: '10vw',
+            duration: 3,
+            ease: 'power4.out'
+        });
+    }, [isClient, isOpeningComplete]);
+
     // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
     const displayIndex = isDragging ? previewSlide : currentSlide;
     const currentItem = reportsData[displayIndex] || reportsData[0];
@@ -391,7 +475,7 @@ export default function ReportsSwiper() {
         <div ref={(el) => {
             sectionRef.current = el;
             observerRef.current = el;
-        }} className="relative h-screen overflow-visible">
+        }} className="relative h-[150vh] overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen">
                 {/* 輪播展示容器：居中定位 */}
@@ -433,7 +517,7 @@ export default function ReportsSwiper() {
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
                                 // 設定 3D 透視和初始變換（使用響應式透視值）
-                                transform: `translateZ(0vw) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
+                                transform: `translateZ(${isOpeningComplete ? '10vw' : '40vw'}) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
@@ -472,7 +556,13 @@ export default function ReportsSwiper() {
                 </div>
 
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
-                <div className="absolute bottom-8 w-full">
+                <div
+                    ref={currentItemDisplayRef}
+                    className="absolute bottom-8 w-full"
+                    style={{
+                        opacity: 0
+                    }}
+                >
                     <CurrentItemDisplay
                         title={currentItem?.title}
                         subtitle={currentItem?.subtitle}
