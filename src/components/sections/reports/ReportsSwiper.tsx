@@ -49,6 +49,8 @@ export default function ReportsSwiper() {
     const [hasShownBlurOverlay, setHasShownBlurOverlay] = useState(false);
     // 狀態：追蹤模糊背景層是否正在顯示
     const [showBlurOverlay, setShowBlurOverlay] = useState(false);
+    // 狀態：追蹤模糊背景層的透明度
+    const [blurOverlayOpacity, setBlurOverlayOpacity] = useState(0);
     // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
     const hasShownBlurOverlayRef = useRef(false);
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
@@ -453,7 +455,17 @@ export default function ReportsSwiper() {
                 // 鎖定滾動
                 document.body.style.overflow = 'hidden';
 
-                // 3 秒後自動隱藏並解鎖滾動
+                // 0.5秒淡入到 0.8
+                setTimeout(() => {
+                    setBlurOverlayOpacity(0.8);
+                }, 50);
+
+                // 2.5秒後開始淡出
+                setTimeout(() => {
+                    setBlurOverlayOpacity(0);
+                }, 2500);
+
+                // 3秒後完全隱藏並解鎖滾動
                 setTimeout(() => {
                     setShowBlurOverlay(false);
                     // 解鎖滾動
@@ -576,14 +588,14 @@ export default function ReportsSwiper() {
 
         // 監聽滾動意圖
         let hasTriggeredAnimation = false;
-        const handleScrollIntent = (e: WheelEvent) => {
+        const handleScrollIntent = () => {
             if (!hasTriggeredAnimation && sectionHeading) {
                 hasTriggeredAnimation = true;
                 
                 // 手動觸發 ScrollTrigger 的 onEnter 事件
                 ScrollTrigger.getAll().forEach(trigger => {
                     if (trigger.trigger === sectionHeading && trigger.vars.onEnter) {
-                        trigger.vars.onEnter();
+                        trigger.vars.onEnter(trigger);
                     }
                 });
                 
@@ -728,9 +740,10 @@ export default function ReportsSwiper() {
             {/* 模糊背景層 */}
             {showBlurOverlay && (
                 <div
-                    className="fixed inset-0 w-full h-screen z-[9999] transition-opacity duration-300"
+                    className="fixed inset-0 w-full h-screen z-[9999] transition-opacity duration-500"
                     style={{
-                        backgroundColor: 'rgba(0, 0, 0,0.8)'
+                        backgroundColor: 'rgba(0, 0, 0,0.8)',
+                        opacity: blurOverlayOpacity
                     }}
                 >
                     {/* 模糊背景效果 */}
