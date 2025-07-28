@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
@@ -106,22 +105,22 @@ export default function ReportsSwiper() {
         // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
         if (width < 640) {
             // 小於 640px：手機直立模式
-            return { sliderSize: 10.5, translateZMultiplier: 9, perspective: '25vw' };
+            return { sliderSize: 10.5 };
         } else if (width < 768) {
             // 640px - 768px：手機橫向/小平板
-            return { sliderSize: 9, translateZMultiplier: 8.5, perspective: '35vw' };
+            return { sliderSize: 9 };
         } else if (width < 1024) {
             // 768px - 1024px：平板模式
-            return { sliderSize: 8, translateZMultiplier: 8, perspective: '35vw' };
+            return { sliderSize: 8 };
         } else if (width < 1280) {
             // 1024px - 1280px：小桌面
-            return { sliderSize: 7, translateZMultiplier: 7.5, perspective: '35vw' };
+            return { sliderSize: 7 };
         } else if (width < 1536) {
             // 1280px - 1536px：大桌面
-            return { sliderSize: 5, translateZMultiplier: 7, perspective: '35vw' };
+            return { sliderSize: 5 };
         } else {
             // 1536px+：超大桌面
-            return { sliderSize: 4, translateZMultiplier: 6, perspective: '35vw' };
+            return { sliderSize: 4 };
         }
     };
 
