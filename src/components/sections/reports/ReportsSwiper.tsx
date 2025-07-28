@@ -45,6 +45,12 @@ export default function ReportsSwiper() {
     const [currentSlide, setCurrentSlide] = useState(0);
     // 狀態變數：是否已完成客戶端初始化（解決 SSR/CSR 不匹配問題）
     const [isClient, setIsClient] = useState(false);
+    // 狀態：追蹤模糊背景層是否已經顯示過
+    const [hasShownBlurOverlay, setHasShownBlurOverlay] = useState(false);
+    // 狀態：追蹤模糊背景層是否正在顯示
+    const [showBlurOverlay, setShowBlurOverlay] = useState(false);
+    // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
+    const hasShownBlurOverlayRef = useRef(false);
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
@@ -437,11 +443,31 @@ export default function ReportsSwiper() {
                     ease: "power2.in"
                 }, 0);
 
+        // 動畫完成的回調
+        tl.eventCallback("onComplete", () => {
+            // 只在第一次動畫完成時顯示模糊背景
+            if (!hasShownBlurOverlayRef.current) {
+                hasShownBlurOverlayRef.current = true;
+                setShowBlurOverlay(true);
+                setHasShownBlurOverlay(true);
+                // 鎖定滾動
+                document.body.style.overflow = 'hidden';
+
+                // 3 秒後自動隱藏並解鎖滾動
+                setTimeout(() => {
+                    setShowBlurOverlay(false);
+                    // 解鎖滾動
+                    document.body.style.overflow = '';
+                }, 3000);
+            }
+        });
+
         // 建立 ScrollTrigger 動畫
         const scrollTrigger = ScrollTrigger.create({
             trigger: sectionHeading,
             start: 'top top',
             end: 'bottom -20%',
+            toggleActions: "none", // 禁用自動觸發
             onEnter: () => {
                 // 向下滾動進入時，正向播放
                 tl.play();
@@ -530,12 +556,16 @@ export default function ReportsSwiper() {
         if (typeof window === 'undefined' || !isClient || !isOpeningComplete) return;
 
         const sliderWrapper = sliderWrapperRef.current;
+        const sectionHeading = document.querySelector('#reports-section-heading');
         if (!sliderWrapper) return;
 
         // 設定初始狀態（40vw）
         gsap.set(sliderWrapper, {
             translateZ: '40vw'
         });
+
+        // 立即鎖定滾動
+        document.body.style.overflow = 'hidden';
 
         // 動畫到最終狀態（10vw）
         zoomOutTweenRef.current = gsap.to(sliderWrapper, {
@@ -544,11 +574,35 @@ export default function ReportsSwiper() {
             ease: 'power4.out'
         });
 
+        // 監聽滾動意圖
+        let hasTriggeredAnimation = false;
+        const handleScrollIntent = (e: WheelEvent) => {
+            if (!hasTriggeredAnimation && sectionHeading) {
+                hasTriggeredAnimation = true;
+                
+                // 手動觸發 ScrollTrigger 的 onEnter 事件
+                ScrollTrigger.getAll().forEach(trigger => {
+                    if (trigger.trigger === sectionHeading && trigger.vars.onEnter) {
+                        trigger.vars.onEnter();
+                    }
+                });
+                
+                // 移除監聽器
+                window.removeEventListener('wheel', handleScrollIntent);
+            }
+        };
+
+        // 添加滾輪監聽器
+        window.addEventListener('wheel', handleScrollIntent, { passive: true });
+
         // 清理函數
         return () => {
             if (zoomOutTweenRef.current) {
                 zoomOutTweenRef.current.kill();
             }
+            window.removeEventListener('wheel', handleScrollIntent);
+            // 確保清理時解鎖滾動
+            document.body.style.overflow = '';
         };
     }, [isClient, isOpeningComplete]);
 
@@ -576,7 +630,7 @@ export default function ReportsSwiper() {
         <div ref={(el) => {
             sectionRef.current = el;
             observerRef.current = el;
-        }} className="relative h-[120vh] overflow-visible">
+        }} className="relative h-screen overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen">
                 {/* 輪播展示容器：居中定位 */}
@@ -670,6 +724,27 @@ export default function ReportsSwiper() {
                     />
                 </div>
             </div>
+
+            {/* 模糊背景層 */}
+            {showBlurOverlay && (
+                <div
+                    className="fixed inset-0 w-full h-screen z-[9999] transition-opacity duration-300"
+                    style={{
+                        backgroundColor: 'rgba(0, 0, 0,0.8)'
+                    }}
+                >
+                    {/* 模糊背景效果 */}
+                    <div className="absolute inset-0 backdrop-blur-sm opacity-80" />
+
+                    {/* 在這裡加入你想要的內容 */}
+                    <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        {/* 範例：中央內容區域 */}
+                        <div className="text-white text-4xl font-bold">
+                            {/* 在這裡放入你的內容 */}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
