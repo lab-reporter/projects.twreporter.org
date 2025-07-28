@@ -42,7 +42,7 @@ export default function ReportsSection() {
       opacity: 1,
       y: '0%',
       duration: 2,
-      ease: 'power4.inOut'
+      ease: 'power4.Out'
     });
   }, [isOpeningComplete]);
 

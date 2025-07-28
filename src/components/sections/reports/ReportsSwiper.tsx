@@ -373,6 +373,7 @@ export default function ReportsSwiper() {
         };
     }, [isClient, reportsData.length]); // 只依賴必要的值，避免重複綁定事件
 
+    // 讓sliderWrapper rotateX 從90deg變回0degg的動畫
     // 副作用：設定 ScrollTrigger 動畫
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
@@ -387,41 +388,41 @@ export default function ReportsSwiper() {
 
         if (!sliderWrapper || !sectionHeading || !currentItemDisplay) return;
 
+        // 設定初始狀態
+        gsap.set(currentItemDisplay, {
+            opacity: 0
+        });
+
         // 建立 ScrollTrigger 動畫
         const scrollTrigger = ScrollTrigger.create({
             trigger: sectionHeading,
             start: 'top top',
-            end: '50% top',
-            scrub: 1,
-            markers: true,
-            onUpdate: (self) => {
-                // 計算進度 (0 到 1)
-                const progress = self.progress;
-                // 從 90deg 到 0deg 的旋轉
-                const rotateX = 90 * (1 - progress);
-
-                // translateZ 從當前值（可能是 40vw 或 10vw）逐漸減少到 0
-                const currentTranslateZ = isOpeningComplete ? 10 : 40;
-                const translateZ = currentTranslateZ * (1 - progress);
-
-                const opacitySectionHeading = Math.max(1 - progress * 2, 0);
-                const opacityCurrentItemDisplay = Math.min(progress * 2, 1);
-
-
-                gsap.set(sliderWrapper, {
-                    rotateX: rotateX,
-                    translateZ: translateZ + 'vw',
+            onEnter: () => {
+                // 當滾動到觸發點時，自動播放動畫
+                // 創建時間軸動畫
+                const tl = gsap.timeline();
+                
+                // 同時進行所有動畫，總時長 1 秒
+                tl.to(sliderWrapper, {
+                    rotateX: 0,
+                    translateZ: 0,
+                    duration: 1,
+                    ease: "power2.out",
                     overwrite: 'auto'
-                });
-
-                gsap.set(sectionHeading, {
-                    opacity: opacitySectionHeading
-                });
-
-                gsap.set(currentItemDisplay, {
-                    opacity: opacityCurrentItemDisplay
-                });
-            }
+                }, 0)
+                .to(sectionHeading, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                }, 0)
+                .to(currentItemDisplay, {
+                    opacity: 1,
+                    duration: 0.5,
+                    delay: 0.5,
+                    ease: "power2.in"
+                }, 0);
+            },
+            once: true // 只觸發一次
         });
 
         // 清理函數
@@ -475,7 +476,7 @@ export default function ReportsSwiper() {
         <div ref={(el) => {
             sectionRef.current = el;
             observerRef.current = el;
-        }} className="relative h-[150vh] overflow-visible">
+        }} className="relative h-[110vh] overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen">
                 {/* 輪播展示容器：居中定位 */}
