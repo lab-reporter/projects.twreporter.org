@@ -10,6 +10,9 @@ import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useStore } from '@/stores';
 
+// ============================
+// 型別定義區塊
+// ============================
 // 報導項目的資料結構定義
 interface ReportItem {
     // 項目唯一識別碼
@@ -27,8 +30,14 @@ interface ReportItem {
     [key: string]: unknown;
 }
 
-// 報導輪播組件主函數
+// ============================
+// 主要組件
+// ============================
+// 報導輪播組件：實現 3D 圓形輪播效果
 export default function ReportsSwiper() {
+    // ============================
+    // DOM 參考區塊
+    // ============================
     // DOM 元素參考：輪播容器的旋轉外框
     const sliderWrapperRef = useRef<HTMLDivElement>(null);
     // DOM 元素參考：整個章節區域
@@ -37,14 +46,28 @@ export default function ReportsSwiper() {
     const sliderContainerRef = useRef<HTMLDivElement>(null);
     // DOM 元素參考：當前項目資訊展示區域
     const currentItemDisplayRef = useRef<HTMLDivElement>(null);
+    // 用來儲存 zoom out 動畫的引用
+    const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
 
+    // ============================
+    // 全域狀態區塊
+    // ============================
     // 從 store 取得開場動畫完成狀態
     const isOpeningComplete = useStore((state) => state.isOpeningComplete);
 
+    // ============================
+    // 本地狀態區塊 - 基本狀態
+    // ============================
     // 狀態變數：當前顯示的輪播項目索引
     const [currentSlide, setCurrentSlide] = useState(0);
     // 狀態變數：是否已完成客戶端初始化（解決 SSR/CSR 不匹配問題）
     const [isClient, setIsClient] = useState(false);
+    // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
+    const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
+
+    // ============================
+    // 本地狀態區塊 - 模糊背景層相關
+    // ============================
     // 狀態：追蹤模糊背景層是否已經顯示過
     const [hasShownBlurOverlay, setHasShownBlurOverlay] = useState(false);
     // 狀態：追蹤模糊背景層是否正在顯示
@@ -53,9 +76,10 @@ export default function ReportsSwiper() {
     const [blurOverlayOpacity, setBlurOverlayOpacity] = useState(0);
     // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
     const hasShownBlurOverlayRef = useRef(false);
-    // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
-    const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
+    // ============================
+    // 本地狀態區塊 - 拖曳功能相關
+    // ============================
     // 拖曳相關狀態
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -63,13 +87,19 @@ export default function ReportsSwiper() {
     const [previewSlide, setPreviewSlide] = useState(0); // 預覽時的項目索引
     const dragThreshold = 50; // 觸發切換的最小拖曳距離
 
+    // ============================
+    // 效能優化 Refs 區塊
+    // ============================
     // 使用 ref 來存儲不需要觸發重新渲染的值
     const currentSlideRef = useRef(currentSlide);
     const isDraggingRef = useRef(isDragging);
     const startXRef = useRef(startX);
     const dragDeltaRef = useRef(dragDelta);
 
-    // 更新 ref 的值
+    // ============================
+    // Refs 同步區塊
+    // ============================
+    // 更新 ref 的值以避免閉包問題
     useEffect(() => {
         currentSlideRef.current = currentSlide;
     }, [currentSlide]);
@@ -86,13 +116,16 @@ export default function ReportsSwiper() {
         dragDeltaRef.current = dragDelta;
     }, [dragDelta]);
 
-    // 可見性偵測
+    // ============================
+    // 自訂 Hooks 區塊
+    // ============================
+    // 可見性偵測：用於判斷組件是否在視窗中可見
     const { elementRef: observerRef, isVisible } = useIntersectionObserver({
         threshold: 0.1,
         rootMargin: '100px'
     });
 
-    // 優化的滑鼠追蹤
+    // 優化的滑鼠追蹤：建立 3D 透視效果
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
         enabled: isClient && isVisible,
@@ -102,6 +135,9 @@ export default function ReportsSwiper() {
         lerpFactor: 0.1
     });
 
+    // ============================
+    // 工具函數區塊
+    // ============================
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數
     const getResponsiveValues = (width: number) => {
         // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
@@ -126,6 +162,23 @@ export default function ReportsSwiper() {
         }
     };
 
+    // 函數：判斷指定索引的影片是否應該播放
+    // 策略：當前項目及其前後相鄰項目才播放影片（效能最佳化）
+    const shouldPlayVideo = (index: number) => {
+        // 取得項目總數
+        const totalItems = reportsData.length;
+        // 計算前一個項目的索引（環形結構）
+        const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
+        // 計算下一個項目的索引（環形結構）
+        const nextIndex = (currentSlide + 1) % totalItems;
+
+        // 回傳是否為當前項目或相鄰項目
+        return index === currentSlide || index === prevIndex || index === nextIndex;
+    };
+
+    // ============================
+    // 計算值區塊
+    // ============================
     // 計算值：根據當前視窗寬度取得響應式參數（只在客戶端初始化後使用實際寬度）
     const { sliderSize, translateZMultiplier, perspective } = getResponsiveValues(isClient ? windowWidth : 1024);
 
@@ -134,7 +187,14 @@ export default function ReportsSwiper() {
         item.section.includes('reports')
     );
 
-    // 副作用：初始化客戶端狀態和監聽視窗大小變化
+    // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
+    const displayIndex = isDragging ? previewSlide : currentSlide;
+    const currentItem = reportsData[displayIndex] || reportsData[0];
+
+    // ============================
+    // Effects 區塊 - 客戶端初始化與視窗監聽
+    // ============================
+    // 處理客戶端初始化和視窗大小變化
     useEffect(() => {
         // 標記客戶端已初始化，啟用響應式功能
         setIsClient(true);
@@ -164,7 +224,10 @@ export default function ReportsSwiper() {
         };
     }, []); // 空依賴陣列：只在組件載入時執行一次
 
-    // 副作用：設定 3D 輪播的初始狀態（只執行一次）
+    // ============================
+    // Effects 區塊 - 3D 輪播初始化
+    // ============================
+    // 設定 3D 輪播的初始狀態
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
         if (typeof window === 'undefined' || !isClient) return;
@@ -191,7 +254,10 @@ export default function ReportsSwiper() {
         });
     }, [isClient]); // 只依賴 isClient，避免重複初始化
 
-    // 副作用：設定拖曳功能
+    // ============================
+    // Effects 區塊 - 拖曳功能設定
+    // ============================
+    // 設定拖曳互動功能
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
         if (typeof window === 'undefined' || !isClient) return;
@@ -205,6 +271,9 @@ export default function ReportsSwiper() {
         const totalItems = reportsData.length;
         const anglePerItem = 360 / totalItems;
 
+        // ============================
+        // 拖曳功能 - 內部函數
+        // ============================
         // 切換到指定索引的函數（支援最短路徑旋轉）
         const goToSlide = (index: number, preferredDirection?: 'left' | 'right') => {
             // 確保索引在有效範圍內
@@ -381,8 +450,10 @@ export default function ReportsSwiper() {
         };
     }, [isClient, reportsData.length]); // 只依賴必要的值，避免重複綁定事件
 
-    // 讓sliderWrapper rotateX 從90deg變回0degg的動畫
-    // 副作用：設定 ScrollTrigger 動畫
+    // ============================
+    // Effects 區塊 - ScrollTrigger 動畫設定
+    // ============================
+    // 設定滾動觸發動畫：讓 sliderWrapper rotateX 從 90deg 變回 0deg
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
         if (typeof window === 'undefined' || !isClient) return;
@@ -493,10 +564,10 @@ export default function ReportsSwiper() {
         };
     }, [isClient, isOpeningComplete]);
 
-    // 用來儲存 zoom out 動畫的引用
-    const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
-
-    // 副作用：開場動畫完成後的 zoom out 效果
+    // ============================
+    // Effects 區塊 - 開場後的 Zoom Out 動畫
+    // ============================
+    // 開場動畫完成後的 zoom out 效果
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
         if (typeof window === 'undefined' || !isClient || !isOpeningComplete) return;
@@ -552,24 +623,9 @@ export default function ReportsSwiper() {
         };
     }, [isClient, isOpeningComplete]);
 
-    // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
-    const displayIndex = isDragging ? previewSlide : currentSlide;
-    const currentItem = reportsData[displayIndex] || reportsData[0];
-
-    // 函數：判斷指定索引的影片是否應該播放
-    // 策略：當前項目及其前後相鄰項目才播放影片（效能最佳化）
-    const shouldPlayVideo = (index: number) => {
-        // 取得項目總數
-        const totalItems = reportsData.length;
-        // 計算前一個項目的索引（環形結構）
-        const prevIndex = (currentSlide - 1 + totalItems) % totalItems;
-        // 計算下一個項目的索引（環形結構）
-        const nextIndex = (currentSlide + 1) % totalItems;
-
-        // 回傳是否為當前項目或相鄰項目
-        return index === currentSlide || index === prevIndex || index === nextIndex;
-    };
-
+    // ============================
+    // 渲染區塊
+    // ============================
     // 組件渲染輸出（等待客戶端初始化完成後再顯示 3D 效果）
     return (
         // 主容器：設定總體滾動高度以提供足夠的滾動空間
