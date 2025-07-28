@@ -9,6 +9,8 @@ import ReportsSwiperItem from './ReportsSwiperItem';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useDragSwiper } from '@/hooks/useDragSwiper';
+import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
+import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
 import { useStore } from '@/stores';
 
 // ============================
@@ -69,8 +71,6 @@ export default function ReportsSwiper() {
     // ============================
     // 本地狀態區塊 - 模糊背景層相關
     // ============================
-    // 狀態：追蹤模糊背景層是否已經顯示過
-    const [hasShownBlurOverlay, setHasShownBlurOverlay] = useState(false);
     // 狀態：追蹤模糊背景層是否正在顯示
     const [showBlurOverlay, setShowBlurOverlay] = useState(false);
     // 狀態：追蹤模糊背景層的透明度
@@ -170,6 +170,29 @@ export default function ReportsSwiper() {
     const currentItem = reportsData[displayIndex] || reportsData[0];
 
     // ============================
+    // 動畫 Hooks 區塊
+    // ============================
+    // 使用 ScrollTrigger 動畫 Hook
+    useReportsScrollAnimation({
+        sliderWrapperRef,
+        currentItemDisplayRef,
+        zoomOutTweenRef,
+        isClient,
+        isOpeningComplete,
+        hasShownBlurOverlayRef,
+        setShowBlurOverlay,
+        setBlurOverlayOpacity
+    });
+
+    // 使用 Zoom Out 動畫 Hook
+    useReportsZoomAnimation({
+        sliderWrapperRef,
+        zoomOutTweenRef,
+        isClient,
+        isOpeningComplete
+    });
+
+    // ============================
     // Effects 區塊 - 客戶端初始化與視窗監聽
     // ============================
     // 處理客戶端初始化和視窗大小變化
@@ -233,177 +256,6 @@ export default function ReportsSwiper() {
     }, [isClient]); // 只依賴 isClient，避免重複初始化
 
 
-    // ============================
-    // Effects 區塊 - ScrollTrigger 動畫設定
-    // ============================
-    // 設定滾動觸發動畫：讓 sliderWrapper rotateX 從 90deg 變回 0deg
-    useEffect(() => {
-        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
-        if (typeof window === 'undefined' || !isClient) return;
-
-        // 註冊 ScrollTrigger 插件
-        gsap.registerPlugin(ScrollTrigger);
-
-        const sliderWrapper = sliderWrapperRef.current;
-        const currentItemDisplay = currentItemDisplayRef.current;
-        const sectionHeading = document.querySelector('#reports-section-heading');
-
-        if (!sliderWrapper || !sectionHeading || !currentItemDisplay) return;
-
-        // 設定初始狀態
-        gsap.set(currentItemDisplay, {
-            opacity: 0
-        });
-
-        // 創建時間軸動畫（在 ScrollTrigger 外部，以便重複使用）
-        const tl = gsap.timeline({ paused: true });
-
-        // 設定動畫內容 - 只往前播放，不需要反向
-        tl.to(sliderWrapper, {
-            rotateX: 0,
-            rotateY: 0,
-            translateZ: 0,
-            duration: 1,
-            ease: "power2.out",
-            onStart: () => {
-                // 動畫開始時，停止 zoom out 動畫（如果還在進行中）
-                if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
-                    zoomOutTweenRef.current.kill();
-                }
-            }
-        }, 0)
-            .to(sectionHeading, {
-                opacity: 0,
-                duration: 0.5,
-                ease: "power2.out"
-            }, 0)
-            .to(currentItemDisplay, {
-                opacity: 1,
-                duration: 0.5,
-                delay: 0.5,
-                ease: "power2.in"
-            }, 0);
-
-        // 動畫完成的回調
-        tl.eventCallback("onComplete", () => {
-            // 只在第一次動畫完成時顯示模糊背景
-            if (!hasShownBlurOverlayRef.current) {
-                hasShownBlurOverlayRef.current = true;
-                setShowBlurOverlay(true);
-                // 鎖定滾動
-                document.body.style.overflow = 'hidden';
-
-                // 0.5秒淡入到 0.8
-                setTimeout(() => {
-                    setBlurOverlayOpacity(0.8);
-                }, 50);
-
-                // 2.5秒後開始淡出
-                setTimeout(() => {
-                    setBlurOverlayOpacity(0);
-                }, 2500);
-
-                // 3秒後完全隱藏並解鎖滾動
-                setTimeout(() => {
-                    setShowBlurOverlay(false);
-                    // 解鎖滾動
-                    document.body.style.overflow = '';
-                }, 3000);
-            }
-        });
-
-        // 建立 ScrollTrigger 動畫
-        const scrollTrigger = ScrollTrigger.create({
-            trigger: sectionHeading,
-            start: 'top top',
-            toggleActions: "none", // 禁用自動觸發
-            onEnter: () => {
-                // 向下滾動進入時，正向播放
-                tl.play();
-
-                // 如果動畫被中斷，確保 opacity 最終到達正確狀態
-                gsap.to(sectionHeading, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.out",
-                    overwrite: "auto"
-                });
-                gsap.to(currentItemDisplay, {
-                    opacity: 1,
-                    duration: 0.5,
-                    delay: 0.5,
-                    ease: "power2.in",
-                    overwrite: "auto"
-                });
-            }
-            // 移除所有反向播放相關的事件
-        });
-
-        // 清理函數
-        return () => {
-            tl.kill();
-            scrollTrigger.kill();
-        };
-    }, [isClient, isOpeningComplete]);
-
-    // ============================
-    // Effects 區塊 - 開場後的 Zoom Out 動畫
-    // ============================
-    // 開場動畫完成後的 zoom out 效果
-    useEffect(() => {
-        // 檢查是否在瀏覽器環境中運行且客戶端已初始化
-        if (typeof window === 'undefined' || !isClient || !isOpeningComplete) return;
-
-        const sliderWrapper = sliderWrapperRef.current;
-        const sectionHeading = document.querySelector('#reports-section-heading');
-        if (!sliderWrapper) return;
-
-        // 設定初始狀態（40vw）
-        gsap.set(sliderWrapper, {
-            translateZ: '40vw'
-        });
-
-        // 立即鎖定滾動
-        document.body.style.overflow = 'hidden';
-
-        // 動畫到最終狀態（10vw）
-        zoomOutTweenRef.current = gsap.to(sliderWrapper, {
-            translateZ: '10vw',
-            duration: 3,
-            ease: 'power4.out'
-        });
-
-        // 監聽滾動意圖
-        let hasTriggeredAnimation = false;
-        const handleScrollIntent = () => {
-            if (!hasTriggeredAnimation && sectionHeading) {
-                hasTriggeredAnimation = true;
-
-                // 手動觸發 ScrollTrigger 的 onEnter 事件
-                ScrollTrigger.getAll().forEach(trigger => {
-                    if (trigger.trigger === sectionHeading && trigger.vars.onEnter) {
-                        trigger.vars.onEnter(trigger);
-                    }
-                });
-
-                // 移除監聽器
-                window.removeEventListener('wheel', handleScrollIntent);
-            }
-        };
-
-        // 添加滾輪監聽器
-        window.addEventListener('wheel', handleScrollIntent, { passive: true });
-
-        // 清理函數
-        return () => {
-            if (zoomOutTweenRef.current) {
-                zoomOutTweenRef.current.kill();
-            }
-            window.removeEventListener('wheel', handleScrollIntent);
-            // 確保清理時解鎖滾動
-            document.body.style.overflow = '';
-        };
-    }, [isClient, isOpeningComplete]);
 
     // ============================
     // 渲染區塊
