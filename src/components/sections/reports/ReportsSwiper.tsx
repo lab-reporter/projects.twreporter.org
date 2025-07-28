@@ -11,6 +11,7 @@ import { useDragSwiper } from '@/hooks/useDragSwiper';
 import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
 import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
 import { useStore } from '@/stores';
+import Image from 'next/image';
 
 // ============================
 // 型別定義區塊
@@ -373,10 +374,27 @@ export default function ReportsSwiper() {
                     <div className="absolute inset-0 backdrop-blur-sm opacity-80" />
 
                     {/* 在這裡加入你想要的內容 */}
-                    <div className="relative z-10 w-full h-full flex items-center justify-center">
-                        {/* 範例：中央內容區域 */}
-                        <div className="text-white text-4xl font-bold">
-                            {/* 在這裡放入你的內容 */}
+                    <div className="relative text-white px-16 z-10 w-full h-full flex items-center justify-center">
+                        <div className="w-full flex-1 flex items-center px-8 justify-center gap-2">
+                            <Image src="/assets/swipe-left.svg"
+                                alt="arrow-left"
+                                width={48}
+                                height={48} />
+                            <h6>向左滑動切換</h6>
+                        </div>
+                        <div className="w-full flex-1 flex items-center px-8 justify-center gap-2">
+                            <Image src="/assets/click.svg"
+                                alt="arrow-left"
+                                width={48}
+                                height={48} />
+                            <h6>點擊卡片檢視詳細內容</h6>
+                        </div>
+                        <div className="w-full flex-1 flex items-center px-8 justify-center gap-2">
+                            <Image src="/assets/swipe-right.svg"
+                                alt="arrow-left"
+                                width={48}
+                                height={48} />
+                            <h6>向右滑動切換</h6>
                         </div>
                     </div>
                 </div>
