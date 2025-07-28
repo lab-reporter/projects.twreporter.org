@@ -393,7 +393,7 @@ export default function ReportsSwiper() {
             observerRef.current = el;
         }} className="relative h-screen overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
-            <div className="sticky top-0 w-full h-screen overflow-hidden">
+            <div className="sticky top-0 w-full h-screen">
                 {/* 輪播展示容器：居中定位 */}
                 <div
                     ref={sliderContainerRef}
@@ -433,7 +433,7 @@ export default function ReportsSwiper() {
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
                                 // 設定 3D 透視和初始變換（使用響應式透視值）
-                                transform: `translateZ(0vw) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`
+                                transform: `translateZ(0vw) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
@@ -447,7 +447,7 @@ export default function ReportsSwiper() {
                                         transformStyle: 'preserve-3d',
                                         // 計算每個項目在圓形輪播中的位置
                                         // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) rotateZ(10deg) translateZ(${sliderSize * 6}vw)`,
+                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) rotateZ(0deg) translateZ(${sliderSize * 6}vw)`,
                                         // 設定項目尺寸
                                         width: '100%',
                                         height: '100%'

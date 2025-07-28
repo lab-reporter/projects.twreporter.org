@@ -59,7 +59,6 @@ function InnovationVideoItem({
 
     const video = videoRef.current;
 
-
     // 只要 isVisible 就嘗試播放
     if (isVisible) {
       const attemptPlay = async () => {
@@ -88,7 +87,6 @@ function InnovationVideoItem({
   // 監聽影片載入完成
   const handleVideoLoaded = useCallback(() => {
     setVideoLoaded(true);
-
 
     // 如果此時已可見，立即嘗試播放
     if (isVisible && videoRef.current) {
@@ -131,7 +129,7 @@ function InnovationVideoItem({
           loop
           muted
           playsInline
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           style={{ pointerEvents: 'none' }}
           onLoadedData={handleVideoLoaded}
           onCanPlayThrough={handleVideoLoaded}
