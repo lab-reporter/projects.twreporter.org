@@ -507,7 +507,6 @@ export default function ReportsSwiper() {
             if (!hasShownBlurOverlayRef.current) {
                 hasShownBlurOverlayRef.current = true;
                 setShowBlurOverlay(true);
-                setHasShownBlurOverlay(true);
                 // 鎖定滾動
                 document.body.style.overflow = 'hidden';
 
