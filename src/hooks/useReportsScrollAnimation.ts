@@ -68,6 +68,31 @@ export function useReportsScrollAnimation({
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
                 }
+                
+                // 同步顯示模糊背景
+                if (!hasShownBlurOverlayRef.current) {
+                    hasShownBlurOverlayRef.current = true;
+                    setShowBlurOverlay(true);
+                    // 鎖定滾動
+                    document.body.style.overflow = 'hidden';
+
+                    // 0.5秒淡入到 0.8
+                    setTimeout(() => {
+                        setBlurOverlayOpacity(0.8);
+                    }, 50);
+
+                    // 2.5秒後開始淡出
+                    setTimeout(() => {
+                        setBlurOverlayOpacity(0);
+                    }, 2500);
+
+                    // 3秒後完全隱藏並解鎖滾動
+                    setTimeout(() => {
+                        setShowBlurOverlay(false);
+                        // 解鎖滾動
+                        document.body.style.overflow = '';
+                    }, 3000);
+                }
             }
         }, 0)
             .to(sectionHeading, {
@@ -81,34 +106,6 @@ export function useReportsScrollAnimation({
                 delay: 0.5,
                 ease: "power2.in"
             }, 0);
-
-        // 動畫完成的回調
-        tl.eventCallback("onComplete", () => {
-            // 只在第一次動畫完成時顯示模糊背景
-            if (!hasShownBlurOverlayRef.current) {
-                hasShownBlurOverlayRef.current = true;
-                setShowBlurOverlay(true);
-                // 鎖定滾動
-                document.body.style.overflow = 'hidden';
-
-                // 0.5秒淡入到 0.8
-                setTimeout(() => {
-                    setBlurOverlayOpacity(0.8);
-                }, 50);
-
-                // 2.5秒後開始淡出
-                setTimeout(() => {
-                    setBlurOverlayOpacity(0);
-                }, 2500);
-
-                // 3秒後完全隱藏並解鎖滾動
-                setTimeout(() => {
-                    setShowBlurOverlay(false);
-                    // 解鎖滾動
-                    document.body.style.overflow = '';
-                }, 3000);
-            }
-        });
 
         // 建立 ScrollTrigger 動畫
         const scrollTrigger = ScrollTrigger.create({
