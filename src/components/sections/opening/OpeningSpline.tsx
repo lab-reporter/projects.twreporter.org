@@ -82,6 +82,7 @@ export default function OpeningSpline() {
     const [isVisible, setIsVisible] = useState(true);
     const [isFading, setIsFading] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [showSkipButton, setShowSkipButton] = useState(false);
     const timerRef = useRef<NodeJS.Timeout>();
     const fadeTimerRef = useRef<NodeJS.Timeout>();
     const setOpeningComplete = useStore((state) => state.setOpeningComplete);
@@ -121,6 +122,9 @@ export default function OpeningSpline() {
 
     // Spline 載入完成後啟動 12 秒計時器
     const handleSplineLoaded = () => {
+        // 顯示 skip 按鈕
+        setShowSkipButton(true);
+        
         timerRef.current = setTimeout(() => {
             // 開始淡出動畫
             setIsFading(true);
@@ -167,12 +171,14 @@ export default function OpeningSpline() {
             <div className="w-full h-full overflow-hidden m-0">
                 <SplineWrapper onLoaded={handleSplineLoaded} />
             </div>
-            <button
-                onClick={handleSkip}
-                className="absolute leading-none bottom-4 right-4 z-[99999] bg-[rgba(0,0,0,0.5)] backdrop-blur-lg text-gray-200 px-2 py-2 text-sm hover:bg-gray-800 hover:text-white transition-colors"
-            >
-                SKIP
-            </button>
+            {showSkipButton && (
+                <button
+                    onClick={handleSkip}
+                    className="absolute leading-none bottom-4 right-4 z-[99999] bg-[rgba(0,0,0,0.5)] backdrop-blur-lg text-gray-200 px-2 py-2 text-sm hover:bg-gray-800 hover:text-white transition-colors"
+                >
+                    SKIP
+                </button>
+            )}
         </div>
     );
 }
