@@ -393,43 +393,136 @@ export default function ReportsSwiper() {
             opacity: 0
         });
 
-        // 建立 ScrollTrigger 動畫
-        const scrollTrigger = ScrollTrigger.create({
-            trigger: sectionHeading,
-            start: 'top top',
-            onEnter: () => {
-                // 當滾動到觸發點時，自動播放動畫
-                // 創建時間軸動畫
-                const tl = gsap.timeline();
-                
-                // 同時進行所有動畫，總時長 1 秒
-                tl.to(sliderWrapper, {
-                    rotateX: 0,
-                    translateZ: 0,
-                    duration: 1,
-                    ease: "power2.out",
-                    overwrite: 'auto'
-                }, 0)
-                .to(sectionHeading, {
+        // 創建時間軸動畫（在 ScrollTrigger 外部，以便重複使用）
+        const tl = gsap.timeline({ paused: true });
+
+        // 設定動畫內容
+        tl.fromTo(sliderWrapper,
+            {
+                // 起始狀態
+                rotateX: 90,
+                rotateY: 0,
+                translateZ: '10vw'  // 總是從 10vw 開始
+            },
+            {
+                // 結束狀態
+                rotateX: 0,
+                rotateY: 0,  // 總是回到第一個項目
+                translateZ: 0,
+                duration: 1,
+                ease: "power2.out",
+                onStart: () => {
+                    // 動畫開始時，停止 zoom out 動畫（如果還在進行中）
+                    if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
+                        zoomOutTweenRef.current.kill();
+                    }
+                    // 立即設定 opacity 確保正確的起始狀態
+                    gsap.set(sectionHeading, { opacity: 1 });
+                    gsap.set(currentItemDisplay, { opacity: 0 });
+                }
+            }, 0)
+            .fromTo(sectionHeading,
+                { opacity: 1 },
+                {
                     opacity: 0,
                     duration: 0.5,
                     ease: "power2.out"
                 }, 0)
-                .to(currentItemDisplay, {
+            .fromTo(currentItemDisplay,
+                { opacity: 0 },
+                {
                     opacity: 1,
                     duration: 0.5,
                     delay: 0.5,
                     ease: "power2.in"
                 }, 0);
+
+        // 建立 ScrollTrigger 動畫
+        const scrollTrigger = ScrollTrigger.create({
+            trigger: sectionHeading,
+            start: 'top top',
+            end: 'bottom -20%',
+            onEnter: () => {
+                // 向下滾動進入時，正向播放
+                tl.play();
+
+                // 如果動畫被中斷，確保 opacity 最終到達正確狀態
+                gsap.to(sectionHeading, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+                gsap.to(currentItemDisplay, {
+                    opacity: 1,
+                    duration: 0.5,
+                    delay: 0.5,
+                    ease: "power2.in",
+                    overwrite: "auto"
+                });
             },
-            once: true // 只觸發一次
+            onLeaveBack: () => {
+                // 向上滾動離開時，重置到第一個項目
+                gsap.to(sliderWrapper, {
+                    rotateY: 0,
+                    duration: 0.3,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        // 更新當前項目索引為 0
+                        setCurrentSlide(0);
+                        // 重置完成後再播放反向動畫
+                        tl.reverse();
+                    }
+                });
+
+                // 確保 opacity 也會恢復
+                gsap.to(sectionHeading, {
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: "power2.in",
+                    overwrite: "auto"
+                });
+                gsap.to(currentItemDisplay, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            },
+            onEnterBack: () => {
+                // 從下方再次進入時，直接正向播放（rotateY 已經是 0）
+                tl.play();
+
+                // 確保 opacity 狀態正確
+                gsap.to(sectionHeading, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+                gsap.to(currentItemDisplay, {
+                    opacity: 1,
+                    duration: 0.5,
+                    delay: 0.5,
+                    ease: "power2.in",
+                    overwrite: "auto"
+                });
+            },
+            onLeave: () => {
+                // 向下滾動完全離開時，可選擇是否要反向播放
+                // tl.reverse();
+            }
         });
 
         // 清理函數
         return () => {
+            tl.kill();
             scrollTrigger.kill();
         };
     }, [isClient, isOpeningComplete]);
+
+    // 用來儲存 zoom out 動畫的引用
+    const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
 
     // 副作用：開場動畫完成後的 zoom out 效果
     useEffect(() => {
@@ -445,11 +538,18 @@ export default function ReportsSwiper() {
         });
 
         // 動畫到最終狀態（10vw）
-        gsap.to(sliderWrapper, {
+        zoomOutTweenRef.current = gsap.to(sliderWrapper, {
             translateZ: '10vw',
             duration: 3,
             ease: 'power4.out'
         });
+
+        // 清理函數
+        return () => {
+            if (zoomOutTweenRef.current) {
+                zoomOutTweenRef.current.kill();
+            }
+        };
     }, [isClient, isOpeningComplete]);
 
     // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
@@ -476,7 +576,7 @@ export default function ReportsSwiper() {
         <div ref={(el) => {
             sectionRef.current = el;
             observerRef.current = el;
-        }} className="relative h-[110vh] overflow-visible">
+        }} className="relative h-[120vh] overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen">
                 {/* 輪播展示容器：居中定位 */}
@@ -518,7 +618,7 @@ export default function ReportsSwiper() {
                                 // 保持 3D 變換樣式
                                 transformStyle: 'preserve-3d',
                                 // 設定 3D 透視和初始變換（使用響應式透視值）
-                                transform: `translateZ(${isOpeningComplete ? '10vw' : '40vw'}) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
+                                transform: `translateZ(10vw) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
                             }}
                         >
                             {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
