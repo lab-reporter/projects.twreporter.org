@@ -238,7 +238,12 @@ export default function InnovationsSection() {
 
   useScrollTrigger({
     sectionId: 'section-innovations',
-    sectionName: 'innovations'
+    sectionName: 'innovations',
+    // 當章節頂部進入視窗 50% 位置時觸發（更晚觸發，確保在 ReportsSection 區域時不會被誤判）
+    start: "top 50%",
+    // 當章節底部離開視窗 20% 處時結束
+    end: "bottom 20%",
+    delay: 200
   });
 
   // 處理項目點擊

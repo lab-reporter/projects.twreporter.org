@@ -56,8 +56,8 @@ export default function ReportsStickyPhoto({ imgSrcs, alts }: ReportsStickyPhoto
                     scrollTrigger: {
                         trigger: containerRef.current,
                         scroller: modalScrollContainer, // 指定 Modal內部的滾動容器
-                        start: 'top bottom',    // 當紅框頂部在視窗中央時開始
-                        end: 'bottom top',   // 當紅框底部在視窗中央時結束
+                        start: 'top 60%',
+                        end: 'top 10%',
                         scrub: 1,              // 平滑跟隨滾動
                         invalidateOnRefresh: true, // 視窗大小改變時重新計算
                         markers: {

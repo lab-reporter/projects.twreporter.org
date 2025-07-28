@@ -126,15 +126,15 @@
 }
 
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 
 .animate-marquee-slow {
-  animation: marquee-slow 45s linear infinite;
+  animation: marquee-slow 60s linear infinite;
 }
 
 .animate-marquee-fast {
-  animation: marquee-fast 15s linear infinite;
+  animation: marquee-fast 20s linear infinite;
 }
 
 .pause {

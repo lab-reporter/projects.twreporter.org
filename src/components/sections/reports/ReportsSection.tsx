@@ -15,8 +15,8 @@ export default function ReportsSection() {
     sectionName: 'reports',
     // 當章節頂部進入視窗 90% 位置時觸發（更早觸發）
     start: "top 90%",
-    // 當章節底部離開視窗頂部時結束
-    end: "bottom top",
+    // 當章節底部離開視窗 20% 處時結束（給更多空間避免過早切換）
+    end: "bottom 20%",
     // 減少延遲，確保動畫完成後立即生效
     delay: 100
   });
