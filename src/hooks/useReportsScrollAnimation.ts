@@ -17,6 +17,9 @@ interface UseReportsScrollAnimationOptions {
     hasShownBlurOverlayRef: RefObject<boolean>;
     setShowBlurOverlay: (show: boolean) => void;
     setBlurOverlayOpacity: (opacity: number) => void;
+    // 滑鼠追蹤範圍相關
+    setMouseRangeMin?: (value: number) => void;
+    setMouseRangeMax?: (value: number) => void;
 }
 
 // ============================
@@ -30,7 +33,9 @@ export function useReportsScrollAnimation({
     isOpeningComplete,
     hasShownBlurOverlayRef,
     setShowBlurOverlay,
-    setBlurOverlayOpacity
+    setBlurOverlayOpacity,
+    setMouseRangeMin,
+    setMouseRangeMax
 }: UseReportsScrollAnimationOptions) {
     // ============================
     // ScrollTrigger 動畫設定
@@ -67,6 +72,21 @@ export function useReportsScrollAnimation({
                 // 動畫開始時，停止 zoom out 動畫（如果還在進行中）
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
+                }
+
+                // 立即開始動畫化滑鼠追蹤範圍
+                if (setMouseRangeMin && setMouseRangeMax) {
+                    const animationValues = { min: 30, max: 70 };
+                    gsap.to(animationValues, {
+                        min: 46,
+                        max: 54,
+                        duration: 0.5,
+                        ease: "power2.inOut",
+                        onUpdate: () => {
+                            setMouseRangeMin(animationValues.min);
+                            setMouseRangeMax(animationValues.max);
+                        }
+                    });
                 }
 
                 // 同步顯示模糊背景
@@ -139,5 +159,5 @@ export function useReportsScrollAnimation({
             tl.kill();
             scrollTrigger.kill();
         };
-    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef]);
+    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax]);
 }

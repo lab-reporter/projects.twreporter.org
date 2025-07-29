@@ -27,8 +27,8 @@ export default function ReportsParallaxPhoto({ photos }: ReportsParallaxPhotoPro
         enabled: true,
         targetRef: containerRef,
         cssProperty: 'perspectiveOrigin',
-        rangeMin: 30,
-        rangeMax: 70,
+        rangeMin: 20,
+        rangeMax: 80,
         useLerp: true,
         lerpFactor: 0.1
     });

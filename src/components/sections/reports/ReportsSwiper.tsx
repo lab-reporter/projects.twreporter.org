@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
@@ -78,6 +79,13 @@ export default function ReportsSwiper() {
     // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
     const hasShownBlurOverlayRef = useRef(false);
 
+    // ============================
+    // 本地狀態區塊 - 滑鼠追蹤參數
+    // ============================
+    // 狀態：動態調整滑鼠追蹤範圍
+    const [mouseRangeMin, setMouseRangeMin] = useState(30);
+    const [mouseRangeMax, setMouseRangeMax] = useState(70);
+
 
     // ============================
     // 自訂 Hooks 區塊
@@ -92,8 +100,8 @@ export default function ReportsSwiper() {
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
         enabled: isClient && isVisible,
-        rangeMin: 40,
-        rangeMax: 60,
+        rangeMin: mouseRangeMin,
+        rangeMax: mouseRangeMax,
         useLerp: true,
         lerpFactor: 0.1
     });
@@ -181,7 +189,9 @@ export default function ReportsSwiper() {
         isOpeningComplete,
         hasShownBlurOverlayRef,
         setShowBlurOverlay,
-        setBlurOverlayOpacity
+        setBlurOverlayOpacity,
+        setMouseRangeMin,
+        setMouseRangeMax
     });
 
     // 使用 Zoom Out 動畫 Hook
