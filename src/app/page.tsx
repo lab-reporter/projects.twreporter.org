@@ -34,8 +34,13 @@ export default function Home() {
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
 
-  // 頁面載入時強制回到頂部
+  // 禁用瀏覽器滾動恢復並強制回到頂部
   useEffect(() => {
+    // 禁用瀏覽器的自動滾動恢復功能
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     // 立即滾動到頂部
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;

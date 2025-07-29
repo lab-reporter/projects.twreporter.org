@@ -140,7 +140,6 @@ const ChallengeParallax = () => {
     const currentItemDisplayRef = useRef<HTMLDivElement>(null);
     const { openModal } = useStore();
     const [hoveredItem, setHoveredItem] = useState<ProjectItem | null>(null);
-    const [hasHovered, setHasHovered] = useState(false);
 
     // 使用滑鼠追蹤 Hook
     useMouseTracking3D({
@@ -171,26 +170,117 @@ const ChallengeParallax = () => {
                     transform: `translate3d(${x}px, ${y}px, -100px)`
                 });
 
-                // 創建 ScrollTrigger 動畫
-                ScrollTrigger.create({
-                    trigger: containerRef.current,
-                    start: "top center",
-                    once: true,
-                    onEnter: () => {
-                        gsap.to(element, {
-                            opacity: 1,
-                            transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
-                            duration: 1,
-                            delay: index * 0.1, // stagger 效果
-                            ease: "power2.out"
-                        });
+                // 創建基於滾動進度的進入動畫
+                gsap.to(element, {
+                    opacity: 1,
+                    transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
+                    ease: "none", // 滾動動畫通常使用線性
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: `top center+=${index * 50}`, // 每個元素錯開啟動
+                        end: `top top+=${index * 50 + 200}`, // 錯開結束點
+                        scrub: 1, // 綁定滾動，1 表示平滑追蹤
+                        markers: false // 開發時可設為 true 查看觸發點
                     }
                 });
+
+                // 創建基於滾動進度的離開動畫
+                gsap.fromTo(element,
+                    {
+                        // 起始狀態：當前狀態
+                        opacity: 1,
+                        transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`
+                    },
+                    {
+                        // 結束狀態
+                        opacity: 0,
+                        transform: `translate3d(${x}px, ${y}px, 500px)`,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: containerRef.current,
+                            start: `bottom center+=${index * 30}`, // 元素底部碰到視窗 90%，錯開啟動
+                            end: `bottom top+=${index * 30}`, // 元素底部碰到視窗中心，錯開結束
+                            scrub: 1,
+                            markers: false
+                        }
+                    }
+                );
             });
         }, containerRef);
 
         return () => ctx.revert();
     }, []);
+
+    // 根據 hoveredItem 狀態控制顯示
+    useEffect(() => {
+        // 找到父容器，然後找到兄弟元素 SectionHeadings
+        const parentContainer = containerRef.current?.parentElement;
+        const sectionHeading = parentContainer?.querySelector('.section-headings');
+
+        // Debug log
+        if (process.env.NODE_ENV === 'development') {
+            console.log('ChallengeParallax hoveredItem changed:', hoveredItem, 'sectionHeading found:', !!sectionHeading);
+        }
+
+        if (hoveredItem) {
+            // 有 hover：隱藏 SectionHeading，顯示 CurrentItemDisplay
+            if (sectionHeading) {
+                // 先停止所有進行中的動畫
+                gsap.killTweensOf(sectionHeading);
+
+                gsap.to(sectionHeading, {
+                    opacity: 0,
+                    duration: 0.3,
+                    onComplete: () => {
+                        // 只有在 hoveredItem 還存在時才隱藏
+                        if (hoveredItem) {
+                            (sectionHeading as HTMLElement).style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            if (currentItemDisplayRef.current) {
+                // 先停止所有進行中的動畫
+                gsap.killTweensOf(currentItemDisplayRef.current);
+
+                gsap.set(currentItemDisplayRef.current, { display: 'block' });
+                gsap.to(currentItemDisplayRef.current, {
+                    opacity: 1,
+                    duration: 0.3
+                });
+            }
+        } else {
+            // 沒有 hover：顯示 SectionHeading，隱藏 CurrentItemDisplay
+            if (sectionHeading) {
+                // 先停止所有進行中的動畫
+                gsap.killTweensOf(sectionHeading);
+
+                // 確保元素是可見的
+                (sectionHeading as HTMLElement).style.display = '';
+                gsap.to(sectionHeading, {
+                    opacity: 1,
+                    duration: 0.3
+                });
+            }
+
+            if (currentItemDisplayRef.current) {
+                // 先停止所有進行中的動畫
+                gsap.killTweensOf(currentItemDisplayRef.current);
+
+                gsap.to(currentItemDisplayRef.current, {
+                    opacity: 0,
+                    duration: 0.3,
+                    onComplete: () => {
+                        // 只有在 hoveredItem 還是 null 時才隱藏
+                        if (!hoveredItem && currentItemDisplayRef.current) {
+                            currentItemDisplayRef.current.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        }
+    }, [hoveredItem]);
 
     // 處理 hover 效果
     const handleImageHover = (imageSrc: string) => {
@@ -209,35 +299,6 @@ const ChallengeParallax = () => {
 
         if (projectData) {
             setHoveredItem(projectData);
-            
-            // 第一次 hover 時，隱藏 SectionHeading 並顯示 CurrentItemDisplay
-            if (!hasHovered) {
-                setHasHovered(true);
-                
-                // 找到 SectionHeading 元素並隱藏
-                // 向上查找到 sticky container，然後找到所有具有 section-headings class 的元素
-                const stickyContainer = containerRef.current?.closest('.sticky');
-                const sectionHeading = stickyContainer?.querySelector('.section-headings');
-                
-                if (sectionHeading) {
-                    gsap.to(sectionHeading, {
-                        opacity: 0,
-                        duration: 0.3,
-                        onComplete: () => {
-                            (sectionHeading as HTMLElement).style.display = 'none';
-                        }
-                    });
-                }
-                
-                // 顯示 CurrentItemDisplay
-                if (currentItemDisplayRef.current) {
-                    gsap.set(currentItemDisplayRef.current, { display: 'block' });
-                    gsap.to(currentItemDisplayRef.current, {
-                        opacity: 1,
-                        duration: 0.3
-                    });
-                }
-            }
         }
     };
 
@@ -315,7 +376,7 @@ const ChallengeParallax = () => {
                         className="object-cover shadow-lg hover:shadow-xl transition-shadow duration-300" />
                 </div>
             ))}
-            
+
             {/* CurrentItemDisplay - 置中顯示 */}
             <div
                 ref={currentItemDisplayRef}
@@ -325,16 +386,11 @@ const ChallengeParallax = () => {
                     display: 'none'
                 }}
             >
-                {hoveredItem ? (
+                {hoveredItem && (
                     <CurrentItemDisplay
                         title={hoveredItem.title}
                         subtitle={hoveredItem.subtitle}
                     />
-                ) : (
-                    // 預設文字區塊 - 你可以在這裡編輯內容
-                    <div className="text-center">
-                        <h3>點選有興趣的項目</h3>
-                    </div>
                 )}
             </div>
         </div>
