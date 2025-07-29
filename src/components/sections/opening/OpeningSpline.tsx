@@ -132,6 +132,8 @@ export default function OpeningSpline() {
             fadeTimerRef.current = setTimeout(() => {
                 setIsVisible(false);
                 setOpeningComplete(true);
+                // 確保在開場動畫結束後滾動位置正確
+                window.scrollTo(0, 0);
             }, 1000);
         }, 12000); // 12 秒後開始淡出
     };
@@ -149,6 +151,8 @@ export default function OpeningSpline() {
         setTimeout(() => {
             setIsVisible(false);
             setOpeningComplete(true);
+            // 確保在開場動畫結束後滾動位置正確
+            window.scrollTo(0, 0);
         }, 300); // 快速淡出
     };
 

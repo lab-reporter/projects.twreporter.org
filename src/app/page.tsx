@@ -46,12 +46,28 @@ export default function Home() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
-    // 額外保險：確保 DOM 渲染後再次滾動到頂部
-    const timer = setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
+    // 多重保險：在不同時機確保滾動位置重置
+    const timers = [
+      setTimeout(() => window.scrollTo(0, 0), 0),
+      setTimeout(() => window.scrollTo(0, 0), 100),
+      setTimeout(() => window.scrollTo(0, 0), 300),
+    ];
 
-    return () => clearTimeout(timer);
+    // 監聽頁面完全載入
+    const handleLoad = () => {
+      window.scrollTo(0, 0);
+    };
+    
+    if (document.readyState !== 'complete') {
+      window.addEventListener('load', handleLoad);
+    } else {
+      handleLoad();
+    }
+
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener('load', handleLoad);
+    };
   }, []); // 空依賴，只在組件首次載入時執行
 
   // 載入完成後的捲動控制 - 暫時停用

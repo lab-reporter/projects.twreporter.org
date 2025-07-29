@@ -84,10 +84,10 @@ const parallaxImages = [
         alt: "Challenge Parallax Image 7",
         x: 0,
         y: 0,
-        z: 30,
+        z: 60,
         width: "12.5%",
-        top: "80%",
-        left: "10%",
+        top: "65%",
+        left: "20%",
         zIndex: 1
     },
     {
@@ -194,12 +194,12 @@ const ChallengeParallax = () => {
                     {
                         // 結束狀態
                         opacity: 0,
-                        transform: `translate3d(${x}px, ${y}px, 500px)`,
+                        transform: `translate3d(${x}px, ${y}px, 1000px)`,
                         ease: "none",
                         scrollTrigger: {
                             trigger: containerRef.current,
-                            start: `bottom center+=${index * 30}`, // 元素底部碰到視窗 90%，錯開啟動
-                            end: `bottom top+=${index * 30}`, // 元素底部碰到視窗中心，錯開結束
+                            start: `bottom center+=${index * 30}`, // 錯開啟動
+                            end: `bottom 25%+=${index * -30}`, // 錯開結束
                             scrub: 1,
                             markers: false
                         }
