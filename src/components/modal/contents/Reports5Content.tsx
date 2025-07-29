@@ -39,7 +39,7 @@ export default function Reports5Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-5/report-5-1.webp",
-            position: { top: "20%", left: "25%", z: 42 },
+            position: { top: "20%", left: "18%", z: 42 },
             width: "26vw"
           },
           {
@@ -49,7 +49,7 @@ export default function Reports5Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-5/report-5-3.webp",
-            position: { top: "15%", left: "55%", z: 35 },
+            position: { top: "15%", left: "63%", z: 35 },
             width: "28vw"
           },
           {
@@ -59,7 +59,7 @@ export default function Reports5Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-5/report-5-5.webp",
-            position: { top: "50%", left: "30%", z: 45 },
+            position: { top: "55%", left: "30%", z: 45 },
             width: "30vw"
           }
         ]}

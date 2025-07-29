@@ -43,22 +43,22 @@ export default function Reports6Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-6/report-6-2.webp",
-            position: { top: "10%", left: "50%", z: 62 },
+            position: { top: "15%", left: "50%", z: 62 },
             width: "29vw"
           },
           {
             src: "/assets/reports/report-6/report-6-3.webp",
-            position: { top: "40%", left: "5%", z: 38 },
+            position: { top: "50%", left: "5%", z: 38 },
             width: "21vw"
           },
           {
             src: "/assets/reports/report-6/report-6-4.webp",
-            position: { top: "55%", left: "40%", z: 55 },
-            width: "27vw"
+            position: { top: "65%", left: "40%", z: 55 },
+            width: "20vw"
           },
           {
             src: "/assets/reports/report-6/report-6-5.webp",
-            position: { top: "30%", left: "65%", z: 43 },
+            position: { top: "50%", left: "65%", z: 43 },
             width: "23vw"
           }
         ]}

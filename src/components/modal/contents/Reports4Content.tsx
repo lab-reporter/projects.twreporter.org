@@ -41,8 +41,8 @@ export default function Reports4Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-4/report-4-1.webp",
-            position: { top: "10%", left: "15%", z: 55 },
-            width: "27vw"
+            position: { top: "8%", left: "23%", z: 55 },
+            width: "25vw"
           },
           {
             src: "/assets/reports/report-4/report-4-2.webp",
@@ -51,18 +51,18 @@ export default function Reports4Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-4/report-4-3.webp",
-            position: { top: "25%", left: "5%", z: 65 },
-            width: "29vw"
+            position: { top: "25%", left: "8%", z: 65 },
+            width: "23vw"
           },
           {
             src: "/assets/reports/report-4/report-4-4.webp",
-            position: { top: "55%", left: "35%", z: 35 },
-            width: "21vw"
+            position: { top: "58%", left: "30%", z: 35 },
+            width: "24vw"
           },
           {
             src: "/assets/reports/report-4/report-4-5.webp",
-            position: { top: "30%", left: "60%", z: 50 },
-            width: "25vw"
+            position: { top: "16%", left: "63%", z: 50 },
+            width: "28vw"
           }
         ]}
       />
