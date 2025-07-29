@@ -80,6 +80,11 @@ export default function ReportsParallaxPhoto({ photos }: ReportsParallaxPhotoPro
                             height={1333}
                             className="w-full h-auto border-4 border-white shadow-lg hover:shadow-xl transition-shadow duration-300"
                         />
+                        {/* 調試資訊 - 顯示位置和寬度參數 */}
+                        <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                            <div>T: {position.top} | L: {position.left}</div>
+                            <div>Z: {position.z} | W: {width}</div>
+                        </div>
                     </div>
                 );
             })}

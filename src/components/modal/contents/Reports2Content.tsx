@@ -44,18 +44,18 @@ export default function Reports2Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-2/report-2-2.webp",
-            position: { top: "20%", left: "55%", z: 60 },
-            width: "30vw"
+            position: { top: "15%", left: "45%", z: 60 },
+            width: "20vw"
           },
           {
             src: "/assets/reports/report-2/report-2-3.webp",
             position: { top: "50%", left: "20%", z: 30 },
-            width: "26vw"
+            width: "20vw"
           },
           {
             src: "/assets/reports/report-2/report-2-4.webp",
-            position: { top: "55%", left: "60%", z: 50 },
-            width: "25vw"
+            position: { top: "45%", left: "55%", z: 50 },
+            width: "30vw"
           }
         ]}
       />

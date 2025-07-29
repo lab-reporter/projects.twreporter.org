@@ -43,17 +43,17 @@ export default function Reports3Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-3/report-3-1.webp",
-            position: { top: "15%", left: "10%", z: 45 },
-            width: "25vw"
+            position: { top: "15%", left: "12%", z: 45 },
+            width: "22vw"
           },
           {
             src: "/assets/reports/report-3/report-3-2.webp",
-            position: { top: "35%", left: "55%", z: 60 },
+            position: { top: "55%", left: "35%", z: 60 },
             width: "28vw"
           },
           {
             src: "/assets/reports/report-3/report-3-3.webp",
-            position: { top: "50%", left: "25%", z: 35 },
+            position: { top: "52%", left: "8%", z: 35 },
             width: "22vw"
           },
           {
@@ -63,7 +63,7 @@ export default function Reports3Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-3/report-3-5.webp",
-            position: { top: "45%", left: "60%", z: 40 },
+            position: { top: "45%", left: "67%", z: 40 },
             width: "24vw"
           }
         ]}
