@@ -1,6 +1,7 @@
 import { useEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useStore } from '@/stores';
 
 // ============================
 // 型別定義
@@ -37,6 +38,8 @@ export function useReportsScrollAnimation({
     setMouseRangeMin,
     setMouseRangeMax
 }: UseReportsScrollAnimationOptions) {
+    // 取得導航欄控制函數
+    const { setNavigationVisible } = useStore();
     // ============================
     // ScrollTrigger 動畫設定
     // ============================
@@ -73,6 +76,9 @@ export function useReportsScrollAnimation({
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
                 }
+                
+                // 隱藏導航欄
+                setNavigationVisible(false);
 
                 // 立即開始動畫化滑鼠追蹤範圍
                 if (setMouseRangeMin && setMouseRangeMax) {
@@ -159,5 +165,5 @@ export function useReportsScrollAnimation({
             tl.kill();
             scrollTrigger.kill();
         };
-    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax]);
+    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible]);
 }

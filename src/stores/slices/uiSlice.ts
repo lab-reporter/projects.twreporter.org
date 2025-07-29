@@ -4,6 +4,7 @@ import { StoreState } from '../index'
 export interface UISlice {
   // 導航狀態
   isNavigationOpen: boolean
+  isNavigationVisible: boolean
   isSidePanelOpen: boolean
   sidePanelContent: string | null
   
@@ -28,6 +29,7 @@ export interface UISlice {
   
   // 動作
   setNavigationOpen: (isOpen: boolean) => void
+  setNavigationVisible: (isVisible: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
   openModal: (contentId: string, data?: Record<string, unknown> | null) => void
@@ -45,6 +47,7 @@ export const uiSlice: StateCreator<
   UISlice
 > = (set) => ({
   isNavigationOpen: false,
+  isNavigationVisible: true,
   isSidePanelOpen: false,
   sidePanelContent: null,
   
@@ -66,6 +69,11 @@ export const uiSlice: StateCreator<
   setNavigationOpen: (isOpen) =>
     set((state) => {
       state.isNavigationOpen = isOpen
+    }),
+  
+  setNavigationVisible: (isVisible) =>
+    set((state) => {
+      state.isNavigationVisible = isVisible
     }),
     
   setSidePanelOpen: (isOpen) =>

@@ -72,6 +72,12 @@ export default function ReportsSection() {
             《報導者》許多報導因為讀者的迴響，具體改變了政策與受訪者處境。
             點開報導，你將看見這些改變如何發生。
           </p>
+          <div className="flex flex-col items-center justify-center mt-4 gap-2 mx-auto">
+            <div className="w-[1px] h-32 bg-gray-600"></div>
+            <h6 className="text-base text-gray-600 inline-block rounded-sm">
+              Scroll to Explore
+            </h6>
+          </div>
         </SectionHeadings>
       </div>
 
