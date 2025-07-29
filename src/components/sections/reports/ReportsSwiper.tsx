@@ -162,7 +162,7 @@ export default function ReportsSwiper() {
     // 拖曳功能 Hook
     // ============================
     // 使用自訂的拖曳 Hook 來處理所有拖曳相關邏輯
-    const { isDragging, dragDelta, previewSlide } = useDragSwiper({
+    const { isDragging, dragDelta, previewSlide, goToSlide } = useDragSwiper({
         totalItems: reportsData.length,
         anglePerItem: 360 / reportsData.length,
         dragThreshold: 50,
@@ -350,6 +350,9 @@ export default function ReportsSwiper() {
                                         projectData={item}
                                         isDragging={isDragging}
                                         dragDelta={dragDelta}
+                                        isActive={index === displayIndex}
+                                        index={index}
+                                        onItemClick={goToSlide}
                                     />
                                 </div>
                             ))}

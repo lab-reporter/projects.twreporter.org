@@ -14,9 +14,12 @@ interface ReportsSwiperItemProps {
   projectData?: Record<string, unknown>; // 完整的專案資料，用於 Modal 顯示
   isDragging?: boolean; // 是否正在拖曳
   dragDelta?: number; // 拖曳距離
+  isActive?: boolean; // 是否為當前顯示的項目
+  index?: number; // 項目索引
+  onItemClick?: (index: number) => void; // 點擊項目的回調函數
 }
 
-export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData, isDragging = false, dragDelta = 0 }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData, isDragging = false, dragDelta = 0, isActive = false, index = 0, onItemClick }: ReportsSwiperItemProps) {
   const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,20 +39,28 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
     setHasMouseMoved(false);
   };
 
-  // 點擊事件處理器 - 開啟對應的 Modal
+  // 點擊事件處理器 - 開啟對應的 Modal 或切換項目
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     // 計算按下到放開的時間
     const clickDuration = Date.now() - mouseDownTime;
-    
+
     // 如果正在拖曳、拖曳距離超過 10px、按住時間太長（超過 200ms）或有移動，都不觸發點擊
     if (isDragging || Math.abs(dragDelta) > 10 || clickDuration > 200 || hasMouseMoved) {
       return;
     }
-    
-    if (projectData) {
-      openModal(id, projectData);
+
+    if (!isActive) {
+      // 如果不是當前項目，切換到該項目
+      if (onItemClick) {
+        onItemClick(index);
+      }
+    } else {
+      // 如果是當前項目，開啟 modal
+      if (projectData) {
+        openModal(id, projectData);
+      }
     }
   };
 
@@ -107,9 +118,9 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
   return (
     <div
       className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100 select-none"
-      style={{ 
-        backgroundColor: bgColor || '#F1F1F1', 
-        cursor: 'pointer',
+      style={{
+        backgroundColor: bgColor || '#F1F1F1',
+        cursor: isActive ? 'zoom-in' : 'pointer',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         MozUserSelect: 'none',
@@ -117,7 +128,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
       }}
       onMouseDown={handleMouseDown}
       onClick={handleClick}
-      data-custom-cursor="VIEW"
+      data-custom-cursor={isActive ? "VIEW" : "SWITCH"}
     >
       {/* 媒體內容 */}
       <div className="w-full h-full overflow-hidden relative bg-white select-none" style={{ cursor: 'none', userSelect: 'none' }}>
