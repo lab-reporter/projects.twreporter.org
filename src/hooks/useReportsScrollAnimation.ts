@@ -68,7 +68,7 @@ export function useReportsScrollAnimation({
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
                 }
-                
+
                 // 同步顯示模糊背景
                 if (!hasShownBlurOverlayRef.current) {
                     hasShownBlurOverlayRef.current = true;
@@ -76,9 +76,9 @@ export function useReportsScrollAnimation({
                     // 鎖定滾動
                     document.body.style.overflow = 'hidden';
 
-                    // 0.5秒淡入到 0.8
+                    // 0.5秒淡入
                     setTimeout(() => {
-                        setBlurOverlayOpacity(0.8);
+                        setBlurOverlayOpacity(1);
                     }, 50);
 
                     // 2.5秒後開始淡出

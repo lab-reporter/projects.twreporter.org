@@ -365,17 +365,16 @@ export default function ReportsSwiper() {
             {/* 模糊背景層 */}
             {showBlurOverlay && (
                 <div
-                    className="fixed inset-0 w-full h-screen z-[9999] transition-opacity duration-500"
+                    className="fixed inset-0 w-full h-screen z-[10] transition-opacity duration-500"
                     style={{
-                        backgroundColor: 'rgba(0, 0, 0,0.8)',
                         opacity: blurOverlayOpacity
                     }}
                 >
                     {/* 模糊背景效果 */}
-                    <div className="absolute inset-0 backdrop-blur-sm opacity-80" />
+                    <div className="bg-black/80 absolute inset-0 backdrop-blur-sm" />
 
                     {/* 在這裡加入你想要的內容 */}
-                    <div className="relative text-white px-16 z-10 w-full h-full flex items-center justify-center">
+                    <div className="relative text-white px-32 z-10 w-full h-full flex items-center justify-center">
                         <div className="w-full flex-1 flex items-center px-8 justify-center gap-2">
                             <Image src="/assets/swipe-left.svg"
                                 alt="arrow-left"
@@ -396,6 +395,20 @@ export default function ReportsSwiper() {
                                 width={48}
                                 height={48} />
                             <h6>向右滑動切換</h6>
+                        </div>
+                        <div className="border border-2 border-red-50 absolute top-1/2 -translate-y-1/2 right-0 w-16 h-[22rem]">
+                            <h6
+                                className="text-sm absolute top-1/2 -translate-y-1/2 left-[-2rem]"
+                                style={{
+                                    writingMode: 'vertical-rl'
+                                }}
+                            >點擊切換至不同Section</h6>
+                        </div>
+                        <div className="absolute bottom-0 right-0 flex items-center justify-center gap-2">
+                            <h6
+                                className="text-sm text-right"
+                            >跳至下一個Section</h6>
+                            <div className="w-16 h-16 border border-2 border-red-50"></div>
                         </div>
                     </div>
                 </div>
