@@ -13,6 +13,10 @@ export default function Modal() {
   const modalBodyRef = useRef<HTMLDivElement>(null);
   const [shouldRender, setShouldRender] = useState(false);
   const [modalDataSnapshot, setModalDataSnapshot] = useState<unknown>(null);
+  const [adjacentProjectsSnapshot, setAdjacentProjectsSnapshot] = useState<{
+    prev: any | null;
+    next: any | null;
+  }>({ prev: null, next: null });
 
   // 使用導航和鍵盤 hooks
   const { adjacentProjects, handleNavigate } = useModalNavigation();
@@ -44,6 +48,8 @@ export default function Modal() {
     if (modal.isOpen) {
       // 更新數據快照（包含導航時的數據變更）
       setModalDataSnapshot(modal.data);
+      // 更新相鄰項目快照
+      setAdjacentProjectsSnapshot(adjacentProjects);
 
       // 立即顯示組件
       setShouldRender(true);
@@ -85,6 +91,7 @@ export default function Modal() {
             // 動畫完成後隱藏組件並清除快照
             setShouldRender(false);
             setModalDataSnapshot(null);
+            setAdjacentProjectsSnapshot({ prev: null, next: null });
           }
         });
       }
@@ -96,7 +103,7 @@ export default function Modal() {
       openTween?.kill();
       closeTween?.kill();
     };
-  }, [modal.isOpen, modal.data, shouldRender]);
+  }, [modal.isOpen, modal.data, shouldRender, adjacentProjects]);
 
   if (!shouldRender) return null;
 
@@ -132,7 +139,7 @@ export default function Modal() {
       <div>
         <ContentComponent
           projectData={safeProjectData} onClose={closeModal} onNavigate={handleNavigate}
-          adjacentProjects={adjacentProjects} scrollContainer={scrollContainerRef.current}
+          adjacentProjects={adjacentProjectsSnapshot} scrollContainer={scrollContainerRef.current}
         />
       </div>
     );
