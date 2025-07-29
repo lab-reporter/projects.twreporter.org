@@ -16,34 +16,51 @@ export default function Reports2Content({ projectData, onNavigate, adjacentProje
         date="2021.08"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "揭露原住民保留地以各種假人頭買賣手法轉給非原住民進行開發，直接影響最高法院民事大法庭裁定假人頭買賣無效。" },
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2022 亞洲出版協會卓越新聞獎（SOPA）【卓越環境報導獎—首獎】" },
-                { text: "2022 吳舜文新聞獎【新聞深度報導獎】" },
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "揭露原住民保留地以各種假人頭買賣手法轉給非原住民進行開發，直接影響最高法院民事大法庭裁定假人頭買賣無效。" },
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2022 亞洲出版協會卓越新聞獎（SOPA）【卓越環境報導獎—首獎】" },
+              { text: "2022 吳舜文新聞獎【新聞深度報導獎】" },
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-2/report-2-1.webp",
-            "/assets/reports/report-2/report-2-2.webp",
-            "/assets/reports/report-2/report-2-3.webp",
-            "/assets/reports/report-2/report-2-4.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-2/report-2-1.webp",
+            position: { top: "10%", left: "10%", z: 40 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-2/report-2-2.webp",
+            position: { top: "20%", left: "55%", z: 60 },
+            width: "30vw"
+          },
+          {
+            src: "/assets/reports/report-2/report-2-3.webp",
+            position: { top: "50%", left: "20%", z: 30 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-2/report-2-4.webp",
+            position: { top: "55%", left: "60%", z: 50 },
+            width: "25vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

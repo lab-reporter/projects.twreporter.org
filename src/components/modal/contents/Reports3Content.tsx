@@ -15,40 +15,61 @@ export default function Reports3Content({ projectData, onNavigate, adjacentProje
         date="2016.12"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "報導印尼籍漁工 Supriyanto 在台灣遠洋漁船上疑似遭虐待、傷口感染致死，屏東地檢署宣布重啟調查。" },
-                { text: "報導刊出3天後，行政院要求漁業署嚴格執法、農委會健全漁工勞動檢查機制，以確保漁工權益。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越人權報導獎—首獎】" },
-                { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—首獎】" },
-                { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越資訊圖表獎—首獎】" },
-                { text: "2017 卓越新聞獎【調查報導獎】" },
-                { text: "2017 人權新聞獎【中文多媒體新聞獎】" },
-                { text: "2017 台海新聞攝影大賽【台海經濟新聞類銀獎】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "報導印尼籍漁工 Supriyanto 在台灣遠洋漁船上疑似遭虐待、傷口感染致死，屏東地檢署宣布重啟調查。" },
+              { text: "報導刊出3天後，行政院要求漁業署嚴格執法、農委會健全漁工勞動檢查機制，以確保漁工權益。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越人權報導獎—首獎】" },
+              { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—首獎】" },
+              { text: "2017 亞洲出版協會卓越新聞獎（SOPA）【卓越資訊圖表獎—首獎】" },
+              { text: "2017 卓越新聞獎【調查報導獎】" },
+              { text: "2017 人權新聞獎【中文多媒體新聞獎】" },
+              { text: "2017 台海新聞攝影大賽【台海經濟新聞類銀獎】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-3/report-3-1.webp",
-            "/assets/reports/report-3/report-3-2.webp",
-            "/assets/reports/report-3/report-3-3.webp",
-            "/assets/reports/report-3/report-3-4.webp",
-            "/assets/reports/report-3/report-3-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-3/report-3-1.webp",
+            position: { top: "15%", left: "10%", z: 45 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-3/report-3-2.webp",
+            position: { top: "35%", left: "55%", z: 60 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-3/report-3-3.webp",
+            position: { top: "50%", left: "25%", z: 35 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-3/report-3-4.webp",
+            position: { top: "20%", left: "40%", z: 50 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-3/report-3-5.webp",
+            position: { top: "45%", left: "60%", z: 40 },
+            width: "24vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

@@ -15,29 +15,50 @@ export default function Reports11Content({ projectData, onNavigate, adjacentProj
         date="2024.01"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "跨國追查 MIT 工具機違反禁令流入俄羅斯軍工業，引起《經濟學人》、《華盛頓郵報》等國外媒體跟進報導。" },
-                { text: "經濟部將報導中披露的違規廠商列為黑名單，並進一步加強出口管制措施，針對高轉運風險國家的出口進行更嚴格審查。" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "跨國追查 MIT 工具機違反禁令流入俄羅斯軍工業，引起《經濟學人》、《華盛頓郵報》等國外媒體跟進報導。" },
+              { text: "經濟部將報導中披露的違規廠商列為黑名單，並進一步加強出口管制措施，針對高轉運風險國家的出口進行更嚴格審查。" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-11/report-11-1.webp",
-            "/assets/reports/report-11/report-11-2.webp",
-            "/assets/reports/report-11/report-11-3.webp",
-            "/assets/reports/report-11/report-11-4.webp",
-            "/assets/reports/report-11/report-11-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-11/report-11-1.webp",
+            position: { top: "8%", left: "10%", z: 45 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-11/report-11-2.webp",
+            position: { top: "15%", left: "55%", z: 65 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-11/report-11-3.webp",
+            position: { top: "40%", left: "25%", z: 35 },
+            width: "24vw"
+          },
+          {
+            src: "/assets/reports/report-11/report-11-4.webp",
+            position: { top: "50%", left: "60%", z: 55 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-11/report-11-5.webp",
+            position: { top: "65%", left: "15%", z: 40 },
+            width: "27vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

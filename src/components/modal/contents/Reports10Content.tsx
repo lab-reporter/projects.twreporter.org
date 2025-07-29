@@ -15,37 +15,58 @@ export default function Reports10Content({ projectData, onNavigate, adjacentProj
         date="2023.10"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "圖解中共解放軍進逼第一島鏈的軍事動態，授權《華盛頓郵報》引用報導數據並刊載圖表。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2024 亞洲出版協會卓越新聞獎（SOPA）【卓越數據圖像獎—首獎】" },
-                { text: "2024 The Sigma Awards 數據新聞獎 Top 10" },
-                { text: "2024 卓越新聞獎【新聞敘事創新獎】" },
-                { text: "2024 曾虛白先生新聞獎【公共服務報導獎－數位創新類】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "圖解中共解放軍進逼第一島鏈的軍事動態，授權《華盛頓郵報》引用報導數據並刊載圖表。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2024 亞洲出版協會卓越新聞獎（SOPA）【卓越數據圖像獎—首獎】" },
+              { text: "2024 The Sigma Awards 數據新聞獎 Top 10" },
+              { text: "2024 卓越新聞獎【新聞敘事創新獎】" },
+              { text: "2024 曾虛白先生新聞獎【公共服務報導獎－數位創新類】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-10/report-10-1.webp",
-            "/assets/reports/report-10/report-10-2.webp",
-            "/assets/reports/report-10/report-10-3.webp",
-            "/assets/reports/report-10/report-10-4.webp",
-            "/assets/reports/report-10/report-10-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-10/report-10-1.webp",
+            position: { top: "20%", left: "35%", z: 46 },
+            width: "24vw"
+          },
+          {
+            src: "/assets/reports/report-10/report-10-2.webp",
+            position: { top: "35%", left: "8%", z: 68 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-10/report-10-3.webp",
+            position: { top: "15%", left: "60%", z: 32 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-10/report-10-4.webp",
+            position: { top: "50%", left: "48%", z: 54 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-10/report-10-5.webp",
+            position: { top: "38%", left: "28%", z: 41 },
+            width: "25vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

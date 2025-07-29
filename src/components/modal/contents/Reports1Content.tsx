@@ -39,13 +39,33 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
       />
 
 
-      <Shared.ReportsStickyPhoto
-        imgSrcs={[
-          "/assets/reports/report-1/report-1-1.webp",
-          "/assets/reports/report-1/report-1-2.webp",
-          "/assets/reports/report-1/report-1-3.webp",
-          "/assets/reports/report-1/report-1-4.webp",
-          "/assets/reports/report-1/report-1-5.webp"
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-1/report-1-1.webp",
+            position: { top: "10%", left: "15%", z: 40 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-1/report-1-2.webp",
+            position: { top: "15%", left: "60%", z: 60 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-1/report-1-3.webp",
+            position: { top: "45%", left: "30%", z: 30 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-1/report-1-4.webp",
+            position: { top: "60%", left: "10%", z: 50 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-1/report-1-5.webp",
+            position: { top: "55%", left: "65%", z: 45 },
+            width: "20vw"
+          }
         ]} />
 
       <Shared.ContentWrapper>

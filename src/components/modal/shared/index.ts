@@ -10,7 +10,7 @@ export { default as InnovationBanner } from './InnovationBanner';
 export { default as MediaDisplay } from './MediaDisplay';
 export { default as VideoPlayer } from './VideoPlayer';
 export { default as ScrollTriggeredMedia } from './ScrollTriggeredMedia';
-export { default as ReportsStickyPhoto } from './ReportsStickyPhoto';
+export { default as ReportsParallaxPhoto } from './ReportsParallaxPhoto';
 
 // 文字內容組件
 export { default as TextContent } from './TextContent';

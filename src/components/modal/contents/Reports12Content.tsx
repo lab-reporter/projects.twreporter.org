@@ -15,35 +15,56 @@ export default function Reports12Content({ projectData, onNavigate, adjacentProj
         date="2024.06"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "揭開兒少性剝削影像的暗黑產業鏈，影音報導吸引百萬讀者觀看，報導相關證據提供執法單位存查。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2024 卓越新聞獎【調查報導獎】" },
-                { text: "2024 曾虛白先生新聞獎【公共服務報導獎－文字類】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "揭開兒少性剝削影像的暗黑產業鏈，影音報導吸引百萬讀者觀看，報導相關證據提供執法單位存查。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2024 卓越新聞獎【調查報導獎】" },
+              { text: "2024 曾虛白先生新聞獎【公共服務報導獎－文字類】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-12/report-12-1.webp",
-            "/assets/reports/report-12/report-12-2.webp",
-            "/assets/reports/report-12/report-12-3.webp",
-            "/assets/reports/report-12/report-12-4.webp",
-            "/assets/reports/report-12/report-12-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-12/report-12-1.webp",
+            position: { top: "12%", left: "8%", z: 50 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-12/report-12-2.webp",
+            position: { top: "10%", left: "58%", z: 70 },
+            width: "27vw"
+          },
+          {
+            src: "/assets/reports/report-12/report-12-3.webp",
+            position: { top: "45%", left: "30%", z: 40 },
+            width: "23vw"
+          },
+          {
+            src: "/assets/reports/report-12/report-12-4.webp",
+            position: { top: "55%", left: "5%", z: 60 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-12/report-12-5.webp",
+            position: { top: "60%", left: "62%", z: 45 },
+            width: "24vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

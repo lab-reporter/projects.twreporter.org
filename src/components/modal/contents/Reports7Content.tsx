@@ -15,29 +15,50 @@ export default function Reports7Content({ projectData, onNavigate, adjacentProje
         date="2018.04"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "揭露兒童高死亡率及偏鄉早療困境，報導發布數月後，行政院將兒童高死亡率及早療議題列為專章重點強化。" },
-                { text: "2018年，公益團購網因報導而發動「長頸鹿保溫箱」募款計畫，共募得超過500萬元，成功捐助6家醫院。" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "揭露兒童高死亡率及偏鄉早療困境，報導發布數月後，行政院將兒童高死亡率及早療議題列為專章重點強化。" },
+              { text: "2018年，公益團購網因報導而發動「長頸鹿保溫箱」募款計畫，共募得超過500萬元，成功捐助6家醫院。" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-7/report-7-1.webp",
-            "/assets/reports/report-7/report-7-2.webp",
-            "/assets/reports/report-7/report-7-3.webp",
-            "/assets/reports/report-7/report-7-4.webp",
-            "/assets/reports/report-7/report-7-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-7/report-7-1.webp",
+            position: { top: "18%", left: "8%", z: 52 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-7/report-7-2.webp",
+            position: { top: "35%", left: "58%", z: 65 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-7/report-7-3.webp",
+            position: { top: "50%", left: "22%", z: 40 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-7/report-7-4.webp",
+            position: { top: "12%", left: "42%", z: 58 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-7/report-7-5.webp",
+            position: { top: "42%", left: "52%", z: 45 },
+            width: "23vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

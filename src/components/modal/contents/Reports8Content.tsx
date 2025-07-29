@@ -15,33 +15,50 @@ export default function Reports8Content({ projectData, onNavigate, adjacentProje
         date="2019.07"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "跨國調查台灣線上博弈產業，揭露跨國營運的公司利用各種方法將賭金「洗白」，引起檢警單位偵辦起訴非法線上博弈公司。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2020 亞洲出版協會卓越新聞獎（SOPA）【卓越經濟報導獎 首獎】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "跨國調查台灣線上博弈產業，揭露跨國營運的公司利用各種方法將賭金「洗白」，引起檢警單位偵辦起訴非法線上博弈公司。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2020 亞洲出版協會卓越新聞獎（SOPA）【卓越經濟報導獎 首獎】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-8/report-8-1.webp",
-            "/assets/reports/report-8/report-8-2.webp",
-            "/assets/reports/report-8/report-8-3.webp",
-            "/assets/reports/report-8/report-8-4.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-8/report-8-1.webp",
+            position: { top: "22%", left: "12%", z: 60 },
+            width: "25vw"
+          },
+          {
+            src: "/assets/reports/report-8/report-8-2.webp",
+            position: { top: "40%", left: "62%", z: 42 },
+            width: "29vw"
+          },
+          {
+            src: "/assets/reports/report-8/report-8-3.webp",
+            position: { top: "15%", left: "48%", z: 55 },
+            width: "21vw"
+          },
+          {
+            src: "/assets/reports/report-8/report-8-4.webp",
+            position: { top: "55%", left: "25%", z: 38 },
+            width: "27vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

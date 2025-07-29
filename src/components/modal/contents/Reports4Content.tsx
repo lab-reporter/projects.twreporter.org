@@ -15,38 +15,59 @@ export default function Reports4Content({ projectData, onNavigate, adjacentProje
         date="2017.11"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "深入呈現全台各地高風險家庭少年的故事，專題主要受訪者「土豆」的短片獲百萬人次觀看。" },
-                { text: "專題故事由曾任《報導者》攝影記者的導演林佑恩延伸拍攝成紀錄短片《度日》，於2021年獲得金馬獎最佳紀錄短片。" },
-                { text: "導演蔡銀娟將報導情節改編成電影兒少安置與犯罪議題《失樂園》，2025年上映。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2018 卓越新聞獎【深度報導獎】" },
-                { text: "2018 曾虛白新聞獎【公共服務報導獎】" },
-                { text: "2018 台海新聞攝影大賽【台海人物新聞類金獎】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "深入呈現全台各地高風險家庭少年的故事，專題主要受訪者「土豆」的短片獲百萬人次觀看。" },
+              { text: "專題故事由曾任《報導者》攝影記者的導演林佑恩延伸拍攝成紀錄短片《度日》，於2021年獲得金馬獎最佳紀錄短片。" },
+              { text: "導演蔡銀娟將報導情節改編成電影兒少安置與犯罪議題《失樂園》，2025年上映。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2018 卓越新聞獎【深度報導獎】" },
+              { text: "2018 曾虛白新聞獎【公共服務報導獎】" },
+              { text: "2018 台海新聞攝影大賽【台海人物新聞類金獎】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-4/report-4-1.webp",
-            "/assets/reports/report-4/report-4-2.webp",
-            "/assets/reports/report-4/report-4-3.webp",
-            "/assets/reports/report-4/report-4-4.webp",
-            "/assets/reports/report-4/report-4-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-4/report-4-1.webp",
+            position: { top: "10%", left: "15%", z: 55 },
+            width: "27vw"
+          },
+          {
+            src: "/assets/reports/report-4/report-4-2.webp",
+            position: { top: "40%", left: "50%", z: 40 },
+            width: "23vw"
+          },
+          {
+            src: "/assets/reports/report-4/report-4-3.webp",
+            position: { top: "25%", left: "5%", z: 65 },
+            width: "29vw"
+          },
+          {
+            src: "/assets/reports/report-4/report-4-4.webp",
+            position: { top: "55%", left: "35%", z: 35 },
+            width: "21vw"
+          },
+          {
+            src: "/assets/reports/report-4/report-4-5.webp",
+            position: { top: "30%", left: "60%", z: 50 },
+            width: "25vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

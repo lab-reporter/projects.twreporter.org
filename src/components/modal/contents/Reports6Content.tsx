@@ -15,35 +15,56 @@ export default function Reports6Content({ projectData, onNavigate, adjacentProje
         date="2019.09"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "調查過去10年東部鐵道一連串的錯誤決策與投資，如何埋下2018年普悠瑪事故悲劇引信，促使交通部針對花東運量不足的問題進行檢討改善。" },
-                { text: "2019年，獨家取得345頁《台鐵局總體檢報告》全文，揭開台鐵長年積弊；在社會壓力下，交通部於報導刊登8天後將報告全文公開上網，提供全民檢視。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2020 亞洲出版協會卓越新聞獎（SOPA）【獨家新聞獎—優勝】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "調查過去10年東部鐵道一連串的錯誤決策與投資，如何埋下2018年普悠瑪事故悲劇引信，促使交通部針對花東運量不足的問題進行檢討改善。" },
+              { text: "2019年，獨家取得345頁《台鐵局總體檢報告》全文，揭開台鐵長年積弊；在社會壓力下，交通部於報導刊登8天後將報告全文公開上網，提供全民檢視。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2020 亞洲出版協會卓越新聞獎（SOPA）【獨家新聞獎—優勝】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-6/report-6-1.webp",
-            "/assets/reports/report-6/report-6-2.webp",
-            "/assets/reports/report-6/report-6-3.webp",
-            "/assets/reports/report-6/report-6-4.webp",
-            "/assets/reports/report-6/report-6-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-6/report-6-1.webp",
+            position: { top: "25%", left: "20%", z: 48 },
+            width: "24vw"
+          },
+          {
+            src: "/assets/reports/report-6/report-6-2.webp",
+            position: { top: "10%", left: "50%", z: 62 },
+            width: "29vw"
+          },
+          {
+            src: "/assets/reports/report-6/report-6-3.webp",
+            position: { top: "40%", left: "5%", z: 38 },
+            width: "21vw"
+          },
+          {
+            src: "/assets/reports/report-6/report-6-4.webp",
+            position: { top: "55%", left: "40%", z: 55 },
+            width: "27vw"
+          },
+          {
+            src: "/assets/reports/report-6/report-6-5.webp",
+            position: { top: "30%", left: "65%", z: 43 },
+            width: "23vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

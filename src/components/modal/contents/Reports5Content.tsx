@@ -15,36 +15,57 @@ export default function Reports5Content({ projectData, onNavigate, adjacentProje
         date="2018.01"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "揭露台塑集團申報空污數據「系統性造假」，促使監察院調查台塑集團空污數據造假及相關監督機制。" },
-                { text: "2019年10月，監察院在公布調查報告指出，環保署發現台塑集團造假後拖延8年遲未修法，對環保署提出糾正。" }
-              ]
-            },
-            {
-              text: "報導獲獎紀錄",
-              children: [
-                { text: "2019 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—首獎】" },
-                { text: "2018 曾虛白新聞獎【台達能源與氣候特別獎】" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "揭露台塑集團申報空污數據「系統性造假」，促使監察院調查台塑集團空污數據造假及相關監督機制。" },
+              { text: "2019年10月，監察院在公布調查報告指出，環保署發現台塑集團造假後拖延8年遲未修法，對環保署提出糾正。" }
+            ]
+          },
+          {
+            text: "報導獲獎紀錄",
+            children: [
+              { text: "2019 亞洲出版協會卓越新聞獎（SOPA）【卓越調查報導獎—首獎】" },
+              { text: "2018 曾虛白新聞獎【台達能源與氣候特別獎】" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-5/report-5-1.webp",
-            "/assets/reports/report-5/report-5-2.webp",
-            "/assets/reports/report-5/report-5-3.webp",
-            "/assets/reports/report-5/report-5-4.webp",
-            "/assets/reports/report-5/report-5-5.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-5/report-5-1.webp",
+            position: { top: "20%", left: "25%", z: 42 },
+            width: "26vw"
+          },
+          {
+            src: "/assets/reports/report-5/report-5-2.webp",
+            position: { top: "45%", left: "10%", z: 58 },
+            width: "22vw"
+          },
+          {
+            src: "/assets/reports/report-5/report-5-3.webp",
+            position: { top: "15%", left: "55%", z: 35 },
+            width: "28vw"
+          },
+          {
+            src: "/assets/reports/report-5/report-5-4.webp",
+            position: { top: "35%", left: "45%", z: 68 },
+            width: "24vw"
+          },
+          {
+            src: "/assets/reports/report-5/report-5-5.webp",
+            position: { top: "50%", left: "30%", z: 45 },
+            width: "30vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>

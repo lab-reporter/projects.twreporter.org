@@ -4,17 +4,22 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 
-interface ReportsStickyPhotoProps {
-    imgSrcs: string[];
-    alts?: string[];
-    positions?: Array<{
+interface PhotoItem {
+    src: string;
+    alt?: string;
+    position?: {
         top: string;
         left: string;
         z: number;
-    }>;
+    };
+    width?: string;
 }
 
-export default function ReportsStickyPhoto({ imgSrcs, alts, positions }: ReportsStickyPhotoProps) {
+interface ReportsParallaxPhotoProps {
+    photos: PhotoItem[];
+}
+
+export default function ReportsParallaxPhoto({ photos }: ReportsParallaxPhotoProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // 使用滑鼠追蹤 Hook
@@ -28,23 +33,16 @@ export default function ReportsStickyPhoto({ imgSrcs, alts, positions }: Reports
         lerpFactor: 0.1
     });
 
-    // 產生預設位置（如果沒有提供 positions）
-    const getDefaultPositions = (count: number) => {
-        const positions = [];
-        for (let i = 0; i < count; i++) {
-            // 使用簡單的網格分布
-            const row = Math.floor(i / 3);
-            const col = i % 3;
-            positions.push({
-                top: `${20 + row * 30}%`,
-                left: `${10 + col * 30}%`,
-                z: 30 + (i % 3) * 20 // 交錯的 z 值產生深度感
-            });
-        }
-        return positions;
+    // 產生預設位置
+    const getDefaultPosition = (index: number) => {
+        const row = Math.floor(index / 3);
+        const col = index % 3;
+        return {
+            top: `${20 + row * 30}%`,
+            left: `${10 + col * 30}%`,
+            z: 30 + (index % 3) * 20
+        };
     };
-
-    const imagePositions = positions || getDefaultPositions(imgSrcs.length);
 
     return (
         <div
@@ -54,14 +52,16 @@ export default function ReportsStickyPhoto({ imgSrcs, alts, positions }: Reports
                 transformStyle: 'preserve-3d',
                 perspective: '500px',
             }}>
-            {imgSrcs.map((imgSrc, index) => {
-                const position = imagePositions[index] || { top: '50%', left: '50%', z: 0 };
-                
+            {photos.map((photo, index) => {
+                const position = photo.position || getDefaultPosition(index);
+                const width = photo.width || '25vw';
+
                 return (
                     <div
                         key={index}
-                        className="w-[35vw] h-auto absolute transition-all duration-300"
+                        className="h-auto absolute transition-all duration-300"
                         style={{
+                            width: width,
                             top: position.top,
                             left: position.left,
                             transform: `translateZ(${position.z}px)`,
@@ -74,8 +74,8 @@ export default function ReportsStickyPhoto({ imgSrcs, alts, positions }: Reports
                             e.currentTarget.style.transform = `translateZ(${position.z}px) scale(1)`;
                         }}>
                         <Image
-                            src={imgSrc}
-                            alt={alts?.[index] || `reports-photo-${index + 1}`}
+                            src={photo.src}
+                            alt={photo.alt || `reports-photo-${index + 1}`}
                             width={2000}
                             height={1333}
                             className="w-full h-auto border-4 border-white shadow-lg hover:shadow-xl transition-shadow duration-300"

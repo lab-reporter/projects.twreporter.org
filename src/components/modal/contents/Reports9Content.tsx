@@ -15,28 +15,45 @@ export default function Reports9Content({ projectData, onNavigate, adjacentProje
         date="2020.03"
       />
 
-      <Shared.ContentWrapper>
-        {/* 重點摘要 */}
-        <Shared.ProjectSummary
-          items={[
-            {
-              text: "影響力",
-              children: [
-                { text: "深入調查笑氣如何透過非法管道流入年輕人的社群，促成經濟部加速修法納管笑氣，遯止吸食風氣。" },
-                { text: "台北市政府、桃園市政府亦針對笑氣制定行政規則與管理草案並加強稽查。" }
-              ]
-            }
-          ]}
-        />
+      {/* 重點摘要 */}
+      <Shared.ProjectSummary
+        items={[
+          {
+            text: "影響力",
+            children: [
+              { text: "深入調查笑氣如何透過非法管道流入年輕人的社群，促成經濟部加速修法納管笑氣，遯止吸食風氣。" },
+              { text: "台北市政府、桃園市政府亦針對笑氣制定行政規則與管理草案並加強稽查。" }
+            ]
+          }
+        ]}
+      />
 
-        <Shared.ReportsStickyPhoto
-          imgSrcs={[
-            "/assets/reports/report-9/report-9-1.webp",
-            "/assets/reports/report-9/report-9-2.webp",
-            "/assets/reports/report-9/report-9-3.webp",
-            "/assets/reports/report-9/report-9-4.webp"
-          ]}
-        />
+      <Shared.ReportsParallaxPhoto
+        photos={[
+          {
+            src: "/assets/reports/report-9/report-9-1.webp",
+            position: { top: "30%", left: "18%", z: 50 },
+            width: "23vw"
+          },
+          {
+            src: "/assets/reports/report-9/report-9-2.webp",
+            position: { top: "12%", left: "55%", z: 70 },
+            width: "27vw"
+          },
+          {
+            src: "/assets/reports/report-9/report-9-3.webp",
+            position: { top: "48%", left: "45%", z: 35 },
+            width: "20vw"
+          },
+          {
+            src: "/assets/reports/report-9/report-9-4.webp",
+            position: { top: "25%", left: "5%", z: 62 },
+            width: "30vw"
+          }
+        ]}
+      />
+
+      <Shared.ContentWrapper>
 
         {/* 導言 */}
         <Shared.TextContent>
