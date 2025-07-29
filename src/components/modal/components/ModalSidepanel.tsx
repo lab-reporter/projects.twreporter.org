@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 
 interface Project {
   id: string;
@@ -111,8 +110,12 @@ export default function ModalSidepanel({
     <>
       {/* 側邊欄主體 */}
       <div
-        className={`fixed top-[72px] bg-white rounded-md rounded-tr-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
+        className={`fixed top-16 ${isOpen ? 'border-2 border-r-0 border-gray-100' : 'border-none'} bg-white rounded-md rounded-tr-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
           }`}
+        onClick={(e) => {
+          // 防止點擊 sidepanel 時觸發外部的關閉事件
+          e.stopPropagation();
+        }}
       >
         {/* 內容區域 */}
         <div className={`h-full overflow-hidden ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
@@ -126,8 +129,12 @@ export default function ModalSidepanel({
 
       {/* 展開/收合按鈕 */}
       <div
-        className={`fixed top-[72px] z-[100] transition-all duration-300 ${isOpen ? 'right-[320px]' : 'right-4'
+        className={`fixed top-16 z-[100] transition-all duration-300 ${isOpen ? 'right-[320px]' : 'right-4'
           }`}
+        onClick={(e) => {
+          // 防止點擊按鈕時觸發外部的關閉事件
+          e.stopPropagation();
+        }}
       >
         <div className="w-12 h-12 flex items-center justify-center">
           <div

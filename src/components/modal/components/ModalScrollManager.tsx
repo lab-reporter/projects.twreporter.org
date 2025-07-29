@@ -31,7 +31,7 @@ export default function ModalScrollManager({
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
-    
+
     const { openModal } = useStore();
 
     // 使用 ref 來追蹤最新狀態，避免閉包問題
@@ -49,12 +49,12 @@ export default function ModalScrollManager({
     // 根據當前項目 ID 取得所屬章節的所有項目
     const getCurrentSectionProjects = () => {
         if (!modalDataId) return [];
-        
+
         // 從 modalDataId 解析出章節名稱 (例如: "reports-1" -> "reports")
         const section = modalDataId.split('-')[0];
-        
+
         // 篩選出同一章節的所有項目
-        return projectsData.filter(project => 
+        return projectsData.filter(project =>
             project.section.includes(section)
         );
     };
@@ -306,10 +306,16 @@ export default function ModalScrollManager({
         <>
             {/* 內容區域包裝器 */}
             <div
-                className="relative h-full overflow-y-auto bg-[rgba(255,255,255,0.8)] rounded-md [&::-webkit-scrollbar]:hidden"
+                className="relative h-full overflow-y-auto bg-[rgba(255,255,255,0.9)] rounded-md [&::-webkit-scrollbar]:hidden"
                 style={{ scrollBehavior: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 ref={scrollContainer}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    // 如果 sidepanel 是開啟的，點擊內容區域會關閉它
+                    if (isSidepanelOpen) {
+                        setIsSidepanelOpen(false);
+                    }
+                }}
             >
                 {/* 滾動進度條 */}
                 <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
@@ -324,7 +330,7 @@ export default function ModalScrollManager({
             </div>
 
             {/* 關閉按鈕與過度滾動進度圓環 */}
-            <div className="fixed top-4 right-4 z-[10000]">
+            <div className="fixed top-4 right-4 z-[10000]" onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
                     {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
                     {isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
