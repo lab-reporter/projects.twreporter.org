@@ -38,22 +38,22 @@ export default function Reports12Content({ projectData, onNavigate, adjacentProj
         photos={[
           {
             src: "/assets/reports/report-12/report-12-1.webp",
-            position: { top: "12%", left: "8%", z: 50 },
+            position: { top: "12%", left: "18%", z: 50 },
             width: "25vw"
           },
           {
             src: "/assets/reports/report-12/report-12-2.webp",
-            position: { top: "10%", left: "58%", z: 70 },
-            width: "27vw"
+            position: { top: "13%", left: "58%", z: 70 },
+            width: "24vw"
           },
           {
             src: "/assets/reports/report-12/report-12-3.webp",
-            position: { top: "45%", left: "30%", z: 40 },
-            width: "23vw"
+            position: { top: "35%", left: "35%", z: 40 },
+            width: "28vw"
           },
           {
             src: "/assets/reports/report-12/report-12-4.webp",
-            position: { top: "55%", left: "5%", z: 60 },
+            position: { top: "55%", left: "10%", z: 60 },
             width: "26vw"
           },
           {

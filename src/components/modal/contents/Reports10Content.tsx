@@ -45,23 +45,18 @@ export default function Reports10Content({ projectData, onNavigate, adjacentProj
           },
           {
             src: "/assets/reports/report-10/report-10-2.webp",
-            position: { top: "35%", left: "8%", z: 68 },
+            position: { top: "35%", left: "10%", z: 68 },
             width: "28vw"
           },
           {
-            src: "/assets/reports/report-10/report-10-3.webp",
-            position: { top: "15%", left: "60%", z: 32 },
-            width: "22vw"
-          },
-          {
             src: "/assets/reports/report-10/report-10-4.webp",
-            position: { top: "50%", left: "48%", z: 54 },
-            width: "26vw"
+            position: { top: "54%", left: "44%", z: 54 },
+            width: "23vw"
           },
           {
             src: "/assets/reports/report-10/report-10-5.webp",
-            position: { top: "38%", left: "28%", z: 41 },
-            width: "25vw"
+            position: { top: "38%", left: "66%", z: 41 },
+            width: "35vw"
           }
         ]}
       />

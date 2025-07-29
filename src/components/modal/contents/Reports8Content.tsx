@@ -42,13 +42,13 @@ export default function Reports8Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-8/report-8-2.webp",
-            position: { top: "40%", left: "62%", z: 42 },
-            width: "29vw"
+            position: { top: "50%", left: "70%", z: 42 },
+            width: "21vw"
           },
           {
             src: "/assets/reports/report-8/report-8-3.webp",
             position: { top: "15%", left: "48%", z: 55 },
-            width: "21vw"
+            width: "28vw"
           },
           {
             src: "/assets/reports/report-8/report-8-4.webp",

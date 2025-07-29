@@ -37,13 +37,13 @@ export default function Reports7Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-7/report-7-2.webp",
-            position: { top: "35%", left: "58%", z: 65 },
+            position: { top: "35%", left: "68%", z: 65 },
             width: "22vw"
           },
           {
             src: "/assets/reports/report-7/report-7-3.webp",
             position: { top: "50%", left: "22%", z: 40 },
-            width: "28vw"
+            width: "22vw"
           },
           {
             src: "/assets/reports/report-7/report-7-4.webp",
@@ -52,8 +52,8 @@ export default function Reports7Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-7/report-7-5.webp",
-            position: { top: "42%", left: "52%", z: 45 },
-            width: "23vw"
+            position: { top: "52%", left: "47%", z: 45 },
+            width: "28vw"
           }
         ]}
       />

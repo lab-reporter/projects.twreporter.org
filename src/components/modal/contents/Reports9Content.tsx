@@ -32,23 +32,23 @@ export default function Reports9Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-9/report-9-1.webp",
-            position: { top: "30%", left: "18%", z: 50 },
-            width: "23vw"
+            position: { top: "12%", left: "24%", z: 50 },
+            width: "28vw"
           },
           {
             src: "/assets/reports/report-9/report-9-2.webp",
-            position: { top: "12%", left: "55%", z: 70 },
+            position: { top: "28%", left: "58%", z: 70 },
             width: "27vw"
           },
           {
             src: "/assets/reports/report-9/report-9-3.webp",
-            position: { top: "48%", left: "45%", z: 35 },
-            width: "20vw"
+            position: { top: "58%", left: "45%", z: 35 },
+            width: "23vw"
           },
           {
             src: "/assets/reports/report-9/report-9-4.webp",
-            position: { top: "25%", left: "5%", z: 62 },
-            width: "30vw"
+            position: { top: "25%", left: "9%", z: 62 },
+            width: "23vw"
           }
         ]}
       />
