@@ -1,10 +1,14 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D'
 import { useStore } from '@/stores'
 import projectsData from '@/app/data/projects.json'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const parallaxImages = [
     // 在這裡添加更多圖片物件
@@ -144,6 +148,45 @@ const ChallengeParallax = () => {
         lerpFactor: 0.1
     });
 
+    // 設置淡入動畫
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // 選擇所有圖片元素
+            const imageElements = gsap.utils.toArray('.challenge-parallax-image') as HTMLElement[];
+            
+            // 為每個元素設置動畫
+            imageElements.forEach((element, index) => {
+                const targetZ = parallaxImages[index].z;
+                const x = parallaxImages[index].x;
+                const y = parallaxImages[index].y;
+                
+                // 設置初始狀態
+                gsap.set(element, {
+                    opacity: 0,
+                    transform: `translate3d(${x}px, ${y}px, -100px)`
+                });
+                
+                // 創建 ScrollTrigger 動畫
+                ScrollTrigger.create({
+                    trigger: containerRef.current,
+                    start: "top center",
+                    once: true,
+                    onEnter: () => {
+                        gsap.to(element, {
+                            opacity: 1,
+                            transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
+                            duration: 1,
+                            delay: index * 0.1, // stagger 效果
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
+
     // 處理圖片點擊
     const handleImageClick = (imageSrc: string) => {
         // 從圖片路徑解析出 challenge ID
@@ -176,18 +219,32 @@ const ChallengeParallax = () => {
                 <div
                     key={index}
                     style={{
-                        transform: `translate3d(${image.x}px, ${image.y}px, ${image.z}px)`,
                         width: image.width,
                         top: image.top,
                         left: image.left,
                         zIndex: image.zIndex
                     }}
-                    className="aspect-[3/2] absolute cursor-pointer transition-all duration-300"
+                    className="challenge-parallax-image aspect-[3/2] absolute cursor-pointer"
+                    data-z={image.z} // 儲存目標 z 值
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = `translate3d(${image.x}px, ${image.y}px, ${image.z}px) scale(1.1)`;
+                        // 獲取當前的 transform 值並加上 scale
+                        const currentTransform = e.currentTarget.style.transform;
+                        const baseTransform = currentTransform.replace(/scale\([^)]*\)/g, '').trim();
+                        gsap.to(e.currentTarget, {
+                            transform: `${baseTransform} scale(1.1)`,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = `translate3d(${image.x}px, ${image.y}px, ${image.z}px) scale(1)`;
+                        // 恢復到原始的 transform（移除 scale）
+                        const currentTransform = e.currentTarget.style.transform;
+                        const baseTransform = currentTransform.replace(/scale\([^)]*\)/g, '').trim();
+                        gsap.to(e.currentTarget, {
+                            transform: baseTransform,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
                     }}
                     onClick={() => handleImageClick(image.src)}>
                     <Image
