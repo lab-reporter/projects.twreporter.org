@@ -1,6 +1,10 @@
 'use client';
 
 import { useEffect, useState, useRef, RefObject } from 'react';
+import Image from 'next/image';
+import ModalSidepanel from './ModalSidepanel';
+import projectsData from '@/app/data/projects.json';
+import { useStore } from '@/stores';
 
 interface ModalScrollManagerProps {
     scrollContainer: RefObject<HTMLDivElement | null>;
@@ -23,9 +27,12 @@ export default function ModalScrollManager({
     const [overScrollDistance, setOverScrollDistance] = useState(0);
     const [isAtBottom, setIsAtBottom] = useState(false);
     const [hasScrolledAfterReachingBottom, setHasScrolledAfterReachingBottom] = useState(false);
+    const [isSidepanelOpen, setIsSidepanelOpen] = useState(false);
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
+    
+    const { openModal } = useStore();
 
     // 使用 ref 來追蹤最新狀態，避免閉包問題
     const isAtBottomRef = useRef(false);
@@ -39,6 +46,33 @@ export default function ModalScrollManager({
     const cooldownPeriod = 300; // 冷卻期時間（毫秒）
     const inertiaThreshold = 800; // 慣性滾動檢測閾值（毫秒）
 
+    // 根據當前項目 ID 取得所屬章節的所有項目
+    const getCurrentSectionProjects = () => {
+        if (!modalDataId) return [];
+        
+        // 從 modalDataId 解析出章節名稱 (例如: "reports-1" -> "reports")
+        const section = modalDataId.split('-')[0];
+        
+        // 篩選出同一章節的所有項目
+        return projectsData.filter(project => 
+            project.section.includes(section)
+        );
+    };
+
+    // 處理項目選擇
+    const handleSelectProject = (projectId: string) => {
+        const selectedProject = projectsData.find(p => p.id === projectId);
+        if (selectedProject) {
+            // 直接使用 projectId 作為 contentId
+            openModal(projectId, selectedProject);
+        }
+    };
+
+    // 切換側邊欄
+    const toggleSidepanel = () => {
+        setIsSidepanelOpen(!isSidepanelOpen);
+    };
+
     // 當 Modal 內容改變時，重置滾動位置到頂部
     useEffect(() => {
         if (isModalOpen && scrollContainer.current) {
@@ -47,6 +81,7 @@ export default function ModalScrollManager({
             setOverScrollDistance(0);
             setIsAtBottom(false);
             setHasScrolledAfterReachingBottom(false);
+            setIsSidepanelOpen(false); // 重置側邊欄狀態
 
             // 同時更新 ref
             isAtBottomRef.current = false;
@@ -271,7 +306,7 @@ export default function ModalScrollManager({
         <>
             {/* 內容區域包裝器 */}
             <div
-                className="relative h-full overflow-y-auto bg-gray-100 shadow-2xl rounded-md [&::-webkit-scrollbar]:hidden"
+                className="relative h-full overflow-y-auto bg-[rgba(255,255,255,0.8)] rounded-md [&::-webkit-scrollbar]:hidden"
                 style={{ scrollBehavior: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 ref={scrollContainer}
                 onClick={(e) => e.stopPropagation()}
@@ -289,7 +324,7 @@ export default function ModalScrollManager({
             </div>
 
             {/* 關閉按鈕與過度滾動進度圓環 */}
-            <div className="fixed top-[2vh] right-[1vw] z-[10000]">
+            <div className="fixed top-4 right-4 z-[10000]">
                 <div className="relative w-12 h-12">
                     {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
                     {isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
@@ -317,13 +352,21 @@ export default function ModalScrollManager({
                         onClick={onClose}
                         className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="stroke-current group-hover:stroke-white">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="stroke-current group-hover:stroke-white">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </button>
                 </div>
             </div>
+            {/* 側邊欄 */}
+            <ModalSidepanel
+                isOpen={isSidepanelOpen}
+                onToggle={toggleSidepanel}
+                projects={getCurrentSectionProjects()}
+                currentProjectId={modalDataId}
+                onSelectProject={handleSelectProject}
+            />
         </>
     );
 } 

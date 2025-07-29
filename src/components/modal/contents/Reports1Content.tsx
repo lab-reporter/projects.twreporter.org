@@ -48,12 +48,12 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-1/report-1-2.webp",
-            position: { top: "15%", left: "60%", z: 60 },
-            width: "25vw"
+            position: { top: "15%", left: "50%", z: 30 },
+            width: "29vw"
           },
           {
             src: "/assets/reports/report-1/report-1-3.webp",
-            position: { top: "45%", left: "30%", z: 30 },
+            position: { top: "45%", left: "35%", z: 90 },
             width: "22vw"
           },
           {
@@ -63,8 +63,8 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
           },
           {
             src: "/assets/reports/report-1/report-1-5.webp",
-            position: { top: "55%", left: "65%", z: 45 },
-            width: "20vw"
+            position: { top: "55%", left: "65%", z: 65 },
+            width: "24vw"
           }
         ]} />
 
