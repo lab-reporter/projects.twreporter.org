@@ -124,7 +124,7 @@ export default function OpeningSpline() {
     const handleSplineLoaded = () => {
         // 顯示 skip 按鈕
         setShowSkipButton(true);
-        
+
         timerRef.current = setTimeout(() => {
             // 開始淡出動畫
             setIsFading(true);
@@ -160,9 +160,7 @@ export default function OpeningSpline() {
 
     if (!isMounted) {
         return (
-            <div className="w-full h-screen fixed z-[99999] flex items-center justify-center bg-black text-white">
-                <h4>報導者十週年</h4>
-                <h5>深度求真　眾聲同行</h5>
+            <div className="w-full h-screen fixed z-[99999] flex flex-col items-center justify-center bg-black text-white">
             </div>
         );
     }

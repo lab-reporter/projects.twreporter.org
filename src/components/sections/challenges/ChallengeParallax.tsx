@@ -170,21 +170,21 @@ const ChallengeParallax = () => {
                     transform: `translate3d(${x}px, ${y}px, -100px)`
                 });
 
-                // 創建基於滾動進度的進入動畫
+                // 照片入場滾動動畫
                 gsap.to(element, {
                     opacity: 1,
                     transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
                     ease: "none", // 滾動動畫通常使用線性
                     scrollTrigger: {
                         trigger: containerRef.current,
-                        start: `top center+=${index * 50}`, // 每個元素錯開啟動
-                        end: `top top+=${index * 50 + 200}`, // 錯開結束點
+                        start: `top center+=${index * 30}`, // 每個元素錯開啟動
+                        end: `top 25%+=${index * 30}`, // 錯開結束點
                         scrub: 1, // 綁定滾動，1 表示平滑追蹤
                         markers: false // 開發時可設為 true 查看觸發點
                     }
                 });
 
-                // 創建基於滾動進度的離開動畫
+                // 照片離場滾動動畫
                 gsap.fromTo(element,
                     {
                         // 起始狀態：當前狀態
@@ -198,8 +198,8 @@ const ChallengeParallax = () => {
                         ease: "none",
                         scrollTrigger: {
                             trigger: containerRef.current,
-                            start: `bottom center+=${index * 30}`, // 錯開啟動
-                            end: `bottom 25%+=${index * -30}`, // 錯開結束
+                            start: `bottom 50%+=${index * 30}`, // 錯開啟動
+                            end: `bottom 0%+=${index * -30}`, // 錯開結束
                             scrub: 1,
                             markers: false
                         }
@@ -230,7 +230,8 @@ const ChallengeParallax = () => {
 
                 gsap.to(sectionHeading, {
                     opacity: 0,
-                    duration: 0.3,
+                    duration: 0.4,
+                    ease: "power2.out",
                     onComplete: () => {
                         // 只有在 hoveredItem 還存在時才隱藏
                         if (hoveredItem) {
@@ -247,7 +248,8 @@ const ChallengeParallax = () => {
                 gsap.set(currentItemDisplayRef.current, { display: 'block' });
                 gsap.to(currentItemDisplayRef.current, {
                     opacity: 1,
-                    duration: 0.3
+                    duration: 0.4,
+                    ease: "power2.in"
                 });
             }
         } else {
@@ -260,7 +262,8 @@ const ChallengeParallax = () => {
                 (sectionHeading as HTMLElement).style.display = '';
                 gsap.to(sectionHeading, {
                     opacity: 1,
-                    duration: 0.3
+                    duration: 0.4,
+                    ease: "power2.in"
                 });
             }
 
@@ -270,7 +273,8 @@ const ChallengeParallax = () => {
 
                 gsap.to(currentItemDisplayRef.current, {
                     opacity: 0,
-                    duration: 0.3,
+                    duration: 0.4,
+                    ease: "power2.out",
                     onComplete: () => {
                         // 只有在 hoveredItem 還是 null 時才隱藏
                         if (!hoveredItem && currentItemDisplayRef.current) {
