@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D'
 import { useStore } from '@/stores'
 import projectsData from '@/app/data/projects.json'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import { CurrentItemDisplay } from '@/components/shared'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -129,13 +130,17 @@ interface ProjectItem {
     id: string;
     path: string;
     title: string;
+    subtitle?: string;
     section: string | string[];
     bgColor?: string;
 }
 
 const ChallengeParallax = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const currentItemDisplayRef = useRef<HTMLDivElement>(null);
     const { openModal } = useStore();
+    const [hoveredItem, setHoveredItem] = useState<ProjectItem | null>(null);
+    const [hasHovered, setHasHovered] = useState(false);
 
     // 使用滑鼠追蹤 Hook
     useMouseTracking3D({
@@ -153,19 +158,19 @@ const ChallengeParallax = () => {
         const ctx = gsap.context(() => {
             // 選擇所有圖片元素
             const imageElements = gsap.utils.toArray('.challenge-parallax-image') as HTMLElement[];
-            
+
             // 為每個元素設置動畫
             imageElements.forEach((element, index) => {
                 const targetZ = parallaxImages[index].z;
                 const x = parallaxImages[index].x;
                 const y = parallaxImages[index].y;
-                
+
                 // 設置初始狀態
                 gsap.set(element, {
                     opacity: 0,
                     transform: `translate3d(${x}px, ${y}px, -100px)`
                 });
-                
+
                 // 創建 ScrollTrigger 動畫
                 ScrollTrigger.create({
                     trigger: containerRef.current,
@@ -186,6 +191,59 @@ const ChallengeParallax = () => {
 
         return () => ctx.revert();
     }, []);
+
+    // 處理 hover 效果
+    const handleImageHover = (imageSrc: string) => {
+        // 從圖片路徑解析出 challenge ID
+        const match = imageSrc.match(/challenge-(\d+)/);
+        if (!match) return;
+
+        const challengeId = `challenge-${match[1]}`;
+
+        // 從 projectsData 中找到對應的 challenge 資料
+        const projectData = (projectsData as ProjectItem[]).find((p: ProjectItem) =>
+            p.id === challengeId &&
+            p.section &&
+            (Array.isArray(p.section) ? p.section.includes('challenge') : p.section === 'challenge')
+        );
+
+        if (projectData) {
+            setHoveredItem(projectData);
+            
+            // 第一次 hover 時，隱藏 SectionHeading 並顯示 CurrentItemDisplay
+            if (!hasHovered) {
+                setHasHovered(true);
+                
+                // 找到 SectionHeading 元素並隱藏
+                // 向上查找到 sticky container，然後找到所有具有 section-headings class 的元素
+                const stickyContainer = containerRef.current?.closest('.sticky');
+                const sectionHeading = stickyContainer?.querySelector('.section-headings');
+                
+                if (sectionHeading) {
+                    gsap.to(sectionHeading, {
+                        opacity: 0,
+                        duration: 0.3,
+                        onComplete: () => {
+                            (sectionHeading as HTMLElement).style.display = 'none';
+                        }
+                    });
+                }
+                
+                // 顯示 CurrentItemDisplay
+                if (currentItemDisplayRef.current) {
+                    gsap.set(currentItemDisplayRef.current, { display: 'block' });
+                    gsap.to(currentItemDisplayRef.current, {
+                        opacity: 1,
+                        duration: 0.3
+                    });
+                }
+            }
+        }
+    };
+
+    const handleImageLeave = () => {
+        setHoveredItem(null);
+    };
 
     // 處理圖片點擊
     const handleImageClick = (imageSrc: string) => {
@@ -235,6 +293,8 @@ const ChallengeParallax = () => {
                             duration: 0.3,
                             ease: "power2.out"
                         });
+                        // 處理 hover 顯示標題
+                        handleImageHover(image.src);
                     }}
                     onMouseLeave={(e) => {
                         // 恢復到原始的 transform（移除 scale）
@@ -245,6 +305,7 @@ const ChallengeParallax = () => {
                             duration: 0.3,
                             ease: "power2.out"
                         });
+                        handleImageLeave();
                     }}
                     onClick={() => handleImageClick(image.src)}>
                     <Image
@@ -254,6 +315,28 @@ const ChallengeParallax = () => {
                         className="object-cover shadow-lg hover:shadow-xl transition-shadow duration-300" />
                 </div>
             ))}
+            
+            {/* CurrentItemDisplay - 置中顯示 */}
+            <div
+                ref={currentItemDisplayRef}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none"
+                style={{
+                    opacity: 0,
+                    display: 'none'
+                }}
+            >
+                {hoveredItem ? (
+                    <CurrentItemDisplay
+                        title={hoveredItem.title}
+                        subtitle={hoveredItem.subtitle}
+                    />
+                ) : (
+                    // 預設文字區塊 - 你可以在這裡編輯內容
+                    <div className="text-center">
+                        <h3>點選有興趣的項目</h3>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

@@ -19,6 +19,7 @@ const ChallengesSection = () => {
                     <SectionHeadings
                         titleEn="Breakthrough"
                         titleZh="非營利媒體・突圍"
+                        className="section-headings"
                     >
                         <p>
                             非營利媒體的10年路，背後是數不清的辯證、碰壁，和重新出發。<br />

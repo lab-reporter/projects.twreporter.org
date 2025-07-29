@@ -4,11 +4,12 @@ interface SectionHeadingsProps {
   titleEn: string;
   titleZh: string;
   children: ReactNode;
+  className?: string;
 }
 
-export default function SectionHeadings({ titleEn, titleZh, children }: SectionHeadingsProps) {
+export default function SectionHeadings({ titleEn, titleZh, children, className }: SectionHeadingsProps) {
   return (
-    < div className="mx-auto px-12 h-screen flex flex-col items-center justify-center" >
+    < div className={`mx-auto px-12 h-screen flex flex-col items-center justify-center ${className || ''}`} >
       <h1 className="text-center">
         {titleEn}
       </h1>

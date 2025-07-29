@@ -14,15 +14,11 @@ export default function CurrentItemDisplay({ title, subtitle, className = "" }: 
         <div className={` ${className}`}>
             {/* 標題 */}
             {title && (
-                <h3 className="mb-2">
-                    {title}
-                </h3>
+                <h3 className="mb-2" dangerouslySetInnerHTML={{ __html: title }} />
             )}
             {/* 副標題 */}
             {subtitle && (
-                <h5 className="text-gray-700">
-                    {subtitle}
-                </h5>
+                <h5 className="text-gray-700" dangerouslySetInnerHTML={{ __html: subtitle }} />
             )}
         </div>
     );
