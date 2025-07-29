@@ -67,7 +67,8 @@ export default function NavigationControls({
 
     return (
       <div
-        className="flex-1 rounded-md overflow-hidden border-[1px] border-gray-500 hover:border-black transition-colors duration-300 cursor-pointer group"
+        className="flex-1 rounded-md overflow-hidden border-[1px] border-gray-500 hover:border-black transition-colors duration-300 group"
+        style={{ cursor: 'zoom-in' }}
         onClick={() => onNavigate?.(direction)}
         data-custom-cursor="VIEW"
       >

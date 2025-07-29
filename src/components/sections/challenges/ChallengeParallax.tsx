@@ -345,10 +345,12 @@ const ChallengeParallax = () => {
                         width: image.width,
                         top: image.top,
                         left: image.left,
-                        zIndex: image.zIndex
+                        zIndex: image.zIndex,
+                        cursor: 'zoom-in'
                     }}
-                    className="challenge-parallax-image aspect-[3/2] absolute cursor-pointer"
+                    className="challenge-parallax-image aspect-[3/2] absolute"
                     data-z={image.z} // 儲存目標 z 值
+                    data-custom-cursor="VIEW"
                     onMouseEnter={(e) => {
                         // 獲取當前的 transform 值並加上 scale
                         const currentTransform = e.currentTarget.style.transform;

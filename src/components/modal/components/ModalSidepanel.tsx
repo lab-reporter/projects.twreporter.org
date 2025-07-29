@@ -65,10 +65,11 @@ export default function ModalSidepanel({
     return (
       <div
         key={project.id}
-        className={`rounded-md border overflow-hidden bg-[rgba(255,255,255,0.9)] backdrop-blur-lg transition-all duration-300 cursor-pointer shadow-lg group ${isActive
+        className={`rounded-md border overflow-hidden bg-[rgba(255,255,255,0.9)] backdrop-blur-lg transition-all duration-300 shadow-lg group ${isActive
           ? 'border-black'
           : 'border-white hover:border-black'
           }`}
+        style={{ cursor: 'zoom-in' }}
         onClick={() => onSelectProject(project.id)}
         data-custom-cursor="VIEW"
       >

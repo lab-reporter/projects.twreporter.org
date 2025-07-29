@@ -12,7 +12,7 @@ export default function ChallengeItem({ title, onClick, className = '' }: Challe
       <div
         className="challengeTitle text-center px-4"
         data-custom-cursor="VIEW"
-        style={{ cursor: 'pointer', transform: 'translateX(-50%)' }}
+        style={{ cursor: 'zoom-in', transform: 'translateX(-50%)' }}
         onClick={() => onClick(title)}
       >
         {/* <h1 className="absolute text-[50vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-100">
