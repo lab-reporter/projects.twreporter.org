@@ -12,7 +12,7 @@ import NextSectionButton from '@/components/NextSectionButton';
 // import OpeningSection from '@/components/sections/opening/OpeningSection';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
-import ReportsSectionOrigin from '@/components/sections/reports/ReportsSectionOrigin';
+// import ReportsSectionOrigin from '@/components/sections/reports/ReportsSectionOrigin';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
@@ -57,7 +57,7 @@ export default function Home() {
     const handleLoad = () => {
       window.scrollTo(0, 0);
     };
-    
+
     if (document.readyState !== 'complete') {
       window.addEventListener('load', handleLoad);
     } else {

@@ -137,7 +137,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
             ref={videoRef}
             src={path}
             className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out select-none ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' }}
+            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' } as React.CSSProperties}
             muted
             loop
             playsInline
@@ -153,7 +153,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
             height={500}
             quality={75}
             className={`w-full h-full object-cover group-hover:scale-110 group-hover:opacity-80 transition-transform transition-opacity duration-300 ease-in-out select-none ${isLoading ? 'opacity-0' : 'opacity-100'}`}
-            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' }}
+            style={{ cursor: 'none', userSelect: 'none', WebkitUserDrag: 'none' } as React.CSSProperties}
             onLoad={handleMediaLoad}
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

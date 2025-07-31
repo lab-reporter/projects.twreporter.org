@@ -7,8 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // ============================
 interface UseReportsZoomAnimationOptions {
     // DOM 參考
-    sliderWrapperRef: RefObject<HTMLDivElement>;
-    zoomOutTweenRef: RefObject<gsap.core.Tween | null>;
+    sliderWrapperRef: RefObject<HTMLDivElement | null>;
+    zoomOutTweenRef: React.MutableRefObject<gsap.core.Tween | null>;
     // 狀態
     isClient: boolean;
     isOpeningComplete: boolean;

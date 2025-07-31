@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, RefObject } from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import ModalSidepanel from './ModalSidepanel';
 import projectsData from '@/app/data/projects.json';
 import { useStore } from '@/stores';
@@ -308,7 +308,7 @@ export default function ModalScrollManager({
             <div
                 className="relative h-full overflow-y-auto bg-[rgba(255,255,255,0.9)] rounded-md [&::-webkit-scrollbar]:hidden"
                 style={{ scrollBehavior: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                ref={scrollContainer}
+                ref={scrollContainer as React.RefObject<HTMLDivElement>}
                 onClick={(e) => {
                     e.stopPropagation();
                     // 如果 sidepanel 是開啟的，點擊內容區域會關閉它

@@ -1,7 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // 啟用靜態導出
+  output: 'export',
+  // 添加尾隨斜線並跳過重定向
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  // 禁用預渲染錯誤處理
+  distDir: 'out',
+  // 靜態部署時禁用圖片優化（因為需要伺服器）
   images: {
+    unoptimized: true,
     // 允許的外部圖片域名
     remotePatterns: [
       {

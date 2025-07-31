@@ -37,7 +37,7 @@ export default function FeedbacksSection() {
   // 背景圓圈 ref
   const bgCircleRef = useRef<HTMLDivElement>(null);
   // Canvas ref
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // 是否顯示灰色圓圈
   const showHiddenCircles = useRef(false);
   // 灰色圓圈的透明度
@@ -59,7 +59,7 @@ export default function FeedbacksSection() {
 
     // 創建 Canvas
     const canvas = document.createElement('canvas');
-    canvasRef.current = canvas;
+    (canvasRef as React.MutableRefObject<HTMLCanvasElement | null>).current = canvas;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 

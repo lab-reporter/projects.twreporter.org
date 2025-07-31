@@ -234,8 +234,8 @@ export default function ReportsSwiperOrigin() {
     return (
         // 主容器：設定總體滾動高度以提供足夠的滾動空間
         <div ref={(el) => {
-            sectionRef.current = el;
-            observerRef.current = el;
+            if (sectionRef) (sectionRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            if (observerRef) (observerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }} className="relative h-[500vh] overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen overflow-hidden">

@@ -8,14 +8,14 @@ import { useStore } from '@/stores';
 // ============================
 interface UseReportsScrollAnimationOptions {
     // DOM 參考
-    sliderWrapperRef: RefObject<HTMLDivElement>;
-    currentItemDisplayRef: RefObject<HTMLDivElement>;
-    zoomOutTweenRef: RefObject<gsap.core.Tween | null>;
+    sliderWrapperRef: RefObject<HTMLDivElement | null>;
+    currentItemDisplayRef: RefObject<HTMLDivElement | null>;
+    zoomOutTweenRef: React.MutableRefObject<gsap.core.Tween | null>;
     // 狀態
     isClient: boolean;
     isOpeningComplete: boolean;
     // 模糊背景相關
-    hasShownBlurOverlayRef: RefObject<boolean>;
+    hasShownBlurOverlayRef: React.MutableRefObject<boolean>;
     setShowBlurOverlay: (show: boolean) => void;
     setBlurOverlayOpacity: (opacity: number) => void;
     // 滑鼠追蹤範圍相關
@@ -76,7 +76,7 @@ export function useReportsScrollAnimation({
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
                 }
-                
+
                 // 隱藏導航欄
                 setNavigationVisible(false);
 

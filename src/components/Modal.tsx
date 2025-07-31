@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { useStore } from '@/stores';
 import { getContentComponentByProjectId } from './modal/contentMap';
 import { useModalNavigation, useKeyboard } from './modal/hooks';
+import type { ReportData } from './modal/types';
 import ModalScrollManager from './modal/components/ModalScrollManager';
 
 export default function Modal() {
@@ -14,8 +15,8 @@ export default function Modal() {
   const [shouldRender, setShouldRender] = useState(false);
   const [modalDataSnapshot, setModalDataSnapshot] = useState<unknown>(null);
   const [adjacentProjectsSnapshot, setAdjacentProjectsSnapshot] = useState<{
-    prev: any | null;
-    next: any | null;
+    prev: ReportData | null;
+    next: ReportData | null;
   }>({ prev: null, next: null });
 
   // 使用導航和鍵盤 hooks

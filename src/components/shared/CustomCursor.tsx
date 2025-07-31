@@ -19,8 +19,8 @@ const defaultCursor: CursorConfig = {
 const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
-  const requestRef = useRef<number>(null);
-  const previousTimeRef = useRef<number>(null);
+  const requestRef = useRef<number | null>(null);
+  const previousTimeRef = useRef<number | null>(null);
 
   const animate = (time: number) => {
     if (previousTimeRef.current != undefined) {

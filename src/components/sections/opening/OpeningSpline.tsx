@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '@/stores';
 
 // TypeScript 宣告 spline-viewer 元素
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace JSX {
         interface IntrinsicElements {
             'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & {
@@ -40,7 +41,7 @@ function SplineWrapper({ onLoaded }: SplineWrapperProps) {
         document.head.appendChild(script);
 
         const checkLoaded = setInterval(() => {
-            if ((window as any).splineLoaded) {
+            if ((window as unknown as { splineLoaded?: boolean }).splineLoaded) {
                 setIsSplineLoaded(true);
                 clearInterval(checkLoaded);
             }
@@ -70,12 +71,10 @@ function SplineWrapper({ onLoaded }: SplineWrapperProps) {
         );
     }
 
-    return (
-        <spline-viewer
-            url="/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-        />
-    );
+    return React.createElement('spline-viewer', {
+        url: "/scene.splinecode",
+        style: { width: '100%', height: '100%' }
+    });
 }
 
 export default function OpeningSpline() {
@@ -83,8 +82,8 @@ export default function OpeningSpline() {
     const [isFading, setIsFading] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [showSkipButton, setShowSkipButton] = useState(false);
-    const timerRef = useRef<NodeJS.Timeout>();
-    const fadeTimerRef = useRef<NodeJS.Timeout>();
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
     const setOpeningComplete = useStore((state) => state.setOpeningComplete);
 
     useEffect(() => {

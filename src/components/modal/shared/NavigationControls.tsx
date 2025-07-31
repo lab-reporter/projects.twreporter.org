@@ -51,8 +51,7 @@ export default function NavigationControls({
   // 渲染單個導航項目
   const renderNavigationItem = (
     project: { id: string; path: string; title: string; subtitle?: string } | null,
-    direction: 'prev' | 'next',
-    label: string
+    direction: 'prev' | 'next'
   ) => {
     if (!project) {
       return (
@@ -126,10 +125,10 @@ export default function NavigationControls({
         {/* 導航預覽區域 */}
         <div className="flex gap-8">
           {/* 上一則預覽 */}
-          {renderNavigationItem(adjacentProjects.prev, 'prev', 'PREV')}
+          {renderNavigationItem(adjacentProjects.prev, 'prev')}
 
           {/* 下一則預覽 */}
-          {renderNavigationItem(adjacentProjects.next, 'next', 'NEXT')}
+          {renderNavigationItem(adjacentProjects.next, 'next')}
         </div>
       </div>
 

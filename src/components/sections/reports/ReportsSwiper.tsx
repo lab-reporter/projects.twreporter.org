@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
 import { CurrentItemDisplay } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
@@ -274,8 +274,8 @@ export default function ReportsSwiper() {
     return (
         // 主容器：設定總體滾動高度以提供足夠的滾動空間
         <div ref={(el) => {
-            sectionRef.current = el;
-            observerRef.current = el;
+            if (sectionRef) (sectionRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+            if (observerRef) (observerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }} className="relative h-screen overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
             <div className="sticky top-0 w-full h-screen">
