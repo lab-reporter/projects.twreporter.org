@@ -167,7 +167,7 @@ export default function Home() {
         {/* 滾動版本（原始版） - 取消註解來顯示 */}
         {/* <ReportsSectionOrigin /> */}
 
-        <InnovationsSection />
+        {/* <InnovationsSection /> */}
         <ChallengesSection />
         <FeedbacksSection />
         <EventSection />

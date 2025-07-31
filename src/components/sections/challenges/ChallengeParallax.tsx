@@ -152,13 +152,13 @@ const ChallengeParallax = () => {
         lerpFactor: 0.1
     });
 
-    // 設置淡入動畫
+    // 設置優化的動畫系統 - 使用單一 ScrollTrigger 和 stagger
     useEffect(() => {
         const ctx = gsap.context(() => {
             // 選擇所有圖片元素
             const imageElements = gsap.utils.toArray('.challenge-parallax-image') as HTMLElement[];
 
-            // 為每個元素設置動畫
+            // 設置每個元素的初始狀態和目標值
             imageElements.forEach((element, index) => {
                 const targetZ = parallaxImages[index].z;
                 const x = parallaxImages[index].x;
@@ -167,45 +167,75 @@ const ChallengeParallax = () => {
                 // 設置初始狀態
                 gsap.set(element, {
                     opacity: 0,
-                    transform: `translate3d(${x}px, ${y}px, -100px)`
+                    transform: `translate3d(${x}px, ${y}px, -100px)`,
+                    willChange: 'transform, opacity'
                 });
 
-                // 照片入場滾動動畫
-                gsap.to(element, {
-                    opacity: 1,
-                    transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
-                    ease: "none", // 滾動動畫通常使用線性
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: `top center+=${index * 30}`, // 每個元素錯開啟動
-                        end: `top 25%+=${index * 30}`, // 錯開結束點
-                        scrub: 1, // 綁定滾動，1 表示平滑追蹤
-                        markers: false // 開發時可設為 true 查看觸發點
-                    }
-                });
-
-                // 照片離場滾動動畫
-                gsap.fromTo(element,
-                    {
-                        // 起始狀態：當前狀態
-                        opacity: 1,
-                        transform: `translate3d(${x}px, ${y}px, ${targetZ}px)`
-                    },
-                    {
-                        // 結束狀態
-                        opacity: 0,
-                        transform: `translate3d(${x}px, ${y}px, 1000px)`,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: containerRef.current,
-                            start: `bottom 50%+=${index * 30}`, // 錯開啟動
-                            end: `bottom 0%+=${index * -30}`, // 錯開結束
-                            scrub: 1,
-                            markers: false
-                        }
-                    }
-                );
+                // 儲存每個元素的動畫資訊
+                (element as any)._animData = {
+                    x, y, targetZ,
+                    startTransform: `translate3d(${x}px, ${y}px, -100px)`,
+                    midTransform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
+                    endTransform: `translate3d(${x}px, ${y}px, 1000px)`
+                };
             });
+
+            // 建立主時間軸
+            const mainTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top center",
+                    end: "bottom top",
+                    scrub: 0.5, // 降低 scrub 值提升流暢度
+                    markers: true,
+                    fastScrollEnd: true, // 快速滾動時優化效能
+                    preventOverlaps: true, // 防止動畫重疊
+                    id: "challenge-parallax",
+                    onUpdate: (_self) => {
+                        // 可用於 debug 或效能監控
+                        // console.log("progress:", _self.progress);
+                    }
+                }
+            });
+
+            // 入場動畫（0% - 40% 的時間軸）
+            mainTimeline.to(imageElements, {
+                opacity: 1,
+                transform: (_index, element) => {
+                    return (element as any)._animData.midTransform;
+                },
+                ease: "power2.out",
+                duration: 0.25, // 佔總時間軸的 40%
+                stagger: {
+                    each: 0.01, // 每個元素延遲 0.05 (相對於總時間軸)
+                    from: "start"
+                }
+            }, 0);
+
+            // 保持狀態（40% - 60% 的時間軸）
+            // 不需要特別處理，元素會保持在中間狀態
+
+            // 離場動畫（60% - 100% 的時間軸）
+            mainTimeline.to(imageElements, {
+                opacity: 0,
+                transform: (_index, element) => {
+                    return (element as any)._animData.endTransform;
+                },
+                ease: "power2.in",
+                duration: 0.25,
+                stagger: {
+                    each: 0.01,
+                    from: "start"
+                },
+                onComplete: () => {
+                    // 清理 will-change
+                    imageElements.forEach(element => {
+                        gsap.set(element, { willChange: 'auto' });
+                        delete (element as any)._animData;
+                    });
+                }
+            }, 0.6); // 從時間軸的 60% 開始
+
         }, containerRef);
 
         return () => ctx.revert();
@@ -337,6 +367,7 @@ const ChallengeParallax = () => {
             style={{
                 transformStyle: 'preserve-3d',
                 perspective: '500px',
+                willChange: 'perspective-origin'
             }}>
             {parallaxImages.map((image, index) => (
                 <div
@@ -346,31 +377,30 @@ const ChallengeParallax = () => {
                         top: image.top,
                         left: image.left,
                         zIndex: image.zIndex,
-                        cursor: 'zoom-in'
+                        cursor: 'zoom-in',
+                        willChange: 'transform' // hover 時的 scale 動畫優化
                     }}
                     className="challenge-parallax-image aspect-[3/2] absolute"
                     data-z={image.z} // 儲存目標 z 值
                     data-custom-cursor="VIEW"
                     onMouseEnter={(e) => {
-                        // 獲取當前的 transform 值並加上 scale
-                        const currentTransform = e.currentTarget.style.transform;
-                        const baseTransform = currentTransform.replace(/scale\([^)]*\)/g, '').trim();
+                        // 使用 scale 屬性而非 transform，避免與滾動動畫衝突
                         gsap.to(e.currentTarget, {
-                            transform: `${baseTransform} scale(1.1)`,
+                            scale: 1.1,
                             duration: 0.3,
-                            ease: "power2.out"
+                            ease: "power2.out",
+                            overwrite: 'auto'
                         });
                         // 處理 hover 顯示標題
                         handleImageHover(image.src);
                     }}
                     onMouseLeave={(e) => {
-                        // 恢復到原始的 transform（移除 scale）
-                        const currentTransform = e.currentTarget.style.transform;
-                        const baseTransform = currentTransform.replace(/scale\([^)]*\)/g, '').trim();
+                        // 恢復 scale
                         gsap.to(e.currentTarget, {
-                            transform: baseTransform,
+                            scale: 1,
                             duration: 0.3,
-                            ease: "power2.out"
+                            ease: "power2.out",
+                            overwrite: 'auto'
                         });
                         handleImageLeave();
                     }}
