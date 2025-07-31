@@ -181,7 +181,7 @@ export default function ReportsSwiper() {
     // 動畫 Hooks 區塊
     // ============================
     // 使用 ScrollTrigger 動畫 Hook
-    useReportsScrollAnimation({
+    const { closeBlurOverlay } = useReportsScrollAnimation({
         sliderWrapperRef,
         currentItemDisplayRef,
         zoomOutTweenRef,
@@ -385,6 +385,27 @@ export default function ReportsSwiper() {
                 >
                     {/* 模糊背景效果 */}
                     <div className="bg-black/80 absolute inset-0 backdrop-blur-sm" />
+
+                    {/* 關閉按鈕 */}
+                    <button
+                        onClick={closeBlurOverlay}
+                        className="absolute bottom-8 right-1/2 -translate-x-1/2 z-20 text-white p-3 hover:bg-white/20 rounded-full transition-all duration-200 border border-white/30 hover:border-white/50 group"
+                        aria-label="關閉提示"
+                    >
+                        <svg
+                            width="32"
+                            height="32"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
 
                     {/* 在這裡加入你想要的內容 */}
                     <div className="relative text-white px-32 z-10 w-full h-full flex items-center justify-center">

@@ -1,4 +1,4 @@
-import { useEffect, RefObject } from 'react';
+import React, { useEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useStore } from '@/stores';
@@ -21,6 +21,8 @@ interface UseReportsScrollAnimationOptions {
     // 滑鼠追蹤範圍相關
     setMouseRangeMin?: (value: number) => void;
     setMouseRangeMax?: (value: number) => void;
+    // 新增：關閉遮罩的回調
+    onCloseBlurOverlay?: () => void;
 }
 
 // ============================
@@ -36,10 +38,15 @@ export function useReportsScrollAnimation({
     setShowBlurOverlay,
     setBlurOverlayOpacity,
     setMouseRangeMin,
-    setMouseRangeMax
+    setMouseRangeMax,
+    onCloseBlurOverlay
 }: UseReportsScrollAnimationOptions) {
     // 取得導航欄控制函數
     const { setNavigationVisible } = useStore();
+
+    // 儲存計時器引用
+    const fadeOutTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+    const hideTimerRef = React.useRef<NodeJS.Timeout | null>(null);
     // ============================
     // ScrollTrigger 動畫設定
     // ============================
@@ -95,29 +102,46 @@ export function useReportsScrollAnimation({
                     });
                 }
 
-                // 同步顯示模糊背景
+                // 檢查 localStorage 是否已經顯示過提示
+                const hasSeenTutorial = typeof window !== 'undefined' &&
+                    localStorage.getItem('reports-tutorial-seen') === 'true';
+
+                // 同步顯示模糊背景（只在第一次訪問時顯示）
                 if (!hasShownBlurOverlayRef.current) {
                     hasShownBlurOverlayRef.current = true;
-                    setShowBlurOverlay(true);
-                    // 鎖定滾動
-                    document.body.style.overflow = 'hidden';
 
-                    // 0.5秒淡入
-                    setTimeout(() => {
-                        setBlurOverlayOpacity(1);
-                    }, 50);
+                    if (!hasSeenTutorial) {
+                        // 第一次訪問：顯示教學提示
+                        setShowBlurOverlay(true);
+                        // 鎖定滾動
+                        document.body.style.overflow = 'hidden';
 
-                    // 2.5秒後開始淡出
-                    setTimeout(() => {
-                        setBlurOverlayOpacity(0);
-                    }, 2500);
+                        // 0.5秒淡入
+                        setTimeout(() => {
+                            setBlurOverlayOpacity(1);
+                        }, 50);
 
-                    // 3秒後完全隱藏並解鎖滾動
-                    setTimeout(() => {
-                        setShowBlurOverlay(false);
-                        // 解鎖滾動
-                        document.body.style.overflow = '';
-                    }, 3000);
+                        // 4.5秒後開始淡出
+                        fadeOutTimerRef.current = setTimeout(() => {
+                            setBlurOverlayOpacity(0);
+                        }, 4500);
+
+                        // 5秒後完全隱藏並解鎖滾動
+                        hideTimerRef.current = setTimeout(() => {
+                            setShowBlurOverlay(false);
+                            // 解鎖滾動
+                            document.body.style.overflow = '';
+                            // 標記已經看過教學
+                            if (typeof window !== 'undefined') {
+                                localStorage.setItem('reports-tutorial-seen', 'true');
+                            }
+                        }, 5000);
+                    } else {
+                        // 已經看過教學：延遲 1 秒後解鎖滾動
+                        setTimeout(() => {
+                            document.body.style.overflow = '';
+                        }, 500);
+                    }
                 }
             }
         }, 0)
@@ -164,6 +188,43 @@ export function useReportsScrollAnimation({
         return () => {
             tl.kill();
             scrollTrigger.kill();
+            // 清除計時器
+            if (fadeOutTimerRef.current) {
+                clearTimeout(fadeOutTimerRef.current);
+            }
+            if (hideTimerRef.current) {
+                clearTimeout(hideTimerRef.current);
+            }
         };
     }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible]);
+
+    // 返回關閉遮罩的函數
+    const closeBlurOverlay = React.useCallback(() => {
+        // 清除計時器
+        if (fadeOutTimerRef.current) {
+            clearTimeout(fadeOutTimerRef.current);
+        }
+        if (hideTimerRef.current) {
+            clearTimeout(hideTimerRef.current);
+        }
+
+        // 立即淡出並隱藏
+        setBlurOverlayOpacity(0);
+        setTimeout(() => {
+            setShowBlurOverlay(false);
+            // 解鎖滾動
+            document.body.style.overflow = '';
+            // 標記已經看過教學
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('reports-tutorial-seen', 'true');
+            }
+        }, 500); // 給 0.5 秒的淡出動畫時間
+
+        // 呼叫外部的回調（如果有的話）
+        if (onCloseBlurOverlay) {
+            onCloseBlurOverlay();
+        }
+    }, [setBlurOverlayOpacity, setShowBlurOverlay, onCloseBlurOverlay]);
+
+    return { closeBlurOverlay };
 }
