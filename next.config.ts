@@ -3,11 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // 啟用靜態導出
   output: 'export',
-  // 添加尾隨斜線並跳過重定向
-  trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  // 禁用預渲染錯誤處理
+  // 靜態導出目錄
   distDir: 'out',
+  // 禁用尾隨斜線（避免路徑問題）
+  trailingSlash: false,
   // 靜態部署時禁用圖片優化（因為需要伺服器）
   images: {
     unoptimized: true,
