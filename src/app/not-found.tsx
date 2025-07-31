@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
@@ -150,6 +150,7 @@ export default function NotFound() {
     const sliderWrapperRef = useRef<HTMLDivElement>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
     const sliderContainerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     // ============================
     // 本地狀態區塊
@@ -203,6 +204,39 @@ export default function NotFound() {
     const { sliderSize } = getResponsiveValues(isClient ? windowWidth : 1024);
 
 
+    // 返回首頁的動畫處理
+    const handleReturnHome = () => {
+        const sliderWrapper = sliderWrapperRef.current;
+        if (!sliderWrapper) {
+            // 如果沒有 DOM 元素，直接跳轉
+            router.push('/');
+            return;
+        }
+
+        // 取得所有報導項目元素
+        const reportItems = sliderWrapper.querySelectorAll('[data-report-item]');
+
+        // 建立時間軸
+        const tl = gsap.timeline({
+            onComplete: () => {
+                // 動畫完成後跳轉到首頁
+                router.push('/');
+            }
+        });
+
+        // 同時執行所有元素的動畫
+        tl.to(reportItems, {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'bounce.out'
+        }, 0)
+            .to(sliderWrapper, {
+                translateZ: '-100vw',
+                duration: 0.5,
+                ease: 'bounce.out'
+            }, 0);
+    };
+
     // 404 頁面專屬的 zoom 動畫
     useEffect(() => {
         if (typeof window === 'undefined' || !isClient) return;
@@ -219,12 +253,12 @@ export default function NotFound() {
         const reportItems = sliderWrapper.querySelectorAll('[data-report-item]');
 
         // 建立時間軸來同步所有動畫
-        const tl = gsap.timeline({ delay: 0.5 }); // 延遲 0.5 秒開始
+        const tl = gsap.timeline({ delay: 0 }); // 延遲 0.5 秒開始
 
         // 主要的 zoom out 動畫
         tl.to(sliderWrapper, {
             translateZ: '5vw',
-            duration: 3,
+            duration: 1.5,
             ease: 'power4.out'
         }, 0);
 
@@ -369,15 +403,15 @@ export default function NotFound() {
 
                 {/* 404 資訊和返回按鈕 */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-                    <div className="text-center pointer-events-auto bg-black/50 backdrop-blur-sm p-12 rounded-2xl">
+                    <div className="text-center pointer-events-auto p-12">
                         <h1 className="text-8xl font-bold mb-4 text-white">404</h1>
                         <p className="text-2xl mb-8 text-white/80">頁面不存在</p>
-                        <Link
-                            href="/"
+                        <button
+                            onClick={handleReturnHome}
                             className="inline-block px-8 py-4 bg-white text-black rounded-full hover:bg-gray-200 transition-all duration-300 font-medium text-lg shadow-lg"
                         >
                             返回首頁
-                        </Link>
+                        </button>
                     </div>
                 </div>
 
