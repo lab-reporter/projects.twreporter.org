@@ -19,16 +19,16 @@ const sectionDisplayMap: Record<string, string> = {
 
 // 下一章節按鈕組件
 export default function NextSectionButton() {
-  // 從全域狀態取得當前章節
-  const { currentSection } = useStore();
-  // 控制按鈕是否顯示的狀態
-  const [isVisible, setIsVisible] = useState(false);
+  // 從全域狀態取得當前章節和按鈕顯示狀態
+  const { currentSection, isNextSectionButtonVisible } = useStore();
+  // 控制按鈕是否顯示的狀態（根據當前章節）
+  const [isSectionValid, setIsSectionValid] = useState(false);
 
   // 副作用：根據當前章節控制按鈕顯示
   useEffect(() => {
     // 只在指定的三個章節顯示按鈕
     const shouldShow = Boolean(currentSection && sectionNextMap[currentSection]);
-    setIsVisible(shouldShow);
+    setIsSectionValid(shouldShow);
   }, [currentSection]);
 
   // 滾動到下一個章節的函數
@@ -49,8 +49,8 @@ export default function NextSectionButton() {
     }
   };
 
-  // 如果按鈕不可見，不渲染任何內容
-  if (!isVisible || !currentSection || !sectionNextMap[currentSection]) {
+  // 如果按鈕不可見（store 狀態或章節不符），不渲染任何內容
+  if (!isNextSectionButtonVisible || !isSectionValid || !currentSection || !sectionNextMap[currentSection]) {
     return null;
   }
 

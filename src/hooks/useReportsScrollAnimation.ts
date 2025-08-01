@@ -45,7 +45,7 @@ export function useReportsScrollAnimation({
     onAnimationComplete
 }: UseReportsScrollAnimationOptions) {
     // 取得導航欄控制函數
-    const { setNavigationVisible } = useStore();
+    const { setNavigationVisible, setNextSectionButtonVisible } = useStore();
 
     // 儲存計時器引用
     const fadeOutTimerRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -87,8 +87,9 @@ export function useReportsScrollAnimation({
                     zoomOutTweenRef.current.kill();
                 }
 
-                // 隱藏導航欄
-                setNavigationVisible(false);
+                // 顯示導航欄和下一章節按鈕
+                setNavigationVisible(true);
+                setNextSectionButtonVisible(true);
 
                 // 立即開始動畫化滑鼠追蹤範圍
                 if (setMouseRangeMin && setMouseRangeMax) {
@@ -220,7 +221,7 @@ export function useReportsScrollAnimation({
                 clearTimeout(hideTimerRef.current);
             }
         };
-    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, onAnimationComplete]);
+    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setNextSectionButtonVisible, onAnimationComplete]);
 
     // 返回關閉遮罩的函數
     const closeBlurOverlay = React.useCallback(() => {

@@ -18,10 +18,10 @@ const Navigation = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const scrollDelta = Math.abs(currentScrollY - lastScrollY.current);
-      
+
       // 只有在滾動超過閾值時才更新
       if (scrollDelta < scrollThreshold) return;
-      
+
       // 判斷滾動方向並更新導航欄可見性
       if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
         // 向下滾動且已經滾動超過 100px，隱藏導航欄
@@ -30,19 +30,19 @@ const Navigation = () => {
         // 向上滾動或在頂部，顯示導航欄
         setNavigationVisible(true);
       }
-      
+
       lastScrollY.current = currentScrollY;
     };
-    
+
     // 添加滾動監聽器
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // 清理函數
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [setNavigationVisible]);
-  
+
   // 根據可見性狀態更新導航欄位置
   useEffect(() => {
     if (navRef.current) {
@@ -66,10 +66,10 @@ const Navigation = () => {
       <div
         id="main-navigation"
         ref={navRef}
-        className="w-full fixed top-6 flex justify-center items-center z-[99] text-black"
+        className="fixed top-6 w-full flex justify-center items-center z-[99] text-black"
       >
         {/* 導航內容容器 */}
-        <div className="mx-auto w-auto h-auto flex flex-row justify-between items-center rounded-sm">
+        <div className="mx-auto">
           {/* 網站標誌 */}
           <Image
             src={logoSrc}

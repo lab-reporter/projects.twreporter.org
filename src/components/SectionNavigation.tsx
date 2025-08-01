@@ -14,8 +14,8 @@ const sections = [
 
 // 章節導航組件
 export default function SectionNavigation() {
-  // 從全域狀態取得當前章節
-  const { currentSection } = useStore();
+  // 從全域狀態取得當前章節和導航顯示狀態
+  const { currentSection, isNavigationVisible } = useStore();
   // 確保有預設值：如果 currentSection 為空，預設為 'reports'
   const activeSection = currentSection || 'reports';
 
@@ -26,10 +26,10 @@ export default function SectionNavigation() {
       console.log('🎯 SectionNavigation - activeSection:', activeSection);
     }
   }, [currentSection, activeSection]);
-  // 控制導航是否顯示的狀態 - 預設為顯示
-  const [isVisible, setIsVisible] = useState(true);
   // 視窗寬度狀態
   const [windowWidth, setWindowWidth] = useState(1024);
+  // 結合 store 狀態和視窗寬度判斷是否顯示
+  const [isWindowSizeValid, setIsWindowSizeValid] = useState(true);
 
 
   // 副作用：監聽視窗大小變化
@@ -38,7 +38,7 @@ export default function SectionNavigation() {
     if (typeof window !== 'undefined') {
       setWindowWidth(window.innerWidth);
       // 根據視窗寬度設定是否顯示
-      setIsVisible(window.innerWidth >= 768);
+      setIsWindowSizeValid(window.innerWidth >= 768);
     }
 
     // 處理視窗大小變化
@@ -47,7 +47,7 @@ export default function SectionNavigation() {
         const width = window.innerWidth;
         setWindowWidth(width);
         // 小於 768px 時隱藏
-        setIsVisible(width >= 768);
+        setIsWindowSizeValid(width >= 768);
       }
     };
 
@@ -104,8 +104,8 @@ export default function SectionNavigation() {
     }, 50);
   };
 
-  // 如果導航不可見，不渲染任何內容
-  if (!isVisible) {
+  // 如果導航不可見（store 狀態或視窗太小），不渲染任何內容
+  if (!isNavigationVisible || !isWindowSizeValid) {
     return null;
   }
 
@@ -115,8 +115,8 @@ export default function SectionNavigation() {
     <nav
       className="fixed right-4 top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out hidden md:flex"
       style={{
-        opacity: isVisible ? 1 : 0,
-        transform: `translateY(-50%) translateX(${isVisible ? '0' : '20px'})`
+        opacity: isNavigationVisible ? 1 : 0,
+        transform: `translateY(-50%) translateX(${isNavigationVisible ? '0' : '20px'})`
       }}
     >
 

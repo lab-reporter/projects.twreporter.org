@@ -18,7 +18,7 @@ export default function ReportsHint({
 
     return (
         <div
-            className="fixed inset-0 w-full h-full z-[10] transition-opacity duration-500 overflow-hidden"
+            className="fixed inset-0 w-full h-full z-[100] transition-opacity duration-500 overflow-hidden"
             style={{
                 opacity: opacity,
                 height: '100%',
@@ -34,18 +34,19 @@ export default function ReportsHint({
             {/* 關閉按鈕 */}
             <button
                 onClick={onClose}
-                className="absolute top-8 right-8 z-20 text-white p-3 hover:bg-white/20 rounded-full transition-all duration-200 border border-white/30 hover:border-white/50 group"
+                className="group absolute top-4 right-4 z-[100] p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
                 aria-label="關閉提示"
             >
                 <svg
-                    width="20"
-                    height="20"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
+                    strokeWidth="2.25"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className="stroke-current group-hover:stroke-white"
                 >
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>

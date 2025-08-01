@@ -7,6 +7,7 @@ export interface UISlice {
   isNavigationVisible: boolean
   isSidePanelOpen: boolean
   sidePanelContent: string | null
+  isNextSectionButtonVisible: boolean
   
   // Modal 狀態
   modal: {
@@ -32,6 +33,7 @@ export interface UISlice {
   setNavigationVisible: (isVisible: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
+  setNextSectionButtonVisible: (isVisible: boolean) => void
   openModal: (contentId: string, data?: Record<string, unknown> | null) => void
   closeModal: () => void
   setTheme: (theme: 'light' | 'dark') => void
@@ -47,9 +49,10 @@ export const uiSlice: StateCreator<
   UISlice
 > = (set) => ({
   isNavigationOpen: false,
-  isNavigationVisible: true,
+  isNavigationVisible: false,
   isSidePanelOpen: false,
   sidePanelContent: null,
+  isNextSectionButtonVisible: false,
   
   modal: {
     isOpen: false,
@@ -74,6 +77,11 @@ export const uiSlice: StateCreator<
   setNavigationVisible: (isVisible) =>
     set((state) => {
       state.isNavigationVisible = isVisible
+    }),
+    
+  setNextSectionButtonVisible: (isVisible) =>
+    set((state) => {
+      state.isNextSectionButtonVisible = isVisible
     }),
     
   setSidePanelOpen: (isOpen) =>
