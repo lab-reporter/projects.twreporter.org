@@ -28,12 +28,36 @@ export default function SectionNavigation() {
   }, [currentSection, activeSection]);
   // 控制導航是否顯示的狀態 - 預設為顯示
   const [isVisible, setIsVisible] = useState(true);
+  // 視窗寬度狀態
+  const [windowWidth, setWindowWidth] = useState(1024);
 
 
-  // 副作用：預設導航始終顯示，不需要特別的顯示邏輯
+  // 副作用：監聽視窗大小變化
   useEffect(() => {
-    // 導航預設顯示，確保 isVisible 保持為 true
-    setIsVisible(true);
+    // 初始化視窗寬度
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+      // 根據視窗寬度設定是否顯示
+      setIsVisible(window.innerWidth >= 768);
+    }
+
+    // 處理視窗大小變化
+    const handleResize = () => {
+      if (typeof window !== 'undefined') {
+        const width = window.innerWidth;
+        setWindowWidth(width);
+        // 小於 768px 時隱藏
+        setIsVisible(width >= 768);
+      }
+    };
+
+    // 註冊事件監聽器
+    window.addEventListener('resize', handleResize);
+
+    // 清理函數
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
 
@@ -87,8 +111,9 @@ export default function SectionNavigation() {
 
   return (
     // 導航容器：固定在右側中間位置，簡單淡入效果
+    // 使用 hidden md:flex 來確保在小裝置上完全不渲染
     <nav
-      className="fixed right-4 top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out"
+      className="fixed right-4 top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out hidden md:flex"
       style={{
         opacity: isVisible ? 1 : 0,
         transform: `translateY(-50%) translateX(${isVisible ? '0' : '20px'})`

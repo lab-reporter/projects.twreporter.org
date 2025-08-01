@@ -85,7 +85,7 @@ export default function ReportsSwiper() {
     // 狀態：動態調整滑鼠追蹤範圍
     const [mouseRangeMin, setMouseRangeMin] = useState(30);
     const [mouseRangeMax, setMouseRangeMax] = useState(70);
-    
+
     // 狀態：是否啟用自訂游標
     const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState(false);
     // 狀態：是否啟用互動（拖曳和點擊切換）
@@ -119,7 +119,7 @@ export default function ReportsSwiper() {
         // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
         if (width < 640) {
             // 小於 640px：手機直立模式
-            return { sliderSize: 10.5 };
+            return { sliderSize: 10 };
         } else if (width < 768) {
             // 640px - 768px：手機橫向/小平板
             return { sliderSize: 9 };
@@ -191,7 +191,7 @@ export default function ReportsSwiper() {
         setIsCustomCursorEnabled(true);
         setIsInteractionEnabled(true);
     }, []);
-    
+
     // 使用 ScrollTrigger 動畫 Hook
     const { closeBlurOverlay } = useReportsScrollAnimation({
         sliderWrapperRef,
@@ -390,7 +390,7 @@ export default function ReportsSwiper() {
             </div>
 
             {/* 教學提示遮罩層 */}
-            <ReportsHint 
+            <ReportsHint
                 show={showBlurOverlay}
                 opacity={blurOverlayOpacity}
                 onClose={closeBlurOverlay}

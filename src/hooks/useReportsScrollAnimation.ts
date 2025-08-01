@@ -105,9 +105,10 @@ export function useReportsScrollAnimation({
                     });
                 }
 
-                // 檢查 localStorage 是否已經顯示過提示
-                const hasSeenTutorial = typeof window !== 'undefined' &&
-                    localStorage.getItem('reports-tutorial-seen') === 'true';
+                // 暫時註解掉快取檢查機制
+                // const hasSeenTutorial = typeof window !== 'undefined' &&
+                //     localStorage.getItem('reports-tutorial-seen') === 'true';
+                const hasSeenTutorial = false; // 暫時強制顯示教學提示
 
                 // 同步顯示模糊背景（只在第一次訪問時顯示）
                 if (!hasShownBlurOverlayRef.current) {
@@ -124,25 +125,26 @@ export function useReportsScrollAnimation({
                             setBlurOverlayOpacity(1);
                         }, 500);
 
-                        // 4.5秒後開始淡出
-                        fadeOutTimerRef.current = setTimeout(() => {
-                            setBlurOverlayOpacity(0);
-                        }, 4500);
+                        // 暫時註解掉自動消失機制
+                        // // 4.5秒後開始淡出
+                        // fadeOutTimerRef.current = setTimeout(() => {
+                        //     setBlurOverlayOpacity(0);
+                        // }, 4500);
 
-                        // 5秒後完全隱藏並解鎖滾動
-                        hideTimerRef.current = setTimeout(() => {
-                            setShowBlurOverlay(false);
-                            // 解鎖滾動
-                            document.body.style.overflow = '';
-                            // 標記已經看過教學
-                            if (typeof window !== 'undefined') {
-                                localStorage.setItem('reports-tutorial-seen', 'true');
-                            }
-                            // 黑色遮罩關閉後啟用自訂游標
-                            if (onAnimationComplete) {
-                                onAnimationComplete();
-                            }
-                        }, 5000);
+                        // // 5秒後完全隱藏並解鎖滾動
+                        // hideTimerRef.current = setTimeout(() => {
+                        //     setShowBlurOverlay(false);
+                        //     // 解鎖滾動
+                        //     document.body.style.overflow = '';
+                        //     // 暫時註解掉標記已經看過教學
+                        //     // if (typeof window !== 'undefined') {
+                        //     //     localStorage.setItem('reports-tutorial-seen', 'true');
+                        //     // }
+                        //     // 黑色遮罩關閉後啟用自訂游標
+                        //     if (onAnimationComplete) {
+                        //         onAnimationComplete();
+                        //     }
+                        // }, 5000);
                     } else {
                         // 已經看過教學：延遲 0.5 秒後解鎖滾動
                         setTimeout(() => {
@@ -225,10 +227,10 @@ export function useReportsScrollAnimation({
             setShowBlurOverlay(false);
             // 解鎖滾動
             document.body.style.overflow = '';
-            // 標記已經看過教學
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('reports-tutorial-seen', 'true');
-            }
+            // 暫時註解掉標記已經看過教學
+            // if (typeof window !== 'undefined') {
+            //     localStorage.setItem('reports-tutorial-seen', 'true');
+            // }
             // 手動關閉遮罩後也要啟用自訂游標
             if (onAnimationComplete) {
                 onAnimationComplete();
