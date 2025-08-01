@@ -2,146 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 專案概覽
-
-**報導者十週年回顧網站 (2D 版本)**
-- 技術架構: Next.js 15.3.4 + React 19 + TypeScript + Tailwind CSS + GSAP 3.13
-- 狀態管理: Zustand 5.0.5 + Immer
-- 開發分支: `dev-2d`
-- 開發環境: http://localhost:3001
-- GitHub: https://github.com/itisalongway574/r3f-10th-repo
-
-### 專案歷史
-- 原始版本: React Three Fiber (R3F) 3D 網站
-- 當前版本: 純 CSS/JS 2D 實作（效能優化）
-- 遺留依賴: @react-three/*, three (待清理)
-
-### 章節架構
-1. **Opening** - 開場動畫（Spline 3D 整合中）
-2. **Reports** - 影響力報導（12 個項目）
-3. **Innovations** - 多元創新（10 個項目）
-4. **Challenges** - 挑戰故事（10 個項目）
-5. **Feedbacks** - 贊助者證言
-6. **Support** - 支持頁面
-
-## 開發指令
-
-```bash
-# 套件管理器：使用 pnpm（推薦）或 npm
-pnpm install          # 安裝依賴
-pnpm add [package]    # 新增套件
-pnpm update          # 更新套件
-
-# 開發伺服器（Turbopack，port 3001）
-pnpm dev
-
-# 建置專案
-pnpm build
-
-# 執行生產版本
-pnpm start
-
-# ESLint 檢查
-pnpm lint
-
-# 類型檢查（手動執行）
-npx tsc --noEmit
-
-# 特殊指令
-pnpm setup           # 複製專案到 ../copy 目錄
-pnpm sync-copy       # 同步 copy 目錄與當前狀態
-```
-
-## 高階架構
-
-### 狀態管理 (Zustand + Immer)
-```
-src/stores/
-├── scrollSlice    # 滾動狀態（進度、方向、章節）
-├── uiSlice        # UI 狀態（導航、Modal、主題）
-├── dataSlice      # 資料管理（專案、篩選、載入）
-└── sceneSlice     # 場景狀態（相機、效能監控）
-```
-
-### 動畫系統
-- **主時間軸**: `useMainTimeline` 管理開場動畫
-- **滾動驅動**: GSAP ScrollTrigger
-- **滑鼠追蹤**: `useMouseTracking3D` 建立 3D 透視效果
-- **效能監控**: `usePerformanceMonitor` 自動降級（FPS < 30）
-
-### Modal 系統
-- 32 個內容組件總計：
-  - 12 個 Reports (Reports1-12Content.tsx)
-  - 10 個 Innovations (Innovation1-10Content.tsx)
-  - 10 個 Challenges (Challenge1-10Content.tsx)
-- 動態載入: `src/components/modal/content/[contentId].tsx`
-- 鍵盤導航與相鄰項目切換支援
-- 自訂影片播放器與控制元件
-
-### 專案資料結構
-```typescript
-// src/app/data/projects.json
-interface Project {
-  id: string;           // "reports-1", "innovation-1"
-  path: string;         // 媒體路徑 (.webp, .webm)
-  title: string;        // 標題
-  subtitle?: string;    // 副標題
-  section: string[];    // ["reports"] 或多個章節
-  bgColor?: string;     // 背景色
-}
-```
-
-### TypeScript 配置
-- Target: ES2017
-- Strict mode: 啟用
-- 路徑別名: `@/*` → `./src/*`
-- Module resolution: bundler
-
-### 效能優化設定 (next.config.ts)
-- 生產環境自動移除 console.log
-- 套件優化：gsap, zustand
-- 圖片格式：支援 WebP/AVIF
-- 圖片快取：1 年 TTL
-- Turbopack: 開發環境啟用
-
-### Tailwind 配置
-- 自訂色彩系統（CSS 變數）
-- 響應式字型系統（h1-h6 變體）
-- 自訂字型：Noto Serif/Sans TC, Roboto Slab, Alverata
-- 隱藏捲軸工具類別
-- 3D 變換工具類別
-
-## 實驗性功能
-
-### Spline 3D 整合
-- 元件：`OpeningSpline.tsx`
-- 測試頁面：`/test-spline`
-- 使用 Web Component 避免 async 組件問題
-- 當前實作：12 秒後自動淡出，1 秒過渡動畫
-
-## 主要依賴套件
-
-### 核心框架
-- **Next.js 15.3.4**: App Router, Turbopack
-- **React 19**: 最新版本特性
-- **TypeScript 5**: 類型安全
-- **Tailwind CSS 3.4**: 原子化 CSS
-- **GSAP 3.13**: 進階動畫庫
-- **Zustand 5.0.5**: 狀態管理
-- **Immer 10.1**: 不可變狀態更新
-
-### UI 與動畫
-- **@splinetool/react-spline**: 3D 場景整合
-- **Swiper 11.2**: 輪播功能
-- **Lucide React**: 圖標系統
-- **Canvas Confetti**: 慶祝特效
-- **Lottie React**: 動畫支援
-
-### 待移除（3D 版本遺留）
-- @react-three/fiber
-- @react-three/drei
-- three
-
 ## AI 助手工作規範
 
 ### ✅ 自動執行（不需詢問）
@@ -157,7 +17,8 @@ interface Project {
 - git merge/rebase
 - **重要**: dev-2d 合併到 main 需特別確認
 
-### Git Commit 規範
+## Git Commit 規範
+
 ```bash
 <type>: <繁體中文描述>
 
@@ -184,6 +45,7 @@ revert: 恢復版本
 ### 註解規範
 - 使用繁體中文
 - 解釋「為什麼」而非「做什麼」
+- 不要寫具體數值，只描述這個參數的功效
 - 置於程式碼上方
 - 讓非技術人員也能理解
 
@@ -195,15 +57,167 @@ if (process.env.NODE_ENV === 'development') {
 }
 ```
 
-## 效能目標與部署
+## ESLint 與 TypeScript 規範（必須嚴格遵守）
 
-### 目標指標
-- Lighthouse: > 80 分
-- 首屏載入: < 3 秒
-- 動畫 FPS: > 30
-- CLS: < 0.1
+### 常見錯誤與修復方式
 
-### 部署前檢查
+#### 1. 未使用的變數和參數 (@typescript-eslint/no-unused-vars)
+```typescript
+// ❌ 錯誤：未使用的變數
+const unused = 'value';
+import InnovationsSection from './InnovationsSection';
+
+// ✅ 正確：移除未使用的程式碼
+// 或使用底線前綴表示刻意忽略
+const _unused = 'value';
+
+// ❌ 錯誤：未使用的函數參數
+array.forEach((item, index) => {
+  console.log(item);
+});
+
+// ✅ 正確：移除或使用底線前綴
+array.forEach((item) => {
+  console.log(item);
+});
+// 或
+array.forEach((item, _index) => {
+  console.log(item);
+});
+```
+
+#### 2. 禁止使用 any 類型 (@typescript-eslint/no-explicit-any)
+```typescript
+// ❌ 錯誤：使用 any
+const data: any = fetchData();
+(window as any).customProp = value;
+(element as any)._animData = {};
+
+// ✅ 正確：定義明確的類型
+interface DataType {
+  id: string;
+  name: string;
+}
+const data: DataType = fetchData();
+
+// 擴展 Window 介面
+interface WindowWithCustom extends Window {
+  customProp?: string;
+}
+(window as WindowWithCustom).customProp = value;
+
+// 為 DOM 元素擴展屬性
+interface ElementWithAnimData extends HTMLElement {
+  _animData?: {
+    x: number;
+    y: number;
+    transform: string;
+  };
+}
+(element as ElementWithAnimData)._animData = {};
+```
+
+#### 3. React Hook 依賴陣列 (react-hooks/exhaustive-deps)
+```typescript
+// ❌ 錯誤：缺少依賴
+useEffect(() => {
+  console.log(value);
+  doSomething(prop);
+}, []); // 缺少 value 和 prop
+
+// ✅ 正確：包含所有依賴
+useEffect(() => {
+  console.log(value);
+  doSomething(prop);
+}, [value, prop]);
+
+// 特殊情況：確實只需執行一次時
+useEffect(() => {
+  // 只在組件掛載時執行一次的初始化邏輯
+  initializeOnce();
+}, []); // 這是合理的，但要確保內部沒有使用外部變數
+```
+
+#### 4. Ref 在清理函數中的使用
+```typescript
+// ❌ 錯誤：直接在清理函數中使用 ref.current
+useEffect(() => {
+  const timer = setTimeout(() => {}, 1000);
+  timerRef.current = timer;
+  
+  return () => {
+    clearTimeout(timerRef.current); // ref 值可能已改變
+  };
+}, []);
+
+// ✅ 正確：複製到局部變數
+useEffect(() => {
+  const timer = setTimeout(() => {}, 1000);
+  timerRef.current = timer;
+  
+  return () => {
+    clearTimeout(timer); // 使用局部變數
+  };
+}, []);
+
+// 或在清理函數中複製
+useEffect(() => {
+  // ...
+  return () => {
+    const currentTimer = timerRef.current;
+    if (currentTimer) {
+      clearTimeout(currentTimer);
+    }
+  };
+}, []);
+```
+
+#### 5. 圖片最佳化警告 (@next/next/no-img-element)
+```typescript
+// ⚠️ 警告：使用原生 img 標籤
+<img src="/image.jpg" alt="description" />
+
+// ✅ 建議：使用 Next.js Image 組件
+import Image from 'next/image';
+<Image src="/image.jpg" alt="description" width={500} height={300} />
+
+// 例外情況：當確實需要使用 img 時（如外部圖片、動態尺寸等）
+// 可以保留但應有充分理由
+```
+
+### 程式碼檢查命令
+
+**在每次提交前必須執行：**
+
+```bash
+# 1. TypeScript 類型檢查
+npx tsc --noEmit
+
+# 2. ESLint 檢查
+pnpm lint
+
+# 3. 建置測試（最終確認）
+pnpm build
+```
+
+### 錯誤處理原則
+
+1. **錯誤（Error）**：必須修復，不能忽略
+2. **警告（Warning）**：應該修復，除非有特殊原因
+3. **提示（Info）**：建議遵循，但非強制
+
+### 特殊情況處理
+
+如果確實需要違反某個規則，必須：
+1. 加上明確的註解說明原因
+2. 使用 ESLint 註解禁用該行
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const legacyData = externalLibrary.getData() as any; // 第三方庫未提供類型
+```
+
+## 部署前檢查
+
 ```bash
 # 清理快取
 rm -rf .next node_modules/.cache
@@ -224,14 +238,8 @@ pnpm build
 pnpm start
 ```
 
-## 常見問題處理
+## TypeScript 類型處理範例
 
-### ScrollTrigger 衝突
-- 使用唯一 ID 識別每個觸發器
-- 組件卸載時確實清理
-- 避免巢狀 ScrollTrigger
-
-### TypeScript 類型處理
 ```typescript
 // 處理 unknown 類型
 const id = (modal.data as { id?: string })?.id || '';
@@ -246,26 +254,6 @@ declare global {
 }
 ```
 
-### Lockfile 同步
-```bash
-pnpm install
-git add pnpm-lock.yaml
-git commit -m "fix: 更新 pnpm-lock.yaml"
-```
-
-### Spline Canvas 顯示問題
-- 檢查 z-index 層級
-- 確認 display 屬性
-- 使用 fixed positioning
-- 考慮 Web Component 載入時序
-
-## 測試策略
-
-目前專案**尚未配置測試框架**。建議：
-- 單元測試：Vitest 或 Jest
-- E2E 測試：Playwright
-- 組件測試：React Testing Library
-
 ## 分支策略
 
 - `main`: 生產環境程式碼
@@ -273,8 +261,3 @@ git commit -m "fix: 更新 pnpm-lock.yaml"
 - `dev-3d`: 舊版 3D 版本（保留）
 
 注意：dev-2d 不應直接合併到 main，需特別確認。
-
-## 相關資源
-- 開發紀錄: [DEVELOPMENT_LOG.md](./DEVELOPMENT_LOG.md)
-- GitHub: https://github.com/itisalongway574/r3f-10th-repo
-- 設計稿: Figma (需向團隊索取權限)
