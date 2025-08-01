@@ -172,7 +172,7 @@ const ChallengeParallax = () => {
                 });
 
                 // 儲存每個元素的動畫資訊
-                (element as any)._animData = {
+                (element as HTMLElement & { _animData?: { x: number; y: number; targetZ: number; startTransform: string; midTransform: string; endTransform: string; } })._animData = {
                     x, y, targetZ,
                     startTransform: `translate3d(${x}px, ${y}px, -100px)`,
                     midTransform: `translate3d(${x}px, ${y}px, ${targetZ}px)`,
@@ -191,9 +191,9 @@ const ChallengeParallax = () => {
                     fastScrollEnd: true, // 快速滾動時優化效能
                     preventOverlaps: true, // 防止動畫重疊
                     id: "challenge-parallax",
-                    onUpdate: (_self) => {
+                    onUpdate: () => {
                         // 可用於 debug 或效能監控
-                        // console.log("progress:", _self.progress);
+                        // console.log("progress:", self.progress);
                     }
                 }
             });
@@ -202,7 +202,7 @@ const ChallengeParallax = () => {
             mainTimeline.to(imageElements, {
                 opacity: 1,
                 transform: (_index, element) => {
-                    return (element as any)._animData.midTransform;
+                    return (element as HTMLElement & { _animData?: { midTransform: string } })._animData?.midTransform || '';
                 },
                 ease: "power2.out",
                 duration: 0.25, // 佔總時間軸的 40%
@@ -219,7 +219,7 @@ const ChallengeParallax = () => {
             mainTimeline.to(imageElements, {
                 opacity: 0,
                 transform: (_index, element) => {
-                    return (element as any)._animData.endTransform;
+                    return (element as HTMLElement & { _animData?: { endTransform: string } })._animData?.endTransform || '';
                 },
                 ease: "power2.in",
                 duration: 0.25,
@@ -231,7 +231,7 @@ const ChallengeParallax = () => {
                     // 清理 will-change
                     imageElements.forEach(element => {
                         gsap.set(element, { willChange: 'auto' });
-                        delete (element as any)._animData;
+                        delete (element as HTMLElement & { _animData?: { x: number; y: number; targetZ: number; startTransform: string; midTransform: string; endTransform: string; } })._animData;
                     });
                 }
             }, 0.6); // 從時間軸的 60% 開始

@@ -193,7 +193,7 @@ export default function NotFound() {
         }
     };
 
-    const shouldPlayVideo = (_index: number) => {
+    const shouldPlayVideo = () => {
         // 在 404 頁面中，所有影片都應該播放
         return true;
     };
@@ -407,7 +407,7 @@ export default function NotFound() {
                                         path={item.path}
                                         title={item.title}
                                         bgColor={item.bgColor}
-                                        shouldPlay={shouldPlayVideo(index)}
+                                        shouldPlay={shouldPlayVideo()}
                                     />
                                 </div>
                             ))}

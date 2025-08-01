@@ -28,10 +28,17 @@ export const hasSeenReportsTutorial = () => {
     return false;
 };
 
+// 擴展 Window 介面以包含我們的函數
+interface WindowWithTutorialUtils extends Window {
+    clearReportsTutorial?: typeof clearReportsTutorialCache;
+    clearAllTutorials?: typeof clearAllTutorialCache;
+}
+
 // 在瀏覽器 console 中使用的全域函數（僅開發環境）
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-    (window as any).clearReportsTutorial = clearReportsTutorialCache;
-    (window as any).clearAllTutorials = clearAllTutorialCache;
+    const windowWithUtils = window as WindowWithTutorialUtils;
+    windowWithUtils.clearReportsTutorial = clearReportsTutorialCache;
+    windowWithUtils.clearAllTutorials = clearAllTutorialCache;
     console.log('Tutorial cache utilities available:');
     console.log('- window.clearReportsTutorial()');
     console.log('- window.clearAllTutorials()');

@@ -26,8 +26,6 @@ export default function SectionNavigation() {
       console.log('🎯 SectionNavigation - activeSection:', activeSection);
     }
   }, [currentSection, activeSection]);
-  // 視窗寬度狀態
-  const [windowWidth, setWindowWidth] = useState(1024);
   // 結合 store 狀態和視窗寬度判斷是否顯示
   const [isWindowSizeValid, setIsWindowSizeValid] = useState(true);
 
@@ -36,7 +34,6 @@ export default function SectionNavigation() {
   useEffect(() => {
     // 初始化視窗寬度
     if (typeof window !== 'undefined') {
-      setWindowWidth(window.innerWidth);
       // 根據視窗寬度設定是否顯示
       setIsWindowSizeValid(window.innerWidth >= 768);
     }
@@ -45,7 +42,6 @@ export default function SectionNavigation() {
     const handleResize = () => {
       if (typeof window !== 'undefined') {
         const width = window.innerWidth;
-        setWindowWidth(width);
         // 小於 768px 時隱藏
         setIsWindowSizeValid(width >= 768);
       }

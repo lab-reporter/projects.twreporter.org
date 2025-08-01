@@ -213,12 +213,14 @@ export function useReportsScrollAnimation({
         return () => {
             tl.kill();
             scrollTrigger.kill();
-            // 清除計時器
-            if (fadeOutTimerRef.current) {
-                clearTimeout(fadeOutTimerRef.current);
+            // 清除計時器 - 複製 ref 值到變數中
+            const fadeOutTimer = fadeOutTimerRef.current;
+            const hideTimer = hideTimerRef.current;
+            if (fadeOutTimer) {
+                clearTimeout(fadeOutTimer);
             }
-            if (hideTimerRef.current) {
-                clearTimeout(hideTimerRef.current);
+            if (hideTimer) {
+                clearTimeout(hideTimer);
             }
         };
     }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setNextSectionButtonVisible, onAnimationComplete]);
