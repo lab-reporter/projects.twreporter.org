@@ -117,8 +117,14 @@ export function useReportsScrollAnimation({
                     if (!hasSeenTutorial) {
                         // 第一次訪問：顯示教學提示
                         setShowBlurOverlay(true);
-                        // 鎖定滾動
+                        // 鎖定滾動（同時設定 html 和 body）
+                        document.documentElement.style.overflow = 'hidden';
                         document.body.style.overflow = 'hidden';
+                        // 防止 iOS 彈跳效果
+                        document.body.style.position = 'fixed';
+                        document.body.style.width = '100%';
+                        document.body.style.top = '0';
+                        document.body.style.left = '0';
 
                         // 0.5秒淡入
                         setTimeout(() => {
@@ -148,7 +154,12 @@ export function useReportsScrollAnimation({
                     } else {
                         // 已經看過教學：延遲 0.5 秒後解鎖滾動
                         setTimeout(() => {
+                            document.documentElement.style.overflow = '';
                             document.body.style.overflow = '';
+                            document.body.style.position = '';
+                            document.body.style.width = '';
+                            document.body.style.top = '';
+                            document.body.style.left = '';
                             // 動畫完成後啟用自訂游標
                             if (onAnimationComplete) {
                                 onAnimationComplete();
@@ -226,7 +237,12 @@ export function useReportsScrollAnimation({
         setTimeout(() => {
             setShowBlurOverlay(false);
             // 解鎖滾動
+            document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
             // 暫時註解掉標記已經看過教學
             // if (typeof window !== 'undefined') {
             //     localStorage.setItem('reports-tutorial-seen', 'true');

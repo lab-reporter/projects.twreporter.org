@@ -377,7 +377,7 @@ export default function ReportsSwiper() {
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
                 <div
                     ref={currentItemDisplayRef}
-                    className="absolute bottom-8 w-full"
+                    className="absolute bottom-20 w-full"
                     style={{
                         opacity: 0
                     }}

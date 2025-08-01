@@ -187,7 +187,7 @@ const ChallengeParallax = () => {
                     start: "top center",
                     end: "bottom top",
                     scrub: 0.5, // 降低 scrub 值提升流暢度
-                    markers: true,
+                    markers: false,
                     fastScrollEnd: true, // 快速滾動時優化效能
                     preventOverlaps: true, // 防止動畫重疊
                     id: "challenge-parallax",

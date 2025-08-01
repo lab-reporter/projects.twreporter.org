@@ -59,7 +59,7 @@ export default function NextSectionButton() {
 
   return (
     // 按鈕容器：固定在右下角
-    <div className="fixed bottom-8 right-8 z-[998]">
+    <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[998]">
       <button
         onClick={scrollToNextSection}
         className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
@@ -67,7 +67,7 @@ export default function NextSectionButton() {
       >
         {/* 箭頭圖示 */}
         <svg
-          className="w-4 h-4 text-gray-700 group-hover:text-white transition-colors duration-300"
+          className="w-4 h-4 md:w-6 md:h-6 text-gray-700 group-hover:text-white transition-colors duration-300"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -81,7 +81,7 @@ export default function NextSectionButton() {
         </svg>
 
         {/* 懸停提示文字 */}
-        <div className="font-noto-sans-tc absolute bottom-full right-0 mb-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+        <div className="font-noto-sans-tc absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
           跳到下一章節
         </div>
       </button>
