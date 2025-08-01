@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
@@ -85,6 +85,11 @@ export default function ReportsSwiper() {
     // 狀態：動態調整滑鼠追蹤範圍
     const [mouseRangeMin, setMouseRangeMin] = useState(30);
     const [mouseRangeMax, setMouseRangeMax] = useState(70);
+    
+    // 狀態：是否啟用自訂游標
+    const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState(false);
+    // 狀態：是否啟用互動（拖曳和點擊切換）
+    const [isInteractionEnabled, setIsInteractionEnabled] = useState(false);
 
 
     // ============================
@@ -170,7 +175,7 @@ export default function ReportsSwiper() {
         sliderContainer: sliderContainerRef.current,
         currentSlide,
         setCurrentSlide,
-        enabled: isClient
+        enabled: isClient && isInteractionEnabled // 需要互動啟用才能拖曳
     });
 
     // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
@@ -180,6 +185,13 @@ export default function ReportsSwiper() {
     // ============================
     // 動畫 Hooks 區塊
     // ============================
+    // 使用 useCallback 確保函數引用穩定
+    const handleAnimationComplete = useCallback(() => {
+        // 動畫完成後啟用自訂游標和互動
+        setIsCustomCursorEnabled(true);
+        setIsInteractionEnabled(true);
+    }, []);
+    
     // 使用 ScrollTrigger 動畫 Hook
     const { closeBlurOverlay } = useReportsScrollAnimation({
         sliderWrapperRef,
@@ -191,7 +203,8 @@ export default function ReportsSwiper() {
         setShowBlurOverlay,
         setBlurOverlayOpacity,
         setMouseRangeMin,
-        setMouseRangeMax
+        setMouseRangeMax,
+        onAnimationComplete: handleAnimationComplete
     });
 
     // 使用 Zoom Out 動畫 Hook
@@ -282,7 +295,7 @@ export default function ReportsSwiper() {
                 {/* 輪播展示容器：居中定位 */}
                 <div
                     ref={sliderContainerRef}
-                    className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'
+                    className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isInteractionEnabled && isDragging ? 'cursor-grabbing' : isInteractionEnabled ? 'cursor-grab' : 'cursor-default'
                         }`}
                     style={{
                         userSelect: 'none',
@@ -352,7 +365,8 @@ export default function ReportsSwiper() {
                                         dragDelta={dragDelta}
                                         isActive={index === displayIndex}
                                         index={index}
-                                        onItemClick={goToSlide}
+                                        onItemClick={isInteractionEnabled ? goToSlide : undefined}
+                                        isCustomCursorEnabled={isCustomCursorEnabled}
                                     />
                                 </div>
                             ))}

@@ -23,6 +23,8 @@ interface UseReportsScrollAnimationOptions {
     setMouseRangeMax?: (value: number) => void;
     // 新增：關閉遮罩的回調
     onCloseBlurOverlay?: () => void;
+    // 新增：動畫完成的回調
+    onAnimationComplete?: () => void;
 }
 
 // ============================
@@ -39,7 +41,8 @@ export function useReportsScrollAnimation({
     setBlurOverlayOpacity,
     setMouseRangeMin,
     setMouseRangeMax,
-    onCloseBlurOverlay
+    onCloseBlurOverlay,
+    onAnimationComplete
 }: UseReportsScrollAnimationOptions) {
     // 取得導航欄控制函數
     const { setNavigationVisible } = useStore();
@@ -119,7 +122,7 @@ export function useReportsScrollAnimation({
                         // 0.5秒淡入
                         setTimeout(() => {
                             setBlurOverlayOpacity(1);
-                        }, 50);
+                        }, 500);
 
                         // 4.5秒後開始淡出
                         fadeOutTimerRef.current = setTimeout(() => {
@@ -135,11 +138,19 @@ export function useReportsScrollAnimation({
                             if (typeof window !== 'undefined') {
                                 localStorage.setItem('reports-tutorial-seen', 'true');
                             }
+                            // 黑色遮罩關閉後啟用自訂游標
+                            if (onAnimationComplete) {
+                                onAnimationComplete();
+                            }
                         }, 5000);
                     } else {
-                        // 已經看過教學：延遲 1 秒後解鎖滾動
+                        // 已經看過教學：延遲 0.5 秒後解鎖滾動
                         setTimeout(() => {
                             document.body.style.overflow = '';
+                            // 動畫完成後啟用自訂游標
+                            if (onAnimationComplete) {
+                                onAnimationComplete();
+                            }
                         }, 500);
                     }
                 }
@@ -196,7 +207,7 @@ export function useReportsScrollAnimation({
                 clearTimeout(hideTimerRef.current);
             }
         };
-    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible]);
+    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, onAnimationComplete]);
 
     // 返回關閉遮罩的函數
     const closeBlurOverlay = React.useCallback(() => {
@@ -218,13 +229,17 @@ export function useReportsScrollAnimation({
             if (typeof window !== 'undefined') {
                 localStorage.setItem('reports-tutorial-seen', 'true');
             }
+            // 手動關閉遮罩後也要啟用自訂游標
+            if (onAnimationComplete) {
+                onAnimationComplete();
+            }
         }, 500); // 給 0.5 秒的淡出動畫時間
 
         // 呼叫外部的回調（如果有的話）
         if (onCloseBlurOverlay) {
             onCloseBlurOverlay();
         }
-    }, [setBlurOverlayOpacity, setShowBlurOverlay, onCloseBlurOverlay]);
+    }, [setBlurOverlayOpacity, setShowBlurOverlay, onCloseBlurOverlay, onAnimationComplete]);
 
     return { closeBlurOverlay };
 }

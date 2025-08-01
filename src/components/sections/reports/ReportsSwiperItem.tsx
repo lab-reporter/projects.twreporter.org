@@ -17,9 +17,10 @@ interface ReportsSwiperItemProps {
   isActive?: boolean; // 是否為當前顯示的項目
   index?: number; // 項目索引
   onItemClick?: (index: number) => void; // 點擊項目的回調函數
+  isCustomCursorEnabled?: boolean; // 是否啟用自訂游標
 }
 
-export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData, isDragging = false, dragDelta = 0, isActive = false, index = 0, onItemClick }: ReportsSwiperItemProps) {
+export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay = false, projectData, isDragging = false, dragDelta = 0, isActive = false, index = 0, onItemClick, isCustomCursorEnabled = false }: ReportsSwiperItemProps) {
   const { openModal } = useStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,7 +129,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
       }}
       onMouseDown={handleMouseDown}
       onClick={handleClick}
-      data-custom-cursor={isActive ? "VIEW" : "SWITCH"}
+      data-custom-cursor={isCustomCursorEnabled ? (isActive ? "VIEW" : "SWITCH") : undefined}
     >
       {/* 媒體內容 */}
       <div className="w-full h-full overflow-hidden relative bg-white select-none" style={{ cursor: 'none', userSelect: 'none' }}>
