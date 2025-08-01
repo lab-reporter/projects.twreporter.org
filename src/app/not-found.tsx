@@ -212,6 +212,9 @@ export default function NotFound() {
             router.push('/');
             return;
         }
+        
+        // 預先載入首頁
+        router.prefetch('/');
 
         // 取得所有報導項目元素
         const reportItems = sliderWrapper.querySelectorAll('[data-report-item]');
@@ -219,22 +222,30 @@ export default function NotFound() {
         // 建立時間軸
         const tl = gsap.timeline({
             onComplete: () => {
-                // 動畫完成後跳轉到首頁
-                router.push('/');
+                // 立即跳轉，不等待任何延遲
+                requestAnimationFrame(() => {
+                    router.push('/');
+                });
             }
         });
 
         // 同時執行所有元素的動畫
         tl.to(reportItems, {
             opacity: 0,
-            duration: 0.5,
-            ease: 'bounce.out'
+            duration: 0.8,
+            stagger: 0.02,
+            ease: 'power2.in'
         }, 0)
-            .to(sliderWrapper, {
-                translateZ: '-100vw',
-                duration: 0.5,
-                ease: 'bounce.out'
-            }, 0);
+        .to(sliderWrapper, {
+            translateZ: '-100vw',
+            duration: 1,
+            ease: 'power3.in'
+        }, 0)
+        .to(sliderContainerRef.current, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.in'
+        }, 0.7);
     };
 
     // 404 頁面專屬的 zoom 動畫
@@ -295,6 +306,9 @@ export default function NotFound() {
     // ============================
     useEffect(() => {
         setIsClient(true);
+        
+        // 預先載入首頁，減少跳轉延遲
+        router.prefetch('/');
 
         if (typeof window !== 'undefined') {
             setWindowWidth(window.innerWidth);
