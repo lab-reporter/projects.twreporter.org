@@ -87,7 +87,7 @@ export function useReportsZoomAnimation({
 
         // 監聽滾動意圖
         let hasTriggeredAnimation = false;
-        const handleScrollIntent = (e?: Event) => {
+        const handleScrollIntent = () => {
             if (!hasTriggeredAnimation && sectionHeading) {
                 hasTriggeredAnimation = true;
 
@@ -118,7 +118,7 @@ export function useReportsZoomAnimation({
             
             // 如果向上滑動超過門檻值，觸發動畫
             if (Math.abs(deltaY) > 10) {
-                handleScrollIntent(e);
+                handleScrollIntent();
             }
         };
 
