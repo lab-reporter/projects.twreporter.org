@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC, Roboto_Slab } from 'nex
 import "./globals.css";
 import CustomCursor from "@/components/shared/CustomCursor";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Script from 'next/script'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -68,6 +69,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.className} antialiased font-noto-serif-tc overflow-x-hidden scrollbar-hide`}
       >
+        {/* Google Tag Manager - Script */}
+        <Script id="gtm-script" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-PRMXBBN');
+          `}
+        </Script>
+
+        {/* Google Tag Manager - noscript */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PRMXBBN"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+
         {children}
         <CustomCursor />
         <SpeedInsights debug={process.env.NODE_ENV === 'development'} />
