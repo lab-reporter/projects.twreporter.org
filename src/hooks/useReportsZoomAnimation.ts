@@ -87,7 +87,7 @@ export function useReportsZoomAnimation({
 
         // 監聽滾動意圖
         let hasTriggeredAnimation = false;
-        const handleScrollIntent = () => {
+        const handleScrollIntent = (e?: Event) => {
             if (!hasTriggeredAnimation && sectionHeading) {
                 hasTriggeredAnimation = true;
 
@@ -98,13 +98,36 @@ export function useReportsZoomAnimation({
                     }
                 });
 
-                // 移除監聽器
+                // 移除所有監聽器
                 window.removeEventListener('wheel', handleScrollIntent);
+                window.removeEventListener('touchstart', handleTouchStart);
+                window.removeEventListener('touchmove', handleTouchMove);
             }
         };
 
-        // 添加滾輪監聽器
+        // 觸控開始位置
+        let touchStartY = 0;
+        const handleTouchStart = (e: TouchEvent) => {
+            touchStartY = e.touches[0].clientY;
+        };
+
+        // 觸控移動處理
+        const handleTouchMove = (e: TouchEvent) => {
+            const touchEndY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
+            
+            // 如果向上滑動超過門檻值，觸發動畫
+            if (Math.abs(deltaY) > 10) {
+                handleScrollIntent(e);
+            }
+        };
+
+        // 添加滾輪監聽器（桌面）
         window.addEventListener('wheel', handleScrollIntent, { passive: true });
+        
+        // 添加觸控監聽器（手機）
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
         // 清理函數
         return () => {
@@ -112,6 +135,8 @@ export function useReportsZoomAnimation({
                 zoomOutTweenRef.current.kill();
             }
             window.removeEventListener('wheel', handleScrollIntent);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
             // 確保清理時解鎖滾動
             document.body.style.overflow = '';
         };
