@@ -79,7 +79,9 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
   if (!projectData) return null;
 
   return (
-    <Shared.Container>
+    <Shared.Container
+      className="bg-white"
+    >
 
       <InnovationBanner
         videoSrc={projectData.path}

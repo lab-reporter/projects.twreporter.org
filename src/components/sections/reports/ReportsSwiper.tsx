@@ -13,6 +13,7 @@ import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
 import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
 import { useStore } from '@/stores';
 import ReportsHint from './ReportsHint';
+import NextSectionButton from '@/components/NextSectionButton';
 
 // ============================
 // 型別定義區塊
@@ -377,7 +378,7 @@ export default function ReportsSwiper() {
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
                 <div
                     ref={currentItemDisplayRef}
-                    className="absolute bottom-20 w-full"
+                    className="absolute bottom-20 w-full flex flex-col items-center gap-4"
                     style={{
                         opacity: 0
                     }}
@@ -388,6 +389,8 @@ export default function ReportsSwiper() {
                     />
                 </div>
             </div>
+
+            <NextSectionButton />
 
             {/* 教學提示遮罩層 */}
             <ReportsHint

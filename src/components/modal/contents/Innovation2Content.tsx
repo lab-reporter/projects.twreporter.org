@@ -25,27 +25,28 @@ const mediaItems: MediaItem[] = [
   {
     id: 'video1',
     type: 'video',
-    src: '/assets/innovations/innovation-1.webm',
-    alt: '急診人生遊戲影片'
-  },
-  {
-    id: 'image1',
-    type: 'image',
-    src: '/assets/innovations/innovation-1-1.png',
-    alt: '急診室實地採訪畫面'
-  },
-  {
-    id: 'image2',
-    type: 'image',
-    src: '/assets/innovations/innovation-1-2.jpg',
-    alt: '遊戲介面設計'
+    src: '/assets/innovations/innovation-2/innovation-2-1.mp4',
+    alt: '海上人口販運風暴'
   },
   {
     id: 'video2',
     type: 'video',
-    src: '/assets/innovations/innovation-1-3.webm',
-    alt: '沉浸式敘事實驗'
+    src: '/assets/innovations/innovation-2/innovation-2-2.mp4',
+    alt: '六輕營運20年'
+  },
+  {
+    id: 'video3',
+    type: 'video',
+    src: '/assets/innovations/innovation-2/innovation-2-3.webm',
+    alt: '遊走兩岸海域的暴利生意'
+  },
+  {
+    id: 'video4',
+    type: 'video',
+    src: '/assets/innovations/innovation-2/innovation-2-4.webm',
+    alt: '分解「沉浸式詐騙」手法，你需要的4個反制手段'
   }
+
 ];
 
 const textBlocks: TextBlock[] = [
@@ -58,25 +59,25 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text2',
     text: '在成立初期，就以「海上人口販運風暴」的互動網頁和「六輕營運20年」的解釋性動畫獲得重要國際獎項 SND 最佳新聞設計創意競賽肯定。',
-    mediaId: 'image1',
+    mediaId: 'video2',
     triggerPosition: 0.5
   },
   {
     id: 'text3',
     text: '除了平面動態，也經常運用3D敘事、資料視覺化、沉浸式互動等方法說故事。',
-    mediaId: 'image2',
+    mediaId: 'video3',
     triggerPosition: 0.5
   },
   {
     id: 'text4',
     text: '2022年俄烏戰爭爆發之際，使用華文媒體少見的 Live Blog 形式更新戰事最新動態，並前往歐洲製作 360 影片，把現場的畫面帶回給台灣讀者。',
-    mediaId: 'video2',
+    mediaId: 'video3',
     triggerPosition: 0.5
   },
   {
     id: 'text5',
     text: '這些多媒體作品擴展了敘事邊界與讀者參與方式，也讓新聞的影響力延伸得更遠。',
-    mediaId: 'video1',
+    mediaId: 'video4',
     triggerPosition: 0.5
   }
 ];

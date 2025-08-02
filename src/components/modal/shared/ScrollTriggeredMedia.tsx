@@ -143,7 +143,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
 
     if (media.type === 'video') {
       return (
-        <div key={media.id} className={`p-[2.5%] ${baseStyles} ${visibilityStyles}`}>
+        <div key={media.id} className={`${baseStyles} ${visibilityStyles}`}>
           <video
             ref={el => {
               if (el) videoRefs.current[media.id] = el;
@@ -151,7 +151,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             src={media.src}
             muted
             loop
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
             style={{ display: isActive ? 'block' : 'none' }}
           />
         </div>

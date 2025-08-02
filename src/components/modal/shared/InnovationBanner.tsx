@@ -20,7 +20,7 @@ export default function InnovationBanner({
         autoPlay
         muted
         loop
-        className="w-full h-full object-contain"
+        className="w-full h-[calc(92vh-5rem)] object-contain"
       />
       <div className="absolute bottom-8 w-full flex flex-col justify-center items-center">
         <h3 className="mb-2">{title}</h3>

@@ -8,12 +8,12 @@ import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
-import NextSectionButton from '@/components/NextSectionButton';
+// import NextSectionButton from '@/components/NextSectionButton';
 // import OpeningSection from '@/components/sections/opening/OpeningSection';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 // import ReportsSectionOrigin from '@/components/sections/reports/ReportsSectionOrigin';
-// import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
+import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
@@ -167,7 +167,7 @@ export default function Home() {
         {/* 滾動版本（原始版） - 取消註解來顯示 */}
         {/* <ReportsSectionOrigin /> */}
 
-        {/* <InnovationsSection /> */}
+        <InnovationsSection />
         <ChallengesSection />
         <FeedbacksSection />
         <EventSection />
@@ -178,7 +178,6 @@ export default function Home() {
       <Navigation />
       <Modal />
       <SectionNavigation />
-      <NextSectionButton />
     </div>
   );
 }

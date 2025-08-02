@@ -10,6 +10,7 @@ import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import NextSectionButton from '@/components/NextSectionButton';
 
 interface InnovationItem {
   id: string;
@@ -550,13 +551,14 @@ export default function InnovationsSection() {
 
 
             {/* 當前項目資訊顯示 */}
-            <div className="absolute bottom-16 w-full">
+            <div className="absolute bottom-20 w-full">
               <CurrentItemDisplay
                 title={currentItem?.title}
                 subtitle={currentItem?.subtitle}
               />
             </div>
           </div>
+          <NextSectionButton />
         </div>
       </div>
     </div>

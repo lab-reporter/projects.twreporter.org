@@ -59,10 +59,10 @@ export default function NextSectionButton() {
 
   return (
     // 按鈕容器：固定在右下角
-    <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[998]">
+    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[999]">
       <button
         onClick={scrollToNextSection}
-        className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+        className="group p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
         aria-label={`跳到 ${nextSectionName} 章節`}
       >
         {/* 箭頭圖示 */}
