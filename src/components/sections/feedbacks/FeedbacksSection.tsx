@@ -20,32 +20,45 @@ import "swiper/css/effect-cards";
 // 導入 Swiper 分頁指示器樣式
 import "swiper/css/pagination";
 
-// 證言回饋頁面主要組件
+// ============================
+// 主要組件
+// ============================
+// 證言回饋頁面主要組件：展示使用者回饋並引導至贊助頁面
 export default function FeedbacksSection() {
-  // Swiper 容器 ref
+  // ============================
+  // DOM 參考區塊
+  // ============================
+  // DOM 元素參考：Swiper 容器
   const swiperContainerRef = useRef<HTMLDivElement>(null);
-  // 左側標題容器 ref
+  // DOM 元素參考：左側標題容器
   const leftTitleRef = useRef<HTMLDivElement>(null);
-  // 右側標題容器 ref
+  // DOM 元素參考：右側標題容器
   const rightTitleRef = useRef<HTMLDivElement>(null);
-  // Swiper ref
+  // DOM 元素參考：Swiper 實例
   const swiperRef = useRef<HTMLDivElement>(null);
-  // Logo ref
+  // DOM 元素參考：報導者 Logo
   const logoRef = useRef<HTMLImageElement>(null);
-  // Halftone ref
+  // DOM 元素參考：半色調 Logo
   const halftoneRef = useRef<HTMLImageElement>(null);
-  // 背景圓圈 ref
+  // DOM 元素參考：背景圓圈容器
   const bgCircleRef = useRef<HTMLDivElement>(null);
-  // Canvas ref
+  // DOM 元素參考：Canvas 繪圖區域
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  // 是否顯示灰色圓圈
+  
+  // ============================
+  // 動畫狀態區塊
+  // ============================
+  // 狀態參考：是否顯示灰色外框圓圈
   const showHiddenCircles = useRef(false);
-  // 灰色圓圈的透明度
+  // 狀態參考：灰色圓圈的透明度值
   const grayCircleOpacity = useRef(0);
-  // 圓圈縮放倍數
+  // 狀態參考：圓圈的縮放倍數
   const circleScale = useRef(1);
 
-  // 使用滾動觸發器來監控當前頁面位置
+  // ============================
+  // 自訂 Hooks 區塊
+  // ============================
+  // 滾動觸發器：監控當前頁面位置並更新全域狀態
   useScrollTrigger({
     // 對應的 HTML 元素 ID
     sectionId: 'section-feedbacks',
@@ -53,47 +66,54 @@ export default function FeedbacksSection() {
     sectionName: 'feedbacks'
   });
 
-  // Canvas 繪製圓圈背景
+  // ============================
+  // Effects 區塊 - Canvas 圓圈背景繪製
+  // ============================
+  // 使用 Canvas 繪製動態圓圈背景圖案
   useEffect(() => {
     if (!bgCircleRef.current) return;
 
-    // 創建 Canvas
+    // 創建 Canvas 元素
     const canvas = document.createElement('canvas');
     (canvasRef as React.MutableRefObject<HTMLCanvasElement | null>).current = canvas;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 設定 Canvas 尺寸
+    // 函數：更新 Canvas 尺寸以適應視窗大小
     const updateCanvasSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       drawCircles();
     };
 
-    // 繪製圓圈
+    // 函數：繪製圓圈圖案
     const drawCircles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 圓圈參數 (使用 vw 單位)
+      // 圓圈參數設定（使用 vw 單位確保響應式）
       const vw = canvas.width / 100;
       const scale = circleScale.current;
+      // 圓圈直徑
       const circleDiameter = 12.5 * vw * scale;
+      // 圓圈半徑
       const circleRadius = circleDiameter / 2;
-      const horizontalSpacing = 25 * vw * scale; // 圓心到圓心的水平距離
-      const verticalSpacing = 12.5 * vw * scale; // 列與列之間的距離
+      // 圓心到圓心的水平間距
+      const horizontalSpacing = 25 * vw * scale;
+      // 列與列之間的垂直間距
+      const verticalSpacing = 12.5 * vw * scale;
 
-      // 計算視窗中心
+      // 計算視窗中心點
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
 
-      // 計算需要的行列數（從中心向外）
+      // 計算需要的行列數（從中心向外延伸）
       const halfCols = Math.ceil(centerX / horizontalSpacing) + 1;
       const halfRows = Math.ceil(centerY / verticalSpacing) + 1;
 
-      // 從中心開始向外繪製紅色圓圈（使用原本灰色圓圈的邏輯）
+      // 繪製紅色填充圓圈（錯位排列形成網格圖案）
       for (let row = -halfRows - 1; row <= halfRows + 1; row++) {
         for (let col = -halfCols - 1; col <= halfCols + 1; col++) {
-          // 偶數列：紅色圓圈在奇數位置
+          // 偶數列：圓圈向右偏移半個間距
           if (row % 2 === 0) {
             const x = centerX + col * horizontalSpacing + horizontalSpacing / 2;
             const y = centerY + row * verticalSpacing;
@@ -103,7 +123,7 @@ export default function FeedbacksSection() {
             ctx.fillStyle = '#F80B28';
             ctx.fill();
           }
-          // 奇數列：紅色圓圈在偶數位置
+          // 奇數列：圓圈正常排列
           else {
             const x = centerX + col * horizontalSpacing;
             const y = centerY + row * verticalSpacing;
@@ -116,12 +136,12 @@ export default function FeedbacksSection() {
         }
       }
 
-      // 如果需要顯示灰色外框圓圈，單獨繪製（使用原本紅色圓圈的邏輯）
+      // 繪製灰色外框圓圈（顯示潛在贊助者位置）
       if (showHiddenCircles.current) {
-        // 繪製灰色圓圈在原本紅色圓圈的位置
+        // 在紅色圓圈之間的空隙繪製灰色外框
         for (let row = -halfRows; row <= halfRows; row++) {
           for (let col = -halfCols; col <= halfCols; col++) {
-            // 奇數列向右偏移半個水平間距
+            // 奇數列向右偏移半個間距（與紅色圓圈互補）
             const xOffset = (row % 2) * (horizontalSpacing / 2);
             const x = centerX + col * horizontalSpacing + xOffset;
             const y = centerY + row * verticalSpacing;
@@ -136,24 +156,26 @@ export default function FeedbacksSection() {
       }
     };
 
-    // 設定 Canvas 樣式
+    // 初始化 Canvas 樣式並加入 DOM
     canvas.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;';
     bgCircleRef.current.appendChild(canvas);
     updateCanvasSize();
 
-    // 監聽視窗變化
+    // 監聽視窗大小變化
     window.addEventListener('resize', updateCanvasSize);
 
-    // 第四個動畫：顯示灰色外框圓圈
+    // ============================
+    // ScrollTrigger 動畫設定
+    // ============================
+    // 動畫：顯示灰色外框圓圈（代表潛在贊助者）
     gsap.timeline({
       scrollTrigger: {
         trigger: '[data-trigger="show-hidden-circle"]',
         start: 'top 50%',
         end: 'top 20%',
         scrub: true,
-        // markers: false,
         onUpdate: (self) => {
-          // 根據滾動進度調整透明度
+          // 根據滾動進度調整灰色圓圈透明度
           grayCircleOpacity.current = self.progress;
           showHiddenCircles.current = self.progress > 0;
           drawCircles();
@@ -161,16 +183,15 @@ export default function FeedbacksSection() {
       }
     });
 
-    // 第五個動畫：放大圓圈
+    // 動畫：放大圓圈效果（強調贊助者數量）
     gsap.timeline({
       scrollTrigger: {
         trigger: '[data-trigger="bigger-circle"]',
         start: 'top 50%',
         end: 'bottom 50%',
         scrub: true,
-        // markers: false,
         onUpdate: (self) => {
-          // 從 1 到 2 倍的平滑變化
+          // 圓圈從原始大小放大到指定倍數
           circleScale.current = 1 + self.progress * 5;
           drawCircles();
         }
@@ -185,25 +206,29 @@ export default function FeedbacksSection() {
     };
   }, []);
 
-  // 設定 GSAP ScrollTrigger 動畫
+  // ============================
+  // Effects 區塊 - 主要動畫序列
+  // ============================
+  // 設定頁面滾動動畫序列
   useEffect(() => {
     if (!swiperContainerRef.current) return;
 
-    // 設定初始寬度
+    // 設定 Swiper 容器初始狀態
     gsap.set(swiperContainerRef.current, {
       width: '0px',
       margin: '0px 0px',
       scale: 0,
     });
 
-    // Swiper出現動畫
+    // ============================
+    // 第一階段：Swiper 出現動畫
+    // ============================
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '[data-trigger="content-area"]',
         start: 'top 20%',
         end: 'top 0%',
         scrub: true,
-        // markers: true,
       }
     });
 
@@ -215,7 +240,9 @@ export default function FeedbacksSection() {
       ease: 'power2.out'
     });
 
-    // 標題上移、LOGO出現
+    // ============================
+    // 第二階段：感謝頁面轉場動畫
+    // ============================
     if (leftTitleRef.current && rightTitleRef.current && swiperRef.current && logoRef.current) {
       const titleTl = gsap.timeline({
         scrollTrigger: {
@@ -223,33 +250,39 @@ export default function FeedbacksSection() {
           start: 'top 20%',
           end: 'top 0%',
           scrub: true,
-          // markers: false,
         }
       });
 
       titleTl
+        // 標題向上移動
         .to([leftTitleRef.current, rightTitleRef.current], {
           y: '-50%',
           ease: 'power2.inOut'
         })
+        // 隱藏 Swiper
         .to(swiperRef.current, {
           display: 'none',
         }, '<')
+        // 縮小 Swiper 容器
         .to(swiperContainerRef.current, {
           margin: '0px 32px',
           width: '0px',
           scale: 0,
           opacity: 0,
         }, '<')
+        // 顯示報導者 Logo
         .to(logoRef.current, {
           scale: 1,
         }, '<')
+        // 顯示半色調 Logo
         .to(halftoneRef.current, {
           scale: 1,
         }, '<');
     }
 
-    // 第三個動畫：halftone 放大
+    // ============================
+    // 第三階段：半色調轉場到圓圈背景
+    // ============================
     if (halftoneRef.current && logoRef.current && leftTitleRef.current && rightTitleRef.current && bgCircleRef.current) {
       const halftoneTl = gsap.timeline({
         scrollTrigger: {
@@ -257,53 +290,60 @@ export default function FeedbacksSection() {
           start: 'top 20%',
           end: 'bottom 20%',
           scrub: true,
-          // markers: false,
         }
       });
 
       halftoneTl
+        // 半色調 Logo 放大並淡出
         .to(halftoneRef.current, {
           scale: 200,
           opacity: 0,
           ease: 'power2.inOut'
         })
+        // 同時淡出其他元素
         .to([logoRef.current, leftTitleRef.current, rightTitleRef.current], {
           opacity: 0,
           ease: 'expo.out'
         }, '<')
+        // 隱藏元素
         .to([logoRef.current, leftTitleRef.current, rightTitleRef.current], {
           display: 'none'
         }, '<')
+        // 顯示圓圈背景
         .to(bgCircleRef.current.querySelector('canvas'), {
           opacity: 1,
           ease: 'power2.in'
         }, '<')
     }
 
-    // 清理函數
+    // 清理函數：移除所有 ScrollTrigger 實例
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
+  // ============================
+  // 渲染區塊
+  // ============================
   // 組件渲染輸出
   return (
-    // 主要頁面區塊：證言回饋頁面
+    // 主容器：設定總體滾動高度以容納所有動畫階段
     <section
-      // 頁面錨點 ID
       id="section-feedbacks"
       className="w-full h-[800vh] text-white"
     >
-      {/* feedback內容區域 */}
+      {/* ============================
+      // 第一部分：證言展示區域
+      // ============================*/}
       <div data-trigger="content-area" className="overflow-hidden h-screen sticky top-0 text-center flex flex-col md:flex-row justify-center items-center gap-[0px]">
-        {/* 左側標題 */}
+        {/* 左側標題：感謝詞前半段 */}
         <div className="h-[28px] overflow-hidden">
           <div ref={leftTitleRef}>
             <h4 className="text-right leading-none">持續求真的路上</h4>
             <h4 className="text-right leading-none">因為有你們</h4>
           </div>
         </div>
-        {/* swiper容器 */}
+        {/* Swiper 容器：證言卡片輪播 */}
         <div ref={swiperContainerRef}
           className="px-4 flex flex-col items-center justify-center"
           data-custom-cursor="GRAB">
@@ -317,9 +357,9 @@ export default function FeedbacksSection() {
             >
               {testimonials.map((quote) => (
                 <SwiperSlide key={quote.id} className="w-full h-auto">
-                  {/* 證言卡片容器：響應式設計支援不同螢幕尺寸，適配覆蓋流效果 */}
+                  {/* 證言卡片：展示使用者回饋內容 */}
                   <div className="w-full h-full  bg-white text-black border border-gray-200 p-6 sm:p-8 rounded-md flex flex-col justify-center items-center">
-                    {/* 證言文字區域：可滾動的主要內容 */}
+                    {/* 證言文字：支援溢出滾動 */}
                     <p className="text-base sm:text-md font-semibold leading-relaxed text-center overflow-y-auto  flex items-center">
                       {quote.text}
                     </p>
@@ -328,11 +368,12 @@ export default function FeedbacksSection() {
               ))}
             </Swiper>
           </div>
+          {/* 操作提示 */}
           <p className="text-sm text-gray-700 mt-2">
             grab to switch
           </p>
         </div>
-        {/* 右側標題 */}
+        {/* 右側標題：感謝詞後半段 */}
         <div className="h-[28px] overflow-hidden">
           <div ref={rightTitleRef}>
             <h4 className="text-left leading-none">感謝有眾聲同行</h4>
@@ -341,27 +382,29 @@ export default function FeedbacksSection() {
         </div>
 
 
-        {/* 報導者LOGO */}
+        {/* Logo 元素：用於轉場動畫 */}
         <img ref={halftoneRef} src="/assets/logo-halftone.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <img ref={logoRef} src="/assets/favicon.svg" alt="報導者LOGO" className="w-[48px] h-auto mx-auto scale-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
-
-        {/* 背景圓圈 */}
+        {/* 背景圓圈容器：Canvas 繪圖區域 */}
         <div ref={bgCircleRef} className="w-full h-screen absolute top-0 left-0 -z-10">
         </div>
       </div>
 
-      {/* 切換到「因為有你們才有報導者」 */}
+      {/* ============================
+      // 轉場區域：動畫觸發點
+      // ============================*/}
       <div data-trigger="thanks-area" className="h-[50vh]">
-        {/* <p className="text-red-70 p-2">data-trigger=thanks-area</p> */}
       </div>
 
       <div data-trigger="halftone-area" className="h-[50vh]">
       </div>
 
-      {/* feedback過渡到supoort內容 */}
+      {/* ============================
+      // 第二部分：贊助者統計與號召
+      // ============================*/}
       <div className="z-1 h-auto">
-        {/* 感謝目前贊助者 */}
+        {/* 現有贊助者感謝 */}
         <div className="relative flex flex-col items-center justify-center h-screen">
           <div>
             <h3>感謝目前</h3>
@@ -373,7 +416,8 @@ export default function FeedbacksSection() {
             <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
           </div>
         </div>
-        {/* 號招更多贊助者 */}
+        
+        {/* 號召新贊助者（觸發灰色圓圈顯示） */}
         <div data-trigger="show-hidden-circle" className="relative flex flex-col items-center justify-center h-screen">
           <div>
             <h5>
@@ -389,7 +433,8 @@ export default function FeedbacksSection() {
             <h6>和我們一起打造多元進步的公民社會</h6>
           </div>
         </div>
-        {/* 十週年限定贊助回饋 */}
+        
+        {/* 十週年限定回饋（觸發圓圈放大） */}
         <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
           <Image
             src="/assets/gift.png"
@@ -407,8 +452,11 @@ export default function FeedbacksSection() {
         </div>
       </div>
 
+      {/* ============================
+      // 第三部分：贊助行動區域
+      // ============================*/}
       <div data-trigger="support-section" className="sticky top-0 flex flex-col items-center justify-center h-screen">
-        {/* 把SupportSection的內容放在這個容器裡面 */}
+        {/* 嵌入贊助區塊組件 */}
         <SupportSection />
       </div>
     </section>
