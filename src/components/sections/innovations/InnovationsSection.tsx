@@ -11,181 +11,77 @@ import projectsData from '@/app/data/projects.json';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import NextSectionButton from '@/components/NextSectionButton';
+import InnovationVideoItem from './InnovationVideoItem';
+import type { InnovationItem, ItemState } from './types';
 
-interface InnovationItem {
-  id: string;
-  path: string;
-  title: string;
-  subtitle: string;
-  position: { x: number; y: number; z: number };
-  scale: { x: number; y: number; z: number };
-  [key: string]: unknown;
-}
-
-// 簡化的物件狀態定義
-interface ItemState {
-  depth: number;
-  opacity: number;
-  blur: number;
-  scale: number;
-}
-
-interface InnovationVideoItemProps {
-  item: InnovationItem;
-  index: number;
-  isVisible: boolean;
-  is3DEnabled: boolean;
-  animationsEnabled: boolean;
-  offset: { x: number; y: number };
-  initialDepth: number;
-  onItemClick: (item: InnovationItem) => void;
-}
-
-function InnovationVideoItem({
-  item,
-  index,
-  isVisible,
-  is3DEnabled,
-  animationsEnabled,
-  offset,
-  initialDepth,
-  onItemClick
-}: InnovationVideoItemProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoLoaded, setVideoLoaded] = useState(false);
-
-  // 處理影片自動播放 - 只使用 isVisible 狀態
-  useEffect(() => {
-    if (!videoRef.current) return;
-
-    const video = videoRef.current;
-
-    // 只要 isVisible 就嘗試播放
-    if (isVisible) {
-      const attemptPlay = async () => {
-        try {
-          await video.play();
-        } catch (error) {
-          if (process.env.NODE_ENV === 'development') {
-            console.log(`Video ${item.id} autoplay failed:`, error);
-          }
-        }
-      };
-
-      attemptPlay();
-    } else {
-      // 不可見時暫停
-      try {
-        video.pause();
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Video ${item.id} pause failed:`, error);
-        }
-      }
-    }
-  }, [isVisible, videoLoaded, item.id]);
-
-  // 監聽影片載入完成
-  const handleVideoLoaded = useCallback(() => {
-    setVideoLoaded(true);
-
-    // 如果此時已可見，立即嘗試播放
-    if (isVisible && videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`Video ${item.id} initial play failed:`, error);
-        }
-      });
-    }
-  }, [isVisible, item.id]);
-
-  // 特別處理第一個項目：始終保持在中央
-  const isFirstItem = index === 0;
-  const shouldCenterFirst = isFirstItem && !animationsEnabled;
-
-  return (
-    <div
-      id={`innovation-item-${item.id}`}
-      className="absolute top-1/2 left-1/2 will-change-transform"
-      data-custom-cursor="VIEW"
-      style={{
-        cursor: 'zoom-in',
-        transformOrigin: 'center center',
-        width: '800px',
-        height: '800px',
-        transform: 'translate(-50%, -50%)',
-        // 在 3D 啟用前設定初始 opacity，避免突然出現
-        opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
-        // 第一個項目保持在中央，其他項目有偏移
-        left: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.x}vw)` : '50%'),
-        top: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.y}vh)` : '50%'),
-        // 第一個項目的特殊樣式
-        zIndex: isFirstItem ? 10 : 1
-      }}
-      onClick={() => onItemClick(item)}
-    >
-      <div className="w-full h-full rounded-lg overflow-hidden">
-        <video
-          ref={videoRef}
-          src={item.path}
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-contain"
-          style={{ pointerEvents: 'none' }}
-          onLoadedData={handleVideoLoaded}
-          onCanPlayThrough={handleVideoLoaded}
-        />
-        <div className="absolute inset-0 transition-all duration-300 flex items-end">
-          <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
-            <h3 className="text-lg font-bold">{item.title}</h3>
-            <p className="text-sm opacity-80">{item.subtitle}</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
-}
-
-// 動畫狀態配置（根據效能調整）
+// ============================
+// 工具函數區塊
+// ============================
+// 動畫狀態配置：定義不同深度層級的視覺效果參數
 const getAnimationStates = (isLowPerformance: boolean) => ({
+  // 隱藏狀態：深度最遠，完全透明
   hidden: { depth: -400, opacity: 0, blur: isLowPerformance ? 0 : 0, scale: 1 },
+  // 背景狀態：中等深度，半透明並模糊
   background: { depth: -200, opacity: 0.6, blur: isLowPerformance ? 0 : 8, scale: 1 },
+  // 活躍狀態：零深度，完全清晰可見
   active: { depth: 0, opacity: 1, blur: 0, scale: 1 },
+  // 前景狀態：正深度，透明並模糊
   foreground: { depth: 200, opacity: 0, blur: isLowPerformance ? 0 : 8, scale: 1 }
 });
 
+// ============================
+// 主要組件
+// ============================
+// 創新展示區組件：實現 3D 空間滾動效果
 export default function InnovationsSection() {
+  // ============================
+  // 全域狀態區塊
+  // ============================
+  // 從 store 取得開啟 Modal 的函數
   const { openModal } = useStore();
+
+  // ============================
+  // DOM 參考區塊
+  // ============================
+  // DOM 元素參考：整個章節容器
   const sectionRef = useRef<HTMLDivElement>(null);
+  // DOM 元素參考：3D 場景容器
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // ============================
+  // 本地狀態區塊
+  // ============================
+  // 狀態變數：當前活躍的項目索引
   const [currentItemIndex, setCurrentItemIndex] = useState(-1);
+  // 狀態變數：是否啟用 3D 透視效果
+  const [is3DEnabled, setIs3DEnabled] = useState(false);
+  // 狀態變數：是否啟用滾動動畫
+  const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
+  // ============================
+  // 效能配置
+  // ============================
+  // 效能監控標記：低效能模式會停用部分視覺效果
+  const isLowPerformance = false;
 
-  // SectionHeading 可見性偵測（提前觸發）
+  // ============================
+  // 自訂 Hooks 區塊
+  // ============================
+  // 標題區塊可見性偵測：提前觸發載入以避免延遲
   const { elementRef: headingRef, isVisible: headingVisible } = useIntersectionObserver({
     threshold: 0.1,
-    rootMargin: '200px' // 提前 200px 開始準備
+    rootMargin: '200px' // 提前觸發範圍
   });
 
-  // 整個 Section 可見性偵測
+  // 整體章節可見性偵測：控制 3D 效果啟用
   const { elementRef: observerRef, isVisible } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '100px'
   });
 
-
-  // 效能監控 - 暫時禁用以避免重複動畫問題
-  const isLowPerformance = false;
-
-
-  // 分層載入控制
-  const [is3DEnabled, setIs3DEnabled] = useState(false);
-  const [animationsEnabled, setAnimationsEnabled] = useState(false);
-
-  // 使用統一的滑鼠追蹤 Hook
+  // 滑鼠追蹤 3D 透視效果：動態調整透視原點
   useMouseTracking3D({
+    // 啟用條件：3D 已啟用、章節可見且非低效能模式
     enabled: is3DEnabled && isVisible && !isLowPerformance,
     isLowPerformance,
     targetRef: containerRef,
@@ -196,10 +92,24 @@ export default function InnovationsSection() {
     lerpFactor: 0.1
   });
 
-  // 預先快取元素引用
+  // 章節滾動觸發器：管理章節的活躍狀態
+  useScrollTrigger({
+    sectionId: 'section-innovations',
+    sectionName: 'innovations',
+    // 觸發時機：章節頂部到達視窗中央時開始
+    start: "top 50%",
+    // 結束時機：章節底部離開視窗上方時結束
+    end: "bottom 20%",
+    delay: 200
+  });
+
+  // ============================
+  // 快取參考區塊
+  // ============================
+  // 預先快取 DOM 元素引用以提升效能
   const elementRefsCache = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  // 使用 ref 儲存每個元素的動畫狀態，避免重複渲染
+  // 儲存每個項目的動畫狀態，避免不必要的重新計算
   const itemStatesRef = useRef<Map<string, {
     x: number;
     y: number;
@@ -210,7 +120,10 @@ export default function InnovationsSection() {
     visibility: string;
   }>>(new Map());
 
-  // 從 projects.json 篩選項目
+  // ============================
+  // 資料處理區塊
+  // ============================
+  // 從專案資料中篩選並排序創新項目
   const innovationItems = (projectsData as unknown as InnovationItem[])
     .filter((p: InnovationItem) => p.section && (Array.isArray(p.section) ? p.section.includes('innovation') : p.section === 'innovation'))
     .sort((a: InnovationItem, b: InnovationItem) => {
@@ -219,53 +132,56 @@ export default function InnovationsSection() {
       return numA - numB;
     });
 
-  // 分層漸進式載入 - 基於 SectionHeading 可見性提前觸發
+  // ============================
+  // Effects 區塊 - 漸進式載入
+  // ============================
+  // 分層載入策略：先啟用 3D，再啟用動畫
   useEffect(() => {
     if (!headingVisible) return;
 
-    // 第一階段：當 SectionHeading 可見時立即啟用 3D（避免可見的切換）
+    // 階段一：標題可見時立即啟用 3D 透視
     setIs3DEnabled(true);
 
-    // 第二階段：稍微延遲啟用動畫
+    // 階段二：延遲啟用滾動動畫，確保流暢過渡
     const timer = setTimeout(() => {
       setAnimationsEnabled(true);
-    }, isLowPerformance ? 300 : 150); // 縮短延遲時間
+    }, isLowPerformance ? 300 : 150);
 
     return () => {
       clearTimeout(timer);
     };
   }, [headingVisible, isLowPerformance]);
 
-  useScrollTrigger({
-    sectionId: 'section-innovations',
-    sectionName: 'innovations',
-    // 當章節頂部進入視窗 50% 位置時觸發（更晚觸發，確保在 ReportsSection 區域時不會被誤判）
-    start: "top 50%",
-    // 當章節底部離開視窗 20% 處時結束
-    end: "bottom 20%",
-    delay: 200
-  });
-
-  // 處理項目點擊
+  // ============================
+  // 事件處理函數
+  // ============================
+  // 處理項目點擊：開啟詳細資訊 Modal
   const handleItemClick = (item: InnovationItem) => {
     openModal(item.id, item);
   };
 
-  // 計算平滑過渡狀態（效能優化版）
+  // ============================
+  // 計算函數區塊
+  // ============================
+  // 根據深度值計算項目的視覺狀態（透明度、模糊度等）
   const calculateOptimizedState = useCallback((currentDepth: number): ItemState => {
     const states = getAnimationStates(isLowPerformance);
 
+    // 深度分層邏輯：根據不同深度範圍返回相應的視覺效果
     if (currentDepth < -300) {
+      // 極深層：完全隱藏
       return states.hidden;
     } else if (currentDepth < -25) {
+      // 背景層到活躍層的過渡：漸進式顯示
       const progress = (currentDepth + 300) / 275;
       return {
         depth: currentDepth,
         opacity: 0.6 + (progress * 0.4),
-        blur: isLowPerformance ? 0 : 8 - (progress * 8), // 低效能時停用模糊
+        blur: isLowPerformance ? 0 : 8 - (progress * 8),
         scale: 1
       };
     } else if (currentDepth < 25) {
+      // 活躍層：完全清晰可見
       return {
         depth: currentDepth,
         opacity: 1,
@@ -273,6 +189,7 @@ export default function InnovationsSection() {
         scale: 1
       };
     } else if (currentDepth < 50) {
+      // 活躍層到前景層的過渡：漸進式隱藏
       const progress = (currentDepth - 25) / 25;
       return {
         depth: currentDepth,
@@ -281,6 +198,7 @@ export default function InnovationsSection() {
         scale: 1
       };
     } else {
+      // 前景層：透明並模糊
       return {
         depth: currentDepth,
         opacity: 0,
@@ -290,21 +208,26 @@ export default function InnovationsSection() {
     }
   }, [isLowPerformance]);
 
-  // 計算錯位位置
+  // 計算項目的錯位佈局位置（創造散落效果）
   const getOffsetPosition = (index: number) => {
+    // 使用模數運算創造網格式錯位
     const offsetX = (index % 5 - 2) * 72;
     const offsetY = (Math.floor(index / 5) % 3 - 1) * 108;
     return { x: offsetX, y: offsetY };
   };
 
-  // 優化的 GSAP ScrollTrigger
+  // ============================
+  // Effects 區塊 - ScrollTrigger 動畫
+  // ============================
+  // 設定 GSAP ScrollTrigger 來控制 3D 空間滾動動畫
   useEffect(() => {
-
+    // 確保必要元素和狀態都已就緒
     if (!sectionRef.current || !containerRef.current || !animationsEnabled) return;
 
+    // 註冊 ScrollTrigger 插件
     gsap.registerPlugin(ScrollTrigger);
 
-    // 快取元素引用 - 只在需要時更新
+    // 建立或更新 DOM 元素快取
     if (elementRefsCache.current.size !== innovationItems.length) {
       elementRefsCache.current.clear();
       innovationItems.forEach((item) => {
@@ -315,16 +238,20 @@ export default function InnovationsSection() {
       });
     }
 
-    // 批次設定初始狀態
+    // 取得所有快取的元素
     const elements = Array.from(elementRefsCache.current.values());
 
-    // 設定所有元素的初始狀態
+    // 批次設定所有項目的初始狀態
     elements.forEach((element, index) => {
+      // 計算初始深度（項目間隔分佈）
       const initialDepth = -50 - (index * 100);
+      // 取得錯位位置
       const offset = getOffsetPosition(index);
+      // 判斷是否為第一個項目
       const isFirstItem = index === 0;
       const itemId = innovationItems[index]?.id;
 
+      // 定義初始狀態物件
       const initialState = {
         x: isFirstItem ? 0 : offset.x,
         y: isFirstItem ? 0 : offset.y,
@@ -335,13 +262,14 @@ export default function InnovationsSection() {
         visibility: 'visible'
       };
 
-      // 儲存初始狀態
+      // 儲存初始狀態供後續動畫參考
       if (itemId) {
         itemStatesRef.current.set(itemId, initialState);
       }
 
+      // 使用 GSAP 設定初始樣式
       gsap.set(element, {
-        // 第一個項目初始就在中央，其他項目有偏移
+        // 位置：第一個項目置中，其他項目根據錯位計算
         x: `${initialState.x}vw`,
         y: `${initialState.y}vh`,
         z: `${initialState.z}vw`,
@@ -355,52 +283,61 @@ export default function InnovationsSection() {
       });
     });
 
-    // 創建滾動觸發器 - 提前開始觸發，避免突然跳躍
+    // 創建 ScrollTrigger 實例來控制滾動動畫
     const scrollTrigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: 'top-=200px top', // 提前 200px 開始觸發
+      // 提前觸發以確保平滑過渡
+      start: 'top-=200px top',
       end: 'bottom bottom',
-      scrub: isLowPerformance ? 1 : 2, // 低效能時降低 scrub 值
+      // 滾動平滑度設定
+      scrub: isLowPerformance ? 1 : 2,
       onUpdate: (self) => {
         const progress = self.progress;
         const itemCount = elements.length;
-        // 調整總距離，確保最後一個項目停在 active 狀態
-        const totalDistance = (itemCount - 1) * 100 + 50; // 最後一個項目到達 active 狀態的距離
+        // 計算總移動距離，確保最後項目能停在活躍位置
+        const totalDistance = (itemCount - 1) * 100 + 50;
         const currentOffset = progress * totalDistance;
         let activeIndex = -1;
 
-        // 使用快取的元素陣列，避免重複查詢
+        // 遍歷所有元素並更新其狀態
         elements.forEach((element, index) => {
           if (!element) return;
 
           const itemId = innovationItems[index]?.id;
           if (!itemId) return;
 
+          // 取得上一次的狀態
           const prevState = itemStatesRef.current.get(itemId);
           if (!prevState) return;
 
+          // 計算當前深度位置
           const isLastItem = index === elements.length - 1;
           let currentDepth = (-50 - index * 100) + currentOffset;
 
-          // 特殊處理：讓最後一個項目保持在 active 狀態
+          // 特殊處理：最後項目鎖定在活躍狀態
           if (isLastItem && currentDepth > 0) {
-            currentDepth = 0; // 鎖定在 active 狀態
+            currentDepth = 0;
           }
 
+          // 計算視覺狀態
           const state = calculateOptimizedState(currentDepth);
 
+          // 判斷活躍項目
           if (currentDepth >= -25 && currentDepth <= 25) {
             activeIndex = index;
           }
 
+          // 計算位置偏移
           const offset = getOffsetPosition(index);
           const isFirstItem = index === 0;
           let offsetFactor = 1;
 
-          // 第一個項目特殊處理：始終保持在中央
+          // 位置過渡邏輯：從錯位到集中
           if (isFirstItem) {
-            offsetFactor = 0; // 第一個項目不使用偏移
+            // 第一個項目始終在中央
+            offsetFactor = 0;
           } else {
+            // 其他項目根據深度漸進過渡
             if (currentDepth >= -300 && currentDepth <= -25) {
               const transitionProgress = (currentDepth + 300) / 275;
               offsetFactor = 1 - transitionProgress;
@@ -409,11 +346,12 @@ export default function InnovationsSection() {
             }
           }
 
+          // 計算目標位置
           const targetX = offset.x * offsetFactor;
           const targetY = offset.y * offsetFactor;
           const targetZ = currentDepth;
 
-          // 使用閾值檢查，避免微小變化觸發更新
+          // 效能優化：使用閾值檢查避免不必要的更新
           const positionChanged =
             Math.abs(prevState.x - targetX) > 0.1 ||
             Math.abs(prevState.y - targetY) > 0.1 ||
@@ -421,14 +359,13 @@ export default function InnovationsSection() {
 
           const opacityChanged = Math.abs(prevState.opacity - state.opacity) > 0.01;
           const scaleChanged = Math.abs(prevState.scale - state.scale) > 0.01;
-
-          // Blur 使用更大的閾值，降低更新頻率
           const blurChanged = Math.abs(prevState.blur - state.blur) > 0.5;
 
-          // 只在有顯著變化時更新
+          // 批次更新變化的屬性
           if (positionChanged || opacityChanged || scaleChanged || blurChanged) {
             const updateObj: gsap.TweenVars = {};
 
+            // 更新位置
             if (positionChanged) {
               updateObj.x = `${targetX}vw`;
               updateObj.y = `${targetY}vh`;
@@ -438,25 +375,28 @@ export default function InnovationsSection() {
               prevState.z = targetZ;
             }
 
+            // 更新透明度
             if (opacityChanged) {
               updateObj.opacity = state.opacity;
               prevState.opacity = state.opacity;
             }
 
+            // 更新縮放
             if (scaleChanged) {
               updateObj.scale = state.scale;
               prevState.scale = state.scale;
             }
 
-            // Blur 更新使用較長的動畫時間，讓過渡更平滑
+            // 更新模糊效果（使用較長過渡時間）
             if (blurChanged && !isLowPerformance) {
               updateObj.filter = `blur(${state.blur}px)`;
               prevState.blur = state.blur;
-              updateObj.duration = 0.6; // 較長的 blur 過渡時間
+              updateObj.duration = 0.6;
             } else if (Object.keys(updateObj).length > 0) {
               updateObj.duration = 0.3;
             }
 
+            // 執行動畫更新
             if (Object.keys(updateObj).length > 0) {
               updateObj.ease = "power2.out";
               updateObj.overwrite = 'auto';
@@ -464,7 +404,7 @@ export default function InnovationsSection() {
             }
           }
 
-          // 可見性優化 - 也使用閾值檢查
+          // 可見性最佳化：隱藏完全透明的元素
           const newVisibility = state.opacity < 0.05 ? 'hidden' : 'visible';
           if (prevState.visibility !== newVisibility) {
             gsap.set(element, {
@@ -475,28 +415,36 @@ export default function InnovationsSection() {
           }
         });
 
+        // 更新當前活躍項目索引
         if (activeIndex >= 0) {
           setCurrentItemIndex(activeIndex);
         }
       },
     });
 
-
-    // 複製引用以避免 cleanup 時的警告
+    // 保存快取引用供清理使用
     const cacheRef = elementRefsCache.current;
 
+    // 清理函數：移除 ScrollTrigger 並清空快取
     return () => {
       scrollTrigger.kill();
       cacheRef.clear();
     };
   }, [innovationItems, animationsEnabled, calculateOptimizedState, isLowPerformance]);
 
+  // ============================
+  // 計算值區塊
+  // ============================
+  // 取得當前活躍的項目資料
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
-
+  // ============================
+  // 渲染區塊
+  // ============================
   return (
+    // 主容器：設定章節 ID 供滾動偵測使用
     <div ref={observerRef} id="section-innovations">
-      {/* SectionHeadings - 使用專門的 ref 來提前觸發 3D 載入 */}
+      {/* 章節標題區域：使用獨立 ref 提前觸發載入 */}
       <div ref={headingRef}>
         <SectionHeadings
           titleEn="INNOVATION"
@@ -509,29 +457,33 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      <div ref={sectionRef} className="relative w-full h-[1000vh]">
-        {/* 3D 容器 */}
+      {/* 滾動區域：設定足夠高度以提供滾動空間 */}
+      <div ref={sectionRef} className="relative w-full h-[500vh]">
+        {/* 黏性容器：在滾動時保持在視窗頂部 */}
         <div className="w-full h-screen sticky top-0">
+          {/* 3D 場景容器：設定透視效果 */}
           <div
             ref={containerRef}
             className="w-full h-full relative overflow-hidden"
             style={{
+              // 動態設定透視距離
               perspective: is3DEnabled && isVisible ? '1000px' : 'none'
-              // perspectiveOrigin 由 useMouseTracking3D 自動管理
+              // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
             }}
           >
-            {/* 3D 場景容器 */}
+            {/* 3D 元素容器：保持 3D 轉換空間 */}
             <div
               className="absolute inset-0"
               style={{
+                // 啟用 3D 變換樣式
                 transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
               }}
             >
+              {/* 渲染所有創新項目 */}
               {innovationItems.map((item, index) => {
-                // 計算初始錯位位置，避免啟用前的跳躍
+                // 預先計算每個項目的屬性
                 const offset = getOffsetPosition(index);
                 const initialDepth = -50 - (index * 100);
-
 
                 return (
                   <InnovationVideoItem
@@ -549,8 +501,7 @@ export default function InnovationsSection() {
               })}
             </div>
 
-
-            {/* 當前項目資訊顯示 */}
+            {/* 當前項目資訊展示區：顯示活躍項目的標題資訊 */}
             <div className="absolute bottom-20 w-full">
               <CurrentItemDisplay
                 title={currentItem?.title}
@@ -558,6 +509,7 @@ export default function InnovationsSection() {
               />
             </div>
           </div>
+          {/* 下一章節按鈕 */}
           <NextSectionButton />
         </div>
       </div>
