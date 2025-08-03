@@ -12,7 +12,6 @@ import Navigation from '@/components/Navigation';
 // import OpeningSection from '@/components/sections/opening/OpeningSection';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
-// import ReportsSectionOrigin from '@/components/sections/reports/ReportsSectionOrigin';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
@@ -165,7 +164,6 @@ export default function Home() {
         <ReportsSection />
 
         {/* 滾動版本（原始版） - 取消註解來顯示 */}
-        {/* <ReportsSectionOrigin /> */}
 
         <InnovationsSection />
         <ChallengesSection />
