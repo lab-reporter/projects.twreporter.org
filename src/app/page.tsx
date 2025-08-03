@@ -1,23 +1,20 @@
 'use client';
 
-// import { useStore } from '@/stores';
+
 import { useEffect, useRef } from 'react';
-// import { useMainTimeline } from '@/hooks/useMainTimeline';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
-// import LoadingScreen from '@/components/LoadingScreen';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
-// import NextSectionButton from '@/components/NextSectionButton';
-// import OpeningSection from '@/components/sections/opening/OpeningSection';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
+// import KeyVisual from '@/components/KeyVisual';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
-// import Spline from '@splinetool/react-spline/next';
-// import SupportSection from '@/components/sections/support/SupportSection';
+
+
 
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {

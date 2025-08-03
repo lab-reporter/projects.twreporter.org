@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '@/stores';
+import KeyVisual from '@/components/KeyVisual';
 
 // TypeScript 宣告 spline-viewer 元素
 declare global {
@@ -64,10 +65,7 @@ function SplineWrapper({ onLoaded }: SplineWrapperProps) {
 
     if (!showSpline) {
         return (
-            <div className="w-full h-screen flex flex-col items-center justify-center bg-black text-white">
-                <h4>報導者十週年</h4>
-                <h5>深度求真　眾聲同行</h5>
-            </div>
+            <KeyVisual />
         );
     }
 
@@ -159,8 +157,7 @@ export default function OpeningSpline() {
 
     if (!isMounted) {
         return (
-            <div className="w-full h-screen fixed z-[99999] flex flex-col items-center justify-center bg-black text-white">
-            </div>
+            <KeyVisual />
         );
     }
 
