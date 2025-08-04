@@ -10,6 +10,8 @@ interface MediaItem {
   type: 'image' | 'video';
   src: string;
   alt?: string;
+  containerClassName?: string; // 外層 div 的自訂樣式
+  mediaClassName?: string; // video/img 元素的自訂樣式
 }
 
 // 文字區塊介面
@@ -26,13 +28,14 @@ const mediaItems: MediaItem[] = [
     id: 'video1',
     type: 'video',
     src: '/assets/innovations/innovation-1/innovation-1-5.webm',
-    alt: '急診人生遊戲影片'
+    alt: '急診人生遊戲影片',
+    containerClassName: 'p-16'
   },
   {
     id: 'image2',
     type: 'image',
     src: '/assets/innovations/innovation-1/innovation-1-6.jpg',
-    alt: '急診室實地採訪畫面'
+    alt: '急診室實地採訪畫面',
   },
   {
     id: 'image3',

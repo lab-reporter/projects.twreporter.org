@@ -37,7 +37,7 @@ export default function ModalSidepanel({
       return (
         <video
           src={path}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
           muted
           loop
           autoPlay

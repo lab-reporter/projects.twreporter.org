@@ -23,28 +23,28 @@ interface TextBlock {
 // Innovation4 內容配置
 const mediaItems: MediaItem[] = [
   {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-1.webm',
-    alt: '急診人生遊戲影片'
-  },
-  {
     id: 'image1',
     type: 'image',
-    src: '/assets/innovations/innovation-1-1.png',
-    alt: '急診室實地採訪畫面'
+    src: '/assets/innovations/innovation-4/innovation-4-6.webp',
+    alt: 'The Real Story 錄音畫面'
   },
   {
     id: 'image2',
     type: 'image',
-    src: '/assets/innovations/innovation-1-2.jpg',
-    alt: '遊戲介面設計'
+    src: '/assets/innovations/innovation-4/innovation-4-7.webp',
+    alt: '無論是調查現場、國際新聞，聲音成為陪伴聽眾的媒介，也串起跨世代、跨地域的理解與共鳴。'
   },
   {
-    id: 'video2',
-    type: 'video',
-    src: '/assets/innovations/innovation-1-3.webm',
-    alt: '沉浸式敘事實驗'
+    id: 'image3',
+    type: 'image',
+    src: '/assets/innovations/innovation-4/innovation-4-2.webp',
+    alt: 'The Real Story 獲獎畫面'
+  },
+  {
+    id: 'image4',
+    type: 'image',
+    src: '/assets/innovations/innovation-4/innovation-4-8.webp',
+    alt: 'The Real Story 節目封面'
   }
 ];
 
@@ -52,25 +52,25 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text1',
     text: '2020年8月推出的Podcast節目《The Real Story》，用聲音帶領聽眾理解世界上正在發生的重要事。',
-    mediaId: 'video1',
+    mediaId: 'image1',
     triggerPosition: 0.5
   },
   {
     id: 'text2',
     text: '無論是調查現場、國際新聞，聲音成為陪伴聽眾的媒介，也串起跨世代、跨地域的理解與共鳴。',
-    mediaId: 'image1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text3',
-    text: '香港、馬來西亞、美國、歐洲、中國等海外地區，都有《The Real Story》的聽眾。',
     mediaId: 'image2',
     triggerPosition: 0.5
   },
   {
+    id: 'text3',
+    text: '節目推出至今累積將近3,000萬次收聽，兩度獲卓越新聞獎，也曾入選 KKBOX Podcast 風雲榜年度最佳節目、Apple Podcast 年度十大節目。',
+    mediaId: 'image3',
+    triggerPosition: 0.5
+  },
+  {
     id: 'text4',
-    text: '節目推出至今累積將近3,000萬次收聽，兩度獲卓越新聞獎，也曾入選 KKBOX Podcast 風雲榜年度最佳節目、Apple Podcast 年度十大節目。讓更多的聲音被聽見、把世界不同角落的聲音帶進人們的心，是《報導者》將持續完成的事。',
-    mediaId: 'video2',
+    text: '讓更多的聲音被聽見、把世界不同角落的聲音帶進人們的心，是《報導者》將持續完成的事。',
+    mediaId: 'image4',
     triggerPosition: 0.5
   }
 ];

@@ -25,26 +25,29 @@ const mediaItems: MediaItem[] = [
   {
     id: 'video1',
     type: 'video',
-    src: '/assets/innovations/innovation-1.webm',
-    alt: '急診人生遊戲影片'
+    src: '/assets/innovations/innovation-3/innovation-3-5.webm',
+    alt: '報導者開放實驗室螢幕錄影畫面',
+    mediaClassName: 'object-cover'
   },
   {
     id: 'image1',
     type: 'image',
-    src: '/assets/innovations/innovation-1-1.png',
-    alt: '急診室實地採訪畫面'
-  },
-  {
-    id: 'image2',
-    type: 'image',
-    src: '/assets/innovations/innovation-1-2.jpg',
-    alt: '遊戲介面設計'
+    src: '/assets/innovations/innovation-3/innovation-3-1.jpeg',
+    alt: '新聞敘事元件庫討論'
   },
   {
     id: 'video2',
     type: 'video',
-    src: '/assets/innovations/innovation-1-3.webm',
-    alt: '沉浸式敘事實驗'
+    src: '/assets/innovations/innovation-3/innovation-3-3.webm',
+    alt: '左右互搏',
+    mediaClassName: 'object-cover'
+  },
+  {
+    id: 'video3',
+    type: 'video',
+    src: '/assets/innovations/innovation-3/innovation-3-6.webm',
+    alt: '沉浸式敘事實驗',
+    mediaClassName: 'object-cover'
   }
 ];
 
@@ -58,13 +61,13 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text2',
     text: '從創立之初就開創的「報導者開放實驗室」，記載團隊關於深度報導與數位敘事的方法論。',
-    mediaId: 'image1',
+    mediaId: 'video1',
     triggerPosition: 0.5
   },
   {
     id: 'text3',
     text: '為提升數位敘事報導的製作效率，工程師自2020年起打造可重複使用的新聞敘事元件，取代過往一次性開發模式。',
-    mediaId: 'image2',
+    mediaId: 'image1',
     triggerPosition: 0.5
   },
   {
@@ -76,13 +79,13 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text5',
     text: '延續開放精神，數位敘事元件庫同步開放外界使用。',
-    mediaId: 'video1',
+    mediaId: 'video3',
     triggerPosition: 0.5
   },
   {
     id: 'text6',
     text: '目前元件庫已收錄7款工具，濃縮《報導者》10年來的數位敘事經驗，為新聞報導開創更多視覺與互動的可能。',
-    mediaId: 'image1',
+    mediaId: 'video3',
     triggerPosition: 0.5
   }
 ];

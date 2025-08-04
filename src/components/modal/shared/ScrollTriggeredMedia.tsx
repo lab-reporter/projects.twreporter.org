@@ -10,6 +10,8 @@ interface MediaItem {
   type: 'image' | 'video';
   src: string;
   alt?: string;
+  containerClassName?: string; // 外層 div 的自訂樣式
+  mediaClassName?: string; // video/img 元素的自訂樣式
 }
 
 // 文字區塊介面
@@ -143,7 +145,7 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
 
     if (media.type === 'video') {
       return (
-        <div key={media.id} className={`${baseStyles} ${visibilityStyles}`}>
+        <div key={media.id} className={`${baseStyles} ${visibilityStyles} ${media.containerClassName || ''}`}>
           <video
             ref={el => {
               if (el) videoRefs.current[media.id] = el;
@@ -151,18 +153,18 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
             src={media.src}
             muted
             loop
-            className="w-full h-full object-cover"
+            className={`w-full h-full ${media.mediaClassName || ''}`}
             style={{ display: isActive ? 'block' : 'none' }}
           />
         </div>
       );
     } else {
       return (
-        <div key={media.id} className={`${baseStyles} ${visibilityStyles}`}>
+        <div key={media.id} className={`${baseStyles} ${visibilityStyles} ${media.containerClassName || ''}`}>
           <img
             src={media.src}
             alt={media.alt || ''}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover ${media.mediaClassName || ''}`}
             loading={isActive ? 'eager' : 'lazy'}
           />
         </div>

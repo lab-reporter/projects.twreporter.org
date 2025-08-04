@@ -26,26 +26,30 @@ const mediaItems: MediaItem[] = [
     id: 'video1',
     type: 'video',
     src: '/assets/innovations/innovation-2/innovation-2-1.mp4',
-    alt: '海上人口販運風暴'
+    alt: '海上人口販運風暴',
+    mediaClassName: 'object-cover'
   },
   {
     id: 'video2',
     type: 'video',
     src: '/assets/innovations/innovation-2/innovation-2-2.mp4',
-    alt: '六輕營運20年'
+    alt: '六輕營運20年',
+    mediaClassName: 'object-cover'
   },
   {
     id: 'video3',
     type: 'video',
     src: '/assets/innovations/innovation-2/innovation-2-3.webm',
-    alt: '遊走兩岸海域的暴利生意'
+    alt: '遊走兩岸海域的暴利生意',
+    mediaClassName: 'object-cover'
+
   },
   {
     id: 'video4',
     type: 'video',
     src: '/assets/innovations/innovation-2/innovation-2-4.webm',
     alt: '分解「沉浸式詐騙」手法，你需要的4個反制手段'
-  }
+  },
 
 ];
 
@@ -71,7 +75,7 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text4',
     text: '2022年俄烏戰爭爆發之際，使用華文媒體少見的 Live Blog 形式更新戰事最新動態，並前往歐洲製作 360 影片，把現場的畫面帶回給台灣讀者。',
-    mediaId: 'video3',
+    mediaId: 'video4',
     triggerPosition: 0.5
   },
   {
