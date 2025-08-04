@@ -13,6 +13,8 @@ import InnovationVideoItem from './InnovationVideoItem';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
 // ============================
@@ -24,7 +26,7 @@ export default function InnovationsSection() {
   // 全域狀態區塊
   // ============================
   // 從 store 取得開啟 Modal 的函數
-  const { openModal, setNextSectionButtonVisible } = useStore();
+  const { openModal } = useStore();
 
   // ============================
   // DOM 參考區塊
@@ -119,20 +121,29 @@ export default function InnovationsSection() {
     };
   }, [headingVisible, isLowPerformance]);
 
-  // NextSectionButton 顯示控制
+  // 標題淡出動畫
   useEffect(() => {
-    if (!observerRef.current) return;
+    if (!headingRef.current || !containerRef.current) return;
 
-    // 當組件可見時顯示按鈕
-    if (isVisible) {
-      setNextSectionButtonVisible(true);
-    }
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 創建標題淡出動畫
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: 'top 80%', // 當容器頂部觸及視窗 80% 位置開始
+      end: 'top 25%', // 當容器頂部到達視窗 10% 位置結束
+      scrub: 1, // 平滑過渡
+      onUpdate: (self) => {
+        // 根據滾動進度計算透明度（1 -> 0）
+        const opacity = 1 - self.progress;
+        gsap.set(headingRef.current, { opacity });
+      }
+    });
 
     return () => {
-      // 組件卸載時隱藏按鈕
-      setNextSectionButtonVisible(false);
+      scrollTrigger.kill();
     };
-  }, [isVisible, setNextSectionButtonVisible, observerRef]);
+  }, [headingRef, containerRef]);
 
   // ============================
   // 事件處理函數
@@ -169,7 +180,7 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供偵測使用
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
-      <div ref={headingRef} className="mb-16">
+      <div ref={headingRef} className="sticky top-0 z-10">
         <SectionHeadings
           titleEn="INNOVATION"
           titleZh="開放新聞室・創新"
@@ -182,7 +193,55 @@ export default function InnovationsSection() {
       </div>
 
       {/* Swiper 容器 */}
-      <div className="relative w-full h-[80vh] min-h-[600px]">
+      <div className="relative w-full h-[calc(100vh+16rem)] py-32">
+        {/* 左右切換按鈕 - 移到最外層 */}
+        <button
+          onClick={goToPrevious}
+          className="group absolute left-24 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+          aria-label="上一個創新項目"
+        >
+          <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+          {/* 懸停提示文字 */}
+          <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+            上一個
+          </div>
+        </button>
+        <button
+          onClick={goToNext}
+          className="group absolute right-24 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+          aria-label="下一個創新項目"
+        >
+          <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+          {/* 懸停提示文字 */}
+          <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+            下一個
+          </div>
+        </button>
+
+        {/* 預覽圖導覽列 */}
+        <div className="absolute top-1/2 -translate-y-1/2 right-40 flex flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg z-50">
+          {innovationItems.map((item, index) => (
+            <button
+              key={item.id}
+              onClick={() => setCurrentItemIndex(index)}
+              className={`relative rounded overflow-hidden transition-all duration-300 ${index === currentItemIndex
+                ? 'ring-2 ring-black'
+                : 'opacity-40 grayscale hover:opacity-60'
+                }`}
+              style={{ width: '3rem', height: '3rem' }}
+              aria-label={`切換到 ${item.title}`}
+            >
+              <video
+                src={item.path}
+                className="w-full h-full object-cover pointer-events-none"
+                muted
+                playsInline
+                preload="metadata"
+              />
+            </button>
+          ))}
+        </div>
+
         {/* 3D 場景容器 */}
         <div
           ref={containerRef}
@@ -223,52 +282,12 @@ export default function InnovationsSection() {
             })}
           </div>
 
-          {/* 左右切換按鈕 */}
-          <button
-            onClick={goToPrevious}
-            className="group absolute left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-            aria-label="上一個創新項目"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-            {/* 懸停提示文字 */}
-            <div className="font-noto-sans-tc absolute top-1/2 -translate-y-1/2 right-full mr-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-              上一個
-            </div>
-          </button>
-          <button
-            onClick={goToNext}
-            className="group absolute right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-            aria-label="下一個創新項目"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-            {/* 懸停提示文字 */}
-            <div className="font-noto-sans-tc absolute top-1/2 -translate-y-1/2 left-full ml-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-              下一個
-            </div>
-          </button>
-
           {/* 當前項目資訊展示區 */}
-          <div className="absolute bottom-20 w-full">
+          <div className="absolute bottom-24 w-full">
             <CurrentItemDisplay
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
             />
-          </div>
-
-          {/* 分頁指示器 */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
-            {innovationItems.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentItemIndex(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === currentItemIndex
-                    ? 'w-8 h-2 bg-gray-800'
-                    : 'w-2 h-2 bg-gray-400 hover:bg-gray-600'
-                }`}
-                aria-label={`切換到第 ${index + 1} 個項目`}
-              />
-            ))}
           </div>
         </div>
       </div>
