@@ -153,10 +153,10 @@ export default function InnovationsSection() {
     gsap.registerPlugin(ScrollTrigger);
 
     // 創建 ScrollTrigger 來控制 NextSectionButton
-    // 使用整個 500vh 的容器作為 trigger
+    // 使用整個滾動的容器作為 trigger
     const buttonScrollTrigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      start: 'top bottom', // 當容器頂部進入視窗底部
+      start: 'top top', // 當容器頂部進入視窗底部
       end: 'bottom 90%', // 當容器底部離開視窗頂部
       markers: true,
       onEnter: () => {
@@ -234,7 +234,7 @@ export default function InnovationsSection() {
       </div>
 
       {/* 滾動區域：設定足夠高度以提供滾動空間 */}
-      <div ref={sectionRef} className="relative w-full h-[500vh]">
+      <div ref={sectionRef} className="relative w-full h-[300vh]">
         {/* 黏性容器：在滾動時保持在視窗頂部 */}
         <div className="w-full h-screen sticky top-0">
           {/* 3D 場景容器：設定透視效果 */}
