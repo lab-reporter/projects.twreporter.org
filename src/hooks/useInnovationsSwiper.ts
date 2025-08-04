@@ -24,8 +24,9 @@ interface UseInnovationsSwiperParams {
 // ============================
 // 常數定義
 // ============================
-const Z_SPACING = 100; // z軸間距
-const BLUR_BASE = 8; // 基礎模糊值
+const Z_SPACING = 50; // z軸間距
+const BLUR_BASE = 4; // 基礎模糊值
+const BACKGROUND_ITEMS = 6; // 背景項目數量
 
 // ============================
 // 自訂 Hook：創新區塊 Swiper 動畫
@@ -87,13 +88,13 @@ export function useInnovationsSwiper({
       };
     }
     
-    // 背景項目（位置 1-4）
-    if (relativePosition > 0 && relativePosition <= 4) {
+    // 背景項目（位置 1-6）
+    if (relativePosition > 0 && relativePosition <= BACKGROUND_ITEMS) {
       return {
-        z: -relativePosition * Z_SPACING, // -100, -200, -300, -400
-        opacity: 1 - (relativePosition * 0.15), // 保持較高透明度
-        blur: isLowPerformance ? 0 : relativePosition * BLUR_BASE, // 8, 16, 24, 32
-        scale: 1 - (relativePosition * 0.02), // 更細微的縮放
+        z: -relativePosition * Z_SPACING, // -50, -100, -150, -200, -250, -300
+        opacity: 1 - (relativePosition * 0.12), // 保持較高透明度，6個項目分配
+        blur: isLowPerformance ? 0 : relativePosition * BLUR_BASE, // 4, 8, 12, 16, 20, 24
+        scale: 1 - (relativePosition * 0.015), // 更細微的縮放
         visibility: 'visible' as const
       };
     }
@@ -143,11 +144,12 @@ export function useInnovationsSwiper({
       
       // 取得位置偏移（只有背景項目需要偏移）
       const offset = getOffsetPosition(index);
-      const needsOffset = relativePos > 0 && relativePos <= 4;
+      const needsOffset = relativePos > 0 && relativePos <= BACKGROUND_ITEMS;
       
-      // 目標位置
-      const targetX = needsOffset ? offset.x * 0.5 : 0; // 背景項目輕微偏移
-      const targetY = needsOffset ? offset.y * 0.5 : 0;
+      // 目標位置 - 根據深度調整偏移量
+      const offsetScale = relativePos > 0 ? Math.max(0.2, 1 - (relativePos * 0.15)) : 0;
+      const targetX = needsOffset ? offset.x * offsetScale : 0; // 背景項目根據深度偏移
+      const targetY = needsOffset ? offset.y * offsetScale : 0;
       
       // 判斷是否需要特殊過渡效果
       const isMovingToFront = relativePos === 0 && prevState && prevState.z < 0;

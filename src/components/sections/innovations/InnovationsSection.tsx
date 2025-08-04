@@ -192,102 +192,106 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      {/* Swiper 容器 */}
-      <div className="relative w-full h-[calc(100vh+16rem)] py-32">
-        {/* 左右切換按鈕 - 移到最外層 */}
-        <button
-          onClick={goToPrevious}
-          className="group absolute left-24 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-          aria-label="上一個創新項目"
-        >
-          <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-          {/* 懸停提示文字 */}
-          <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-            上一個
-          </div>
-        </button>
-        <button
-          onClick={goToNext}
-          className="group absolute right-24 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-          aria-label="下一個創新項目"
-        >
-          <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-          {/* 懸停提示文字 */}
-          <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-            下一個
-          </div>
-        </button>
 
-        {/* 預覽圖導覽列 */}
-        <div className="absolute top-1/2 -translate-y-1/2 right-40 flex flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg z-50">
-          {innovationItems.map((item, index) => (
-            <button
-              key={item.id}
-              onClick={() => setCurrentItemIndex(index)}
-              className={`relative rounded overflow-hidden transition-all duration-300 ${index === currentItemIndex
-                ? 'ring-2 ring-black'
-                : 'opacity-40 grayscale hover:opacity-60'
-                }`}
-              style={{ width: '3rem', height: '3rem' }}
-              aria-label={`切換到 ${item.title}`}
-            >
-              <video
-                src={item.path}
-                className="w-full h-full object-cover pointer-events-none"
-                muted
-                playsInline
-                preload="metadata"
-              />
-            </button>
-          ))}
-        </div>
+      <div className="relative w-full">
+        {/* Swiper 容器 */}
+        <div className="sticky z-[100] top-0 w-full h-screen">
+          {/* 左右切換按鈕 - 移到最外層 */}
 
-        {/* 3D 場景容器 */}
-        <div
-          ref={containerRef}
-          className="w-full h-full relative overflow-hidden"
-          style={{
-            // 動態設定透視距離
-            perspective: is3DEnabled && isVisible ? '1000px' : 'none'
-            // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
-          }}
-        >
-          {/* 3D 元素容器 */}
+          {/* 預覽圖導覽列 */}
+          <div className="absolute top-1/2 -translate-y-1/2 right-40 flex flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg z-50">
+            {innovationItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setCurrentItemIndex(index)}
+                className={`relative rounded overflow-hidden transition-all duration-300 ${index === currentItemIndex
+                  ? 'ring-2 ring-black'
+                  : 'opacity-40 grayscale hover:opacity-60'
+                  }`}
+                style={{ width: '3rem', height: '3rem' }}
+                aria-label={`切換到 ${item.title}`}
+              >
+                <video
+                  src={item.path}
+                  className="w-full h-full object-cover pointer-events-none"
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* 3D 場景容器 */}
           <div
-            className="absolute inset-0"
+            ref={containerRef}
+            className="w-full h-full relative overflow-hidden"
             style={{
-              // 啟用 3D 變換樣式
-              transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
+              // 動態設定透視距離
+              perspective: is3DEnabled && isVisible ? '1000px' : 'none'
+              // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
             }}
           >
-            {/* 渲染所有創新項目 */}
-            {innovationItems.map((item, index) => {
-              // 預先計算每個項目的屬性
-              const offset = getOffsetPosition(index);
-              const initialDepth = -50 - (index * 100);
+            {/* 3D 元素容器 */}
+            <div
+              className="absolute inset-0"
+              style={{
+                // 啟用 3D 變換樣式
+                transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
+              }}
+            >
+              {/* 渲染所有創新項目 */}
+              {innovationItems.map((item, index) => {
+                // 預先計算每個項目的屬性
+                const offset = getOffsetPosition(index);
+                const initialDepth = -50 - (index * 100);
 
-              return (
-                <InnovationVideoItem
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  isVisible={isVisible}
-                  is3DEnabled={is3DEnabled}
-                  animationsEnabled={animationsEnabled}
-                  offset={offset}
-                  initialDepth={initialDepth}
-                  onItemClick={handleItemClick}
-                />
-              );
-            })}
+                return (
+                  <InnovationVideoItem
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    isVisible={isVisible}
+                    is3DEnabled={is3DEnabled}
+                    animationsEnabled={animationsEnabled}
+                    offset={offset}
+                    initialDepth={initialDepth}
+                    onItemClick={handleItemClick}
+                  />
+                );
+              })}
+            </div>
           </div>
 
           {/* 當前項目資訊展示區 */}
-          <div className="absolute bottom-24 w-full">
+          <div className="absolute z-[100] bottom-24 w-full flex justify-center items-center">
+            <button
+              onClick={goToPrevious}
+              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+              aria-label="上一個創新項目"
+            >
+              <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+              {/* 懸停提示文字 */}
+              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                上一個
+              </div>
+            </button>
             <CurrentItemDisplay
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
+              className="min-w-[35rem]"
             />
+            <button
+              onClick={goToNext}
+              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+              aria-label="下一個創新項目"
+            >
+              <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+              {/* 懸停提示文字 */}
+              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                下一個
+              </div>
+            </button>
           </div>
         </div>
       </div>

@@ -21,8 +21,8 @@ export const getAnimationStates = (isLowPerformance: boolean) => ({
 // 計算項目的錯位佈局位置（創造散落效果）
 export const getOffsetPosition = (index: number) => {
   // 使用模數運算創造網格式錯位
-  const offsetX = (index % 5 - 2) * 72;
-  const offsetY = (Math.floor(index / 5) % 3 - 1) * 108;
+  const offsetX = (index % 5 - 2) * 36;
+  const offsetY = (Math.floor(index / 5) % 3 - 1) * 54;
   return { x: offsetX, y: offsetY };
 };
 
