@@ -10,6 +10,14 @@ interface MediaItem {
   type: 'image' | 'video';
   src: string;
   alt?: string;
+  containerClassName?: string;
+  mediaClassName?: string;
+  iframeProps?: {
+    title: string;
+    className?: string;
+    allow?: string;
+    height?: string;
+  };
 }
 
 // 文字區塊介面
@@ -30,7 +38,7 @@ const mediaItems: MediaItem[] = [
   },
   {
     id: 'spotify1',
-    type: 'iframe',
+    type: 'iframe' as 'video',
     src: 'https://open.spotify.com/embed/show/2enAYfKRQSsvxCl4HrB9iG?utm_source=generator&theme=0',
     alt: 'Podcast 節目',
     containerClassName: 'p-16 flex items-center justify-center',
