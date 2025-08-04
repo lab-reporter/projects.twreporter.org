@@ -1,19 +1,18 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useStore } from '@/stores';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
-import { useInnovationsAnimation } from '@/hooks/useInnovationsAnimation';
+import { useInnovationsSwiper } from '@/hooks/useInnovationsSwiper';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import InnovationVideoItem from './InnovationVideoItem';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 
 // ============================
@@ -30,8 +29,6 @@ export default function InnovationsSection() {
   // ============================
   // DOM 參考區塊
   // ============================
-  // DOM 元素參考：整個章節容器
-  const sectionRef = useRef<HTMLDivElement>(null);
   // DOM 元素參考：3D 場景容器
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,10 +36,10 @@ export default function InnovationsSection() {
   // 本地狀態區塊
   // ============================
   // 狀態變數：當前活躍的項目索引
-  const [currentItemIndex, setCurrentItemIndex] = useState(-1);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
   // 狀態變數：是否啟用 3D 透視效果
   const [is3DEnabled, setIs3DEnabled] = useState(false);
-  // 狀態變數：是否啟用滾動動畫
+  // 狀態變數：是否啟用切換動畫
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
   // ============================
@@ -122,65 +119,20 @@ export default function InnovationsSection() {
     };
   }, [headingVisible, isLowPerformance]);
 
-  // 標題淡出動畫
-  useEffect(() => {
-    if (!headingRef.current || !sectionRef.current) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    // 創建標題淡出動畫
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top bottom', // 當滾動區域頂部觸及視窗底部開始
-      end: 'top 20%', // 當滾動區域頂部到達視窗 20% 位置結束
-      scrub: 1, // 平滑過渡
-      onUpdate: (self) => {
-        // 根據滾動進度計算透明度（1 -> 0）
-        const opacity = 1 - self.progress;
-        gsap.set(headingRef.current, { opacity });
-      }
-    });
-
-    return () => {
-      scrollTrigger.kill();
-    };
-  }, [headingRef]);
-
   // NextSectionButton 顯示控制
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!observerRef.current) return;
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    // 創建 ScrollTrigger 來控制 NextSectionButton
-    // 使用整個滾動的容器作為 trigger
-    const buttonScrollTrigger = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top', // 當容器頂部進入視窗底部
-      end: 'bottom 90%', // 當容器底部離開視窗頂部
-      markers: true,
-      onEnter: () => {
-        // 進入 innovations 區域時顯示按鈕
-        setNextSectionButtonVisible(true);
-      },
-      onLeave: () => {
-        // 離開 innovations 區域時隱藏按鈕
-        setNextSectionButtonVisible(false);
-      },
-      onEnterBack: () => {
-        // 從下方回滾時重新顯示
-        setNextSectionButtonVisible(true);
-      },
-      onLeaveBack: () => {
-        // 向上滾動離開時隱藏
-        setNextSectionButtonVisible(false);
-      }
-    });
+    // 當組件可見時顯示按鈕
+    if (isVisible) {
+      setNextSectionButtonVisible(true);
+    }
 
     return () => {
-      buttonScrollTrigger.kill();
+      // 組件卸載時隱藏按鈕
+      setNextSectionButtonVisible(false);
     };
-  }, [setNextSectionButtonVisible]);
+  }, [isVisible, setNextSectionButtonVisible, observerRef]);
 
   // ============================
   // 事件處理函數
@@ -193,18 +145,14 @@ export default function InnovationsSection() {
   // ============================
   // 動畫 Hook
   // ============================
-  // 使用自訂 Hook 管理滾動動畫
-  const handleActiveIndexChange = useCallback((index: number) => {
-    setCurrentItemIndex(index);
-  }, []);
-
-  useInnovationsAnimation({
-    sectionRef,
+  // 使用自訂 Hook 管理切換動畫
+  const { goToNext, goToPrevious } = useInnovationsSwiper({
     containerRef,
     innovationItems,
     animationsEnabled,
     isLowPerformance,
-    onActiveIndexChange: handleActiveIndexChange
+    currentIndex: currentItemIndex,
+    onActiveIndexChange: setCurrentItemIndex
   });
 
 
@@ -218,10 +166,10 @@ export default function InnovationsSection() {
   // 渲染區塊
   // ============================
   return (
-    // 主容器：設定章節 ID 供滾動偵測使用
-    <div ref={observerRef} id="section-innovations">
-      {/* 章節標題區域：使用獨立 ref 提前觸發載入 */}
-      <div ref={headingRef} className="sticky top-0 z-10">
+    // 主容器：設定章節 ID 供偵測使用
+    <div ref={observerRef} id="section-innovations" className="relative">
+      {/* 章節標題區域 */}
+      <div ref={headingRef} className="mb-16">
         <SectionHeadings
           titleEn="INNOVATION"
           titleZh="開放新聞室・創新"
@@ -233,57 +181,94 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      {/* 滾動區域：設定足夠高度以提供滾動空間 */}
-      <div ref={sectionRef} className="relative w-full h-[300vh]">
-        {/* 黏性容器：在滾動時保持在視窗頂部 */}
-        <div className="w-full h-screen sticky top-0">
-          {/* 3D 場景容器：設定透視效果 */}
+      {/* Swiper 容器 */}
+      <div className="relative w-full h-[80vh] min-h-[600px]">
+        {/* 3D 場景容器 */}
+        <div
+          ref={containerRef}
+          className="w-full h-full relative overflow-hidden"
+          style={{
+            // 動態設定透視距離
+            perspective: is3DEnabled && isVisible ? '1000px' : 'none'
+            // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
+          }}
+        >
+          {/* 3D 元素容器 */}
           <div
-            ref={containerRef}
-            className="w-full h-full relative overflow-hidden"
+            className="absolute inset-0"
             style={{
-              // 動態設定透視距離
-              perspective: is3DEnabled && isVisible ? '1000px' : 'none'
-              // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
+              // 啟用 3D 變換樣式
+              transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
             }}
           >
-            {/* 3D 元素容器：保持 3D 轉換空間 */}
-            <div
-              className="absolute inset-0"
-              style={{
-                // 啟用 3D 變換樣式
-                transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
-              }}
-            >
-              {/* 渲染所有創新項目 */}
-              {innovationItems.map((item, index) => {
-                // 預先計算每個項目的屬性
-                const offset = getOffsetPosition(index);
-                const initialDepth = -50 - (index * 100);
+            {/* 渲染所有創新項目 */}
+            {innovationItems.map((item, index) => {
+              // 預先計算每個項目的屬性
+              const offset = getOffsetPosition(index);
+              const initialDepth = -50 - (index * 100);
 
-                return (
-                  <InnovationVideoItem
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    isVisible={isVisible}
-                    is3DEnabled={is3DEnabled}
-                    animationsEnabled={animationsEnabled}
-                    offset={offset}
-                    initialDepth={initialDepth}
-                    onItemClick={handleItemClick}
-                  />
-                );
-              })}
+              return (
+                <InnovationVideoItem
+                  key={item.id}
+                  item={item}
+                  index={index}
+                  isVisible={isVisible}
+                  is3DEnabled={is3DEnabled}
+                  animationsEnabled={animationsEnabled}
+                  offset={offset}
+                  initialDepth={initialDepth}
+                  onItemClick={handleItemClick}
+                />
+              );
+            })}
+          </div>
+
+          {/* 左右切換按鈕 */}
+          <button
+            onClick={goToPrevious}
+            className="group absolute left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+            aria-label="上一個創新項目"
+          >
+            <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+            {/* 懸停提示文字 */}
+            <div className="font-noto-sans-tc absolute top-1/2 -translate-y-1/2 right-full mr-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+              上一個
             </div>
+          </button>
+          <button
+            onClick={goToNext}
+            className="group absolute right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+            aria-label="下一個創新項目"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+            {/* 懸停提示文字 */}
+            <div className="font-noto-sans-tc absolute top-1/2 -translate-y-1/2 left-full ml-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+              下一個
+            </div>
+          </button>
 
-            {/* 當前項目資訊展示區：顯示活躍項目的標題資訊 */}
-            <div className="absolute bottom-20 w-full">
-              <CurrentItemDisplay
-                title={currentItem?.title}
-                subtitle={currentItem?.subtitle}
+          {/* 當前項目資訊展示區 */}
+          <div className="absolute bottom-20 w-full">
+            <CurrentItemDisplay
+              title={currentItem?.title}
+              subtitle={currentItem?.subtitle}
+            />
+          </div>
+
+          {/* 分頁指示器 */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+            {innovationItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentItemIndex(index)}
+                className={`rounded-full transition-all duration-300 ${
+                  index === currentItemIndex
+                    ? 'w-8 h-2 bg-gray-800'
+                    : 'w-2 h-2 bg-gray-400 hover:bg-gray-600'
+                }`}
+                aria-label={`切換到第 ${index + 1} 個項目`}
               />
-            </div>
+            ))}
           </div>
         </div>
       </div>

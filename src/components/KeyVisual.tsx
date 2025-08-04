@@ -17,7 +17,7 @@ export default function KeyVisual() {
                 />
             </div>
             {/* Logo */}
-            <div className="w-[30%] h-24 absolute bottom-16 left-16 z-10">
+            <div className="w-[25%] h-24 absolute bottom-16 left-16 z-10">
                 <Image
                     src="/assets/KV/KV-Logotype.svg"
                     alt="報導者 Logo"
@@ -28,7 +28,7 @@ export default function KeyVisual() {
                 />
             </div>
             {/* 標語 */}
-            <div className="w-[30%] h-24 absolute bottom-16 right-16 z-10">
+            <div className="w-[25%] h-24 absolute bottom-16 right-16 z-10">
                 <Image
                     src="/assets/KV/KV-Slogan.svg"
                     alt="報導者標語"
