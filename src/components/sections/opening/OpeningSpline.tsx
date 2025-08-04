@@ -157,7 +157,8 @@ export default function OpeningSpline() {
 
     if (!isMounted) {
         return (
-            <KeyVisual />
+            <div className="w-full h-screen bg-black z-[99999] relative">
+            </div>
         );
     }
 

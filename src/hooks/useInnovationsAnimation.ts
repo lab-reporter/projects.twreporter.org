@@ -49,6 +49,9 @@ export function useInnovationsAnimation({
     scale: number;
     visibility: string;
   }>>(new Map());
+  
+  // 儲存最終狀態的 ref（必須在頂層宣告）
+  const finalStatesRef = useRef<Map<string, { x: string; y: string; z: string; opacity: number; scale: number; filter: string }>>(new Map());
 
   // ============================
   // ScrollTrigger 動畫設定
@@ -84,14 +87,17 @@ export function useInnovationsAnimation({
       const isFirstItem = index === 0;
       const itemId = innovationItems[index]?.id;
 
+      // 計算初始的視覺狀態（包含模糊效果）
+      const initialVisualState = calculateOptimizedState(initialDepth, isLowPerformance);
+
       // 定義初始狀態物件
       const initialState = {
         x: isFirstItem ? 0 : offset.x,
         y: isFirstItem ? 0 : offset.y,
         z: initialDepth,
         scale: 1,
-        opacity: initialDepth < -300 ? 0 : (isFirstItem ? 1 : 0.6),
-        blur: 0,
+        opacity: initialVisualState.opacity, // 使用計算出的透明度
+        blur: initialVisualState.blur, // 使用計算出的模糊值
         visibility: 'visible'
       };
 
@@ -116,14 +122,20 @@ export function useInnovationsAnimation({
       });
     });
 
+    // 儲存最終狀態
+    let hasLeftTrigger = false; // 追蹤是否已離開觸發區域
+
     // 創建 ScrollTrigger 實例來控制滾動動畫
     const scrollTrigger = ScrollTrigger.create({
       trigger: sectionRef.current,
-      // 提前觸發以確保平滑過渡
-      start: 'top-=200px top',
+      // 當滾動區域頂部稍微進入視窗時開始動畫
+      start: 'top top',
       end: 'bottom bottom',
       // 滾動平滑度設定
       scrub: isLowPerformance ? 1 : 2,
+      // 防止在離開時重置狀態
+      invalidateOnRefresh: false,
+      pin: false, // 不要釘住元素
       onUpdate: (self) => {
         const progress = self.progress;
         const itemCount = elements.length;
@@ -253,6 +265,89 @@ export function useInnovationsAnimation({
           onActiveIndexChange(activeIndex);
         }
       },
+      // 當離開觸發區域時保持最終狀態
+      onLeave: () => {
+        hasLeftTrigger = true;
+        // 使用最終進度值來設定元素位置
+        const itemCount = elements.length;
+        const totalDistance = (itemCount - 1) * 100 + 50;
+        const currentOffset = 1 * totalDistance; // 使用完整進度
+
+        elements.forEach((element, index) => {
+          const itemId = innovationItems[index]?.id;
+          const prevState = itemStatesRef.current.get(itemId || '');
+          if (prevState) {
+            // 計算最終深度
+            const isLastItem = index === elements.length - 1;
+            let currentDepth = (-50 - index * 100) + currentOffset;
+            if (isLastItem && currentDepth > 0) {
+              currentDepth = 0;
+            }
+
+            // 計算最終狀態
+            const state = calculateOptimizedState(currentDepth, isLowPerformance);
+            const offset = getOffsetPosition(index);
+            const isFirstItem = index === 0;
+            let offsetFactor = 1;
+
+            if (isFirstItem) {
+              offsetFactor = 0;
+            } else {
+              if (currentDepth >= -300 && currentDepth <= -25) {
+                const transitionProgress = (currentDepth + 300) / 275;
+                offsetFactor = 1 - transitionProgress;
+              } else if (currentDepth > -25) {
+                offsetFactor = 0;
+              }
+            }
+
+            // 強制設定最終位置
+            const finalX = offset.x * offsetFactor;
+            const finalY = offset.y * offsetFactor;
+            const finalZ = currentDepth;
+
+            // 將最終狀態存入快取
+            prevState.x = finalX;
+            prevState.y = finalY;
+            prevState.z = finalZ;
+            prevState.opacity = state.opacity;
+            prevState.scale = state.scale;
+            prevState.blur = state.blur;
+
+            // 儲存最終狀態到獨立的 ref
+            const finalStyles = {
+              x: `${finalX}vw`,
+              y: `${finalY}vh`,
+              z: `${finalZ}vw`,
+              opacity: state.opacity,
+              scale: state.scale,
+              filter: isLowPerformance ? 'none' : `blur(${state.blur}px)`
+            };
+            
+            const itemId = innovationItems[index]?.id;
+            if (itemId) {
+              finalStatesRef.current.set(itemId, finalStyles);
+            }
+
+            gsap.set(element, {
+              ...finalStyles,
+              immediateRender: true,
+              overwrite: true
+            });
+
+            // 加入 data attribute 標記元素已離開
+            element.setAttribute('data-innovation-left', 'true');
+          }
+        });
+      },
+      // 當返回時也要處理
+      onEnterBack: () => {
+        hasLeftTrigger = false;
+        // 移除標記
+        elements.forEach((element) => {
+          element.removeAttribute('data-innovation-left');
+        });
+      }
     });
 
     // 保存快取引用供清理使用
@@ -260,8 +355,40 @@ export function useInnovationsAnimation({
 
     // 清理函數：移除 ScrollTrigger 並清空快取
     return () => {
-      scrollTrigger.kill();
+      // 如果已離開觸發區域，保持最終狀態
+      if (hasLeftTrigger && finalStatesRef.current.size > 0) {
+        // 先停止 ScrollTrigger
+        scrollTrigger.disable();
+        
+        // 強制設定所有元素的最終狀態
+        elements.forEach((element, index) => {
+          const itemId = innovationItems[index]?.id;
+          if (itemId) {
+            const finalState = finalStatesRef.current.get(itemId);
+            if (finalState) {
+              // 使用 set 而不是 to，確保立即生效
+              gsap.set(element, {
+                ...finalState,
+                immediateRender: true,
+                overwrite: true,
+                clearProps: 'none' // 不要清除屬性
+              });
+              
+              // 暫停該元素的所有動畫
+              gsap.killTweensOf(element);
+            }
+          }
+        });
+        
+        // 完全移除 ScrollTrigger
+        scrollTrigger.kill(false);
+      } else {
+        // 正常清理
+        scrollTrigger.kill();
+      }
+      
       cacheRef.clear();
+      finalStatesRef.current.clear();
     };
   }, [innovationItems, animationsEnabled, isLowPerformance, onActiveIndexChange, sectionRef, containerRef]);
 }

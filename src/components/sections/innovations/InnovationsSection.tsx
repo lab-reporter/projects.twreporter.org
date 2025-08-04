@@ -13,6 +13,8 @@ import NextSectionButton from '@/components/NextSectionButton';
 import InnovationVideoItem from './InnovationVideoItem';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
 // ============================
@@ -121,6 +123,30 @@ export default function InnovationsSection() {
     };
   }, [headingVisible, isLowPerformance]);
 
+  // 標題淡出動畫
+  useEffect(() => {
+    if (!headingRef.current || !sectionRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 創建標題淡出動畫
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top bottom', // 當滾動區域頂部觸及視窗底部開始
+      end: 'top 20%', // 當滾動區域頂部到達視窗 20% 位置結束
+      scrub: 1, // 平滑過渡
+      onUpdate: (self) => {
+        // 根據滾動進度計算透明度（1 -> 0）
+        const opacity = 1 - self.progress;
+        gsap.set(headingRef.current, { opacity });
+      }
+    });
+
+    return () => {
+      scrollTrigger.kill();
+    };
+  }, [headingRef]);
+
   // ============================
   // 事件處理函數
   // ============================
@@ -160,7 +186,7 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供滾動偵測使用
     <div ref={observerRef} id="section-innovations">
       {/* 章節標題區域：使用獨立 ref 提前觸發載入 */}
-      <div ref={headingRef}>
+      <div ref={headingRef} className="sticky top-0 z-10">
         <SectionHeadings
           titleEn="INNOVATION"
           titleZh="開放新聞室・創新"

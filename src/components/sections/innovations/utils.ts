@@ -31,19 +31,23 @@ export const getOffsetPosition = (index: number) => {
 // ============================
 // 根據深度值計算項目的視覺狀態（透明度、模糊度等）
 export const calculateOptimizedState = (currentDepth: number, isLowPerformance: boolean): ItemState => {
-  const states = getAnimationStates(isLowPerformance);
 
   // 深度分層邏輯：根據不同深度範圍返回相應的視覺效果
   if (currentDepth < -300) {
     // 極深層：完全隱藏
-    return states.hidden;
+    return {
+      depth: currentDepth,
+      opacity: 0,
+      blur: isLowPerformance ? 0 : 32,
+      scale: 1
+    };
   } else if (currentDepth < -25) {
     // 背景層到活躍層的過渡：漸進式顯示
     const progress = (currentDepth + 300) / 275;
     return {
       depth: currentDepth,
       opacity: 0.6 + (progress * 0.4),
-      blur: isLowPerformance ? 0 : 8 - (progress * 8),
+      blur: isLowPerformance ? 0 : 32 - (progress * 32),
       scale: 1
     };
   } else if (currentDepth < 25) {
@@ -60,7 +64,7 @@ export const calculateOptimizedState = (currentDepth: number, isLowPerformance: 
     return {
       depth: currentDepth,
       opacity: 1 - progress,
-      blur: isLowPerformance ? 0 : progress * 8,
+      blur: isLowPerformance ? 0 : progress * 32,
       scale: 1
     };
   } else {
@@ -68,7 +72,7 @@ export const calculateOptimizedState = (currentDepth: number, isLowPerformance: 
     return {
       depth: currentDepth,
       opacity: 0,
-      blur: isLowPerformance ? 0 : 8,
+      blur: isLowPerformance ? 0 : 32,
       scale: 1
     };
   }

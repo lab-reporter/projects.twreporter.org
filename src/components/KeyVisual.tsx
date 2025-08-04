@@ -4,16 +4,16 @@ import Image from "next/image";
 
 export default function KeyVisual() {
     return (
-        <div className="bg-black w-full h-screen px-16 flex flex-row justify-center items-center relative ">
+        <div className="bg-black w-full h-screen flex flex-row justify-center items-center relative ">
             {/* 寶石 */}
             <div className="w-full h-[75%] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-                <Image
-                    src="/assets/KV/KV-Diamond.webp"
-                    alt="KeyVisual"
-                    fill
-                    sizes="100vw"
-                    priority
-                    className="object-contain"
+                <video
+                    src="/assets/KV/motion4K.webm"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="object-contain w-full h-full"
                 />
             </div>
             {/* Logo */}
