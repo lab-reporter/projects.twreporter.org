@@ -69,6 +69,17 @@ const parallaxImages = [
         zIndex: 1
     },
     {
+        src: "/assets/challenges/challenge-5/challenge-5-1.jpg",
+        alt: "Challenge Parallax Image 4",
+        x: 0,
+        y: 0,
+        z: 95,
+        width: "12.5%",
+        top: "60%",
+        left: "10%",
+        zIndex: 1
+    },
+    {
         src: "/assets/challenges/challenge-6/challenge-6-1.jpg",
         alt: "Challenge Parallax Image 6",
         x: 0,
@@ -86,8 +97,8 @@ const parallaxImages = [
         y: 0,
         z: 60,
         width: "12.5%",
-        top: "65%",
-        left: "20%",
+        top: "75%",
+        left: "25%",
         zIndex: 1
     },
     {
@@ -96,7 +107,7 @@ const parallaxImages = [
         x: 0,
         y: 0,
         z: 60,
-        width: "12.5%",
+        width: "17.5%",
         top: "70%",
         left: "45%",
         zIndex: 1
