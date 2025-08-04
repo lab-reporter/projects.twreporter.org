@@ -36,26 +36,32 @@ const mediaItems: MediaItem[] = [
   {
     id: 'video1',
     type: 'video',
-    src: '/assets/innovations/innovation-1.webm',
-    alt: '急診人生遊戲影片'
+    src: '/assets/innovations/innovation-9/innovation-9-11.webm',
+    alt: '《報導者》攝影專欄'
   },
   {
     id: 'image1',
     type: 'image',
-    src: '/assets/innovations/innovation-1-1.png',
-    alt: '急診室實地採訪畫面'
+    src: '/assets/innovations/innovation-9/innovation-9-10.webp',
+    alt: '深度影像工作坊'
   },
   {
     id: 'image2',
     type: 'image',
-    src: '/assets/innovations/innovation-1-2.jpg',
-    alt: '遊戲介面設計'
+    src: '/assets/innovations/innovation-9/攝影集.webp',
+    alt: '新聞攝影集'
   },
   {
-    id: 'video2',
-    type: 'video',
-    src: '/assets/innovations/innovation-1-3.webm',
-    alt: '沉浸式敘事實驗'
+    id: 'image3',
+    type: 'image',
+    src: '/assets/innovations/innovation-9/innovation-9-4.webp',
+    alt: '攝影展'
+  },
+  {
+    id: 'image4',
+    type: 'image',
+    src: '/assets/innovations/innovation-9/innovation-9-1.webp',
+    alt: '攝影集錦'
   }
 ];
 
@@ -81,34 +87,40 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text4',
     text: '透過合理分潤與影像共享機制，與攝影者建立共好關係，讓影像資產延續價值。《報導者》累積大量影像作品、資料與論述，用視覺書寫關於這片土地的記憶。',
-    mediaId: 'video2',
+    mediaId: 'image3',
+    triggerPosition: 0.5
+  },
+  {
+    id: 'text5',
+    text: '《報導者》累積大量影像作品、資料與論述，用視覺書寫關於這片土地的記憶。',
+    mediaId: 'image4',
     triggerPosition: 0.5
   }
 ];
 
 export default function Innovation9Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
-    if (!projectData) return null;
+  if (!projectData) return null;
 
-    return (
-        <Shared.Container>
-            <InnovationBanner
-                videoSrc={projectData.path}
-                title={projectData.title}
-                subtitle={projectData.subtitle}
-            />
+  return (
+    <Shared.Container>
+      <InnovationBanner
+        videoSrc={projectData.path}
+        title={projectData.title}
+        subtitle={projectData.subtitle}
+      />
 
-            {/* 滾動觸發的媒體與文字系統 */}
-            <Shared.ScrollTriggeredMedia
-                mediaItems={mediaItems}
-                textBlocks={textBlocks}
-                scrollContainer={scrollContainer}
-            />
+      {/* 滾動觸發的媒體與文字系統 */}
+      <Shared.ScrollTriggeredMedia
+        mediaItems={mediaItems}
+        textBlocks={textBlocks}
+        scrollContainer={scrollContainer}
+      />
 
-            {/* 導航按鈕 */}
-            <Shared.NavigationControls
-                onNavigate={onNavigate}
-                adjacentProjects={adjacentProjects}
-            />
-        </Shared.Container>
-    );
+      {/* 導航按鈕 */}
+      <Shared.NavigationControls
+        onNavigate={onNavigate}
+        adjacentProjects={adjacentProjects}
+      />
+    </Shared.Container>
+  );
 } 

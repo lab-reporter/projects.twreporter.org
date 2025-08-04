@@ -34,28 +34,34 @@ interface TextBlock {
 // Innovation8 內容配置
 const mediaItems: MediaItem[] = [
   {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-1.webm',
-    alt: '急診人生遊戲影片'
-  },
-  {
     id: 'image1',
     type: 'image',
-    src: '/assets/innovations/innovation-1-1.png',
-    alt: '急診室實地採訪畫面'
+    src: '/assets/innovations/innovation-8/innovation-8-1.webp',
+    alt: '《報導者》五週年列車'
   },
   {
     id: 'image2',
     type: 'image',
-    src: '/assets/innovations/innovation-1-2.jpg',
-    alt: '遊戲介面設計'
+    src: '/assets/innovations/innovation-8/innovation-8-14.webp',
+    alt: '2022年舉辦北中南贊助者大會'
   },
   {
-    id: 'video2',
-    type: 'video',
-    src: '/assets/innovations/innovation-1-3.webm',
-    alt: '沉浸式敘事實驗'
+    id: 'image3',
+    type: 'image',
+    src: '/assets/innovations/innovation-8/innovation-8-7.webp',
+    alt: 'Live & Breathe 辦公室音樂會'
+  },
+  {
+    id: 'image4',
+    type: 'image',
+    src: '/assets/innovations/innovation-8/innovation-8-8.webp',
+    alt: 'Live & Breathe 辦公室音樂會'
+  },
+  {
+    id: 'image5',
+    type: 'image',
+    src: '/assets/innovations/innovation-8/innovation-8-9.webp',
+    alt: 'Live & Breathe 辦公室音樂會'
   }
 ];
 
@@ -63,7 +69,7 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text1',
     text: '深化讀者互動，是非營利媒體不可或缺的使命。',
-    mediaId: 'video1',
+    mediaId: 'image1',
     triggerPosition: 0.5
   },
   {
@@ -81,34 +87,46 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text4',
     text: '2024年，更把辦公室打開，舉辦2天共50倍的音樂會。透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。《報導者》將持續突破媒體與讀者的界線，讓好新聞在公共場域中產生共感。',
-    mediaId: 'video2',
+    mediaId: 'image3',
+    triggerPosition: 0.5
+  },
+  {
+    id: 'text5',
+    text: '透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。',
+    mediaId: 'image4',
+    triggerPosition: 0.5
+  },
+  {
+    id: 'text6',
+    text: '《報導者》將持續突破媒體與讀者的界線，讓好新聞在公共場域中產生共感。',
+    mediaId: 'image5',
     triggerPosition: 0.5
   }
 ];
 
 export default function Innovation8Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
-    if (!projectData) return null;
+  if (!projectData) return null;
 
-    return (
-        <Shared.Container>
-            <InnovationBanner
-                videoSrc={projectData.path}
-                title={projectData.title}
-                subtitle={projectData.subtitle}
-            />
+  return (
+    <Shared.Container>
+      <InnovationBanner
+        videoSrc={projectData.path}
+        title={projectData.title}
+        subtitle={projectData.subtitle}
+      />
 
-            {/* 滾動觸發的媒體與文字系統 */}
-            <Shared.ScrollTriggeredMedia
-                mediaItems={mediaItems}
-                textBlocks={textBlocks}
-                scrollContainer={scrollContainer}
-            />
+      {/* 滾動觸發的媒體與文字系統 */}
+      <Shared.ScrollTriggeredMedia
+        mediaItems={mediaItems}
+        textBlocks={textBlocks}
+        scrollContainer={scrollContainer}
+      />
 
-            {/* 導航按鈕 */}
-            <Shared.NavigationControls
-                onNavigate={onNavigate}
-                adjacentProjects={adjacentProjects}
-            />
-        </Shared.Container>
-    );
+      {/* 導航按鈕 */}
+      <Shared.NavigationControls
+        onNavigate={onNavigate}
+        adjacentProjects={adjacentProjects}
+      />
+    </Shared.Container>
+  );
 } 
