@@ -29,10 +29,17 @@ const mediaItems: MediaItem[] = [
     alt: 'The Real Story 錄音畫面'
   },
   {
-    id: 'image2',
-    type: 'image',
-    src: '/assets/innovations/innovation-4/innovation-4-7.webp',
-    alt: '無論是調查現場、國際新聞，聲音成為陪伴聽眾的媒介，也串起跨世代、跨地域的理解與共鳴。'
+    id: 'spotify1',
+    type: 'iframe',
+    src: 'https://open.spotify.com/embed/show/2enAYfKRQSsvxCl4HrB9iG?utm_source=generator&theme=0',
+    alt: 'Podcast 節目',
+    containerClassName: 'p-16 flex items-center justify-center',
+    mediaClassName: 'rounded-xl',
+    iframeProps: {
+      title: 'Spotify Podcast',
+      allow: 'encrypted-media',
+      height: '352'
+    }
   },
   {
     id: 'image3',
@@ -58,7 +65,7 @@ const textBlocks: TextBlock[] = [
   {
     id: 'text2',
     text: '無論是調查現場、國際新聞，聲音成為陪伴聽眾的媒介，也串起跨世代、跨地域的理解與共鳴。',
-    mediaId: 'image2',
+    mediaId: 'spotify1',
     triggerPosition: 0.5
   },
   {

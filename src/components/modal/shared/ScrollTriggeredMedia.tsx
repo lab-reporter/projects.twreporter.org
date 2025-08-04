@@ -7,11 +7,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // 媒體項目介面
 interface MediaItem {
   id: string;
-  type: 'image' | 'video';
+  type: 'image' | 'video' | 'iframe';
   src: string;
   alt?: string;
   containerClassName?: string; // 外層 div 的自訂樣式
-  mediaClassName?: string; // video/img 元素的自訂樣式
+  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
+  // iframe 專用屬性
+  iframeProps?: {
+    title?: string;
+    allow?: string;
+    allowFullscreen?: boolean;
+    sandbox?: string;
+    width?: string | number;
+    height?: string | number;
+  };
 }
 
 // 文字區塊介面
@@ -158,6 +167,22 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
           />
         </div>
       );
+    } else if (media.type === 'iframe') {
+      return (
+        <div key={media.id} className={`${baseStyles} ${visibilityStyles} ${media.containerClassName || ''}`}>
+          <iframe
+            src={media.src}
+            title={media.iframeProps?.title || media.alt || 'Embedded content'}
+            className={`w-full h-full ${media.mediaClassName || ''}`}
+            style={{ display: isActive ? 'block' : 'none' }}
+            allow={media.iframeProps?.allow}
+            allowFullScreen={media.iframeProps?.allowFullscreen}
+            sandbox={media.iframeProps?.sandbox}
+            width={media.iframeProps?.width}
+            height={media.iframeProps?.height}
+          />
+        </div>
+      );
     } else {
       return (
         <div key={media.id} className={`${baseStyles} ${visibilityStyles} ${media.containerClassName || ''}`}>
@@ -180,16 +205,16 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
       </div>
 
       {/* 文字觸發區域：滾動內容 */}
-      <div className="w-full relative z-10">
+      <div className="max-w-[20rem] md:max-w-[30rem] mx-auto relative z-10">
         {textBlocks.map((block, index) => (
           <div
             key={block.id}
             ref={el => {
               if (el) textTriggersRef.current[index] = el;
             }}
-            className="w-full h-screen flex justify-center items-center"
+            className="h-screen flex justify-center items-center"
           >
-            <div className="px-4 py-2 max-w-[20rem] bg-white bg-opacity-70 backdrop-blur-md border border-gray-200 rounded-lg">
+            <div className="px-4 py-2 bg-white bg-opacity-70 backdrop-blur-md border border-gray-200 rounded-lg">
               {block.text}
             </div>
           </div>

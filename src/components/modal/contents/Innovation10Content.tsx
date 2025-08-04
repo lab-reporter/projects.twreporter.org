@@ -7,9 +7,20 @@ import InnovationBanner from '../shared/InnovationBanner';
 // 媒體項目介面
 interface MediaItem {
   id: string;
-  type: 'image' | 'video';
+  type: 'image' | 'video' | 'iframe';
   src: string;
   alt?: string;
+  containerClassName?: string; // 外層 div 的自訂樣式
+  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
+  // iframe 專用屬性
+  iframeProps?: {
+    title?: string;
+    allow?: string;
+    allowFullscreen?: boolean;
+    sandbox?: string;
+    width?: string | number;
+    height?: string | number;
+  };
 }
 
 // 文字區塊介面
