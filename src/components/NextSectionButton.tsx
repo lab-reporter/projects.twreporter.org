@@ -59,7 +59,7 @@ export default function NextSectionButton() {
 
   return (
     // 按鈕容器：固定在右下角
-    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[999]">
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[99999]">
       <button
         onClick={scrollToNextSection}
         className="group p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"

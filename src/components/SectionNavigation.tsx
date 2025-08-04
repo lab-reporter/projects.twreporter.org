@@ -15,7 +15,7 @@ const sections = [
 // 章節導航組件
 export default function SectionNavigation() {
   // 從全域狀態取得當前章節和導航顯示狀態
-  const { currentSection, isNavigationVisible } = useStore();
+  const { currentSection, isSectionNavigationVisible } = useStore();
   // 確保有預設值：如果 currentSection 為空，預設為 'reports'
   const activeSection = currentSection || 'reports';
 
@@ -100,8 +100,8 @@ export default function SectionNavigation() {
     }, 50);
   };
 
-  // 如果導航不可見（store 狀態或視窗太小），不渲染任何內容
-  if (!isNavigationVisible || !isWindowSizeValid) {
+  // 如果導航不可見或視窗太小，不渲染任何內容
+  if (!isSectionNavigationVisible || !isWindowSizeValid) {
     return null;
   }
 
@@ -111,8 +111,8 @@ export default function SectionNavigation() {
     <nav
       className="fixed right-4 top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out hidden md:flex"
       style={{
-        opacity: isNavigationVisible ? 1 : 0,
-        transform: `translateY(-50%) translateX(${isNavigationVisible ? '0' : '20px'})`
+        opacity: isSectionNavigationVisible ? 1 : 0,
+        transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`
       }}
     >
 

@@ -96,12 +96,12 @@ export default function ReportsHint({
                 </div>
 
                 {/* NextSectionButton底部提示 */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col  items-center justify-center gap-2">
+                {/* <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col  items-center justify-center gap-2">
                     <h6 className="text-sm text-right">
                         跳至下一個Section
                     </h6>
                     <div className="w-16 h-16 border border-2 border-gray-500"></div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ export interface UISlice {
   // 導航狀態
   isNavigationOpen: boolean
   isNavigationVisible: boolean
+  isSectionNavigationVisible: boolean
   isSidePanelOpen: boolean
   sidePanelContent: string | null
   isNextSectionButtonVisible: boolean
@@ -31,6 +32,7 @@ export interface UISlice {
   // 動作
   setNavigationOpen: (isOpen: boolean) => void
   setNavigationVisible: (isVisible: boolean) => void
+  setSectionNavigationVisible: (isVisible: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
   setNextSectionButtonVisible: (isVisible: boolean) => void
@@ -50,6 +52,7 @@ export const uiSlice: StateCreator<
 > = (set) => ({
   isNavigationOpen: false,
   isNavigationVisible: false,
+  isSectionNavigationVisible: false,
   isSidePanelOpen: false,
   sidePanelContent: null,
   isNextSectionButtonVisible: false,
@@ -77,6 +80,11 @@ export const uiSlice: StateCreator<
   setNavigationVisible: (isVisible) =>
     set((state) => {
       state.isNavigationVisible = isVisible
+    }),
+    
+  setSectionNavigationVisible: (isVisible) =>
+    set((state) => {
+      state.isSectionNavigationVisible = isVisible
     }),
     
   setNextSectionButtonVisible: (isVisible) =>

@@ -13,7 +13,6 @@ import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
 import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
 import { useStore } from '@/stores';
 import ReportsHint from './ReportsHint';
-import NextSectionButton from '@/components/NextSectionButton';
 
 // ============================
 // 型別定義區塊
@@ -390,7 +389,7 @@ export default function ReportsSwiper() {
                 </div>
             </div>
 
-            <NextSectionButton />
+            {/* <NextSectionButton /> */}
 
             {/* 教學提示遮罩層 */}
             <ReportsHint

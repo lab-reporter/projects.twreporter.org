@@ -90,7 +90,7 @@ export default function InnovationVideoItem({
     // 項目容器：絕對定位於場景中心
     <div
       id={`innovation-item-${item.id}`}
-      className="absolute top-1/2 left-1/2 will-change-transform"
+      className="absolute top-1/2 left-1/2 will-change-transform pointer-events-none"
       data-custom-cursor="VIEW"
       style={{
         cursor: 'zoom-in',

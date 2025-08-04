@@ -13,6 +13,7 @@ import InnovationsSection from '@/components/sections/innovations/InnovationsSec
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
+import NextSectionButton from '@/components/NextSectionButton';
 
 
 
@@ -173,6 +174,7 @@ export default function Home() {
       <Navigation />
       <Modal />
       <SectionNavigation />
+      <NextSectionButton />
     </div>
   );
 }

@@ -9,7 +9,6 @@ import { useInnovationsAnimation } from '@/hooks/useInnovationsAnimation';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
-import NextSectionButton from '@/components/NextSectionButton';
 import InnovationVideoItem from './InnovationVideoItem';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
@@ -26,7 +25,7 @@ export default function InnovationsSection() {
   // 全域狀態區塊
   // ============================
   // 從 store 取得開啟 Modal 的函數
-  const { openModal } = useStore();
+  const { openModal, setNextSectionButtonVisible } = useStore();
 
   // ============================
   // DOM 參考區塊
@@ -147,6 +146,42 @@ export default function InnovationsSection() {
     };
   }, [headingRef]);
 
+  // NextSectionButton 顯示控制
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 創建 ScrollTrigger 來控制 NextSectionButton
+    // 使用整個 500vh 的容器作為 trigger
+    const buttonScrollTrigger = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top bottom', // 當容器頂部進入視窗底部
+      end: 'bottom 90%', // 當容器底部離開視窗頂部
+      markers: true,
+      onEnter: () => {
+        // 進入 innovations 區域時顯示按鈕
+        setNextSectionButtonVisible(true);
+      },
+      onLeave: () => {
+        // 離開 innovations 區域時隱藏按鈕
+        setNextSectionButtonVisible(false);
+      },
+      onEnterBack: () => {
+        // 從下方回滾時重新顯示
+        setNextSectionButtonVisible(true);
+      },
+      onLeaveBack: () => {
+        // 向上滾動離開時隱藏
+        setNextSectionButtonVisible(false);
+      }
+    });
+
+    return () => {
+      buttonScrollTrigger.kill();
+    };
+  }, [setNextSectionButtonVisible]);
+
   // ============================
   // 事件處理函數
   // ============================
@@ -250,8 +285,6 @@ export default function InnovationsSection() {
               />
             </div>
           </div>
-          {/* 下一章節按鈕 */}
-          <NextSectionButton />
         </div>
       </div>
     </div>
