@@ -38,7 +38,7 @@ const mediaItems: MediaItem[] = [
     type: 'video',
     src: '/assets/innovations/innovation-2/innovation-2-1.mp4',
     alt: '海上人口販運風暴',
-    mediaClassName: 'object-cover'
+    mediaClassName: 'object-cover '
   },
   {
     id: 'video2',
