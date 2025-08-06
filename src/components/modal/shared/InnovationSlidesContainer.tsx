@@ -187,11 +187,8 @@ export default function InnovationSlidesContainer({
   return (
     <div 
       ref={containerRef}
-      className="relative w-[92vw] h-[92vh] overflow-hidden"
+      className="absolute inset-0 w-full h-full overflow-hidden"
       style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
         touchAction: 'none' // 防止觸控滾動
       }}
     >
@@ -218,7 +215,7 @@ export default function InnovationSlidesContainer({
       
       {/* 過度滾動進度指示器（最後一頁） */}
       {currentSlide === slideCount - 1 && overScrollDistance > 0 && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-30">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
           <div className="relative w-16 h-16">
             {(() => {
               const radius = 24;
@@ -297,11 +294,11 @@ interface DotNavigationProps {
 function DotNavigation({ total, current, onDotClick }: DotNavigationProps) {
   return (
     <div className="
-      fixed left-4 top-1/2 -translate-y-1/2 z-20
+      absolute left-4 top-1/2 -translate-y-1/2 z-20
       md:left-8
       flex flex-col gap-3
       md:flex-col
-      sm:fixed sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
+      sm:absolute sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
       sm:flex-row
     ">
       {Array.from({ length: total }, (_, index) => (

@@ -181,7 +181,7 @@ export default function FeedbacksSection() {
         {/* 背景證言卡片 */}
         <div
           ref={cardsRef}
-          className="sticky top-0 w-full h-screen flex flex-col items-center justify-center"
+          className="sticky top-0 w-full h-screen flex flex-col items-center justify-center overflow-hidden"
           style={{
             transformStyle: 'preserve-3d',
             perspective: 'var(--perspective, 10vw)',
