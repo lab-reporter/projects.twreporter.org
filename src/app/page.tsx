@@ -3,6 +3,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
+import { useGlobalPreloadStrategy } from '@/hooks/useGlobalPreloadStrategy';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
@@ -23,6 +24,16 @@ export default function Home() {
 
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
+  
+  // 啟用全域預載策略
+  const { preloadStats } = useGlobalPreloadStrategy();
+  
+  // 開發環境顯示預載統計
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[預載統計]', preloadStats);
+    }
+  }, [preloadStats]);
 
   // 禁用瀏覽器滾動恢復並強制回到頂部
   useEffect(() => {

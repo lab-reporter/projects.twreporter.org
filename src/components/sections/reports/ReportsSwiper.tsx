@@ -11,6 +11,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useDragSwiper } from '@/hooks/useDragSwiper';
 import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
 import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
+import { useReportsPreloader } from '@/hooks/useReportsPreloader';
 import { useStore } from '@/stores';
 import ReportsHint from './ReportsHint';
 
@@ -181,6 +182,17 @@ export default function ReportsSwiper() {
     // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
     const displayIndex = isDragging ? previewSlide : currentSlide;
     const currentItem = reportsData[displayIndex] || reportsData[0];
+
+    // ============================
+    // 預載機制 Hook
+    // ============================
+    // 使用預載 Hook 來管理媒體資源預載
+    const { preloadModalContent, checkLoadStatus } = useReportsPreloader({
+        currentIndex: currentSlide,
+        items: reportsData,
+        isVisible,
+        enabled: isClient
+    });
 
     // ============================
     // 動畫 Hooks 區塊
