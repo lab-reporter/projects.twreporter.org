@@ -15,7 +15,7 @@ const ChallengesSection = () => {
     return (
         <section id="section-challenges">
             <div className="relative h-[140vh]">
-                <div className="w-full h-screen sticky top-0">
+                <div className="w-full h-screen sticky top-0 overflow-hidden">
                     <SectionHeadings
                         titleEn="Breakthrough"
                         titleZh="非營利媒體・突圍"

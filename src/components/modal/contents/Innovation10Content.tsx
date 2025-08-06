@@ -2,101 +2,100 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import InnovationBanner from '../shared/InnovationBanner';
-
-// 媒體項目介面
-interface MediaItem {
-  id: string;
-  type: 'image' | 'video' | 'iframe';
-  src: string;
-  alt?: string;
-  containerClassName?: string; // 外層 div 的自訂樣式
-  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
-  // iframe 專用屬性
-  iframeProps?: {
-    title?: string;
-    allow?: string;
-    allowFullscreen?: boolean;
-    sandbox?: string;
-    width?: string | number;
-    height?: string | number;
-  };
-}
-
-// 文字區塊介面
-interface TextBlock {
-  id: string;
-  text: string;
-  mediaId: string; // 對應的媒體 ID
-  triggerPosition?: number;
-}
-
-// Innovation10 內容配置
-const mediaItems: MediaItem[] = [
-  {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-10/innovation-10-1.webm',
-    alt: '《報導者》AI 國會觀測站'
-  },
-  {
-    id: 'video2',
-    type: 'video',
-    src: '/assets/innovations/innovation-10/innovation-10-2.webm',
-    alt: '《報導者》AI 國會觀測站'
-  }
-];
-
-const textBlocks: TextBlock[] = [
-  {
-    id: 'text1',
-    text: '《報導者》結合AI與國會採訪經驗，打造聚焦民代問政的分析平台。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text2',
-    text: '2024立委選舉前首度推出立委發言分析，在社群造成巨大迴響，展現公眾對政治理解的高度渴望。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text3',
-    text: '2025年進一步推出「報導者觀測站」，提供即時搜尋、摘要與跨議題查詢的民代監督工具。',
-    mediaId: 'video2',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text4',
-    text: '透過數位科技縮小民主政治的資訊落差，希望藉此強化公民監督的力量、深化媒體的公共性。',
-    mediaId: 'video2',
-    triggerPosition: 0.5
-  }
-];
 
 export default function Innovation10Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
   if (!projectData) return null;
 
   return (
-    <Shared.Container>
-      <InnovationBanner
-        videoSrc={projectData.path}
-        title={projectData.title}
-        subtitle={projectData.subtitle}
-      />
-
-      {/* 滾動觸發的媒體與文字系統 */}
-      <Shared.ScrollTriggeredMedia
-        mediaItems={mediaItems}
-        textBlocks={textBlocks}
+    <div data-slide-container="true">
+      <Shared.InnovationSlidesContainer
         scrollContainer={scrollContainer}
-      />
+        enableModalClose={true}
+      >
+        {/* 第一頁：Banner */}
+        <Shared.InnovationSlide>
+          <Shared.InnovationBanner
+            videoSrc={projectData.path}
+            title={projectData.title}
+            subtitle={projectData.subtitle}
+          />
+        </Shared.InnovationSlide>
 
-      {/* 導航按鈕 */}
-      <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      />
-    </Shared.Container>
+        {/* 第二頁：AI與國會採訪結合 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-10/innovation-10-1.webm"
+              alt="《報導者》AI 國會觀測站"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard
+                text="《報導者》結合AI與國會採訪經驗，打造聚焦民代問政的分析平台。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第三頁：立委發言分析首度推出 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-10/innovation-10-1.webm"
+              alt="《報導者》AI 國會觀測站"
+            />
+            <div className="absolute top-12 right-12 max-w-lg">
+              <Shared.SlideTextCard
+                text="2024立委選舉前首度推出立委發言分析，在社群造成巨大迴響，展現公眾對政治理解的高度渴望。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第四頁：報導者觀測站 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-10/innovation-10-2.webm"
+              alt="《報導者》AI 國會觀測站"
+            />
+            <div className="absolute top-1/2 left-12 -translate-y-1/2 max-w-md">
+              <Shared.SlideTextCard
+                text="2025年進一步推出「報導者觀測站」，提供即時搜尋、摘要與跨議題查詢的民代監督工具。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第五頁：強化公民監督 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-10/innovation-10-2.webm"
+              alt="《報導者》AI 國會觀測站"
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+              <Shared.SlideTextCard
+                text="透過數位科技縮小民主政治的資訊落差，希望藉此強化公民監督的力量、深化媒體的公共性。"
+                className="shadow-2xl"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 最後一頁：導航控制 */}
+        <Shared.InnovationSlide>
+          <div className="flex items-center justify-center h-full bg-white">
+            <Shared.NavigationControls
+              onNavigate={onNavigate}
+              adjacentProjects={adjacentProjects}
+            />
+          </div>
+        </Shared.InnovationSlide>
+      </Shared.InnovationSlidesContainer>
+    </div>
   );
 } 

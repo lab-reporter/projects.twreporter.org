@@ -2,110 +2,130 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import InnovationBanner from '../shared/InnovationBanner';
-
-// 媒體項目介面
-interface MediaItem {
-  id: string;
-  type: 'image' | 'video' | 'iframe';
-  src: string;
-  alt?: string;
-  containerClassName?: string; // 外層 div 的自訂樣式
-  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
-  // iframe 專用屬性
-  iframeProps?: {
-    title?: string;
-    allow?: string;
-    allowFullscreen?: boolean;
-    sandbox?: string;
-    width?: string | number;
-    height?: string | number;
-  };
-}
-
-// 文字區塊介面
-interface TextBlock {
-  id: string;
-  text: string;
-  mediaId: string; // 對應的媒體 ID
-  triggerPosition?: number;
-}
-
-// Innovation5 內容配置
-const mediaItems: MediaItem[] = [
-  {
-    id: 'youtube1',
-    type: 'iframe',
-    src: 'https://www.youtube.com/embed/DnOl_qPGPTM?si=ue9TYSyHWjkP5UjT&t=153',
-    alt: '報導者影音報導'
-  },
-  {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-5/innovation-5-10.webm',
-    alt: '報導者影音報導',
-    containerClassName: 'p-16 bg-black',
-    mediaClassName: 'object-contain'
-  }
-
-];
-
-const textBlocks: TextBlock[] = [
-  {
-    id: 'text1',
-    text: '面對難以迴避的短影音趨勢，《報導者》在2024年推出影音報導，滿足多樣的讀者需求。',
-    mediaId: 'youtube1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text2',
-    text: '首支影片以「兒少性剝削」為主題，上線即吸引將近30萬人次的觀看。',
-    mediaId: 'youtube1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text3',
-    text: '陸續推出的幾支影片主題，包含美國大選、海底電纜、國民法官現場速寫等，都成功吸引大眾關注。',
-    mediaId: 'youtube1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text4',
-    text: '根據《2024下半年媒體影響力報告》統計，《報導者》影音在2024年的平均觀看次數在台灣絲路媒體中排名第一。影片不只傳遞新聞，更成為橋梁，召喚觀眾培養理解複雜議題的能力，重新靠近深度報導。',
-    mediaId: 'youtube1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text5',
-    text: '影片不只傳遞新聞，更成為橋梁，召喚觀眾培養理解複雜議題的能力，重新靠近深度報導。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  }
-];
 
 export default function Innovation5Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
   if (!projectData) return null;
 
   return (
-    <Shared.Container>
-      <InnovationBanner
-        videoSrc={projectData.path}
-        title={projectData.title}
-        subtitle={projectData.subtitle}
-      />
-
-      {/* 滾動觸發的媒體與文字系統 */}
-      <Shared.ScrollTriggeredMedia
-        mediaItems={mediaItems}
-        textBlocks={textBlocks}
+    <div data-slide-container="true">
+      <Shared.InnovationSlidesContainer
         scrollContainer={scrollContainer}
-      />
+        enableModalClose={true}
+      >
+        {/* 第一頁：Banner */}
+        <Shared.InnovationSlide>
+          <Shared.InnovationBanner
+            videoSrc={projectData.path}
+            title={projectData.title}
+            subtitle={projectData.subtitle}
+          />
+        </Shared.InnovationSlide>
 
-      {/* 導航按鈕 */}
-      <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      />
-    </Shared.Container>
+        {/* 第二頁：影音報導趨勢 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <iframe
+              src="https://www.youtube.com/embed/DnOl_qPGPTM?si=ue9TYSyHWjkP5UjT&t=153"
+              width="100%"
+              height="100%"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="報導者影音報導"
+              className="rounded-lg"
+            />
+            <div className="absolute bottom-12 right-12 max-w-lg">
+              <Shared.SlideTextCard
+                text="面對難以迴避的短影音趨勢，《報導者》在2024年推出影音報導，滿足多樣的讀者需求。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第三頁：首支影片成果 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <iframe
+              src="https://www.youtube.com/embed/DnOl_qPGPTM?si=ue9TYSyHWjkP5UjT&t=153"
+              width="100%"
+              height="100%"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="報導者影音報導"
+              className="rounded-lg"
+            />
+            <div className="absolute top-12 left-12 max-w-md">
+              <Shared.SlideTextCard
+                text="首支影片以「兒少性剝削」為主題，上線即吸引將近30萬人次的觀看。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第四頁：多元主題呈現 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <iframe
+              src="https://www.youtube.com/embed/DnOl_qPGPTM?si=ue9TYSyHWjkP5UjT&t=153"
+              width="100%"
+              height="100%"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="報導者影音報導"
+              className="rounded-lg"
+            />
+            <div className="absolute top-1/2 right-12 -translate-y-1/2 max-w-md">
+              <Shared.SlideTextCard
+                text="陸續推出的幾支影片主題，包含美國大選、海底電纜、國民法官現場速寫等，都成功吸引大眾關注。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第五頁：排名成果 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-16 bg-black">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-5/innovation-5-10.webm"
+              alt="報導者影音報導"
+              className="object-contain"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard
+                text="根據《2024下半年媒體影響力報告》統計，《報導者》影音在2024年的平均觀看次數在台灣絲路媒體中排名第一。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第六頁：深度報導橋梁 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-16 bg-black">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-5/innovation-5-10.webm"
+              alt="報導者影音報導"
+              className="object-contain"
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+              <Shared.SlideTextCard
+                text="影片不只傳遞新聞，更成為橋梁，召喚觀眾培養理解複雜議題的能力，重新靠近深度報導。"
+                className="shadow-2xl"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 最後一頁：導航控制 */}
+        <Shared.InnovationSlide>
+          <div className="flex items-center justify-center h-full bg-white">
+            <Shared.NavigationControls
+              onNavigate={onNavigate}
+              adjacentProjects={adjacentProjects}
+            />
+          </div>
+        </Shared.InnovationSlide>
+      </Shared.InnovationSlidesContainer>
+    </div>
   );
 } 

@@ -2,131 +2,121 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import InnovationBanner from '../shared/InnovationBanner';
-
-// 媒體項目介面
-interface MediaItem {
-  id: string;
-  type: 'image' | 'video' | 'iframe';
-  src: string;
-  alt?: string;
-  containerClassName?: string; // 外層 div 的自訂樣式
-  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
-  // iframe 專用屬性
-  iframeProps?: {
-    title?: string;
-    allow?: string;
-    allowFullscreen?: boolean;
-    sandbox?: string;
-    width?: string | number;
-    height?: string | number;
-  };
-}
-
-// 文字區塊介面
-interface TextBlock {
-  id: string;
-  text: string;
-  mediaId: string; // 對應的媒體 ID
-  triggerPosition?: number;
-}
-
-// Innovation7 內容配置
-const mediaItems: MediaItem[] = [
-  {
-    id: 'image1',
-    type: 'image',
-    src: '/assets/innovations/innovation-7/黑工.webp',
-    alt: '《困在隧道的青春》漫畫圖檔',
-    mediaClassName: 'object-contain'
-  },
-  {
-    id: 'image2',
-    type: 'image',
-    src: '/assets/innovations/innovation-7/森林.webp',
-    alt: '《森林傷痕》漫畫圖檔',
-    mediaClassName: 'object-contain'
-  },
-  {
-    id: 'image3',
-    type: 'image',
-    src: '/assets/innovations/innovation-7/小宅.webp',
-    alt: '《鳥籠時代》漫畫圖檔',
-    mediaClassName: 'object-contain'
-  },
-  {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-7.webm',
-    alt: '《報導者事件簿》立體書封',
-    mediaClassName: 'object-contain'
-  },
-  {
-    id: 'image4',
-    type: 'image',
-    src: '/assets/innovations/innovation-7/無體溫.webp',
-    alt: '《陪伴｜娃娃》立體書封',
-    mediaClassName: 'object-contain'
-  }
-];
-
-const textBlocks: TextBlock[] = [
-  {
-    id: 'text1',
-    text: '《報導者》持續探索深度敘事的多元形式，2022年首度以漫畫開啟感性與視覺的報導新可能。',
-    mediaId: 'image1',
-    triggerPosition: 0.5
-
-  },
-  {
-    id: 'text2',
-    text: '透過漫畫的重構，帶領讀者走過主角們親歷的現場。',
-    mediaId: 'image2',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text3',
-    text: '以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在視覺重構中延續生命力。',
-    mediaId: 'image3',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text4',
-    text: '2022年起攜手蓋亞文化，《報導者事件簿》結合調查報導與圖像敘事，讓讀者對議題產生共感。以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text5',
-    text: '以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。',
-    mediaId: 'image4',
-    triggerPosition: 0.5
-  }
-];
 
 export default function Innovation7Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
   if (!projectData) return null;
 
   return (
-    <Shared.Container>
-      <InnovationBanner
-        videoSrc={projectData.path}
-        title={projectData.title}
-        subtitle={projectData.subtitle}
-      />
-
-      {/* 滾動觸發的媒體與文字系統 */}
-      <Shared.ScrollTriggeredMedia
-        mediaItems={mediaItems}
-        textBlocks={textBlocks}
+    <div data-slide-container="true">
+      <Shared.InnovationSlidesContainer
         scrollContainer={scrollContainer}
-      />
+        enableModalClose={true}
+      >
+        {/* 第一頁：Banner */}
+        <Shared.InnovationSlide>
+          <Shared.InnovationBanner
+            videoSrc={projectData.path}
+            title={projectData.title}
+            subtitle={projectData.subtitle}
+          />
+        </Shared.InnovationSlide>
 
-      {/* 導航按鈕 */}
-      <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      />
-    </Shared.Container>
+        {/* 第二頁：漫畫新可能 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="image"
+              src="/assets/innovations/innovation-7/黑工.webp"
+              alt="《困在隧道的青春》漫畫圖檔"
+              className="object-contain"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard
+                text="《報導者》持續探索深度敘事的多元形式，2022年首度以漫畫開啟感性與視覺的報導新可能。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第三頁：漫畫重構現場 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="image"
+              src="/assets/innovations/innovation-7/森林.webp"
+              alt="《森林傷痕》漫畫圖檔"
+              className="object-contain"
+            />
+            <div className="absolute top-12 right-12 max-w-lg">
+              <Shared.SlideTextCard
+                text="透過漫畫的重構，帶領讀者走過主角們親歷的現場。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第四頁：視覺延續生命力 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="image"
+              src="/assets/innovations/innovation-7/小宅.webp"
+              alt="《鳥籠時代》漫畫圖檔"
+              className="object-contain"
+            />
+            <div className="absolute top-1/2 left-12 -translate-y-1/2 max-w-md">
+              <Shared.SlideTextCard
+                text="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在視覺重構中延續生命力。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第五頁：報導者事件簿 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-7.webm"
+              alt="《報導者事件簿》立體書封"
+              className="object-contain"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard
+                text="2022年起攜手蓋亞文化，《報導者事件簿》結合調查報導與圖像敘事，讓讀者對議題產生共感。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第六頁：時代紀錄願景 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full p-8">
+            <Shared.SlideMedia
+              type="image"
+              src="/assets/innovations/innovation-7/無體溫.webp"
+              alt="《陪伴｜娃娃》立體書封"
+              className="object-contain"
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+              <Shared.SlideTextCard
+                text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。"
+                className="shadow-2xl"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 最後一頁：導航控制 */}
+        <Shared.InnovationSlide>
+          <div className="flex items-center justify-center h-full bg-white">
+            <Shared.NavigationControls
+              onNavigate={onNavigate}
+              adjacentProjects={adjacentProjects}
+            />
+          </div>
+        </Shared.InnovationSlide>
+      </Shared.InnovationSlidesContainer>
+    </div>
   );
 } 

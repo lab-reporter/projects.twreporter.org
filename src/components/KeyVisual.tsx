@@ -16,6 +16,17 @@ export default function KeyVisual() {
                     className="object-contain w-full h-full"
                 />
             </div>
+            {/* Waves */}
+            <div className="w-full h-auto absolute z-10 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
+                <Image
+                    src="/assets/KV/KV-Waves.webp"
+                    alt="KV聲波"
+                    fill
+                    sizes="100vw"
+                    priority
+                    className="w-full h-full object-contain"
+                />
+            </div>
             {/* Logo */}
             <div className="w-[25%] h-24 absolute bottom-16 left-16 z-10">
                 <Image

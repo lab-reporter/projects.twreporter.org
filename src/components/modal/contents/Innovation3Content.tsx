@@ -2,128 +2,126 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import InnovationBanner from '../shared/InnovationBanner';
-
-// 媒體項目介面
-interface MediaItem {
-  id: string;
-  type: 'image' | 'video' | 'iframe';
-  src: string;
-  alt?: string;
-  containerClassName?: string; // 外層 div 的自訂樣式
-  mediaClassName?: string; // video/img/iframe 元素的自訂樣式
-  // iframe 專用屬性
-  iframeProps?: {
-    title?: string;
-    allow?: string;
-    allowFullscreen?: boolean;
-    sandbox?: string;
-    width?: string | number;
-    height?: string | number;
-  };
-}
-
-// 文字區塊介面
-interface TextBlock {
-  id: string;
-  text: string;
-  mediaId: string; // 對應的媒體 ID
-  triggerPosition?: number;
-}
-
-// Innovation3 內容配置
-const mediaItems: MediaItem[] = [
-  {
-    id: 'video1',
-    type: 'video',
-    src: '/assets/innovations/innovation-3/innovation-3-5.webm',
-    alt: '報導者開放實驗室螢幕錄影畫面',
-    mediaClassName: 'object-cover'
-  },
-  {
-    id: 'image1',
-    type: 'image',
-    src: '/assets/innovations/innovation-3/innovation-3-1.jpeg',
-    alt: '新聞敘事元件庫討論'
-  },
-  {
-    id: 'video2',
-    type: 'video',
-    src: '/assets/innovations/innovation-3/innovation-3-3.webm',
-    alt: '左右互搏',
-    mediaClassName: 'object-cover'
-  },
-  {
-    id: 'video3',
-    type: 'video',
-    src: '/assets/innovations/innovation-3/innovation-3-6.webm',
-    alt: '沉浸式敘事實驗',
-    mediaClassName: 'object-cover'
-  }
-];
-
-const textBlocks: TextBlock[] = [
-  {
-    id: 'text1',
-    text: '「開放」是《報導者》的重要核心精神。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text2',
-    text: '從創立之初就開創的「報導者開放實驗室」，記載團隊關於深度報導與數位敘事的方法論。',
-    mediaId: 'video1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text3',
-    text: '為提升數位敘事報導的製作效率，工程師自2020年起打造可重複使用的新聞敘事元件，取代過往一次性開發模式。',
-    mediaId: 'image1',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text4',
-    text: '元件設計強調通用性，不需程式背景、任何人都能透過內容編輯介面直接應用。',
-    mediaId: 'video2',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text5',
-    text: '延續開放精神，數位敘事元件庫同步開放外界使用。',
-    mediaId: 'video3',
-    triggerPosition: 0.5
-  },
-  {
-    id: 'text6',
-    text: '目前元件庫已收錄7款工具，濃縮《報導者》10年來的數位敘事經驗，為新聞報導開創更多視覺與互動的可能。',
-    mediaId: 'video3',
-    triggerPosition: 0.5
-  }
-];
 
 export default function Innovation3Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
   if (!projectData) return null;
 
   return (
-    <Shared.Container>
-      <InnovationBanner
-        videoSrc={projectData.path}
-        title={projectData.title}
-        subtitle={projectData.subtitle}
-      />
-
-      {/* 滾動觸發的媒體與文字系統 */}
-      <Shared.ScrollTriggeredMedia
-        mediaItems={mediaItems}
-        textBlocks={textBlocks}
+    <div data-slide-container="true">
+      <Shared.InnovationSlidesContainer
         scrollContainer={scrollContainer}
-      />
+        enableModalClose={true}
+      >
+        {/* 第一頁：Banner */}
+        <Shared.InnovationSlide>
+          <Shared.InnovationBanner
+            videoSrc={projectData.path}
+            title={projectData.title}
+            subtitle={projectData.subtitle}
+          />
+        </Shared.InnovationSlide>
 
-      {/* 導航按鈕 */}
-      <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      />
-    </Shared.Container>
+        {/* 第二頁：開放核心精神 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-3/innovation-3-5.webm"
+              alt="報導者開放實驗室螢幕錄影畫面"
+              className="object-cover"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard 
+                text="「開放」是《報導者》的重要核心精神。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第三頁：開放實驗室 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-3/innovation-3-5.webm"
+              alt="報導者開放實驗室螢幕錄影畫面"
+              className="object-cover"
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-3xl">
+              <Shared.SlideTextCard 
+                text="從創立之初就開創的「報導者開放實驗室」，記載團隊關於深度報導與數位敘事的方法論。"
+                className="shadow-2xl"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第四頁：新聞敘事元件 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full">
+            <Shared.SlideMedia
+              type="image"
+              src="/assets/innovations/innovation-3/innovation-3-1.jpeg"
+              alt="新聞敘事元件庫討論"
+            />
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-3xl">
+              <Shared.SlideTextCard 
+                text="為提升數位敘事報導的製作效率，工程師自2020年起打造可重複使用的新聞敘事元件，取代過往一次性開發模式。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第五頁：元件通用性 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-3/innovation-3-3.webm"
+              alt="左右互搏"
+              className="object-cover"
+            />
+            <div className="absolute top-16 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard 
+                text="元件設計強調通用性，不需程式背景、任何人都能透過內容編輯介面直接應用。"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 第六頁：開放使用與成果 */}
+        <Shared.InnovationSlide>
+          <div className="relative w-full h-full bg-gradient-to-br from-slate-900 to-slate-800">
+            <Shared.SlideMedia
+              type="video"
+              src="/assets/innovations/innovation-3/innovation-3-6.webm"
+              alt="沉浸式敘事實驗"
+              className="object-cover"
+            />
+            <div className="absolute top-16 left-1/2 -translate-x-1/2 max-w-2xl">
+              <Shared.SlideTextCard 
+                text="延續開放精神，數位敘事元件庫同步開放外界使用。"
+              />
+            </div>
+            <div className="absolute bottom-16 left-1/2 -translate-x-1/2 max-w-3xl">
+              <Shared.SlideTextCard 
+                text="目前元件庫已收錄7款工具，濃縮《報導者》10年來的數位敘事經驗，為新聞報導開創更多視覺與互動的可能。"
+                className="bg-opacity-95"
+              />
+            </div>
+          </div>
+        </Shared.InnovationSlide>
+
+        {/* 最後一頁：導航控制 */}
+        <Shared.InnovationSlide>
+          <div className="flex items-center justify-center h-full bg-white">
+            <Shared.NavigationControls
+              onNavigate={onNavigate}
+              adjacentProjects={adjacentProjects}
+            />
+          </div>
+        </Shared.InnovationSlide>
+      </Shared.InnovationSlidesContainer>
+    </div>
   );
 }
