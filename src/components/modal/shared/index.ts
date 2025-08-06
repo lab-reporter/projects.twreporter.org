@@ -32,3 +32,7 @@ export { default as ChallengeArticleTitle } from './ChallengeArticleTitle';
 export { default as ChallengeQuoteAuthor } from './ChallengeQuoteAuthor';
 export { default as ChallengeSectionHeading } from './ChallengeSectionHeading';
 export { default as ChallengeImageWithCaption } from './ChallengeImageWithCaption';
+
+// 投影片系統組件
+export { default as SlideContainer } from './SlideContainer';
+export { SlideMedia, SlideTextCard, MediaTextSlide } from './SlideMedia';

@@ -28,6 +28,7 @@ export default function ModalScrollManager({
     const [isAtBottom, setIsAtBottom] = useState(false);
     const [hasScrolledAfterReachingBottom, setHasScrolledAfterReachingBottom] = useState(false);
     const [isSidepanelOpen, setIsSidepanelOpen] = useState(false);
+    const [hasSlideContainer, setHasSlideContainer] = useState(false);
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
@@ -82,6 +83,10 @@ export default function ModalScrollManager({
             setIsAtBottom(false);
             setHasScrolledAfterReachingBottom(false);
             setIsSidepanelOpen(false); // 重置側邊欄狀態
+            
+            // 檢查是否有 SlideContainer
+            const hasSlide = !!scrollContainer.current.querySelector('[data-slide-container="true"]');
+            setHasSlideContainer(hasSlide);
 
             // 同時更新 ref
             isAtBottomRef.current = false;
@@ -105,6 +110,12 @@ export default function ModalScrollManager({
     useEffect(() => {
         const container = scrollContainer.current;
         if (!container || !isModalOpen) return;
+        
+        // 檢查是否有 SlideContainer（不需要滾動管理）
+        const hasSlideContainer = container.querySelector('[data-slide-container="true"]');
+        if (hasSlideContainer) {
+            return; // SlideContainer 會自己處理所有滾動邏輯
+        }
 
         const handleScroll = () => {
             const { scrollTop, scrollHeight, clientHeight } = container;
@@ -317,13 +328,15 @@ export default function ModalScrollManager({
                     }
                 }}
             >
-                {/* 滾動進度條 */}
-                <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
-                    <div
-                        className="h-full bg-red-70"
-                        style={{ width: `${scrollProgress * 100}%` }}
-                    ></div>
-                </div>
+                {/* 滾動進度條 - 只在沒有 SlideContainer 時顯示 */}
+                {!hasSlideContainer && (
+                    <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
+                        <div
+                            className="h-full bg-red-70"
+                            style={{ width: `${scrollProgress * 100}%` }}
+                        ></div>
+                    </div>
+                )}
 
                 {/* 內容 */}
                 {children}
@@ -332,8 +345,8 @@ export default function ModalScrollManager({
             {/* 關閉按鈕與過度滾動進度圓環 */}
             <div className="fixed top-4 right-4 z-[10000]" onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
-                    {/* 過度滾動進度圓環 - 顯示在按鈕後方 */}
-                    {isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
+                    {/* 過度滾動進度圓環 - 顯示在按鈕後方（只在沒有 SlideContainer 時顯示） */}
+                    {!hasSlideContainer && isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
                         const radius = 18;
                         const circumference = 2 * Math.PI * radius;
                         const progress = Math.min(overScrollDistance / window.innerHeight, 1);
