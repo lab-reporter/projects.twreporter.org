@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function EventSection() {
     return (
         <section id="section-event" className="w-full min-h-screen text-white flex flex-col items-center justify-center">
@@ -11,7 +13,16 @@ export default function EventSection() {
 
             <div className="max-w-[60rem] mx-auto px-8 flex gap-8 items-center justify-center text-center">
                 <div>
-                    <img src="/assets/event_exhibition.jpg" alt="報導者十週年特展" />
+                    <div className="relative w-full aspect-[4/3]">
+                        <Image
+                            src="/assets/event_exhibition.jpg"
+                            alt="報導者十週年特展"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover rounded-lg"
+                            quality={85}
+                        />
+                    </div>
                     <div className="mt-4">
                         <p className="mb-2 text-red-70">Exhibition</p>
                         <h4>報導者十週年特展</h4>
@@ -26,7 +37,16 @@ export default function EventSection() {
                     </div>
                 </div>
                 <div>
-                    <img src="/assets/event_party.jpg" alt="報導者十週年特展" />
+                    <div className="relative w-full aspect-[4/3]">
+                        <Image
+                            src="/assets/event_party.jpg"
+                            alt="報導者十週年晚會"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover rounded-lg"
+                            quality={85}
+                        />
+                    </div>
                     <div className="mt-4">
                         <p className="mb-2 text-red-70">Party</p>
                         <h4>報導者十週年晚會</h4>

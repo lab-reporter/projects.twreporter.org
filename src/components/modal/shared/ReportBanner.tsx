@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface ReportBannerProps {
   mediaSrc?: string;
   title: string;
@@ -44,11 +46,17 @@ export default function ReportBanner({
               您的瀏覽器不支援影片播放。
             </video>
           ) : (
-            <img
-              className="w-full h-full object-cover"
-              src={mediaSrc}
-              alt={title}
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src={mediaSrc}
+                alt={title}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                priority
+                quality={90}
+              />
+            </div>
           )
         ) : (
           // 無媒體來源 - 預設漸層背景

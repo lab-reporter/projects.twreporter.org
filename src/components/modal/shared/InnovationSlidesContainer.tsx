@@ -14,11 +14,11 @@ export default function InnovationSlidesContainer({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scrollContainer: _scrollContainer,
   onSlideChange,
-  enableModalClose = true
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  enableModalClose: _enableModalClose = true
 }: InnovationSlidesContainerProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [overScrollDistance, setOverScrollDistance] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
@@ -64,26 +64,12 @@ export default function InnovationSlidesContainer({
     e.preventDefault();
     e.stopPropagation();
     
-    // 滾動超過 50px 才觸發
-    if (Math.abs(e.deltaY) > 50) {
+    // 降低觸發閾值到 10px，讓輕微滑動也能觸發
+    if (Math.abs(e.deltaY) > 10) {
       if (e.deltaY > 0) {
         // 向下滾動
         if (currentSlide === slideCount - 1) {
-          // 最後一頁向下滾動，累積 overscroll 距離來關閉 Modal
-          if (enableModalClose) {
-            const newDistance = overScrollDistance + Math.abs(e.deltaY);
-            setOverScrollDistance(newDistance);
-            
-            // 檢查是否達到關閉閾值（100vh）
-            const viewportHeight = window.innerHeight;
-            if (newDistance >= viewportHeight) {
-              // 觸發 Modal 關閉
-              const closeButton = document.querySelector('button')?.parentElement?.querySelector('button[class*="group"]') as HTMLElement;
-              if (closeButton) {
-                closeButton.click();
-              }
-            }
-          }
+          // 最後一頁向下滾動不切換頁面
           return;
         }
         goToSlide(currentSlide + 1);
@@ -96,12 +82,7 @@ export default function InnovationSlidesContainer({
         goToSlide(currentSlide - 1);
       }
     }
-    
-    // 如果不在最後一頁，重置 overscroll 距離
-    if (currentSlide !== slideCount - 1) {
-      setOverScrollDistance(0);
-    }
-  }, [isTransitioning, currentSlide, slideCount, goToSlide, enableModalClose, overScrollDistance]);
+  }, [isTransitioning, currentSlide, slideCount, goToSlide]);
 
   // 處理觸控事件
   const handleTouchStart = useCallback((e: TouchEvent) => {
@@ -117,8 +98,8 @@ export default function InnovationSlidesContainer({
     const deltaY = touchStartY.current - touchEndY;
     const deltaX = touchStartX.current - touchEndX;
     
-    // 確保是垂直滑動（Y 軸移動大於 X 軸）
-    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
+    // 確保是垂直滑動（Y 軸移動大於 X 軸），降低觸發閾值到 20px
+    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 20) {
       if (deltaY > 0) {
         // 向上滑動（下一頁）
         goToSlide(currentSlide + 1);
@@ -147,16 +128,6 @@ export default function InnovationSlidesContainer({
     }
   }, [isTransitioning, currentSlide, goToSlide]);
 
-  // 重置 overScroll 距離的計時器
-  useEffect(() => {
-    if (overScrollDistance > 0 && currentSlide === slideCount - 1) {
-      const timer = setTimeout(() => {
-        setOverScrollDistance(0);
-      }, 500); // 500ms 後重置
-      
-      return () => clearTimeout(timer);
-    }
-  }, [overScrollDistance, currentSlide, slideCount]);
 
   // 設定事件監聽器
   useEffect(() => {
@@ -212,52 +183,6 @@ export default function InnovationSlidesContainer({
         current={currentSlide}
         onDotClick={goToSlide}
       />
-      
-      {/* 過度滾動進度指示器（最後一頁） */}
-      {currentSlide === slideCount - 1 && overScrollDistance > 0 && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
-          <div className="relative w-16 h-16">
-            {(() => {
-              const radius = 24;
-              const circumference = 2 * Math.PI * radius;
-              const progress = Math.min(overScrollDistance / window.innerHeight, 1);
-              const strokeDashoffset = circumference - (progress * circumference);
-              
-              return (
-                <svg className="w-16 h-16 -rotate-90" viewBox="0 0 56 56">
-                  {/* 背景圓環 */}
-                  <circle 
-                    cx="28" 
-                    cy="28" 
-                    r={radius} 
-                    fill="none" 
-                    stroke="rgba(0,0,0,0.1)" 
-                    strokeWidth="3" 
-                  />
-                  {/* 進度圓環 */}
-                  <circle
-                    cx="28" 
-                    cy="28" 
-                    r={radius} 
-                    fill="none" 
-                    stroke="#C40D23" 
-                    strokeWidth="4"
-                    strokeLinecap="round" 
-                    strokeDasharray={circumference} 
-                    strokeDashoffset={strokeDashoffset}
-                    className="transition-all duration-100 ease-out"
-                  />
-                </svg>
-              );
-            })()}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C40D23" strokeWidth="2">
-                <path d="M7 10l5 5 5-5" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

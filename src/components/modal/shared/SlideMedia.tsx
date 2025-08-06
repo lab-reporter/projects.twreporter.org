@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 // 媒體投影片組件 - 用於顯示影片、圖片或 iframe
 interface SlideMediaProps {
@@ -70,12 +71,17 @@ export function SlideMedia({
     case 'image':
     default:
       return (
-        <img
-          src={src}
-          alt={alt || ''}
-          className={`w-full h-full object-cover ${className}`}
-          loading="eager"
-        />
+        <div className={`relative w-full h-full ${className}`}>
+          <Image
+            src={src}
+            alt={alt || ''}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+            className="object-cover"
+            priority={isActive}
+            quality={90}
+          />
+        </div>
       );
   }
 }

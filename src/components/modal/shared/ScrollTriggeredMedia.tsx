@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -186,12 +187,17 @@ export default function ScrollTriggeredMedia({ mediaItems, textBlocks, scrollCon
     } else {
       return (
         <div key={media.id} className={`${baseStyles} ${visibilityStyles} ${media.containerClassName || ''}`}>
-          <img
-            src={media.src}
-            alt={media.alt || ''}
-            className={`w-full h-full object-cover ${media.mediaClassName || ''}`}
-            loading={isActive ? 'eager' : 'lazy'}
-          />
+          <div className={`relative w-full h-full ${media.mediaClassName || ''}`}>
+            <Image
+              src={media.src}
+              alt={media.alt || ''}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+              className="object-cover"
+              priority={isActive}
+              quality={90}
+            />
+          </div>
         </div>
       );
     }

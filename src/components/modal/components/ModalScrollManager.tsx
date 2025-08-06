@@ -29,6 +29,8 @@ export default function ModalScrollManager({
     const [hasScrolledAfterReachingBottom, setHasScrolledAfterReachingBottom] = useState(false);
     const [isSidepanelOpen, setIsSidepanelOpen] = useState(false);
     const [hasSlideContainer, setHasSlideContainer] = useState(false);
+    const [slideOverScrollDistance, setSlideOverScrollDistance] = useState(0);
+    const [isLastSlide, setIsLastSlide] = useState(false);
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
@@ -106,6 +108,59 @@ export default function ModalScrollManager({
         }
     }, [modalDataId, modalContentId, isModalOpen, scrollContainer]);
 
+    // 處理 InnovationSlidesContainer 的最後一頁 overscroll
+    useEffect(() => {
+        const container = scrollContainer.current;
+        if (!container || !isModalOpen || !hasSlideContainer) return;
+
+        const handleSlideWheel = (e: WheelEvent) => {
+            // 檢查是否在最後一個 slide
+            const slides = container.querySelectorAll('[class*="absolute inset-0"]');
+            const activeSlide = Array.from(slides).find(slide => 
+                slide.classList.contains('opacity-100')
+            );
+            
+            if (!activeSlide) return;
+            
+            const slideIndex = Array.from(slides).indexOf(activeSlide);
+            const isLast = slideIndex === slides.length - 1;
+            setIsLastSlide(isLast);
+            
+            if (isLast && e.deltaY > 0) {
+                // 累積 overscroll 距離
+                const newDistance = slideOverScrollDistance + Math.abs(e.deltaY);
+                setSlideOverScrollDistance(newDistance);
+                
+                // 檢查是否達到關閉閾值（100vh）
+                // const viewportHeight = window.innerHeight;
+                // if (newDistance >= viewportHeight) {
+                //     onClose();
+                // }
+            } else if (!isLast) {
+                // 不在最後一頁時重置
+                setSlideOverScrollDistance(0);
+            }
+        };
+
+        container.addEventListener('wheel', handleSlideWheel, { passive: true });
+
+        return () => {
+            container.removeEventListener('wheel', handleSlideWheel);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollContainer, isModalOpen, hasSlideContainer, slideOverScrollDistance]);
+
+    // 重置 slide overscroll 計時器
+    useEffect(() => {
+        if (slideOverScrollDistance > 0 && isLastSlide) {
+            const timer = setTimeout(() => {
+                setSlideOverScrollDistance(0);
+            }, 500);
+            
+            return () => clearTimeout(timer);
+        }
+    }, [slideOverScrollDistance, isLastSlide]);
+
     // 處理滾動進度和過度滾動關閉機制
     useEffect(() => {
         const container = scrollContainer.current;
@@ -114,7 +169,7 @@ export default function ModalScrollManager({
         // 檢查是否有 InnovationSlidesContainer（不需要滾動管理）
         const hasSlideContainer = container.querySelector('[data-slide-container="true"]');
         if (hasSlideContainer) {
-            return; // InnovationSlidesContainer 會自己處理所有滾動邏輯
+            return; // InnovationSlidesContainer 會自己處理切換邏輯，但 overscroll 由上面的 effect 處理
         }
 
         const handleScroll = () => {
@@ -223,11 +278,11 @@ export default function ModalScrollManager({
                 overScrollDistanceRef.current = newDistance;
 
                 // 檢查是否達到關閉閾值（100vh）
-                const viewportHeight = window.innerHeight;
-                if (newDistance >= viewportHeight) {
-                    onClose();
-                    return;
-                }
+                // const viewportHeight = window.innerHeight;
+                // if (newDistance >= viewportHeight) {
+                //     onClose();
+                //     return;
+                // }
             }
         };
 
@@ -258,7 +313,8 @@ export default function ModalScrollManager({
                 overScrollResetInterval.current = null;
             }
         };
-    }, [scrollContainer, isModalOpen, onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollContainer, isModalOpen]);
 
     // 管理過度滾動重置計時器 - 在滾動停止500ms後開始重置
     useEffect(() => {
@@ -345,8 +401,9 @@ export default function ModalScrollManager({
             {/* 關閉按鈕與過度滾動進度圓環 */}
             <div className="fixed top-4 right-4 z-[10000]" onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
-                    {/* 過度滾動進度圓環 - 顯示在按鈕後方（只在沒有 InnovationSlidesContainer 時顯示） */}
-                    {!hasSlideContainer && isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
+                    {/* 過度滾動進度圓環 - 暫時停用 */}
+                    {/* 一般滾動模式 */}
+                    {/* {!hasSlideContainer && isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
                         const radius = 18;
                         const circumference = 2 * Math.PI * radius;
                         const progress = Math.min(overScrollDistance / window.innerHeight, 1);
@@ -354,9 +411,7 @@ export default function ModalScrollManager({
 
                         return (
                             <svg className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 -rotate-90" viewBox="0 0 40 40">
-                                {/* 背景圓環 */}
                                 <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-                                {/* 進度圓環 */}
                                 <circle
                                     cx="20" cy="20" r={radius} fill="none" stroke="#C40D23" strokeWidth="3"
                                     strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
@@ -364,7 +419,26 @@ export default function ModalScrollManager({
                                 />
                             </svg>
                         );
-                    })()}
+                    })()} */}
+                    
+                    {/* InnovationSlidesContainer 模式 */}
+                    {/* {hasSlideContainer && isLastSlide && slideOverScrollDistance > 0 && (() => {
+                        const radius = 18;
+                        const circumference = 2 * Math.PI * radius;
+                        const progress = Math.min(slideOverScrollDistance / window.innerHeight, 1);
+                        const strokeDashoffset = circumference - (progress * circumference);
+
+                        return (
+                            <svg className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 -rotate-90" viewBox="0 0 40 40">
+                                <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
+                                <circle
+                                    cx="20" cy="20" r={radius} fill="none" stroke="#C40D23" strokeWidth="3"
+                                    strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
+                                    className="transition-all duration-100 ease-out"
+                                />
+                            </svg>
+                        );
+                    })()} */}
 
                     {/* 關閉按鈕 */}
                     <button

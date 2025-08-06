@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { ContentProps } from '../types';
 
 export default function MediaDisplay({ projectData }: Pick<ContentProps, 'projectData'>) {
@@ -45,12 +46,17 @@ export default function MediaDisplay({ projectData }: Pick<ContentProps, 'projec
   
   return (
     <div className="w-full">
-      <img 
-        src={projectData.path}
-        alt={projectData.title}
-        className="w-full h-auto max-h-96 rounded-lg object-cover shadow-md"
-        onError={handleImageError}
-      />
+      <div className="relative w-full aspect-video max-h-96">
+        <Image 
+          src={projectData.path}
+          alt={projectData.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+          className="rounded-lg object-cover shadow-md"
+          onError={handleImageError}
+          quality={85}
+        />
+      </div>
     </div>
   );
 }
