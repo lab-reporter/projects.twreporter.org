@@ -35,4 +35,5 @@ export { default as ChallengeImageWithCaption } from './ChallengeImageWithCaptio
 
 // 投影片系統組件
 export { default as SlideContainer } from './SlideContainer';
+export { default as InnovationSlide } from './InnovationSlide';
 export { SlideMedia, SlideTextCard, MediaTextSlide } from './SlideMedia';

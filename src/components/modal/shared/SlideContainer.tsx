@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 interface SlideContainerProps {
-  children: React.ReactNode[];
+  children: React.ReactNode;
   scrollContainer?: HTMLElement | null;
   onSlideChange?: (index: number) => void;
   enableModalClose?: boolean; // 是否在最後一頁向下滑動時關閉 Modal
@@ -23,7 +23,10 @@ export default function SlideContainer({
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
   const lastTransitionTime = useRef(0);
-  const slideCount = children.length;
+  
+  // 將 children 轉換為陣列（處理單個或多個子元素）
+  const slides = React.Children.toArray(children);
+  const slideCount = slides.length;
 
   // 切換到指定頁面
   const goToSlide = useCallback((index: number) => {
@@ -194,14 +197,14 @@ export default function SlideContainer({
     >
       {/* 投影片容器 */}
       <div className="relative w-full h-full">
-        {children.map((child, index) => (
+        {slides.map((slide, index) => (
           <SlidePage
             key={index}
             isActive={index === currentSlide}
             isPrevious={index < currentSlide}
             isNext={index > currentSlide}
           >
-            {child}
+            {slide}
           </SlidePage>
         ))}
       </div>
