@@ -2,20 +2,20 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
-interface SlideContainerProps {
+interface InnovationSlidesContainerProps {
   children: React.ReactNode;
   scrollContainer?: HTMLElement | null;
   onSlideChange?: (index: number) => void;
   enableModalClose?: boolean; // 是否在最後一頁向下滑動時關閉 Modal
 }
 
-export default function SlideContainer({ 
+export default function InnovationSlidesContainer({ 
   children, 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scrollContainer: _scrollContainer,
   onSlideChange,
   enableModalClose = true
-}: SlideContainerProps) {
+}: InnovationSlidesContainerProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [overScrollDistance, setOverScrollDistance] = useState(0);

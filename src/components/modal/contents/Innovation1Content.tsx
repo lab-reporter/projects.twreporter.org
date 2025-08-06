@@ -8,7 +8,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
 
   return (
     <div data-slide-container="true">
-      <Shared.SlideContainer
+      <Shared.InnovationSlidesContainer
         scrollContainer={scrollContainer}
         enableModalClose={true}
       >
@@ -95,7 +95,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
             />
           </div>
         </Shared.InnovationSlide>
-      </Shared.SlideContainer>
+      </Shared.InnovationSlidesContainer>
     </div>
   );
 }

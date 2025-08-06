@@ -84,7 +84,7 @@ export default function ModalScrollManager({
             setHasScrolledAfterReachingBottom(false);
             setIsSidepanelOpen(false); // 重置側邊欄狀態
             
-            // 檢查是否有 SlideContainer
+            // 檢查是否有 InnovationSlidesContainer
             const hasSlide = !!scrollContainer.current.querySelector('[data-slide-container="true"]');
             setHasSlideContainer(hasSlide);
 
@@ -111,10 +111,10 @@ export default function ModalScrollManager({
         const container = scrollContainer.current;
         if (!container || !isModalOpen) return;
         
-        // 檢查是否有 SlideContainer（不需要滾動管理）
+        // 檢查是否有 InnovationSlidesContainer（不需要滾動管理）
         const hasSlideContainer = container.querySelector('[data-slide-container="true"]');
         if (hasSlideContainer) {
-            return; // SlideContainer 會自己處理所有滾動邏輯
+            return; // InnovationSlidesContainer 會自己處理所有滾動邏輯
         }
 
         const handleScroll = () => {
@@ -328,7 +328,7 @@ export default function ModalScrollManager({
                     }
                 }}
             >
-                {/* 滾動進度條 - 只在沒有 SlideContainer 時顯示 */}
+                {/* 滾動進度條 - 只在沒有 InnovationSlidesContainer 時顯示 */}
                 {!hasSlideContainer && (
                     <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
                         <div
@@ -345,7 +345,7 @@ export default function ModalScrollManager({
             {/* 關閉按鈕與過度滾動進度圓環 */}
             <div className="fixed top-4 right-4 z-[10000]" onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
-                    {/* 過度滾動進度圓環 - 顯示在按鈕後方（只在沒有 SlideContainer 時顯示） */}
+                    {/* 過度滾動進度圓環 - 顯示在按鈕後方（只在沒有 InnovationSlidesContainer 時顯示） */}
                     {!hasSlideContainer && isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
                         const radius = 18;
                         const circumference = 2 * Math.PI * radius;
