@@ -11,6 +11,7 @@
     "sync-copy": "rm -rf ../copy && npm run setup"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.32",
     "@swc/helpers": "^0.5.17",
