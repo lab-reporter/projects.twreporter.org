@@ -18,14 +18,8 @@ import EventSection from '@/components/sections/event/EventSection';
 
 // 主頁面組件：報導者十週年回顧網站
 export default function Home() {
-  // 從全域狀態取得目前頁面章節和載入狀態
-  // const { isLoading } = useStore();
   // DOM 元素參考：主要內容區域，用於背景顏色動畫
   const mainRef = useRef<HTMLElement>(null);
-  // 主動畫時間軸 - 暫時停用
-  // const { startMainTimeline, cleanup } = useMainTimeline();
-  // 防止重複觸發
-  // const animationTriggeredRef = useRef(false);
 
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
@@ -65,15 +59,6 @@ export default function Home() {
       window.removeEventListener('load', handleLoad);
     };
   }, []); // 空依賴，只在組件首次載入時執行
-
-  // 載入完成後的捲動控制 - 暫時停用
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     // 載入完成後，確保頁面可以捲動
-  //     document.body.style.removeProperty('overflow');
-  //     document.documentElement.style.removeProperty('overflow');
-  //   }
-  // }, [isLoading]);
 
   // 初始化 GSAP 動畫套件和 ScrollTrigger 滾動觸發器
   useEffect(() => {
@@ -134,7 +119,6 @@ export default function Home() {
 
     // 清理函數：組件卸載時移除背景動畫觸發器
     return () => {
-      // cleanup(); // 清理主時間軸
       if (typeof window !== 'undefined') {
         import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
           ScrollTrigger.getById('main-background-animation')?.kill();
@@ -150,18 +134,9 @@ export default function Home() {
       {/* OpeningSpline 移到最外層，確保最高層級 */}
       <OpeningSpline />
 
-      {/* 載入畫面：網站初始化時顯示 - 暫時停用 */}
-      {/* <LoadingScreen /> */}
-
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
-        {/* 報導章節 - 可以切換或同時顯示兩個版本 */}
-
-        {/* 拖曳版本（新版） */}
         <ReportsSection />
-
-        {/* 滾動版本（原始版） - 取消註解來顯示 */}
-
         <InnovationsSection />
         <ChallengesSection />
         <FeedbacksSection />
