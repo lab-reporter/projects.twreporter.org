@@ -32,23 +32,40 @@ export default function Reports9Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-9/report-9-1.webp",
-            position: { top: "12%", left: "24%", z: 50 },
-            width: "28vw"
+            position: {
+              top: { base: "9%", sm: "11%", md: "11%", lg: "12%" },
+              left: { base: "25%", sm: "22%", md: "23%", lg: "24%" },
+              z: { base: 25, sm: 35, md: 43, lg: 50 }
+            },
+            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "28vw" }
           },
           {
             src: "/assets/reports/report-9/report-9-2.webp",
-            position: { top: "28%", left: "58%", z: 70 },
-            width: "27vw"
+            position: {
+              top: { base: "25%", sm: "26%", md: "27%", lg: "28%" },
+              left: { base: "20%", sm: "50%", md: "55%", lg: "58%" },
+              z: { base: 35, sm: 49, md: 60, lg: 70 }
+            },
+            width: { base: "75vw", sm: "55vw", md: "40vw", lg: "27vw" }
           },
           {
             src: "/assets/reports/report-9/report-9-3.webp",
-            position: { top: "58%", left: "45%", z: 35 },
-            width: "23vw"
+            position: {
+              top: { base: "53%", sm: "55%", md: "57%", lg: "58%" },
+              left: { base: "22%", sm: "38%", md: "42%", lg: "45%" },
+              z: { base: 18, sm: 25, md: 30, lg: 35 }
+            },
+            width: { base: "65vw", sm: "48vw", md: "33vw", lg: "23vw" },
+            visibility: { base: false, sm: true }
           },
           {
             src: "/assets/reports/report-9/report-9-4.webp",
-            position: { top: "25%", left: "9%", z: 62 },
-            width: "23vw"
+            position: {
+              top: { base: "20%", sm: "23%", md: "24%", lg: "25%" },
+              left: { base: "15%", sm: "12%", md: "10%", lg: "9%" },
+              z: { base: 31, sm: 43, md: 53, lg: 62 }
+            },
+            width: { base: "65vw", sm: "48vw", md: "33vw", lg: "23vw" }
           }
         ]}
       />

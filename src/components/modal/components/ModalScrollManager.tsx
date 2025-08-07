@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, RefObject } from 'react';
 // import Image from 'next/image';
 import ModalSidepanel from './ModalSidepanel';
+import ModalSidepanelHint from './ModalSidepanelHint';
 import projectsData from '@/app/data/projects.json';
 import { useStore } from '@/stores';
 
@@ -31,6 +32,8 @@ export default function ModalScrollManager({
     const [hasSlideContainer, setHasSlideContainer] = useState(false);
     const [slideOverScrollDistance, setSlideOverScrollDistance] = useState(0);
     const [isLastSlide, setIsLastSlide] = useState(false);
+    const [showHint, setShowHint] = useState(false);
+    const [hintOpacity, setHintOpacity] = useState(0);
     const overScrollResetInterval = useRef<NodeJS.Timeout | null>(null);
     const lastScrollTime = useRef<number>(0);
     const resetStartDistance = useRef<number>(0);
@@ -85,6 +88,27 @@ export default function ModalScrollManager({
             setIsAtBottom(false);
             setHasScrolledAfterReachingBottom(false);
             setIsSidepanelOpen(false); // 重置側邊欄狀態
+            
+            // 檢查是否需要顯示提示（使用 localStorage）
+            try {
+                const hasSeenModalHint = localStorage.getItem('hasSeenModalSidepanelHint');
+                
+                if (!hasSeenModalHint) {
+                    // 延遲顯示提示，讓 Modal 先完全載入
+                    setTimeout(() => {
+                        setShowHint(true);
+                        // 淡入動畫
+                        setTimeout(() => setHintOpacity(1), 50);
+                    }, 500);
+                }
+            } catch (error) {
+                // 如果 localStorage 不可用，預設顯示提示
+                console.error('localStorage error:', error);
+                setTimeout(() => {
+                    setShowHint(true);
+                    setTimeout(() => setHintOpacity(1), 50);
+                }, 500);
+            }
 
             // 檢查是否有 InnovationSlidesContainer
             const hasSlide = !!scrollContainer.current.querySelector('[data-slide-container="true"]');
@@ -107,6 +131,52 @@ export default function ModalScrollManager({
             }
         }
     }, [modalDataId, modalContentId, isModalOpen, scrollContainer]);
+
+    // 處理提示關閉
+    const handleHintClose = () => {
+        // 淡出動畫
+        setHintOpacity(0);
+        setTimeout(() => {
+            setShowHint(false);
+            // 記錄到 localStorage
+            localStorage.setItem('hasSeenModalSidepanelHint', 'true');
+        }, 500);
+    };
+
+    // 自動關閉提示機制 - 10秒後自動關閉
+    useEffect(() => {
+        if (showHint && hintOpacity === 1) {
+            const autoCloseTimer = setTimeout(() => {
+                handleHintClose();
+            }, 10000);
+
+            return () => clearTimeout(autoCloseTimer);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showHint, hintOpacity]);
+
+    // 滾動超過25vh自動關閉提示
+    useEffect(() => {
+        const container = scrollContainer.current;
+        if (!container || !showHint) return;
+
+        const handleScrollForHint = () => {
+            const { scrollTop } = container;
+            const viewportHeight = window.innerHeight;
+            const scrollThreshold = viewportHeight * 0.25; // 25vh
+
+            if (scrollTop > scrollThreshold) {
+                handleHintClose();
+            }
+        };
+
+        container.addEventListener('scroll', handleScrollForHint, { passive: true });
+
+        return () => {
+            container.removeEventListener('scroll', handleScrollForHint);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollContainer, showHint]);
 
     // 處理 InnovationSlidesContainer 的最後一頁 overscroll
     useEffect(() => {
@@ -459,6 +529,13 @@ export default function ModalScrollManager({
                 projects={getCurrentSectionProjects()}
                 currentProjectId={modalDataId}
                 onSelectProject={handleSelectProject}
+            />
+            
+            {/* 側邊欄提示 */}
+            <ModalSidepanelHint
+                show={showHint}
+                opacity={hintOpacity}
+                onClose={handleHintClose}
             />
         </>
     );

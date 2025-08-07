@@ -31,7 +31,7 @@ export default function ReportBanner({
 
   return (
     <div className={`relative ${className}`}>
-      <div className="w-full h-[92vh]">
+      <div className="w-full h-[80svh] md:h-[92svh] lg:h-[92vh]">
         {mediaSrc ? (
           // 有媒體來源
           mediaType === 'video' ? (

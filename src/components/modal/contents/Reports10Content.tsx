@@ -40,23 +40,40 @@ export default function Reports10Content({ projectData, onNavigate, adjacentProj
         photos={[
           {
             src: "/assets/reports/report-10/report-10-1.webp",
-            position: { top: "20%", left: "35%", z: 46 },
-            width: "24vw"
+            position: {
+              top: { base: "17%", sm: "19%", md: "19%", lg: "20%" },
+              left: { base: "25%", sm: "30%", md: "33%", lg: "35%" },
+              z: { base: 23, sm: 32, md: 39, lg: 46 }
+            },
+            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "24vw" }
           },
           {
             src: "/assets/reports/report-10/report-10-2.webp",
-            position: { top: "35%", left: "10%", z: 68 },
-            width: "28vw"
+            position: {
+              top: { base: "30%", sm: "32%", md: "34%", lg: "35%" },
+              left: { base: "15%", sm: "12%", md: "11%", lg: "10%" },
+              z: { base: 34, sm: 48, md: 58, lg: 68 }
+            },
+            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "28vw" }
           },
           {
             src: "/assets/reports/report-10/report-10-4.webp",
-            position: { top: "54%", left: "44%", z: 54 },
-            width: "23vw"
+            position: {
+              top: { base: "49%", sm: "51%", md: "53%", lg: "54%" },
+              left: { base: "22%", sm: "37%", md: "41%", lg: "44%" },
+              z: { base: 27, sm: 38, md: 46, lg: 54 }
+            },
+            width: { base: "65vw", sm: "48vw", md: "33vw", lg: "23vw" },
+            visibility: { base: false, sm: true }
           },
           {
             src: "/assets/reports/report-10/report-10-5.webp",
-            position: { top: "38%", left: "66%", z: 41 },
-            width: "35vw"
+            position: {
+              top: { base: "33%", sm: "35%", md: "37%", lg: "38%" },
+              left: { base: "20%", sm: "58%", md: "63%", lg: "66%" },
+              z: { base: 21, sm: 29, md: 35, lg: 41 }
+            },
+            width: { base: "75vw", sm: "65vw", md: "50vw", lg: "35vw" }
           }
         ]}
       />

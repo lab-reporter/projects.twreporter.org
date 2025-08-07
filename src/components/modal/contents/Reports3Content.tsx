@@ -43,28 +43,50 @@ export default function Reports3Content({ projectData, onNavigate, adjacentProje
         photos={[
           {
             src: "/assets/reports/report-3/report-3-1.webp",
-            position: { top: "15%", left: "12%", z: 45 },
-            width: "22vw"
+            position: {
+              top: { base: "10%", sm: "13%", md: "14%", lg: "15%" },
+              left: { base: "20%", sm: "15%", md: "13%", lg: "12%" },
+              z: { base: 23, sm: 32, md: 38, lg: 45 }
+            },
+            width: { base: "70vw", sm: "50vw", md: "35vw", lg: "22vw" }
           },
           {
             src: "/assets/reports/report-3/report-3-2.webp",
-            position: { top: "55%", left: "35%", z: 60 },
-            width: "28vw"
+            position: {
+              top: { base: "50%", sm: "52%", md: "54%", lg: "55%" },
+              left: { base: "15%", sm: "25%", md: "32%", lg: "35%" },
+              z: { base: 30, sm: 42, md: 51, lg: 60 }
+            },
+            width: { base: "75vw", sm: "55vw", md: "40vw", lg: "28vw" }
           },
           {
             src: "/assets/reports/report-3/report-3-3.webp",
-            position: { top: "52%", left: "8%", z: 35 },
-            width: "22vw"
+            position: {
+              top: { base: "47%", sm: "49%", md: "51%", lg: "52%" },
+              left: { base: "10%", sm: "8%", md: "8%", lg: "8%" },
+              z: { base: 18, sm: 25, md: 30, lg: 35 }
+            },
+            width: { base: "60vw", sm: "45vw", md: "30vw", lg: "22vw" },
+            visibility: { base: false, sm: true }
           },
           {
             src: "/assets/reports/report-3/report-3-4.webp",
-            position: { top: "20%", left: "40%", z: 50 },
-            width: "26vw"
+            position: {
+              top: { base: "15%", sm: "18%", md: "19%", lg: "20%" },
+              left: { base: "25%", sm: "35%", md: "38%", lg: "40%" },
+              z: { base: 25, sm: 35, md: 43, lg: 50 }
+            },
+            width: { base: "65vw", sm: "52vw", md: "38vw", lg: "26vw" }
           },
           {
             src: "/assets/reports/report-3/report-3-5.webp",
-            position: { top: "45%", left: "67%", z: 40 },
-            width: "24vw"
+            position: {
+              top: { base: "40%", sm: "42%", md: "44%", lg: "45%" },
+              left: { base: "30%", sm: "55%", md: "62%", lg: "67%" },
+              z: { base: 20, sm: 28, md: 34, lg: 40 }
+            },
+            width: { base: "60vw", sm: "48vw", md: "35vw", lg: "24vw" },
+            visibility: { base: false, sm: true }
           }
         ]}
       />
