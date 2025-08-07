@@ -199,7 +199,7 @@ export default function InnovationsSection() {
           {/* 左右切換按鈕 - 移到最外層 */}
 
           {/* 預覽圖導覽列 */}
-          <div className="absolute top-1/2 -translate-y-1/2 right-40 flex flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg z-50">
+          <div className="absolute bottom-4 right-1/2 translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:right-32 flex lg:flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-sm border border-gray-200 z-50">
             {innovationItems.map((item, index) => (
               <button
                 key={item.id}

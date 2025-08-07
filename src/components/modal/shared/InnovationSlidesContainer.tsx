@@ -9,8 +9,8 @@ interface InnovationSlidesContainerProps {
   enableModalClose?: boolean; // 是否在最後一頁向下滑動時關閉 Modal
 }
 
-export default function InnovationSlidesContainer({ 
-  children, 
+export default function InnovationSlidesContainer({
+  children,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scrollContainer: _scrollContainer,
   onSlideChange,
@@ -23,7 +23,7 @@ export default function InnovationSlidesContainer({
   const touchStartY = useRef(0);
   const touchStartX = useRef(0);
   const lastTransitionTime = useRef(0);
-  
+
   // 將 children 轉換為陣列（處理單個或多個子元素）
   const slides = React.Children.toArray(children);
   const slideCount = slides.length;
@@ -33,13 +33,13 @@ export default function InnovationSlidesContainer({
     // 冷卻時間檢查（1秒）
     const now = Date.now();
     if (now - lastTransitionTime.current < 1000) return;
-    
+
     // 邊界檢查
     if (index < 0 || index >= slideCount) return;
-    
+
     // 第一頁向上滑動無反應
     if (index < 0 && currentSlide === 0) return;
-    
+
     // 最後一頁向下滑動時不處理（讓 ModalScrollManager 處理）
     if (index >= slideCount && currentSlide === slideCount - 1) {
       return;
@@ -49,7 +49,7 @@ export default function InnovationSlidesContainer({
     setIsTransitioning(true);
     setCurrentSlide(index);
     onSlideChange?.(index);
-    
+
     // 動畫結束後解除鎖定
     setTimeout(() => {
       setIsTransitioning(false);
@@ -59,11 +59,11 @@ export default function InnovationSlidesContainer({
   // 處理滾輪事件
   const handleWheel = useCallback((e: WheelEvent) => {
     if (isTransitioning) return;
-    
+
     // 阻止預設行為和事件冒泡（防止觸發 ModalScrollManager）
     e.preventDefault();
     e.stopPropagation();
-    
+
     // 降低觸發閾值到 10px，讓輕微滑動也能觸發
     if (Math.abs(e.deltaY) > 10) {
       if (e.deltaY > 0) {
@@ -92,12 +92,12 @@ export default function InnovationSlidesContainer({
 
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     if (isTransitioning) return;
-    
+
     const touchEndY = e.changedTouches[0].clientY;
     const touchEndX = e.changedTouches[0].clientX;
     const deltaY = touchStartY.current - touchEndY;
     const deltaX = touchStartX.current - touchEndX;
-    
+
     // 確保是垂直滑動（Y 軸移動大於 X 軸），降低觸發閾值到 20px
     if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 20) {
       if (deltaY > 0) {
@@ -113,8 +113,8 @@ export default function InnovationSlidesContainer({
   // 處理鍵盤事件
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (isTransitioning) return;
-    
-    switch(e.key) {
+
+    switch (e.key) {
       case 'ArrowUp':
       case 'ArrowLeft':
         e.preventDefault();
@@ -156,10 +156,10 @@ export default function InnovationSlidesContainer({
 
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="absolute inset-0 w-full h-full overflow-hidden"
-      style={{ 
+      style={{
         touchAction: 'none' // 防止觸控滾動
       }}
     >
@@ -223,7 +223,7 @@ function DotNavigation({ total, current, onDotClick }: DotNavigationProps) {
       md:left-8
       flex flex-col gap-3
       md:flex-col
-      sm:absolute sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
+      sm:absolute sm:bottom-4 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
       sm:flex-row
     ">
       {Array.from({ length: total }, (_, index) => (
@@ -233,9 +233,9 @@ function DotNavigation({ total, current, onDotClick }: DotNavigationProps) {
           className={`
             w-3 h-3 rounded-full transition-all duration-300
             hover:scale-125
-            ${index === current 
-              ? 'bg-red-700 scale-125' 
-              : 'bg-gray-500 hover:bg-gray-400'
+            ${index === current
+              ? 'bg-red-70 scale-125'
+              : 'bg-white/50 border border-gray-400 hover:bg-red-90'
             }
           `}
           aria-label={`Go to slide ${index + 1}`}

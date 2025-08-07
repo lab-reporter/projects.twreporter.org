@@ -14,7 +14,7 @@ export default function InnovationBanner({
   className = ''
 }: InnovationBannerProps) {
   return (
-    <div className={`w-full h-[92vh] relative ${className}`}>
+    <div className={`w-full h-[92svh] lg:h-[92vh] relative ${className}`}>
       <video
         src={videoSrc}
         autoPlay
@@ -22,7 +22,7 @@ export default function InnovationBanner({
         loop
         className="w-full h-[calc(92vh-5rem)] object-contain"
       />
-      <div className="absolute bottom-8 w-full flex flex-col justify-center items-center">
+      <div className="absolute bottom-16 w-full flex flex-col justify-center items-center">
         <h3 className="mb-2">{title}</h3>
         <h5>{subtitle}</h5>
       </div>
