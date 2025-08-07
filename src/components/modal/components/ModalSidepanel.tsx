@@ -111,7 +111,7 @@ export default function ModalSidepanel({
     <>
       {/* 側邊欄主體 */}
       <div
-        className={`fixed top-16 ${isOpen ? 'border-2 border-r-0 border-gray-100' : 'border-none'} bg-white rounded-md rounded-tr-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
+        className={`fixed top-0 ${isOpen ? 'border-2 border-r-0 border-gray-100' : 'border-none'} bg-white rounded-md rounded-tl-none rounded-bl-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
           }`}
         onClick={(e) => {
           // 防止點擊 sidepanel 時觸發外部的關閉事件

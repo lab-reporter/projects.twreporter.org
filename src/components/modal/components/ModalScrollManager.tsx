@@ -85,7 +85,7 @@ export default function ModalScrollManager({
             setIsAtBottom(false);
             setHasScrolledAfterReachingBottom(false);
             setIsSidepanelOpen(false); // 重置側邊欄狀態
-            
+
             // 檢查是否有 InnovationSlidesContainer
             const hasSlide = !!scrollContainer.current.querySelector('[data-slide-container="true"]');
             setHasSlideContainer(hasSlide);
@@ -116,21 +116,21 @@ export default function ModalScrollManager({
         const handleSlideWheel = (e: WheelEvent) => {
             // 檢查是否在最後一個 slide
             const slides = container.querySelectorAll('[class*="absolute inset-0"]');
-            const activeSlide = Array.from(slides).find(slide => 
+            const activeSlide = Array.from(slides).find(slide =>
                 slide.classList.contains('opacity-100')
             );
-            
+
             if (!activeSlide) return;
-            
+
             const slideIndex = Array.from(slides).indexOf(activeSlide);
             const isLast = slideIndex === slides.length - 1;
             setIsLastSlide(isLast);
-            
+
             if (isLast && e.deltaY > 0) {
                 // 累積 overscroll 距離
                 const newDistance = slideOverScrollDistance + Math.abs(e.deltaY);
                 setSlideOverScrollDistance(newDistance);
-                
+
                 // 檢查是否達到關閉閾值（100vh）
                 // const viewportHeight = window.innerHeight;
                 // if (newDistance >= viewportHeight) {
@@ -147,7 +147,7 @@ export default function ModalScrollManager({
         return () => {
             container.removeEventListener('wheel', handleSlideWheel);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, isModalOpen, hasSlideContainer, slideOverScrollDistance]);
 
     // 重置 slide overscroll 計時器
@@ -156,7 +156,7 @@ export default function ModalScrollManager({
             const timer = setTimeout(() => {
                 setSlideOverScrollDistance(0);
             }, 500);
-            
+
             return () => clearTimeout(timer);
         }
     }, [slideOverScrollDistance, isLastSlide]);
@@ -165,7 +165,7 @@ export default function ModalScrollManager({
     useEffect(() => {
         const container = scrollContainer.current;
         if (!container || !isModalOpen) return;
-        
+
         // 檢查是否有 InnovationSlidesContainer（不需要滾動管理）
         const hasSlideContainer = container.querySelector('[data-slide-container="true"]');
         if (hasSlideContainer) {
@@ -313,7 +313,7 @@ export default function ModalScrollManager({
                 overScrollResetInterval.current = null;
             }
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, isModalOpen]);
 
     // 管理過度滾動重置計時器 - 在滾動停止500ms後開始重置
@@ -399,7 +399,7 @@ export default function ModalScrollManager({
             </div>
 
             {/* 關閉按鈕與過度滾動進度圓環 */}
-            <div className="fixed top-4 right-4 z-[10000]" onClick={(e) => e.stopPropagation()}>
+            <div className={`fixed top-4 z-[10000] transition-all duration-300 ${isSidepanelOpen ? 'right-[320px]' : 'right-4'}`} onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
                     {/* 過度滾動進度圓環 - 暫時停用 */}
                     {/* 一般滾動模式 */}
@@ -420,7 +420,7 @@ export default function ModalScrollManager({
                             </svg>
                         );
                     })()} */}
-                    
+
                     {/* InnovationSlidesContainer 模式 */}
                     {/* {hasSlideContainer && isLastSlide && slideOverScrollDistance > 0 && (() => {
                         const radius = 18;
