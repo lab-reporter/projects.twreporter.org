@@ -286,9 +286,46 @@ export default function ReportsSwiper() {
 
         // 設定初始旋轉角度（顯示第一個項目）
         gsap.set(sliderWrapper, {
-            rotateY: 0
+            rotateY: -(currentSlide * (360 / reportsData.length))
         });
-    }, [isClient]); // 只依賴 isClient，避免重複初始化
+    }, [isClient, currentSlide, reportsData.length]); // 依賴 currentSlide 和 reportsData.length
+
+    // ============================
+    // Effects 區塊 - 處理 resize 時的 3D 結構更新
+    // ============================
+    // 當視窗大小改變時，重新計算所有項目的位置
+    useEffect(() => {
+        // 確保客戶端已初始化
+        if (!isClient) return;
+
+        // 取得所有報導項目的 DOM 元素
+        const reportItems = document.querySelectorAll('[data-report-item]');
+        
+        // 計算實際的像素值
+        const vwToPixels = window.innerWidth / 100;
+        const translateZValue = sliderSize * 6 * vwToPixels;
+        
+        // 使用 GSAP 批次更新，但用完整的 transform 字串
+        reportItems.forEach((item, index) => {
+            const element = item as HTMLDivElement;
+            const rotateYValue = (index * (360 / reportsData.length));
+            
+            // 使用 GSAP 設定完整的 transform
+            gsap.set(element, {
+                transform: `rotateY(${rotateYValue}deg) translateZ(${translateZValue}px)`,
+                transformStyle: 'preserve-3d'
+            });
+        });
+
+        // 如果有 sliderWrapper，也重新設定其當前旋轉角度
+        const sliderWrapper = sliderWrapperRef.current;
+        if (sliderWrapper) {
+            // 保持當前的旋轉角度
+            gsap.set(sliderWrapper, {
+                rotateY: -(currentSlide * (360 / reportsData.length))
+            });
+        }
+    }, [isClient, sliderSize, currentSlide, reportsData.length, windowWidth]); // 加入 windowWidth 依賴
 
 
 
@@ -358,7 +395,7 @@ export default function ReportsSwiper() {
                                         transformStyle: 'preserve-3d',
                                         // 計算每個項目在圓形輪播中的位置
                                         // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `translateY(calc(${index} * 50vw)) rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) rotateZ(0deg) translateZ(${sliderSize * 6}vw)`,
+                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * 6}vw)`,
                                         // 設定項目尺寸
                                         width: '100%',
                                         height: '100%'
