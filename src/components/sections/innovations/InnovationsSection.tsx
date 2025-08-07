@@ -10,7 +10,7 @@ import SectionHeadings from '@/components/shared/SectionHeadings';
 import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import InnovationVideoItem from './InnovationVideoItem';
-import { getOffsetPosition } from './utils';
+import { getOffsetPosition, isSafari } from './utils';
 import type { InnovationItem } from './types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
@@ -44,6 +44,7 @@ export default function InnovationsSection() {
   // 狀態變數：是否啟用切換動畫
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
+  const [init, setInit] = useState(false);
   // ============================
   // 效能配置
   // ============================
@@ -173,6 +174,11 @@ export default function InnovationsSection() {
   // 取得當前活躍的項目資料
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
+
+  useEffect(() => {
+    setInit(true);
+  },[])
+
   // ============================
   // 渲染區塊
   // ============================
@@ -181,17 +187,14 @@ export default function InnovationsSection() {
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
       <div ref={headingRef} className="sticky top-0 z-10">
-        <SectionHeadings
-          titleEn="INNOVATION"
-          titleZh="開放新聞室・創新"
-        >
+        <SectionHeadings titleEn="INNOVATION" titleZh="開放新聞室・創新">
           <p>
-            《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。<br />
+            《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。
+            <br />
             點點物件，看10年來的新嘗試，你參與了多少呢？
           </p>
         </SectionHeadings>
       </div>
-
 
       <div className="relative w-full">
         {/* Swiper 容器 */}
@@ -204,20 +207,23 @@ export default function InnovationsSection() {
               <button
                 key={item.id}
                 onClick={() => setCurrentItemIndex(index)}
-                className={`relative rounded overflow-hidden transition-all duration-300 ${index === currentItemIndex
-                  ? 'ring-2 ring-black'
-                  : 'opacity-40 grayscale hover:opacity-60'
-                  }`}
-                style={{ width: '3rem', height: '3rem' }}
+                className={`relative rounded overflow-hidden transition-all duration-300 ${
+                  index === currentItemIndex
+                    ? "ring-2 ring-black"
+                    : "opacity-40 grayscale hover:opacity-60"
+                }`}
+                style={{ width: "3rem", height: "3rem" }}
                 aria-label={`切換到 ${item.title}`}
               >
-                <video
-                  src={item.path}
+                {init && <video
+                  src={
+                    isSafari() ? item.path.replace(".webm", ".mp4") : item.path
+                  }
                   className="w-full h-full object-cover pointer-events-none"
                   muted
                   playsInline
                   preload="metadata"
-                />
+                />}
               </button>
             ))}
           </div>
@@ -228,7 +234,7 @@ export default function InnovationsSection() {
             className="w-full h-full relative overflow-hidden"
             style={{
               // 動態設定透視距離
-              perspective: is3DEnabled && isVisible ? '1000px' : 'none'
+              perspective: is3DEnabled && isVisible ? "1000px" : "none",
               // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
             }}
           >
@@ -237,14 +243,15 @@ export default function InnovationsSection() {
               className="absolute inset-0"
               style={{
                 // 啟用 3D 變換樣式
-                transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
+                transformStyle:
+                  is3DEnabled && isVisible ? "preserve-3d" : "flat",
               }}
             >
               {/* 渲染所有創新項目 */}
               {innovationItems.map((item, index) => {
                 // 預先計算每個項目的屬性
                 const offset = getOffsetPosition(index);
-                const initialDepth = -50 - (index * 100);
+                const initialDepth = -50 - index * 100;
 
                 return (
                   <InnovationVideoItem
