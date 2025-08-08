@@ -146,7 +146,7 @@ export function useMediaPreloader(options: UseMediaPreloaderOptions = {}) {
       
       retryCountRef.current.delete(url);
       
-    } catch (error) {
+    } catch {
       // 載入失敗，檢查是否需要重試
       const retryCount = retryCountRef.current.get(url) || 0;
       

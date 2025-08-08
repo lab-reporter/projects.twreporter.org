@@ -187,7 +187,7 @@ export default function ReportsSwiper() {
     // 預載機制 Hook
     // ============================
     // 使用預載 Hook 來管理媒體資源預載
-    const { preloadModalContent, checkLoadStatus } = useReportsPreloader({
+    useReportsPreloader({
         currentIndex: currentSlide,
         items: reportsData,
         isVisible,

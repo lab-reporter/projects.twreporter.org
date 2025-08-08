@@ -29,7 +29,7 @@ export function useInnovationsPreloader({
     enableLogging: process.env.NODE_ENV === 'development'
   });
   
-  const { preloadConfig, isSlowConnection, isLowEndDevice } = useNetworkStatus();
+  const { isSlowConnection, isLowEndDevice } = useNetworkStatus();
   const loadedItemsRef = useRef<Set<number>>(new Set([0])); // 預設載入第一個
   const phaseRef = useRef<'initial' | 'core' | 'complete'>('initial');
 
@@ -121,7 +121,7 @@ export function useInnovationsPreloader({
         url: item!.src,
         type: 'video' as const,
         priority: LoadPriority.MEDIUM,
-        preloadType: 'metadata' as 'metadata'
+        preloadType: 'metadata' as const
       }));
     
     if (itemsToPreload.length > 0) {
