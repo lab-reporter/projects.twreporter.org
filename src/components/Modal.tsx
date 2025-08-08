@@ -155,7 +155,7 @@ export default function Modal() {
         className="fixed z-[9998] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-lg transition-opacity duration-800" onClick={closeModal} />
 
       {/* 側邊欄主體 - 帶有動畫效果 */}
-      <div ref={modalBodyRef} className="fixed overflow-hidden top-[4vh] left-[4vw] h-[92vh] w-[92vw] z-[9999] rounded-xl shadow-lg">
+      <div ref={modalBodyRef} className="fixed overflow-hidden top-0 left-0 lg:top-[4vh] lg:left-[4vw] h-[100svh] lg:h-[92vh] w-[100svw] lg:w-[92vw] z-[9999] lg:rounded-xl lg:shadow-lg">
         {/* 滾動管理組件 - 包含滾動容器、進度條、過度滾動和關閉按鈕 */}
         <ModalScrollManager
           scrollContainer={scrollContainerRef}

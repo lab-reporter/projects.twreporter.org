@@ -88,11 +88,11 @@ export default function ModalScrollManager({
             setIsAtBottom(false);
             setHasScrolledAfterReachingBottom(false);
             setIsSidepanelOpen(false); // 重置側邊欄狀態
-            
+
             // 檢查是否需要顯示提示（使用 localStorage）
             try {
                 const hasSeenModalHint = localStorage.getItem('hasSeenModalSidepanelHint');
-                
+
                 if (!hasSeenModalHint) {
                     // 延遲顯示提示，讓 Modal 先完全載入
                     setTimeout(() => {
@@ -152,7 +152,7 @@ export default function ModalScrollManager({
 
             return () => clearTimeout(autoCloseTimer);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showHint, hintOpacity]);
 
     // 滾動超過25vh自動關閉提示
@@ -175,7 +175,7 @@ export default function ModalScrollManager({
         return () => {
             container.removeEventListener('scroll', handleScrollForHint);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, showHint]);
 
     // 處理 InnovationSlidesContainer 的最後一頁 overscroll
@@ -530,7 +530,7 @@ export default function ModalScrollManager({
                 currentProjectId={modalDataId}
                 onSelectProject={handleSelectProject}
             />
-            
+
             {/* 側邊欄提示 */}
             <ModalSidepanelHint
                 show={showHint}
