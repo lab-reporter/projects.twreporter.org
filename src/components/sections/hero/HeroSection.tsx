@@ -27,7 +27,7 @@ export default function HeroSection() {
                 }
             `}</style>
 
-            <div className="bg-black w-full h-screen flex flex-row justify-center items-center relative ">
+            <div className="bg-white w-full h-screen flex flex-row justify-center items-center relative ">
                 {/* 寶石 */}
                 <div className="w-[50%] h-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
                     <video

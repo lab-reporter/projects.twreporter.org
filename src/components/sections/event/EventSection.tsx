@@ -29,7 +29,7 @@ export default function EventSection() {
                         <p className="text-lg leading-relaxed mt-2">
                             2025.12.04(THU.)–07(SUN.) <br />
                             11:00-19:00 <br />
-                            華山1914文創園區 中4A館
+                            華山1914文化創意產業園區中4A館
                         </p>
                         <button className="px-2 py-2 bg-gray-700 mt-4 leading-non ">
                             免費參觀

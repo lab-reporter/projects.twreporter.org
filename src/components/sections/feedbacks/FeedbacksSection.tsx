@@ -108,7 +108,7 @@ export default function FeedbacksSection() {
 
     // 創建一個代理對象來優化 perspective 動畫
     const proxy = { perspective: 10 };
-    
+
     // 使用 ScrollTrigger 直接控制動畫
     gsap.to(proxy, {
       perspective: 30,
@@ -251,7 +251,7 @@ export default function FeedbacksSection() {
               為了迎接下一個十年的種種挑戰 <br />
               我們需要更多定期定額支持的夥伴與我們前行
             </h5>
-            <h4>號招</h4>
+            <h4>號召至少</h4>
             <h1>
               10000
               <span className="text-4xl font-bold">位</span>
