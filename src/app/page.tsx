@@ -8,6 +8,7 @@ import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
+import HeroSection from '@/components/sections/hero/HeroSection';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
@@ -146,9 +147,7 @@ export default function Home() {
 
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
-        <div className="w-full h-screen bg-white flex items-center justify-center">
-          這裡是主視覺的佔位區塊
-        </div>
+        <HeroSection />
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />
