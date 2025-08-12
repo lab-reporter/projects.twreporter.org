@@ -393,7 +393,6 @@ const ChallengeParallax = () => {
                     }}
                     className="challenge-parallax-image aspect-[3/2] absolute"
                     data-z={image.z} // 儲存目標 z 值
-                    data-custom-cursor="VIEW"
                     onMouseEnter={(e) => {
                         // 使用 scale 屬性而非 transform，避免與滾動動畫衝突
                         gsap.to(e.currentTarget, {

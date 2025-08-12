@@ -11,7 +11,6 @@ export default function ChallengeItem({ title, onClick, className = '' }: Challe
     <div className={`relative w-screen flex-1 flex flex-col justify-center items-center challenge ${className}`}>
       <div
         className="challengeTitle text-center px-4"
-        data-custom-cursor="VIEW"
         style={{ cursor: 'zoom-in', transform: 'translateX(-50%)' }}
         onClick={() => onClick(title)}
       >

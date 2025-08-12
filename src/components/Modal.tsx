@@ -150,7 +150,6 @@ export default function Modal() {
     <>
       {/* 背景遮罩 */}
       <div
-        data-custom-cursor="close"
         style={{ cursor: 'pointer' }}
         className="fixed z-[9998] top-0 left-0 w-full h-screen bg-[rgba(0,0,0,0.5)] backdrop-blur-lg transition-opacity duration-800" onClick={closeModal} />
 

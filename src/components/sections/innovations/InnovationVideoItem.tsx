@@ -91,7 +91,6 @@ export default function InnovationVideoItem({
     <div
       id={`innovation-item-${item.id}`}
       className="absolute top-1/2 left-1/2 will-change-transform pointer-events-auto"
-      data-custom-cursor="VIEW"
       style={{
         cursor: 'zoom-in',
         transformOrigin: 'center center',

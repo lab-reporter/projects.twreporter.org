@@ -71,7 +71,6 @@ export default function ModalSidepanel({
           }`}
         style={{ cursor: 'zoom-in' }}
         onClick={() => onSelectProject(project.id)}
-        data-custom-cursor="VIEW"
       >
         <div className="flex flex-col h-auto">
           {/* 圖片影片區域 */}

@@ -87,8 +87,6 @@ export default function ReportsSwiper() {
     const [mouseRangeMin, setMouseRangeMin] = useState(30);
     const [mouseRangeMax, setMouseRangeMax] = useState(70);
 
-    // 狀態：是否啟用自訂游標
-    const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState(false);
     // 狀態：是否啟用互動（拖曳和點擊切換）
     const [isInteractionEnabled, setIsInteractionEnabled] = useState(false);
 
@@ -199,8 +197,7 @@ export default function ReportsSwiper() {
     // ============================
     // 使用 useCallback 確保函數引用穩定
     const handleAnimationComplete = useCallback(() => {
-        // 動畫完成後啟用自訂游標和互動
-        setIsCustomCursorEnabled(true);
+        // 動畫完成後啟用互動
         setIsInteractionEnabled(true);
     }, []);
 
@@ -300,16 +297,16 @@ export default function ReportsSwiper() {
 
         // 取得所有報導項目的 DOM 元素
         const reportItems = document.querySelectorAll('[data-report-item]');
-        
+
         // 計算實際的像素值
         const vwToPixels = window.innerWidth / 100;
         const translateZValue = sliderSize * 6 * vwToPixels;
-        
+
         // 使用 GSAP 批次更新，但用完整的 transform 字串
         reportItems.forEach((item, index) => {
             const element = item as HTMLDivElement;
             const rotateYValue = (index * (360 / reportsData.length));
-            
+
             // 使用 GSAP 設定完整的 transform
             gsap.set(element, {
                 transform: `rotateY(${rotateYValue}deg) translateZ(${translateZValue}px)`,
@@ -415,7 +412,6 @@ export default function ReportsSwiper() {
                                         isActive={index === displayIndex}
                                         index={index}
                                         onItemClick={isInteractionEnabled ? goToSlide : undefined}
-                                        isCustomCursorEnabled={isCustomCursorEnabled}
                                     />
                                 </div>
                             ))}
@@ -426,7 +422,7 @@ export default function ReportsSwiper() {
                 {/* 當前項目資訊展示區域：顯示在輪播下方 */}
                 <div
                     ref={currentItemDisplayRef}
-                    className="absolute bottom-20 w-full flex flex-col items-center gap-4"
+                    className="absolute bottom-8 w-full flex flex-col items-center gap-4"
                     style={{
                         opacity: 0
                     }}
