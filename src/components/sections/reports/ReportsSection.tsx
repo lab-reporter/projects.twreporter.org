@@ -1,16 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import ReportsSwiper from './ReportsSwiper';
-import { useStore } from '@/stores';
-import gsap from 'gsap';
 
 // 影響力報導章節主組件
 export default function ReportsSection() {
   const sectionHeadingRef = useRef<HTMLDivElement>(null);
-  const isOpeningComplete = useStore((state) => state.isOpeningComplete);
 
   // 使用滾動觸發器來監控當前頁面位置
   // 調整觸發參數以適應動畫完成後的滾動檢測
@@ -27,24 +24,8 @@ export default function ReportsSection() {
     delay: 100
   });
 
-  // 開場動畫完成後的淡入效果
-  useEffect(() => {
-    if (!isOpeningComplete || !sectionHeadingRef.current) return;
-
-    // 設定初始狀態
-    gsap.set(sectionHeadingRef.current, {
-      opacity: 0,
-      y: '20%'
-    });
-
-    // 動畫到最終狀態
-    gsap.to(sectionHeadingRef.current, {
-      opacity: 1,
-      y: '0%',
-      duration: 2,
-      ease: 'power4.Out'
-    });
-  }, [isOpeningComplete]);
+  // 移除自動淡入效果，改由 useReportsAnimation 統一管理
+  // 動畫現在完全由滾動控制
 
   return (
     // 主要報導章節區塊
@@ -58,10 +39,6 @@ export default function ReportsSection() {
         ref={sectionHeadingRef}
         id="reports-section-heading"
         className="sticky top-0 left-0 w-full h-screen"
-        style={{
-          opacity: isOpeningComplete ? undefined : 0,
-          transform: isOpeningComplete ? undefined : 'translateY(100%)'
-        }}
       >
         <SectionHeadings
           titleEn="IMPACT"
@@ -82,7 +59,7 @@ export default function ReportsSection() {
       </div>
 
       {/* 報導輪播區域：展示各篇影響力報導 */}
-      <div className="mt-[-100vh] w-full relative h-[calc(100vh+800px)]">
+      <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
         <div className="sticky top-0 left-0 w-full h-screen">
           <ReportsSwiper />
         </div>

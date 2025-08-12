@@ -24,10 +24,10 @@ export default function Home() {
 
   // 啟用全域滾動監控
   useGlobalScrollMonitor();
-  
+
   // 啟用全域預載策略
   const { preloadStats } = useGlobalPreloadStrategy();
-  
+
   // 開發環境顯示預載統計
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -147,6 +147,9 @@ export default function Home() {
 
       {/* 主要內容區域：包含所有頁面章節 */}
       <main ref={mainRef} className="relative w-full transition-colors duration-300">
+        <div className="w-full h-screen bg-white flex items-center justify-center">
+          這裡是主視覺的佔位區塊
+        </div>
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />

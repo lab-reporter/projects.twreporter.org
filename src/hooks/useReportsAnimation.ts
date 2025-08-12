@@ -59,7 +59,7 @@ export function useReportsAnimation({
         // ============================
         // 設定初始狀態
         // ============================
-        
+
         // 設定 sliderWrapper 初始狀態（最遠位置）
         gsap.set(sliderWrapper, {
             translateZ: '40vw',
@@ -72,9 +72,14 @@ export function useReportsAnimation({
             opacity: 0
         });
 
+        // 設定章節標題初始狀態（初始為透明）
+        gsap.set(sectionHeading, {
+            opacity: 0
+        });
+
         // 取得所有報導項目元素
         const reportItems = sliderWrapper.querySelectorAll('[data-report-item]');
-        
+
         // 設定每個項目的初始位置（Y 軸偏移）
         reportItems.forEach((item, index) => {
             gsap.set(item, {
@@ -94,9 +99,20 @@ export function useReportsAnimation({
             : Array.from({ length: reportItems.length }, (_, i) => reportItems.length - 1 - i);
 
         // ============================
-        // 階段 1（0-0.5）：Zoom Out 動畫
+        // 階段 0（0-0.25）：章節標題淡入
         // ============================
         
+        // sectionHeading 淡入
+        masterTimeline.to(sectionHeading, {
+            opacity: 1,
+            duration: 0.25,
+            ease: 'none'
+        }, 0);
+
+        // ============================
+        // 階段 1（0-0.5）：Zoom Out 動畫
+        // ============================
+
         // sliderWrapper 從 40vw zoom 到 10vw（保持 rotateX: 90）
         masterTimeline.to(sliderWrapper, {
             translateZ: '10vw',
@@ -108,9 +124,9 @@ export function useReportsAnimation({
         actualOrder.forEach((itemIndex, orderIndex) => {
             const item = reportItems[itemIndex];
             if (!item) return;
-            
+
             const startTime = orderIndex * 0.025; // 在前 0.5 秒內完成所有項目動畫
-            
+
             masterTimeline.to(item, {
                 y: 0,
                 duration: 0.25,
@@ -121,7 +137,7 @@ export function useReportsAnimation({
         // ============================
         // 階段 2（0.5-1.0）：Rotation 動畫
         // ============================
-        
+
         // sliderWrapper 旋轉並最終 zoom 到 0
         masterTimeline.to(sliderWrapper, {
             rotateX: 0,
@@ -131,7 +147,7 @@ export function useReportsAnimation({
             ease: 'none'
         }, 0.5); // 從 0.5 秒開始
 
-        // 章節標題淡出
+        // 章節標題淡出（在旋轉開始時淡出）
         masterTimeline.to(sectionHeading, {
             opacity: 0,
             duration: 0.25,
@@ -155,13 +171,13 @@ export function useReportsAnimation({
         const scrollTrigger = ScrollTrigger.create({
             trigger: section,
             start: 'top top',
-            end: '+=600', // 總共 600px 完成所有動畫
-            scrub: 1,
+            end: '+=300', // 總共 600px 完成所有動畫
+            scrub: 0.5,
             animation: masterTimeline,
             markers: true,
             onUpdate: (self) => {
                 const progress = self.progress;
-                
+
                 // 在 75% 進度時（對應第二階段中間）顯示/隱藏導航
                 if (progress > 0.75 && !navShown) {
                     navShown = true;
@@ -172,7 +188,7 @@ export function useReportsAnimation({
                     setNavigationVisible(false);
                     setSectionNavigationVisible(false);
                 }
-                
+
                 // 動態調整滑鼠追蹤範圍（在第二階段進行）
                 if (setMouseRangeMin && setMouseRangeMax) {
                     if (progress > 0.5) {
@@ -188,7 +204,7 @@ export function useReportsAnimation({
                         setMouseRangeMax(70);
                     }
                 }
-                
+
                 // 在 90% 進度時啟用/禁用互動
                 if (progress > 0.9 && !interactionEnabled) {
                     interactionEnabled = true;
