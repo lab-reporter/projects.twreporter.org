@@ -6,28 +6,25 @@
         "subtitle": "失控的高教技職國際招生",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-2",
-        "path": "/assets/reports/reports-2.webm",
+        "path": "/assets/reports/reports-2.webp",
         "title": "山頭上的掠奪",
         "subtitle": "揭露全台原住民保留地流失亂象",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-3",
-        "path": "/assets/reports/reports-3.webm",
+        "path": "/assets/reports/reports-3.webp",
         "title": "造假．剝削．血淚漁場",
         "subtitle": "跨國直擊台灣遠洋漁業真相",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-4",
@@ -36,8 +33,7 @@
         "subtitle": "兩萬名被遺忘的高風險家庭孩子們",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-5",
@@ -46,8 +42,7 @@
         "subtitle": "科學戰爭下的環境難民",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-6",
@@ -56,28 +51,25 @@
         "subtitle": "獨家揭露台鐵體檢報告",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-7",
-        "path": "/assets/reports/reports-7.webm",
+        "path": "/assets/reports/reports-7.webp",
         "title": "每天我們失去5個孩子",
         "subtitle": "搶救兒童高死亡率",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-8",
-        "path": "/assets/reports/reports-8.webm",
+        "path": "/assets/reports/reports-8.webp",
         "title": "看不見的線上博弈帝國",
         "subtitle": "中國金主、菲國總部、台灣代工",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-9",
@@ -86,8 +78,7 @@
         "subtitle": "合法、廉價、24小時到貨",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-10",
@@ -96,8 +87,7 @@
         "subtitle": "中國虎視下的島鏈",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-11",
@@ -106,218 +96,106 @@
         "subtitle": "揭開MIT工具機流入俄羅斯軍工業隱蹤",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "reports-12",
-        "path": "/assets/reports/reports-12.webm",
+        "path": "/assets/reports/reports-12.webp",
         "title": "獵童風暴",
         "subtitle": "揭開未成年性剝削影像的暗黑產業鏈",
         "section": [
             "reports"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "innovation-1",
         "path": "/assets/innovations/innovation-1.webm",
-        "position": {
-            "x": 0,
-            "y": 0,
-            "z": 850
-        },
         "title": "新聞遊戲",
         "subtitle": "台灣第一個急診室新聞遊戲",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 8,
-            "y": 8,
-            "z": 8
-        }
+        ]
     },
     {
         "id": "innovation-2",
         "path": "/assets/innovations/innovation-2.webm",
-        "position": {
-            "x": 18,
-            "y": -2.4,
-            "z": 820
-        },
         "title": "多媒體新聞",
         "subtitle": "持續打造互動性更強、更吸引人的新聞體驗",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 2,
-            "y": 2,
-            "z": 2
-        }
+        ]
     },
     {
         "id": "innovation-3",
         "path": "/assets/innovations/innovation-3.webm",
-        "position": {
-            "x": -8.3,
-            "y": 4.4,
-            "z": 790
-        },
         "title": "報導者數位敘事元件庫",
         "subtitle": "所有人都可以分享的實用新聞工具",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 15,
-            "y": 15,
-            "z": 15
-        }
+        ]
     },
     {
         "id": "innovation-4",
         "path": "/assets/innovations/innovation-4.webm",
-        "position": {
-            "x": 4.8,
-            "y": -2.6,
-            "z": 760
-        },
         "title": "報導者Podcast",
         "subtitle": "以聲音開路，為深度報導拓展廣大聽眾",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-        }
+        ]
     },
     {
         "id": "innovation-5",
         "path": "/assets/innovations/innovation-5.webm",
-        "position": {
-            "x": -10,
-            "y": 5,
-            "z": 730
-        },
         "title": "報導者影音",
         "subtitle": "用影音說故事，探索深度報導的新傳播形式",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 10,
-            "y": 10,
-            "z": 10
-        }
+        ]
     },
     {
         "id": "innovation-6",
         "path": "/assets/innovations/innovation-6.webm",
-        "position": {
-            "x": 0,
-            "y": -8,
-            "z": 700
-        },
         "title": "少年報導者",
         "subtitle": "首創以深度報導與兒少對話的平台",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-        }
+        ]
     },
     {
         "id": "innovation-7",
         "path": "/assets/innovations/innovation-7.webm",
-        "position": {
-            "x": 17,
-            "y": 10,
-            "z": 640
-        },
         "title": "報導者事件簿",
         "subtitle": "結合漫畫敘事，跟著漫畫家的筆觸走入新聞現場",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-        }
+        ]
     },
     {
         "id": "innovation-8",
         "path": "/assets/innovations/innovation-8.webm",
-        "position": {
-            "x": 2.9,
-            "y": 12,
-            "z": 610
-        },
         "title": "辦公室音樂會",
         "subtitle": "開箱新聞編輯室，建立與讀者共感的新場域",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-        }
+        ]
     },
     {
         "id": "innovation-9",
         "path": "/assets/innovations/innovation-9.webm",
-        "position": {
-            "x": 4.9,
-            "y": 5,
-            "z": 580
-        },
         "title": "報導者在地影像紮根計畫",
         "subtitle": "建立台灣新聞攝影培力與知識共創的新模式",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 5,
-            "y": 5,
-            "z": 5
-        }
+        ]
     },
     {
         "id": "innovation-10",
         "path": "/assets/innovations/innovation-10.webm",
-        "position": {
-            "x": 14,
-            "y": 5,
-            "z": 550
-        },
         "title": "報導者觀測站",
         "subtitle": "以AI觀測民代問政內容，開創公民監督新途徑",
         "section": [
             "innovation"
-        ],
-        "is3DModel": true,
-        "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-        }
+        ]
     },
     {
         "id": "challenge-1",
@@ -325,8 +203,7 @@
         "title": "為何要創辦<br/>很冷門的公共媒體？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-2",
@@ -334,8 +211,7 @@
         "title": "台灣人願意<br/>捐款給媒體嗎？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-3",
@@ -343,8 +219,7 @@
         "title": "獨立媒體如何<br/>走向世界與各國媒體合作？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-4",
@@ -352,8 +227,7 @@
         "title": "如何確保<br/>新聞工作者的勞動條件？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-5",
@@ -361,8 +235,7 @@
         "title": "新聞室為何要<br/>建立「心理支持系統」？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-6",
@@ -370,8 +243,7 @@
         "title": "深度媒體也需要<br/>做即時報導嗎？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-7",
@@ -379,8 +251,7 @@
         "title": "為何LINE、Yahoo<br/>都要付費給《報導者》？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-8",
@@ -388,8 +259,7 @@
         "title": "如何打造<br/>跨世代合作的新聞團隊？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-9",
@@ -397,8 +267,7 @@
         "title": "新聞媒體為何要<br/>製作「影響力報告」？",
         "section": [
             "challenge"
-        ],
-        "bgColor": "#F1F1F1"
+        ]
     },
     {
         "id": "challenge-10",
