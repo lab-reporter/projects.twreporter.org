@@ -15,9 +15,9 @@
 
   /* 預設字型設定 - 英文用 Roboto Slab，中文用思源宋體 */
   * {
-    font-family: var(--font-roboto-slab), 'Roboto Slab', var(--font-noto-serif-tc), 'Noto Serif TC', serif;
+    font-family: var(--font-roboto-slab), 'Roboto Slab', var(--font-noto-sans-tc), 'Noto Sans TC', serif;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 2;
   }
 
   /* 標題字型優化 - 英文用 Alverata，中文用思源宋體 */

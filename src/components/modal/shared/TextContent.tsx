@@ -12,7 +12,7 @@ export default function TextContent({
   className = ''
 }: TextContentProps) {
   return (
-    <div className={`text-black project-description font-noto-serif-tc [&>*>p]:mb-6 [&>*>p]:leading-relaxed [&>*>p:last-child]:mb-0 [&>*>p]:text-[1.125rem] ${className}`}>
+    <div className={`text-black project-description font-noto-serif-tc [&>*>p]:mb-6 text-justify [&>*>p:last-child]:mb-0 [&>*>p]:text-[1.125rem] ${className}`}>
       {children}
     </div>
   );
