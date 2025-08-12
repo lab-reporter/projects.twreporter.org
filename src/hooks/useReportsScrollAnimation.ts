@@ -96,6 +96,18 @@ export function useReportsScrollAnimation({
                 if (onAnimationComplete) {
                     onAnimationComplete();
                 }
+            },
+            onComplete: () => {
+                // 所有動畫完成後，延遲 0.5 秒解鎖滾動
+                setTimeout(() => {
+                    // 解鎖滾動（因為 useReportsZoomAnimation 鎖定了滾動）
+                    document.documentElement.style.overflow = '';
+                    document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                    document.body.style.top = '';
+                    document.body.style.left = '';
+                }, 500);
             }
         }, 0)
             .to(sectionHeading, {

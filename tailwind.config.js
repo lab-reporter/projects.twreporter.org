@@ -79,10 +79,10 @@ module.exports = {
         'h6-mobile': ['1rem', { lineHeight: '1.4' }],     // 16px
 
         // 內文字級
-        'body-lg': ['1.125rem', { lineHeight: '1.6' }],   // 18px
-        'body-base': ['1rem', { lineHeight: '1.6' }],     // 16px
-        'body-sm': ['0.875rem', { lineHeight: '1.6' }],   // 14px
-        'caption': ['0.75rem', { lineHeight: '1.5' }],    // 12px
+        'body-lg': ['1.125rem', { lineHeight: '2' }],   // 18px
+        'body-base': ['1rem', { lineHeight: '2' }],     // 16px
+        'body-sm': ['0.875rem', { lineHeight: '1.8' }],   // 14px
+        'caption': ['0.75rem', { lineHeight: '1.8' }],    // 12px
       },
       fontFamily: {
         'noto-serif-tc': ['var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
