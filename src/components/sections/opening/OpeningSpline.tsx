@@ -9,7 +9,7 @@ import SplineLoader from './SplineLoader';
  * 
  * 功能說明：
  * 1. 顯示網站開場動畫，使用 Spline 3D 場景
- * 2. 提供 fallback 機制，當 Spline 載入失敗時顯示靜態圖片 (KeyVisual)
+ * 2. 提供 fallback 機制，當 Spline 載入失敗時顯示載入畫面
  * 3. 強制等待 5 秒最小載入時間，避免載入過快造成閃爍
  * 4. 自動播放 12 秒後淡出，或使用者可手動點擊 SKIP 跳過
  * 5. 開場期間鎖定頁面滾動，結束後解鎖

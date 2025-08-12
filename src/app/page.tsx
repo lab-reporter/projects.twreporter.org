@@ -8,7 +8,6 @@ import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
 import OpeningSpline from '@/components/sections/opening/OpeningSpline';
-// import KeyVisual from '@/components/KeyVisual';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
