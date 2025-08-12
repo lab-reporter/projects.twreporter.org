@@ -28,7 +28,7 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
             </p>
 
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-8/challenge-8-1.jpg"
+              src="/assets/challenges/challenge-8-1.webp"
               alt="《報導者》海選記者公告"
               caption="2015年9月1日記者節，《報導者》於Facebook粉絲專頁公告海選記者的消息。"
               width={800}
@@ -58,7 +58,7 @@ export default function Challenge8Content({ projectData, onNavigate, adjacentPro
             </p>
 
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-8/challenge-8-2.jpg"
+              src="/assets/challenges/challenge-8-2.webp"
               alt="《報導者》全體同事9週年合照"
               caption="2024年8月26日《報導者》全體同事拍攝9週年合照。"
               width={800}

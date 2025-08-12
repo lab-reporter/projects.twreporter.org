@@ -28,7 +28,7 @@ export default function Challenge3Content({ projectData, onNavigate, adjacentPro
             </p>
 
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-3/challenge-3-1.jpg"
+              src="/assets/challenges/challenge-3-1.webp"
               alt="《報導者》參加GIJC年度大會"
               caption="自2016年起，《報導者》常年受邀參加GIJC年度大會，與各國記者交流。"
               width={800}
@@ -58,7 +58,7 @@ export default function Challenge3Content({ projectData, onNavigate, adjacentPro
             </p>
 
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-3/challenge-3-2.jpg"
+              src="/assets/challenges/challenge-3-2.webp"
               alt="李雪莉代表《報導者》上台分享"
               caption="2023於瑞典舉辦的GIJC，李雪莉代表《報導者》上台分享，分享主題為Investigating Asia，全程以英語演說。"
               width={800}

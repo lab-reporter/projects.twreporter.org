@@ -43,7 +43,7 @@ export default function Challenge2Content({ projectData, onNavigate, adjacentPro
             
             {/* 圖片 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-2/challenge-2-1.jpg"
+              src="/assets/challenges/challenge-2-1.webp"
               alt="非營利調查報導網站《ProPublica》。"
               caption="非營利調查報導網站《ProPublica》。"
               width={800}
@@ -97,7 +97,7 @@ export default function Challenge2Content({ projectData, onNavigate, adjacentPro
             
             {/* 第二張圖片 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-2/challenge-2-2.jpg"
+              src="/assets/challenges/challenge-2-2.webp"
               alt="2015年9月1日，報導者成立記者會當天，童子賢先生上台致詞。"
               caption="2015年9月1日，報導者成立記者會當天，童子賢先生上台致詞。"
               width={800}

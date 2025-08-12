@@ -49,7 +49,7 @@ export default function Challenge1Content({ projectData, onNavigate, adjacentPro
             </p>
             {/* 圖片與說明 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-1/challenge-1-1.jpg"
+              src="/assets/challenges/challenge-1-1.webp"
               alt="2015年9月1日當天《報導者》成立記者會現場。"
               caption="2015年9月1日當天《報導者》成立記者會現場。"
               width={800}
@@ -76,7 +76,7 @@ export default function Challenge1Content({ projectData, onNavigate, adjacentPro
             
             {/* 第二張圖片 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-1/challenge-1-2.jpg"
+              src="/assets/challenges/challenge-1-2.webp"
               alt="2016年「報導者走出去」系列講座，我們首度「開箱編輯室」與讀者面對面互動，圖為松菸閱樂書店場次。"
               caption="2016年「報導者走出去」系列講座，我們首度「開箱編輯室」與讀者面對面互動，圖為松菸閱樂書店場次。"
               width={800}

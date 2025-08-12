@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger)
 const parallaxImages = [
     // 在這裡添加更多圖片物件
     {
-        src: "/assets/challenges/challenge-1/challenge-1-2.jpg",
+        src: "/assets/challenges/challenge-1-2.webp",
         alt: "Challenge Parallax Image 1",
         x: 0,
         y: 0,
@@ -25,7 +25,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-1/challenge-1-1.jpg",
+        src: "/assets/challenges/challenge-1-1.webp",
         alt: "Challenge Parallax Image 1",
         x: 0,
         y: 0,
@@ -36,7 +36,7 @@ const parallaxImages = [
         zIndex: 2
     },
     {
-        src: "/assets/challenges/challenge-2/challenge-2-2.jpg",
+        src: "/assets/challenges/challenge-2-2.webp",
         alt: "Challenge Parallax Image 1",
         x: 0,
         y: 0,
@@ -47,7 +47,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-3/challenge-3-1.jpg",
+        src: "/assets/challenges/challenge-3-1.webp",
         alt: "Challenge Parallax Image 3",
         x: 0,
         y: 0,
@@ -58,7 +58,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-4/challenge-4-1.jpg",
+        src: "/assets/challenges/challenge-4-1.webp",
         alt: "Challenge Parallax Image 4",
         x: 0,
         y: 0,
@@ -69,7 +69,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-5/challenge-5-1.jpg",
+        src: "/assets/challenges/challenge-5-1.webp",
         alt: "Challenge Parallax Image 4",
         x: 0,
         y: 0,
@@ -80,7 +80,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-6/challenge-6-1.jpg",
+        src: "/assets/challenges/challenge-6-1.webp",
         alt: "Challenge Parallax Image 6",
         x: 0,
         y: 0,
@@ -91,7 +91,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-7/challenge-7-2.jpg",
+        src: "/assets/challenges/challenge-7-2.webp",
         alt: "Challenge Parallax Image 7",
         x: 0,
         y: 0,
@@ -102,7 +102,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-8/challenge-8-2.jpg",
+        src: "/assets/challenges/challenge-8-2.webp",
         alt: "Challenge Parallax Image 8",
         x: 0,
         y: 0,
@@ -113,7 +113,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-9/challenge-9-2.jpg",
+        src: "/assets/challenges/challenge-9-2.webp",
         alt: "Challenge Parallax Image 9",
         x: 0,
         y: 0,
@@ -124,7 +124,7 @@ const parallaxImages = [
         zIndex: 1
     },
     {
-        src: "/assets/challenges/challenge-10/challenge-10-1.jpg",
+        src: "/assets/challenges/challenge-10-1.webp",
         alt: "Challenge Parallax Image 10",
         x: 0,
         y: 0,

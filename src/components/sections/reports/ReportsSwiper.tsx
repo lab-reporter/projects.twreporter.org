@@ -190,6 +190,12 @@ export default function ReportsSwiper() {
         // 動畫完成後啟用互動
         setIsInteractionEnabled(true);
     }, []);
+    
+    // 新增：處理動畫反向完成（禁用互動）
+    const handleAnimationReverseComplete = useCallback(() => {
+        // 動畫反向完成後禁用互動
+        setIsInteractionEnabled(false);
+    }, []);
 
     // 使用 ScrollTrigger 動畫 Hook
     useReportsScrollAnimation({
@@ -200,7 +206,8 @@ export default function ReportsSwiper() {
         isOpeningComplete,
         setMouseRangeMin,
         setMouseRangeMax,
-        onAnimationComplete: handleAnimationComplete
+        onAnimationComplete: handleAnimationComplete,
+        onAnimationReverseComplete: handleAnimationReverseComplete
     });
 
     // 使用 Zoom Out 動畫 Hook

@@ -19,6 +19,8 @@ interface UseReportsScrollAnimationOptions {
     setMouseRangeMax?: (value: number) => void;
     // 動畫完成的回調
     onAnimationComplete?: () => void;
+    // 動畫反向完成的回調
+    onAnimationReverseComplete?: () => void;
 }
 
 // ============================
@@ -32,7 +34,8 @@ export function useReportsScrollAnimation({
     isOpeningComplete,
     setMouseRangeMin,
     setMouseRangeMax,
-    onAnimationComplete
+    onAnimationComplete,
+    onAnimationReverseComplete
 }: UseReportsScrollAnimationOptions) {
     // 取得導航欄控制函數
     const { setNavigationVisible, setSectionNavigationVisible } = useStore();
@@ -49,8 +52,9 @@ export function useReportsScrollAnimation({
         const sliderWrapper = sliderWrapperRef.current;
         const currentItemDisplay = currentItemDisplayRef.current;
         const sectionHeading = document.querySelector('#reports-section-heading');
+        const section = document.querySelector('#section-reports');
 
-        if (!sliderWrapper || !sectionHeading || !currentItemDisplay) return;
+        if (!sliderWrapper || !sectionHeading || !currentItemDisplay || !section) return;
 
         // 設定初始狀態
         gsap.set(currentItemDisplay, {
@@ -60,7 +64,7 @@ export function useReportsScrollAnimation({
         // 創建時間軸動畫（在 ScrollTrigger 外部，以便重複使用）
         const tl = gsap.timeline({ paused: true });
 
-        // 設定動畫內容 - 只往前播放，不需要反向
+        // 設定動畫內容 - 支援雙向播放
         tl.to(sliderWrapper, {
             rotateX: 0,
             rotateY: 0,
@@ -72,42 +76,6 @@ export function useReportsScrollAnimation({
                 if (zoomOutTweenRef.current && zoomOutTweenRef.current.isActive()) {
                     zoomOutTweenRef.current.kill();
                 }
-
-                // 顯示導航欄和章節導航
-                setNavigationVisible(true);
-                setSectionNavigationVisible(true);
-
-                // 立即開始動畫化滑鼠追蹤範圍
-                if (setMouseRangeMin && setMouseRangeMax) {
-                    const animationValues = { min: 30, max: 70 };
-                    gsap.to(animationValues, {
-                        min: 46,
-                        max: 54,
-                        duration: 0.5,
-                        ease: "power2.inOut",
-                        onUpdate: () => {
-                            setMouseRangeMin(animationValues.min);
-                            setMouseRangeMax(animationValues.max);
-                        }
-                    });
-                }
-
-                // 動畫完成後直接啟用互動
-                if (onAnimationComplete) {
-                    onAnimationComplete();
-                }
-            },
-            onComplete: () => {
-                // 所有動畫完成後，延遲 0.5 秒解鎖滾動
-                setTimeout(() => {
-                    // 解鎖滾動（因為 useReportsZoomAnimation 鎖定了滾動）
-                    document.documentElement.style.overflow = '';
-                    document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
-                    document.body.style.top = '';
-                    document.body.style.left = '';
-                }, 500);
             }
         }, 0)
             .to(sectionHeading, {
@@ -122,31 +90,54 @@ export function useReportsScrollAnimation({
                 ease: "power2.in"
             }, 0);
 
-        // 建立 ScrollTrigger 動畫
-        const scrollTrigger = ScrollTrigger.create({
-            trigger: sectionHeading,
-            start: 'top top',
-            toggleActions: "none", // 禁用自動觸發
-            onEnter: () => {
-                // 向下滾動進入時，正向播放
-                tl.play();
+        // 追蹤狀態的變量
+        let navShown = false;
+        let interactionEnabled = false;
 
-                // 如果動畫被中斷，確保 opacity 最終到達正確狀態
-                gsap.to(sectionHeading, {
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.out",
-                    overwrite: "auto"
-                });
-                gsap.to(currentItemDisplay, {
-                    opacity: 1,
-                    duration: 0.5,
-                    delay: 0.5,
-                    ease: "power2.in",
-                    overwrite: "auto"
-                });
+        // 建立 ScrollTrigger 動畫 - 使用 scrub 綁定到滾動進度
+        const scrollTrigger = ScrollTrigger.create({
+            trigger: section, // 使用整個 section 作為觸發器
+            start: 'top top', // section 頂部碰到視窗頂部時開始
+            end: '+=300', // 滾動 300px 的距離來完成動畫
+            scrub: 1, // 平滑跟隨滾動，1 秒的延遲
+            markers: true,
+            animation: tl,
+            onUpdate: (self) => {
+                // 根據進度更新狀態
+                const progress = self.progress;
+
+                // 在 50% 進度時顯示/隱藏導航
+                if (progress > 0.5 && !navShown) {
+                    navShown = true;
+                    setNavigationVisible(true);
+                    setSectionNavigationVisible(true);
+                } else if (progress <= 0.5 && navShown) {
+                    navShown = false;
+                    setNavigationVisible(false);
+                    setSectionNavigationVisible(false);
+                }
+
+                // 動態調整滑鼠追蹤範圍
+                if (setMouseRangeMin && setMouseRangeMax) {
+                    const minRange = 30 + (46 - 30) * progress;
+                    const maxRange = 70 - (70 - 54) * progress;
+                    setMouseRangeMin(minRange);
+                    setMouseRangeMax(maxRange);
+                }
+
+                // 在 80% 進度時啟用/禁用互動
+                if (progress > 0.8 && !interactionEnabled) {
+                    interactionEnabled = true;
+                    if (onAnimationComplete) {
+                        onAnimationComplete();
+                    }
+                } else if (progress <= 0.8 && interactionEnabled) {
+                    interactionEnabled = false;
+                    if (onAnimationReverseComplete) {
+                        onAnimationReverseComplete();
+                    }
+                }
             }
-            // 移除所有反向播放相關的事件
         });
 
         // 清理函數
@@ -154,5 +145,5 @@ export function useReportsScrollAnimation({
             tl.kill();
             scrollTrigger.kill();
         };
-    }, [isClient, isOpeningComplete, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setSectionNavigationVisible, onAnimationComplete]);
+    }, [isClient, isOpeningComplete, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setSectionNavigationVisible, onAnimationComplete, onAnimationReverseComplete]);
 }

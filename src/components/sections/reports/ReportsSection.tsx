@@ -57,7 +57,7 @@ export default function ReportsSection() {
       <div
         ref={sectionHeadingRef}
         id="reports-section-heading"
-        className="sticky mb-[-100vh] top-0 left-0 w-full h-screen"
+        className="sticky top-0 left-0 w-full h-screen"
         style={{
           opacity: isOpeningComplete ? undefined : 0,
           transform: isOpeningComplete ? undefined : 'translateY(100%)'
@@ -73,7 +73,7 @@ export default function ReportsSection() {
             點開報導，你將看見這些改變如何發生。
           </p>
           <div className="flex flex-col items-center justify-center mt-4 gap-2 mx-auto">
-            <div className="w-[1px] h-32 bg-gray-600"></div>
+            <div className="w-[1px] h-16 bg-gray-600"></div>
             <h6 className="text-base text-gray-600 inline-block rounded-sm">
               Scroll to Explore
             </h6>
@@ -82,8 +82,10 @@ export default function ReportsSection() {
       </div>
 
       {/* 報導輪播區域：展示各篇影響力報導 */}
-      <div className="w-full">
-        <ReportsSwiper />
+      <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
+        <div className="sticky top-0 left-0 w-full h-screen">
+          <ReportsSwiper />
+        </div>
       </div>
     </section>
   );

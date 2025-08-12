@@ -30,7 +30,7 @@ export default function Challenge5Content({ projectData, onNavigate, adjacentPro
 
             {/* 圖片與說明 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-5/challenge-5-1.jpg"
+              src="/assets/challenges/challenge-5-1.webp"
               alt="新聞工作者必須在第一線採訪，常常面臨各項身心壓力，圖為2021年4月台鐵太魯閣號事故現場。"
               caption="新聞工作者必須在第一線採訪，常常面臨各項身心壓力，圖為2021年4月台鐵太魯閣號事故現場。（攝影／何柏均）"
               width={800}
@@ -64,7 +64,7 @@ export default function Challenge5Content({ projectData, onNavigate, adjacentPro
 
             {/* 第二張圖片 */}
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-5/challenge-5-2.jpg"
+              src="/assets/challenges/challenge-5-2.webp"
               alt="《報導者》近年興起社團參與風氣，同事在下班後會相約慢跑活動。"
               caption="《報導者》近年興起社團參與風氣，同事在下班後會相約慢跑活動。（攝影／邱紹雯）"
               width={800}

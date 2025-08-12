@@ -30,7 +30,7 @@ export default function Challenge10Content({ projectData, onNavigate, adjacentPr
             </p>
             
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-10/challenge-10-1.jpg"
+              src="/assets/challenges/challenge-10-1.webp"
               alt="台中科博館贊助者大會"
               caption="2022年1月，《報導者》於台中科博館舉辦中部場贊助者大會"
               width={800}
@@ -80,7 +80,7 @@ export default function Challenge10Content({ projectData, onNavigate, adjacentPr
             </p>
             
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-10/challenge-10-2.jpg"
+              src="/assets/challenges/challenge-10-2.webp"
               alt="Lilian參與緬甸街走讀活動"
               caption="Lilian 參與《報導者》與「鳴個喇叭！緬甸街」合作的走讀活動，由在台緬人於中和華新街發起，讓更多人了解緬甸現況。"
               width={800}

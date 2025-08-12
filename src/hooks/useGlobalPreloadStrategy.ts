@@ -23,8 +23,8 @@ const PRELOAD_PRIORITIES = {
   // 中優先級（3-5秒內載入）
   medium: [
     '/assets/innovations/innovation-1.webm',
-    '/assets/challenges/challenge-1/challenge-1-1.jpg',
-    '/assets/challenges/challenge-1/challenge-1-2.jpg'
+    '/assets/challenges/challenge-1-1.webp',
+    '/assets/challenges/challenge-1-2.webp'
   ],
   // 低優先級（5秒後載入）
   low: [
@@ -145,9 +145,9 @@ export function useGlobalPreloadStrategy() {
         break;
       case 'challenges':
         sectionResources = [
-          '/assets/challenges/challenge-2/challenge-2-1.jpg',
-          '/assets/challenges/challenge-2/challenge-2-2.jpg',
-          '/assets/challenges/challenge-3/challenge-3-1.jpg'
+          '/assets/challenges/challenge-2-1.webp',
+          '/assets/challenges/challenge-2-2.webp',
+          '/assets/challenges/challenge-3-1.webp'
         ];
         break;
       default:
