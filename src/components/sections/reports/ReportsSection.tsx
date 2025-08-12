@@ -82,7 +82,7 @@ export default function ReportsSection() {
       </div>
 
       {/* 報導輪播區域：展示各篇影響力報導 */}
-      <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
+      <div className="mt-[-100vh] w-full relative h-[calc(100vh+800px)]">
         <div className="sticky top-0 left-0 w-full h-screen">
           <ReportsSwiper />
         </div>

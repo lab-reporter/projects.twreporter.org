@@ -9,8 +9,7 @@ import ReportsSwiperItem from './ReportsSwiperItem';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useDragSwiper } from '@/hooks/useDragSwiper';
-import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
-import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
+import { useReportsAnimation } from '@/hooks/useReportsAnimation';
 import { useReportsPreloader } from '@/hooks/useReportsPreloader';
 import { useStore } from '@/stores';
 
@@ -50,8 +49,6 @@ export default function ReportsSwiper() {
     const sliderContainerRef = useRef<HTMLDivElement>(null);
     // DOM 元素參考：當前項目資訊展示區域
     const currentItemDisplayRef = useRef<HTMLDivElement>(null);
-    // 用來儲存 zoom out 動畫的引用
-    const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
 
     // ============================
     // 全域狀態區塊
@@ -197,25 +194,16 @@ export default function ReportsSwiper() {
         setIsInteractionEnabled(false);
     }, []);
 
-    // 使用 ScrollTrigger 動畫 Hook
-    useReportsScrollAnimation({
+    // 使用整合的動畫 Hook
+    useReportsAnimation({
         sliderWrapperRef,
         currentItemDisplayRef,
-        zoomOutTweenRef,
         isClient,
         isOpeningComplete,
         setMouseRangeMin,
         setMouseRangeMax,
         onAnimationComplete: handleAnimationComplete,
         onAnimationReverseComplete: handleAnimationReverseComplete
-    });
-
-    // 使用 Zoom Out 動畫 Hook
-    useReportsZoomAnimation({
-        sliderWrapperRef,
-        zoomOutTweenRef,
-        isClient,
-        isOpeningComplete
     });
 
     // ============================
