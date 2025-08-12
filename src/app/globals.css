@@ -45,17 +45,17 @@
   }
 
   h3 {
-    font-weight: 800;
+    font-weight: 700;
     @apply text-h3-mobile md:text-h3-tablet lg:text-h3-desktop;
   }
 
   h4 {
-    font-weight: 600;
+    font-weight: 700;
     @apply text-h4-mobile md:text-h4-tablet lg:text-h4-desktop;
   }
 
   h5 {
-    font-weight: 500;
+    font-weight: 600;
     @apply text-h5-mobile md:text-h5-tablet lg:text-h5-desktop;
   }
 

@@ -14,16 +14,10 @@ interface UseReportsScrollAnimationOptions {
     // 狀態
     isClient: boolean;
     isOpeningComplete: boolean;
-    // 模糊背景相關
-    hasShownBlurOverlayRef: React.MutableRefObject<boolean>;
-    setShowBlurOverlay: (show: boolean) => void;
-    setBlurOverlayOpacity: (opacity: number) => void;
     // 滑鼠追蹤範圍相關
     setMouseRangeMin?: (value: number) => void;
     setMouseRangeMax?: (value: number) => void;
-    // 新增：關閉遮罩的回調
-    onCloseBlurOverlay?: () => void;
-    // 新增：動畫完成的回調
+    // 動畫完成的回調
     onAnimationComplete?: () => void;
 }
 
@@ -36,20 +30,12 @@ export function useReportsScrollAnimation({
     zoomOutTweenRef,
     isClient,
     isOpeningComplete,
-    hasShownBlurOverlayRef,
-    setShowBlurOverlay,
-    setBlurOverlayOpacity,
     setMouseRangeMin,
     setMouseRangeMax,
-    onCloseBlurOverlay,
     onAnimationComplete
 }: UseReportsScrollAnimationOptions) {
     // 取得導航欄控制函數
     const { setNavigationVisible, setSectionNavigationVisible } = useStore();
-
-    // 儲存計時器引用
-    const fadeOutTimerRef = React.useRef<NodeJS.Timeout | null>(null);
-    const hideTimerRef = React.useRef<NodeJS.Timeout | null>(null);
     // ============================
     // ScrollTrigger 動畫設定
     // ============================
@@ -90,7 +76,6 @@ export function useReportsScrollAnimation({
                 // 顯示導航欄和章節導航
                 setNavigationVisible(true);
                 setSectionNavigationVisible(true);
-                // 不再在這裡設置 NextSectionButton 為可見
 
                 // 立即開始動畫化滑鼠追蹤範圍
                 if (setMouseRangeMin && setMouseRangeMax) {
@@ -107,67 +92,9 @@ export function useReportsScrollAnimation({
                     });
                 }
 
-                // 暫時註解掉快取檢查機制
-                // const hasSeenTutorial = typeof window !== 'undefined' &&
-                //     localStorage.getItem('reports-tutorial-seen') === 'true';
-                const hasSeenTutorial = false; // 暫時強制顯示教學提示
-
-                // 同步顯示模糊背景（只在第一次訪問時顯示）
-                if (!hasShownBlurOverlayRef.current) {
-                    hasShownBlurOverlayRef.current = true;
-
-                    if (!hasSeenTutorial) {
-                        // 第一次訪問：顯示教學提示
-                        setShowBlurOverlay(true);
-                        // 鎖定滾動（同時設定 html 和 body）
-                        document.documentElement.style.overflow = 'hidden';
-                        document.body.style.overflow = 'hidden';
-                        // 防止 iOS 彈跳效果
-                        document.body.style.position = 'fixed';
-                        document.body.style.width = '100%';
-                        document.body.style.top = '0';
-                        document.body.style.left = '0';
-
-                        // 0.5秒淡入
-                        setTimeout(() => {
-                            setBlurOverlayOpacity(1);
-                        }, 500);
-
-                        // 暫時註解掉自動消失機制
-                        // // 4.5秒後開始淡出
-                        // fadeOutTimerRef.current = setTimeout(() => {
-                        //     setBlurOverlayOpacity(0);
-                        // }, 4500);
-
-                        // // 5秒後完全隱藏並解鎖滾動
-                        // hideTimerRef.current = setTimeout(() => {
-                        //     setShowBlurOverlay(false);
-                        //     // 解鎖滾動
-                        //     document.body.style.overflow = '';
-                        //     // 暫時註解掉標記已經看過教學
-                        //     // if (typeof window !== 'undefined') {
-                        //     //     localStorage.setItem('reports-tutorial-seen', 'true');
-                        //     // }
-                        //     // 黑色遮罩關閉後啟用自訂游標
-                        //     if (onAnimationComplete) {
-                        //         onAnimationComplete();
-                        //     }
-                        // }, 5000);
-                    } else {
-                        // 已經看過教學：延遲 0.5 秒後解鎖滾動
-                        setTimeout(() => {
-                            document.documentElement.style.overflow = '';
-                            document.body.style.overflow = '';
-                            document.body.style.position = '';
-                            document.body.style.width = '';
-                            document.body.style.top = '';
-                            document.body.style.left = '';
-                            // 動畫完成後啟用自訂游標
-                            if (onAnimationComplete) {
-                                onAnimationComplete();
-                            }
-                        }, 500);
-                    }
+                // 動畫完成後直接啟用互動
+                if (onAnimationComplete) {
+                    onAnimationComplete();
                 }
             }
         }, 0)
@@ -214,54 +141,6 @@ export function useReportsScrollAnimation({
         return () => {
             tl.kill();
             scrollTrigger.kill();
-            // 清除計時器 - 複製 ref 值到變數中
-            const fadeOutTimer = fadeOutTimerRef.current;
-            const hideTimer = hideTimerRef.current;
-            if (fadeOutTimer) {
-                clearTimeout(fadeOutTimer);
-            }
-            if (hideTimer) {
-                clearTimeout(hideTimer);
-            }
         };
-    }, [isClient, isOpeningComplete, hasShownBlurOverlayRef, setShowBlurOverlay, setBlurOverlayOpacity, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setSectionNavigationVisible, onAnimationComplete]);
-
-    // 返回關閉遮罩的函數
-    const closeBlurOverlay = React.useCallback(() => {
-        // 清除計時器
-        if (fadeOutTimerRef.current) {
-            clearTimeout(fadeOutTimerRef.current);
-        }
-        if (hideTimerRef.current) {
-            clearTimeout(hideTimerRef.current);
-        }
-
-        // 立即淡出並隱藏
-        setBlurOverlayOpacity(0);
-        setTimeout(() => {
-            setShowBlurOverlay(false);
-            // 解鎖滾動
-            document.documentElement.style.overflow = '';
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            document.body.style.top = '';
-            document.body.style.left = '';
-            // 暫時註解掉標記已經看過教學
-            // if (typeof window !== 'undefined') {
-            //     localStorage.setItem('reports-tutorial-seen', 'true');
-            // }
-            // 手動關閉遮罩後也要啟用自訂游標
-            if (onAnimationComplete) {
-                onAnimationComplete();
-            }
-        }, 500); // 給 0.5 秒的淡出動畫時間
-
-        // 呼叫外部的回調（如果有的話）
-        if (onCloseBlurOverlay) {
-            onCloseBlurOverlay();
-        }
-    }, [setBlurOverlayOpacity, setShowBlurOverlay, onCloseBlurOverlay, onAnimationComplete]);
-
-    return { closeBlurOverlay };
+    }, [isClient, isOpeningComplete, sliderWrapperRef, currentItemDisplayRef, zoomOutTweenRef, setMouseRangeMin, setMouseRangeMax, setNavigationVisible, setSectionNavigationVisible, onAnimationComplete]);
 }

@@ -13,7 +13,6 @@ import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
 import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
 import { useReportsPreloader } from '@/hooks/useReportsPreloader';
 import { useStore } from '@/stores';
-import ReportsHint from './ReportsHint';
 
 // ============================
 // 型別定義區塊
@@ -70,15 +69,6 @@ export default function ReportsSwiper() {
     // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
     const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
-    // ============================
-    // 本地狀態區塊 - 模糊背景層相關
-    // ============================
-    // 狀態：追蹤模糊背景層是否正在顯示
-    const [showBlurOverlay, setShowBlurOverlay] = useState(false);
-    // 狀態：追蹤模糊背景層的透明度
-    const [blurOverlayOpacity, setBlurOverlayOpacity] = useState(0);
-    // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
-    const hasShownBlurOverlayRef = useRef(false);
 
     // ============================
     // 本地狀態區塊 - 滑鼠追蹤參數
@@ -202,15 +192,12 @@ export default function ReportsSwiper() {
     }, []);
 
     // 使用 ScrollTrigger 動畫 Hook
-    const { closeBlurOverlay } = useReportsScrollAnimation({
+    useReportsScrollAnimation({
         sliderWrapperRef,
         currentItemDisplayRef,
         zoomOutTweenRef,
         isClient,
         isOpeningComplete,
-        hasShownBlurOverlayRef,
-        setShowBlurOverlay,
-        setBlurOverlayOpacity,
         setMouseRangeMin,
         setMouseRangeMax,
         onAnimationComplete: handleAnimationComplete
@@ -435,13 +422,6 @@ export default function ReportsSwiper() {
             </div>
 
             {/* <NextSectionButton /> */}
-
-            {/* 教學提示遮罩層 */}
-            <ReportsHint
-                show={showBlurOverlay}
-                opacity={blurOverlayOpacity}
-                onClose={closeBlurOverlay}
-            />
         </div>
     );
 }

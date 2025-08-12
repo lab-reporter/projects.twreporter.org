@@ -11,10 +11,10 @@ export default function CurrentItemDisplay({ title, subtitle, className = "" }: 
     if (!title && !subtitle) return null;
 
     return (
-        <div className={`max-w-[40rem] px-4 ${className}`}>
+        <div className={`max-w-[45rem] px-8 ${className}`}>
             {/* 標題 */}
             {title && (
-                <h3 className="mb-2" dangerouslySetInnerHTML={{ __html: title }} />
+                <h4 className="mb-2" dangerouslySetInnerHTML={{ __html: title }} />
             )}
             {/* 副標題 */}
             {subtitle && (
