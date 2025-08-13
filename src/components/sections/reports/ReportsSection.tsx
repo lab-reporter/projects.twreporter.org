@@ -40,22 +40,24 @@ export default function ReportsSection() {
         id="reports-section-heading"
         className="sticky top-0 left-0 w-full h-screen"
       >
-        <SectionHeadings
-          titleEn="IMPACT"
-          titleZh="深度報導・影響力"
-        >
-          <p>
-            「深度報導並不朝生暮死，它們帶著應該被聽見的聲音，持續發聲。」<br />
-            《報導者》許多報導因為讀者的迴響，具體改變了政策與受訪者處境。
-            點開報導，你將看見這些改變如何發生。
-          </p>
-          <div className="flex flex-col items-center justify-center mt-4 gap-2 mx-auto">
-            <div className="w-[1px] h-16 bg-gray-600"></div>
-            <h6 className="text-base text-gray-600 inline-block rounded-sm">
-              Scroll to Explore
-            </h6>
-          </div>
-        </SectionHeadings>
+        <div className="w-full h-screen flex flex-col items-center justify-center">
+          <SectionHeadings
+            titleEn="IMPACT"
+            titleZh="深度報導・影響力"
+          >
+            <p>
+              「深度報導並不朝生暮死，它們帶著應該被聽見的聲音，持續發聲。」<br />
+              《報導者》許多報導因為讀者的迴響，具體改變了政策與受訪者處境。
+              點開報導，你將看見這些改變如何發生。
+            </p>
+            <div className="flex flex-col items-center justify-center mt-4 gap-2 mx-auto">
+              <div className="w-[1px] h-16 bg-gray-600"></div>
+              <h6 className="text-base text-gray-600 inline-block rounded-sm">
+                Scroll to Explore
+              </h6>
+            </div>
+          </SectionHeadings>
+        </div>
       </div>
 
       {/* 報導輪播區域：展示各篇影響力報導 */}
