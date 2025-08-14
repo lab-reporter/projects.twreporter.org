@@ -429,6 +429,11 @@ export default function ReportsSwiper() {
                         nextLabel="下一個報導"
 
                         navigationDisabled={!isInteractionEnabled}
+                        currentItem={currentItem}
+                        onTitleClick={(item) => {
+                            const { openModal } = useStore.getState();
+                            openModal(item.id as string, item);
+                        }}
                     />
                 </div>
             </div>

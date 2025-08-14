@@ -1,4 +1,31 @@
-<svg width="45" height="46" viewBox="0 0 45 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M28.0918 11.6931L44.8611 7.32031V38.7231L28.0918 34.3025V11.6931Z" fill="#C40D23"/>
-<path d="M0.138672 0L28.0916 11.6953V34.3047L0.138672 46V0Z" fill="#F80B28"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_圖層_2" data-name="圖層 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129.54 123.07">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f76977;
+      }
+
+      .cls-2 {
+        fill: #9b051e;
+      }
+
+      .cls-3 {
+        fill: #f80b28;
+      }
+
+      .cls-4 {
+        fill: #c40d23;
+      }
+    </style>
+  </defs>
+  <g id="logo">
+    <g>
+      <polygon class="cls-4" points="90.19 50.12 129.54 55.78 100.93 123.07 69.59 98.56 90.19 50.12"/>
+      <polygon class="cls-3" points="41.91 0 90.19 50.12 69.59 98.56 0 98.56 41.91 0"/>
+      <path class="cls-1" d="M41.91,0l39.35,5.67,48.28,50.12c-3.14-.54-39.35-5.67-39.35-5.67L41.91,0Z"/>
+      <polygon class="cls-2" points="0 98.56 57.64 123.07 100.93 123.07 69.59 98.56 0 98.56"/>
+      <polygon class="cls-1" points="0 53.58 0 98.56 41.91 0 0 53.58"/>
+    </g>
+  </g>
 </svg>
