@@ -36,4 +36,6 @@ export { default as ChallengeImageWithCaption } from './ChallengeImageWithCaptio
 // 投影片系統組件
 export { default as InnovationSlidesContainer } from './InnovationSlidesContainer';
 export { default as InnovationSlide } from './InnovationSlide';
-export { SlideMedia, SlideTextCard, MediaTextSlide } from './SlideMedia';
+export { default as SlideMedia } from './SlideMedia';
+export { default as SlideTextCard } from './SlideTextCard';
+export { default as MediaTextSlide } from './MediaTextSlide';
