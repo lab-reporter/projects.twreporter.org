@@ -7,12 +7,12 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useInnovationsSwiper } from '@/hooks/useInnovationsSwiper';
 import SectionHeadings from '@/components/shared/SectionHeadings';
-import { CurrentItemDisplay } from '@/components/shared';
+import { ItemDisplayWithNavigation } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import InnovationVideoItem from './InnovationVideoItem';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -240,33 +240,17 @@ export default function InnovationsSection() {
 
           {/* 當前項目資訊展示區 */}
           <div className="absolute z-[100] bottom-24 w-full flex justify-center items-center">
-            <button
-              onClick={goToPrevious}
-              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-              aria-label="上一個創新項目"
-            >
-              <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-              {/* 懸停提示文字 */}
-              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                上一個
-              </div>
-            </button>
-            <CurrentItemDisplay
+            <ItemDisplayWithNavigation
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
-              className="min-w-[35rem]"
+              onPrevious={goToPrevious}
+              onNext={goToNext}
+              previousLabel="上一個創新項目"
+              nextLabel="下一個創新項目"
+              previousTooltip="上一個"
+              nextTooltip="下一個"
+              displayClassName="min-w-[35rem]"
             />
-            <button
-              onClick={goToNext}
-              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-              aria-label="下一個創新項目"
-            >
-              <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-              {/* 懸停提示文字 */}
-              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                下一個
-              </div>
-            </button>
           </div>
         </div>
       </div>

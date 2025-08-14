@@ -3,8 +3,7 @@
 import React, { useRef, useState, useMemo } from 'react'
 import { useStore } from '@/stores'
 import projectsData from '@/app/data/projects.json'
-import { CurrentItemDisplay } from '@/components/shared'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ItemDisplayWithNavigation } from '@/components/shared'
 import Image from 'next/image'
 
 // Import Swiper React components
@@ -159,27 +158,17 @@ const ChallengesSwiper: React.FC = () => {
 
             {/* 導航控制區與 CurrentItemDisplay */}
             <div className="mt-8 w-full flex justify-center items-center">
-                <button
-                    onClick={goToPrevious}
-                    className="group relative p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-                    aria-label="上一個挑戰"
-                >
-                    <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-                </button>
-
-                <CurrentItemDisplay
+                <ItemDisplayWithNavigation
                     title={currentItem?.title}
                     subtitle={currentItem?.subtitle}
-                    className="min-w-[35rem] mx-6"
+                    onPrevious={goToPrevious}
+                    onNext={goToNext}
+                    previousLabel="上一個挑戰"
+                    nextLabel="下一個挑戰"
+                    previousTooltip="上一個"
+                    nextTooltip="下一個"
+                    displayClassName="min-w-[35rem]"
                 />
-
-                <button
-                    onClick={goToNext}
-                    className="group relative p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
-                    aria-label="下一個挑戰"
-                >
-                    <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
-                </button>
             </div>
 
             {/* 自定義樣式 */}

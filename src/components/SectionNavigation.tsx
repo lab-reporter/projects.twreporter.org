@@ -4,12 +4,20 @@ import { useStore } from '@/stores';
 import { useEffect, useState } from 'react';
 
 // 章節導航配置：定義所有可導航的頁面章節
-const sections = [
+// 第一組：reports, innovations, challenges（透明背景樣式）
+const firstGroupSections = [
   { id: 'reports', name: '報導影響力' },
   { id: 'innovations', name: '多元創新' },
-  { id: 'challenges', name: '媒體突圍' },
+  { id: 'challenges', name: '媒體突圍' }
+];
+
+// 第二組：support（實心背景樣式）
+const secondGroupSections = [
   { id: 'support', name: '贊助支持' }
 ];
+
+// 合併所有章節供其他邏輯使用
+const sections = [...firstGroupSections, ...secondGroupSections];
 
 // 章節導航組件
 export default function SectionNavigation() {
@@ -104,6 +112,22 @@ export default function SectionNavigation() {
     return null;
   }
 
+  // 第一組按鈕的樣式生成函數
+  const getFirstGroupButtonClass = (sectionId: string) => {
+    const isActive = activeSection === sectionId;
+    const baseClass = 'bg-transparent backdrop-blur-md border-none cursor-pointer transition-all duration-300 ease-out';
+
+    if (isActive) {
+      return `${baseClass} text-black`;
+    }
+    return `${baseClass} text-[rgba(128,128,128,0.5)] hover:text-red-90`;
+  };
+
+  // 第二組按鈕的樣式生成函數
+  const getSecondGroupButtonClass = () => {
+    return 'py-4 px-2 text-white bg-red-70 hover:bg-red-50 border-none cursor-pointer rounded-full mt-4 transition-all duration-300 ease-out';
+  };
+
   return (
     // 導航容器：固定在右側中間位置，簡單淡入效果
     // 使用 hidden md:flex 來確保在小裝置上完全不渲染
@@ -114,39 +138,37 @@ export default function SectionNavigation() {
         transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`
       }}
     >
-
-      <div className="flex flex-col gap-2">
-        {sections.map((section) => (
+      <div className="flex flex-col justify-center items-center gap-4">
+        {/* 第一組按鈕：reports, innovations, challenges */}
+        {firstGroupSections.map((section) => (
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
-            style={{
-              padding: '8px 8px',
-              // 根據是否為當前章節設定背景色
-              backgroundColor: activeSection === section.id ? '#9B051E' : 'transparent',
-              // 根據是否為當前章節設定文字顏色
-              color: activeSection === section.id ? 'white' : '#9CA3AF',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            // 滑鼠進入事件：非當前章節時變更樣式
-            onMouseEnter={(e) => {
-              if (activeSection !== section.id) {
-                e.currentTarget.style.backgroundColor = 'white';
-                e.currentTarget.style.color = 'black';
-              }
-            }}
-            // 滑鼠離開事件：非當前章節時還原樣式
-            onMouseLeave={(e) => {
-              if (activeSection !== section.id) {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#9CA3AF';
-              }
-            }}
-            // 滑鼠懸停時的提示文字
+            className={getFirstGroupButtonClass(section.id)}
             title={section.name}
-            // 無障礙標籤
+            aria-label={`跳到 ${section.name} 區塊`}
+          >
+            <p
+              className="text-sm font-medium tracking-wider font-noto-sans-tc"
+              style={{
+                // 垂直排列文字
+                writingMode: 'vertical-rl',
+                textOrientation: 'mixed',
+                lineHeight: '1'
+              }}
+            >
+              {section.name}
+            </p>
+          </button>
+        ))}
+
+        {/* 第二組按鈕：support */}
+        {secondGroupSections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => scrollToSection(section.id)}
+            className={getSecondGroupButtonClass()}
+            title={section.name}
             aria-label={`跳到 ${section.name} 區塊`}
           >
             <p
