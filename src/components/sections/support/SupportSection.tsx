@@ -229,9 +229,9 @@ export default function SupportSection() {
     // 主要頁面區塊：支持頁面
     <div
       id="section-support"
-      className="w-full min-h-screen text-white flex flex-col lg:flex-row justify-center items-center px-8 py-20"
+      className="w-full min-h-screen text-white flex flex-col lg:flex-row justify-center items-center gap-16 px-8 py-20"
     >
-
+      {/* 左側贊助支持區塊 */}
       <div>
         {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
         {/* 綁定 ref 用於動畫觸發偵測 */}
@@ -309,21 +309,29 @@ export default function SupportSection() {
           </button>
         </div>
       </div>
-      {/* 十週年限定回饋（觸發圓圈放大） */}
+      {/* 右側十週年回饋說明*/}
       <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
         <Image
           src="/assets/gift.png"
           width={1000}
           height={1000}
           alt="十週年限定贊助回饋"
-          className="w-full h-auto max-w-[30rem]" />
-        <h4 className="mb-2 font-bold">
+          className="w-full h-auto max-w-[25rem] mb-4" />
+        <h6 className="mb-2 font-bold">
           十週年限定贊助回饋
-        </h4>
-        <h6 className="leading-relaxed">
-          凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
-          即可在《報導者》十週年活動領取十週年限定紀念品
         </h6>
+        <h5 className="mb-2">
+          報導者 × 春池玻璃
+        </h5>
+        <h4 className="mb-2">
+          聯名玻璃磚
+        </h4>
+        <p className="leading-relaxed max-w-[20rem] text-center">
+          凡在2025年11月30日前加入《報導者》定期定額贊助行列，即可登記領取十週年限定回饋品。
+        </p>
+        <button className="mt-4 bg-gray-100 px-4 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300">
+          領取辦法
+        </button>
       </div>
 
     </div>

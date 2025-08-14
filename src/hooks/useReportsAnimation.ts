@@ -174,7 +174,7 @@ export function useReportsAnimation({
             end: '+=300', // 總共 600px 完成所有動畫
             scrub: 0.5,
             animation: masterTimeline,
-            markers: true,
+            // markers: true,
             onUpdate: (self) => {
                 const progress = self.progress;
 

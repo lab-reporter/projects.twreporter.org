@@ -75,8 +75,6 @@ export default function FeedbacksSection() {
   // ============================
   // DOM 參考區塊
   // ============================
-  // DOM 元素參考：空白區域
-  const blankSpaceRef = useRef<HTMLDivElement>(null);
   // DOM 元素參考：證言卡片
   const cardsRef = useRef<HTMLDivElement>(null);
   // DOM 元素參考：卡片外層容器
@@ -172,12 +170,12 @@ export default function FeedbacksSection() {
     // 主容器：設定總體滾動高度以容納所有動畫階段
     <section
       id="section-feedbacks"
-      className="w-full h-[800vh] text-white"
+      className="w-full text-white"
     >
       {/* ============================
       // 第一部分：證言展示區域
       // ============================*/}
-      <div ref={containerRef} className="h-[300vh]">
+      <div ref={containerRef} className="">
         {/* 背景證言卡片 */}
         <div
           ref={cardsRef}

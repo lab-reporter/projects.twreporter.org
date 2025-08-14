@@ -15,7 +15,6 @@ import InnovationsSection from '@/components/sections/innovations/InnovationsSec
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
-import SupportSection from '@/components/sections/support/SupportSection';
 import FooterSection from '@/components/sections/footer/FooterSection';
 
 
@@ -166,7 +165,6 @@ export default function Home() {
         <ChallengesSection />
         <FeedbacksSection />
         <EventSection />
-        <SupportSection />
         <FooterSection />
       </main>
 

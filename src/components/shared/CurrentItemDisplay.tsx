@@ -29,8 +29,8 @@ export default function CurrentItemDisplay({
     return (
         <div
             className={`max-w-[45rem] px-8 ${className} ${currentItem && onTitleClick
-                    ? 'cursor-pointer hover:opacity-80 transition-opacity duration-300'
-                    : ''
+                ? 'cursor-pointer hover:opacity-50 transition-opacity duration-300'
+                : ''
                 }`}
             onClick={currentItem && onTitleClick ? handleTitleClick : undefined}
         >

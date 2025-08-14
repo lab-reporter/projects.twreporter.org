@@ -133,7 +133,7 @@ export default function InnovationsSection() {
       start: 'top 80%', // 當容器頂部觸及視窗 80% 位置開始
       end: 'top 25%', // 當容器頂部到達視窗 10% 位置結束
       scrub: 1, // 平滑過渡
-      markers: true,
+      // markers: true,
       onUpdate: (self) => {
         // 根據滾動進度計算透明度（1 -> 0）
         const opacity = 1 - self.progress;
