@@ -9,6 +9,7 @@ interface Project {
   subtitle?: string;
   section: string[];
   bgColor?: string;
+  imageSRC?: string; // 新增 imageSRC 屬性
 }
 
 interface ModalSidepanelProps {
@@ -32,11 +33,18 @@ export default function ModalSidepanel({
   };
 
   // 渲染媒體內容（圖片或影片）
-  const renderMedia = (path: string, title: string) => {
-    if (isVideo(path)) {
+  const renderMedia = (project: Project) => {
+    // 對於 Innovation 項目，優先使用 imageSRC（webp 圖片）來降低載入負擔
+    const isInnovation = project.section.includes('innovation');
+    const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+
+    // 如果是 Innovation 且有 imageSRC，強制使用圖片模式
+    const shouldUseImage = isInnovation && project.imageSRC;
+
+    if (!shouldUseImage && isVideo(mediaPath)) {
       return (
         <video
-          src={path}
+          src={mediaPath}
           className="w-full h-full object-contain"
           muted
           loop
@@ -47,8 +55,8 @@ export default function ModalSidepanel({
     } else {
       return (
         <Image
-          src={path}
-          alt={title}
+          src={mediaPath}
+          alt={project.title}
           width={320}
           height={240}
           className="w-full h-full object-cover"
@@ -79,7 +87,7 @@ export default function ModalSidepanel({
               ? 'opacity-100'
               : 'opacity-80 filter grayscale group-hover:filter-none'
               } transition-all duration-300`}>
-              {renderMedia(project.path, project.title)}
+              {renderMedia(project)}
             </div>
           </div>
 

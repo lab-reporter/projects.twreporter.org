@@ -33,7 +33,7 @@ export default function Innovation5Content({ projectData, onNavigate, adjacentPr
               title="報導者影音報導"
               className="rounded-lg"
             />
-            <div className="absolute bottom-12 right-12 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="面對難以迴避的短影音趨勢，《報導者》在2024年推出影音報導，滿足多樣的讀者需求。"
               />
@@ -53,7 +53,7 @@ export default function Innovation5Content({ projectData, onNavigate, adjacentPr
               title="報導者影音報導"
               className="rounded-lg"
             />
-            <div className="absolute top-12 left-12 max-w-md">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="首支影片以「兒少性剝削」為主題，上線即吸引將近30萬人次的觀看。"
               />
@@ -73,7 +73,7 @@ export default function Innovation5Content({ projectData, onNavigate, adjacentPr
               title="報導者影音報導"
               className="rounded-lg"
             />
-            <div className="absolute top-1/2 right-12 -translate-y-1/2 max-w-md">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="陸續推出的幾支影片主題，包含美國大選、海底電纜、國民法官現場速寫等，都成功吸引大眾關注。"
               />
@@ -107,10 +107,9 @@ export default function Innovation5Content({ projectData, onNavigate, adjacentPr
               alt="報導者影音報導"
               className="object-contain"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="影片不只傳遞新聞，更成為橋梁，召喚觀眾培養理解複雜議題的能力，重新靠近深度報導。"
-                className="shadow-2xl"
               />
             </div>
           </div>

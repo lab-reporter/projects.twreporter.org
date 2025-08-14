@@ -48,7 +48,7 @@ export default function Innovation4Content({ projectData, onNavigate, adjacentPr
               title="Spotify Podcast"
               className="rounded-xl max-w-lg"
             />
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="無論是調查現場、國際新聞，聲音成為陪伴聽眾的媒介，也串起跨世代、跨地域的理解與共鳴。"
               />
@@ -64,7 +64,7 @@ export default function Innovation4Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-4/innovation-4-2.webp"
               alt="The Real Story 獲獎畫面"
             />
-            <div className="absolute top-1/2 right-12 -translate-y-1/2 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="節目推出至今累積將近3,000萬次收聽，兩度獲卓越新聞獎，也曾入選 KKBOX Podcast 風雲榜年度最佳節目、Apple Podcast 年度十大節目。"
               />
@@ -80,10 +80,9 @@ export default function Innovation4Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-4/innovation-4-8.webp"
               alt="The Real Story 節目封面"
             />
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="讓更多的聲音被聽見、把世界不同角落的聲音帶進人們的心，是《報導者》將持續完成的事。"
-                className="shadow-2xl"
               />
             </div>
           </div>

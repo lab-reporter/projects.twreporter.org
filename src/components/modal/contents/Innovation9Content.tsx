@@ -45,7 +45,7 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-9/innovation-9-10.webp"
               alt="深度影像工作坊"
             />
-            <div className="absolute top-12 right-12 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="連續8年舉辦「深度影像工作坊」，培力新聞攝影新世代，扶植X位年輕人才轉任正職或特約攝影記者。"
               />
@@ -61,7 +61,7 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-9/攝影集.webp"
               alt="新聞攝影集"
             />
-            <div className="absolute top-1/2 left-12 -translate-y-1/2 max-w-md">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="出版新聞攝影集並舉辦展覽，拓展影像公共參與的想像與可能。"
               />
@@ -93,10 +93,9 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-9/innovation-9-1.webp"
               alt="攝影集錦"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="《報導者》累積大量影像作品、資料與論述，用視覺書寫關於這片土地的記憶。"
-                className="shadow-2xl"
               />
             </div>
           </div>

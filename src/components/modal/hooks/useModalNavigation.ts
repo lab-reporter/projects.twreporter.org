@@ -11,6 +11,7 @@ interface ProjectData {
     subtitle: string;
     section: string[];
     bgColor: string;
+    imageSRC?: string; // 新增 imageSRC 屬性
     [key: string]: unknown;
 }
 
@@ -46,7 +47,8 @@ export const useModalNavigation = () => {
             title: (dataToUse as { title?: string })?.title || '',
             subtitle: (dataToUse as { subtitle?: string })?.subtitle || '',
             section: (dataToUse as { section?: string[] })?.section || [],
-            bgColor: (dataToUse as { bgColor?: string })?.bgColor || '#F1F1F1'
+            bgColor: (dataToUse as { bgColor?: string })?.bgColor || '#F1F1F1',
+            imageSRC: (dataToUse as { imageSRC?: string })?.imageSRC // 保留 imageSRC 屬性
         };
         return getAdjacentProjects(safeData, sameTypeProjects);
     }, [modal.data, sameTypeProjects]);

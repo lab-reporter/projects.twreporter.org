@@ -22,11 +22,18 @@ export default function NavigationControls({
   };
 
   // 渲染媒體內容（圖片或影片）
-  const renderMedia = (path: string, title: string) => {
-    if (isVideo(path)) {
+  const renderMedia = (project: { id: string; path: string; title: string; subtitle?: string; imageSRC?: string; section?: string[] }) => {
+    // 對於 Innovation 項目，優先使用 imageSRC（webp 圖片）來降低載入負擔
+    const isInnovation = project.section?.includes('innovation');
+    const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+
+    // 如果是 Innovation 且有 imageSRC，強制使用圖片模式
+    const shouldUseImage = isInnovation && project.imageSRC;
+
+    if (!shouldUseImage && isVideo(mediaPath)) {
       return (
         <video
-          src={path}
+          src={mediaPath}
           className="w-full h-full object-cover"
           muted
           loop
@@ -37,8 +44,8 @@ export default function NavigationControls({
     } else {
       return (
         <Image
-          src={path}
-          alt={title}
+          src={mediaPath}
+          alt={project.title}
           width={480}
           height={360}
           className="w-full h-full object-cover"
@@ -50,7 +57,7 @@ export default function NavigationControls({
 
   // 渲染單個導航項目
   const renderNavigationItem = (
-    project: { id: string; path: string; title: string; subtitle?: string } | null,
+    project: { id: string; path: string; title: string; subtitle?: string; imageSRC?: string; section?: string[] } | null,
     direction: 'prev' | 'next'
   ) => {
     if (!project) {
@@ -111,7 +118,7 @@ export default function NavigationControls({
 
           {/* 圖片影片區域 */}
           <div className="flex-1 opacity-100 filter grayscale group-hover:opacity-100 group-hover:filter-none transition-all duration-300 overflow-hidden">
-            {renderMedia(project.path, project.title)}
+            {renderMedia(project)}
           </div>
         </div>
       </div>

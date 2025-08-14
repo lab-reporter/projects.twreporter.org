@@ -45,7 +45,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
             src="/assets/innovations/innovation-1/innovation-1-6.jpg"
             alt="急診室實地採訪畫面"
           />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg">
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
             <Shared.SlideTextCard
               text="團隊走進急診室實地採訪，將醫師真實處境轉化為遊戲機制，呈現制度與人力的多重壓力。"
             />
@@ -60,7 +60,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-1/innovation-1-5.jpg"
               alt="遊戲介面設計"
             />
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="操作簡單、風格懷舊，由記者、設計師與工程師協作，重溫童年經營遊戲的手感。"
               />
@@ -77,7 +77,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
               alt="遊戲介面設計"
               className="opacity-90"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="從文字到遊戲，是《報導者》邁向沉浸式敘事的實驗，也是新聞接觸更多公眾的全新方式。"
                 className="shadow-2xl"

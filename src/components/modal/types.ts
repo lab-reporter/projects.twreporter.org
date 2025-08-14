@@ -5,6 +5,7 @@ export interface ReportData {
   subtitle: string;
   section: string[];
   bgColor?: string;
+  imageSRC?: string; // 新增 imageSRC 屬性用於優化載入
   [key: string]: unknown;
 }
 

@@ -47,7 +47,7 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
               alt="《森林傷痕》漫畫圖檔"
               className="object-contain"
             />
-            <div className="absolute top-12 right-12 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="透過漫畫的重構，帶領讀者走過主角們親歷的現場。"
               />
@@ -64,7 +64,7 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
               alt="《鳥籠時代》漫畫圖檔"
               className="object-contain"
             />
-            <div className="absolute top-1/2 left-12 -translate-y-1/2 max-w-md">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在視覺重構中延續生命力。"
               />
@@ -98,10 +98,9 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
               alt="《陪伴｜娃娃》立體書封"
               className="object-contain"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。"
-                className="shadow-2xl"
               />
             </div>
           </div>

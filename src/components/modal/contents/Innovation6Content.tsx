@@ -48,7 +48,7 @@ export default function Innovation6Content({ projectData, onNavigate, adjacentPr
               title="多語讀報播放器"
               className="rounded-xl max-w-lg"
             />
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="自2023年5月，與央廣合作10種語言讀報，讓多元族群孩子也能接觸優質新聞。"
               />
@@ -64,7 +64,7 @@ export default function Innovation6Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-6/innovation-6-10.webp"
               alt="全台首本兒少新聞雜誌書"
             />
-            <div className="absolute top-1/2 right-12 -translate-y-1/2 max-w-lg">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="2023年8月出版全台首本兒少新聞雜誌書，並串聯企業捐書至偏鄉，讓深度新聞成為知識平權的起點。"
               />
@@ -80,7 +80,7 @@ export default function Innovation6Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-6/innovation-6-14.webp"
               alt="小記者採訪總統候選人"
             />
-            <div className="absolute bottom-12 left-12 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="2024台灣總統大選期間，更帶小記者採訪3位總統候選人，創下台灣總統候選人首度接受兒少採訪的紀錄。"
               />
@@ -96,10 +96,9 @@ export default function Innovation6Content({ projectData, onNavigate, adjacentPr
               src="/assets/innovations/innovation-6/innovation-6-6.webp"
               alt="少年報導者活動照片"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-xl">
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
               <Shared.SlideTextCard
                 text="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態。"
-                className="shadow-2xl"
               />
             </div>
           </div>
