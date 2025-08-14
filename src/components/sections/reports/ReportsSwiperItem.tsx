@@ -121,7 +121,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
       className="relative w-full h-full rounded-sm overflow-hidden group bg-gray-100 select-none"
       style={{
         backgroundColor: bgColor || '#F1F1F1',
-        cursor: isActive ? 'zoom-in' : 'pointer',
+        cursor: 'pointer',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         MozUserSelect: 'none',

@@ -12,14 +12,6 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
         scrollContainer={scrollContainer}
         enableModalClose={true}
       >
-        {/* 第一頁：Banner */}
-        <Shared.InnovationSlide>
-          <Shared.InnovationBanner
-            videoSrc={projectData.path}
-            title={projectData.title}
-            subtitle={projectData.subtitle}
-          />
-        </Shared.InnovationSlide>
 
         {/* 第二頁：遊戲影片與說明 */}
         <Shared.InnovationSlide>
@@ -84,6 +76,14 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
               />
             </div>
           </div>
+        </Shared.InnovationSlide>
+        {/* 第一頁：Banner */}
+        <Shared.InnovationSlide>
+          <Shared.InnovationBanner
+            videoSrc={projectData.path}
+            title={projectData.title}
+            subtitle={projectData.subtitle}
+          />
         </Shared.InnovationSlide>
 
         {/* 最後一頁：導航控制 */}

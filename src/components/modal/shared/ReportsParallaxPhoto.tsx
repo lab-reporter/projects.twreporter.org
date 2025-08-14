@@ -26,16 +26,16 @@ interface ReportsParallaxPhotoProps {
     enableMobileParallax?: boolean;
 }
 
-export default function ReportsParallaxPhoto({ 
-    photos, 
-    enableMobileParallax = false 
+export default function ReportsParallaxPhoto({
+    photos,
+    enableMobileParallax = false
 }: ReportsParallaxPhotoProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const breakpoint = useBreakpoint();
 
     // 判斷是否為行動裝置
     const isMobile = breakpoint === 'base' || breakpoint === 'sm';
-    
+
     // 使用滑鼠追蹤 Hook（根據裝置決定是否啟用）
     useMouseTracking3D({
         enabled: enableMobileParallax || !isMobile,
@@ -51,7 +51,7 @@ export default function ReportsParallaxPhoto({
     const getDefaultPosition = (index: number): PhotoItem['position'] => {
         const row = Math.floor(index / 3);
         const col = index % 3;
-        
+
         return {
             top: {
                 base: `${5 + row * 45}%`,    // 手機版：垂直間距更大
@@ -63,11 +63,11 @@ export default function ReportsParallaxPhoto({
             },
             left: {
                 base: `${10 + col * 40}%`,   // 手機版：水平間距更小
-                sm: `${8 + col * 38}%`,      
-                md: `${10 + col * 35}%`,     
-                lg: `${10 + col * 32}%`,     
-                xl: `${10 + col * 30}%`,     
-                '2xl': `${12 + col * 28}%`   
+                sm: `${8 + col * 38}%`,
+                md: `${10 + col * 35}%`,
+                lg: `${10 + col * 32}%`,
+                xl: `${10 + col * 30}%`,
+                '2xl': `${12 + col * 28}%`
             },
             z: {
                 base: 10 + (index % 3) * 10, // 手機版：較小的 Z 軸深度
@@ -83,7 +83,7 @@ export default function ReportsParallaxPhoto({
     // 取得預設寬度
     const getDefaultWidth = (): ResponsiveValue<string> => ({
         base: '70vw',   // 手機版：較大的圖片
-        sm: '55vw',     
+        sm: '55vw',
         md: '40vw',     // 平板
         lg: '32vw',     // 筆電
         xl: '25vw',     // 桌機
@@ -106,7 +106,7 @@ export default function ReportsParallaxPhoto({
     return (
         <div
             ref={containerRef}
-            className="w-full h-screen relative overflow-hidden"
+            className="w-full h-[60vh] relative overflow-hidden"
             style={{
                 transformStyle: 'preserve-3d',
                 perspective: getPerspective(),
@@ -114,17 +114,17 @@ export default function ReportsParallaxPhoto({
             {photos.map((photo, index) => {
                 // 取得位置配置（使用預設或自訂）
                 const position = photo.position || getDefaultPosition(index);
-                
+
                 // 取得當前斷點對應的值
                 const currentTop = getResponsiveValue(position?.top || '', breakpoint);
                 const currentLeft = getResponsiveValue(position?.left || '', breakpoint);
                 const currentZ = getResponsiveValue(position?.z || 0, breakpoint);
                 const currentWidth = getResponsiveValue(
-                    photo.width || getDefaultWidth(), 
+                    photo.width || getDefaultWidth(),
                     breakpoint
                 );
                 const isVisible = getResponsiveValue(
-                    photo.visibility ?? true, 
+                    photo.visibility ?? true,
                     breakpoint
                 );
 
@@ -159,7 +159,7 @@ export default function ReportsParallaxPhoto({
                             className="w-full h-auto border-2 sm:border-3 md:border-4 border-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-sm"
                             priority={index < 3} // 前三張圖片優先載入
                         />
-                        
+
                         {/* 開發模式：顯示響應式調試資訊 */}
                         {process.env.NODE_ENV === 'development' && (
                             <div className="absolute top-2 right-2 bg-black/80 text-white text-[10px] px-2 py-1 rounded font-mono">
