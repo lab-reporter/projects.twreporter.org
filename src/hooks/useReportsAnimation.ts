@@ -101,12 +101,12 @@ export function useReportsAnimation({
         // ============================
         // 階段 0（0-0.25）：章節標題淡入
         // ============================
-        
+
         // sectionHeading 淡入
         masterTimeline.to(sectionHeading, {
             opacity: 1,
             duration: 0.25,
-            ease: 'none'
+            ease: 'power4.out'
         }, 0);
 
         // ============================

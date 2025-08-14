@@ -1,9 +1,12 @@
 'use client'
 
 import Image from 'next/image'
+import { useRef, useEffect } from 'react'
 import { useStore } from '@/stores'
 
 export default function HeroSection() {
+    // DOM 元素參考：用於 GSAP 動畫控制
+    const heroSectionRef = useRef<HTMLDivElement>(null);
     // 定義各個導航項目與對應的 section
     const navigationItems = [
         { id: 'reports', englishTitle: 'Impact', chineseTitle: '報導影響力' },
@@ -55,9 +58,56 @@ export default function HeroSection() {
         }, 50);
     };
 
+    // GSAP 滾動淡出動畫設定
+    useEffect(() => {
+        const setupFadeOutAnimation = async () => {
+            // 確保在瀏覽器環境中運行且元素已載入
+            if (typeof window !== 'undefined' && heroSectionRef.current) {
+                // 動態導入 GSAP 相關模組
+                const { gsap } = await import('gsap');
+                const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+
+                // 註冊 ScrollTrigger 外掛程式
+                gsap.registerPlugin(ScrollTrigger);
+
+                // 建立滾動觸發的淡出動畫
+                const fadeOutTrigger = ScrollTrigger.create({
+                    // 觸發元素：HeroSection 本身
+                    trigger: heroSectionRef.current,
+                    // 開始觸發點：HeroSection 底部到達視窗 90% 處
+                    start: 'bottom 90%',
+                    // 結束觸發點：HeroSection 底部到達視窗 50% 處
+                    end: 'bottom 0%',
+                    // 啟用滾動綁定動畫
+                    scrub: true,
+                    // 動畫更新回調：根據滾動進度調整透明度
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        // 透明度從 1 漸變到 0（progress 0 → 1 對應 opacity 1 → 0）
+                        gsap.set(heroSectionRef.current, {
+                            opacity: 1 - progress
+                        });
+                    },
+                    // 動畫識別 ID，便於除錯和管理
+                    id: 'hero-fade-out-animation'
+                });
+
+                // 返回清理函數
+                return () => {
+                    fadeOutTrigger.kill();
+                };
+            }
+        };
+
+        setupFadeOutAnimation();
+    }, []); // 空依賴陣列，僅在組件掛載時執行一次
+
     return (
         <>
-            <div className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center">
+            <div
+                ref={heroSectionRef}
+                className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center"
+            >
                 {/* 文字區塊 */}
                 <div className="w-auto flex flex-col justify-start items-start">
                     <h2 className="font-bold text-left">
