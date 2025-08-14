@@ -18,10 +18,10 @@ interface SlideMediaProps {
   isActive?: boolean; // 是否為當前顯示的投影片
 }
 
-export function SlideMedia({ 
-  type, 
-  src, 
-  alt, 
+export function SlideMedia({
+  type,
+  src,
+  alt,
   className = '',
   iframeProps,
   isActive = true
@@ -55,7 +55,7 @@ export function SlideMedia({
           preload="auto"
         />
       );
-    
+
     case 'iframe':
       return (
         <iframe
@@ -67,7 +67,7 @@ export function SlideMedia({
           sandbox={iframeProps?.sandbox}
         />
       );
-    
+
     case 'image':
     default:
       return (
@@ -96,9 +96,9 @@ export function SlideTextCard({ text, className = '' }: SlideTextCardProps) {
   return (
     <div className={`
       px-6 py-4 
-      bg-white bg-opacity-90 backdrop-blur-md 
-      border border-gray-200 rounded-lg
-      shadow-lg
+      bg-white bg-opacity-60 backdrop-blur-lg 
+      rounded-lg
+      shadow-md
       ${className}
     `}>
       <p className="text-gray-800 leading-relaxed">
@@ -128,7 +128,7 @@ export function MediaTextSlide({ media, text, isActive = true }: MediaTextSlideP
   // 根據文字位置設定樣式
   const getTextPositionClass = () => {
     if (!text) return '';
-    
+
     switch (text.position) {
       case 'top':
         return 'top-8 left-1/2 -translate-x-1/2';
@@ -154,7 +154,7 @@ export function MediaTextSlide({ media, text, isActive = true }: MediaTextSlideP
         className={media.className}
         isActive={isActive}
       />
-      
+
       {/* 文字覆蓋層 */}
       {text && (
         <div className={`absolute ${getTextPositionClass()} ${text.className || ''}`}>
