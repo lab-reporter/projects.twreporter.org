@@ -17,7 +17,6 @@ declare global {
 
 interface SplineLoaderProps {
     onLoaded: () => void;
-    minLoadingTime?: number; // 可自訂最小載入時間，預設 5000ms
 }
 
 /**
@@ -25,43 +24,21 @@ interface SplineLoaderProps {
  * 
  * 負責：
  * 1. 載入 Spline 3D 場景
- * 2. 顯示載入進度條（ease-out 動畫）
+ * 2. 顯示載入進度條（反映實際載入進度）
  * 3. 提供 fallback 機制（載入畫面）
- * 4. 確保最小載入時間避免閃爍
  */
-export default function SplineLoader({ 
-    onLoaded, 
-    minLoadingTime = 5000 
+export default function SplineLoader({
+    onLoaded
 }: SplineLoaderProps) {
     // 載入狀態管理
     const [isSplineLoaded, setIsSplineLoaded] = useState(false);
-    const [isMinTimeElapsed, setIsMinTimeElapsed] = useState(false);
     const [showSpline, setShowSpline] = useState(false);
     const [loadingProgress, setLoadingProgress] = useState(0);
 
     useEffect(() => {
-        // 設定最小顯示時間計時器
-        const minTimeTimer = setTimeout(() => {
-            setIsMinTimeElapsed(true);
-        }, minLoadingTime);
-
-        // 更新進度條（使用 ease-out 曲線）
+        // 開始載入時的時間戳記
         const startTime = Date.now();
-        const duration = minLoadingTime;
-        
-        const progressInterval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            
-            // ease-out 函數：1 - (1 - t)^3
-            const easedProgress = 1 - Math.pow(1 - progress, 3);
-            
-            setLoadingProgress(easedProgress * 100);
-            
-            if (progress >= 1) {
-                clearInterval(progressInterval);
-            }
-        }, 16); // 約60fps更新
+        let progressTimer: NodeJS.Timeout;
 
         // 動態載入 Spline viewer 腳本
         const script = document.createElement('script');
@@ -73,32 +50,47 @@ export default function SplineLoader({
         `;
         document.head.appendChild(script);
 
+        // 模擬載入進度（在實際載入完成前提供視覺反饋）
+        const updateProgress = () => {
+            const elapsed = Date.now() - startTime;
+            // 使用對數函數模擬載入進度，永遠不會到達100%
+            const simulatedProgress = Math.min(85, (Math.log(elapsed / 100 + 1) / Math.log(50)) * 85);
+            setLoadingProgress(simulatedProgress);
+
+            if (!isSplineLoaded) {
+                progressTimer = setTimeout(updateProgress, 50);
+            }
+        };
+
+        // 開始進度模擬
+        updateProgress();
+
         // 輪詢檢查 Spline 是否載入完成
         const checkLoaded = setInterval(() => {
             if ((window as unknown as { splineLoaded?: boolean }).splineLoaded) {
                 setIsSplineLoaded(true);
+                // 載入完成時將進度條快速推到100%
+                setLoadingProgress(100);
                 clearInterval(checkLoaded);
+                // 短暫延遲後顯示 Spline（讓用戶看到100%完成）
+                setTimeout(() => {
+                    setShowSpline(true);
+                    onLoaded();
+                }, 300);
             }
         }, 100);
 
         // 清理函數
         return () => {
-            clearTimeout(minTimeTimer);
             clearInterval(checkLoaded);
-            clearInterval(progressInterval);
+            clearTimeout(progressTimer);
             if (script.parentNode) {
                 document.head.removeChild(script);
             }
         };
-    }, [minLoadingTime]);
+    }, [isSplineLoaded, onLoaded]);
 
-    // 監控載入條件，當兩個條件都滿足時切換到 Spline
-    useEffect(() => {
-        if (isSplineLoaded && isMinTimeElapsed && !showSpline) {
-            setShowSpline(true);
-            onLoaded();
-        }
-    }, [isSplineLoaded, isMinTimeElapsed, showSpline, onLoaded]);
+
 
     // 載入階段：顯示載入畫面和進度條
     if (!showSpline) {
@@ -126,41 +118,9 @@ export default function SplineLoader({
                 `}</style>
 
                 <div className="bg-black w-full h-screen flex flex-row justify-center items-center relative ">
-                    {/* 寶石 */}
-                    {/* <div className="w-[50%] h-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-                        <video
-                            src="/assets/KV/motion4K.webm"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="object-contain w-full h-full"
-                        />
-                    </div> */}
+
                     {/* Waves小 */}
                     <div className="w-[30%] h-full absolute z-10 top-[55%] left-1/2 wave-animation">
-                        <Image
-                            src="/assets/KV/KV-Waves.webp"
-                            alt="KV聲波"
-                            fill
-                            sizes="100vw"
-                            priority
-                            className="w-full h-full object-contain"
-                        />
-                    </div>
-                    {/* Waves中 */}
-                    <div className="w-[40%] h-full absolute z-10 top-[60%] left-1/2 wave-animation">
-                        <Image
-                            src="/assets/KV/KV-Waves.webp"
-                            alt="KV聲波"
-                            fill
-                            sizes="100vw"
-                            priority
-                            className="w-full h-full object-contain"
-                        />
-                    </div>
-                    {/* Waves大 */}
-                    <div className="w-[50%] h-full absolute z-10 top-[65%] left-1/2 wave-animation">
                         <Image
                             src="/assets/KV/KV-Waves.webp"
                             alt="KV聲波"
@@ -182,19 +142,8 @@ export default function SplineLoader({
                             className="object-contain object-left"
                         />
                     </div>
-                    {/* 標語 */}
-                    {/* <div className="w-[25%] h-24 absolute bottom-16 right-16 z-10">
-                        <Image
-                            src="/assets/KV/KV-Slogan.svg"
-                            alt="報導者標語"
-                            fill
-                            sizes="30vw"
-                            priority
-                            className="object-contain object-right"
-                        />
-                    </div> */}
                 </div>
-                
+
                 {/* 載入進度條 */}
                 <div className="fixed bottom-0 left-0 w-full h-1 bg-transparent z-[100000]">
                     <div
