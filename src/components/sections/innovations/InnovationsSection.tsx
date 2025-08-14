@@ -133,6 +133,7 @@ export default function InnovationsSection() {
       start: 'top 80%', // 當容器頂部觸及視窗 80% 位置開始
       end: 'top 25%', // 當容器頂部到達視窗 10% 位置結束
       scrub: 1, // 平滑過渡
+      markers: true,
       onUpdate: (self) => {
         // 根據滾動進度計算透明度（1 -> 0）
         const opacity = 1 - self.progress;
@@ -180,7 +181,7 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供偵測使用
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
-      <div ref={headingRef} className="sticky top-0 z-10">
+      <div ref={headingRef} className="sticky h-screen flex flex-col items-center justify-center top-0 z-10">
         <SectionHeadings
           titleEn="INNOVATION"
           titleZh="開放新聞室・創新"
@@ -196,32 +197,6 @@ export default function InnovationsSection() {
       <div className="relative w-full">
         {/* Swiper 容器 */}
         <div className="sticky z-[100] top-0 w-full h-screen">
-          {/* 左右切換按鈕 - 移到最外層 */}
-
-          {/* 預覽圖導覽列 */}
-          <div className="absolute bottom-4 right-1/2 translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:right-32 flex lg:flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-sm border border-gray-200 z-50">
-            {innovationItems.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => setCurrentItemIndex(index)}
-                className={`relative rounded overflow-hidden transition-all duration-300 ${index === currentItemIndex
-                  ? 'ring-2 ring-black'
-                  : 'opacity-40 grayscale hover:opacity-60'
-                  }`}
-                style={{ width: '3rem', height: '3rem' }}
-                aria-label={`切換到 ${item.title}`}
-              >
-                <video
-                  src={item.path}
-                  className="w-full h-full object-cover pointer-events-none"
-                  muted
-                  playsInline
-                  preload="metadata"
-                />
-              </button>
-            ))}
-          </div>
-
           {/* 3D 場景容器 */}
           <div
             ref={containerRef}
