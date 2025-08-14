@@ -427,8 +427,7 @@ export default function ReportsSwiper() {
                         onNext={goToNext}
                         previousLabel="上一個報導"
                         nextLabel="下一個報導"
-                        previousTooltip="上一個"
-                        nextTooltip="下一個"
+
                         navigationDisabled={!isInteractionEnabled}
                     />
                 </div>

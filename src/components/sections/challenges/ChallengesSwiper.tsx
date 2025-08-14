@@ -165,8 +165,7 @@ const ChallengesSwiper: React.FC = () => {
                     onNext={goToNext}
                     previousLabel="上一個挑戰"
                     nextLabel="下一個挑戰"
-                    previousTooltip="上一個"
-                    nextTooltip="下一個"
+
                     displayClassName="min-w-[35rem]"
                 />
             </div>

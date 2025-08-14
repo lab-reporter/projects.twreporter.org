@@ -189,8 +189,6 @@ export default function FeedbacksSection() {
             // 使用 transform 來啟用 GPU 加速
             transform: 'translateZ(0)'
           }}>
-
-          {/* 上層標題 */}
           <div>
             <h2 className="mb-4 leading-relaxed">
               持續求真的路上
@@ -210,54 +208,23 @@ export default function FeedbacksSection() {
       </div>
 
       {/* ============================
-      // 第二部分：贊助者統計與號召
+      // 第二部分：號召新贊助者
       // ============================*/}
       <div className="z-1 h-auto">
-        {/* 現有贊助者感謝 */}
-        <div className="relative flex flex-col items-center justify-center h-screen">
-          <div>
-            <h3>感謝目前</h3>
-            <h1>
-              7964
-              <span className="text-4xl font-bold">位</span>
-            </h1>
-            <h3 className="mb-2">定期定額贊助者</h3>
-            <h5>讓《報導者》持續獨立運作、挖掘真相</h5>
-          </div>
-        </div>
-
         {/* 號召新贊助者（觸發灰色圓圈顯示） */}
         <div data-trigger="show-hidden-circle" className="relative flex flex-col items-center justify-center h-screen">
           <div>
             <h5>
-              為了迎接下一個十年的種種挑戰 <br />
-              我們需要更多定期定額支持的夥伴與我們前行
+              為了迎接下一個十年的種種挑戰， <br />
+              在經費上我們需要提升小額捐款的比例，
             </h5>
-            <h4>號召至少</h4>
+            <h4>我們想號召至少</h4>
             <h1>
               10000
               <span className="text-4xl font-bold">位</span>
             </h1>
-            <h3 className="mb-2">支持報導者的定期定額贊助者</h3>
-            <h6>和我們一起打造多元進步的公民社會</h6>
+            <h4 className="mb-2">支持報導者的定期定額贊助者</h4>
           </div>
-        </div>
-
-        {/* 十週年限定回饋（觸發圓圈放大） */}
-        <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
-          <Image
-            src="/assets/gift.png"
-            width={1000}
-            height={1000}
-            alt="十週年限定贊助回饋"
-            className="w-full h-auto max-w-[30rem]" />
-          <h4 className="mb-2 font-bold">
-            十週年限定贊助回饋
-          </h4>
-          <h6 className="leading-relaxed">
-            凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
-            即可在《報導者》十週年活動領取十週年限定紀念品
-          </h6>
         </div>
       </div>
 

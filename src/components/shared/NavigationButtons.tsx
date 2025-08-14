@@ -12,10 +12,7 @@ interface NavigationButtonsProps {
     previousLabel?: string;
     // 下一個按鈕的無障礙標籤
     nextLabel?: string;
-    // 上一個按鈕的提示文字
-    previousTooltip?: string;
-    // 下一個按鈕的提示文字
-    nextTooltip?: string;
+
     // 自訂樣式類別
     className?: string;
     // 是否禁用按鈕

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
-import debugTracker from './useDebugTracker';
+
 
 // ============================
 // 型別定義
@@ -160,15 +160,7 @@ export function useDragSwiper({
                 // 動畫期間添加一個標記，防止意外的頁面跳轉
                 document.body.setAttribute('data-swiper-animating', 'true');
 
-                // 調試追蹤
-                debugTracker.log('swiper', 'animation.start', {
-                    currentSlide: currentSlideRef.current,
-                    targetSlide: validIndex,
-                    currentRotation,
-                    finalRotation,
-                    rotationDiff,
-                    preferredDirection
-                });
+
             },
             onComplete: () => {
                 // 動畫完成後，標準化角度
@@ -178,12 +170,7 @@ export function useDragSwiper({
                 // 移除動畫標記
                 document.body.removeAttribute('data-swiper-animating');
 
-                // 調試追蹤
-                debugTracker.log('swiper', 'animation.complete', {
-                    finalSlide: validIndex,
-                    targetRotation,
-                    scrollY: typeof window !== 'undefined' ? window.scrollY : 0
-                });
+
 
                 if (process.env.NODE_ENV === 'development') {
                     console.log('✅ 動畫完成:', `標準化到 ${targetRotation}°`);

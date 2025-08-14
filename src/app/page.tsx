@@ -4,7 +4,7 @@
 import { useEffect, useRef } from 'react';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
 import { useGlobalPreloadStrategy } from '@/hooks/useGlobalPreloadStrategy';
-import { useDebugTracker } from '@/hooks/useDebugTracker';
+
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
@@ -15,7 +15,7 @@ import InnovationsSection from '@/components/sections/innovations/InnovationsSec
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
-import DebugPanel from '@/components/DebugPanel';
+
 
 
 
@@ -30,8 +30,7 @@ export default function Home() {
   // 啟用全域預載策略
   const { preloadStats } = useGlobalPreloadStrategy();
 
-  // 啟用調試追蹤系統
-  useDebugTracker();
+
 
   // 開發環境顯示預載統計
   useEffect(() => {
@@ -48,9 +47,6 @@ export default function Home() {
     }
 
     // 立即滾動到頂部（僅在初始化時）
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🔝 初始化滾動到頂部');
-    }
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -60,11 +56,6 @@ export default function Home() {
       // 檢查是否有 Swiper 正在動畫
       if (!document.body.hasAttribute('data-swiper-animating')) {
         window.scrollTo(0, 0);
-        if (process.env.NODE_ENV === 'development') {
-          console.log('🔝 安全滾動到頂部');
-        }
-      } else if (process.env.NODE_ENV === 'development') {
-        console.log('🚫 跳過滾動到頂部，Swiper 正在動畫中');
       }
     };
 
@@ -180,7 +171,7 @@ export default function Home() {
       <Navigation />
       <Modal />
       <SectionNavigation />
-      <DebugPanel />
+
     </div>
   );
 }

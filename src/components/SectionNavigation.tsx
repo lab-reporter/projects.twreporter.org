@@ -2,7 +2,7 @@
 
 import { useStore } from '@/stores';
 import { useEffect, useState } from 'react';
-import debugTracker from '@/hooks/useDebugTracker';
+
 
 // 章節導航配置：定義所有可導航的頁面章節
 // 第一組：reports, innovations, challenges（透明背景樣式）
@@ -67,43 +67,16 @@ export default function SectionNavigation() {
 
   // 滾動到指定章節的函數
   const scrollToSection = async (sectionId: string) => {
-    // 調試追蹤
-    debugTracker.log('navigation', 'SectionNavigation.scrollToSection', {
-      targetSection: sectionId,
-      currentScrollY: window.scrollY,
-      swiperAnimating: document.body.hasAttribute('data-swiper-animating'),
-      stackTrace: new Error().stack
-    });
 
-    // 特別標記意外的調用
-    if (process.env.NODE_ENV === 'development') {
-      console.log('📋 SectionNavigation.scrollToSection 被調用:', {
-        targetSection: sectionId,
-        currentScrollY: window.scrollY,
-        swiperAnimating: document.body.hasAttribute('data-swiper-animating'),
-        timestamp: new Date().toLocaleTimeString()
-      });
-    }
 
     // 檢查是否有 swiper 正在動畫，如果是則忽略此次調用
     if (document.body.hasAttribute('data-swiper-animating')) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🚫 SectionNavigation: 忽略跳轉請求，swiper 正在動畫中');
-      }
-      debugTracker.log('navigation', 'SectionNavigation.blocked', {
-        reason: 'swiper-animating',
-        targetSection: sectionId
-      });
       return;
     }
 
     // 查找目標元素
     const targetElement = document.getElementById(`section-${sectionId}`);
     if (!targetElement) {
-      debugTracker.log('navigation', 'SectionNavigation.error', {
-        reason: 'target-not-found',
-        targetSection: sectionId
-      });
       return;
     }
 
@@ -131,35 +104,7 @@ export default function SectionNavigation() {
     window.scrollTo(0, targetPosition);
     const afterScrollY = window.scrollY;
 
-    // 調試追蹤跳轉
-    debugTracker.log('navigation', 'SectionNavigation.jump', {
-      targetSection: sectionId,
-      beforeScrollY,
-      afterScrollY,
-      targetPosition,
-      scrollDiff: Math.abs(afterScrollY - beforeScrollY),
-      isUnexpectedJump: Math.abs(afterScrollY - beforeScrollY) > 500,
-      timestamp: Date.now(),
-      stackTrace: new Error().stack
-    });
 
-    // 如果是意外的大跳躍，立即分析
-    if (Math.abs(afterScrollY - beforeScrollY) > 500) {
-      console.error('🚨 檢測到 SectionNavigation 大幅跳轉!', {
-        targetSection: sectionId,
-        beforeScrollY,
-        afterScrollY,
-        targetPosition,
-        scrollDiff: Math.abs(afterScrollY - beforeScrollY)
-      });
-
-      // 觸發調試分析
-      setTimeout(() => {
-        if (typeof window !== 'undefined' && (window as any).debugTracker) {
-          (window as any).debugTracker.findJumps();
-        }
-      }, 100);
-    }
 
     // 確保 ScrollTrigger 更新並重新計算背景動畫
     setTimeout(async () => {

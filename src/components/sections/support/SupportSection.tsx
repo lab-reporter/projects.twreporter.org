@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import Image from 'next/image';
 
 // 支持頁面主要組件
 export default function SupportSection() {
@@ -228,93 +229,103 @@ export default function SupportSection() {
     // 主要頁面區塊：支持頁面
     <div
       id="section-support"
-      className="w-full min-h-screen text-white flex flex-col justify-center items-center px-8 py-20"
+      className="w-full min-h-screen text-white flex flex-col lg:flex-row justify-center items-center px-8 py-20"
     >
 
-      {/* 進度條區域：視覺化顯示目前支持進度 */}
-      {/* <div className="w-4/5 max-w-[1000px] h-6 bg-gray-800 rounded-xl overflow-hidden relative shadow-[0_0_20px_5px_rgba(201,161,86,0.3)] mb-4"> */}
-      {/* 進度條內部填充：根據達成百分比動態調整寬度 */}
-      {/* <div
-            className="h-full bg-[#c9a156] rounded-xl absolute top-0 left-0 transition-all duration-500 ease-in-out"
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
-        </div> */}
-
-      {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
-      {/* 綁定 ref 用於動畫觸發偵測 */}
-      <div ref={supporterRef} className="text-center">
-        {/* <p className="text-white text-base mb-6 opacity-80">
+      <div>
+        {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
+        {/* 綁定 ref 用於動畫觸發偵測 */}
+        <div ref={supporterRef} className="text-center">
+          {/* <p className="text-white text-base mb-6 opacity-80">
           現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
         </p> */}
 
-        {/* 主要呼籲標題 */}
-        <h3 className="text-white leading-normal">
-          成為 <br />
-          第<span className="text-8xl font-normal">{displayNextSupporterNumber.toLocaleString()}</span>位<br />
-          定期定額支持者
-        </h3>
+          {/* 主要呼籲標題 */}
+          <h3 className="text-white leading-normal">
+            成為 <br />
+            第<span className="text-8xl font-normal">{displayNextSupporterNumber.toLocaleString()}</span>位<br />
+            定期定額支持者
+          </h3>
+        </div>
+
+        {/* 副標題：情感呼籲 */}
+        <h6 className="text-white mt-2 mb-4 max-w-[700px]">
+          和我們一起開創深度報導的媒體道路
+        </h6>
+
+        {/* 表單區域：金額選擇與輸入 */}
+        <div className="flex flex-col items-center w-auto max-w-[700px]">
+          {/* 表單標籤：說明捐款類型 */}
+          <div className="font-noto-sans-tc text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
+            每月定額
+          </div>
+
+          {/* 預設金額按鈕群組 */}
+          <div className="flex justify-center gap-2 mb-2 w-full">
+            {amountOptions.map((amount) => (
+              <button
+                key={amount}
+                type="button"
+                onClick={() => handleAmountSelection(amount)}
+                className={`flex-1 max-w-[150px] py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
+                  ? "bg-red-70 border-red-70"
+                  : "bg-transparent border border-2 border-gray-700 text-white hover:border-gray-300"
+                  }`}
+              >
+                {amount}
+              </button>
+            ))}
+          </div>
+
+          {/* 自訂金額輸入區域 */}
+          <div className="font-noto-sans-tc  flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
+            <input
+              type="text"
+              value={customAmount}
+              onChange={handleCustomAmountChange}
+              placeholder="自訂金額"
+              className="w-full text-xl bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
+            />
+            {/* 金額單位標示 */}
+            <span className="font-noto-sans-tc absolute right-4 text-gray-500">元/月</span>
+          </div>
+
+          {/* 錯誤訊息顯示區域（條件渲染） */}
+          {errorMessage && (
+            <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
+          )}
+
+          {/* 主要行動按鈕：立即支持 */}
+          <button
+            type="button"
+            onClick={handleSupport}
+            disabled={!canSupport}
+            className={`py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10 ${canSupport
+              ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
+              : "bg-gray-800 text-gray-500 cursor-not-allowed"
+              }`}
+          >
+            立即支持
+          </button>
+        </div>
+      </div>
+      {/* 十週年限定回饋（觸發圓圈放大） */}
+      <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
+        <Image
+          src="/assets/gift.png"
+          width={1000}
+          height={1000}
+          alt="十週年限定贊助回饋"
+          className="w-full h-auto max-w-[30rem]" />
+        <h4 className="mb-2 font-bold">
+          十週年限定贊助回饋
+        </h4>
+        <h6 className="leading-relaxed">
+          凡在2025年11月30日（日）前加入定期定額贊助行列 <br />
+          即可在《報導者》十週年活動領取十週年限定紀念品
+        </h6>
       </div>
 
-      {/* 副標題：情感呼籲 */}
-      <h6 className="text-white mt-2 mb-4 max-w-[700px]">
-        和我們一起開創深度報導的媒體道路
-      </h6>
-
-      {/* 表單區域：金額選擇與輸入 */}
-      <div className="flex flex-col items-center w-auto max-w-[700px]">
-        {/* 表單標籤：說明捐款類型 */}
-        <div className="font-noto-sans-tc text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
-          每月定額
-        </div>
-
-        {/* 預設金額按鈕群組 */}
-        <div className="flex justify-center gap-2 mb-2 w-full">
-          {amountOptions.map((amount) => (
-            <button
-              key={amount}
-              type="button"
-              onClick={() => handleAmountSelection(amount)}
-              className={`flex-1 max-w-[150px] py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
-                ? "bg-red-70 border-red-70"
-                : "bg-transparent border border-2 border-gray-700 text-white hover:border-gray-300"
-                }`}
-            >
-              {amount}
-            </button>
-          ))}
-        </div>
-
-        {/* 自訂金額輸入區域 */}
-        <div className="font-noto-sans-tc  flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
-          <input
-            type="text"
-            value={customAmount}
-            onChange={handleCustomAmountChange}
-            placeholder="自訂金額"
-            className="w-full text-xl bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
-          />
-          {/* 金額單位標示 */}
-          <span className="font-noto-sans-tc absolute right-4 text-gray-500">元/月</span>
-        </div>
-
-        {/* 錯誤訊息顯示區域（條件渲染） */}
-        {errorMessage && (
-          <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
-        )}
-
-        {/* 主要行動按鈕：立即支持 */}
-        <button
-          type="button"
-          onClick={handleSupport}
-          disabled={!canSupport}
-          className={`py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10 ${canSupport
-            ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
-            : "bg-gray-800 text-gray-500 cursor-not-allowed"
-            }`}
-        >
-          立即支持
-        </button>
-      </div>
     </div>
   );
 }

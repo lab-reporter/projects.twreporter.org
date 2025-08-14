@@ -247,8 +247,7 @@ export default function InnovationsSection() {
               onNext={goToNext}
               previousLabel="上一個創新項目"
               nextLabel="下一個創新項目"
-              previousTooltip="上一個"
-              nextTooltip="下一個"
+
               displayClassName="min-w-[35rem]"
             />
           </div>
