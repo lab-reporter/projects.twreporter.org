@@ -22,19 +22,16 @@ export default function Innovation4Content({ projectData, onNavigate, adjacentPr
         </Shared.InnovationSlide>
 
         {/* 第二頁：Podcast節目介紹 */}
-        <Shared.InnovationSlide>
-          <div className="relative w-full h-full p-8">
-            <Shared.SlideMedia
-              type="image"
-              src="/assets/innovations/innovation-4/innovation-4-6.webp"
-              alt="The Real Story 錄音畫面"
-            />
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl">
-              <Shared.SlideTextCard
-                text="2020年8月推出的Podcast節目《The Real Story》，用聲音帶領聽眾理解世界上正在發生的重要事。"
-              />
-            </div>
-          </div>
+        <Shared.InnovationSlide className="relative p-8">
+          <Shared.SlideMedia
+            type="image"
+            src="/assets/innovations/innovation-4/innovation-4-6.webp"
+            alt="The Real Story 錄音畫面"
+          />
+          <Shared.SlideTextCard
+            text="2020年8月推出的Podcast節目《The Real Story》，用聲音帶領聽眾理解世界上正在發生的重要事。"
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+          />
         </Shared.InnovationSlide>
 
         {/* 第三頁：Spotify嵌入與聲音媒介 */}
