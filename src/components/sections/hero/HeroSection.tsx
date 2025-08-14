@@ -1,76 +1,85 @@
 'use client'
 
 import Image from 'next/image'
+import { useStore } from '@/stores'
 
 export default function HeroSection() {
+    // 定義各個導航項目與對應的 section
+    const navigationItems = [
+        { id: 'reports', englishTitle: 'Impact', chineseTitle: '報導影響力' },
+        { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '多元創新' },
+        { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '十年突圍' },
+        { id: 'support', englishTitle: 'Support Us', chineseTitle: '支持報導者走過下個十年' }
+    ];
+
+    // 滾動到指定章節的函數（參考 SectionNavigation 的實作）
+    const scrollToSection = async (sectionId: string) => {
+        // 查找目標元素
+        const targetElement = document.getElementById(`section-${sectionId}`);
+        if (!targetElement) return;
+
+        // 立即更新當前章節狀態
+        const { setCurrentSection } = useStore.getState();
+        setCurrentSection(sectionId);
+
+        // 獲取目標位置
+        const targetPosition = targetElement.offsetTop;
+
+        // 手動處理背景顏色
+        const mainElement = document.querySelector('main');
+        if (mainElement) {
+            // 如果跳轉到 feedbacks 或 support，背景應該是黑色
+            if (sectionId === 'feedbacks' || sectionId === 'support') {
+                mainElement.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+            } else {
+                // 其他區塊背景應該是白色
+                mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+            }
+        }
+
+        // 強制跳轉（無動畫）
+        window.scrollTo(0, targetPosition);
+
+        // 確保 ScrollTrigger 更新並重新計算背景動畫
+        setTimeout(async () => {
+            const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+
+            // 刷新所有 ScrollTrigger
+            ScrollTrigger.refresh();
+
+            // 強制更新背景動畫的進度
+            const bgAnimation = ScrollTrigger.getById('main-background-animation');
+            if (bgAnimation) {
+                bgAnimation.refresh();
+            }
+        }, 50);
+    };
 
     return (
         <>
-            <style jsx>{`
-                @keyframes wavePulse {
-                    0% {
-                        transform: translate(-50%, -50%) scale(1);
-                        opacity: 1;
-                    }
-                    50% {
-                        transform: translate(-50%, -50%) scale(1.125);
-                        opacity: 0.8;
-                    }
-                    100% {
-                        transform: translate(-50%, -50%) scale(1.25);
-                        opacity: 0;
-                    }
-                }
-                
-                .wave-animation {
-                    animation: wavePulse 1s linear infinite;
-                }
-            `}</style>
-
-            <div className="bg-white w-full h-screen flex flex-row justify-center items-center relative ">
-                {/* 寶石 */}
-                <div className="w-[50%] h-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-                    <video
-                        src="/assets/KV/motion4K.webm"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="object-contain w-full h-full"
-                    />
+            <div className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center">
+                {/* 文字區塊 */}
+                <div className="w-auto flex flex-col justify-start items-start">
+                    <h2 className="font-bold text-left">
+                        這條獨立媒體之路 <br />
+                        我們已經走了10年——
+                    </h2>
+                    <ul className="mt-8">
+                        {navigationItems.map((item) => (
+                            <li
+                                key={item.id}
+                                onClick={() => scrollToSection(item.id)}
+                                className="py-6 border-b border-gray-200 pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
+                            >
+                                <h4 className="font-normal text-left mb-2">{item.englishTitle}</h4>
+                                <h6 className="text-left">{item.chineseTitle}</h6>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                {/* Waves小 */}
-                <div className="w-[30%] h-full absolute z-10 top-[55%] left-1/2 wave-animation">
-                    <Image
-                        src="/assets/KV/KV-Waves.webp"
-                        alt="KV聲波"
-                        fill
-                        sizes="100vw"
-                        priority
-                        className="w-full h-full object-contain"
-                    />
-                </div>
-                {/* Waves中 */}
-                <div className="w-[40%] h-full absolute z-10 top-[60%] left-1/2 wave-animation">
-                    <Image
-                        src="/assets/KV/KV-Waves.webp"
-                        alt="KV聲波"
-                        fill
-                        sizes="100vw"
-                        priority
-                        className="w-full h-full object-contain"
-                    />
-                </div>
-                {/* Waves大 */}
-                <div className="w-[50%] h-full absolute z-10 top-[65%] left-1/2 wave-animation">
-                    <Image
-                        src="/assets/KV/KV-Waves.webp"
-                        alt="KV聲波"
-                        fill
-                        sizes="100vw"
-                        priority
-                        className="w-full h-full object-contain"
-                    />
+                {/* 圖片區域 */}
+                <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[70%]">
+                    <Image src="/assets/KV/KV-Diamond--Light.webp" alt="hero-image" width={2000} height={2000} />
                 </div>
             </div>
         </>

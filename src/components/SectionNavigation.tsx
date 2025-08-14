@@ -5,10 +5,9 @@ import { useEffect, useState } from 'react';
 
 // 章節導航配置：定義所有可導航的頁面章節
 const sections = [
-  { id: 'reports', name: '影響力' },
-  { id: 'innovations', name: '創新' },
-  { id: 'challenges', name: '突圍' },
-  { id: 'feedbacks', name: '證言' },
+  { id: 'reports', name: '報導影響力' },
+  { id: 'innovations', name: '多元創新' },
+  { id: 'challenges', name: '媒體突圍' },
   { id: 'support', name: '贊助支持' }
 ];
 
@@ -66,10 +65,10 @@ export default function SectionNavigation() {
     // 立即更新當前章節狀態
     const { setCurrentSection } = useStore.getState();
     setCurrentSection(sectionId);
-    
+
     // 獲取目標位置
     const targetPosition = targetElement.offsetTop;
-    
+
     // 手動處理背景顏色
     const mainElement = document.querySelector('main');
     if (mainElement) {
@@ -81,17 +80,17 @@ export default function SectionNavigation() {
         mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
       }
     }
-    
+
     // 強制跳轉（無動畫）
     window.scrollTo(0, targetPosition);
-    
+
     // 確保 ScrollTrigger 更新並重新計算背景動畫
     setTimeout(async () => {
       const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      
+
       // 刷新所有 ScrollTrigger
       ScrollTrigger.refresh();
-      
+
       // 強制更新背景動畫的進度
       const bgAnimation = ScrollTrigger.getById('main-background-animation');
       if (bgAnimation) {
