@@ -192,38 +192,20 @@ export default function FeedbacksSection() {
 
           {/* 上層標題 */}
           <div>
-            <h4 className="leading-none">持續求真的路上</h4>
+            <h2 className="mb-4 leading-relaxed">
+              持續求真的路上
+              <br />
+              感謝有眾聲同行
+            </h2>
+            <h5 className="mb-2">
+              感謝
+              <span className="px-2 text-6xl font-normal">7964</span>
+              位定期定額贊助者
+            </h5>
+            <h6>
+              讓《報導者》持續獨立運作、挖掘真相
+            </h6>
           </div>
-          {/* 空白區域 */}
-          <div
-            ref={blankSpaceRef}
-            className="debug"
-            style={{
-              width: "2rem",
-              aspectRatio: "1/1",
-            }}
-          ></div>
-          {/* 下層標題 */}
-          <div>
-            <h4 className="leading-none">感謝有眾聲同行</h4>
-          </div>
-
-          {/* 透過一個陣列map出多張證言卡片，陣列資料有top,left,text，卡片預設是absolute */}
-          {feedbackCards.map((card, index) => (
-            <div
-              key={index}
-              className="feedback-card absolute flex items-center justify-center text-black bg-white/90 backdrop-blur-sm p-6 w-[15rem] aspect-[3/4] rounded-lg shadow-lg cursor-grab active:cursor-grabbing hover:shadow-xl"
-              style={{
-                top: card.top,
-                left: card.left,
-                transform: `translate(-50%, -50%) translateZ(${card.z}px)`,
-                willChange: 'transform',
-                touchAction: 'none'
-              }}
-            >
-              <p className="text-sm leading-relaxed pointer-events-none select-none">{card.text}</p>
-            </div>
-          ))}
         </div>
       </div>
 

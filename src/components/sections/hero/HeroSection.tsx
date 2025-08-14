@@ -17,6 +17,14 @@ export default function HeroSection() {
 
     // 滾動到指定章節的函數（參考 SectionNavigation 的實作）
     const scrollToSection = async (sectionId: string) => {
+        // 檢查是否有 swiper 正在動畫，如果是則忽略此次調用
+        if (document.body.hasAttribute('data-swiper-animating')) {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('🚫 HeroSection: 忽略跳轉請求，swiper 正在動畫中');
+            }
+            return;
+        }
+
         // 查找目標元素
         const targetElement = document.getElementById(`section-${sectionId}`);
         if (!targetElement) return;

@@ -89,8 +89,15 @@ export default function OpeningSpline() {
             fadeTimerRef.current = setTimeout(() => {
                 setIsVisible(false); // 移除組件
                 setOpeningComplete(true); // 更新全域狀態
-                // 重置滾動位置，確保主頁面從頂部開始
-                window.scrollTo(0, 0);
+                // 安全的重置滾動位置，避免與 Swiper 動畫衝突
+                if (!document.body.hasAttribute('data-swiper-animating')) {
+                    window.scrollTo(0, 0);
+                    if (process.env.NODE_ENV === 'development') {
+                        console.log('🔝 OpeningSpline: 安全滾動到頂部 (auto)');
+                    }
+                } else if (process.env.NODE_ENV === 'development') {
+                    console.log('🚫 OpeningSpline: 跳過滾動，Swiper 正在動畫中 (auto)');
+                }
             }, 1000); // 配合 CSS transition duration-1000
         }, 12000); // 12 秒的展示時間
     };
@@ -112,7 +119,15 @@ export default function OpeningSpline() {
         setTimeout(() => {
             setIsVisible(false);
             setOpeningComplete(true);
-            window.scrollTo(0, 0);
+            // 安全的滾動到頂部，避免與 Swiper 動畫衝突
+            if (!document.body.hasAttribute('data-swiper-animating')) {
+                window.scrollTo(0, 0);
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('🔝 OpeningSpline: 安全滾動到頂部 (skip)');
+                }
+            } else if (process.env.NODE_ENV === 'development') {
+                console.log('🚫 OpeningSpline: 跳過滾動，Swiper 正在動畫中 (skip)');
+            }
         }, 300); // 比自動關閉的淡出時間短，提供更快的響應
     };
 

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import gsap from 'gsap';
+import debugTracker from './useDebugTracker';
 
 // ============================
 // 型別定義
@@ -91,6 +92,19 @@ export function useDragSwiper({
         // 計算最短路徑
         let rotationDiff = targetRotation - currentRotation;
 
+        // 調試信息
+        if (process.env.NODE_ENV === 'development') {
+            const forwardSteps = (validIndex - currentSlideRef.current + totalItems) % totalItems;
+            const backwardSteps = (currentSlideRef.current - validIndex + totalItems) % totalItems;
+
+            console.log(`🔄 旋轉路徑計算: ${currentSlideRef.current}→${validIndex}`, {
+                正向步數: forwardSteps,
+                反向步數: backwardSteps,
+                當前角度: `${currentRotation}°`,
+                偏好方向: preferredDirection || '最短路徑'
+            });
+        }
+
         // 如果有偏好方向，確保按照該方向旋轉
         if (preferredDirection === 'left') {
             // 向左拖曳，逆時針旋轉（負方向）
@@ -104,26 +118,76 @@ export function useDragSwiper({
             }
         } else {
             // 沒有偏好方向時，選擇最短路徑
-            if (rotationDiff > 180) {
-                rotationDiff -= 360;
-            } else if (rotationDiff < -180) {
-                rotationDiff += 360;
+            // 修正：基於視覺上的最短距離
+            // 計算正向和反向的步數
+            const forwardSteps = (validIndex - currentSlideRef.current + totalItems) % totalItems;
+            const backwardSteps = (currentSlideRef.current - validIndex + totalItems) % totalItems;
+
+            // 選擇步數較少的方向
+            if (forwardSteps === 0) {
+                // 已經在目標位置
+                rotationDiff = 0;
+            } else if (forwardSteps <= backwardSteps) {
+                // 正向步數較少或相等，向左旋轉輪播容器（負角度）
+                rotationDiff = -(forwardSteps * anglePerItem);
+            } else {
+                // 反向步數較少，向右旋轉輪播容器（正角度）  
+                rotationDiff = backwardSteps * anglePerItem;
             }
         }
 
         // 計算最終的旋轉角度
         const finalRotation = currentRotation + rotationDiff;
 
+        // 調試信息
+        if (process.env.NODE_ENV === 'development') {
+            console.log(`🎯 最終旋轉: ${rotationDiff > 0 ? '順時針' : '逆時針'} ${Math.abs(rotationDiff)}°`, {
+                修正後差異: `${rotationDiff}°`,
+                最終角度: `${finalRotation}°`,
+                duration: '0.6s'
+            });
+        }
+
         gsap.to(sliderWrapper, {
             rotateY: finalRotation,
             duration: 0.6,
             ease: "power2.out",
-            overwrite: 'auto',
+            overwrite: true, // 強制覆蓋任何正在進行的動畫
+            onStart: () => {
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('🚀 動畫開始:', `${currentRotation}° → ${finalRotation}°`);
+                }
+                // 動畫期間添加一個標記，防止意外的頁面跳轉
+                document.body.setAttribute('data-swiper-animating', 'true');
+
+                // 調試追蹤
+                debugTracker.log('swiper', 'animation.start', {
+                    currentSlide: currentSlideRef.current,
+                    targetSlide: validIndex,
+                    currentRotation,
+                    finalRotation,
+                    rotationDiff,
+                    preferredDirection
+                });
+            },
             onComplete: () => {
                 // 動畫完成後，標準化角度
                 gsap.set(sliderWrapper, {
                     rotateY: targetRotation
                 });
+                // 移除動畫標記
+                document.body.removeAttribute('data-swiper-animating');
+
+                // 調試追蹤
+                debugTracker.log('swiper', 'animation.complete', {
+                    finalSlide: validIndex,
+                    targetRotation,
+                    scrollY: typeof window !== 'undefined' ? window.scrollY : 0
+                });
+
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('✅ 動畫完成:', `標準化到 ${targetRotation}°`);
+                }
             }
         });
 

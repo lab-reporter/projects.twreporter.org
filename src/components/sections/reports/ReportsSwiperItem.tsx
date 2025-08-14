@@ -42,6 +42,7 @@ export default function ReportsSwiperItem({ id, path, title, bgColor, shouldPlay
   // 點擊事件處理器 - 開啟對應的 Modal 或切換項目
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // 防止事件冒泡
 
     // 計算按下到放開的時間
     const clickDuration = Date.now() - mouseDownTime;

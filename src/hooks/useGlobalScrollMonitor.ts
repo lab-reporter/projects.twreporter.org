@@ -9,6 +9,11 @@ export function useGlobalScrollMonitor() {
     let ticking = false;
 
     const updateCurrentSection = () => {
+      // 如果 swiper 正在動畫中，延遲更新
+      if (document.body.hasAttribute('data-swiper-animating')) {
+        return;
+      }
+
       // 排除 opening，因為它是 fixed 定位
       const sections = ['reports', 'innovations', 'challenges', 'feedbacks', 'event', 'support'];
 

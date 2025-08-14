@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CurrentItemDisplay from './CurrentItemDisplay';
+import debugTracker from '@/hooks/useDebugTracker';
 
 // 整合組件介面定義
 interface ItemDisplayWithNavigationProps {
@@ -51,7 +52,15 @@ export default function ItemDisplayWithNavigation({
         <div className={`flex justify-center items-center ${className}`}>
             {/* 上一個按鈕 */}
             <button
-                onClick={onPrevious}
+                onClick={() => {
+                    debugTracker.log('click', 'ItemDisplayWithNavigation.previous', {
+                        title,
+                        disabled: navigationDisabled
+                    });
+                    if (!navigationDisabled) {
+                        onPrevious();
+                    }
+                }}
                 disabled={navigationDisabled}
                 className={buttonStyles}
                 aria-label={previousLabel}
@@ -71,7 +80,15 @@ export default function ItemDisplayWithNavigation({
 
             {/* 下一個按鈕 */}
             <button
-                onClick={onNext}
+                onClick={() => {
+                    debugTracker.log('click', 'ItemDisplayWithNavigation.next', {
+                        title,
+                        disabled: navigationDisabled
+                    });
+                    if (!navigationDisabled) {
+                        onNext();
+                    }
+                }}
                 disabled={navigationDisabled}
                 className={buttonStyles}
                 aria-label={nextLabel}

@@ -171,18 +171,18 @@ export default function ReportsSwiper() {
     // ============================
     // 導航函數區塊
     // ============================
-    // 前往下一個項目
+    // 前往下一個項目（使用最短路徑）
     const goToNext = useCallback(() => {
         if (!isInteractionEnabled) return;
         const nextIndex = (currentSlide + 1) % reportsData.length;
-        goToSlide(nextIndex);
+        goToSlide(nextIndex); // 使用最短路徑，提供最佳視覺體驗
     }, [currentSlide, reportsData.length, goToSlide, isInteractionEnabled]);
 
-    // 前往上一個項目
+    // 前往上一個項目（使用最短路徑）
     const goToPrevious = useCallback(() => {
         if (!isInteractionEnabled) return;
         const prevIndex = (currentSlide - 1 + reportsData.length) % reportsData.length;
-        goToSlide(prevIndex);
+        goToSlide(prevIndex); // 使用最短路徑，提供最佳視覺體驗
     }, [currentSlide, reportsData.length, goToSlide, isInteractionEnabled]);
 
     // ============================
@@ -280,11 +280,11 @@ export default function ReportsSwiper() {
             scale: 1
         });
 
-        // 設定初始旋轉角度（顯示第一個項目）
+        // 設定初始旋轉角度（只在首次初始化時設定）
         gsap.set(sliderWrapper, {
-            rotateY: -(currentSlide * (360 / reportsData.length))
+            rotateY: 0 // 總是從第一個項目開始
         });
-    }, [isClient, currentSlide, reportsData.length]); // 依賴 currentSlide 和 reportsData.length
+    }, [isClient, reportsData.length]); // 移除 currentSlide 依賴，避免與動畫衝突
 
     // ============================
     // Effects 區塊 - 處理 resize 時的 3D 結構更新
@@ -313,15 +313,9 @@ export default function ReportsSwiper() {
             });
         });
 
-        // 如果有 sliderWrapper，也重新設定其當前旋轉角度
-        const sliderWrapper = sliderWrapperRef.current;
-        if (sliderWrapper) {
-            // 保持當前的旋轉角度
-            gsap.set(sliderWrapper, {
-                rotateY: -(currentSlide * (360 / reportsData.length))
-            });
-        }
-    }, [isClient, sliderSize, currentSlide, reportsData.length, windowWidth]); // 加入 windowWidth 依賴
+        // resize 時不重新設定旋轉角度，讓動畫系統處理
+        // 註解：避免與 goToSlide 中的動畫衝突
+    }, [isClient, sliderSize, reportsData.length, windowWidth]); // 移除 currentSlide 依賴
 
 
 

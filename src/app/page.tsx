@@ -4,6 +4,7 @@
 import { useEffect, useRef } from 'react';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
 import { useGlobalPreloadStrategy } from '@/hooks/useGlobalPreloadStrategy';
+import { useDebugTracker } from '@/hooks/useDebugTracker';
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
 import Navigation from '@/components/Navigation';
@@ -14,6 +15,7 @@ import InnovationsSection from '@/components/sections/innovations/InnovationsSec
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
 import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
 import EventSection from '@/components/sections/event/EventSection';
+import DebugPanel from '@/components/DebugPanel';
 
 
 
@@ -27,6 +29,9 @@ export default function Home() {
 
   // 啟用全域預載策略
   const { preloadStats } = useGlobalPreloadStrategy();
+
+  // 啟用調試追蹤系統
+  useDebugTracker();
 
   // 開發環境顯示預載統計
   useEffect(() => {
@@ -42,21 +47,36 @@ export default function Home() {
       history.scrollRestoration = 'manual';
     }
 
-    // 立即滾動到頂部
+    // 立即滾動到頂部（僅在初始化時）
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔝 初始化滾動到頂部');
+    }
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
-    // 多重保險：在不同時機確保滾動位置重置
+    // 多重保險：在不同時機確保滾動位置重置（但要避免與 Swiper 動畫衝突）
+    const safeScrollToTop = () => {
+      // 檢查是否有 Swiper 正在動畫
+      if (!document.body.hasAttribute('data-swiper-animating')) {
+        window.scrollTo(0, 0);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🔝 安全滾動到頂部');
+        }
+      } else if (process.env.NODE_ENV === 'development') {
+        console.log('🚫 跳過滾動到頂部，Swiper 正在動畫中');
+      }
+    };
+
     const timers = [
-      setTimeout(() => window.scrollTo(0, 0), 0),
-      setTimeout(() => window.scrollTo(0, 0), 100),
-      setTimeout(() => window.scrollTo(0, 0), 300),
+      setTimeout(safeScrollToTop, 0),
+      setTimeout(safeScrollToTop, 100),
+      setTimeout(safeScrollToTop, 300),
     ];
 
     // 監聽頁面完全載入
     const handleLoad = () => {
-      window.scrollTo(0, 0);
+      safeScrollToTop();
     };
 
     if (document.readyState !== 'complete') {
@@ -94,10 +114,10 @@ export default function Home() {
           ScrollTrigger.create({
             // 觸發元素：FeedbacksSection
             trigger: '#section-feedbacks',
-            // 開始觸發點：章節頂部到達視窗 90% 處
-            start: 'top 70%',
-            // 結束觸發點：章節頂部到達視窗 60% 處
-            end: 'top 40%',
+            // 開始觸發點：章節頂部到達視窗 25% 處
+            start: 'top 25%',
+            // 結束觸發點：章節頂部到達視窗 100% 處
+            end: 'top 100%',
             // 滾動時執行的動畫
             scrub: true,
             // 動畫更新回調
@@ -160,6 +180,7 @@ export default function Home() {
       <Navigation />
       <Modal />
       <SectionNavigation />
+      <DebugPanel />
     </div>
   );
 }
