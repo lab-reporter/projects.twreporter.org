@@ -152,7 +152,6 @@ export default function ModalScrollManager({
 
             return () => clearTimeout(autoCloseTimer);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showHint, hintOpacity]);
 
     // 滾動超過25vh自動關閉提示
@@ -175,7 +174,6 @@ export default function ModalScrollManager({
         return () => {
             container.removeEventListener('scroll', handleScrollForHint);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, showHint]);
 
     // 處理 InnovationSlidesContainer 的最後一頁 overscroll
@@ -217,7 +215,6 @@ export default function ModalScrollManager({
         return () => {
             container.removeEventListener('wheel', handleSlideWheel);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, isModalOpen, hasSlideContainer, slideOverScrollDistance]);
 
     // 重置 slide overscroll 計時器
@@ -383,7 +380,6 @@ export default function ModalScrollManager({
                 overScrollResetInterval.current = null;
             }
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollContainer, isModalOpen]);
 
     // 管理過度滾動重置計時器 - 在滾動停止500ms後開始重置

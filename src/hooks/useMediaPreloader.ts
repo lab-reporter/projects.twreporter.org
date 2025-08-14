@@ -108,6 +108,9 @@ export function useMediaPreloader(options: UseMediaPreloaderOptions = {}) {
     });
   }, [log]);
 
+  // 處理載入佇列的引用，避免循環依賴
+  const processQueueRef = useRef<() => void>();
+
   // 載入單個媒體項目
   const loadMediaItem = useCallback(async (item: MediaItem): Promise<void> => {
     const { url, type, preloadType } = item;
@@ -157,7 +160,7 @@ export function useMediaPreloader(options: UseMediaPreloaderOptions = {}) {
         // 延遲後重試
         setTimeout(() => {
           loadQueueRef.current.unshift(item);
-          processQueue();
+          processQueueRef.current?.();
         }, retryDelay * (retryCount + 1));
         
       } else {
@@ -176,7 +179,7 @@ export function useMediaPreloader(options: UseMediaPreloaderOptions = {}) {
       }
     } finally {
       activeLoadsRef.current--;
-      processQueue();
+      processQueueRef.current?.();
     }
   }, [loadingState, preloadImage, preloadVideo, retryAttempts, retryDelay, log]);
 
@@ -189,6 +192,9 @@ export function useMediaPreloader(options: UseMediaPreloaderOptions = {}) {
       }
     }
   }, [maxConcurrent, loadMediaItem]);
+
+  // 將 processQueue 設定到 ref 中
+  processQueueRef.current = processQueue;
 
   // 預載媒體（主要介面）
   const preloadMedia = useCallback((items: MediaItem[]) => {

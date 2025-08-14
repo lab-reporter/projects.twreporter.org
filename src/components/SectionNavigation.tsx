@@ -17,8 +17,7 @@ const secondGroupSections = [
   { id: 'support', name: '贊助支持' }
 ];
 
-// 合併所有章節供其他邏輯使用
-const sections = [...firstGroupSections, ...secondGroupSections];
+
 
 // 章節導航組件
 export default function SectionNavigation() {
@@ -100,9 +99,7 @@ export default function SectionNavigation() {
     }
 
     // 強制跳轉（無動畫）
-    const beforeScrollY = window.scrollY;
     window.scrollTo(0, targetPosition);
-    const afterScrollY = window.scrollY;
 
 
 

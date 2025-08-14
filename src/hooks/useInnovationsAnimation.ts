@@ -352,11 +352,13 @@ export function useInnovationsAnimation({
 
     // 保存快取引用供清理使用
     const cacheRef = elementRefsCache.current;
+    // 在 effect 內複製 finalStatesRef 的當前值，避免在清理函數中讀取可能已變更的 ref
+    const finalStatesSnapshot = finalStatesRef.current;
 
     // 清理函數：移除 ScrollTrigger 並清空快取
     return () => {
       // 如果已離開觸發區域，保持最終狀態
-      if (hasLeftTrigger && finalStatesRef.current.size > 0) {
+      if (hasLeftTrigger && finalStatesSnapshot.size > 0) {
         // 先停止 ScrollTrigger
         scrollTrigger.disable();
         
@@ -364,7 +366,7 @@ export function useInnovationsAnimation({
         elements.forEach((element, index) => {
           const itemId = innovationItems[index]?.id;
           if (itemId) {
-            const finalState = finalStatesRef.current.get(itemId);
+            const finalState = finalStatesSnapshot.get(itemId);
             if (finalState) {
               // 使用 set 而不是 to，確保立即生效
               gsap.set(element, {
@@ -388,7 +390,7 @@ export function useInnovationsAnimation({
       }
       
       cacheRef.clear();
-      finalStatesRef.current.clear();
+      finalStatesSnapshot.clear();
     };
   }, [innovationItems, animationsEnabled, isLowPerformance, onActiveIndexChange, sectionRef, containerRef]);
 }

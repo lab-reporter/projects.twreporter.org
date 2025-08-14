@@ -329,7 +329,7 @@ export default function NotFound() {
                 window.removeEventListener('resize', handleResize);
             }
         };
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (typeof window === 'undefined' || !isClient) return;
