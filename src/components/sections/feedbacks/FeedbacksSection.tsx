@@ -153,14 +153,6 @@ export default function FeedbacksSection() {
               <br />
               感謝有眾聲同行
             </h2>
-            <h5 className="mb-2">
-              感謝
-              <span className="px-2 text-6xl font-normal">7964</span>
-              位定期定額贊助者
-            </h5>
-            <h6>
-              讓《報導者》持續獨立運作、挖掘真相
-            </h6>
           </div>
         </div>
       </div>
@@ -172,6 +164,14 @@ export default function FeedbacksSection() {
         {/* 號召新贊助者（觸發灰色圓圈顯示） */}
         <div data-trigger="show-hidden-circle" className="relative flex flex-col items-center justify-center h-screen">
           <div>
+            <h5 className="mb-2">
+              感謝
+              <span className="px-2 text-6xl font-normal">7964</span>
+              位定期定額贊助者
+            </h5>
+            <h6>
+              讓《報導者》持續獨立運作、挖掘真相
+            </h6>
             <h5>
               為了迎接下一個十年的種種挑戰， <br />
               在經費上我們需要提升小額捐款的比例，
