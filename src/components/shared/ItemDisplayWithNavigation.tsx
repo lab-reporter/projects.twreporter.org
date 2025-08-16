@@ -55,7 +55,7 @@ export default function ItemDisplayWithNavigation({
 
 
     return (
-        <div className={`flex justify-center items-center ${className}`}>
+        <div className={`flex px-8 justify-center items-center ${className}`}>
             {/* 上一個按鈕 */}
             <button
                 onClick={() => {
@@ -74,7 +74,6 @@ export default function ItemDisplayWithNavigation({
             <CurrentItemDisplay
                 title={title}
                 subtitle={subtitle}
-                className={`mx-6 ${displayClassName || ''}`}
                 currentItem={currentItem}
                 onTitleClick={onTitleClick}
             />

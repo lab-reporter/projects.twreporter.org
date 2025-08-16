@@ -330,112 +330,111 @@ export default function ReportsSwiper() {
             if (observerRef) (observerRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
         }} className="relative h-screen overflow-visible">
             {/* 黏性容器：在滾動時保持在視窗頂部 */}
-            <div className="sticky top-0 w-full h-screen">
-                {/* 輪播展示容器：居中定位 */}
-                <div
-                    ref={sliderContainerRef}
-                    className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isInteractionEnabled && isDragging ? 'cursor-grabbing' : isInteractionEnabled ? 'cursor-grab' : 'cursor-default'
-                        }`}
+            {/* 輪播展示容器：居中定位 */}
+            <div
+                ref={sliderContainerRef}
+                className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isInteractionEnabled && isDragging ? 'cursor-grabbing' : isInteractionEnabled ? 'cursor-grab' : 'cursor-default'
+                    }`}
+                style={{
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none'
+                }}
+            >
+                {/* 3D 輪播展示區域 */}
+                <div className="w-full h-screen py-[5%] flex items-end"
                     style={{
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                        MozUserSelect: 'none',
-                        msUserSelect: 'none'
+                        // 初始 3D 變換狀態
+                        transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',
+                        // 確保 3D 渲染環境
+                        transformStyle: 'preserve-3d',
+                        // 設定透視距離和動態透視中心點
+                        perspective: `${sliderSize * 9}vw`,
+                        perspectiveOrigin: isClient && isVisible
+                            ? `${mousePosition.x}% 50%`
+                            : 'center center'
                     }}
                 >
-                    {/* 3D 輪播展示區域 */}
-                    <div className="w-full h-screen text-center overflow-hidden"
+                    {/* 3D 輪播旋轉容器：實際執行旋轉動畫的元素 */}
+                    <div
+                        ref={sliderWrapperRef}
+                        className="absolute z-10"
                         style={{
-                            // 初始 3D 變換狀態
-                            transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)',
-                            // 確保 3D 渲染環境
+                            // 動態計算容器位置和尺寸（響應式）
+                            top: `calc(50% - ${sliderSize * 1}vw)`,
+                            left: `calc(50% - ${sliderSize * 1.5}vw)`,
+                            width: `${sliderSize * 3}vw`,
+                            height: `${sliderSize * 2}vw`,
+                            // 保持 3D 變換樣式
                             transformStyle: 'preserve-3d',
-                            // 設定透視距離和動態透視中心點
-                            perspective: `${sliderSize * 9}vw`,
-                            perspectiveOrigin: isClient && isVisible
-                                ? `${mousePosition.x}% ${mousePosition.y}%`
-                                : 'center center'
+                            // 設定 3D 透視和初始變換（使用響應式透視值）
+                            transform: `translateZ(10vw) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
                         }}
                     >
-                        {/* 3D 輪播旋轉容器：實際執行旋轉動畫的元素 */}
-                        <div
-                            ref={sliderWrapperRef}
-                            className="absolute z-10"
-                            style={{
-                                // 動態計算容器位置和尺寸（響應式）
-                                top: `calc(50% - ${sliderSize * 1}vw)`,
-                                left: `calc(50% - ${sliderSize * 1.5}vw)`,
-                                width: `${sliderSize * 3}vw`,
-                                height: `${sliderSize * 2}vw`,
-                                // 保持 3D 變換樣式
-                                transformStyle: 'preserve-3d',
-                                // 設定 3D 透視和初始變換（使用響應式透視值）
-                                transform: `translateZ(10vw) rotateX(90deg) rotateY(0deg) rotateZ(0deg)`
-                            }}
-                        >
-                            {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
-                            {reportsData.map((item, index) => (
-                                // 單個報導項目容器
-                                <div
-                                    key={item.id}
-                                    data-report-item
-                                    className="absolute inset-0"
-                                    style={{
-                                        // 保持 3D 變換樣式
-                                        transformStyle: 'preserve-3d',
-                                        // 計算每個項目在圓形輪播中的位置
-                                        // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
-                                        transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * 6}vw)`,
-                                        // 設定項目尺寸
-                                        width: '100%',
-                                        height: '100%'
-                                    }}
-                                >
-                                    {/* 報導項目內容組件 */}
-                                    <ReportsSwiperItem
-                                        id={item.id}
-                                        path={item.path}
-                                        title={item.title}
-                                        subtitle={item.subtitle || ''}
-                                        bgColor={item.bgColor}
-                                        shouldPlay={shouldPlayVideo(index)}
-                                        projectData={item}
-                                        isDragging={isDragging}
-                                        dragDelta={dragDelta}
-                                        isActive={index === displayIndex}
-                                        index={index}
-                                        onItemClick={isInteractionEnabled ? goToSlide : undefined}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        {/* 渲染所有報導項目：建立 3D 圓形輪播結構 */}
+                        {reportsData.map((item, index) => (
+                            // 單個報導項目容器
+                            <div
+                                key={item.id}
+                                data-report-item
+                                className="absolute inset-0"
+                                style={{
+                                    // 保持 3D 變換樣式
+                                    transformStyle: 'preserve-3d',
+                                    // 計算每個項目在圓形輪播中的位置
+                                    // 根據索引分配角度，並在 Z 軸上向外推移形成圓形
+                                    transform: `rotateY(calc(${index} * (360 / ${reportsData.length}) * 1deg)) translateZ(${sliderSize * 6}vw)`,
+                                    // 設定項目尺寸
+                                    width: '100%',
+                                    height: '100%'
+                                }}
+                            >
+                                {/* 報導項目內容組件 */}
+                                <ReportsSwiperItem
+                                    id={item.id}
+                                    path={item.path}
+                                    title={item.title}
+                                    subtitle={item.subtitle || ''}
+                                    bgColor={item.bgColor}
+                                    shouldPlay={shouldPlayVideo(index)}
+                                    projectData={item}
+                                    isDragging={isDragging}
+                                    dragDelta={dragDelta}
+                                    isActive={index === displayIndex}
+                                    index={index}
+                                    onItemClick={isInteractionEnabled ? goToSlide : undefined}
+                                />
+                            </div>
+                        ))}
                     </div>
-                </div>
-
-                {/* 當前項目資訊展示區域：顯示在輪播下方 */}
-                <div
-                    ref={currentItemDisplayRef}
-                    className="absolute bottom-8 w-full flex justify-center items-center"
-                    style={{
-                        opacity: 0
-                    }}
-                >
-                    <ItemDisplayWithNavigation
-                        title={currentItem?.title}
-                        subtitle={currentItem?.subtitle}
-                        onPrevious={goToPrevious}
-                        onNext={goToNext}
-                        previousLabel="上一個報導"
-                        nextLabel="下一個報導"
-
-                        navigationDisabled={!isInteractionEnabled}
-                        currentItem={currentItem}
-                        onTitleClick={(item) => {
-                            const { openModal } = useStore.getState();
-                            openModal(item.id as string, item);
+                    {/* CurrentItemDsiplay 當前項目資訊展示區域：顯示在輪播下方 */}
+                    <div
+                        ref={currentItemDisplayRef}
+                        className="w-full flex justify-center items-center"
+                        style={{
+                            opacity: 0
                         }}
-                    />
+                    >
+                        <ItemDisplayWithNavigation
+                            title={currentItem?.title}
+                            subtitle={currentItem?.subtitle}
+                            onPrevious={goToPrevious}
+                            onNext={goToNext}
+                            previousLabel="上一個報導"
+                            nextLabel="下一個報導"
+
+                            navigationDisabled={!isInteractionEnabled}
+                            currentItem={currentItem}
+                            onTitleClick={(item) => {
+                                const { openModal } = useStore.getState();
+                                openModal(item.id as string, item);
+                            }}
+                        />
+                    </div>
+
                 </div>
+
             </div>
 
             {/* <NextSectionButton /> */}
