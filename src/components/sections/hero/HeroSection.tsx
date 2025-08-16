@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useRef, useEffect } from 'react'
 import { useStore } from '@/stores'
+import ScrollDownIndicator from '@/components/shared/ScrollDownIndicator';
 
 export default function HeroSection() {
     // DOM 元素參考：用於 GSAP 動畫控制
@@ -111,35 +112,38 @@ export default function HeroSection() {
     }, []); // 空依賴陣列，僅在組件掛載時執行一次
 
     return (
-        <>
-            <div
-                ref={heroSectionRef}
-                className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center"
-            >
-                {/* 文字區塊 */}
-                <div className="w-auto flex flex-col justify-start items-start">
-                    <h2 className="font-bold text-left">
-                        這條獨立媒體之路 <br />
-                        我們已經走了10年——
-                    </h2>
-                    <ul className="mt-8">
-                        {navigationItems.map((item) => (
-                            <li
-                                key={item.id}
-                                onClick={() => scrollToSection(item.id)}
-                                className="py-6 border-b border-gray-200 pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
-                            >
-                                <h4 className="font-normal text-left mb-2">{item.englishTitle}</h4>
-                                <h6 className="text-left">{item.chineseTitle}</h6>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                {/* 圖片區域 */}
-                <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[70%]">
-                    <Image src="/assets/KV/KV-Diamond--Light.webp" alt="hero-image" width={2000} height={2000} />
-                </div>
+
+        <div
+            ref={heroSectionRef}
+            className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center"
+        >
+            {/* 文字區塊 */}
+            <div className="w-auto flex flex-col justify-start items-start">
+                <h2 className="font-bold text-left">
+                    這條獨立媒體之路 <br />
+                    我們已經走了10年——
+                </h2>
+                <ul className="mt-8">
+                    {navigationItems.map((item) => (
+                        <li
+                            key={item.id}
+                            onClick={() => scrollToSection(item.id)}
+                            className="py-6 border-b border-gray-200 pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
+                        >
+                            <h4 className="font-normal text-left mb-2">{item.englishTitle}</h4>
+                            <h6 className="text-left">{item.chineseTitle}</h6>
+                        </li>
+                    ))}
+                </ul>
             </div>
-        </>
+            {/* 圖片區域 */}
+            <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[70%]">
+                <Image src="/assets/KV/KV-Diamond--Light.webp" alt="hero-image" width={2000} height={2000} />
+            </div>
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                <ScrollDownIndicator />
+            </div>
+        </div>
+
     );
 }

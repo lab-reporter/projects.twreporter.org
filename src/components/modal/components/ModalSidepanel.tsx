@@ -73,11 +73,11 @@ export default function ModalSidepanel({
     return (
       <div
         key={project.id}
-        className={`rounded-md border overflow-hidden bg-[rgba(255,255,255,0.9)] backdrop-blur-lg transition-all duration-300 shadow-lg group ${isActive
+        className={`rounded-md border overflow-hidden bg-[rgba(255,255,255,0.5)] backdrop-blur-lg transition-all duration-300 shadow-lg group ${isActive
           ? 'border-black'
           : 'border-white hover:border-black'
           }`}
-        style={{ cursor: 'zoom-in' }}
+        style={{ cursor: 'pointer' }}
         onClick={() => onSelectProject(project.id)}
       >
         <div className="flex flex-col h-auto">
@@ -147,7 +147,7 @@ export default function ModalSidepanel({
         <div className="w-12 h-12 flex items-center justify-center">
           <div
             onClick={onToggle}
-            className="w-9 h-9 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300 flex items-center justify-center cursor-pointer group"
+            className="w-9 h-9 rounded-full bg-white/50 shadow-md hover:bg-black transition-colors duration-300 flex items-center justify-center cursor-pointer group"
           >
             <Image
               src="/assets/modal-sidepanel-arrow.svg"

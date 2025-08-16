@@ -509,7 +509,7 @@ export default function ModalScrollManager({
                     {/* 關閉按鈕 */}
                     <button
                         onClick={onClose}
-                        className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+                        className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white/50 shadow-md hover:bg-black transition-colors duration-300"
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="stroke-current group-hover:stroke-white">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
