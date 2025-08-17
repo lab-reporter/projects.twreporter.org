@@ -35,6 +35,7 @@ export default function OpeningSpline() {
     // 計時器引用（使用 ref 確保在清理時能正確訪問）
     const timerRef = useRef<NodeJS.Timeout | null>(null); // 12 秒自動關閉計時器
     const fadeTimerRef = useRef<NodeJS.Timeout | null>(null); // 淡出動畫計時器
+    const isSkippedRef = useRef<boolean>(false); // 追蹤是否已被 skip
 
     // 全域狀態更新函數
     const setOpeningComplete = useStore((state) => state.setOpeningComplete);
@@ -82,6 +83,11 @@ export default function OpeningSpline() {
 
         // 設置 12 秒自動關閉計時器
         timerRef.current = setTimeout(() => {
+            // 檢查是否已被 skip（避免 SKIP 後仍執行）
+            if (isSkippedRef.current) {
+                return;
+            }
+
             // 開始淡出動畫（opacity 1 -> 0）
             setIsFading(true);
 
@@ -99,6 +105,9 @@ export default function OpeningSpline() {
 
     // 處理使用者點擊 SKIP 按鈕
     const handleSkip = () => {
+        // 標記為已被 skip
+        isSkippedRef.current = true;
+
         // 清理所有進行中的計時器
         if (timerRef.current) {
             clearTimeout(timerRef.current);
@@ -111,7 +120,8 @@ export default function OpeningSpline() {
         setIsFading(true);
 
         // 300ms 後（快速淡出）完全隱藏
-        setTimeout(() => {
+        // 重要：將新的 timeout 也儲存到 fadeTimerRef，確保可以被清理
+        fadeTimerRef.current = setTimeout(() => {
             setIsVisible(false);
             setOpeningComplete(true);
             // 安全的滾動到頂部，避免與 Swiper 動畫衝突

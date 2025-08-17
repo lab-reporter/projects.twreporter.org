@@ -40,6 +40,8 @@ export default function Home() {
     }
   }, [preloadStats]);
 
+
+
   // 禁用瀏覽器滾動恢復並強制回到頂部
   useEffect(() => {
     // 禁用瀏覽器的自動滾動恢復功能
