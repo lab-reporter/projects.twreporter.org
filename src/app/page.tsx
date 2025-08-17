@@ -13,7 +13,7 @@ import HeroSection from '@/components/sections/hero/HeroSection';
 import ReportsSection from '@/components/sections/reports/ReportsSection';
 import InnovationsSection from '@/components/sections/innovations/InnovationsSection';
 import ChallengesSection from '@/components/sections/challenges/ChallengesSection';
-import FeedbacksSection from '@/components/sections/feedbacks/FeedbacksSection';
+import CallToActionSection from '@/components/sections/feedbacks/CallToActionSection';
 import EventSection from '@/components/sections/event/EventSection';
 import FooterSection from '@/components/sections/footer/FooterSection';
 
@@ -165,7 +165,7 @@ export default function Home() {
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />
-        <FeedbacksSection />
+        <CallToActionSection />
         <EventSection />
         <FooterSection />
       </main>
