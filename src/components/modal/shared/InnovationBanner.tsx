@@ -1,5 +1,7 @@
 'use client';
 
+import { isSafari } from "@/components/sections/innovations/utils";
+
 interface InnovationBannerProps {
   videoSrc: string;
   title: string;
@@ -16,7 +18,7 @@ export default function InnovationBanner({
   return (
     <div className={`w-full h-[92svh] lg:h-[92vh] relative ${className}`}>
       <video
-        src={videoSrc}
+        src={isSafari() ? videoSrc.replace(".webm", ".mp4") : videoSrc}
         autoPlay
         muted
         loop

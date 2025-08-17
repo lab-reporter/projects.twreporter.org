@@ -7,12 +7,12 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useInnovationsSwiper } from '@/hooks/useInnovationsSwiper';
 import SectionHeadings from '@/components/shared/SectionHeadings';
-import { ItemDisplayWithNavigation } from '@/components/shared';
+import { CurrentItemDisplay } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import InnovationVideoItem from './InnovationVideoItem';
-import { getOffsetPosition } from './utils';
+import { getOffsetPosition, isSafari } from './utils';
 import type { InnovationItem } from './types';
-
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -44,6 +44,7 @@ export default function InnovationsSection() {
   // 狀態變數：是否啟用切換動畫
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
 
+  const [init, setInit] = useState(false);
   // ============================
   // 效能配置
   // ============================
@@ -133,7 +134,6 @@ export default function InnovationsSection() {
       start: 'top 80%', // 當容器頂部觸及視窗 80% 位置開始
       end: 'top 25%', // 當容器頂部到達視窗 10% 位置結束
       scrub: 1, // 平滑過渡
-      // markers: true,
       onUpdate: (self) => {
         // 根據滾動進度計算透明度（1 -> 0）
         const opacity = 1 - self.progress;
@@ -174,6 +174,11 @@ export default function InnovationsSection() {
   // 取得當前活躍的項目資料
   const currentItem = currentItemIndex >= 0 ? innovationItems[currentItemIndex] : null;
 
+
+  useEffect(() => {
+    setInit(true);
+  },[])
+
   // ============================
   // 渲染區塊
   // ============================
@@ -181,29 +186,55 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供偵測使用
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
-      <div ref={headingRef} className="sticky h-screen flex flex-col items-center justify-center top-0 z-10">
-        <SectionHeadings
-          titleEn="INNOVATION"
-          titleZh="開放新聞室・創新"
-        >
-          <p className="leading-relaxed">
-            《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。<br />
+      <div ref={headingRef} className="sticky top-0 z-10">
+        <SectionHeadings titleEn="INNOVATION" titleZh="開放新聞室・創新">
+          <p>
+            《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。
+            <br />
             點點物件，看10年來的新嘗試，你參與了多少呢？
           </p>
         </SectionHeadings>
       </div>
 
-
       <div className="relative w-full">
         {/* Swiper 容器 */}
         <div className="sticky z-[100] top-0 w-full h-screen">
+          {/* 左右切換按鈕 - 移到最外層 */}
+
+          {/* 預覽圖導覽列 */}
+          <div className="absolute top-1/2 -translate-y-1/2 right-40 flex flex-col items-center gap-2 p-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg z-50">
+            {innovationItems.map((item, index) => (
+              <button
+                key={item.id}
+                onClick={() => setCurrentItemIndex(index)}
+                className={`relative rounded overflow-hidden transition-all duration-300 ${
+                  index === currentItemIndex
+                    ? "ring-2 ring-black"
+                    : "opacity-40 grayscale hover:opacity-60"
+                }`}
+                style={{ width: "3rem", height: "3rem" }}
+                aria-label={`切換到 ${item.title}`}
+              >
+                {init && <video
+                  src={
+                    isSafari() ? item.path.replace(".webm", ".mp4") : item.path
+                  }
+                  className="w-full h-full object-cover pointer-events-none"
+                  muted
+                  playsInline
+                  preload="metadata"
+                />}
+              </button>
+            ))}
+          </div>
+
           {/* 3D 場景容器 */}
           <div
             ref={containerRef}
             className="w-full h-full relative overflow-hidden"
             style={{
               // 動態設定透視距離
-              perspective: is3DEnabled && isVisible ? '1000px' : 'none'
+              perspective: is3DEnabled && isVisible ? "1000px" : "none",
               // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
             }}
           >
@@ -212,14 +243,15 @@ export default function InnovationsSection() {
               className="absolute inset-0"
               style={{
                 // 啟用 3D 變換樣式
-                transformStyle: is3DEnabled && isVisible ? 'preserve-3d' : 'flat'
+                transformStyle:
+                  is3DEnabled && isVisible ? "preserve-3d" : "flat",
               }}
             >
               {/* 渲染所有創新項目 */}
               {innovationItems.map((item, index) => {
                 // 預先計算每個項目的屬性
                 const offset = getOffsetPosition(index);
-                const initialDepth = -50 - (index * 100);
+                const initialDepth = -50 - index * 100;
 
                 return (
                   <InnovationVideoItem
@@ -240,20 +272,33 @@ export default function InnovationsSection() {
 
           {/* 當前項目資訊展示區 */}
           <div className="absolute z-[100] bottom-24 w-full flex justify-center items-center">
-            <ItemDisplayWithNavigation
+            <button
+              onClick={goToPrevious}
+              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+              aria-label="上一個創新項目"
+            >
+              <ChevronLeft className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+              {/* 懸停提示文字 */}
+              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                上一個
+              </div>
+            </button>
+            <CurrentItemDisplay
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
-              onPrevious={goToPrevious}
-              onNext={goToNext}
-              previousLabel="上一個創新項目"
-              nextLabel="下一個創新項目"
-
-              displayClassName="min-w-[35rem]"
-              currentItem={currentItem || undefined}
-              onTitleClick={(item) => {
-                openModal(item.id as string, item);
-              }}
+              className="min-w-[35rem]"
             />
+            <button
+              onClick={goToNext}
+              className="group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300"
+              aria-label="下一個創新項目"
+            >
+              <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
+              {/* 懸停提示文字 */}
+              <div className="font-noto-sans-tc absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+                下一個
+              </div>
+            </button>
           </div>
         </div>
       </div>

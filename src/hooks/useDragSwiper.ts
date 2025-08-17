@@ -29,6 +29,7 @@ interface DragState {
     isDragging: boolean;
     // 拖曳開始的 X 座標
     startX: number;
+    startY: number;
     // 拖曳的距離
     dragDelta: number;
     // 預覽時的項目索引
@@ -55,6 +56,7 @@ export function useDragSwiper({
     const [dragState, setDragState] = useState<DragState>({
         isDragging: false,
         startX: 0,
+        startY: 0,
         dragDelta: 0,
         previewSlide: currentSlide
     });
@@ -185,11 +187,12 @@ export function useDragSwiper({
     // 事件處理函數
     // ============================
     // 滑鼠/觸控開始事件處理
-    const handleStart = useCallback((clientX: number) => {
+    const handleStart = useCallback((clientX: number, clientY: number) => {
         setDragState(prev => ({
             ...prev,
             isDragging: true,
             startX: clientX,
+            startY: clientY,
             dragDelta: 0,
             previewSlide: currentSlideRef.current
         }));
@@ -276,20 +279,26 @@ export function useDragSwiper({
         if (!enabled || !sliderContainer) return;
 
         // 滑鼠事件監聽
-        const handleMouseDown = (e: MouseEvent) => handleStart(e.clientX);
+        const handleMouseDown = (e: MouseEvent) => handleStart(e.clientX, e.clientY);
         const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX);
         const handleMouseUp = () => handleEnd();
 
         // 觸控事件監聽
         const handleTouchStart = (e: TouchEvent) => {
             if (e.touches.length > 0) {
-                handleStart(e.touches[0].clientX);
+                handleStart(e.touches[0].clientX, e.touches[0].clientY);
             }
         };
         const handleTouchMove = (e: TouchEvent) => {
             if (e.touches.length > 0) {
-                e.preventDefault(); // 防止頁面滾動
-                handleMove(e.touches[0].clientX);
+            const touch = e.touches[0];
+            const state = dragStateRef.current;
+            const deltaX = touch.clientX - state.startX;
+            const deltaY = touch.clientY - state.startY;
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                e.preventDefault();
+            }
+            handleMove(touch.clientX);
             }
         };
         const handleTouchEnd = () => handleEnd();

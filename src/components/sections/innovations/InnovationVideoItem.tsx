@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 import type { InnovationVideoItemProps } from './types';
+import { isSafari } from './utils';
 
 // ============================
 // 子組件：創新影片項目
@@ -24,6 +25,8 @@ export default function InnovationVideoItem({
   const videoRef = useRef<HTMLVideoElement>(null);
   // 狀態變數：影片是否已載入完成
   const [videoLoaded, setVideoLoaded] = useState(false);
+
+  const [init, setInit] = useState(false);
 
   // ============================
   // Effects 區塊 - 影片播放控制
@@ -83,6 +86,10 @@ export default function InnovationVideoItem({
   const isFirstItem = index === 0;
   const shouldCenterFirst = isFirstItem && !animationsEnabled;
 
+  useEffect(() => {
+    setInit(true)
+  }, [])
+
   // ============================
   // 渲染區塊
   // ============================
@@ -92,35 +99,43 @@ export default function InnovationVideoItem({
       id={`innovation-item-${item.id}`}
       className="absolute top-1/2 left-1/2 will-change-transform pointer-events-auto"
       style={{
-        cursor: 'zoom-in',
-        transformOrigin: 'center center',
-        width: '800px',
-        height: '800px',
-        transform: 'translate(-50%, -50%)',
+        cursor: "zoom-in",
+        transformOrigin: "center center",
+        width: "800px",
+        height: "800px",
+        transform: "translate(-50%, -50%)",
         // 根據深度設定初始透明度，避免載入時的閃爍
-        opacity: is3DEnabled ? undefined : (initialDepth < -300 ? 0 : 0.6),
+        opacity: is3DEnabled ? undefined : initialDepth < -300 ? 0 : 0.6,
         // 位置策略：第一個項目始終置中，其他項目根據動畫狀態決定偏移
-        left: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.x}vw)` : '50%'),
-        top: shouldCenterFirst ? '50%' : (!animationsEnabled ? `calc(50% + ${offset.y}vh)` : '50%'),
+        left: shouldCenterFirst
+          ? "50%"
+          : !animationsEnabled
+          ? `calc(50% + ${offset.x}vw)`
+          : "50%",
+        top: shouldCenterFirst
+          ? "50%"
+          : !animationsEnabled
+          ? `calc(50% + ${offset.y}vh)`
+          : "50%",
         // Z 軸層級：第一個項目優先顯示
-        zIndex: isFirstItem ? 10 : 1
+        zIndex: isFirstItem ? 10 : 1,
       }}
       onClick={() => onItemClick(item)}
     >
       {/* 影片容器：提供圓角和溢出裁切 */}
       <div className="w-full h-full rounded-lg overflow-hidden">
         {/* 影片播放器：自動循環播放的靜音影片 */}
-        <video
+        {init && <video
           ref={videoRef}
-          src={item.path}
+          src={isSafari() ? item.path.replace(".webm", ".mp4") : item.path}
           loop
           muted
           playsInline
           className="w-full h-full object-contain"
-          style={{ pointerEvents: 'none' }}
+          style={{ pointerEvents: "none" }}
           onLoadedData={handleVideoLoaded}
           onCanPlayThrough={handleVideoLoaded}
-        />
+        />}
         {/* Hover 資訊層：滑鼠懸停時顯示標題和副標題 */}
         <div className="absolute inset-0 transition-all duration-300 flex items-end">
           <div className="p-4 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
@@ -131,4 +146,4 @@ export default function InnovationVideoItem({
       </div>
     </div>
   );
-}
+}ut

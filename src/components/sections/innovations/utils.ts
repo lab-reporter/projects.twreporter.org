@@ -77,3 +77,7 @@ export const calculateOptimizedState = (currentDepth: number, isLowPerformance: 
     };
   }
 };
+
+export const isSafari = () =>
+  typeof window !== 'undefined' &&
+  /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
