@@ -9,10 +9,9 @@ import ReportsSwiperItem from './ReportsSwiperItem';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useDragSwiper } from '@/hooks/useDragSwiper';
-import { useReportsScrollAnimation } from '@/hooks/useReportsScrollAnimation';
-import { useReportsZoomAnimation } from '@/hooks/useReportsZoomAnimation';
+import { useReportsAnimation } from '@/hooks/useReportsAnimation';
+import { useReportsPreloader } from '@/hooks/useReportsPreloader';
 import { useStore } from '@/stores';
-import ReportsHint from './ReportsHint';
 
 // ============================
 // 型別定義區塊
@@ -50,8 +49,8 @@ export default function ReportsSwiper() {
     const sliderContainerRef = useRef<HTMLDivElement>(null);
     // DOM 元素參考：當前項目資訊展示區域
     const currentItemDisplayRef = useRef<HTMLDivElement>(null);
-    // 用來儲存 zoom out 動畫的引用
-    const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
+    // 用來儲存 zoom out 動畫的引用 (暫時未使用)
+    // const zoomOutTweenRef = useRef<gsap.core.Tween | null>(null);
     
     const perspectiveContainerRef = useRef<HTMLDivElement>(null);
 
@@ -72,14 +71,8 @@ export default function ReportsSwiper() {
     const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
     // ============================
-    // 本地狀態區塊 - 模糊背景層相關
+    // 本地狀態區塊 - 模糊背景層相關 (暫時移除)
     // ============================
-    // 狀態：追蹤模糊背景層是否正在顯示
-    const [showBlurOverlay, setShowBlurOverlay] = useState(false);
-    // 狀態：追蹤模糊背景層的透明度
-    const [blurOverlayOpacity, setBlurOverlayOpacity] = useState(0);
-    // 使用 ref 來追蹤是否已經顯示過，避免重新渲染
-    const hasShownBlurOverlayRef = useRef(false);
 
     // ============================
     // 本地狀態區塊 - 滑鼠追蹤參數
@@ -88,8 +81,6 @@ export default function ReportsSwiper() {
     const [mouseRangeMin, setMouseRangeMin] = useState(30);
     const [mouseRangeMax, setMouseRangeMax] = useState(70);
 
-    // 狀態：是否啟用自訂游標
-    const [isCustomCursorEnabled, setIsCustomCursorEnabled] = useState(false);
     // 狀態：是否啟用互動（拖曳和點擊切換）
     const [isInteractionEnabled, setIsInteractionEnabled] = useState(false);
 
@@ -190,32 +181,37 @@ export default function ReportsSwiper() {
     // ============================
     // 使用 useCallback 確保函數引用穩定
     const handleAnimationComplete = useCallback(() => {
-        // 動畫完成後啟用自訂游標和互動
-        setIsCustomCursorEnabled(true);
+        // 動畫完成後啟用互動
         setIsInteractionEnabled(true);
     }, []);
 
-    // 使用 ScrollTrigger 動畫 Hook
-    const { closeBlurOverlay } = useReportsScrollAnimation({
+    // 新增：處理動畫反向完成（禁用互動）
+    const handleAnimationReverseComplete = useCallback(() => {
+        // 動畫反向完成後禁用互動
+        setIsInteractionEnabled(false);
+    }, []);
+
+    // 使用整合的動畫 Hook
+    useReportsAnimation({
         sliderWrapperRef,
         currentItemDisplayRef,
-        zoomOutTweenRef,
         isClient,
         isOpeningComplete,
-        hasShownBlurOverlayRef,
-        setShowBlurOverlay,
-        setBlurOverlayOpacity,
         setMouseRangeMin,
         setMouseRangeMax,
-        onAnimationComplete: handleAnimationComplete
+        onAnimationComplete: handleAnimationComplete,
+        onAnimationReverseComplete: handleAnimationReverseComplete
     });
 
-    // 使用 Zoom Out 動畫 Hook
-    useReportsZoomAnimation({
-        sliderWrapperRef,
-        zoomOutTweenRef,
-        isClient,
-        isOpeningComplete
+    // ============================
+    // 預載機制 Hook
+    // ============================
+    // 使用預載 Hook 來管理媒體資源預載
+    useReportsPreloader({
+        currentIndex: currentSlide,
+        items: reportsData,
+        isVisible,
+        enabled: isClient
     });
 
     // ============================
@@ -388,7 +384,6 @@ export default function ReportsSwiper() {
                       isActive={index === displayIndex}
                       index={index}
                       onItemClick={isInteractionEnabled ? goToSlide : undefined}
-                      isCustomCursorEnabled={isCustomCursorEnabled}
                     />
                   </div>
                 ))}
@@ -412,13 +407,6 @@ export default function ReportsSwiper() {
         </div>
 
         {/* <NextSectionButton /> */}
-
-        {/* 教學提示遮罩層 */}
-        <ReportsHint
-          show={showBlurOverlay}
-          opacity={blurOverlayOpacity}
-          onClose={closeBlurOverlay}
-        />
       </div>
     );
 }

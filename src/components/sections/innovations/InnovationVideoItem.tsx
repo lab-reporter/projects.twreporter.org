@@ -146,4 +146,4 @@ export default function InnovationVideoItem({
       </div>
     </div>
   );
-}ut
+}

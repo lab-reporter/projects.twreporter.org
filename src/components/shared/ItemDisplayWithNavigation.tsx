@@ -74,6 +74,7 @@ export default function ItemDisplayWithNavigation({
             <CurrentItemDisplay
                 title={title}
                 subtitle={subtitle}
+                className={displayClassName}
                 currentItem={currentItem}
                 onTitleClick={onTitleClick}
             />

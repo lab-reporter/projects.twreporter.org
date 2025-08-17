@@ -89,7 +89,7 @@ export default function CallToActionSection() {
         if (!triggerContainerRef.current || gridItemsRef.current.length === 0) return;
 
         const gridItems = gridItemsRef.current.filter(Boolean);
-        const { cols, rows } = gridLayout;
+        const { cols } = gridLayout;
 
         // 設定初始狀態：所有方格透明度為 0
         gsap.set(gridItems, { opacity: 0 });
