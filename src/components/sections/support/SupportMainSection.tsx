@@ -1,12 +1,51 @@
 'use client';
 
+/*
+ * ========================================
+ * SupportMainSection - 支持頁面主要組件
+ * ========================================
+ * 
+ * 🎯 功能概述：
+ * 此組件是支持頁面的核心互動區域，結合了多種動畫效果和使用者互動功能：
+ * 
+ * 🎬 動畫機制分析：
+ * 
+ * 1️⃣ 入場動畫 (useGSAP)：
+ *    - 組件初始狀態：opacity: 0, scale: 0.5（半透明 + 縮小）
+ *    - 滾動觸發：當元素頂部到達視窗底部時開始
+ *    - 動畫效果：opacity → 1, scale → 1（完全顯示 + 正常大小）
+ *    - scrub: true 讓動畫跟隨滾動進度，提供流暢的視覺體驗
+ * 
+ * 2️⃣ 數字計數動畫 (IntersectionObserver + GSAP)：
+ *    - 觸發條件：當數字區域進入視窗 30% 時啟動
+ *    - 動畫效果：從 0 快速數到 7964（當前支持者數量）
+ *    - 緩動函數：power2.out 讓數字加速後減速，更自然
+ *    - 持續時間：3 秒，讓使用者有足夠時間感受數字增長
+ * 
+ * 3️⃣ 慶祝彩帶動畫 (canvas-confetti)：
+ *    - 觸發條件：使用者點擊金額按鈕時
+ *    - 多階段效果：
+ *      第一階段：中央噴發 100 個粒子
+ *      第二階段：左右兩側各噴發 50 個粒子（延遲 250ms）
+ *    - 顏色系統：不同金額對應不同顏色主題
+ *    - 無障礙支援：尊重使用者的減少動畫偏好設定
+ * 
+ * 🎨 視覺設計重點：
+ * - 進度條金光效果：box-shadow 營造金色光暈
+ * - 響應式佈局：自適應不同螢幕尺寸
+ * - 狀態視覺回饋：按鈕顏色變化、禁用狀態等
+ * 
+ * 🚀 效能優化：
+ * - useCallback 記憶化 confetti 函數
+ * - IntersectionObserver 確保動畫只在需要時執行
+ * - 條件渲染減少不必要的 DOM 更新
+ */
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from "@gsap/react";
-
-// 支持頁面主要組件
 export default function SupportMainSection() {
 
   // 狀態變數：目前的支持者總數（固定數值，不會改變）
@@ -87,7 +126,7 @@ export default function SupportMainSection() {
 
     // 複製引用以避免 cleanup 時的警告
     const element = supporterRef.current;
-    
+
     // 開始觀察指定的 DOM 元素
     if (element) {
       observer.observe(element);
@@ -102,67 +141,83 @@ export default function SupportMainSection() {
     // 依賴變數：當這些值改變時重新執行
   }, [finalSupporterCount, animationStarted]);
 
-  // 記憶化函數：觸發慶祝彩帶動畫效果
+  /**
+   * ========================================
+   * fireConfetti - 慶祝彩帶動畫系統
+   * ========================================
+   * 
+   * 🎉 動畫設計概念：
+   * 創造一個「從天而降的慶祝」效果，模擬真實的彩帶慶祝場景
+   * 
+   * 🎨 顏色心理學應用：
+   * - 500 元：溫暖色調（橙黃藍）- 溫馨感謝
+   * - 1000 元：活力色調（綠紫粉）- 熱情支持  
+   * - 3000 元：經典色調（金粉藍）- 尊貴致敬
+   * - 其他：中性色調（金白灰）- 純粹感謝
+   * 
+   * 🎭 三階段動畫時序：
+   * 
+   * 第一階段（立即）：中央爆發
+   * - 100 個粒子從螢幕中央向外散開
+   * - 70° 散佈角度創造自然的爆發效果
+   * - y: 0.6 的發射位置讓彩帶從螢幕中上方落下
+   * 
+   * 第二階段（250ms 後）：左右側噴發
+   * - 左側：60° 角度向右上噴發（x: 0.2）
+   * - 右側：120° 角度向左上噴發（x: 0.8）  
+   * - 50 個粒子的較小規模，補強主效果
+   * - 創造「多點同時慶祝」的豐富視覺層次
+   * 
+   * 🚀 技術細節：
+   * - useCallback 記憶化避免重複創建函數
+   * - 顏色陣列使用展開運算子確保每次都是新陣列
+   * - disableForReducedMotion 尊重無障礙偏好
+   * - setTimeout 精確控制動畫時序
+   */
   const fireConfetti = useCallback((amount: number) => {
-    // 將常數移入 useCallback 內部以避免依賴警告
+    // 🎨 金額對應顏色主題配置
     const CONFETTI_COLORS = {
-      500: ['#FFC107', '#FF5722', '#03A9F4'],
-      1000: ['#4CAF50', '#9C27B0', '#E91E63'],
-      3000: ['#c9a156', '#FF4081', '#3F51B5']
+      500: ['#FFC107', '#FF5722', '#03A9F4'],   // 溫暖橙黃藍
+      1000: ['#4CAF50', '#9C27B0', '#E91E63'],  // 活力綠紫粉
+      3000: ['#c9a156', '#FF4081', '#3F51B5']   // 經典金粉藍
     } as const;
-    
+
+    // 🎨 預設顏色：優雅的金白灰組合
     const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
-    
-    // 根據金額取得對應的顏色配置，無對應時使用預設顏色
+
+    // 🎯 智慧顏色選擇：根據金額取得對應主題，無對應時使用預設
     const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
-    // 第一階段：中央基本彩帶效果
+    // 🎆 第一階段：中央主要爆發效果
     confetti({
-      // 彩帶粒子數量
-      particleCount: 100,
-      // 散佈角度範圍
-      spread: 70,
-      // 發射起始位置（垂直方向）
-      origin: { y: 0.6 },
-      // 使用對應金額的顏色
-      colors: [...colors],
-      // 支援減少動畫的無障礙設定
-      disableForReducedMotion: true
+      particleCount: 100,        // 主要爆發粒子數
+      spread: 70,                // 70° 散佈角度
+      origin: { y: 0.6 },       // 從螢幕 60% 高度發射
+      colors: [...colors],       // 使用主題顏色（新陣列確保獨立性）
+      disableForReducedMotion: true  // 無障礙：尊重減少動畫偏好
     });
 
-    // 第二階段：延遲執行左右兩側噴發效果
+    // ⏰ 第二階段：延遲 250ms 執行左右兩側補強效果
     setTimeout(() => {
-      // 左側彩帶噴發
+      // 🎆 左側噴發：向右上方
       confetti({
-        // 粒子數量
-        particleCount: 50,
-        // 噴發角度
-        angle: 60,
-        // 散佈範圍
-        spread: 55,
-        // 發射位置（左側）
-        origin: { x: 0.2, y: 0.6 },
-        // 使用相同顏色配置
-        colors: [...colors]
+        particleCount: 50,              // 補強效果粒子數
+        angle: 60,                      // 60° 向右上噴發
+        spread: 55,                     // 55° 散佈範圍
+        origin: { x: 0.2, y: 0.6 },   // 左側 20% 位置發射
+        colors: [...colors]             // 相同主題顏色
       });
 
-      // 右側彩帶噴發
+      // 🎆 右側噴發：向左上方
       confetti({
-        // 粒子數量
-        particleCount: 50,
-        // 噴發角度（向左）
-        angle: 120,
-        // 散佈範圍
-        spread: 55,
-        // 發射位置（右側）
-        origin: { x: 0.8, y: 0.6 },
-        // 使用相同顏色配置
-        colors: [...colors]
+        particleCount: 50,              // 補強效果粒子數  
+        angle: 120,                     // 120° 向左上噴發
+        spread: 55,                     // 55° 散佈範圍
+        origin: { x: 0.8, y: 0.6 },   // 右側 80% 位置發射
+        colors: [...colors]             // 相同主題顏色
       });
-      // 延遲執行時間
-    }, 250);
-    // 空依賴陣列：函數內容不依賴外部變數
-  }, []);
+    }, 250);  // 🕐 250ms 延遲讓主爆發先完成
+  }, []);  // 空依賴：函數邏輯完全自包含
 
   // 事件處理函數：處理預設金額按鈕的點擊
   const handleAmountSelection = (amount: number) => {
@@ -331,11 +386,10 @@ export default function SupportMainSection() {
               key={amount}
               type="button"
               onClick={() => handleAmountSelection(amount)}
-              className={`flex-1 max-w-[150px] py-3 px-6 text-lg cursor-pointer transition-all duration-300 relative z-10 ${
-                selectedAmount === amount
+              className={`flex-1 max-w-[150px] py-3 px-6 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
                   ? "bg-gray-300 text-black"
                   : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
-              }`}
+                }`}
             >
               {amount}
             </button>
@@ -365,11 +419,10 @@ export default function SupportMainSection() {
           type="button"
           onClick={handleSupport}
           disabled={!canSupport}
-          className={`rounded-full py-3 px-10 text-lg transition-all duration-300 mt-4 relative z-10 ${
-            canSupport
+          className={`rounded-full py-3 px-10 text-lg transition-all duration-300 mt-4 relative z-10 ${canSupport
               ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
               : "bg-gray-800 text-gray-500 cursor-not-allowed"
-          }`}
+            }`}
         >
           立即支持
         </button>

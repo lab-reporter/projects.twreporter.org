@@ -1,12 +1,51 @@
 'use client';
 
+/*
+ * ========================================
+ * DonatePanel - 捐款面板組件
+ * ========================================
+ * 
+ * 🎯 設計理念：
+ * 此組件是一個精簡且專注的捐款介面，採用左右分割式佈局：
+ * - 左側：互動式捐款表單，包含動畫數字和彩帶慶祝效果
+ * - 右側：十週年限定回饋品展示，增加捐款動機
+ * 
+ * 🎬 核心動畫系統：
+ * 
+ * 1️⃣ 數字計數動畫：
+ *    - 與 SupportMainSection 類似的 GSAP 計數效果
+ *    - 但僅顯示「下一位支持者序號」，更專注簡潔
+ *    - 使用 IntersectionObserver 確保在適當時機觸發
+ * 
+ * 2️⃣ 彩帶慶祝系統：
+ *    - 三種金額對應三種不同色調的彩帶主題
+ *    - 採用多階段爆發模式，增強視覺衝擊力
+ *    - 與 SupportMainSection 共享相同的動畫邏輯
+ * 
+ * 🎨 視覺設計特色：
+ * 
+ * 📱 響應式佈局：
+ *    - lg: flex-row（大螢幕橫向排列）
+ *    - flex-col（小螢幕縱向堆疊）
+ *    - gap-16 提供充足的視覺間距
+ * 
+ * 🎁 十週年回饋展示：
+ *    - 使用 Next.js Image 組件進行圖片優化
+ *    - 最大寬度限制 (max-w-[25rem]) 確保比例協調
+ *    - 清晰的文字層次：品牌名 → 合作夥伴 → 產品名 → 說明 → 行動按鈕
+ * 
+ * 🚀 技術實作亮點：
+ * - 模組化設計：彩帶動畫函數完全可重用
+ * - 效能優化：useCallback 避免不必要的重新渲染
+ * - 無障礙支援：支援動畫減少偏好設定
+ * - 表單驗證：即時回饋與錯誤處理
+ */
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import Image from 'next/image';
-
-// 支持頁面主要組件
 export default function DonatePanel() {
     // 使用滾動觸發器來監控當前頁面位置
     useScrollTrigger({
@@ -96,67 +135,76 @@ export default function DonatePanel() {
         // 依賴變數：當這些值改變時重新執行
     }, [finalSupporterCount, animationStarted]);
 
-    // 記憶化函數：觸發慶祝彩帶動畫效果
+    /**
+     * ========================================
+     * fireConfetti - 專屬彩帶慶祝動畫系統
+     * ========================================
+     * 
+     * 🎨 DonatePanel 專屬色彩主題：
+     * 與 SupportMainSection 不同，此組件採用更具品牌特色的配色：
+     * 
+     * - 500 元：土地色調（#edc39d, #9e7a4e, #493018）
+     *   溫潤的大地色系，象徵踏實支持
+     * 
+     * - 1000 元：自然色調（#6ee5b5, #3c927a, #0e3532）  
+     *   清新的綠色系，代表成長與希望
+     * 
+     * - 3000 元：熱情色調（#f80b28, #c40d23, #9b051e）
+     *   鮮明的紅色系，表達強烈的支持熱情
+     * 
+     * 🎭 動畫結構與 SupportMainSection 一致：
+     * - 第一階段：中央爆發（100 粒子，70° 散佈）
+     * - 第二階段：左右補強（各 50 粒子，延遲 250ms）
+     * - 無障礙支援：disableForReducedMotion
+     * 
+     * 🎯 設計思考：
+     * 不同的顏色主題讓兩個支持組件有各自的視覺個性，
+     * 同時保持動畫行為的一致性，提供連貫的使用體驗。
+     */
     const fireConfetti = useCallback((amount: number) => {
-        // 將常數移入 useCallback 內部以避免依賴警告
+        // 🎨 DonatePanel 專屬顏色配置
         const CONFETTI_COLORS = {
-            500: ['#edc39d', '#9e7a4e', '#493018'],
-            1000: ['#6ee5b5', '#3c927a', '#0e3532'],
-            3000: ['#f80b28', '#c40d23', '#9b051e']
+            500: ['#edc39d', '#9e7a4e', '#493018'],    // 土地色調：溫潤踏實
+            1000: ['#6ee5b5', '#3c927a', '#0e3532'],   // 自然色調：成長希望
+            3000: ['#f80b28', '#c40d23', '#9b051e']    // 熱情色調：強烈支持
         } as const;
 
+        // 🎨 備用色彩：經典金白灰組合
         const DEFAULT_CONFETTI_COLORS = ['#c9a156', '#FFFFFF', '#888888'];
 
-        // 根據金額取得對應的顏色配置，無對應時使用預設顏色
+        // 🎯 智慧色彩選擇：金額映射到對應主題色彩
         const colors = CONFETTI_COLORS[amount as keyof typeof CONFETTI_COLORS] || DEFAULT_CONFETTI_COLORS;
 
-        // 第一階段：中央基本彩帶效果
+        // 🎆 第一階段：中央主要爆發效果
         confetti({
-            // 彩帶粒子數量
-            particleCount: 100,
-            // 散佈角度範圍
-            spread: 70,
-            // 發射起始位置（垂直方向）
-            origin: { y: 0.6 },
-            // 使用對應金額的顏色
-            colors: [...colors],
-            // 支援減少動畫的無障礙設定
-            disableForReducedMotion: true
+            particleCount: 100,               // 主爆發粒子數
+            spread: 70,                       // 70° 自然散佈
+            origin: { y: 0.6 },              // 螢幕 60% 高度發射
+            colors: [...colors],              // 主題色彩陣列
+            disableForReducedMotion: true     // 無障礙：尊重動畫偏好
         });
 
-        // 第二階段：延遲執行左右兩側噴發效果
+        // ⏰ 第二階段：延遲執行左右兩側補強效果
         setTimeout(() => {
-            // 左側彩帶噴發
+            // 🎆 左側補強噴發：向右上方
             confetti({
-                // 粒子數量
-                particleCount: 50,
-                // 噴發角度
-                angle: 60,
-                // 散佈範圍
-                spread: 55,
-                // 發射位置（左側）
-                origin: { x: 0.2, y: 0.6 },
-                // 使用相同顏色配置
-                colors: [...colors]
+                particleCount: 50,                  // 補強粒子數
+                angle: 60,                          // 60° 向右上角
+                spread: 55,                         // 55° 散佈範圍
+                origin: { x: 0.2, y: 0.6 },       // 左側 20% 位置
+                colors: [...colors]                 // 相同主題色彩
             });
 
-            // 右側彩帶噴發
+            // 🎆 右側補強噴發：向左上方
             confetti({
-                // 粒子數量
-                particleCount: 50,
-                // 噴發角度（向左）
-                angle: 120,
-                // 散佈範圍
-                spread: 55,
-                // 發射位置（右側）
-                origin: { x: 0.8, y: 0.6 },
-                // 使用相同顏色配置
-                colors: [...colors]
+                particleCount: 50,                  // 補強粒子數
+                angle: 120,                         // 120° 向左上角  
+                spread: 55,                         // 55° 散佈範圍
+                origin: { x: 0.8, y: 0.6 },       // 右側 80% 位置
+                colors: [...colors]                 // 相同主題色彩
             });
-            // 延遲執行時間
-        }, 250);
-        // 空依賴陣列：函數內容不依賴外部變數
-    }, []);
+        }, 250);  // 🕐 250ms 延遲確保視覺層次
+    }, []);  // 空依賴：函數完全自包含
 
     // 事件處理函數：處理預設金額按鈕的點擊
     const handleAmountSelection = (amount: number) => {
@@ -308,14 +356,40 @@ export default function DonatePanel() {
                     </button>
                 </div>
             </div>
-            {/* 右側十週年回饋說明*/}
+            {/* 
+              ========================================
+              右側：十週年限定回饋展示區域
+              ========================================
+              
+              🎁 設計目標：
+              - 增加捐款誘因：透過限定回饋品提升支持意願
+              - 品牌聯名價值：展示與春池玻璃的合作
+              - 視覺吸引力：精美產品圖片作為視覺焦點
+              
+              📐 佈局結構：
+              - h-screen：佔滿視窗高度，與左側表單區域平衡
+              - flex-col + items-center：垂直置中對齊
+              - max-w-[25rem]：限制圖片最大寬度保持比例
+              
+              📝 資訊層次：
+              1. 產品圖片（視覺焦點）
+              2. 活動名稱（十週年限定贊助回饋）
+              3. 合作品牌（報導者 × 春池玻璃）
+              4. 產品名稱（聯名玻璃磚）
+              5. 詳細說明（時間限制與領取條件）
+              6. 行動按鈕（領取辦法）
+            */}
             <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
+                {/* 🖼️ 主要產品展示圖片 */}
                 <Image
                     src="/assets/gift.png"
                     width={1000}
                     height={1000}
                     alt="十週年限定贊助回饋"
-                    className="w-full h-auto max-w-[25rem] mb-4" />
+                    className="w-full h-auto max-w-[25rem] mb-4"
+                />
+
+                {/* 📋 產品資訊文字區域 */}
                 <h6 className="mb-2 font-bold">
                     十週年限定贊助回饋
                 </h6>
@@ -328,6 +402,8 @@ export default function DonatePanel() {
                 <p className="leading-relaxed max-w-[20rem] text-center">
                     凡在2025年11月30日前加入《報導者》定期定額贊助行列，即可登記領取十週年限定回饋品。
                 </p>
+
+                {/* 🔘 行動呼籲按鈕 */}
                 <button className="mt-4 bg-gray-100 px-4 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300">
                     領取辦法
                 </button>
