@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import projectsData from '@/app/data/projects.json';
-import { CurrentItemDisplay } from '@/components/shared';
+import { ItemDisplayWithNavigation } from '@/components/shared';
 import ReportsSwiperItem from './ReportsSwiperItem';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
@@ -175,6 +175,23 @@ export default function ReportsSwiper() {
     // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
     const displayIndex = isDragging ? previewSlide : currentSlide;
     const currentItem = reportsData[displayIndex] || reportsData[0];
+
+    // ============================
+    // 導航函數區塊
+    // ============================
+    // 前往下一個項目（使用最短路徑）
+    const goToNext = useCallback(() => {
+        if (!isInteractionEnabled) return;
+        const nextIndex = (currentSlide + 1) % reportsData.length;
+        goToSlide(nextIndex); // 使用最短路徑，提供最佳視覺體驗
+    }, [currentSlide, reportsData.length, goToSlide, isInteractionEnabled]);
+
+    // 前往上一個項目（使用最短路徑）
+    const goToPrevious = useCallback(() => {
+        if (!isInteractionEnabled) return;
+        const prevIndex = (currentSlide - 1 + reportsData.length) % reportsData.length;
+        goToSlide(prevIndex); // 使用最短路徑，提供最佳視覺體驗
+    }, [currentSlide, reportsData.length, goToSlide, isInteractionEnabled]);
 
     // ============================
     // 動畫 Hooks 區塊
@@ -394,14 +411,24 @@ export default function ReportsSwiper() {
           {/* 當前項目資訊展示區域：顯示在輪播下方 */}
           <div
             ref={currentItemDisplayRef}
-            className="absolute bottom-20 w-full flex flex-col items-center gap-4"
+            className="absolute bottom-20 w-full flex justify-center items-center"
             style={{
               opacity: 0,
             }}
           >
-            <CurrentItemDisplay
+            <ItemDisplayWithNavigation
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
+              onPrevious={goToPrevious}
+              onNext={goToNext}
+              previousLabel="上一個報導"
+              nextLabel="下一個報導"
+              navigationDisabled={!isInteractionEnabled}
+              currentItem={currentItem}
+              onTitleClick={(item) => {
+                const { openModal } = useStore.getState();
+                openModal(item.id as string, item);
+              }}
             />
           </div>
         </div>
