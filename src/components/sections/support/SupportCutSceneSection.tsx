@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useRef } from "react";
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import gsap from "gsap";
 import { useScrollTrigger } from "@/hooks/useScrollTrigger";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -29,9 +29,8 @@ const Box = ({
   opacity?: number;
 }) => (
   <div
-    className={`border rounded-full border-white text-white px-4 py-2 whitespace-nowrap -mr-px ${
-      !visible && "invisible"
-    }`}
+    className={`border rounded-full border-white text-white px-4 py-2 whitespace-nowrap -mr-px ${!visible && "invisible"
+      }`}
   >
     {/* 透過內聯 style 控制透明度，以便於淡出 */}
     <span style={{ opacity }}>{text}</span>
@@ -170,8 +169,8 @@ const Grid = ({
         const rowOffset =
           startMoveOffset +
           ((maxDiff - diffToCenter) / maxDiff) *
-            easeInOutSine(currentProgress.move) *
-            0.404;
+          easeInOutSine(currentProgress.move) *
+          0.404;
 
         /* 逐行顯示中央以外的 Row */
         const rowProgress =

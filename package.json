@@ -12,13 +12,9 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@react-three/drei": "^10.3.0",
-    "@react-three/fiber": "^9.1.2",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.32",
     "@swc/helpers": "^0.5.17",
-    "@types/three": "^0.177.0",
-    "@uidotdev/usehooks": "^2.4.1",
     "@vercel/speed-insights": "^1.2.0",
     "canvas-confetti": "^1.9.3",
     "gsap": "^3.13.0",
