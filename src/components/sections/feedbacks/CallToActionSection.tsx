@@ -1,17 +1,200 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from "react";
-import { useGSAP } from '@gsap/react';
+import { useWindowSize } from "@/hooks/useWindowSize";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Draggable } from 'gsap/Draggable';
-import DonatePanel from "../support/DonatePanel";
-
+import DonatePanel from "@/components/sections/support/DonatePanel";
 
 // 註冊 GSAP 插件
-gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable);
+gsap.registerPlugin(ScrollTrigger);
+
+// ============================
+// Cut Scene 架構組件
+// ============================
+
+// 單一文字方塊組件 - 添加 rotateY 動畫
+const Box = ({
+    text,
+    visible,
+    opacity = 1,
+    rotateY = 0,
+}: {
+    text: string;
+    visible: boolean;
+    opacity?: number;
+    rotateY?: number;
+}) => (
+    <div
+        className={`border border-[1px] border-gray-800 px-4 py-2 whitespace-nowrap -mr-px ${!visible && "invisible"
+            }`}
+        style={{
+            transform: `rotateY(${rotateY}deg)`,
+            transformStyle: 'preserve-3d',
+            transformOrigin: 'center center',
+            perspective: '300px',
+            backgroundColor: rotateY > 90 ? '#1f2937' : 'transparent', // 背面顯示深色
+            boxShadow: rotateY > 0 ? `0 0 10px rgba(0,0,0,${Math.min(rotateY / 180 * 0.5, 0.5)})` : 'none',
+        }}
+    >
+        {/* 透過 style 控制透明度，文字設為完全透明 */}
+        <span style={{ opacity: 0 }}>{text}</span>
+    </div>
+);
+
+// 方塊列組件 - 支援從中央往兩側顯示，添加 rotateY 支援
+const Row = ({
+    length = 0,
+    progress,
+    offset,
+    fadeProgress = 0,
+    rotateY = 0,
+}: {
+    length?: number;
+    progress: number;
+    offset: number;
+    fadeProgress: number;
+    rotateY?: number;
+}) => {
+    return (
+        <div
+            className="flex -mb-px"
+            style={{
+                // translateX 實現水平移動，負值向左移動
+                transform: `translateX(-${offset * 100}%)`,
+            }}
+        >
+            {new Array(length).fill(true).map((_, index) => {
+                // 顯示邏輯：index / length < progress
+                // 例如 progress=0.5 時，顯示前半段的方塊
+                const visible = index / length < progress;
+
+                return (
+                    <Box
+                        key={index}
+                        // 文字內容交替：偶數索引 "Let's Support"，奇數索引 "Reporter"
+                        text={"REPORTER"}
+                        visible={visible}
+                        // 透明度：1 - fadeProgress，實現淡出效果
+                        opacity={1 - fadeProgress}
+                        // rotateY 動畫角度
+                        rotateY={rotateY}
+                    />
+                );
+            })}
+        </div>
+    );
+};
+
+// 將整體滾動進度 (0~1) 分割成 5 個動畫階段
+const getCurrentProgress = (overallProgress: number) => {
+    // 限制數值在 0~1 範圍內
+    const clamp = (num: number) => Math.max(Math.min(num, 1), 0);
+
+    // 將特定區間 (start~end) 映射到 0~1
+    const progress = (start: number, end: number) =>
+        clamp((overallProgress - start) / (end - start));
+
+    return {
+        centerRow: progress(0.2, 0.3),   // 中央行顯示
+        allRow: progress(0.3, 0.4),      // 全部行顯示
+        move: progress(0.33, 0.8),       // 水平移動
+        zoom: progress(0.35, 1),         // 縮放放大
+        rotateY: progress(0.35, 1),      // rotateY 旋轉（與 zoom 同時進行）
+        fade: progress(0.8, 0.95),       // 淡出消失
+    };
+};
+
+// 五次方緩入函數：開始慢，然後急劇加速，用於 zoom 動畫
+function easeInQuint(x: number): number {
+    return x * x * x * x * x;
+}
+
+// 正弦波緩入緩出函數：開始和結束較慢，中間較快，用於 move 動畫
+function easeInOutSine(x: number): number {
+    return -(Math.cos(Math.PI * x) - 1) / 2;
+}
+
+// 主要網格組件：根據滾動進度動態生成多列 Row
+const Grid = ({
+    length = 17,
+    progress,
+}: {
+    length?: number;
+    progress: number;
+}) => {
+    const currentProgress = getCurrentProgress(progress);
+
+    // 取得視窗尺寸計算響應式縮放
+    const size = useWindowSize();
+    const width = size.width ?? 0;
+    const height = size.height ?? 0;
+
+    // Grid 原始尺寸 - 與 SupportCutSceneSection 完全一樣
+    const GRID_WIDTH = 1251;
+    const GRID_HEIGHT = 741;
+
+    // 基礎縮放：確保 Grid 填滿螢幕
+    const fitScale = Math.max(width / GRID_WIDTH, height / GRID_HEIGHT);
+
+    // 動畫縮放：透過 easeInQuint 實現放大效果，最大 30 倍
+    const zoomScale = easeInQuint(currentProgress.zoom) * 30 + 1;
+
+    return (
+        <div
+            className="flex flex-col items-start overflow-hidden flex-none pointer-events-none select-none"
+            style={{
+                width: `${GRID_WIDTH}px`,
+                // 以中心為縮放原點，實現 zoom-in 效果
+                transformOrigin: "center center",
+                transform: `scale(${fitScale * zoomScale})`,
+            }}
+        >
+            {new Array(length).fill(true).map((_, index) => {
+                const centerIndex = Math.floor(length / 2); // 中央行索引
+                const diffToCenter = Math.abs(centerIndex - index); // 與中央的距離
+                const maxDiff = centerIndex;
+
+                // 奇偶行交錯位移，創造波浪效果
+                const startMoveOffset = index % 2 === 0 ? 0 : 0.03;
+
+                // 計算每行的水平位移量
+                // startMoveOffset 提供初始的交錯效果，move 進度提供額外的動畫位移
+                const rowOffset =
+                    startMoveOffset +
+                    ((maxDiff - diffToCenter) / maxDiff) *
+                    easeInOutSine(currentProgress.move) *
+                    0.404;
 
 
+
+                // 非中央行的顯示進度：當 allRow 進度 * 中央索引 >= 距離時顯示
+                const rowProgress =
+                    currentProgress.allRow * centerIndex >= diffToCenter ? 1 : 0;
+
+                // 中央行使用獨立的進度控制
+                const centerRowProgress = currentProgress.centerRow;
+
+                // 淡出進度控制
+                const fadeProgress = currentProgress.fade;
+
+                // rotateY 角度計算：從 0 度到 180 度
+                const rotateYAngle = currentProgress.rotateY * 180;
+
+                return (
+                    <Row
+                        key={index}
+                        length={15}
+                        progress={index === centerIndex ? centerRowProgress : rowProgress}
+                        offset={rowOffset}
+                        fadeProgress={fadeProgress}
+                        rotateY={rotateYAngle}
+                    />
+                );
+            })}
+        </div>
+    );
+};
 
 // ============================
 // 主要組件
@@ -19,203 +202,68 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable);
 // 證言回饋頁面主要組件：展示使用者回饋並引導至贊助頁面
 export default function CallToActionSection() {
     // ============================
-    // Refs 和狀態管理
+    // Cut Scene 狀態管理
     // ============================
-    // 方格背景容器的參考
-    const gridContainerRef = useRef<HTMLDivElement>(null);
-    // 方格元素的參考陣列
-    const gridItemsRef = useRef<(HTMLDivElement | null)[]>([]);
-    // 觸發容器的參考（用於 ScrollTrigger）
-    const triggerContainerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const [progress, setProgress] = useState(0);
 
     // ============================
-    // 響應式方格計算
+    // Cut Scene ScrollTrigger 設定
     // ============================
-    // 網格佈局狀態
-    const [gridLayout, setGridLayout] = useState(() => {
-        // 預設值，避免 SSR 問題
-        return {
-            cols: 34,
-            rows: 23,
-            totalCells: 782,
-            cellWidth: 3,
-            cellHeight: 4.5,
-            offsetX: 1,
-            offsetY: 1.75
-        };
-    });
-
-    // 計算響應式方格數量和佈局
-    const calculateGridLayout = () => {
-        // 方格尺寸設定
-        const cellWidth = 3; // 3vw
-        const cellHeight = 9; // 9vh
-
-        // 計算需要的方格數量（向上取整以確保覆蓋整個畫面）
-        const cols = Math.ceil(100 / cellWidth); // 100vw / 3vw
-        const rows = Math.ceil(100 / cellHeight); // 100vh / 9vh
-
-        return {
-            cols,
-            rows,
-            totalCells: cols * rows,
-            cellWidth,
-            cellHeight,
-            // 計算置中偏移量
-            offsetX: (cols * cellWidth - 100) / 2, // 超出部分的一半
-            offsetY: (rows * cellHeight - 100) / 2  // 超出部分的一半
-        };
-    };
-
-    // 監聽視窗大小變化
     useEffect(() => {
-        const updateGridLayout = () => {
-            setGridLayout(calculateGridLayout());
-        };
+        gsap.registerPlugin(ScrollTrigger);
 
-        updateGridLayout(); // 初始計算
-        window.addEventListener('resize', updateGridLayout);
+        const section = sectionRef.current;
+        if (!section) return;
+
+        // 建立 ScrollTrigger，將滾動進度 (0~1) 傳給 React state
+        const trigger = ScrollTrigger.create({
+            trigger: section,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 2, // 平滑度設定
+            onUpdate: (self) => {
+                setProgress(self.progress); // 更新 React state
+            },
+        });
 
         return () => {
-            window.removeEventListener('resize', updateGridLayout);
+            trigger.kill();
         };
     }, []);
 
-    // ============================
-    // GSAP 動畫設定
-    // ============================
-    // 方格背景從中央擴散的動畫效果
-    useGSAP(() => {
-        if (!triggerContainerRef.current || gridItemsRef.current.length === 0) return;
 
-        const gridItems = gridItemsRef.current.filter(Boolean);
-        const { cols } = gridLayout;
-
-        // 設定初始狀態：所有方格透明度為 0
-        gsap.set(gridItems, { opacity: 0 });
-
-        // 計算視覺中央點（考慮實際的畫面中心，而非網格中心）
-        // 由於網格超出了 100vw/100vh 範圍，我們需要找到對應畫面中央的網格位置
-        const viewportCenterX = 50; // 50vw (畫面中央)
-        const viewportCenterY = 50; // 50vh (畫面中央)
-
-        // 考慮偏移量，計算畫面中央對應的網格座標
-        const centerCol = (viewportCenterX + gridLayout.offsetX) / gridLayout.cellWidth;
-        const centerRow = (viewportCenterY + gridLayout.offsetY) / gridLayout.cellHeight;
-
-        // 為每個方格計算到中央的距離，用於自訂 stagger
-        const staggerArray = gridItems.map((_, index) => {
-            const row = Math.floor(index / cols);
-            const col = index % cols;
-            const distance = Math.sqrt(
-                Math.pow(row - centerRow, 2) + Math.pow(col - centerCol, 2)
-            );
-            return distance;
-        });
-
-        // 找出最大距離來正規化
-        const maxDistance = Math.max(...staggerArray);
-        const normalizedStagger = staggerArray.map(distance => distance / maxDistance);
-
-        // 使用 timeline 配合自訂 stagger
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: triggerContainerRef.current,
-                start: "center center",
-                end: "center top",
-                scrub: 1,
-                markers: true,
-            }
-        });
-
-        // 為每個元素分別設定動畫，實現真正的中央擴散
-        // 先設定所有方格從 0 到 1 的完整動畫
-        gridItems.forEach((item, index) => {
-            const delay = normalizedStagger[index] * 1; // 基於距離計算延遲
-
-            // 添加從透明到不透明的動畫
-            tl.fromTo(item,
-                { opacity: 0 }, // 起始狀態
-                {
-                    opacity: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                },
-                delay
-            );
-        });
-
-    }, [gridLayout]);
 
     // ============================
     // 渲染區塊
     // ============================
-    // 組件渲染輸出
     return (
-        // 主容器：設定總體滾動高度以容納所有動畫階段
         <section
             id="section-feedbacks"
             className="w-full text-white"
         >
 
+            <div className="w-full h-[100vh]"></div>
+            {/* Cut Scene 動畫區域 */}
             <div
-                ref={gridContainerRef}
-                className="sticky top-0 left-0 w-full h-screen overflow-hidden"
+                className="w-full h-[400vh] mt-[-100vh] relative"
+                ref={sectionRef}
             >
-
-
-                {/* 響應式方格背景 */}
-                <div
-                    className="grid"
-                    style={{
-                        gridTemplateColumns: `repeat(${gridLayout.cols}, ${gridLayout.cellWidth}vw)`,
-                        gridTemplateRows: `repeat(${gridLayout.rows}, ${gridLayout.cellHeight}vh)`,
-                        // 水平和垂直置中，允許超出範圍
-                        transform: `translate(-${gridLayout.offsetX}vw, -${gridLayout.offsetY}vh)`,
-                        transformOrigin: 'center center'
-                    }}
-                >
-                    {Array.from({ length: gridLayout.totalCells }, (_, index) => {
-                        return (
-                            <div
-                                key={index}
-                                ref={(el) => {
-                                    gridItemsRef.current[index] = el;
-                                }}
-                                className="border border-gray-800"
-                                style={{
-                                    // 初始透明度為 0，將由 GSAP 控制
-                                    opacity: 0
-                                }}
-                            />
-                        );
-                    })}
+                <div className="w-full h-screen flex items-center justify-center sticky top-0 left-0 overflow-hidden">
+                    <Grid progress={progress} />
                 </div>
             </div>
 
             {/* ============================
       // 第一部分：證言展示區域
       // ============================*/}
-            {/* GSAP trigger改用這個，讓動畫從這邊開始 */}
-            <div ref={triggerContainerRef} className="">
-                {/* 背景證言卡片 */}
-                <div
-                    className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
-                    style={{
-                        transformStyle: 'preserve-3d',
-                        perspective: 'var(--perspective, 10vw)',
-                        willChange: 'perspective-origin',
-                        // 使用 transform 來啟用 GPU 加速
-                        transform: 'translateZ(0)'
-                    }}>
-
-                    <div>
-                        <h2 className="mb-4 leading-relaxed">
-                            持續求真的路上
-                            <br />
-                            感謝有眾聲同行
-                        </h2>
-                    </div>
+            <div className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+                <div>
+                    <h2 className="mb-4 leading-relaxed">
+                        持續求真的路上
+                        <br />
+                        感謝有眾聲同行
+                    </h2>
                 </div>
             </div>
 
