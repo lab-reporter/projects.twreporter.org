@@ -185,7 +185,7 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供偵測使用
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
-      <div ref={headingRef} className="sticky top-0 z-10">
+      <div ref={headingRef} className="sticky top-0 z-10 h-screen flex flex-col justify-center items-center">
         <SectionHeadings titleEn="INNOVATION" titleZh="開放新聞室・創新">
           <p>
             《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。
@@ -196,21 +196,21 @@ export default function InnovationsSection() {
 
       <div className="relative w-full">
         {/* Swiper 容器 */}
-        <div className="sticky z-[100] top-0 w-full h-screen">
+        <div className="sticky z-[100] top-0 w-full mx-auto h-auto overflow-x-hidden">
 
           {/* 3D 場景容器 */}
           <div
             ref={containerRef}
-            className="w-full h-full relative overflow-hidden"
+            className="w-full max-w-[40rem] mx-auto aspect-[4/3] lg:h-full relative"
             style={{
               // 動態設定透視距離
-              perspective: is3DEnabled && isVisible ? "1000px" : "none",
+              perspective: is3DEnabled && isVisible ? "500px" : "none",
               // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
             }}
           >
             {/* 3D 元素容器 */}
             <div
-              className="absolute inset-0"
+              className="absolute bottom-0 inset-0 h-[100%]"
               style={{
                 // 啟用 3D 變換樣式
                 transformStyle:
@@ -241,7 +241,7 @@ export default function InnovationsSection() {
           </div>
 
           {/* 當前項目資訊展示區 */}
-          <div className="absolute z-[100] bottom-24 w-full flex justify-center items-center">
+          <div className="z-[100] mt-8 w-full flex justify-center items-center">
             <ItemDisplayWithNavigation
               title={currentItem?.title}
               subtitle={currentItem?.subtitle}
@@ -249,7 +249,6 @@ export default function InnovationsSection() {
               onNext={goToNext}
               previousLabel="上一個創新項目"
               nextLabel="下一個創新項目"
-              displayClassName="min-w-[35rem]"
               currentItem={currentItem || undefined}
               onTitleClick={(item) => {
                 openModal(item.id as string, item);

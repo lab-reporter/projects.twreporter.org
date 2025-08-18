@@ -4,41 +4,6 @@
  * ========================================
  * DonatePanel - 捐款面板組件
  * ========================================
- * 
- * 🎯 設計理念：
- * 此組件是一個精簡且專注的捐款介面，採用左右分割式佈局：
- * - 左側：互動式捐款表單，包含動畫數字和彩帶慶祝效果
- * - 右側：十週年限定回饋品展示，增加捐款動機
- * 
- * 🎬 核心動畫系統：
- * 
- * 1️⃣ 數字計數動畫：
- *    - 與 SupportMainSection 類似的 GSAP 計數效果
- *    - 但僅顯示「下一位支持者序號」，更專注簡潔
- *    - 使用 IntersectionObserver 確保在適當時機觸發
- * 
- * 2️⃣ 彩帶慶祝系統：
- *    - 三種金額對應三種不同色調的彩帶主題
- *    - 採用多階段爆發模式，增強視覺衝擊力
- *    - 與 SupportMainSection 共享相同的動畫邏輯
- * 
- * 🎨 視覺設計特色：
- * 
- * 📱 響應式佈局：
- *    - lg: flex-row（大螢幕橫向排列）
- *    - flex-col（小螢幕縱向堆疊）
- *    - gap-16 提供充足的視覺間距
- * 
- * 🎁 十週年回饋展示：
- *    - 使用 Next.js Image 組件進行圖片優化
- *    - 最大寬度限制 (max-w-[25rem]) 確保比例協調
- *    - 清晰的文字層次：品牌名 → 合作夥伴 → 產品名 → 說明 → 行動按鈕
- * 
- * 🚀 技術實作亮點：
- * - 模組化設計：彩帶動畫函數完全可重用
- * - 效能優化：useCallback 避免不必要的重新渲染
- * - 無障礙支援：支援動畫減少偏好設定
- * - 表單驗證：即時回饋與錯誤處理
  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -139,27 +104,6 @@ export default function DonatePanel() {
      * ========================================
      * fireConfetti - 專屬彩帶慶祝動畫系統
      * ========================================
-     * 
-     * 🎨 DonatePanel 專屬色彩主題：
-     * 與 SupportMainSection 不同，此組件採用更具品牌特色的配色：
-     * 
-     * - 500 元：土地色調（#edc39d, #9e7a4e, #493018）
-     *   溫潤的大地色系，象徵踏實支持
-     * 
-     * - 1000 元：自然色調（#6ee5b5, #3c927a, #0e3532）  
-     *   清新的綠色系，代表成長與希望
-     * 
-     * - 3000 元：熱情色調（#f80b28, #c40d23, #9b051e）
-     *   鮮明的紅色系，表達強烈的支持熱情
-     * 
-     * 🎭 動畫結構與 SupportMainSection 一致：
-     * - 第一階段：中央爆發（100 粒子，70° 散佈）
-     * - 第二階段：左右補強（各 50 粒子，延遲 250ms）
-     * - 無障礙支援：disableForReducedMotion
-     * 
-     * 🎯 設計思考：
-     * 不同的顏色主題讓兩個支持組件有各自的視覺個性，
-     * 同時保持動畫行為的一致性，提供連貫的使用體驗。
      */
     const fireConfetti = useCallback((amount: number) => {
         // 🎨 DonatePanel 專屬顏色配置
@@ -303,7 +247,7 @@ export default function DonatePanel() {
                 {/* 表單區域：金額選擇與輸入 */}
                 <div className="flex flex-col items-center w-auto max-w-[700px]">
                     {/* 表單標籤：說明捐款類型 */}
-                    <div className="font-noto-sans-tc text-md w-full text-center mb-3 bg-gray-200 text-black py-3 px-8">
+                    <div className="font-noto-sans-tc text-md w-full text-center mb-3 text-white">
                         每月定額
                     </div>
 
@@ -314,9 +258,9 @@ export default function DonatePanel() {
                                 key={amount}
                                 type="button"
                                 onClick={() => handleAmountSelection(amount)}
-                                className={`flex-1 max-w-[150px] py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
+                                className={`flex-1 py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
                                     ? "bg-red-70 border-red-70"
-                                    : "bg-transparent border border-2 border-gray-700 text-white hover:border-gray-300"
+                                    : "bg-white/10 border border-[1px] border-white text-white hover:border-gray-300"
                                     }`}
                             >
                                 {amount}
@@ -325,16 +269,16 @@ export default function DonatePanel() {
                     </div>
 
                     {/* 自訂金額輸入區域 */}
-                    <div className="font-noto-sans-tc  flex items-center w-full max-w-[400px] mb-6 relative border-b border-gray-700">
+                    <div className="font-noto-sans-tc flex items-center w-full mb-6 relative border-b border-white">
                         <input
                             type="text"
                             value={customAmount}
                             onChange={handleCustomAmountChange}
                             placeholder="自訂金額"
-                            className="w-full text-xl bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-500"
+                            className="w-full text-xl bg-transparent border-none py-3 px-4 text-lg text-white text-center focus:outline-none placeholder-gray-300"
                         />
                         {/* 金額單位標示 */}
-                        <span className="font-noto-sans-tc absolute right-4 text-gray-500">元/月</span>
+                        <span className="font-noto-sans-tc absolute right-4 text-white">元/月</span>
                     </div>
 
                     {/* 錯誤訊息顯示區域（條件渲染） */}
@@ -360,24 +304,6 @@ export default function DonatePanel() {
               ========================================
               右側：十週年限定回饋展示區域
               ========================================
-              
-              🎁 設計目標：
-              - 增加捐款誘因：透過限定回饋品提升支持意願
-              - 品牌聯名價值：展示與春池玻璃的合作
-              - 視覺吸引力：精美產品圖片作為視覺焦點
-              
-              📐 佈局結構：
-              - h-screen：佔滿視窗高度，與左側表單區域平衡
-              - flex-col + items-center：垂直置中對齊
-              - max-w-[25rem]：限制圖片最大寬度保持比例
-              
-              📝 資訊層次：
-              1. 產品圖片（視覺焦點）
-              2. 活動名稱（十週年限定贊助回饋）
-              3. 合作品牌（報導者 × 春池玻璃）
-              4. 產品名稱（聯名玻璃磚）
-              5. 詳細說明（時間限制與領取條件）
-              6. 行動按鈕（領取辦法）
             */}
             <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
                 {/* 🖼️ 主要產品展示圖片 */}

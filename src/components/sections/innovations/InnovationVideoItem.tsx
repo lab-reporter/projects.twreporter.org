@@ -101,8 +101,9 @@ export default function InnovationVideoItem({
       style={{
         cursor: "zoom-in",
         transformOrigin: "center center",
-        width: "800px",
-        height: "800px",
+        width: "100%",
+        aspectRatio: "4/3",
+        maxWidth: "800px",
         transform: "translate(-50%, -50%)",
         // 根據深度設定初始透明度，避免載入時的閃爍
         opacity: is3DEnabled ? undefined : initialDepth < -300 ? 0 : 0.6,
@@ -110,13 +111,13 @@ export default function InnovationVideoItem({
         left: shouldCenterFirst
           ? "50%"
           : !animationsEnabled
-          ? `calc(50% + ${offset.x}vw)`
-          : "50%",
+            ? `calc(50% + ${offset.x}vw)`
+            : "50%",
         top: shouldCenterFirst
           ? "50%"
           : !animationsEnabled
-          ? `calc(50% + ${offset.y}vh)`
-          : "50%",
+            ? `calc(50% + ${offset.y}vh)`
+            : "50%",
         // Z 軸層級：第一個項目優先顯示
         zIndex: isFirstItem ? 10 : 1,
       }}

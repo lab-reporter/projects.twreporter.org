@@ -158,8 +158,6 @@ const ChallengesSwiper: React.FC = () => {
                     onNext={goToNext}
                     previousLabel="上一個挑戰"
                     nextLabel="下一個挑戰"
-
-                    displayClassName="min-w-[35rem]"
                     currentItem={currentItem}
                     onTitleClick={(item) => {
                         openModal(item.id as string, item);
