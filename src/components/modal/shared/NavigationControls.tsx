@@ -128,9 +128,9 @@ export default function NavigationControls({
   return (
     <div className={`w-full py-32 flex items-center relative z-10 ${className}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <h4 className="mb-4 text-gray-700">
+        <h5 className="mb-4 text-gray-700">
           閱讀更多
-        </h4>
+        </h5>
         {/* 導航預覽區域 */}
         <div className="flex gap-4 md:gap-8">
           {/* 上一則預覽 */}
