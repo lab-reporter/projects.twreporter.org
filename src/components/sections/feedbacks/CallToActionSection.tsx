@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useStoreSSR } from '@/hooks/useStoreSSR';
 import DonatePanel from "@/components/sections/support/DonatePanel";
 import TestimonialSwiper from "./TestimonialSwiper";
 import Image from "next/image";
@@ -313,14 +314,15 @@ export default function CallToActionSection() {
     const [progress, setProgress] = useState(0);
 
     // ============================
-    // API 數字狀態管理（模擬從 API 傳入）
+    // 支持者數據管理（從 store 獲取，SSR 安全）
     // ============================
-    const [apiSupporterCount] = useState(8185); // 模擬從 API 傳入的當前支持者數量
+    const supporterCount = useStoreSSR((state) => state.supporterCount, 8165);
+    const targetSupporters = useStoreSSR((state) => state.targetSupporters, 10000);
 
     // 數字計數動畫邏輯
     const calculateDisplayNumber = (animationProgress: number) => {
-        const startNumber = apiSupporterCount;
-        const targetNumber = 10000;
+        const startNumber = supporterCount;
+        const targetNumber = targetSupporters;
         const currentNumber = startNumber + (targetNumber - startNumber) * animationProgress;
         return Math.floor(currentNumber);
     };

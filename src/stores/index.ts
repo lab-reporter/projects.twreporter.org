@@ -6,7 +6,7 @@ import { sceneSlice, SceneSlice } from './slices/sceneSlice'
 import { uiSlice, UISlice } from './slices/uiSlice'
 import { dataSlice, DataSlice } from './slices/dataSlice'
 
-export interface StoreState extends ScrollSlice, SceneSlice, UISlice, DataSlice {}
+export interface StoreState extends ScrollSlice, SceneSlice, UISlice, DataSlice { }
 
 export const useStore = create<StoreState>()(
   devtools(
@@ -23,3 +23,6 @@ export const useStore = create<StoreState>()(
     }
   )
 )
+
+// 為 SSR 提供安全的 store 存取
+export const getStoreSnapshot = () => useStore.getState()

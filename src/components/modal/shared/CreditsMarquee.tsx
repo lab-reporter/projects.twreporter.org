@@ -24,12 +24,12 @@ export default function CreditsMarquee({
       {/* 製作團隊標題 */}
       <h6 className="text-gray-600 mb-4">製作團隊</h6>
 
-      {/* 跑馬燈容器 */}
-      <div className="relative overflow-hidden w-full group">
+      {/* 跑馬燈容器 - 突破父容器寬度限制 */}
+      <div className="relative overflow-hidden w-full left-1/2 transform -translate-x-1/2 group">
         {/* 跑馬燈內容 - 複製兩份確保無縫循環 */}
-        <div className="flex whitespace-nowrap">
+        <div className="flex">
           <div
-            className="flex group-hover:[animation-play-state:paused] items-center space-x-12 text-gray-700 pr-12"
+            className="flex group-hover:[animation-play-state:paused] items-center space-x-12 text-gray-700 pr-12 whitespace-nowrap"
             style={{
               animation: `marquee ${animationDuration}s linear infinite`
             }}
@@ -37,7 +37,7 @@ export default function CreditsMarquee({
             {children}
           </div>
           <div
-            className="flex group-hover:[animation-play-state:paused] items-center space-x-12 text-gray-700 pr-12"
+            className="flex group-hover:[animation-play-state:paused] items-center space-x-12 text-gray-700 pr-12 whitespace-nowrap"
             style={{
               animation: `marquee ${animationDuration}s linear infinite`
             }}

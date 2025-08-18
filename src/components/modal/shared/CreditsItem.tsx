@@ -15,9 +15,9 @@ export default function CreditsItem({
   const namesText = Array.isArray(names) ? names.join('、') : names;
 
   return (
-    <div className={`flex items-center text-gray-900 font-normal whitespace-nowrap ${className}`}>
-      <span className="mr-2">{role} |</span>
-      <span>{namesText}</span>
+    <div className={`flex items-center text-gray-900 font-normal ${className}`}>
+      <span className="mr-2 whitespace-nowrap">{role} |</span>
+      <span className="whitespace-nowrap">{namesText}</span>
     </div>
   );
 }

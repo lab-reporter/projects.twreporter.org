@@ -4,6 +4,7 @@
 import { useEffect, useRef } from 'react';
 import { useGlobalScrollMonitor } from '@/hooks/useGlobalScrollMonitor';
 import { useGlobalPreloadStrategy } from '@/hooks/useGlobalPreloadStrategy';
+import { useSupporterData } from '@/hooks/useSupporterData';
 
 import Modal from '@/components/Modal';
 import SectionNavigation from '@/components/SectionNavigation';
@@ -29,6 +30,9 @@ export default function Home() {
 
   // 啟用全域預載策略
   const { preloadStats } = useGlobalPreloadStrategy();
+
+  // 載入支持者數據
+  useSupporterData();
 
 
 

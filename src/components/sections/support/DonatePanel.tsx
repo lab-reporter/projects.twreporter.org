@@ -10,6 +10,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useStoreSSR } from '@/hooks/useStoreSSR';
 import Image from 'next/image';
 import ClaimMethodModal from './ClaimMethodModal';
 export default function DonatePanel() {
@@ -19,9 +20,10 @@ export default function DonatePanel() {
         sectionName: 'support'
     });
 
-    // 狀態變數：目前的支持者總數（固定數值，不會改變）
-    const [finalSupporterCount] = useState(7964);
-    // 狀態變數：動畫過程中顯示的下一位支持者序號
+    // 從 store 獲取支持者數據（SSR 安全）
+    const supporterCount = useStoreSSR((state) => state.supporterCount, 8165);
+
+    // 狀態變數：動畫過程中顯示的下一位支持者序號（支持者數量 + 1）
     const [displayNextSupporterNumber, setDisplayNextSupporterNumber] = useState(1);
     // 狀態變數：記錄數字動畫是否已經執行過
     const [animationStarted, setAnimationStarted] = useState(false);
@@ -40,6 +42,13 @@ export default function DonatePanel() {
     const [customAmount, setCustomAmount] = useState('');
     // 狀態變數：表單驗證錯誤訊息
     const [errorMessage, setErrorMessage] = useState('');
+
+    // 副作用：初始化顯示數字
+    useEffect(() => {
+        if (supporterCount > 0 && displayNextSupporterNumber === 1) {
+            setDisplayNextSupporterNumber(supporterCount + 1);
+        }
+    }, [supporterCount, displayNextSupporterNumber]);
 
     // 副作用：設定數字計數動畫效果
     useEffect(() => {
@@ -62,7 +71,7 @@ export default function DonatePanel() {
                         // 執行數字遞增動畫
                         timeline.to({ count: 0 }, {
                             // 動畫目標數值
-                            count: finalSupporterCount,
+                            count: supporterCount,
                             // 動畫執行時間
                             duration: 3,
                             // 緩動函數類型
@@ -71,7 +80,7 @@ export default function DonatePanel() {
                             onUpdate: function () {
                                 // 取得當前動畫數值（無條件捨去）
                                 const currentCount = Math.floor(this.targets()[0].count);
-                                // 更新顯示的下一位支持者序號
+                                // 更新顯示的下一位支持者序號（當前數量 + 1）
                                 setDisplayNextSupporterNumber(currentCount + 1);
                             }
                         });
@@ -101,7 +110,7 @@ export default function DonatePanel() {
             }
         };
         // 依賴變數：當這些值改變時重新執行
-    }, [finalSupporterCount, animationStarted]);
+    }, [supporterCount, animationStarted]);
 
     /**
      * ========================================
