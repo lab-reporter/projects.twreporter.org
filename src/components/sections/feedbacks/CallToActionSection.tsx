@@ -177,9 +177,9 @@ function easeInQuint(x: number): number {
 }
 
 // 正弦波緩入緩出函數：開始和結束較慢，中間較快，用於 move 動畫
-function easeInOutSine(x: number): number {
-    return -(Math.cos(Math.PI * x) - 1) / 2;
-}
+// function easeInOutSine(x: number): number {
+//     return -(Math.cos(Math.PI * x) - 1) / 2;
+// }
 
 // 漸層色彩組合陣列：使用統一的色票組合
 const gradientCombinations = [
@@ -248,7 +248,7 @@ const Grid = ({
                 {new Array(totalRows).fill(true).map((_, index) => {
                     const centerIndex = Math.floor(totalRows / 2); // 中央行索引
                     const diffToCenter = Math.abs(centerIndex - index); // 與中央的距離
-                    const maxDiff = centerIndex;
+                    // const maxDiff = centerIndex; // 這個變數確實沒有使用，保持註解
 
                     // 奇偶行交錯位移，創造波浪效果（保留基礎交錯，移除動畫部分）
                     const startMoveOffset = index % 2 === 0 ? 0 : 0.03;
