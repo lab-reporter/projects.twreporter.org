@@ -12,11 +12,11 @@ import type { Swiper as SwiperType } from 'swiper'
 
 // Import Swiper styles
 import 'swiper/css'
-import 'swiper/css/effect-coverflow'
+import 'swiper/css/effect-cards'
 import 'swiper/css/navigation'
 
 // import required modules
-import { EffectCoverflow, Navigation, Keyboard } from 'swiper/modules'
+import { EffectCards, Navigation, Keyboard } from 'swiper/modules'
 
 // ============================
 // 型別定義
@@ -97,24 +97,17 @@ const ChallengesSwiper: React.FC = () => {
                         swiperRef.current = swiper
                     }}
                     loop={true}  // 啟用循環
-                    effect={'coverflow'}
+                    effect={'cards'}
                     grabCursor={true}
                     centeredSlides={true}
                     slidesPerView={'auto'}
                     initialSlide={0}
-                    coverflowEffect={{
-                        rotate: 15,  // 旋轉角度
-                        stretch: 0,  // 拉伸
-                        depth: 200,  // 深度
-                        modifier: 1, // 修改器強度
-                        slideShadows: false, // 陰影
-                    }}
                     keyboard={{
                         enabled: true,
                         onlyInViewport: true,
                     }}
                     navigation={false} // 使用自定義導航按鈕
-                    modules={[EffectCoverflow, Navigation, Keyboard]}
+                    modules={[EffectCards, Navigation, Keyboard]}
                     onSlideChange={handleSlideChange}
                     className="challenges-swiper"
                     style={{
@@ -140,12 +133,12 @@ const ChallengesSwiper: React.FC = () => {
                                 className="relative w-full h-full cursor-pointer"
                                 onClick={() => handleCardClick(item, index)}
                             >
-                                <div className="relative w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300 hover:scale-105">
+                                <div className="relative border border-gray-300 w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300 hover:scale-105">
                                     <Image
                                         src={item.path}
                                         alt={item.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover border border-[0.5rem] border-white"
                                         sizes="(max-width: 768px) 100vw, 600px"
                                         priority={index === activeIndex}
                                     />
@@ -190,10 +183,13 @@ const ChallengesSwiper: React.FC = () => {
                     z-index: 10;
                 }
                 
-                /* 調整 3D 透視效果 */
-                .swiper-3d .swiper-slide-shadow-left,
-                .swiper-3d .swiper-slide-shadow-right {
-                    background-image: none;
+                /* Cards 效果樣式調整 */
+                .challenges-swiper.swiper-cards {
+                    perspective: 1200px;
+                }
+                
+                .challenges-swiper .swiper-cards-wrapper {
+                    perspective-origin: center top;
                 }
                 
                 /* 響應式調整 */
