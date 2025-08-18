@@ -114,16 +114,16 @@ export default function ReportsSwiper() {
     // Tailwind CSS 斷點對應：sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
     if (width < 640) {
       // 小於 640px：手機直立模式
-      return { sliderSize: 10 };
+      return { sliderSize: 9 };
     } else if (width < 768) {
       // 640px - 768px：手機橫向/小平板
-      return { sliderSize: 9 };
+      return { sliderSize: 8 };
     } else if (width < 1024) {
       // 768px - 1024px：平板模式
-      return { sliderSize: 8 };
+      return { sliderSize: 7 };
     } else if (width < 1280) {
       // 1024px - 1280px：小桌面
-      return { sliderSize: 7 };
+      return { sliderSize: 6 };
     } else if (width < 1536) {
       // 1280px - 1536px：大桌面
       return { sliderSize: 5 };
@@ -321,7 +321,7 @@ export default function ReportsSwiper() {
         {/* 輪播展示容器：居中定位 */}
         <div
           ref={sliderContainerRef}
-          className={`absolute w-full h-screen top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isInteractionEnabled && isDragging
+          className={`absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none ${isInteractionEnabled && isDragging
             ? "cursor-grabbing"
             : isInteractionEnabled
               ? "cursor-grab"
@@ -336,7 +336,7 @@ export default function ReportsSwiper() {
         >
           {/* 3D 輪播展示區域 */}
           <div
-            className="w-full h-screen text-center overflow-hidden"
+            className="w-full mx-auto aspect-[4/3] text-center overflow-hidden"
             ref={perspectiveContainerRef}
             style={{
               // 初始 3D 變換狀態
@@ -345,7 +345,7 @@ export default function ReportsSwiper() {
               // 確保 3D 渲染環境
               transformStyle: "preserve-3d",
               // 設定透視距離和動態透視中心點
-              perspective: `${sliderSize * 9}vw`,
+              perspective: `${sliderSize * 12}vw`,
               perspectiveOrigin: 'center center',
             }}
           >
@@ -358,7 +358,7 @@ export default function ReportsSwiper() {
                 top: `calc(50% - ${sliderSize * 1}vw)`,
                 left: `calc(50% - ${sliderSize * 1.5}vw)`,
                 width: `${sliderSize * 3}vw`,
-                height: `${sliderSize * 2}vw`,
+                aspectRatio: "4/3",
                 // 保持 3D 變換樣式
                 transformStyle: "preserve-3d",
                 // 設定 3D 透視和初始變換（使用響應式透視值）
@@ -409,7 +409,7 @@ export default function ReportsSwiper() {
         {/* 當前項目資訊展示區域：顯示在輪播下方 */}
         <div
           ref={currentItemDisplayRef}
-          className="absolute bottom-20 w-full flex justify-center items-center"
+          className="absolute bottom-0 w-full flex justify-center items-center"
           style={{
             opacity: 0,
           }}

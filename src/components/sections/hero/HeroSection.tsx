@@ -13,9 +13,9 @@ export default function HeroSection() {
     const breakpoint = useBreakpoint();
     // 定義各個導航項目與對應的 section
     const navigationItems = [
-        { id: 'reports', englishTitle: 'Impact', chineseTitle: '報導影響力' },
-        { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '多元創新' },
-        { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '十年突圍' },
+        { id: 'reports', englishTitle: 'Impact', chineseTitle: '深度報導・影響力' },
+        { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '開放新聞室・創新' },
+        { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '非營利媒體・突圍' },
         { id: 'support', englishTitle: 'Support Us', chineseTitle: '支持報導者走過下個十年' }
     ];
 
@@ -132,12 +132,20 @@ export default function HeroSection() {
             className="lg:pt-0 pt-32 lg:sticky top-0 w-full max-w-[100rem] mx-auto px-12 lg:h-screen flex  flex-col-reverse lg:flex-row gap-8 lg:gap-0 justify-start items-center"
         >
             {/* 文字區塊 */}
-            <div className="w-auto flex flex-col lg:justify-start justify-center items-center lg:items-start">
-                <h2 className="font-bold lg:text-left text-center">
+            <div className="w-auto flex-shrink-0 flex flex-col lg:justify-start justify-center items-center lg:items-start">
+                <h2 className="font-bold leading-[1] lg:text-left text-center">
                     這條獨立媒體之路 <br />
-                    我們已經走了10年——
+                    已經走了10年
+                    <span style={{
+                        transform: 'scale(2, 1)',
+                        display: 'inline-block',
+                        transformOrigin: 'left center',
+                    }}>—</span>
                 </h2>
-                <ul className="mt-8">
+                <h5>
+                    看看我們跟讀者一起走過了什麼
+                </h5>
+                {/* <ul className="mt-8">
                     {navigationItems.map((item) => (
                         <li
                             key={item.id}
@@ -148,10 +156,10 @@ export default function HeroSection() {
                             <h6 className="lg:text-left text-center">{item.chineseTitle}</h6>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
             {/* 圖片區域 */}
-            <div className="w-full lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:right-0 lg:w-[70%]">
+            <div className="w-full">
                 <Image src="/assets/KV/KV-Diamond--Light.webp" alt="hero-image" width={2000} height={2000} />
             </div>
             <div className="absolute bottom-12 left-1/2 -translate-x-1/2">

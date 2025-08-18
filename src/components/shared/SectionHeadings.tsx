@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import ScrollDownIndicator from './ScrollDownIndicator';
 
 interface SectionHeadingsProps {
   titleEn: string;
@@ -22,6 +23,7 @@ export default function SectionHeadings({ titleEn, titleZh, children, className 
       >
         {children}
       </div>
+      <ScrollDownIndicator />
     </div >
   );
 }

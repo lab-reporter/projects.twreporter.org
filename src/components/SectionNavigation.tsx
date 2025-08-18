@@ -131,7 +131,7 @@ export default function SectionNavigation() {
     if (isActive) {
       return `${baseClass} text-black`;
     }
-    return `${baseClass} text-[rgba(128,128,128,0.5)] hover:text-red-90`;
+    return `${baseClass} text-[rgba(128,128,128,0.8)] hover:text-red-90`;
   };
 
   // 第二組按鈕的樣式生成函數
