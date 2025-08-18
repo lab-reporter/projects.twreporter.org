@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import DonatePanel from "@/components/sections/support/DonatePanel";
 import TestimonialSwiper from "./TestimonialSwiper";
 import Image from "next/image";
+import EventPreview from "@/components/sections/event/EventPreview";
 
 // 註冊 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -159,15 +160,15 @@ const getCurrentProgress = (overallProgress: number) => {
         clamp((overallProgress - start) / (end - start));
 
     return {
-        centerRow: progress(0.15, 0.25),   // 中央行顯示
-        allRow: progress(0.25, 0.6),      // 全部行顯示
-        zoom: progress(0.5, 0.75),         // 縮放放大
-        textAnimation: progress(0.66, 0.75), // 文字動畫進度
-        imageFadeIn: progress(0.75, 0.85),   // 背景圖片淡入
-        rotateY: progress(0.75, 0.8),      // rotateY旋轉
-        fade: progress(0.75, 0.8),       // 淡出消失
-        secondSectionFadeOut: progress(0.85, 0.9), // 第二部分淡出
-        donatePanelFadeIn: progress(0.85, 0.9),  // 贊助面板淡入
+        centerRow: progress(0.05, 0.1),   // 中央行顯示
+        allRow: progress(0.1, 0.4),      // 全部行顯示
+        zoom: progress(0.4, 0.6),         // 縮放放大
+        textAnimation: progress(0.5, 0.6), // 文字動畫進度
+        imageFadeIn: progress(0.6, 0.7),   // 背景圖片淡入
+        rotateY: progress(0.7, 0.8),      // rotateY旋轉
+        fade: progress(0.6, 0.7),       // 淡出消失
+        secondSectionFadeOut: progress(0.65, 0.7), // 第二部分淡出
+        donatePanelFadeIn: progress(0.7, 0.75),  // 贊助面板淡入
     };
 };
 
@@ -283,7 +284,7 @@ const Grid = ({
 
             {/* Debug 面板 */}
             {showDebug && (
-                <div className="border border-white/20 bg-[#00000050] absolute top-4 left-4 bg-opacity-80 text-white p-4 rounded-lg font-mono text-sm z-50">
+                <div className="z-[10000000] border border-white/20 bg-[#00000050] absolute top-4 left-4 bg-opacity-80 text-white p-4 rounded-lg font-mono text-sm">
                     <div>滾動進度: {(progress * 100).toFixed(1)}%</div>
                     <div>中央行: {(currentProgress.centerRow * 100).toFixed(1)}%</div>
                     <div>全部行: {(currentProgress.allRow * 100).toFixed(1)}%</div>
@@ -381,7 +382,7 @@ export default function CallToActionSection() {
       // 第一部分：證言展示區域
       // ============================*/}
             <div className="relative w-full h-screen py-16 flex flex-col items-center justify-center overflow-hidden">
-                <h2 className="mb-4 leading-relaxed">
+                <h2 className="mb-32 leading-relaxed">
                     持續求真的路上
                     <br />
                     感謝有眾聲同行
@@ -436,7 +437,7 @@ export default function CallToActionSection() {
       // ============================*/}
             <div
                 id="section-support"
-                className="sticky top-0 flex flex-col items-center justify-center h-screen"
+                className="relative flex flex-col items-center justify-center h-screen"
                 style={{
                     opacity: getCurrentProgress(progress).donatePanelFadeIn,
                     transform: `translateY(${(1 - getCurrentProgress(progress).donatePanelFadeIn) * 20}px)`,
@@ -445,6 +446,10 @@ export default function CallToActionSection() {
                 {/* 嵌入贊助區塊組件 */}
                 <DonatePanel />
             </div>
+
+            {/* 第四部分：活動 */}
+            <EventPreview />
+
         </section>
     );
 }

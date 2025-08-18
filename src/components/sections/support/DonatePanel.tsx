@@ -11,6 +11,7 @@ import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import Image from 'next/image';
+import ClaimMethodModal from './ClaimMethodModal';
 export default function DonatePanel() {
     // 使用滾動觸發器來監控當前頁面位置
     useScrollTrigger({
@@ -24,6 +25,8 @@ export default function DonatePanel() {
     const [displayNextSupporterNumber, setDisplayNextSupporterNumber] = useState(1);
     // 狀態變數：記錄數字動畫是否已經執行過
     const [animationStarted, setAnimationStarted] = useState(false);
+    // 狀態變數：控制領取辦法 modal 的顯示
+    const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
     // DOM 元素參考：用於偵測元素是否進入視窗範圍
     const supporterRef = useRef(null);
 
@@ -216,6 +219,16 @@ export default function DonatePanel() {
     // 條件：有選擇預設金額 或 (有輸入自訂金額 且 金額達到最低要求)
     const canSupport = selectedAmount || (customAmount && Number(customAmount) >= 100);
 
+    // 事件處理函數：開啟領取辦法 modal
+    const handleOpenClaimModal = () => {
+        setIsClaimModalOpen(true);
+    };
+
+    // 事件處理函數：關閉領取辦法 modal
+    const handleCloseClaimModal = () => {
+        setIsClaimModalOpen(false);
+    };
+
     // 組件渲染輸出
     return (
         // 主要頁面區塊：支持頁面
@@ -330,10 +343,22 @@ export default function DonatePanel() {
                 </p>
 
                 {/* 🔘 行動呼籲按鈕 */}
-                <button className="mt-4 bg-gray-100 px-4 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300">
+                <button
+                    onClick={handleOpenClaimModal}
+                    className="mt-4 bg-gray-100 px-4 py-2 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300"
+                >
                     領取辦法
                 </button>
             </div>
+
+            {/* 
+              ========================================
+              領取辦法 Modal 組件
+              ========================================
+            */}
+            {isClaimModalOpen && (
+                <ClaimMethodModal onClose={handleCloseClaimModal} />
+            )}
 
         </div>
     );

@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 
-export default function EventSection() {
+export default function EventPreview() {
     return (
-        <section id="section-event" className="w-full min-h-screen text-white flex flex-col items-center justify-center">
+        <section id="section-event" className="relative w-full min-h-screen text-white flex flex-col items-center justify-center">
 
             <h3 className="text-center mb-8">
                 走進現場 <br />
@@ -24,7 +24,7 @@ export default function EventSection() {
                         />
                     </div>
                     <div className="mt-4">
-                        <p className="mb-2 text-red-70">Exhibition</p>
+                        <p className="mb-2 text-gold-50">Exhibition</p>
                         <h4>報導者十週年特展</h4>
                         <p className="text-lg leading-relaxed mt-2">
                             2025.12.04(THU.)–07(SUN.) <br />
@@ -48,7 +48,7 @@ export default function EventSection() {
                         />
                     </div>
                     <div className="mt-4">
-                        <p className="mb-2 text-red-70">Party</p>
+                        <p className="mb-2 text-gold-50">Party</p>
                         <h4>報導者十週年晚會</h4>
                         <p className="text-lg leading-relaxed mt-2">
                             2025.12.06(SAT) <br />
