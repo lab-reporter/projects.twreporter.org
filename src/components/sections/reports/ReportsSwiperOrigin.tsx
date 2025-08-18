@@ -48,7 +48,7 @@ export default function ReportsSwiperOrigin() {
         rootMargin: '100px'
     });
 
-    // 優化的滑鼠追蹤
+    // 優化的滑鼠追蹤（行動裝置自動停用）
     const mousePosition = useMouseTracking3D({
         // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
         enabled: isClient && isVisible,
@@ -56,6 +56,7 @@ export default function ReportsSwiperOrigin() {
         rangeMax: 53,
         useLerp: true,
         lerpFactor: 0.1
+        // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
     });
 
     // 響應式斷點配置：根據螢幕寬度精確調整輪播參數

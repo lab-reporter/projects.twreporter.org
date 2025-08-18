@@ -115,7 +115,7 @@ export default function HeroSection() {
 
         <div
             ref={heroSectionRef}
-            className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex flex-row justify-start items-center"
+            className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex  flex-col-reverse lg:flex-row justify-start items-center"
         >
             {/* 文字區塊 */}
             <div className="w-auto flex flex-col justify-start items-start">
@@ -137,7 +137,7 @@ export default function HeroSection() {
                 </ul>
             </div>
             {/* 圖片區域 */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[70%]">
+            <div className="w-full lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:right-0 lg:w-[70%]">
                 <Image src="/assets/KV/KV-Diamond--Light.webp" alt="hero-image" width={2000} height={2000} />
             </div>
             <div className="absolute bottom-12 left-1/2 -translate-x-1/2">

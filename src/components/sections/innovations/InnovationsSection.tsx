@@ -66,7 +66,7 @@ export default function InnovationsSection() {
     rootMargin: '100px'
   });
 
-  // 滑鼠追蹤 3D 透視效果：動態調整透視原點
+  // 滑鼠追蹤 3D 透視效果：動態調整透視原點（行動裝置自動停用）
   useMouseTracking3D({
     // 啟用條件：3D 已啟用、章節可見且非低效能模式
     enabled: is3DEnabled && isVisible && !isLowPerformance,
@@ -77,6 +77,7 @@ export default function InnovationsSection() {
     rangeMax: 70,
     useLerp: true,
     lerpFactor: 0.1
+    // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
   });
 
   // 章節滾動觸發器：管理章節的活躍狀態

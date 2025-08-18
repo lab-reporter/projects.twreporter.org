@@ -94,7 +94,7 @@ export default function ReportsSwiper() {
     rootMargin: '100px'
   });
 
-  // 優化的滑鼠追蹤：建立 3D 透視效果
+  // 優化的滑鼠追蹤：建立 3D 透視效果（行動裝置自動停用）
   useMouseTracking3D({
     // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
     enabled: isClient && isVisible,
@@ -103,6 +103,7 @@ export default function ReportsSwiper() {
     rangeMax: mouseRangeMax,
     useLerp: true,
     lerpFactor: 0.1
+    // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
   });
 
   // ============================

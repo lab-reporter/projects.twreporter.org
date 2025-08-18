@@ -152,7 +152,7 @@ const ChallengeParallax = () => {
     const { openModal } = useStore();
     const [hoveredItem, setHoveredItem] = useState<ProjectItem | null>(null);
 
-    // 使用滑鼠追蹤 Hook
+    // 使用滑鼠追蹤 Hook（行動裝置自動停用）
     useMouseTracking3D({
         enabled: true,
         targetRef: containerRef,
@@ -161,6 +161,7 @@ const ChallengeParallax = () => {
         rangeMax: 70,  // 可調整範圍
         useLerp: true,
         lerpFactor: 0.1
+        // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
     });
 
     // 設置優化的動畫系統 - 使用單一 ScrollTrigger 和 stagger

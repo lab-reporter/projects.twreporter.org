@@ -172,6 +172,7 @@ export default function NotFound() {
         rangeMax: 70,  // 固定值，zoom 後的狀態
         useLerp: true,
         lerpFactor: 0.1
+        // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
     });
 
     // ============================
@@ -212,7 +213,7 @@ export default function NotFound() {
             router.push('/');
             return;
         }
-        
+
         // 預先載入首頁
         router.prefetch('/');
 
@@ -236,16 +237,16 @@ export default function NotFound() {
             stagger: 0.02,
             ease: 'power2.in'
         }, 0)
-        .to(sliderWrapper, {
-            translateZ: '-100vw',
-            duration: 1,
-            ease: 'power3.in'
-        }, 0)
-        .to(sliderContainerRef.current, {
-            opacity: 0,
-            duration: 0.3,
-            ease: 'power2.in'
-        }, 0.7);
+            .to(sliderWrapper, {
+                translateZ: '-100vw',
+                duration: 1,
+                ease: 'power3.in'
+            }, 0)
+            .to(sliderContainerRef.current, {
+                opacity: 0,
+                duration: 0.3,
+                ease: 'power2.in'
+            }, 0.7);
     };
 
     // 404 頁面專屬的 zoom 動畫
@@ -306,7 +307,7 @@ export default function NotFound() {
     // ============================
     useEffect(() => {
         setIsClient(true);
-        
+
         // 預先載入首頁，減少跳轉延遲
         router.prefetch('/');
 

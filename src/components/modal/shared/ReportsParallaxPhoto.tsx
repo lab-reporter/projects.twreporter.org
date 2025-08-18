@@ -36,15 +36,18 @@ export default function ReportsParallaxPhoto({
     // 判斷是否為行動裝置
     const isMobile = breakpoint === 'base' || breakpoint === 'sm';
 
-    // 使用滑鼠追蹤 Hook（根據裝置決定是否啟用）
+    // 使用滑鼠追蹤 Hook（統一的行動裝置檢測）
     useMouseTracking3D({
-        enabled: enableMobileParallax || !isMobile,
+        enabled: true,  // 總是啟用，內部會根據裝置類型自動處理
         targetRef: containerRef,
         cssProperty: 'perspectiveOrigin',
         rangeMin: 20,
         rangeMax: 80,
         useLerp: true,
-        lerpFactor: 0.1
+        lerpFactor: 0.1,
+        // 如果 enableMobileParallax 為 true，則強制在行動裝置上也啟用
+        disableOnMobile: !enableMobileParallax,
+        disableOnTablet: !enableMobileParallax
     });
 
     // 產生預設響應式位置
