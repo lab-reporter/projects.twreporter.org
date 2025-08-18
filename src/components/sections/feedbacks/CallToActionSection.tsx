@@ -77,7 +77,7 @@ const Box = ({
                         ${color5} 99%,
                         ${color1} 100%
                     )`,
-                    animation: `${animationName} 36s linear infinite`,
+                    animation: `${animationName} 6s linear infinite`,
                 }}
             >
                 <div
