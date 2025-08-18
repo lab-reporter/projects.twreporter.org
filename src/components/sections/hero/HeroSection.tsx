@@ -3,11 +3,14 @@
 import Image from 'next/image'
 import { useRef, useEffect } from 'react'
 import { useStore } from '@/stores'
+import { useBreakpoint } from '@/hooks/useBreakpoint'
 import ScrollDownIndicator from '@/components/shared/ScrollDownIndicator';
 
 export default function HeroSection() {
     // DOM 元素參考：用於 GSAP 動畫控制
     const heroSectionRef = useRef<HTMLDivElement>(null);
+    // 響應式斷點檢測：用於判斷是否為行動裝置
+    const breakpoint = useBreakpoint();
     // 定義各個導航項目與對應的 section
     const navigationItems = [
         { id: 'reports', englishTitle: 'Impact', chineseTitle: '報導影響力' },
@@ -70,6 +73,17 @@ export default function HeroSection() {
     // GSAP 滾動淡出動畫設定
     useEffect(() => {
         const setupFadeOutAnimation = async () => {
+            // 判斷是否為行動裝置（節省效能）
+            const isMobile = breakpoint === 'base' || breakpoint === 'sm';
+
+            // 行動裝置停用淡出動畫以節省效能
+            if (isMobile) {
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('📱 HeroSection: 行動裝置停用淡出動畫');
+                }
+                return;
+            }
+
             // 確保在瀏覽器環境中運行且元素已載入
             if (typeof window !== 'undefined' && heroSectionRef.current) {
                 // 動態導入 GSAP 相關模組
@@ -109,17 +123,17 @@ export default function HeroSection() {
         };
 
         setupFadeOutAnimation();
-    }, []); // 空依賴陣列，僅在組件掛載時執行一次
+    }, [breakpoint]); // 當斷點改變時重新設定動畫（例如從桌面旋轉到行動裝置）
 
     return (
 
         <div
             ref={heroSectionRef}
-            className="sticky top-0 w-full max-w-[100rem] mx-auto px-12 h-screen flex  flex-col-reverse lg:flex-row justify-start items-center"
+            className="lg:pt-0 pt-32 lg:sticky top-0 w-full max-w-[100rem] mx-auto px-12 lg:h-screen flex  flex-col-reverse lg:flex-row gap-8 lg:gap-0 justify-start items-center"
         >
             {/* 文字區塊 */}
-            <div className="w-auto flex flex-col justify-start items-start">
-                <h2 className="font-bold text-left">
+            <div className="w-auto flex flex-col lg:justify-start justify-center items-center lg:items-start">
+                <h2 className="font-bold lg:text-left text-center">
                     這條獨立媒體之路 <br />
                     我們已經走了10年——
                 </h2>
@@ -128,10 +142,10 @@ export default function HeroSection() {
                         <li
                             key={item.id}
                             onClick={() => scrollToSection(item.id)}
-                            className="py-6 border-b border-gray-200 pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
+                            className="py-6 border-b border-gray-200 lg:pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
                         >
-                            <h4 className="font-normal text-left mb-2">{item.englishTitle}</h4>
-                            <h6 className="text-left">{item.chineseTitle}</h6>
+                            <h4 className="font-normal lg:text-left text-center mb-2">{item.englishTitle}</h4>
+                            <h6 className="lg:text-left text-center">{item.chineseTitle}</h6>
                         </li>
                     ))}
                 </ul>
