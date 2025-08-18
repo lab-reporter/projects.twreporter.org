@@ -55,8 +55,8 @@ module.exports = {
       fontSize: {
         // 自定義字級系統 - 響應式 H1-H6
         'h1-desktop': ['6rem', { lineHeight: '1' }], // 72px
-        'h1-tablet': ['5rem', { lineHeight: '1' }],  // 56px
-        'h1-mobile': ['4rem', { lineHeight: '1' }],  // 40px
+        'h1-tablet': ['4.5rem', { lineHeight: '1' }],  // 56px
+        'h1-mobile': ['3rem', { lineHeight: '1' }],  // 40px
 
         'h2-desktop': ['3rem', { lineHeight: '1.25' }], // 56px
         'h2-tablet': ['2.75rem', { lineHeight: '1.25' }], // 44px

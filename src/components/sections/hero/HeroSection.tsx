@@ -129,7 +129,7 @@ export default function HeroSection() {
 
         <div
             ref={heroSectionRef}
-            className="lg:pt-0 pt-32 lg:sticky top-0 w-full max-w-[100rem] mx-auto px-12 lg:h-screen flex  flex-col-reverse lg:flex-row gap-8 lg:gap-0 justify-start items-center"
+            className="lg:pt-0 relative lg:sticky lg:top-0 w-full max-w-[100rem] mx-auto lg:px-12 py-32 h-[100dvh] flex flex-col-reverse lg:flex-row gap-8 lg:gap-0 justify-center items-center"
         >
             {/* 文字區塊 */}
             <div className="w-auto flex-shrink-0 flex flex-col lg:justify-start justify-center items-center lg:items-start">

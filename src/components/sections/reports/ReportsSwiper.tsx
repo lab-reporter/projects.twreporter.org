@@ -314,10 +314,10 @@ export default function ReportsSwiper() {
             observerRef as React.MutableRefObject<HTMLDivElement | null>
           ).current = el;
       }}
-      className="relative h-screen overflow-visible"
+      className="relative h-[100dvh] overflow-visible"
     >
       {/* 黏性容器：在滾動時保持在視窗頂部 */}
-      <div className="sticky top-0 w-full h-screen">
+      <div className="sticky top-0 w-full h-[100dvh]">
         {/* 輪播展示容器：居中定位 */}
         <div
           ref={sliderContainerRef}
@@ -336,7 +336,7 @@ export default function ReportsSwiper() {
         >
           {/* 3D 輪播展示區域 */}
           <div
-            className="w-full mx-auto aspect-[4/3] text-center overflow-hidden"
+            className="w-full h-[100dvh] debug mx-auto aspect-[4/3] text-center overflow-hidden"
             ref={perspectiveContainerRef}
             style={{
               // 初始 3D 變換狀態
@@ -409,7 +409,7 @@ export default function ReportsSwiper() {
         {/* 當前項目資訊展示區域：顯示在輪播下方 */}
         <div
           ref={currentItemDisplayRef}
-          className="absolute bottom-0 w-full flex justify-center items-center"
+          className="absolute bottom-[15%] w-full flex justify-center items-center"
           style={{
             opacity: 0,
           }}

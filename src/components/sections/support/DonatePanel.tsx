@@ -291,9 +291,9 @@ export default function DonatePanel() {
                         type="button"
                         onClick={handleSupport}
                         disabled={!canSupport}
-                        className={`py-2 px-4 text-md transition-all duration-300 mt-4 relative z-10 ${canSupport
-                            ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
-                            : "bg-gray-800 text-gray-500 cursor-not-allowed"
+                        className={`py-2 px-6 text-md rounded-full transition-all backdrop-blur-sm duration-300 mt-4 relative z-10 ${canSupport
+                            ? "bg-white text-black cursor-pointer hover:bg-gray-100"
+                            : "border border-white opacity-50 text-white/80 cursor-not-allowed"
                             }`}
                     >
                         立即支持
