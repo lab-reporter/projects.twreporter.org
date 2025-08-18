@@ -45,7 +45,7 @@ export default function TestimonialSwiper({ testimonials }: TestimonialSwiperPro
             #CCB5F9 99%,
             #C3968E 100%
         )`,
-        animation: 'rotateGradient 36s linear infinite',
+        animation: 'rotateGradient 5s linear infinite',
     } as React.CSSProperties;
 
     return (

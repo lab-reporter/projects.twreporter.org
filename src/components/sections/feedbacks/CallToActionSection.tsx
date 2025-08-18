@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import DonatePanel from "@/components/sections/support/DonatePanel";
 import TestimonialSwiper from "./TestimonialSwiper";
+import Image from "next/image";
 
 // 註冊 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -160,12 +161,12 @@ const getCurrentProgress = (overallProgress: number) => {
     return {
         centerRow: progress(0.15, 0.25),   // 中央行顯示
         allRow: progress(0.25, 0.6),      // 全部行顯示
-        // move: progress(0.33, 0.8),       // 水平移動
         zoom: progress(0.5, 0.75),         // 縮放放大
         textAnimation: progress(0.66, 0.75), // 文字動畫進度
+        imageFadeIn: progress(0.75, 0.85),   // 背景圖片淡入
         rotateY: progress(0.75, 0.8),      // rotateY旋轉
         fade: progress(0.75, 0.8),       // 淡出消失
-        secondSectionFadeOut: progress(0.8, 0.85), // 第二部分淡出
+        secondSectionFadeOut: progress(0.85, 0.9), // 第二部分淡出
         donatePanelFadeIn: progress(0.85, 0.9),  // 贊助面板淡入
     };
 };
@@ -363,7 +364,17 @@ export default function CallToActionSection() {
             {/* Cut Scene 動畫區域 */}
             <div className="w-full h-screen flex items-center justify-center sticky top-0 left-0 overflow-hidden">
                 <Grid progress={progress} showDebug={true} />
-
+                {/* 讓這個Image在0.7-0.75的時候淡入 */}
+                <Image
+                    src="/assets/Donate-BG.png"
+                    alt="Donate背景"
+                    width={1280}
+                    height={750}
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                    style={{
+                        opacity: getCurrentProgress(progress).imageFadeIn,
+                    }}
+                />
             </div>
 
             {/* ============================
