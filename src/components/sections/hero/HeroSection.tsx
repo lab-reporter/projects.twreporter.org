@@ -142,9 +142,9 @@ export default function HeroSection() {
                         <li
                             key={item.id}
                             onClick={() => scrollToSection(item.id)}
-                            className="py-6 border-b border-gray-200 lg:pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
+                            className="py-2 lg:py-4 border-b border-gray-200 lg:pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
                         >
-                            <h4 className="font-normal lg:text-left text-center mb-2">{item.englishTitle}</h4>
+                            <h4 className="font-normal lg:text-left text-center lg:mb-2 mb-0">{item.englishTitle}</h4>
                             <h6 className="lg:text-left text-center">{item.chineseTitle}</h6>
                         </li>
                     ))}
