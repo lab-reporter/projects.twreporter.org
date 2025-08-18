@@ -98,6 +98,12 @@ const ChallengesSwiper: React.FC = () => {
                     }}
                     loop={true}  // 啟用循環
                     effect={'cards'}
+                    cardsEffect={{
+                        perSlideOffset: 10, // 每張卡片的偏移距離
+                        perSlideRotate: 10, // 每張卡片的旋轉角度
+                        rotate: true, // 啟用旋轉
+                        slideShadows: false, // 啟用卡片陰影
+                    }}
                     grabCursor={true}
                     centeredSlides={true}
                     slidesPerView={'auto'}
@@ -133,7 +139,7 @@ const ChallengesSwiper: React.FC = () => {
                                 className="relative w-full h-full cursor-pointer"
                                 onClick={() => handleCardClick(item, index)}
                             >
-                                <div className="relative border border-gray-300 w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300 hover:scale-105">
+                                <div className="relative border border-gray-300 w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300">
                                     <Image
                                         src={item.path}
                                         alt={item.title}

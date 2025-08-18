@@ -12,63 +12,63 @@ export default function HeroSection() {
     // 響應式斷點檢測：用於判斷是否為行動裝置
     const breakpoint = useBreakpoint();
     // 定義各個導航項目與對應的 section
-    const navigationItems = [
-        { id: 'reports', englishTitle: 'Impact', chineseTitle: '深度報導・影響力' },
-        { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '開放新聞室・創新' },
-        { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '非營利媒體・突圍' },
-        { id: 'support', englishTitle: 'Support Us', chineseTitle: '支持報導者走過下個十年' }
-    ];
+    // const navigationItems = [
+    //     { id: 'reports', englishTitle: 'Impact', chineseTitle: '深度報導・影響力' },
+    //     { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '開放新聞室・創新' },
+    //     { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '非營利媒體・突圍' },
+    //     { id: 'support', englishTitle: 'Support Us', chineseTitle: '支持報導者走過下個十年' }
+    // ];
 
-    // 滾動到指定章節的函數（參考 SectionNavigation 的實作）
-    const scrollToSection = async (sectionId: string) => {
-        // 檢查是否有 swiper 正在動畫，如果是則忽略此次調用
-        if (document.body.hasAttribute('data-swiper-animating')) {
-            if (process.env.NODE_ENV === 'development') {
-                console.log('🚫 HeroSection: 忽略跳轉請求，swiper 正在動畫中');
-            }
-            return;
-        }
+    // // 滾動到指定章節的函數（參考 SectionNavigation 的實作）
+    // const scrollToSection = async (sectionId: string) => {
+    //     // 檢查是否有 swiper 正在動畫，如果是則忽略此次調用
+    //     if (document.body.hasAttribute('data-swiper-animating')) {
+    //         if (process.env.NODE_ENV === 'development') {
+    //             console.log('🚫 HeroSection: 忽略跳轉請求，swiper 正在動畫中');
+    //         }
+    //         return;
+    //     }
 
-        // 查找目標元素
-        const targetElement = document.getElementById(`section-${sectionId}`);
-        if (!targetElement) return;
+    //     // 查找目標元素
+    //     const targetElement = document.getElementById(`section-${sectionId}`);
+    //     if (!targetElement) return;
 
-        // 立即更新當前章節狀態
-        const { setCurrentSection } = useStore.getState();
-        setCurrentSection(sectionId);
+    //     // 立即更新當前章節狀態
+    //     const { setCurrentSection } = useStore.getState();
+    //     setCurrentSection(sectionId);
 
-        // 獲取目標位置
-        const targetPosition = targetElement.offsetTop;
+    //     // 獲取目標位置
+    //     const targetPosition = targetElement.offsetTop;
 
-        // 手動處理背景顏色
-        const mainElement = document.querySelector('main');
-        if (mainElement) {
-            // 如果跳轉到 feedbacks 或 support，背景應該是黑色
-            if (sectionId === 'feedbacks' || sectionId === 'support') {
-                mainElement.style.backgroundColor = 'rgba(0, 0, 0, 1)';
-            } else {
-                // 其他區塊背景應該是白色
-                mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-            }
-        }
+    //     // 手動處理背景顏色
+    //     const mainElement = document.querySelector('main');
+    //     if (mainElement) {
+    //         // 如果跳轉到 feedbacks 或 support，背景應該是黑色
+    //         if (sectionId === 'feedbacks' || sectionId === 'support') {
+    //             mainElement.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+    //         } else {
+    //             // 其他區塊背景應該是白色
+    //             mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+    //         }
+    //     }
 
-        // 強制跳轉（無動畫）
-        window.scrollTo(0, targetPosition);
+    //     // 強制跳轉（無動畫）
+    //     window.scrollTo(0, targetPosition);
 
-        // 確保 ScrollTrigger 更新並重新計算背景動畫
-        setTimeout(async () => {
-            const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    //     // 確保 ScrollTrigger 更新並重新計算背景動畫
+    //     setTimeout(async () => {
+    //         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 
-            // 刷新所有 ScrollTrigger
-            ScrollTrigger.refresh();
+    //         // 刷新所有 ScrollTrigger
+    //         ScrollTrigger.refresh();
 
-            // 強制更新背景動畫的進度
-            const bgAnimation = ScrollTrigger.getById('main-background-animation');
-            if (bgAnimation) {
-                bgAnimation.refresh();
-            }
-        }, 50);
-    };
+    //         // 強制更新背景動畫的進度
+    //         const bgAnimation = ScrollTrigger.getById('main-background-animation');
+    //         if (bgAnimation) {
+    //             bgAnimation.refresh();
+    //         }
+    //     }, 50);
+    // };
 
     // GSAP 滾動淡出動畫設定
     useEffect(() => {
