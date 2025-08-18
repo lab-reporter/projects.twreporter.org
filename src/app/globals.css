@@ -18,6 +18,7 @@
     font-family: var(--font-roboto-slab), 'Roboto Slab', var(--font-noto-sans-tc), 'Noto Sans TC', serif;
     font-weight: 400;
     line-height: 2;
+    text-wrap: pretty;
   }
 
   /* 標題字型優化 - 英文用 Alverata，中文用思源宋體 */
