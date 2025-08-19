@@ -336,7 +336,7 @@ export default function ReportsSwiper() {
         >
           {/* 3D 輪播展示區域 */}
           <div
-            className="w-full h-[100dvh] debug mx-auto aspect-[4/3] text-center overflow-hidden"
+            className="w-full h-[100dvh] mx-auto aspect-[4/3] text-center overflow-hidden"
             ref={perspectiveContainerRef}
             style={{
               // 初始 3D 變換狀態
