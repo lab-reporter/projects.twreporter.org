@@ -164,7 +164,7 @@ const getCurrentProgress = (overallProgress: number) => {
         centerRow: progress(0.05, 0.1),   // 中央行顯示
         allRow: progress(0.1, 0.4),      // 全部行顯示
         zoom: progress(0.4, 0.6),         // 縮放放大
-        textAnimation: progress(0.5, 0.6), // 文字動畫進度
+        textAnimation: progress(0.5, 0.55), // 文字動畫進度
         imageFadeIn: progress(0.6, 0.7),   // 背景圖片淡入
         rotateY: progress(0.7, 0.8),      // rotateY旋轉
         fade: progress(0.6, 0.7),       // 淡出消失
@@ -287,7 +287,7 @@ const Grid = ({
             {showDebug && (
                 <div className="z-[10000000] border border-white/20 bg-[#00000050] absolute top-4 left-4 bg-opacity-80 text-white p-4 rounded-lg font-mono text-sm">
                     <div>滾動進度: {(progress * 100).toFixed(1)}%</div>
-                    <div>中央行: {(currentProgress.centerRow * 100).toFixed(1)}%</div>
+                    {/* <div>中央行: {(currentProgress.centerRow * 100).toFixed(1)}%</div>
                     <div>全部行: {(currentProgress.allRow * 100).toFixed(1)}%</div>
                     <div>縮放: {(currentProgress.zoom * 100).toFixed(1)}%</div>
                     <div>旋轉Y: {(currentProgress.rotateY * 100).toFixed(1)}%</div>
@@ -295,7 +295,7 @@ const Grid = ({
                     <div>贊助面板: {(currentProgress.donatePanelFadeIn * 100).toFixed(1)}%</div>
                     <div className="mt-2 text-gray-300">網格: {colsPerRow} × {totalRows}</div>
                     <div>螢幕: {width} × {height}</div>
-                    <div>縮放: {fitScale.toFixed(2)} × {zoomScale.toFixed(2)}</div>
+                    <div>縮放: {fitScale.toFixed(2)} × {zoomScale.toFixed(2)}</div> */}
                 </div>
             )}
         </>
@@ -367,7 +367,6 @@ export default function CallToActionSection() {
             {/* Cut Scene 動畫區域 */}
             <div className="w-full h-screen flex items-center justify-center sticky top-0 left-0 overflow-hidden">
                 <Grid progress={progress} showDebug={true} />
-                {/* 讓這個Image在0.7-0.75的時候淡入 */}
                 <Image
                     src="/assets/Donate-BG.png"
                     alt="Donate背景"

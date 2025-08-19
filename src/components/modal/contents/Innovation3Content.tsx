@@ -26,10 +26,15 @@ export default function Innovation3Content({ projectData, onNavigate, adjacentPr
         </Shared.InnovationSlide>
 
         <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
+          {/* <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-3/innovation-3-5.webm"
             alt="2024年我們將所有元件集合成「數位敘事元件庫」，因應非營利媒體「取之於社會、用之於社會」的開放精神，元件庫同步開放外界使用。"
+            className=""
+          /> */}
+          <Shared.SlideMedia
+            type="image"
+            src="/assets/macbook-air.webp"
             className=""
           />
           <Shared.SlideTextCard

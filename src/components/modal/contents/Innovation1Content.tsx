@@ -52,10 +52,9 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
 
         <Shared.InnovationSlide className="flex flex-col items-center">
           <Shared.SlideMedia
-            type="video"
-            src={projectData.path}
-            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
-            className="object-contain flex-shrink-0"
+            type="iframe"
+            src="https://0media.tw/p/ergame/"
+            className=""
           />
           <Shared.SlideTextCard
             text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
