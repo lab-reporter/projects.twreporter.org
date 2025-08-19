@@ -73,7 +73,7 @@ export default function DonatePanel() {
                             // 動畫目標數值
                             count: supporterCount,
                             // 動畫執行時間
-                            duration: 3,
+                            duration: 1,
                             // 緩動函數類型
                             ease: "power2.out",
                             // 動畫更新時的回調函數
@@ -170,9 +170,6 @@ export default function DonatePanel() {
         setCustomAmount('');
         // 清除錯誤訊息
         setErrorMessage('');
-
-        // 播放慶祝彩帶動畫
-        fireConfetti(amount);
     };
 
     // 事件處理函數：處理自訂金額輸入框的變更
