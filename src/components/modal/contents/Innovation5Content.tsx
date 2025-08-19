@@ -2,6 +2,7 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import Image from 'next/image';
 
 export default function Innovation5Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -52,13 +53,12 @@ export default function Innovation5Content({ projectData, onNavigate: _onNavigat
         </Shared.InnovationSlide>
 
 
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="image"
-            src="/assets/innovations/innovation-5/innovation-5-4.webp"
+        <Shared.InnovationSlide className="relative">
+          <Image src="/assets/innovations/innovation-5/innovation-5-4.webp"
             alt="根據《2024下半年媒體影響力報告》統計，《報導者》影音在2024年的平均觀看次數在台灣網路媒體中排名第一。"
-            className=""
-          />
+            width={1920}
+            height={2575}
+            className="w-full h-auto aspect-[1920/2580] absolute top-0 left-0" />
           <Shared.SlideTextCard
             text="根據《2024下半年媒體影響力報告》統計，《報導者》影音在2024年的平均觀看次數在台灣網路媒體中排名第一。"
             className=""

@@ -25,12 +25,15 @@ export default function Innovation7Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
+        <Shared.InnovationSlide className="flex items-center justify-center">
+          {/* <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-7/innovation-7-2.webp"
             alt="2022年的《綁債・黑工・留學陷阱》專題，我們首度以漫畫開啟新的敘事可能，透過報導漫畫（Graphic Journalism）的重構，帶領讀者走過報導人物親歷的現場。"
             className=""
+          /> */}
+          <Shared.SlideIframe
+            src="https://www.twreporter.org/a/uganda-students-in-taiwan-become-cheap-labors-comic"
           />
           <Shared.SlideTextCard
             text="2022年的《綁債・黑工・留學陷阱》專題，我們首度以漫畫開啟新的敘事可能，透過報導漫畫（Graphic Journalism）的重構，帶領讀者走過報導人物親歷的現場。"

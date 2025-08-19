@@ -12,12 +12,15 @@ export default function Innovation9Content({ projectData, onNavigate: _onNavigat
         scrollContainer={scrollContainer}
         enableModalClose={true}
       >
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
+        <Shared.InnovationSlide className="flex items-center justify-center">
+          {/* <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-9/innovation-9-1.webp"
             alt="我們活在影像充斥的時代，但人們對影像的注意力卻逐漸稀缺。為了拉近讀者與影像的距離，《報導者》開設攝影專欄，持續發布在地影像故事、新聞圖輯、影像評論等。"
             className=""
+          /> */}
+          <Shared.SlideIframe
+            src="https://www.twreporter.org/photography"
           />
           <Shared.SlideTextCard
             text="我們活在影像充斥的時代，但人們對影像的注意力卻逐漸稀缺。為了拉近讀者與影像的距離，《報導者》開設攝影專欄，持續發布在地影像故事、新聞圖輯、影像評論等。"

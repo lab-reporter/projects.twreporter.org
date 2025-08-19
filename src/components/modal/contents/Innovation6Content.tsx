@@ -26,11 +26,17 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
         </Shared.InnovationSlide>
 
         <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
+          {/* <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-6/innovation-6-2.webp"
             alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
             className=""
+          /> */}
+          <Shared.SlideMedia
+            type="iframe"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DZ06evO1ULfk4?utm_source=generator"
+            alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
+            className="w-[50%] py-24 mx-auto h-full"
           />
           <Shared.SlideTextCard
             text="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"

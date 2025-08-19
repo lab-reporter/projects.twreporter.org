@@ -342,7 +342,7 @@ export default function CallToActionSection() {
             start: "top top",
             end: "bottom bottom",
             scrub: 0.5, // 平滑度設定
-            markers: true, // 開啟 markers 顯示
+            // markers: true, // 開啟 markers 顯示
             onUpdate: (self) => {
                 setProgress(self.progress); // 更新 React state
             },
