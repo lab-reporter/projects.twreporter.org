@@ -2,7 +2,7 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import image from 'next/image';
+import Image from 'next/image';
 
 export default function Innovation1Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -51,11 +51,20 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
         </Shared.InnovationSlide>
 
         <Shared.InnovationSlide className="flex flex-col items-center">
-          <Shared.SlideMedia
-            type="iframe"
-            src="https://0media.tw/p/ergame/"
-            className=""
-          />
+          <div className="relative w-[80%] debug aspect-[1000/575] mx-auto">
+            <Image
+              src="/assets/macbook-air.webp"
+              alt="macbook-air"
+              fill
+              className="w-full h-full object-contain"
+            />
+
+            <Shared.SlideMedia
+              type="iframe"
+              src="https://0media.tw/p/ergame/"
+              className="absolute left-[11.1%] top-[5.7%] left-0 w-[77.8%] h-[84.4%]"
+            />
+          </div>
           <Shared.SlideTextCard
             text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
             className="bottom-32"

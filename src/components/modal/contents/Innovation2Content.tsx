@@ -2,6 +2,8 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import SlideIframe from '../shared/SlideIframe';
+import Image from 'next/image';
 
 export default function Innovation2Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -26,11 +28,8 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
         </Shared.InnovationSlide>
 
         <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="video"
-            src="/assets/innovations/innovation-2/innovation-2-2.mp4"
-            alt="你所看到的每一個畫面，都是記者、編輯、設計師、工程師經過無數次辯證、修改後的呈現。"
-            className=""
+          <SlideIframe
+            src="https://www.twreporter.org/i/slave-fishermen-human-trafficking-gcs"
           />
           <Shared.SlideTextCard
             text="你所看到的每一個畫面，都是記者、編輯、設計師、工程師經過無數次辯證、修改後的呈現。"

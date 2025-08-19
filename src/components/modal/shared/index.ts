@@ -38,5 +38,6 @@ export { default as ChallengeImageWithCaption } from './ChallengeImageWithCaptio
 export { default as InnovationSlidesContainer } from './InnovationSlidesContainer';
 export { default as InnovationSlide } from './InnovationSlide';
 export { default as SlideMedia } from './SlideMedia';
+export { default as SlideIframe } from './SlideIframe';
 export { default as SlideTextCard } from './SlideTextCard';
 export { default as MediaTextSlide } from './MediaTextSlide';

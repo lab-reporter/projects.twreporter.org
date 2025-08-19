@@ -2,6 +2,7 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import Image from 'next/image';
 
 export default function Innovation10Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -13,12 +14,22 @@ export default function Innovation10Content({ projectData, onNavigate, adjacentP
         enableModalClose={true}
       >
         <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="video"
-            src="/assets/innovations/innovation-10/innovation-10-1.webm"
-            alt="2024立委選舉期間，《報導者》推出立委發言分析報導，在社群造成廣大迴響，顯示公眾對政治理解的高度渴望。"
-            className=""
-          />
+          <div className="relative debug w-[80%] h-auto aspect-[1000/575] mx-auto">
+            <Image
+              src="/assets/macbook-air.webp"
+              alt="macbook-air"
+              fill
+              className="w-full h-full object-contain"
+            />
+
+            <div className="absolute left-[11.1%] top-[5.7%] left-0 w-[77.8%] h-[84.4%]">
+              <Shared.SlideMedia
+                type="iframe"
+                src="https://flo.uri.sh/visualisation/16352841/embed?auto=1"
+                className="relative"
+              />
+            </div>
+          </div>
           <Shared.SlideTextCard
             text="2024立委選舉期間，《報導者》推出立委發言分析報導，在社群造成廣大迴響，顯示公眾對政治理解的高度渴望。"
             className=""
