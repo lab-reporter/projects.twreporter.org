@@ -13,7 +13,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
         scrollContainer={scrollContainer}
         enableModalClose={true}
       >
-        <Shared.InnovationSlide>
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-1/innovation-1-1.webp"
@@ -26,7 +26,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide>
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-1/innovation-1-2.webp"
@@ -38,7 +38,7 @@ export default function Innovation1Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide>
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-1/innovation-1-3.webm"

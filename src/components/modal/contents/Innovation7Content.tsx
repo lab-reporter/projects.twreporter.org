@@ -12,96 +12,84 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
         scrollContainer={scrollContainer}
         enableModalClose={true}
       >
-        {/* 第一頁：Banner */}
-        <Shared.InnovationSlide>
-          <Shared.InnovationBanner
-            videoSrc={projectData.path}
-            title={projectData.title}
-            subtitle={projectData.subtitle}
-          />
-        </Shared.InnovationSlide>
-
-        {/* 第二頁：漫畫新可能 */}
-        <Shared.InnovationSlide className="relative p-8">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-7/黑工.webp"
             alt="《困在隧道的青春》漫畫圖檔"
-            className="object-contain"
+            className=""
           />
           <Shared.SlideTextCard
             text="《報導者》持續探索深度敘事的多元形式，2022年首度以漫畫開啟感性與視覺的報導新可能。"
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+            className=""
           />
         </Shared.InnovationSlide>
 
-        {/* 第三頁：漫畫重構現場 */}
-        <Shared.InnovationSlide className="relative p-8">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-7/森林.webp"
             alt="《森林傷痕》漫畫圖檔"
-            className="object-contain"
+            className=""
           />
           <Shared.SlideTextCard
             text="透過漫畫的重構，帶領讀者走過主角們親歷的現場。"
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+            className=""
           />
         </Shared.InnovationSlide>
 
-        {/* 第四頁：視覺延續生命力 */}
-        <Shared.InnovationSlide className="relative p-8">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-7/小宅.webp"
             alt="《鳥籠時代》漫畫圖檔"
-            className="object-contain"
+            className=""
           />
           <Shared.SlideTextCard
             text="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在視覺重構中延續生命力。"
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+            className=""
           />
         </Shared.InnovationSlide>
 
-        {/* 第五頁：報導者事件簿 */}
-        <Shared.InnovationSlide className="relative p-8">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-7.webm"
             alt="《報導者事件簿》立體書封"
-            className="object-contain"
+            className=""
           />
           <Shared.SlideTextCard
             text="2022年起攜手蓋亞文化，《報導者事件簿》結合調查報導與圖像敘事，讓讀者對議題產生共感。"
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+            className=""
           />
         </Shared.InnovationSlide>
 
-        {/* 第六頁：時代紀錄願景 */}
-        <Shared.InnovationSlide className="relative p-8">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-7/無體溫.webp"
             alt="《陪伴｜娃娃》立體書封"
-            className="object-contain"
+            className=""
           />
           <Shared.SlideTextCard
             text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。"
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl"
+            className=""
           />
         </Shared.InnovationSlide>
 
-        {/* 最後一頁：導航控制 */}
-        <Shared.InnovationSlide>
-          <div className="flex flex-col items-center justify-center h-full bg-white">
-            {/* 支持報導者按鈕 */}
+        <Shared.InnovationSlide className="flex flex-col items-center">
+          <Shared.SlideMedia
+            type="video"
+            src={projectData.path}
+            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            className="object-contain flex-shrink-0"
+          />
+          <Shared.SlideTextCard
+            text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            className="bottom-32"
+          />
+          <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
-
-            {/* 導航按鈕 */}
-            {/* <Shared.NavigationControls
-              onNavigate={onNavigate}
-              adjacentProjects={adjacentProjects}
-            /> */}
           </div>
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
