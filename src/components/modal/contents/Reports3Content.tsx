@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Reports3Content({ projectData, onNavigate, adjacentProjects, onClose }: ContentProps) {
+export default function Reports3Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (

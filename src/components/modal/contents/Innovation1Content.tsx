@@ -2,9 +2,9 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import Image from 'next/image';
 
-export default function Innovation1Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
+
+export default function Innovation1Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (

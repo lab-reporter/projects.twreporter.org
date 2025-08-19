@@ -116,8 +116,9 @@ export default function DonatePanel() {
      * ========================================
      * fireConfetti - 專屬彩帶慶祝動畫系統
      * ========================================
+     * 註：此功能暫時保留，未來可能用於支持成功後的慶祝動畫
      */
-    const fireConfetti = useCallback((amount: number) => {
+    const _fireConfetti = useCallback((amount: number) => {
         // 🎨 DonatePanel 專屬顏色配置
         const CONFETTI_COLORS = {
             500: ['#edc39d', '#9e7a4e', '#493018'],    // 土地色調：溫潤踏實

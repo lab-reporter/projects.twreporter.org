@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRef, useEffect } from 'react'
-import { useStore } from '@/stores'
+
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import ScrollDownIndicator from '@/components/shared/ScrollDownIndicator';
 

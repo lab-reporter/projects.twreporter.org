@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Innovation3Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
+export default function Innovation3Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -39,7 +39,7 @@ export default function Innovation3Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-3/innovation-3-1.jpeg"
+            src="/assets/innovations/innovation-3/innovation-3-3.webp"
             alt="元件設計強調通用性，不需程式背景、任何人都能用這些小工具建置出有趣的互動式網頁。"
             className=""
           />

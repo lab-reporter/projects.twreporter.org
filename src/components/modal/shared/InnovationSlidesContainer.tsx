@@ -11,10 +11,8 @@ interface InnovationSlidesContainerProps {
 
 export default function InnovationSlidesContainer({
   children,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scrollContainer: _scrollContainer,
   onSlideChange,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   enableModalClose: _enableModalClose = true
 }: InnovationSlidesContainerProps) {
   const [currentSlide, setCurrentSlide] = useState(0);

@@ -154,7 +154,7 @@ export function useDragSwiper({
             rotateY: finalRotation,
             duration: 0.6,
             ease: "power2.out",
-            overwrite: "rotateY", // 只覆蓋 rotateY 屬性，保留其他變換（如 rotateX, translateZ）
+            overwrite: "auto", // 自動處理衝突的動畫屬性
             onStart: () => {
                 if (process.env.NODE_ENV === 'development') {
                     console.log('🚀 動畫開始:', `${currentRotation}° → ${finalRotation}°`);

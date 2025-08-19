@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Innovation2Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
+export default function Innovation2Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -25,7 +25,7 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
           <Shared.SlideIframe
             src="https://www.twreporter.org/i/slave-fishermen-human-trafficking-gcs"
           />
@@ -51,9 +51,9 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
-            src="/assets/innovations/innovation-2/innovation-2-4.webm"
+            src="/assets/innovations/innovation-2/innovation-2-4.mp4"
             alt="2022年，《報導者》兩度前往烏克蘭採訪，除了推出文字報導，我們也製作360度影片，讓台灣讀者看見戰事前線的樣貌。"
-            className=""
+            className="w-full h-full lg:object-cover"
           />
           <Shared.SlideTextCard
             text="2022年，《報導者》兩度前往烏克蘭採訪，除了推出文字報導，我們也製作360度影片，讓台灣讀者看見戰事前線的樣貌。"
