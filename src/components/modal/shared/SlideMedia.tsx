@@ -48,7 +48,7 @@ export default function SlideMedia({
         <video
           ref={videoRef}
           src={src}
-          className={`w-full h-full object-cover ${className}`}
+          className={`w-full h-full ${className}`}
           muted
           loop
           playsInline
@@ -76,7 +76,6 @@ export default function SlideMedia({
             src={src}
             alt={alt || ''}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
             className="object-cover"
             priority={isActive}
             quality={90}

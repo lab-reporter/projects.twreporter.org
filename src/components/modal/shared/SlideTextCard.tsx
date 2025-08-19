@@ -10,12 +10,13 @@ export default function SlideTextCard({ text, className = '' }: SlideTextCardPro
     return (
         <div className={`
       px-6 py-4 
-      bg-white bg-opacity-60 backdrop-blur-lg 
+      bg-white/70 backdrop-blur-lg 
       rounded-lg
       shadow-md
+      absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl
       ${className}
     `}>
-            <p className="text-gray-800 leading-relaxed">
+            <p className="text-black leading-relaxed">
                 {text}
             </p>
         </div>
