@@ -242,7 +242,7 @@ export default function DonatePanel() {
     return (
         // 主要頁面區塊：支持頁面
         <div
-            className="w-full min-h-screen text-white flex flex-col lg:flex-row justify-center items-center gap-16 px-8 py-20"
+            className="w-full h-full text-white flex flex-col lg:flex-row justify-center items-center gap-16 px-8 py-20"
         >
             {/* 左側贊助支持區塊 */}
             <div>

@@ -60,11 +60,11 @@ export function useReportsAnimation({
         // 設定初始狀態
         // ============================
 
-        // 設定 sliderWrapper 初始狀態（最遠位置）
+        // 設定 sliderWrapper 初始狀態（最遠位置，保持現有的 rotateY 值）
         gsap.set(sliderWrapper, {
             translateZ: '40vw',
-            rotateX: 90,
-            rotateY: 0
+            rotateX: 90
+            // 不設定 rotateY，保持用戶當前的 swiper 狀態
         });
 
         // 設定當前項目顯示區初始狀態
@@ -138,10 +138,9 @@ export function useReportsAnimation({
         // 階段 2（0.5-1.0）：Rotation 動畫
         // ============================
 
-        // sliderWrapper 旋轉並最終 zoom 到 0
+        // sliderWrapper 旋轉並最終 zoom 到 0（不控制 rotateY，讓 swiper 邏輯處理）
         masterTimeline.to(sliderWrapper, {
             rotateX: 0,
-            rotateY: 0,
             translateZ: 0,
             duration: 0.5,
             ease: 'none'

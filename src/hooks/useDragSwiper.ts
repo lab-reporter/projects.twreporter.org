@@ -154,7 +154,7 @@ export function useDragSwiper({
             rotateY: finalRotation,
             duration: 0.6,
             ease: "power2.out",
-            overwrite: true, // 強制覆蓋任何正在進行的動畫
+            overwrite: "rotateY", // 只覆蓋 rotateY 屬性，保留其他變換（如 rotateX, translateZ）
             onStart: () => {
                 if (process.env.NODE_ENV === 'development') {
                     console.log('🚀 動畫開始:', `${currentRotation}° → ${finalRotation}°`);
@@ -165,7 +165,7 @@ export function useDragSwiper({
 
             },
             onComplete: () => {
-                // 動畫完成後，標準化角度
+                // 動畫完成後，標準化角度（只設定 rotateY，保留其他變換）
                 gsap.set(sliderWrapper, {
                     rotateY: targetRotation
                 });
@@ -291,14 +291,14 @@ export function useDragSwiper({
         };
         const handleTouchMove = (e: TouchEvent) => {
             if (e.touches.length > 0) {
-            const touch = e.touches[0];
-            const state = dragStateRef.current;
-            const deltaX = touch.clientX - state.startX;
-            const deltaY = touch.clientY - state.startY;
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                e.preventDefault();
-            }
-            handleMove(touch.clientX);
+                const touch = e.touches[0];
+                const state = dragStateRef.current;
+                const deltaX = touch.clientX - state.startX;
+                const deltaY = touch.clientY - state.startY;
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    e.preventDefault();
+                }
+                handleMove(touch.clientX);
             }
         };
         const handleTouchEnd = () => handleEnd();

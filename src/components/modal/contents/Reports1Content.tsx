@@ -2,8 +2,9 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import ModalDonate from '../shared/ModalDonate';
 
-export default function Reports1Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
+export default function Reports1Content({ projectData, onNavigate, adjacentProjects, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -132,6 +133,9 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
           <Shared.CreditsItem role="編輯" names={["張詩芸", "陳思樺"]} />
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
+
+      {/* 支持報導者按鈕 */}
+      <ModalDonate onClose={onClose} />
 
       {/* 導航按鈕 */}
       <Shared.NavigationControls

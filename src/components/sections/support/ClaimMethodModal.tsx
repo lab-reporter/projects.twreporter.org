@@ -8,6 +8,7 @@
 
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import CloseButton from '@/components/shared/CloseButton';
 
 interface ClaimMethodModalProps {
     onClose: () => void;
@@ -46,17 +47,20 @@ export default function ClaimMethodModal({ onClose }: ClaimMethodModalProps) {
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-[25000] p-4"
             onClick={handleBackdropClick}
         >
             <div className="bg-white rounded-lg shadow-xl max-w-xl w-full overflow-y-auto relative">
                 {/* 關閉按鈕 */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl w-8 h-8 flex items-center justify-center"
-                >
-                    ×
-                </button>
+                <div className="absolute top-4 right-4">
+                    <CloseButton
+                        onClick={onClose}
+                        variant="overlay"
+                        size="sm"
+                        ariaLabel="關閉領取辦法視窗"
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800"
+                    />
+                </div>
 
                 {/* Modal 內容 */}
                 <div className="p-12">
