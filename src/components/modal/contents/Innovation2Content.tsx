@@ -2,8 +2,6 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import SlideIframe from '../shared/SlideIframe';
-import Image from 'next/image';
 
 export default function Innovation2Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -27,8 +25,8 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
-          <SlideIframe
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.SlideIframe
             src="https://www.twreporter.org/i/slave-fishermen-human-trafficking-gcs"
           />
           <Shared.SlideTextCard

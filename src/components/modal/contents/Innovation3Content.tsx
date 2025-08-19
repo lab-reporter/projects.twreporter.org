@@ -25,7 +25,7 @@ export default function Innovation3Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
           <Shared.SlideIframe
             src="https://lab-storytelling.twreporter.org/landing"
           />

@@ -20,7 +20,7 @@ export default function SlideIframe({
     iframeProps
 }: SlideIframeProps) {
     return (
-        <div className="relative w-[80%] h-auto aspect-[1000/575] mx-auto">
+        <div className="relative w-[75%] h-auto aspect-[1000/575]">
             <Image
                 src="/assets/macbook-air.webp"
                 alt="macbook-air"
