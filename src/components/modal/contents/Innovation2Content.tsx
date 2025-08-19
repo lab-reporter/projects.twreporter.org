@@ -25,7 +25,7 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideIframe
             src="https://www.twreporter.org/i/slave-fishermen-human-trafficking-gcs"
           />

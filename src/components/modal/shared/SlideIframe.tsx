@@ -16,7 +16,7 @@ interface SlideIframeProps {
 
 export default function SlideIframe({
     src,
-    className = "absolute left-[11.1%] top-[5.7%] w-[77.8%] h-[84.4%]",
+    className = "absolute left-[11.1%] top-[5.7%] w-[77.7%] h-[84.4%]",
     iframeProps
 }: SlideIframeProps) {
     return (
@@ -25,13 +25,13 @@ export default function SlideIframe({
                 src="/assets/macbook-air.webp"
                 alt="macbook-air"
                 fill
-                className="w-full h-full object-contain"
+                className="w-full h-full"
             />
 
             <iframe
                 src={src}
                 title={iframeProps?.title || 'Embedded content'}
-                className={`w-full h-full ${className}`}
+                className={`absolute left-[11.1%] top-[5.7%] w-[77.7%] h-[84.4%] ${className}`}
                 allow={iframeProps?.allow}
                 allowFullScreen={iframeProps?.allowFullscreen}
                 sandbox={iframeProps?.sandbox}
