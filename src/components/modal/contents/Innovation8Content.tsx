@@ -16,7 +16,7 @@ export default function Innovation8Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-8/innovation-8-1.webp"
-            alt="《報導者》五週年列車"
+            alt="深化讀者互動，是非營利媒體不可或缺的使命。"
             className=""
           />
           <Shared.SlideTextCard
@@ -28,8 +28,8 @@ export default function Innovation8Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-8/innovation-8-1.webp"
-            alt="《報導者》五週年列車"
+            src="/assets/innovations/innovation-8/innovation-8-2.webp"
+            alt="2020年《報導者》啟動五週年列車前往台灣各地巡迴開講，從高雄傳統市場、台南古老廟宇到離島的金門大學，直接感受、回應讀者的需求與期待。"
             className=""
           />
           <Shared.SlideTextCard
@@ -41,12 +41,12 @@ export default function Innovation8Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-8/innovation-8-14.webp"
-            alt="2022年舉辦北中南贊助者大會"
+            src="/assets/innovations/innovation-8/innovation-8-3.webp"
+            alt="2022年舉辦北中南贊助者大會，串連台中科博館、台南臺灣文學館、台北當代藝術館，與支持者面對面交流。"
             className=""
           />
           <Shared.SlideTextCard
-            text="2022年舉辦北中南贊助者大會，串聯台中科博館、台南臺灣文學館、台北當代藝術館，與支持者面對面交流。"
+            text="2022年舉辦北中南贊助者大會，串連台中科博館、台南臺灣文學館、台北當代藝術館，與支持者面對面交流。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -54,38 +54,12 @@ export default function Innovation8Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-8/innovation-8-7.webp"
-            alt="Live & Breathe 辦公室音樂會"
+            src="/assets/innovations/innovation-8/innovation-8-4.webp"
+            alt="2024年，我們把辦公室打開，舉辦2天共4場的音樂會。透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。 "
             className=""
           />
           <Shared.SlideTextCard
-            text="2024年，更把辦公室打開，舉辦2天共50倍的音樂會。透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。"
-            className=""
-          />
-        </Shared.InnovationSlide>
-
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="image"
-            src="/assets/innovations/innovation-8/innovation-8-8.webp"
-            alt="Live & Breathe 辦公室音樂會"
-            className=""
-          />
-          <Shared.SlideTextCard
-            text="透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。"
-            className=""
-          />
-        </Shared.InnovationSlide>
-
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="image"
-            src="/assets/innovations/innovation-8/innovation-8-9.webp"
-            alt="Live & Breathe 辦公室音樂會"
-            className=""
-          />
-          <Shared.SlideTextCard
-            text="《報導者》將持續突破媒體與讀者的界線，讓好新聞在公共場域中產生共感。"
+            text="2024年，我們把辦公室打開，舉辦2天共4場的音樂會。透過黃玠、拍謝少年、巴奈、生祥和裝咖人的音樂，和讀者與贊助者交流彼此關心的議題。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -94,11 +68,11 @@ export default function Innovation8Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            alt="「Live and breathe something」是一個英文片語，告訴著我們：每天生活呼吸觸碰到的，或許就是你視為和生命一樣重要的事情。希望《報導者》也能陪著你，好好生活、好好活著。"
             className="object-contain flex-shrink-0"
           />
           <Shared.SlideTextCard
-            text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            text="「Live and breathe something」是一個英文片語，告訴著我們：每天生活呼吸觸碰到的，或許就是你視為和生命一樣重要的事情。希望《報導者》也能陪著你，好好生活、好好活著。"
             className="bottom-32"
           />
           <div className="absolute bottom-4 left-0 right-0">

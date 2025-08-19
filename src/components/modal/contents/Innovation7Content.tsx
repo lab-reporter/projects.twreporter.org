@@ -15,12 +15,12 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-7/黑工.webp"
-            alt="《困在隧道的青春》漫畫圖檔"
+            src="/assets/innovations/innovation-7/innovation-7-1.webp"
+            alt="近10年，台灣原創漫畫的出版量逐漸擴大，面對分眾的時代，《報導者》也不斷思考如何創造讓讀者更有感的敘事。"
             className=""
           />
           <Shared.SlideTextCard
-            text="《報導者》持續探索深度敘事的多元形式，2022年首度以漫畫開啟感性與視覺的報導新可能。"
+            text="近10年，台灣原創漫畫的出版量逐漸擴大，面對分眾的時代，《報導者》也不斷思考如何創造讓讀者更有感的敘事。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -28,12 +28,12 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-7/森林.webp"
-            alt="《森林傷痕》漫畫圖檔"
+            src="/assets/innovations/innovation-7/innovation-7-2.webp"
+            alt="2022年的《綁債・黑工・留學陷阱》專題，我們首度以漫畫開啟新的敘事可能，透過報導漫畫（Graphic Journalism）的重構，帶領讀者走過報導人物親歷的現場。"
             className=""
           />
           <Shared.SlideTextCard
-            text="透過漫畫的重構，帶領讀者走過主角們親歷的現場。"
+            text="2022年的《綁債・黑工・留學陷阱》專題，我們首度以漫畫開啟新的敘事可能，透過報導漫畫（Graphic Journalism）的重構，帶領讀者走過報導人物親歷的現場。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -41,25 +41,12 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-7/小宅.webp"
-            alt="《鳥籠時代》漫畫圖檔"
+            src="/assets/innovations/innovation-7/innovation-7-3.webp"
+            alt="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在漫畫家的筆下延續生命力。"
             className=""
           />
           <Shared.SlideTextCard
-            text="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在視覺重構中延續生命力。"
-            className=""
-          />
-        </Shared.InnovationSlide>
-
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="video"
-            src="/assets/innovations/innovation-7.webm"
-            alt="《報導者事件簿》立體書封"
-            className=""
-          />
-          <Shared.SlideTextCard
-            text="2022年起攜手蓋亞文化，《報導者事件簿》結合調查報導與圖像敘事，讓讀者對議題產生共感。"
+            text="以漫畫形式詮釋深度報導，讓那些費時數月完成的作品，在漫畫家的筆下延續生命力。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -67,12 +54,12 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-7/無體溫.webp"
-            alt="《陪伴｜娃娃》立體書封"
+            src="/assets/innovations/innovation-7/innovation-7-4.webp"
+            alt="2022年起我們攜手蓋亞文化，發行報導漫畫系列出版品《報導者事件簿》，結合調查報導與圖像敘事，讓讀者對議題產生共感。"
             className=""
           />
           <Shared.SlideTextCard
-            text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的時代紀錄。"
+            text="2022年起我們攜手蓋亞文化，發行報導漫畫系列出版品《報導者事件簿》，結合調查報導與圖像敘事，讓讀者對議題產生共感。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -81,11 +68,11 @@ export default function Innovation7Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            alt="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。歡迎收藏，一起見證這個時代的切片。"
             className="object-contain flex-shrink-0"
           />
           <Shared.SlideTextCard
-            text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。歡迎收藏，一起見證這個時代的切片。"
             className="bottom-32"
           />
           <div className="absolute bottom-4 left-0 right-0">

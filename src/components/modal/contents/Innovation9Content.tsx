@@ -14,13 +14,13 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
       >
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
-            type="video"
-            src="/assets/innovations/innovation-9/innovation-9-11.webm"
-            alt="《報導者》攝影專欄"
+            type="image"
+            src="/assets/innovations/innovation-9/innovation-9-1.webp"
+            alt="我們活在影像充斥的時代，但人們對影像的注意力卻逐漸稀缺。為了拉近讀者與影像的距離，《報導者》開設攝影專欄，持續發布在地影像故事、新聞圖輯、影像評論等。"
             className=""
           />
           <Shared.SlideTextCard
-            text="《報導者》以攝影專欄推動影像識讀，產製並徵集圖輯、評論、導讀與訪談，打造影像知識網絡。"
+            text="我們活在影像充斥的時代，但人們對影像的注意力卻逐漸稀缺。為了拉近讀者與影像的距離，《報導者》開設攝影專欄，持續發布在地影像故事、新聞圖輯、影像評論等。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -28,12 +28,12 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-9/innovation-9-10.webp"
-            alt="深度影像工作坊"
+            src="/assets/innovations/innovation-9/innovation-9-2.webp"
+            alt="自2017年起，我們連續8年舉辦「深度影像工作坊」，試圖為這個世代有志於攝影工作的人才，建立一個影像知識網絡。"
             className=""
           />
           <Shared.SlideTextCard
-            text="連續8年舉辦「深度影像工作坊」，培力新聞攝影新世代，扶植X位年輕人才轉任正職或特約攝影記者。"
+            text="自2017年起，我們連續8年舉辦「深度影像工作坊」，試圖為這個世代有志於攝影工作的人才，建立一個影像知識網絡。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -41,12 +41,12 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="image"
-            src="/assets/innovations/innovation-9/攝影集.webp"
-            alt="新聞攝影集"
+            src="/assets/innovations/innovation-9/innovation-9-3.webp"
+            alt="透過攝影前輩經驗傳承，從旁協助學員完成自己的影像拍攝計畫，並對外公開發表、在《報導者》攝影專欄刊登。"
             className=""
           />
           <Shared.SlideTextCard
-            text="出版新聞攝影集並舉辦展覽，拓展影像公共參與的想像與可能。"
+            text="透過攝影前輩經驗傳承，從旁協助學員完成自己的影像拍攝計畫，並對外公開發表、在《報導者》攝影專欄刊登。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -55,24 +55,11 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-9/innovation-9-4.webp"
-            alt="攝影展"
+            alt="我們支持合理分潤、影像版權共享，當影像在《報導者》14天獨家刊登結束後，即與攝影者共享這份影像資產。"
             className=""
           />
           <Shared.SlideTextCard
-            text="透過合理分潤與影像共享機制，與攝影者建立共好關係，讓影像資產延續價值。"
-            className=""
-          />
-        </Shared.InnovationSlide>
-
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="image"
-            src="/assets/innovations/innovation-9/innovation-9-1.webp"
-            alt="攝影集錦"
-            className=""
-          />
-          <Shared.SlideTextCard
-            text="《報導者》累積大量影像作品、資料與論述，用視覺書寫關於這片土地的記憶。"
+            text="我們支持合理分潤、影像版權共享，當影像在《報導者》14天獨家刊登結束後，即與攝影者共享這份影像資產。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -81,11 +68,11 @@ export default function Innovation9Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            alt="10年來，《報導者》在黑暗中維繫一絲微光，希望透過鏡頭，我們能記錄更多社會角落的印記，也期待在照路的途中，有你一起同行。"
             className="object-contain flex-shrink-0"
           />
           <Shared.SlideTextCard
-            text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            text="10年來，《報導者》在黑暗中維繫一絲微光，希望透過鏡頭，我們能記錄更多社會角落的印記，也期待在照路的途中，有你一起同行。"
             className="bottom-32"
           />
           <div className="absolute bottom-4 left-0 right-0">

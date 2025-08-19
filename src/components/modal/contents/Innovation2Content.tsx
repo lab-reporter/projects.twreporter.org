@@ -16,11 +16,11 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-1.mp4"
-            alt="海上人口販運風暴"
+            alt="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
             className=""
           />
           <Shared.SlideTextCard
-            text="《報導者》長期致力於創新的數位敘事方式。"
+            text="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -29,11 +29,11 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-2.mp4"
-            alt="六輕營運20年"
+            alt="你所看到的每一個畫面，都是記者、編輯、設計師、工程師經過無數次辯證、修改後的呈現。"
             className=""
           />
           <Shared.SlideTextCard
-            text="在成立初期，就以「海上人口販運風暴」的互動網頁和「六輕營運20年」的解釋性動畫獲得重要國際獎項 SND 最佳新聞設計創意競賽肯定。"
+            text="你所看到的每一個畫面，都是記者、編輯、設計師、工程師經過無數次辯證、修改後的呈現。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -42,11 +42,11 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-3.webm"
-            alt="遊走兩岸海域的暴利生意"
+            alt="無論是交友詐騙、中國業者盜取台灣海砂、犯罪集團濫倒廢棄物⋯⋯我們大量運用沉浸式互動、3D敘事等方式，讓讀者了解這些複雜的議題。"
             className=""
           />
           <Shared.SlideTextCard
-            text="除了平面動態，也經常運用3D敘事、資料視覺化、沉浸式互動等方法說故事。"
+            text="無論是交友詐騙、中國業者盜取台灣海砂、犯罪集團濫倒廢棄物⋯⋯我們大量運用沉浸式互動、3D敘事等方式，讓讀者了解這些複雜的議題。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -55,24 +55,11 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-4.webm"
-            alt="分解「沉浸式詐騙」手法"
+            alt="2022年，《報導者》兩度前往烏克蘭採訪，除了推出文字報導，我們也製作360度影片，讓台灣讀者看見戰事前線的樣貌。"
             className=""
           />
           <Shared.SlideTextCard
-            text="2022年俄烏戰爭爆發之際，使用華文媒體少見的 Live Blog 形式更新戰事最新動態，並前往歐洲製作 360 影片，把現場的畫面帶回給台灣讀者。"
-            className=""
-          />
-        </Shared.InnovationSlide>
-
-        <Shared.InnovationSlide className="">
-          <Shared.SlideMedia
-            type="video"
-            src="/assets/innovations/innovation-2/innovation-2-4.webm"
-            alt="分解「沉浸式詐騙」手法"
-            className=""
-          />
-          <Shared.SlideTextCard
-            text="這些多媒體作品擴展了敘事邊界與讀者參與方式，也讓新聞的影響力延伸得更遠。"
+            text="2022年，《報導者》兩度前往烏克蘭採訪，除了推出文字報導，我們也製作360度影片，讓台灣讀者看見戰事前線的樣貌。"
             className=""
           />
         </Shared.InnovationSlide>
@@ -81,11 +68,11 @@ export default function Innovation2Content({ projectData, onNavigate, adjacentPr
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            alt="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
             className="object-contain flex-shrink-0"
           />
           <Shared.SlideTextCard
-            text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
+            text="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
             className="bottom-32"
           />
           <div className="absolute bottom-4 left-0 right-0">
