@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Challenge4Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
+export default function Challenge4Content({ projectData, onNavigate, adjacentProjects, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -15,40 +15,40 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
         <Shared.TextContent>
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
-          
+
           <div className="space-y-4">
             <Shared.ChallengeQuoteAuthor author="《報導者》創辦人兼執行長 何榮幸：" />
-            
+
             <p>
               中年創業彷彿人生急轉彎，有許多事情必須重新調適。對我來說，創辦《報導者》之後最不習慣的事情是：在當了長達25年的「勞方」之後，我的身分一夕之間突然變成了「資方」。
             </p>
-            
+
             <p>
               我既是決定員工薪水的執行長，也是董事會授權與勞方代表談判的資方代表，如何健全勞動環境、勞資關係，以避免走上「慣老闆」之路，就成了我成為「資方」後最重要的挑戰。
             </p>
-            
+
             <Shared.ChallengeSectionHeading text="主動設置員工董事，快速通過團體協約" />
-            
+
             <p>
               《報導者》創立前幾年因員工人數未滿30人，尚未達到立工會的條件，因此我鼓勵同事們加入「全國傳播媒體產業工會（簡稱全傳媒）」，並且在董事會主動提案修改章程，明定納入由全體同事推選產生的「員工董事」。
             </p>
-            
+
             <p>
               在第一屆董事長翁秀琪老師及董監事們的支持下，「員工董事」案順利通過，同事們也推選出長期主跑勞工新聞的記者林雨佑擔任員工董事，雨佑在日常工作與董事會中為同事爭取權益，我們踏出了建構良性勞資關係的重要一步。
             </p>
-            
+
             <p>
               到了2019年年中，有一天雨佑和擔任全傳媒幹部的嚴文廷找我商量，他們想要推動簽訂優於《勞基法》保障的「團體協約」。我一向認為，《勞基法》只是保障勞動權益的「下限」而非「天花板」，因此很支持簽訂團體協約，隨後向第二屆董事長黃榮村老師報告，在董事會的授權下展開勞資協商。
             </p>
-            
+
             <p>
               當時《報導者》已有超過半數員工加入全傳媒，因此在沒有工會的情況下，由全傳媒代表王燕杰及《報導者》員工推選出的勞方代表跟我進行協商。團體協約條文既然優於《勞基法》規定，必然會增加報導者基金會的營運成本，因此我和行政經理鄭淑芬衡量基金會的財務與募款狀況，說明未來幾年的發展計劃，開誠布公與勞方代表務實討論各項條文的可行性。
             </p>
-            
+
             <p>
               在此之前，台灣新聞界僅有少數媒體訂定團體協約，過程動輒耗時數年、勞資協商數十次。報導者基金會團體協約從啟動到2020年1月正式簽約僅不到半年時間，只經過3次勞資協商就敲定17條條文，成為第一家簽訂團體協約的中小型媒體，內容則包括休息日加班出勤時數加權、每月得申請遠距工作天數、懷孕在家工作天數、增加全薪病假，以及記者業務費、進修補助、健康檢查等福利，並保障年終獎金與合理加薪。
             </p>
-            
+
             <Shared.ChallengeImageWithCaption
               src="/assets/challenges/challenge-4-1.webp"
               alt="《報導者》首次簽訂團體協約"
@@ -56,29 +56,29 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
               width={800}
               height={600}
             />
-            
+
             <p>
               當然，報導者基金會資源有限，不可能通過太多大幅增加營運成本的團體協約條文。但我認為，《報導者》捐款者也會認同「提升勞動權益才能產製優質報導」的核心理念，因此量力而為建構讓新聞工作者沒有後顧之憂的勞動環境。
             </p>
-            
+
             <Shared.ChallengeSectionHeading text="「勞資共創」健全新聞環境" />
-            
+
             <p>
               3年之後，第一次團體協約的效期將屆，這一回第三任董事長劉昌德自己跳下來，和報導者基金會監察人陳業鑫、我、淑芬代表資方，與已擔任全傳媒理事長的文廷、連任的員工董事雨佑及勞方代表進行協商。
             </p>
-            
+
             <p>
               劉昌德教授在政大新聞系長期研究與支持勞動權益，陳業鑫律師則曾經擔任台北市政府勞動局長，我們笑稱自己可能是台灣新聞史上最重視勞動權益的資方代表了。而這次團體協約協商也的確更加快速與順利，我們只進行了兩次協商就達成共識，在2023年1月簽訂新約。
             </p>
-            
+
             <p>
               第二次團體協約約新增的條文，則包括給予員工每年14日半薪的家庭照顧假，提高久任勞工之雇主勞退提撥率，並在特休假之外提供久任勞工之年資假。除此之外，報導者基金會已實施多時的「員工心理支持方案補助」等多項福利保障，此次也正式列入團體協約之中。
             </p>
-            
+
             <p>
               坦白說，前後兩次團體協約的協商過程中，勞資雙方當然也有不少歧見，部分條文也各有立場；但因勞資雙方相互尊重及具互信基礎，因此在資方坦誠溝通後，勞方得以不再堅持，而資方甚至主動提案增列保障條文，這也讓協商過程更加充滿善意及良性互動。
             </p>
-            
+
             <Shared.ChallengeImageWithCaption
               src="/assets/challenges/challenge-4-2.webp"
               alt="勞資雙方再次續約團協"
@@ -86,29 +86,29 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
               width={800}
               height={600}
             />
-            
+
             <p>
               感謝報導者基金會前三屆董監事會的大力支持，以及不同階段勞方代表的共同努力，我們才能建構這種良性和諧的勞資關係。如今員工董事、團體協約、定期勞資協商都已成為《報導者》日常運作中極其自然的存在，而這也成為《報導者》重要的組織文化。
             </p>
-            
+
             <p>
               對我來說，這種組織文化最可貴的精神在於「勞資共創」。也就是說，良性和諧的勞資關係必須依靠勞資雙方共同營造，勞方願意相信資方的誠意，資方願意尊重勞方的付出，雙方在善意與互信的基礎上不只是達成雙贏，更是共創組織永續發展的未來願景。
             </p>
-            
+
             <Shared.ChallengeSectionHeading text="非營利媒體的最重要資產：人才" />
-            
+
             <p>
               冠上「資方」身分整整10年後，我更加深切體認，非營利媒體最重要的資產是：人才。
             </p>
-            
+
             <p>
               在報導者基金會簽訂第一次團體協約之後，富邦人壽工會幹部曾來《報導者》參訪。其中一位我的好友（大學時一起租屋及投入社團的學弟）向其他工會幹部表示：這就是《報導者》最特殊的地方，其他組織都是由勞方代表說明團體協約簽約過程，《報導者》卻是由資方代表來分享。
             </p>
-            
+
             <p>
               我向富邦人壽工會幹部們表示，原因很簡單，因為《報導者》非常重視人才，我們把人才視為最重要資產，因此勞資雙方共同努力的方向，就是要讓人才願意進入《報導者》，並且在《報導者》長期發展。
             </p>
-            
+
             <p>
               我認為，非營利組織「剝削」員工熱情的時代早已過去。非營利組織必須與時俱進，只要能力所及，非營利組織應該盡最大努力提供合理勞動條件，並且持續健全勞動環境，藉此建構可長可久的非營利組織生態系，讓員工能夠在此長期安身立命。
             </p>
@@ -116,11 +116,14 @@ export default function Challenge4Content({ projectData, onNavigate, adjacentPro
         </Shared.TextContent>
       </Shared.ContentWrapper>
 
+      {/* 支持報導者按鈕 */}
+      <Shared.ModalDonate onClose={onClose} />
+
       {/* 導航按鈕 */}
-      <Shared.NavigationControls
+      {/* <Shared.NavigationControls
         onNavigate={onNavigate}
         adjacentProjects={adjacentProjects}
-      />
+      /> */}
     </Shared.Container>
   );
 }

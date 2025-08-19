@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Reports6Content({ projectData, onNavigate, adjacentProjects }: ContentProps) {
+export default function Reports6Content({ projectData, onNavigate, adjacentProjects, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -128,11 +128,14 @@ export default function Reports6Content({ projectData, onNavigate, adjacentProje
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
 
+      {/* 支持報導者按鈕 */}
+      <Shared.ModalDonate onClose={onClose} />
+
       {/* 導航按鈕 */}
-      <Shared.NavigationControls
+      {/* <Shared.NavigationControls
         onNavigate={onNavigate}
         adjacentProjects={adjacentProjects}
-      />
+      /> */}
     </Shared.Container>
   );
 }

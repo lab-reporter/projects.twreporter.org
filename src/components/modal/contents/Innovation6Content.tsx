@@ -3,7 +3,7 @@
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
 
-export default function Innovation6Content({ projectData, onNavigate, adjacentProjects, scrollContainer }: ContentProps) {
+export default function Innovation6Content({ projectData, onNavigate, adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
 
   return (
@@ -91,11 +91,15 @@ export default function Innovation6Content({ projectData, onNavigate, adjacentPr
 
         {/* 最後一頁：導航控制 */}
         <Shared.InnovationSlide>
-          <div className="flex items-center justify-center h-full bg-white">
-            <Shared.NavigationControls
+          <div className="flex flex-col items-center justify-center h-full bg-white">
+            {/* 支持報導者按鈕 */}
+            <Shared.ModalDonate onClose={onClose} />
+
+            {/* 導航按鈕 */}
+            {/* <Shared.NavigationControls
               onNavigate={onNavigate}
               adjacentProjects={adjacentProjects}
-            />
+            /> */}
           </div>
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>

@@ -2,7 +2,6 @@
 
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
-import ModalDonate from '../shared/ModalDonate';
 
 export default function Reports1Content({ projectData, onNavigate, adjacentProjects, onClose }: ContentProps) {
   if (!projectData) return null;
@@ -135,13 +134,13 @@ export default function Reports1Content({ projectData, onNavigate, adjacentProje
       </Shared.ContentWrapper>
 
       {/* 支持報導者按鈕 */}
-      <ModalDonate onClose={onClose} />
+      <Shared.ModalDonate onClose={onClose} />
 
       {/* 導航按鈕 */}
-      <Shared.NavigationControls
+      {/* <Shared.NavigationControls
         onNavigate={onNavigate}
         adjacentProjects={adjacentProjects}
-      />
+      /> */}
     </Shared.Container>
   );
 }

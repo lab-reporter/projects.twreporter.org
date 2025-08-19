@@ -21,6 +21,7 @@ export { default as ActionButtons } from './ActionButtons';
 export { default as ExternalLink } from './ExternalLink';
 export { default as Navigation } from './Navigation';
 export { default as NavigationControls } from './NavigationControls';
+export { default as ModalDonate } from './ModalDonate';
 
 // 特殊效果組件
 export { default as CreditsMarquee } from './CreditsMarquee';
