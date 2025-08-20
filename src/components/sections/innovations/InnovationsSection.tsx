@@ -6,10 +6,12 @@ import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useInnovationsSwiper } from '@/hooks/useInnovationsSwiper';
+import { useBreakpointOptimized } from '@/hooks/useBreakpointOptimized';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import { ItemDisplayWithNavigation } from '@/components/shared';
 import projectsData from '@/app/data/projects.json';
 import InnovationVideoItem from './InnovationVideoItem';
+import InnovationsSwiperMobile from './InnovationsSwiperMobile';
 import { getOffsetPosition } from './utils';
 import type { InnovationItem } from './types';
 
@@ -27,6 +29,11 @@ export default function InnovationsSection() {
   // ============================
   // 從 store 取得開啟 Modal 的函數
   const { openModal } = useStore();
+
+  // ============================
+  // 響應式斷點檢測
+  // ============================
+  const { isDesktop, isMobile, isClient } = useBreakpointOptimized();
 
   // ============================
   // DOM 參考區塊
@@ -66,10 +73,10 @@ export default function InnovationsSection() {
     rootMargin: '100px'
   });
 
-  // 滑鼠追蹤 3D 透視效果：動態調整透視原點（行動裝置自動停用）
+  // 滑鼠追蹤 3D 透視效果：動態調整透視原點（只在桌面版啟用）
   useMouseTracking3D({
-    // 啟用條件：3D 已啟用、章節可見且非低效能模式
-    enabled: is3DEnabled && isVisible && !isLowPerformance,
+    // 啟用條件：桌面版且 3D 已啟用、章節可見且非低效能模式
+    enabled: isDesktop && is3DEnabled && isVisible && !isLowPerformance,
     isLowPerformance,
     targetRef: containerRef,
     cssProperty: 'perspectiveOrigin',
@@ -77,7 +84,6 @@ export default function InnovationsSection() {
     rangeMax: 70,
     useLerp: true,
     lerpFactor: 0.1
-    // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
   });
 
   // 章節滾動觸發器：管理章節的活躍狀態
@@ -104,13 +110,13 @@ export default function InnovationsSection() {
     });
 
   // ============================
-  // Effects 區塊 - 漸進式載入
+  // Effects 區塊 - 漸進式載入（只在桌面版啟用）
   // ============================
   // 分層載入策略：先啟用 3D，再啟用動畫
   useEffect(() => {
-    if (!headingVisible) return;
+    if (!headingVisible || !isDesktop) return;
 
-    // 階段一：標題可見時立即啟用 3D 透視
+    // 階段一：標題可見時立即啟用 3D 透視（只在桌面版）
     setIs3DEnabled(true);
 
     // 階段二：延遲啟用滾動動畫，確保流暢過渡
@@ -121,11 +127,11 @@ export default function InnovationsSection() {
     return () => {
       clearTimeout(timer);
     };
-  }, [headingVisible, isLowPerformance]);
+  }, [headingVisible, isLowPerformance, isDesktop]);
 
-  // 標題淡出動畫
+  // 標題淡出動畫（只在桌面版啟用）
   useEffect(() => {
-    if (!headingRef.current || !containerRef.current) return;
+    if (!headingRef.current || !containerRef.current || !isDesktop) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -145,7 +151,7 @@ export default function InnovationsSection() {
     return () => {
       scrollTrigger.kill();
     };
-  }, [headingRef, containerRef]);
+  }, [headingRef, containerRef, isDesktop]);
 
   // ============================
   // 事件處理函數
@@ -158,11 +164,11 @@ export default function InnovationsSection() {
   // ============================
   // 動畫 Hook
   // ============================
-  // 使用自訂 Hook 管理切換動畫
+  // 使用自訂 Hook 管理切換動畫（只在桌面版啟用）
   const { goToNext, goToPrevious } = useInnovationsSwiper({
     containerRef,
     innovationItems,
-    animationsEnabled,
+    animationsEnabled: animationsEnabled && isDesktop, // 只在桌面版啟用動畫
     isLowPerformance,
     currentIndex: currentItemIndex,
     onActiveIndexChange: setCurrentItemIndex
@@ -185,7 +191,7 @@ export default function InnovationsSection() {
     // 主容器：設定章節 ID 供偵測使用
     <div ref={observerRef} id="section-innovations" className="relative">
       {/* 章節標題區域 */}
-      <div ref={headingRef} className="sticky top-0 z-10 h-screen flex flex-col justify-center items-center">
+      <div ref={headingRef} className="relative py-12 lg:sticky lg:top-0 z-10 lg:h-screen flex flex-col justify-center items-center">
         <SectionHeadings titleEn="INNOVATION" titleZh="開放新聞室・創新">
           <p className="leading-relaxed">
             《報導者》與時俱進，不斷創新說故事方式、突破敘事框架、翻新內容形式，讓文字、聲音、影像在開放協作中碰撞出新的可能。
@@ -194,69 +200,88 @@ export default function InnovationsSection() {
         </SectionHeadings>
       </div>
 
-      <div className="relative w-full">
-        {/* Swiper 容器 */}
-        <div className="sticky z-[100] top-0 w-full mx-auto h-auto overflow-x-hidden">
+      {/* 桌面版：使用 3D 創新展示 */}
+      {isClient && isDesktop && (
+        <div className="relative w-full">
+          {/* Swiper 容器 */}
+          <div className="sticky z-[100] top-0 w-full mx-auto h-auto overflow-x-hidden">
 
-          {/* 3D 場景容器 */}
-          <div
-            ref={containerRef}
-            className="w-full max-w-[40rem] mx-auto aspect-[4/3] lg:h-full relative"
-            style={{
-              // 動態設定透視距離
-              perspective: is3DEnabled && isVisible ? "500px" : "none",
-              // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
-            }}
-          >
-            {/* 3D 元素容器 */}
+            {/* 3D 場景容器 */}
             <div
-              className="absolute bottom-0 inset-0 h-[100%]"
+              ref={containerRef}
+              className="w-full max-w-[40rem] mx-auto aspect-[4/3] lg:h-full relative"
               style={{
-                // 啟用 3D 變換樣式
-                transformStyle:
-                  is3DEnabled && isVisible ? "preserve-3d" : "flat",
+                // 動態設定透視距離
+                perspective: is3DEnabled && isVisible ? "500px" : "none",
+                // perspectiveOrigin 由 useMouseTracking3D Hook 動態管理
               }}
             >
-              {/* 渲染所有創新項目 */}
-              {innovationItems.map((item, index) => {
-                // 預先計算每個項目的屬性
-                const offset = getOffsetPosition(index);
-                const initialDepth = -50 - index * 100;
+              {/* 3D 元素容器 */}
+              <div
+                className="absolute bottom-0 inset-0 h-[100%]"
+                style={{
+                  // 啟用 3D 變換樣式
+                  transformStyle:
+                    is3DEnabled && isVisible ? "preserve-3d" : "flat",
+                }}
+              >
+                {/* 渲染所有創新項目 */}
+                {innovationItems.map((item, index) => {
+                  // 預先計算每個項目的屬性
+                  const offset = getOffsetPosition(index);
+                  const initialDepth = -50 - index * 100;
 
-                return (
-                  <InnovationVideoItem
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    isVisible={isVisible}
-                    is3DEnabled={is3DEnabled}
-                    animationsEnabled={animationsEnabled}
-                    offset={offset}
-                    initialDepth={initialDepth}
-                    onItemClick={handleItemClick}
-                  />
-                );
-              })}
+                  return (
+                    <InnovationVideoItem
+                      key={item.id}
+                      item={item}
+                      index={index}
+                      isVisible={isVisible}
+                      is3DEnabled={is3DEnabled}
+                      animationsEnabled={animationsEnabled}
+                      offset={offset}
+                      initialDepth={initialDepth}
+                      onItemClick={handleItemClick}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 當前項目資訊展示區 */}
+            <div className="z-[100] mt-8 w-full flex justify-center items-center">
+              <ItemDisplayWithNavigation
+                title={currentItem?.title}
+                subtitle={currentItem?.subtitle}
+                onPrevious={goToPrevious}
+                onNext={goToNext}
+                previousLabel="上一個創新項目"
+                nextLabel="下一個創新項目"
+                currentItem={currentItem || undefined}
+                onTitleClick={(item) => {
+                  openModal(item.id as string, item);
+                }}
+              />
             </div>
           </div>
+        </div>
+      )}
 
-          {/* 當前項目資訊展示區 */}
-          <div className="z-[100] mt-8 w-full flex justify-center items-center">
-            <ItemDisplayWithNavigation
-              title={currentItem?.title}
-              subtitle={currentItem?.subtitle}
-              onPrevious={goToPrevious}
-              onNext={goToNext}
-              previousLabel="上一個創新項目"
-              nextLabel="下一個創新項目"
-              currentItem={currentItem || undefined}
-              onTitleClick={(item) => {
-                openModal(item.id as string, item);
-              }}
-            />
+      {/* 手機版：使用 Swiper.js 輪播 */}
+      {isClient && isMobile && (
+        <div className="w-full py-16">
+          <InnovationsSwiperMobile />
+        </div>
+      )}
+
+      {/* 載入中狀態：避免 SSR/CSR 不匹配 */}
+      {!isClient && (
+        <div className="relative w-full py-16">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-gray-500">載入中...</div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
