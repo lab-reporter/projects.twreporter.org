@@ -44,6 +44,26 @@ export default function DonatePanel() {
     // 狀態變數：表單驗證錯誤訊息
     const [errorMessage, setErrorMessage] = useState('');
 
+    // 語言選項配置
+    const languages = [
+        { code: 'zh', name: '中文' },
+        { code: 'en', name: '英文' },
+        { code: 'ja', name: '日語' },
+        { code: 'id', name: '印尼語' },
+        { code: 'th', name: '泰語' },
+        { code: 'vi', name: '越語' },
+        { code: 'tl', name: '菲律賓語' },
+        { code: 'ms', name: '台語' },
+        { code: 'hak', name: '客語' },
+        { code: 'yue', name: '粵語' }
+    ];
+
+    // 狀態變數：當前選擇的語言（預設為中文）
+    const [selectedLanguage, setSelectedLanguage] = useState('zh');
+
+    // 計算值：根據選擇的語言取得對應的 iframe src
+    const currentIframeSrc = `https://example.com/report-${selectedLanguage}`;
+
     // 副作用：初始化顯示數字
     useEffect(() => {
         if (supporterCount > 0 && displayNextSupporterNumber === 1) {
@@ -237,6 +257,11 @@ export default function DonatePanel() {
         setIsClaimModalOpen(false);
     };
 
+    // 事件處理函數：處理語言切換
+    const handleLanguageChange = (languageCode: string) => {
+        setSelectedLanguage(languageCode);
+    };
+
     // 組件渲染輸出
     return (
         // 主要頁面區塊：支持頁面
@@ -302,17 +327,37 @@ export default function DonatePanel() {
                         <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
                     )}
 
-                    <button
-                        type="button"
-                        onClick={handleSupport}
-                        disabled={!canSupport}
-                        className={`py-2 px-6 text-md rounded-full transition-all backdrop-blur-sm duration-300 mt-4 relative z-10 ${canSupport
-                            ? "bg-white text-black cursor-pointer hover:bg-gray-100"
-                            : "border border-white opacity-50 text-white/80 cursor-not-allowed"
-                            }`}
-                    >
-                        立即支持
-                    </button>
+                    {/* 語言切換與 iframe 區域 */}
+                    <div className="w-full max-w-[700px] mt-4">
+                        {/* 語言選擇 tabs */}
+                        <div className="flex flex-wrap justify-center gap-2 mb-4">
+                            {languages.map((lang) => (
+                                <Button
+                                    key={lang.code}
+                                    variant={selectedLanguage === lang.code ? "primary" : "outline"}
+                                    size="sm"
+                                    shape="rounded"
+                                    onClick={() => handleLanguageChange(lang.code)}
+                                    className="text-sm"
+                                >
+                                    {lang.name}
+                                </Button>
+                            ))}
+                        </div>
+
+                        {/* iframe 容器 */}
+                        <div className="w-full bg-white rounded-lg overflow-hidden shadow-lg">
+                            <iframe
+                                src={currentIframeSrc}
+                                width="100%"
+                                height="400"
+                                frameBorder="0"
+                                scrolling="yes"
+                                className="w-full"
+                                title={`報導內容 - ${selectedLanguage}`}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
             {/* 

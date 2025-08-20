@@ -1,10 +1,77 @@
 'use client';
 
+import { useState } from 'react';
 import { ContentProps } from '../types';
 import * as Shared from '../shared';
+import { Button } from '@/components/shared';
 
 export default function Innovation6Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
   if (!projectData) return null;
+
+  // 語言選項配置與對應的 iframe src
+  const languages = [
+    {
+      code: 'zh',
+      name: '中文',
+      src: 'https://open.spotify.com/embed/episode/2TJfa7VqMndR6qOERQxQOu?utm_source=generator&theme=0'
+    },
+    {
+      code: 'en',
+      name: '英文',
+      src: 'https://open.spotify.com/embed/episode/4Fz6AcLN9o0yQABdUVKTLt?utm_source=generator&theme=0'
+    },
+    {
+      code: 'ja',
+      name: '日語',
+      src: 'https://open.spotify.com/embed/episode/0n3lts8mjURDbYDzVN71g1?si=hXo7yoMOTA2YrJB3b3xKQw?utm_source=generator&theme=0'
+    },
+    {
+      code: 'id',
+      name: '印尼語',
+      src: 'https://open.spotify.com/embed/episode/37C0ZiUG9kOhjb9r7NtR8S?si=_XS5jW8cREWE557d_SIlMQ?utm_source=generator&theme=0'
+    },
+    {
+      code: 'th',
+      name: '泰語',
+      src: 'https://open.spotify.com/embed/episode/4V9PNndP12onp0DupLURNM?si=p1du3a2kRky5_zetwnDKxg?utm_source=generator&theme=0'
+    },
+    {
+      code: 'vi',
+      name: '越語',
+      src: 'https://open.spotify.com/embed/episode/5nVMezxC8g0eDIx0AfN6Sc?si=sdZOYOx6ROiy1F2FQyPpYg?utm_source=generator&theme=0'
+    },
+    {
+      code: 'tl',
+      name: '菲律賓語',
+      src: 'https://open.spotify.com/embed/episode/39dn2gcZz6ETC4mXLNqyIy?si=DxlHxH9VTqOCNC1EsJSnKw?utm_source=generator&theme=0'
+    },
+    {
+      code: 'ms',
+      name: '台語',
+      src: 'https://open.spotify.com/embed/episode/76hYieIH9GZ2SMrLRQ22M6?si=2P3uNRUgTSKGPtelhcTVgA?utm_source=generator&theme=0'
+    },
+    {
+      code: 'hak',
+      name: '客語',
+      src: 'https://open.spotify.com/embed/episode/7qIMCtZQtOUC8inR9rjMng?si=brRZsUrVSgORWBxHW9Ovtg?utm_source=generator&theme=0'
+    },
+    {
+      code: 'yue',
+      name: '粵語',
+      src: 'https://open.spotify.com/embed/episode/2Y6UvgOCV2dZwF1X05pCCq?si=MpBxi1MhTtuTMhpItoyKUw?utm_source=generator&theme=0'
+    }
+  ];
+
+  // 狀態變數：當前選擇的語言（預設為中文）
+  const [selectedLanguage, setSelectedLanguage] = useState('zh');
+
+  // 計算值：根據選擇的語言取得對應的 iframe src
+  const currentIframeSrc = languages.find(lang => lang.code === selectedLanguage)?.src || languages[0].src;
+
+  // 事件處理函數：處理語言切換
+  const handleLanguageChange = (languageCode: string) => {
+    setSelectedLanguage(languageCode);
+  };
 
   return (
     <div data-slide-container="true">
@@ -25,19 +92,33 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
-          {/* <Shared.SlideMedia
-            type="image"
-            src="/assets/innovations/innovation-6/innovation-6-2.webp"
-            alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
-            className=""
-          /> */}
-          <Shared.SlideMedia
-            type="iframe"
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DZ06evO1ULfk4?utm_source=generator"
-            alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
-            className="w-[50%] py-24 mx-auto h-full"
-          />
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <div className="w-full max-w-[60rem] py-12 mx-auto h-auto flex flex-col">
+            {/* 語言切換按鈕區域 */}
+            <div className="flex flex-wrap justify-center gap-2 mb-2 px-4">
+              {languages.map((lang) => (
+                <Button
+                  key={lang.code}
+                  variant={selectedLanguage === lang.code ? "primary" : "outline"}
+                  size="sm"
+                  shape="rounded"
+                  onClick={() => handleLanguageChange(lang.code)}
+                  className="text-sm w-[19%]"
+                >
+                  {lang.name}
+                </Button>
+              ))}
+            </div>
+            {/* iframe 媒體區域 */}
+            <div className="flex-1 flex items-center justify-center">
+              <Shared.SlideMedia
+                type="iframe"
+                src={currentIframeSrc}
+                alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
+                className="py-12 mx-auto h-[30rem]"
+              />
+            </div>
+          </div>
           <Shared.SlideTextCard
             text="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
             className=""

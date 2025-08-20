@@ -205,6 +205,22 @@ body {
   overscroll-behavior: none;
 }
 
+/* 隱藏 scrollbar 但保持滾動功能 - 支援各種瀏覽器 */
+body {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE 和 Edge */
+  -ms-overflow-style: none;
+}
+
+/* WebKit 瀏覽器 (Chrome, Safari, Opera) */
+body::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+  background: transparent;
+}
+
 
 p a {
   color: inherit;

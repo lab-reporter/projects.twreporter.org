@@ -70,9 +70,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
     // 變體樣式配置
     const variantClasses = {
-        primary: 'bg-blue-600 text-white hover:bg-blue-700 border-transparent',
+        primary: 'bg-red-70 text-white hover:bg-red-90 border-transparent',
         secondary: 'border border-gray-300 text-gray-700 bg-white hover:bg-gray-50',
-        outline: 'border border-current bg-transparent hover:bg-current hover:text-white',
+        outline: 'border border-current bg-transparent hover:bg-white hover:text-red-70',
         ghost: 'bg-transparent hover:bg-gray-100 text-gray-700',
         support: disabled
             ? 'border border-white opacity-50 text-white/80 bg-transparent'  // 禁用狀態：透明背景，白色邊框
@@ -80,7 +80,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     };
 
     // 基礎樣式
-    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500';
+    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-90';
 
     // 禁用狀態樣式
     const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer';
