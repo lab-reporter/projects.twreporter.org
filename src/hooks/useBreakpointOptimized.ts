@@ -28,7 +28,7 @@ export function useBreakpointOptimized(): UseBreakpointOptimizedReturn {
 
         // 使用 CSS media query 來檢測斷點，效能最佳
         const mediaQuery = window.matchMedia('(min-width: 1024px)'); // lg 斷點
-        
+
         // 設定初始狀態
         setIsDesktop(mediaQuery.matches);
 

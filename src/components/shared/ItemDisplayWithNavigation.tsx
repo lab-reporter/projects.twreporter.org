@@ -55,7 +55,7 @@ export default function ItemDisplayWithNavigation({
 
 
     return (
-        <div className={`flex px-8 justify-center items-center ${className}`}>
+        <div className={`flex px-2 justify-center items-center ${className}`}>
             {/* 上一個按鈕 */}
             <button
                 onClick={() => {

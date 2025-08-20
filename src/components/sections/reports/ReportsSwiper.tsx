@@ -11,6 +11,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { useDragSwiper } from '@/hooks/useDragSwiper';
 import { useReportsAnimation } from '@/hooks/useReportsAnimation';
 import { useReportsPreloader } from '@/hooks/useReportsPreloader';
+import { useBreakpointOptimized } from '@/hooks/useBreakpointOptimized';
 import { useStore } from '@/stores';
 
 // ============================
@@ -61,12 +62,21 @@ export default function ReportsSwiper() {
   const isOpeningComplete = useStore((state) => state.isOpeningComplete);
 
   // ============================
+  // 斷點檢測區塊
+  // ============================
+  // 使用優化的斷點檢測 Hook
+  const { isDesktop, isClient: isBreakpointClient } = useBreakpointOptimized();
+
+  // ============================
   // 本地狀態區塊 - 基本狀態
   // ============================
   // 狀態變數：當前顯示的輪播項目索引
   const [currentSlide, setCurrentSlide] = useState(0);
   // 狀態變數：是否已完成客戶端初始化（解決 SSR/CSR 不匹配問題）
   const [isClient, setIsClient] = useState(false);
+
+  // 整合客戶端狀態：需要兩個都完成初始化
+  const isFullyInitialized = isClient && isBreakpointClient;
   // 狀態變數：瀏覽器視窗寬度（用於響應式設計）
   const [windowWidth, setWindowWidth] = useState(1024); // 統一初始值，避免 SSR/CSR 不匹配
 
@@ -94,16 +104,15 @@ export default function ReportsSwiper() {
     rootMargin: '100px'
   });
 
-  // 優化的滑鼠追蹤：建立 3D 透視效果（行動裝置自動停用）
+  // 優化的滑鼠追蹤：建立 3D 透視效果（只在桌面版啟用）
   useMouseTracking3D({
-    // 啟用條件：客戶端已載入且章節可見時才追蹤滑鼠
-    enabled: isClient && isVisible,
+    // 啟用條件：桌面版且客戶端已載入且章節可見時才追蹤滑鼠
+    enabled: isDesktop && isFullyInitialized && isVisible,
     targetRef: perspectiveContainerRef,
     rangeMin: mouseRangeMin,
     rangeMax: mouseRangeMax,
     useLerp: true,
     lerpFactor: 0.1
-    // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）
   });
 
   // ============================
@@ -151,7 +160,7 @@ export default function ReportsSwiper() {
   // 計算值區塊
   // ============================
   // 計算值：根據當前視窗寬度取得響應式參數（只在客戶端初始化後使用實際寬度）
-  const { sliderSize } = getResponsiveValues(isClient ? windowWidth : 1024);
+  const { sliderSize } = getResponsiveValues(isFullyInitialized ? windowWidth : 1024);
 
   // 資料篩選：從專案資料中篩選出報導章節的項目
   const reportsData: ReportItem[] = (projectsData as ReportItem[]).filter((item: ReportItem) =>
@@ -170,7 +179,7 @@ export default function ReportsSwiper() {
     sliderContainer: sliderContainerRef.current,
     currentSlide,
     setCurrentSlide,
-    enabled: isClient && isInteractionEnabled // 需要互動啟用才能拖曳
+    enabled: isDesktop && isFullyInitialized && isInteractionEnabled // 只在桌面版且需要互動啟用才能拖曳
   });
 
   // 計算值：取得當前顯示的報導項目資料（拖曳時顯示預覽項目）
@@ -209,12 +218,13 @@ export default function ReportsSwiper() {
     setIsInteractionEnabled(false);
   }, []);
 
-  // 使用整合的動畫 Hook
+  // 使用整合的動畫 Hook（只在桌面版執行）
   useReportsAnimation({
     sliderWrapperRef,
     currentItemDisplayRef,
-    isClient,
+    isClient: isFullyInitialized,
     isOpeningComplete,
+    isDesktop, // 新增：只有桌面版才執行動畫
     setMouseRangeMin,
     setMouseRangeMax,
     onAnimationComplete: handleAnimationComplete,
@@ -229,7 +239,7 @@ export default function ReportsSwiper() {
     currentIndex: currentSlide,
     items: reportsData,
     isVisible,
-    enabled: isClient
+    enabled: isDesktop && isFullyInitialized // 只在桌面版預載
   });
 
   // ============================
@@ -270,8 +280,8 @@ export default function ReportsSwiper() {
   // ============================
   // 設定 3D 輪播的初始狀態
   useEffect(() => {
-    // 檢查是否在瀏覽器環境中運行且客戶端已初始化
-    if (typeof window === 'undefined' || !isClient) return;
+    // 檢查是否在瀏覽器環境中運行且客戶端已初始化（只在桌面版執行）
+    if (typeof window === 'undefined' || !isFullyInitialized || !isDesktop) return;
 
     // 取得所需的 DOM 元素參考
     const sliderWrapper = sliderWrapperRef.current;
@@ -293,7 +303,7 @@ export default function ReportsSwiper() {
     gsap.set(sliderWrapper, {
       rotateY: 0
     });
-  }, [isClient]); // 只依賴 isClient，避免重複初始化
+  }, [isFullyInitialized, isDesktop]); // 依賴完整初始化狀態和桌面版檢測
 
 
 

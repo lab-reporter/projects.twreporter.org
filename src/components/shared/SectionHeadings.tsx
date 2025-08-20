@@ -23,7 +23,9 @@ export default function SectionHeadings({ titleEn, titleZh, children, className 
       >
         {children}
       </div>
-      <ScrollDownIndicator />
+      <div className="hidden lg:block">
+        <ScrollDownIndicator />
+      </div>
     </div >
   );
 }

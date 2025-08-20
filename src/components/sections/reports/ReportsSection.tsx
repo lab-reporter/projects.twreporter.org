@@ -2,12 +2,19 @@
 
 import { useRef } from 'react';
 import { useScrollTrigger } from '@/hooks/useScrollTrigger';
+import { useBreakpointOptimized } from '@/hooks/useBreakpointOptimized';
 import SectionHeadings from '@/components/shared/SectionHeadings';
 import ReportsSwiper from './ReportsSwiper';
+import ReportsSwiperMobile from './ReportsSwiperMobile';
 
 // 影響力報導章節主組件
 export default function ReportsSection() {
   const sectionHeadingRef = useRef<HTMLDivElement>(null);
+
+  // ============================
+  // 響應式斷點檢測
+  // ============================
+  const { isDesktop, isMobile, isClient } = useBreakpointOptimized();
 
   // 使用滾動觸發器來監控當前頁面位置
   // 調整觸發參數以適應動畫完成後的滾動檢測
@@ -38,9 +45,9 @@ export default function ReportsSection() {
       <div
         ref={sectionHeadingRef}
         id="reports-section-heading"
-        className="sticky top-0 left-0 w-full h-screen"
+        className="relative py-12 lg:sticky lg:top-0 lg:left-0 w-full"
       >
-        <div className="w-full h-screen flex flex-col items-center justify-center">
+        <div className="w-full lg:h-screen flex flex-col items-center justify-center">
           <SectionHeadings
             titleEn="IMPACT"
             titleZh="深度報導・影響力"
@@ -55,11 +62,28 @@ export default function ReportsSection() {
       </div>
 
       {/* 報導輪播區域：展示各篇影響力報導 */}
-      <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
-        <div className="sticky top-0 left-0 w-full h-screen">
-          <ReportsSwiper />
+      {/* 桌面版：使用 3D 輪播 */}
+      {isClient && isDesktop && (
+        <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
+          <div className="sticky top-0 left-0 w-full h-screen">
+            <ReportsSwiper />
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* 手機版：使用 Swiper.js 卡片輪播 */}
+      {isClient && isMobile && (
+        <ReportsSwiperMobile />
+      )}
+
+      {/* 載入中狀態：避免 SSR/CSR 不匹配 */}
+      {!isClient && (
+        <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
+          <div className="sticky top-0 left-0 w-full h-screen flex items-center justify-center">
+            <div className="text-gray-500">載入中...</div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

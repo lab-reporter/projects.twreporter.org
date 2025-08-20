@@ -13,6 +13,8 @@ interface UseReportsAnimationOptions {
     // 狀態
     isClient: boolean;
     isOpeningComplete: boolean;
+    // 新增：是否為桌面版，只有桌面版才執行動畫
+    isDesktop: boolean;
     // 滑鼠追蹤範圍相關
     setMouseRangeMin?: (value: number) => void;
     setMouseRangeMax?: (value: number) => void;
@@ -30,6 +32,7 @@ export function useReportsAnimation({
     currentItemDisplayRef,
     isClient,
     isOpeningComplete,
+    isDesktop,
     setMouseRangeMin,
     setMouseRangeMax,
     onAnimationComplete,
@@ -43,7 +46,8 @@ export function useReportsAnimation({
     // ============================
     useEffect(() => {
         // 檢查是否在瀏覽器環境中運行且客戶端已初始化
-        if (typeof window === 'undefined' || !isClient || !isOpeningComplete) return;
+        // 重要：只有在桌面版才執行動畫，手機版跳過以節省效能
+        if (typeof window === 'undefined' || !isClient || !isOpeningComplete || !isDesktop) return;
 
         // 註冊 ScrollTrigger 插件
         gsap.registerPlugin(ScrollTrigger);
@@ -229,6 +233,7 @@ export function useReportsAnimation({
     }, [
         isClient,
         isOpeningComplete,
+        isDesktop,
         sliderWrapperRef,
         currentItemDisplayRef,
         setMouseRangeMin,
