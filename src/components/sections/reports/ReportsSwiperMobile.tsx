@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
-import { Navigation, Pagination, EffectCoverflow } from 'swiper/modules';
+import { Pagination, EffectCoverflow } from 'swiper/modules';
 import Image from 'next/image';
 
 // 引入 Swiper 樣式
@@ -143,8 +143,8 @@ export default function ReportsSwiperMobile() {
                     >
                         <div
                             className={`relative w-full aspect-[4/3] select-none ${index === currentSlide
-                                    ? 'cursor-pointer hover:opacity-90 transition-opacity'
-                                    : 'cursor-grab'
+                                ? 'cursor-pointer hover:opacity-90 transition-opacity'
+                                : 'cursor-grab'
                                 }`}
                             style={{
                                 userSelect: "none",
@@ -160,8 +160,8 @@ export default function ReportsSwiperMobile() {
                                 alt={item.title}
                                 fill
                                 className={`object-cover select-none ${index === currentSlide
-                                        ? '' // 正中央的圖片可以接收點擊事件
-                                        : 'pointer-events-none' // 旁邊的圖片不接收點擊，讓拖曳正常運作
+                                    ? '' // 正中央的圖片可以接收點擊事件
+                                    : 'pointer-events-none' // 旁邊的圖片不接收點擊，讓拖曳正常運作
                                     }`}
                                 sizes="(max-width: 1024px) 90vw, 50vw"
                                 priority={index === 0} // 首張圖片優先載入

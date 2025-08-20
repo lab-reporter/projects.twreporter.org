@@ -82,7 +82,7 @@ export default function InnovationsSwiperMobile() {
     }, []);
 
     // 處理項目點擊開啟 Modal
-    const handleItemClick = useCallback((item: InnovationItem, index: number) => {
+    const handleItemClick = useCallback((item: InnovationItem) => {
         // flip 效果一次只顯示一張，當前顯示的就是可以點擊的
         const { openModal } = useStore.getState();
         openModal(item.id, item);
@@ -145,7 +145,7 @@ export default function InnovationsSwiperMobile() {
                                 MozUserSelect: "none",
                                 msUserSelect: "none",
                             }}
-                            onClick={() => handleItemClick(item, index)}
+                            onClick={() => handleItemClick(item)}
                         >
                             {/* 創新項目影片 */}
                             <video
