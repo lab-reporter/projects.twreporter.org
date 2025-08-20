@@ -35,17 +35,17 @@ export default function ModalDonate({ onClose }: ModalDonateProps) {
     return (
         <>
             {/* 觸發按鈕 */}
-            <div className="border-l-[2px] border-red-90 flex flex-col items-start justify-center mt-2 mb-8 shadow-lg p-8 bg-white max-w-[40rem] mx-auto">
-                <h5 className="text-xl text-left mb-2 font-noto-sans-tc font-bold">用行動支持報導者</h5>
-                <p className="text-gray-800 leading-[1.8] mb-2">獨立的精神，是自由思想的條件。獨立的媒體，才能守護公共領域，讓自由的討論和真相浮現。</p>
-                <p className="text-gray-800 leading-[1.8] mb-2">在艱困的媒體環境，《報導者》堅持以非營利組織的模式投入公共領域的調查與深度報導。我們透過讀者的贊助支持來營運，不仰賴商業廣告置入，在獨立自主的前提下，穿梭在各項重要公共議題中。</p>
-                <p className="text-gray-800 leading-[1.8] mb-2">你的支持能幫助《報導者》持續追蹤國內外新聞事件的真相，邀請你加入 3 種支持方案，和我們一起推動這場媒體小革命。</p>
+            <div className="relative border-l-[2px] border-red-90 flex flex-col items-start justify-center mt-2 mb-8 shadow-lg p-8 bg-white max-w-[40rem] mx-auto">
+                <h5 className="text-xl text-left mb-2 font-noto-sans-tc font-bold">支持獨立媒體邁向下一個十年</h5>
+                <p className="text-gray-800 leading-[1.8] mb-2">謝謝每一位讀者的支持，讓《報導者》能走到今天。過去十年，公共討論的環境巨變，我們也更加意識到，唯有獨立運作的媒體，才能讓自由的討論和真相浮現。</p>
+                <p className="text-gray-800 leading-[1.8] mb-2">為了讓獨立媒體永續經營、持續挖掘真相，我們需要提升小額捐款比例至8成，因此在《報導者》滿10歲之際，我們許下一個生日願望：累積至少10,000位定期定額捐款支持的夥伴。</p>
+                <p className="text-gray-800 leading-[1.8] mb-2">請與我們同行，一起面對下一個十年的挑戰。</p>
                 <div className="flex justify-end w-full">
                     <button
                         onClick={handleOpenModal}
                         className="mt-2 bg-gray-800 backdrop-blur-sm leading-none text-white px-6 py-3 hover:bg-red-90 transition-colors duration-100"
                     >
-                        立即支持
+                        贊助支持
                     </button>
                 </div>
             </div>
