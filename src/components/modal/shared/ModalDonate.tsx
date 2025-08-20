@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import DonatePanel from '@/components/sections/support/DonatePanel';
-import CloseButton from '@/components/shared/CloseButton';
+// import CloseButton from '@/components/shared/CloseButton';
 
 interface ModalDonateProps {
     /**

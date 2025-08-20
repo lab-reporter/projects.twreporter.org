@@ -133,14 +133,18 @@ export default function Reports1Content({ projectData, onNavigate: _onNavigate, 
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
 
+      {/* 分享功能 */}
+      <div className="px-6 py-4">
+        <Shared.ShareLink
+          title="綁債．黑工．留學陷阱 - 失控的高教技職國際招生"
+          description="《報導者》深度調查烏干達學生在台遭遇的教育剝削問題，促使政府關注並採取行動，成功讓違法學校停辦並起訴相關人員。"
+          url="https://10th-recap-dev-2d.vercel.app/"
+        />
+      </div>
+
       {/* 支持報導者按鈕 */}
       <Shared.ModalDonate onClose={onClose} />
 
-      {/* 導航按鈕 */}
-      {/* <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      /> */}
     </Shared.Container>
   );
 }

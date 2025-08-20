@@ -6,8 +6,6 @@ import * as Shared from '../shared';
 import { Button } from '@/components/shared';
 
 export default function Innovation6Content({ projectData, onNavigate: _onNavigate, adjacentProjects: _adjacentProjects, scrollContainer, onClose }: ContentProps) {
-  if (!projectData) return null;
-
   // 語言選項配置與對應的 iframe src
   const languages = [
     {
@@ -64,6 +62,8 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
 
   // 狀態變數：當前選擇的語言（預設為中文）
   const [selectedLanguage, setSelectedLanguage] = useState('zh');
+
+  if (!projectData) return null;
 
   // 計算值：根據選擇的語言取得對應的 iframe src
   const currentIframeSrc = languages.find(lang => lang.code === selectedLanguage)?.src || languages[0].src;
