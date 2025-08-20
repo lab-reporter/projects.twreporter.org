@@ -9,11 +9,12 @@ interface SlideTextCardProps {
 export default function SlideTextCard({ text, className = '' }: SlideTextCardProps) {
     return (
         <div className={`
+            w-[80%]
       px-6 py-4 
       bg-white/60 backdrop-blur-sm 
       rounded-lg
       shadow-lg
-      absolute bottom-12 left-1/2 -translate-x-1/2 max-w-2xl
+      absolute bottom-12 left-1/2 -translate-x-1/2 max-w-[40rem]
       ${className}
     `}>
             <p className="text-black leading-relaxed">

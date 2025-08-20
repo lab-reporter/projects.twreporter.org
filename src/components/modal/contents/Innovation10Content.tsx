@@ -37,8 +37,8 @@ export default function Innovation10Content({ projectData, onNavigate: _onNaviga
           <Shared.SlideMedia
             type="image"
             src="/assets/innovations/innovation-10/innovation-10-3.webp"
-            alt="我們運用 AI 技術將近4萬筆立委的發言紀錄進行議題分類與摘要，讓議場上的對話不再只是即時新聞中的破碎資訊，或像卷宗般束之高閣。"
-            className=""
+            alt="我們運用 A 技術將近4萬筆立委的發言紀錄進行議題分類與摘要，讓議場上的對話不再只是即時新聞中的破碎資訊，或像卷宗般束之高閣。"
+            className="object-contain"
           />
           <Shared.SlideTextCard
             text="我們運用 AI 技術將近4萬筆立委的發言紀錄進行議題分類與摘要，讓議場上的對話不再只是即時新聞中的破碎資訊，或像卷宗般束之高閣。"

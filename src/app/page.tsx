@@ -121,9 +121,10 @@ export default function Home() {
             onUpdate: (self) => {
               // 根據滾動進度計算背景色透明度
               const progress = self.progress;
-              // 設定背景色：從透明漸變到黑色
+              const colorProgress = 255 - progress * 255;
+              // 設定背景色：從白色漸變到黑色，透明度始終為1
               gsap.set(mainElement, {
-                backgroundColor: `rgba(0, 0, 0, ${progress})`
+                backgroundColor: `rgb(${colorProgress}, ${colorProgress}, ${colorProgress})`
               });
             },
             // 動畫識別 ID
@@ -162,15 +163,17 @@ export default function Home() {
       {/* OpeningSpline 移到最外層，確保最高層級 */}
       <OpeningSpline />
 
-      {/* 主要內容區域：包含所有頁面章節 */}
-      <main ref={mainRef} className="relative w-full transition-colors duration-300">
+      {/* 主要內容區域：包含所有頁面章節，移除高度限制讓 sticky footer 生效 */}
+      <main ref={mainRef} className="relative z-10 w-full min-h-screen transition-colors duration-300 bg-white">
         <HeroSection />
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />
         <CallToActionSection />
-        <FooterSection />
       </main>
+
+      {/* Sticky Footer：移到 main 外面，在頁面層級實作 */}
+      <FooterSection />
 
       {/* 全域 UI 組件層：在所有內容之上 */}
       <Navigation />

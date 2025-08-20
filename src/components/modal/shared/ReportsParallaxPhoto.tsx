@@ -109,7 +109,7 @@ export default function ReportsParallaxPhoto({
     return (
         <div
             ref={containerRef}
-            className="w-full h-[70vh] relative"
+            className="w-full h-[70vh] relative mb-24"
             style={{
                 transformStyle: 'preserve-3d',
                 perspective: getPerspective(),

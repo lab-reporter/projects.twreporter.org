@@ -77,8 +77,9 @@ export default function SlideMedia({
             alt={alt || ''}
             fill
             className="object-cover"
-            priority={isActive}
+            // priority={isActive}
             quality={90}
+            loading="lazy"
           />
         </div>
       );

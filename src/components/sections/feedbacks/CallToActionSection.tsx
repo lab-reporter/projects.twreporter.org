@@ -239,7 +239,7 @@ const Grid = ({
     return (
         <>
             <div
-                className="flex flex-col items-start overflow-hidden flex-none pointer-events-none select-none"
+                className="relative z-1 flex flex-col items-start overflow-hidden flex-none pointer-events-none select-none"
                 style={{
                     width: `${GRID_WIDTH}px`,
                     // 以中心為縮放原點，實現 zoom-in 效果

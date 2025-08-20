@@ -17,7 +17,7 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-1.mp4"
             alt="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
-            className="object-cover"
+            className="object-cover w-full h-full"
           />
           <Shared.SlideTextCard
             text="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
@@ -35,24 +35,24 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="relative">
+        <Shared.InnovationSlide className="debug relative bg-black lg:bg-transparent flex flex-col items-center justify-center lg:block">
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-3-1.mp4"
             alt="交友詐騙互動式報導"
-            className="w-[40%] absolute top-[5%] left-[5%]"
+            className="w-auto h-1/3 lg:h-auto object-contain lg:object-cover lg:w-[40%] lg:absolute lg:top-[5%] lg:left-[5%]"
           />
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-3-2.mp4"
             alt="中國業者盜取台灣海砂報導"
-            className="w-[40%] absolute top-[15%] left-[55%]"
+            className="w-auto h-1/3 lg:h-auto object-contain lg:object-cover lg:w-[40%] lg:absolute lg:top-[15%] lg:left-[55%]"
           />
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-3-3.mp4"
             alt="犯罪集團濫倒廢棄物 3D 敘事"
-            className="w-[40%] absolute top-[40%] left-[30%]"
+            className="w-auto h-1/3 lg:h-auto object-contain lg:object-cover lg:w-[40%] lg:absolute lg:top-[40%] lg:left-[30%]"
           />
 
           <Shared.SlideTextCard

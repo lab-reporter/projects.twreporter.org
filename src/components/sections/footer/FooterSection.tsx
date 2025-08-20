@@ -56,10 +56,10 @@ export default function FooterSection() {
     };
     return (
         <footer
-            className="relative w-full bg-white text-black py-16 px-4 md:py-24 md:px-16"
+            className="sticky bottom-0 z-0 left-0 w-full bg-white text-black py-16 px-4 md:py-24 md:px-16"
             id="section-footer"
         >
-            <div className="max-w-7xl mx-auto">
+            <div className="relative max-w-7xl mx-auto">
                 {/* 主要內容區域 */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
 
@@ -78,7 +78,7 @@ export default function FooterSection() {
 
                         {/* 描述文字 */}
                         <div className="mb-8">
-                            <p className="text-body-base md:text-body-lg text-gray-800 leading-relaxed font-noto-sans-tc">
+                            <p className="text-body-base md:text-body-lg text-gray-800 leading-relaxed font-noto-sans-tc text-balance">
                                 台灣第一個由公益基金會成立的網路媒體，致力於公共領域調查報導，打造多元進步的媒體環境。
                             </p>
                         </div>
@@ -94,7 +94,7 @@ export default function FooterSection() {
                                     href="https://www.twreporter.org"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-body-base text-gray-700 hover:text-red-50 transition-colors duration-300"
+                                    className="text-body-base text-gray-700 hover:text-black transition-colors duration-300"
                                 >
                                     前往官網
                                 </a>
@@ -104,7 +104,7 @@ export default function FooterSection() {
                             <div>
                                 <button
                                     onClick={() => scrollToSection('support')}
-                                    className="text-body-base text-gray-700 hover:text-red-50 transition-colors duration-300 cursor-pointer"
+                                    className="text-body-base text-gray-700 hover:text-black transition-colors duration-300 cursor-pointer"
                                 >
                                     贊助支持
                                 </button>
@@ -127,26 +127,23 @@ export default function FooterSection() {
                             <span>公益勸募許可號</span>
                             <span className="text-gray-400">|</span>
                             <span>衛部救字第 1131363879 號</span>
-                            <span className="text-gray-400">|</span>
+                            <span className="text-gray-400">｜</span>
+                            <span>募款期間：2025/1/1~2025/12/31</span>
+                            <span className="text-gray-400">｜</span>
                             <a
-                                href="#"
-                                className="hover:text-red-50 transition-colors duration-300"
+                                href="https://www.twreporter.org/a/license-footer"
+                                target="_blank"
+                                className="hover:text-black transition-colors duration-300"
                             >
-                                許可辦法
+                                許可協議
                             </a>
                             <span className="text-gray-400">|</span>
                             <a
-                                href="#"
-                                className="hover:text-red-50 transition-colors duration-300"
+                                href="https://www.twreporter.org/a/privacy-footer"
+                                target="_blank"
+                                className="hover:text-black transition-colors duration-300"
                             >
                                 隱私政策
-                            </a>
-                            <span className="text-gray-400">|</span>
-                            <a
-                                href="#"
-                                className="hover:text-red-50 transition-colors duration-300"
-                            >
-                                品牌規範
                             </a>
                         </div>
                     </div>
@@ -162,3 +159,5 @@ export default function FooterSection() {
         </footer>
     );
 }
+
+
