@@ -410,7 +410,7 @@ export default function CallToActionSection() {
                         }}
                     >
                         為了讓獨立媒體永續經營、邁向下一個十年 <br />
-                        我們需要提升小額捐款比例至七成
+                        我們需要提升小額捐款比例至8成
                     </h5>
                     <div
                         className="flex flex-col items-center justify-start overflow-hidden h-[3rem]"
