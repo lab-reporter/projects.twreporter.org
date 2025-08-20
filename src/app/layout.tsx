@@ -39,10 +39,53 @@ const robotoSlab = Roboto_Slab({
 })
 
 export const metadata: Metadata = {
-  title: "《報導者》十週年｜深度求真 眾聲同行",
-  description: "《報導者》十週年特別企劃",
+  metadataBase: new URL('https://10th-recap-dev-2d.vercel.app/'),
+  title: "報導者十週年｜深度求真 眾聲同行",
+  description: "為了讓獨立媒體永續經營、持續挖掘真相，我們需要提升小額捐款比例至8成，因此在《報導者》滿10歲之際，我們許下一個生日願望：累積至少10,000位定期定額捐款支持的夥伴。",
+  keywords: ["報導者", "十週年", "深度報導", "調查新聞", "獨立媒體", "台灣新聞", "新聞媒體"],
+  authors: [{ name: "報導者 The Reporter" }],
+  creator: "報導者 The Reporter",
+  publisher: "報導者 The Reporter",
   icons: {
     icon: '/assets/favicon.svg',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'zh_TW',
+    url: 'https://10th-recap-dev-2d.vercel.app/',
+    siteName: '報導者 The Reporter',
+    title: '報導者十週年｜深度求真 眾聲同行',
+    description: '為了讓獨立媒體永續經營、持續挖掘真相，我們需要提升小額捐款比例至8成，因此在《報導者》滿10歲之際，我們許下一個生日願望：累積至少10,000位定期定額捐款支持的夥伴。',
+    images: [
+      {
+        url: '/assets/OG-Image.jpg',
+        width: 1200,
+        height: 630,
+        alt: '報導者十週年｜深度求真 眾聲同行',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@twreporter',
+    creator: '@twreporter',
+    title: '報導者十週年｜深度求真 眾聲同行',
+    description: '為了讓獨立媒體永續經營、持續挖掘真相，我們需要提升小額捐款比例至8成，因此在《報導者》滿10歲之際，我們許下一個生日願望：累積至少10,000位定期定額捐款支持的夥伴。',
+    images: ['/assets/OG-Image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-site-verification-code', // 如果有的話請替換
   },
 };
 
