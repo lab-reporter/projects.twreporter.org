@@ -8,34 +8,34 @@ export interface UISlice {
   isSectionNavigationVisible: boolean
   isSidePanelOpen: boolean
   sidePanelContent: string | null
-  isNextSectionButtonVisible: boolean
-  
+  // isNextSectionButtonVisible: boolean // 已移除：NextSectionButton 不再使用
+
   // Modal 狀態
   modal: {
     isOpen: boolean
     contentId: string | null
     data: Record<string, unknown> | null
   }
-  
+
   // 主題和響應式
   theme: 'light' | 'dark'
   isMobile: boolean
   isTablet: boolean
-  
+
   // 載入和錯誤狀態
   hasError: boolean
   errorMessage: string | null
-  
+
   // 開場動畫狀態
   isOpeningComplete: boolean
-  
+
   // 動作
   setNavigationOpen: (isOpen: boolean) => void
   setNavigationVisible: (isVisible: boolean) => void
   setSectionNavigationVisible: (isVisible: boolean) => void
   setSidePanelOpen: (isOpen: boolean) => void
   setSidePanelContent: (content: string | null) => void
-  setNextSectionButtonVisible: (isVisible: boolean) => void
+  // setNextSectionButtonVisible: (isVisible: boolean) => void // 已移除：NextSectionButton 不再使用
   openModal: (contentId: string, data?: Record<string, unknown> | null) => void
   closeModal: () => void
   setTheme: (theme: 'light' | 'dark') => void
@@ -55,84 +55,84 @@ export const uiSlice: StateCreator<
   isSectionNavigationVisible: false,
   isSidePanelOpen: false,
   sidePanelContent: null,
-  isNextSectionButtonVisible: false,
-  
+  // isNextSectionButtonVisible: false, // 已移除：NextSectionButton 不再使用
+
   modal: {
     isOpen: false,
     contentId: null,
     data: null
   },
-  
+
   theme: 'light',
   isMobile: false,
   isTablet: false,
-  
+
   hasError: false,
   errorMessage: null,
-  
+
   isOpeningComplete: false,
-  
+
   setNavigationOpen: (isOpen) =>
     set((state) => {
       state.isNavigationOpen = isOpen
     }),
-  
+
   setNavigationVisible: (isVisible) =>
     set((state) => {
       state.isNavigationVisible = isVisible
     }),
-    
+
   setSectionNavigationVisible: (isVisible) =>
     set((state) => {
       state.isSectionNavigationVisible = isVisible
     }),
-    
-  setNextSectionButtonVisible: (isVisible) =>
-    set((state) => {
-      state.isNextSectionButtonVisible = isVisible
-    }),
-    
+
+  // setNextSectionButtonVisible: (isVisible) => // 已移除：NextSectionButton 不再使用
+  //   set((state) => {
+  //     state.isNextSectionButtonVisible = isVisible
+  //   }),
+
   setSidePanelOpen: (isOpen) =>
     set((state) => {
       state.isSidePanelOpen = isOpen
     }),
-    
+
   setSidePanelContent: (content) =>
     set((state) => {
       state.sidePanelContent = content
     }),
-    
+
   openModal: (contentId, data = null) =>
     set((state) => {
       state.modal.isOpen = true
       state.modal.contentId = contentId
       state.modal.data = data
     }),
-    
+
   closeModal: () =>
     set((state) => {
       state.modal.isOpen = false
       state.modal.contentId = null
       state.modal.data = null
     }),
-    
+
   setTheme: (theme) =>
     set((state) => {
       state.theme = theme
     }),
-    
+
   setDeviceType: (isMobile, isTablet) =>
     set((state) => {
       state.isMobile = isMobile
       state.isTablet = isTablet
     }),
-    
+
   setError: (error) =>
     set((state) => {
       state.hasError = !!error
       state.errorMessage = error
     }),
-    
+
   setOpeningComplete: (isComplete) =>
     set((state) => {
       state.isOpeningComplete = isComplete

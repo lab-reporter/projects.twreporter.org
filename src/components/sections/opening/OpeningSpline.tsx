@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '@/stores';
 import SplineLoader from './SplineLoader';
+import { SkipButton } from '@/components/shared';
 
 /**
  * OpeningSpline 組件
@@ -154,15 +155,23 @@ export default function OpeningSpline() {
                 <SplineLoader onLoaded={handleSplineLoaded} />
             </div>
 
-            {/* SKIP 按鈕 - 只在 Spline 載入後顯示 */}
+            {/* SKIP 按鈕 - 只在 Spline 載入後顯示，使用統一的 SkipButton 元件 */}
             {showSkipButton && (
+                <SkipButton
+                    onClick={handleSkip}
+                    position="bottom-right"
+                />
+            )}
+
+            {/* 原本的 SKIP 按鈕實作（已替換為統一元件） */}
+            {/* {showSkipButton && (
                 <button
                     onClick={handleSkip}
                     className="absolute leading-none bottom-4 right-4 z-[99999] bg-[rgba(0,0,0,0.5)] backdrop-blur-lg text-gray-200 px-2 py-2 text-sm hover:bg-gray-800 hover:text-white transition-colors"
                 >
                     SKIP
                 </button>
-            )}
+            )} */}
         </div>
     );
 }

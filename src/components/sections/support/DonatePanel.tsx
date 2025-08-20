@@ -13,6 +13,7 @@ import { useScrollTrigger } from '@/hooks/useScrollTrigger';
 import { useStoreSSR } from '@/hooks/useStoreSSR';
 import Image from 'next/image';
 import ClaimMethodModal from './ClaimMethodModal';
+import { Button } from '@/components/shared';
 export default function DonatePanel() {
     // 使用滾動觸發器來監控當前頁面位置
     useScrollTrigger({
@@ -301,7 +302,6 @@ export default function DonatePanel() {
                         <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
                     )}
 
-                    {/* 主要行動按鈕：立即支持 */}
                     <button
                         type="button"
                         onClick={handleSupport}
@@ -344,13 +344,24 @@ export default function DonatePanel() {
                     凡在2025年11月30日前加入《報導者》定期定額贊助行列，即可登記領取十週年限定回饋品。
                 </p>
 
-                {/* 🔘 行動呼籲按鈕 */}
-                <button
+                {/* 🔘 行動呼籲按鈕 - 使用統一的 Button 元件 */}
+                <Button
+                    variant="secondary"
+                    size="md"
+                    shape="circle"
+                    onClick={handleOpenClaimModal}
+                    className="mt-4"
+                >
+                    領取辦法
+                </Button>
+
+                {/* 原本的按鈕實作（已替換為統一元件） */}
+                {/* <button
                     onClick={handleOpenClaimModal}
                     className="mt-4 bg-gray-100 px-4 py-2 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300"
                 >
                     領取辦法
-                </button>
+                </button> */}
             </div>
 
             {/* 
