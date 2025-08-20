@@ -87,6 +87,11 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
       </Shared.ContentWrapper>
 
 
+      {/* 分享功能 */}
+      <div className="px-6 py-4">
+        <Shared.ShareLink />
+      </div>
+
       {/* 支持報導者按鈕 */}
       <Shared.ModalDonate onClose={onClose} />
 

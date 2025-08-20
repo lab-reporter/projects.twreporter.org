@@ -57,7 +57,7 @@ export default function Innovation4Content({ projectData, onNavigate: _onNavigat
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="讓社會各個角落、多元價值的聲音被聽見、開啟對話，是《報導者》持續努力的目標，「歡迎收聽由獨立媒體《報導者》製播的 Podcast 節目《The Real Story》。」"
+            alt="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
             className="object-contain flex-shrink-0"
           />
           <Shared.SlideTextCard
@@ -72,9 +72,9 @@ export default function Innovation4Content({ projectData, onNavigate: _onNavigat
         <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="iframe"
-            src="https://www.twreporter.org/categories/podcast"
+            src="https://www.listennotes.com/podcasts/the-real-storyby-報導者-報導者-soundon-製作團隊-FIh41mSR5qs/embed/"
             alt="讓社會各個角落、多元價值的聲音被聽見、開啟對話，是《報導者》持續努力的目標，「歡迎收聽由獨立媒體《報導者》製播的 Podcast 節目《The Real Story》。」"
-            className=""
+            className="w-1/2 mx-auto h-full pt-12"
           />
           <Shared.SlideTextCard
             text="讓社會各個角落、多元價值的聲音被聽見、開啟對話，是《報導者》持續努力的目標，「歡迎收聽由獨立媒體《報導者》製播的 Podcast 節目《The Real Story》。」"

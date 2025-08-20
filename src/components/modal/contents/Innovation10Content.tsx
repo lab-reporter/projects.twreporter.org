@@ -57,6 +57,9 @@ export default function Innovation10Content({ projectData, onNavigate: _onNaviga
             text="想知道你家立委關心什麼？你關注的議題有誰在討論？一起關注「報導者觀測站」，用數位科技強化公民與媒體監督的力量。"
             className="bottom-32"
           />
+          <div className="absolute bottom-16 left-0 right-0">
+            <Shared.ShareLink className="justify-center" />
+          </div>
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
           </div>

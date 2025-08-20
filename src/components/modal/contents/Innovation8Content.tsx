@@ -75,6 +75,9 @@ export default function Innovation8Content({ projectData, onNavigate: _onNavigat
             text="「Live and breathe something」是一個英文片語，告訴著我們：每天生活呼吸觸碰到的，或許就是你視為和生命一樣重要的事情。希望《報導者》也能陪著你，好好生活、好好活著。"
             className="bottom-32"
           />
+          <div className="absolute bottom-16 left-0 right-0">
+            <Shared.ShareLink className="justify-center" />
+          </div>
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
           </div>

@@ -63,6 +63,9 @@ export default function Innovation1Content({ projectData, onNavigate: _onNavigat
         </Shared.InnovationSlide>
 
         <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <div className="mb-8">
+            <Shared.ShareLink />
+          </div>
           <Shared.ModalDonate onClose={onClose} />
         </Shared.InnovationSlide>
 

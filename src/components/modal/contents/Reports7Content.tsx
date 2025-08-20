@@ -126,6 +126,11 @@ export default function Reports7Content({ projectData, onNavigate: _onNavigate, 
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
 
+      {/* 分享功能 */}
+      <div className="px-6 py-4">
+        <Shared.ShareLink />
+      </div>
+
       {/* 支持報導者按鈕 */}
       <Shared.ModalDonate onClose={onClose} />
 

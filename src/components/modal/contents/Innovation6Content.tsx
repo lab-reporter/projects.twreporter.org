@@ -189,6 +189,9 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
             text="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態，歡迎分享給你身邊的大小朋友！"
             className="bottom-32"
           />
+          <div className="absolute bottom-16 left-0 right-0">
+            <Shared.ShareLink className="justify-center" />
+          </div>
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
           </div>

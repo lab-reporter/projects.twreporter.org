@@ -76,6 +76,9 @@ export default function Innovation5Content({ projectData, onNavigate: _onNavigat
             text="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。如果你還沒看過《報導者》影音新聞，歡迎到 YouTube 頻道按讚、訂閱、開啟小鈴噹！"
             className="bottom-32"
           />
+          <div className="absolute bottom-16 left-0 right-0">
+            <Shared.ShareLink className="justify-center" />
+          </div>
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
           </div>

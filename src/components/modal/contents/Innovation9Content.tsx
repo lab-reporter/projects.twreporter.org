@@ -78,6 +78,9 @@ export default function Innovation9Content({ projectData, onNavigate: _onNavigat
             text="10年來，《報導者》在黑暗中維繫一絲微光，希望透過鏡頭，我們能記錄更多社會角落的印記，也期待在照路的途中，有你一起同行。"
             className="bottom-32"
           />
+          <div className="absolute bottom-16 left-0 right-0">
+            <Shared.ShareLink className="justify-center" />
+          </div>
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />
           </div>

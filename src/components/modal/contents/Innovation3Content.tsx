@@ -60,7 +60,8 @@ export default function Innovation3Content({ projectData, onNavigate: _onNavigat
             text="元件庫已收錄7款小工具，濃縮《報導者》10年的數位敘事經驗，希望這些工具能成為你的數位內容創作好幫手。"
             className=""
           />
-          <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
+          <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
+            <Shared.ShareLink />
             <Shared.ModalDonate onClose={onClose} />
           </div>
         </Shared.InnovationSlide>

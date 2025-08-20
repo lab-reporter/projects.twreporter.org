@@ -1,47 +1,43 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Check, Facebook, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 
 interface ShareLinkProps {
-    title?: string;
-    description?: string;
-    url?: string;
     className?: string;
 }
 
 interface SocialPlatform {
     name: string;
-    icon: React.ReactNode;
+    iconSrc: string;
     getShareUrl: (url: string, title: string, description: string) => string;
     color: string;
     bgColor: string;
 }
 
 export default function ShareLink({
-    title = '報導者十週年回顧',
-    description = '深度調查報導，為台灣社會帶來改變的力量',
-    url,
     className = ''
 }: ShareLinkProps) {
-    const [copied, setCopied] = useState(false);
+    // 固定的分享內容
+    const title = '報導者十週年｜深度求真 眾聲同行';
+    const description = '為了讓獨立媒體永續經營、持續挖掘真相，我們需要提升小額捐款比例至8成，因此在《報導者》滿10歲之際，我們許下一個生日願望：累積至少10,000位定期定額捐款支持的夥伴。';
+    const url = 'https://10th-recap-dev-2d.vercel.app/';
 
-    // 取得當前頁面 URL，如果沒有提供的話
-    const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
+    const [copied, setCopied] = useState(false);
 
     // 社群平台設定
     const socialPlatforms: SocialPlatform[] = [
         {
             name: 'Facebook',
-            icon: <Facebook size={18} />,
+            iconSrc: '/assets/icon-facebook.svg',
             getShareUrl: (url, title, description) =>
                 `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title + ' - ' + description)}`,
-            color: 'text-white',
+            color: 'text-blue-600',
             bgColor: 'bg-blue-50 hover:bg-blue-100 border-blue-200'
         },
         {
             name: 'LINE',
-            icon: <MessageCircle size={18} />,
+            iconSrc: '/assets/icon-line.svg',
             getShareUrl: (url, title, description) =>
                 `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-green-600',
@@ -49,11 +45,7 @@ export default function ShareLink({
         },
         {
             name: 'Twitter',
-            icon: (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-            ),
+            iconSrc: '/assets/icon-twitter.svg',
             getShareUrl: (url, title, description) =>
                 `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-gray-800',
@@ -64,14 +56,14 @@ export default function ShareLink({
     // 複製連結到剪貼簿
     const handleCopyLink = async () => {
         try {
-            await navigator.clipboard.writeText(shareUrl);
+            await navigator.clipboard.writeText(url);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (error) {
             console.error('複製連結失敗:', error);
             // 降級處理：使用選取文字的方式
             const textArea = document.createElement('textarea');
-            textArea.value = shareUrl;
+            textArea.value = url;
             document.body.appendChild(textArea);
             textArea.select();
             try {
@@ -87,12 +79,12 @@ export default function ShareLink({
 
     // 開啟社群平台分享
     const handleSocialShare = (platform: SocialPlatform) => {
-        const platformShareUrl = platform.getShareUrl(shareUrl, title, description);
+        const platformShareUrl = platform.getShareUrl(url, title, description);
         window.open(platformShareUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
     };
 
     return (
-        <div className={`mx-auto flex justify-center flex-wrap gap-3 ${className}`}>
+        <div className={`flex flex-wrap gap-3 ${className}`}>
             {/* 複製連結按鈕 */}
             <button
                 onClick={handleCopyLink}
@@ -101,11 +93,13 @@ export default function ShareLink({
                     : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700'
                     }`}
             >
-                {copied ? (
-                    <Check size={18} className="text-green-600" />
-                ) : (
-                    <Copy size={18} className="text-gray-500" />
-                )}
+                <Image
+                    src="/assets/icon-copy.svg"
+                    alt="複製"
+                    width={18}
+                    height={18}
+                    className={copied ? 'text-green-600' : 'text-gray-500'}
+                />
                 <span className="text-sm">
                     {copied ? '已複製連結' : '複製連結'}
                 </span>
@@ -119,8 +113,13 @@ export default function ShareLink({
                     className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors duration-200 font-medium ${platform.bgColor} ${platform.color}`}
                     title={`分享到 ${platform.name}`}
                 >
-                    {platform.icon}
-                    <span className="text-sm">{platform.name}</span>
+                    <Image
+                        src={platform.iconSrc}
+                        alt={platform.name}
+                        width={18}
+                        height={18}
+                    />
+                    <span className="text-sm">分享到 {platform.name}</span>
                 </button>
             ))}
         </div>
