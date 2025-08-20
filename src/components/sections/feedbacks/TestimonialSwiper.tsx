@@ -95,12 +95,13 @@ export default function TestimonialSwiper({ testimonials }: TestimonialSwiperPro
                         <>
                             <SwiperSlide key={index}>
                                 <div
-                                    className="w-[20rem] h-[25rem] border border-gray-500 flex-shrink-0"
+                                    className="w-[20rem] h-[25rem] flex-shrink-0"
                                     style={{
                                         background: isCenterCard ? gradientStyle.backgroundImage : 'black',
                                         animation: isCenterCard ? gradientStyle.animation : 'none',
-                                        padding: isCenterCard ? '2px' : '0',
+                                        padding: isCenterCard ? '4px' : '0',
                                         transform: isCenterCard ? 'scale(1.1)' : 'scale(1)',
+                                        border: isCenterCard ? 'none' : '1px solid #AAA',
                                     }}
                                 >
                                     <div

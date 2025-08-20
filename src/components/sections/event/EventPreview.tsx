@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Button } from '@/components/shared';
 
 export default function EventPreview() {
     return (
@@ -11,7 +12,7 @@ export default function EventPreview() {
                 與報導者相會
             </h3>
 
-            <div className="max-w-[80rem] mx-auto px-8 flex gap-8 items-center justify-center text-center">
+            <div className="max-w-[80rem] mx-auto px-8 flex gap-8 items-start justify-center text-center">
                 <div className="flex flex-col items-center justify-center bg-white text-black">
                     <div className="relative w-full">
                         <Image
@@ -24,17 +25,19 @@ export default function EventPreview() {
                             quality={85}
                         />
                     </div>
-                    <div className="p-4">
+                    <div className="p-4 pb-8">
                         <p className="mb-2 text-red-90">Exhibition</p>
                         <h5>報導者十週年特展</h5>
-                        <p className="leading-relaxed mt-2">
+                        <p className=" mt-2">
                             2025.12.04(四)–07(日) 11:00-19:00 <br />
                             華山1914文化創意產業園區中4A館
                         </p>
-                        <button
-                            className="mt-4 bg-gray-100 text-sm px-4 py-2 text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300">
-                            免費參觀
-                        </button>
+                        <p className="leading-relaxed text-sm text-gray-700">
+                            台北市中正區八德路一段1號
+                        </p>
+                        <p className="mt-4 text-sm text-black">
+                            #免費參觀
+                        </p>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-center bg-white text-black">
@@ -49,17 +52,26 @@ export default function EventPreview() {
                             quality={85}
                         />
                     </div>
-                    <div className="p-4">
+                    <div className="p-4 pb-8">
                         <p className="mb-2 text-red-90">Party</p>
                         <h5>報導者十週年晚會</h5>
                         <p className="leading-relaxed mt-2">
                             2025.12.06(六) 19:00-21:30 <br />
                             Legacy Taipei 音樂展演空間
                         </p>
-                        <button
-                            className="mt-4 bg-gray-100 text-sm px-4 py-2 text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300">
-                            10月X日 開放搶票
-                        </button>
+                        <p className="leading-relaxed text-sm text-gray-700">
+                            台北市中正區八德路一段1號
+                        </p>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="mt-4"
+                            onClick={() => {
+                                window.open('https://twreporter.kktix.cc/events/whosreporter-taipei', '_blank');
+                            }}
+                        >
+                            9月24日 開放搶票
+                        </Button>
                     </div>
                 </div>
             </div>

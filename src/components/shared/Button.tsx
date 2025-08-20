@@ -8,7 +8,8 @@ type ButtonVariant =
     | 'secondary'    // 次要按鈕：灰色邊框，灰色文字  
     | 'outline'      // 外框按鈕：透明背景，有邊框
     | 'ghost'        // 透明按鈕：無背景，無邊框
-    | 'support';     // 支援按鈕：白色背景，黑色文字（支援頁面專用，禁用狀態透過 disabled prop 控制）
+    | 'support'      // 支援按鈕：白色背景，黑色文字（支援頁面專用，禁用狀態透過 disabled prop 控制）
+    | 'noClick';     // 預設按鈕：白色背景，黑色文字
 
 // 按鈕尺寸類型
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -76,7 +77,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         ghost: 'bg-transparent hover:bg-gray-100 text-gray-700',
         support: disabled
             ? 'border border-white opacity-50 text-white/80 bg-transparent'  // 禁用狀態：透明背景，白色邊框
-            : 'bg-white text-black hover:bg-gray-100 border-transparent'     // 啟用狀態：白色背景，黑色文字
+            : 'bg-white text-black hover:bg-gray-100 border-transparent',  // 啟用狀態：白色背景，黑色文字
+        noClick: 'bg-transparent hover:bg-transparent text-gray-700 cursor-default',
     };
 
     // 基礎樣式
