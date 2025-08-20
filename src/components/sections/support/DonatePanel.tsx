@@ -240,17 +240,12 @@ export default function DonatePanel() {
     return (
         // 主要頁面區塊：支持頁面
         <div
-            className="w-full h-full text-white flex flex-col lg:flex-row justify-center items-center gap-16 px-8 py-20"
+            className="w-full h-full text-white flex flex-col lg:flex-row justify-center items-center gap-16 px-8 py-8"
         >
             {/* 左側贊助支持區塊 */}
-            <div>
+            <div className="">
                 {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
-                {/* 綁定 ref 用於動畫觸發偵測 */}
                 <div ref={supporterRef} className="text-center">
-                    {/* <p className="text-white text-base mb-6 opacity-80">
-          現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
-        </p> */}
-
                     {/* 主要呼籲標題 */}
                     <h3 className="text-white leading-normal">
                         成為 <br />
@@ -325,7 +320,7 @@ export default function DonatePanel() {
               右側：十週年限定回饋展示區域
               ========================================
             */}
-            <div data-trigger="bigger-circle" className="relative flex flex-col items-center justify-center h-screen">
+            <div className="relative flex flex-col items-center justify-center">
                 {/* 🖼️ 主要產品展示圖片 */}
                 <Image
                     src="/assets/gift.png"

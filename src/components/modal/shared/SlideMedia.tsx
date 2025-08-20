@@ -48,7 +48,7 @@ export default function SlideMedia({
         <video
           ref={videoRef}
           src={src}
-          className={`w-full h-full ${className}`}
+          className={`${className}`}
           muted
           loop
           playsInline

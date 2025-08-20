@@ -55,10 +55,10 @@ export default function ClaimMethodModal({ onClose }: ClaimMethodModalProps) {
                 <div className="absolute top-4 right-4">
                     <CloseButton
                         onClick={onClose}
-                        variant="overlay"
+                        variant="default"
                         size="sm"
                         ariaLabel="關閉領取辦法視窗"
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800"
+                        className=""
                     />
                 </div>
 

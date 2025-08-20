@@ -17,7 +17,7 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
             type="video"
             src="/assets/innovations/innovation-2/innovation-2-1.mp4"
             alt="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
-            className=""
+            className="object-cover"
           />
           <Shared.SlideTextCard
             text="《報導者》除了在現場挖掘議題，也試著結合文字、影像、設計，把新聞做得有趣。"
@@ -25,7 +25,7 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+        <Shared.InnovationSlide className="bg-black flex flex-col items-center justify-center">
           <Shared.SlideIframe
             src="https://www.twreporter.org/i/slave-fishermen-human-trafficking-gcs"
           />
@@ -35,13 +35,26 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
+        <Shared.InnovationSlide className="relative">
           <Shared.SlideMedia
             type="video"
-            src="/assets/innovations/innovation-2/innovation-2-3.webm"
-            alt="無論是交友詐騙、中國業者盜取台灣海砂、犯罪集團濫倒廢棄物⋯⋯我們大量運用沉浸式互動、3D敘事等方式，讓讀者了解這些複雜的議題。"
-            className=""
+            src="/assets/innovations/innovation-2/innovation-2-3-1.mp4"
+            alt="交友詐騙互動式報導"
+            className="w-[40%] absolute top-[5%] left-[5%]"
           />
+          <Shared.SlideMedia
+            type="video"
+            src="/assets/innovations/innovation-2/innovation-2-3-2.mp4"
+            alt="中國業者盜取台灣海砂報導"
+            className="w-[40%] absolute top-[15%] left-[55%]"
+          />
+          <Shared.SlideMedia
+            type="video"
+            src="/assets/innovations/innovation-2/innovation-2-3-3.mp4"
+            alt="犯罪集團濫倒廢棄物 3D 敘事"
+            className="w-[40%] absolute top-[40%] left-[30%]"
+          />
+
           <Shared.SlideTextCard
             text="無論是交友詐騙、中國業者盜取台灣海砂、犯罪集團濫倒廢棄物⋯⋯我們大量運用沉浸式互動、3D敘事等方式，讓讀者了解這些複雜的議題。"
             className=""
@@ -70,7 +83,7 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
           />
           <Shared.SlideTextCard
             text="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
-            className="bottom-32"
+            className="bottom-24"
           />
           <div className="absolute bottom-4 left-0 right-0">
             <Shared.ModalDonate onClose={onClose} />

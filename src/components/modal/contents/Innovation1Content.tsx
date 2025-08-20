@@ -38,11 +38,12 @@ export default function Innovation1Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
+        <Shared.InnovationSlide className="bg-white p-8">
           <Shared.SlideMedia
             type="video"
             src="/assets/innovations/innovation-1/innovation-1-3.webm"
             alt="記者、設計師與工程師花費兩個多月協作，以童年養成遊戲風格呈現急診室制度與人力的多重壓力。"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="記者、設計師與工程師花費兩個多月協作，以童年養成遊戲風格呈現急診室制度與人力的多重壓力。"
@@ -57,11 +58,12 @@ export default function Innovation1Content({ projectData, onNavigate: _onNavigat
 
           <Shared.SlideTextCard
             text="新聞遊戲是《報導者》邁向沉浸式敘事的開端，如果你還沒玩過，歡迎點我體驗！"
-            className="bottom-32"
+            className=""
           />
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalDonate onClose={onClose} />
         </Shared.InnovationSlide>
 
       </Shared.InnovationSlidesContainer>
