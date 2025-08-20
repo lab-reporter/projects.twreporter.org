@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import DonatePanel from '@/components/sections/support/DonatePanel';
-// import CloseButton from '@/components/shared/CloseButton';
+import { Button } from '@/components/shared';
 
 interface ModalDonateProps {
     /**
@@ -62,14 +62,14 @@ export default function ModalDonate({ onClose }: ModalDonateProps) {
                     {/* Modal 內容容器 */}
                     <div className="relative w-full h-full overflow-y-auto">
                         {/* 關閉按鈕 */}
-                        {/* <div className="absolute top-4 right-4 z-10">
-                            <CloseButton
-                                onClick={handleCloseModal}
-                                variant="modal"
+                        <div className="absolute top-4 right-4 z-10">
+                            <Button
+                                variant="close"
                                 size="md"
-                                ariaLabel="關閉捐款視窗"
+                                onClick={handleCloseModal}
+                                aria-label="關閉捐款視窗"
                             />
-                        </div> */}
+                        </div>
 
                         {/* 捐款面板內容 */}
                         <DonatePanel />

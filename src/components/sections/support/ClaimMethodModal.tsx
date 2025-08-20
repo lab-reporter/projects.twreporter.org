@@ -8,7 +8,7 @@
 
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import CloseButton from '@/components/shared/CloseButton';
+import { Button } from '@/components/shared';
 
 interface ClaimMethodModalProps {
     onClose: () => void;
@@ -53,12 +53,11 @@ export default function ClaimMethodModal({ onClose }: ClaimMethodModalProps) {
             <div className="bg-white rounded-lg shadow-xl max-w-xl w-full overflow-y-auto relative">
                 {/* 關閉按鈕 */}
                 <div className="absolute top-4 right-4">
-                    <CloseButton
-                        onClick={onClose}
-                        variant="default"
+                    <Button
+                        variant="close"
                         size="sm"
-                        ariaLabel="關閉領取辦法視窗"
-                        className=""
+                        onClick={onClose}
+                        aria-label="關閉領取辦法視窗"
                     />
                 </div>
 

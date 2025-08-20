@@ -1,7 +1,8 @@
 'use client';
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CurrentItemDisplay from './CurrentItemDisplay';
+import Button from './Button';
+import { ChevronLeftIcon, ChevronRightIcon } from './NavigationIcons';
 
 
 // 整合組件介面定義
@@ -49,26 +50,24 @@ export default function ItemDisplayWithNavigation({
     currentItem,
     onTitleClick
 }: ItemDisplayWithNavigationProps) {
-    // 統一的按鈕基礎樣式
-    const buttonStyles = "group relative z-50 p-3 rounded-full bg-white border border-gray-300 shadow-md hover:bg-black transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white";
-    const iconStyles = "w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300 group-disabled:group-hover:text-gray-700";
 
 
     return (
-        <div className={`flex px-2 justify-center items-center ${className}`}>
+        <div className={`flex px-8 justify-center items-center ${className}`}>
             {/* 上一個按鈕 */}
-            <button
+            <Button
+                variant="navigation"
+                shape="circle"
+                size="sm"
                 onClick={() => {
                     if (!navigationDisabled) {
                         onPrevious();
                     }
                 }}
                 disabled={navigationDisabled}
-                className={buttonStyles}
                 aria-label={previousLabel}
-            >
-                <ChevronLeft className={iconStyles} />
-            </button>
+                leftIcon={<ChevronLeftIcon size={16} />}
+            />
 
             {/* 內容顯示區域 */}
             <CurrentItemDisplay
@@ -80,18 +79,19 @@ export default function ItemDisplayWithNavigation({
             />
 
             {/* 下一個按鈕 */}
-            <button
+            <Button
+                variant="navigation"
+                size="sm"
+                shape="circle"
                 onClick={() => {
                     if (!navigationDisabled) {
                         onNext();
                     }
                 }}
                 disabled={navigationDisabled}
-                className={buttonStyles}
                 aria-label={nextLabel}
-            >
-                <ChevronRight className={iconStyles} />
-            </button>
+                leftIcon={<ChevronRightIcon size={16} />}
+            />
         </div>
     );
 }

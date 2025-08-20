@@ -6,7 +6,7 @@ import ModalSidepanel from './ModalSidepanel';
 import ModalSidepanelHint from './ModalSidepanelHint';
 import projectsData from '@/app/data/projects.json';
 import { useStore } from '@/stores';
-import { CloseButton } from '@/components/shared';
+import { Button } from '@/components/shared';
 
 interface ModalScrollManagerProps {
     scrollContainer: RefObject<HTMLDivElement | null>;
@@ -507,13 +507,13 @@ export default function ModalScrollManager({
                         );
                     })()} */}
 
-                    {/* 關閉按鈕 - 使用統一的 CloseButton 元件 */}
-                    <CloseButton
+                    {/* 關閉按鈕 - 使用統一的 Button 元件 */}
+                    <Button
+                        variant="close"
+                        size="sm"
                         onClick={onClose}
-                        variant="modal"
-                        size="md"
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                        ariaLabel="關閉模態視窗"
+                        aria-label="關閉模態視窗"
                     />
 
                     {/* 原本的內嵌按鈕實作（已替換為統一元件） */}

@@ -83,6 +83,16 @@ export default function ReportsSwiperMobile() {
         openModal(item.id as string, item);
     }, []);
 
+    // 處理 SwiperSlide 點擊：只有正中央的可以點擊開啟 Modal
+    const handleSlideClick = useCallback((item: ReportItem, index: number) => {
+        // 只有當前顯示的項目（正中央）可以點擊開啟 Modal
+        if (index === currentSlide) {
+            const { openModal } = useStore.getState();
+            openModal(item.id, item);
+        }
+        // 其他項目不做任何處理，讓拖曳功能正常運作
+    }, [currentSlide]);
+
     // ============================
     // 渲染
     // ============================
@@ -132,20 +142,27 @@ export default function ReportsSwiperMobile() {
                         }}
                     >
                         <div
-                            className="relative w-full aspect-[4/3] select-none"
+                            className={`relative w-full aspect-[4/3] select-none ${index === currentSlide
+                                    ? 'cursor-pointer hover:opacity-90 transition-opacity'
+                                    : 'cursor-grab'
+                                }`}
                             style={{
                                 userSelect: "none",
                                 WebkitUserSelect: "none",
                                 MozUserSelect: "none",
                                 msUserSelect: "none",
                             }}
+                            onClick={() => handleSlideClick(item, index)}
                         >
                             {/* 報導圖片 */}
                             <Image
                                 src={item.path}
                                 alt={item.title}
                                 fill
-                                className="object-cover select-none pointer-events-none"
+                                className={`object-cover select-none ${index === currentSlide
+                                        ? '' // 正中央的圖片可以接收點擊事件
+                                        : 'pointer-events-none' // 旁邊的圖片不接收點擊，讓拖曳正常運作
+                                    }`}
                                 sizes="(max-width: 1024px) 90vw, 50vw"
                                 priority={index === 0} // 首張圖片優先載入
                                 draggable={false}
@@ -157,6 +174,11 @@ export default function ReportsSwiperMobile() {
                                     msUserSelect: "none",
                                 }}
                             />
+
+                            {/* 正中央的項目添加視覺提示 */}
+                            {index === currentSlide && (
+                                <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-200 rounded-lg" />
+                            )}
                         </div>
                     </SwiperSlide>
                 ))}

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Button } from '@/components/shared';
 
 interface Project {
   id: string;
@@ -145,20 +146,24 @@ export default function ModalSidepanel({
         }}
       >
         <div className="w-12 h-12 flex items-center justify-center">
-          <div
+          <Button
+            variant="close"
+            size="sm"
             onClick={onToggle}
-            className="w-9 h-9 rounded-full bg-white/50 shadow-md hover:bg-black transition-colors duration-300 flex items-center justify-center cursor-pointer group"
-          >
-            <Image
-              src="/assets/modal-sidepanel-arrow.svg"
-              alt="modal-sidepanel-arrow"
-              width={20}
-              height={20}
-              className={`${isOpen ? 'rotate-0' : 'rotate-180'
-                } ${isOpen ? 'translate-x-[1px]' : '-translate-x-[1px]'
-                } group-hover:invert duration-300 transition-all`}
-            />
-          </div>
+            className="w-9 h-9"
+            aria-label={isOpen ? '收合側邊欄' : '展開側邊欄'}
+            leftIcon={
+              <Image
+                src="/assets/modal-sidepanel-arrow.svg"
+                alt="modal-sidepanel-arrow"
+                width={20}
+                height={20}
+                className={`${isOpen ? 'rotate-0' : 'rotate-180'
+                  } ${isOpen ? 'translate-x-[1px]' : '-translate-x-[1px]'
+                  } group-hover:invert duration-300 transition-all`}
+              />
+            }
+          />
         </div>
       </div>
 
