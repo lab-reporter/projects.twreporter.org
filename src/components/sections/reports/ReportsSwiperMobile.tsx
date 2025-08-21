@@ -15,6 +15,7 @@ import 'swiper/css/effect-coverflow';
 import projectsData from '@/app/data/projects.json';
 import { ItemDisplayWithNavigation } from '@/components/shared';
 import { useStore } from '@/stores';
+import { getResponsiveImagePath, type ProjectData } from '@/utils/responsiveImage';
 
 // ============================
 // 型別定義
@@ -42,9 +43,9 @@ export default function ReportsSwiperMobile() {
     // 資料處理
     // ============================
     // 從專案資料中篩選報導項目
-    const reportsData: ReportItem[] = (projectsData as ReportItem[]).filter((item: ReportItem) =>
+    const reportsData: ReportItem[] = (projectsData as ProjectData[]).filter((item: ProjectData) =>
         item.section.includes('reports')
-    );
+    ) as ReportItem[];
 
     // 取得當前顯示的項目
     const currentItem = reportsData[currentSlide] || reportsData[0];
@@ -154,9 +155,9 @@ export default function ReportsSwiperMobile() {
                             }}
                             onClick={() => handleSlideClick(item, index)}
                         >
-                            {/* 報導圖片 */}
+                            {/* 報導圖片 - 使用響應式圖片 */}
                             <Image
-                                src={item.path}
+                                src={getResponsiveImagePath(item as ProjectData, 'reports-mobile')}
                                 alt={item.title}
                                 fill
                                 className={`object-cover select-none ${index === currentSlide

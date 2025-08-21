@@ -455,7 +455,7 @@ export default function ModalScrollManager({
                 {!hasSlideContainer && (
                     <div className="sticky top-0 left-0 mb-[-6px] w-full h-[6px] bg-transparent z-20">
                         <div
-                            className="h-full bg-gradient-to-r from-[#5656F3] via-[#9651CA] to-[#F32137]"
+                            className="h-full bg-gradient-to-l from-[#5656F3] via-[#9651CA] to-[#F32137] rounded-full"
                             style={{ width: `${scrollProgress * 100}%` }}
                         ></div>
                     </div>

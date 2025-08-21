@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { useStore } from '@/stores';
 import { getContentComponentByProjectId } from './modal/contentMap';
 import { useModalNavigation, useKeyboard } from './modal/hooks';
-import type { ReportData } from './modal/types';
+import type { ProjectData } from '@/utils/responsiveImage';
 import ModalScrollManager from './modal/components/ModalScrollManager';
 
 export default function Modal() {
@@ -15,8 +15,8 @@ export default function Modal() {
   const [shouldRender, setShouldRender] = useState(false);
   const [modalDataSnapshot, setModalDataSnapshot] = useState<unknown>(null);
   const [adjacentProjectsSnapshot, setAdjacentProjectsSnapshot] = useState<{
-    prev: ReportData | null;
-    next: ReportData | null;
+    prev: ProjectData | null;
+    next: ProjectData | null;
   }>({ prev: null, next: null });
 
   // 使用導航和鍵盤 hooks
@@ -113,7 +113,7 @@ export default function Modal() {
     const dataToUse = modalDataSnapshot || modal.data;
     if (!dataToUse) return null;
 
-    // 類型檢查：確保 dataToUse 符合 ReportData 介面
+    // 類型檢查：確保 dataToUse 符合 ProjectData 介面
     const projectData = dataToUse as {
       id?: string;
       path?: string;
@@ -123,7 +123,7 @@ export default function Modal() {
       bgColor?: string;
     };
 
-    // 提供默認值以符合 ReportData 介面
+    // 提供默認值以符合 ProjectData 介面
     const safeProjectData = {
       id: projectData.id || modal.contentId || '',
       path: projectData.path || '',

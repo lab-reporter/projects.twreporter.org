@@ -14,6 +14,7 @@ import 'swiper/css/effect-flip';
 import projectsData from '@/app/data/projects.json';
 import { ItemDisplayWithNavigation } from '@/components/shared';
 import { useStore } from '@/stores';
+import { getResponsiveImagePath, type ProjectData } from '@/utils/responsiveImage';
 
 // ============================
 // 型別定義
@@ -43,13 +44,13 @@ export default function InnovationsSwiperMobile() {
     // 資料處理
     // ============================
     // 從專案資料中篩選創新項目並排序
-    const innovationsData: InnovationItem[] = (projectsData as InnovationItem[])
-        .filter((item: InnovationItem) => item.section.includes('innovation'))
-        .sort((a: InnovationItem, b: InnovationItem) => {
+    const innovationsData: InnovationItem[] = (projectsData as ProjectData[])
+        .filter((item: ProjectData) => item.section.includes('innovation'))
+        .sort((a: ProjectData, b: ProjectData) => {
             const numA = parseInt(a.id.split('-')[1]);
             const numB = parseInt(b.id.split('-')[1]);
             return numA - numB;
-        });
+        }) as InnovationItem[];
 
     // 取得當前顯示的項目
     const currentItem = innovationsData[currentSlide] || innovationsData[0];
@@ -147,10 +148,10 @@ export default function InnovationsSwiperMobile() {
                             }}
                             onClick={() => handleItemClick(item)}
                         >
-                            {/* 創新項目影片 */}
+                            {/* 創新項目影片 - 使用響應式封面圖 */}
                             <video
                                 src={item.videoSRC} // 使用 MP4 格式的影片
-                                poster={item.imageSRC} // 使用封面圖
+                                poster={getResponsiveImagePath(item as unknown as ProjectData, 'innovations-mobile')} // 使用響應式封面圖
                                 className="w-full h-full object-cover select-none rounded-lg"
                                 muted
                                 playsInline

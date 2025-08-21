@@ -4,8 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../shared/NavigationIcons';
 import { Button } from '@/components/shared';
-import { getOptimizedSidepanelImage, isVideoFile, getPreloadUrls, logImageUsage } from '@/utils/imageAdapter';
-import { getModalSidepanelImageConfig, detectDeviceInfo, detectNetworkCondition } from '@/utils/responsiveImageLoader';
+import { getResponsiveImagePath, type ProjectData } from '@/utils/responsiveImage';
 
 interface Project {
   id: string;
@@ -14,7 +13,14 @@ interface Project {
   subtitle?: string;
   section: string[];
   bgColor?: string;
-  imageSRC?: string; // 新增 imageSRC 屬性
+  imageSRC?: string;
+  paths?: {
+    thumbnail: string;
+    small: string;
+    medium: string;
+    large: string;
+    original: string;
+  };
 }
 
 interface ModalSidepanelProps {
@@ -37,18 +43,14 @@ export default function ModalSidepanel({
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const preloadedImagesRef = useRef<Set<string>>(new Set());
 
-  // 裝置和網路狀況檢測
-  const [deviceInfo] = useState(() => detectDeviceInfo());
-  const [networkCondition] = useState(() => detectNetworkCondition());
-
-  // 智慧預載：使用優化後的圖片路徑
-  const getOptimizedPreloadUrls = useCallback(() => {
-    return getPreloadUrls(projects, 6);
-  }, [projects]);
+  // 判斷是否為影片檔案
+  const isVideo = (path: string) => {
+    return path.endsWith('.mp4') || path.endsWith('.webm');
+  };
 
   // 預載圖片函數
   const preloadImage = useCallback((src: string) => {
-    if (preloadedImagesRef.current.has(src) || isVideoFile(src)) return;
+    if (preloadedImagesRef.current.has(src) || isVideo(src)) return;
 
     setLoadingImages(prev => new Set(prev).add(src));
 
@@ -75,67 +77,45 @@ export default function ModalSidepanel({
   // 當 ModalSidepanel 即將開啟時預載圖片
   useEffect(() => {
     if (isOpen && projects.length > 0) {
-      // 使用智慧預載策略
-      const preloadUrls = getOptimizedPreloadUrls();
-
-      // 立即預載高優先級圖片
-      const highPriorityUrls = preloadUrls.filter(item => item.priority === 'high');
-      highPriorityUrls.forEach(item => {
-        preloadImage(item.url);
-
-        // 開發模式記錄
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`[ModalSidepanel] 預載高優先級圖片:`, item.url);
+      // 立即預載前幾張重要圖片 - 使用 thumbnail 路徑
+      projects.slice(0, 6).forEach(project => {
+        const mediaPath = getResponsiveImagePath(project as ProjectData, 'modal-sidepanel');
+        if (!isVideo(mediaPath)) {
+          preloadImage(mediaPath);
         }
       });
 
-      // 延遲預載中優先級圖片
+      // 延遲預載剩餘圖片
       setTimeout(() => {
-        const mediumPriorityUrls = preloadUrls.filter(item => item.priority === 'medium');
-        mediumPriorityUrls.forEach(item => {
-          preloadImage(item.url);
-        });
-
-        // 繼續預載剩餘項目
         projects.slice(6).forEach(project => {
-          const optimizedImage = getOptimizedSidepanelImage(project);
-          if (!isVideoFile(optimizedImage.src)) {
-            preloadImage(optimizedImage.src);
+          const mediaPath = getResponsiveImagePath(project as ProjectData, 'modal-sidepanel');
+          if (!isVideo(mediaPath)) {
+            preloadImage(mediaPath);
           }
         });
       }, 300);
     }
-  }, [isOpen, projects, preloadImage, getOptimizedPreloadUrls]);
+  }, [isOpen, projects, preloadImage]);
 
   // Hover 時預載圖片（提前預載機制）
   const handleProjectHover = (project: Project) => {
-    const optimizedImage = getOptimizedSidepanelImage(project);
-    if (!isVideoFile(optimizedImage.src) && !preloadedImagesRef.current.has(optimizedImage.src)) {
-      preloadImage(optimizedImage.src);
-
-      // 開發模式記錄使用情況
-      logImageUsage(project, optimizedImage.src, 'Hover預載');
+    const mediaPath = getResponsiveImagePath(project as ProjectData, 'modal-sidepanel');
+    if (!isVideo(mediaPath) && !preloadedImagesRef.current.has(mediaPath)) {
+      preloadImage(mediaPath);
     }
   };
 
-  // 渲染媒體內容（圖片或影片）
+  // 渲染媒體內容（圖片或影片）- 固定使用 thumbnail 路徑
   const renderMedia = (project: Project) => {
-    // 使用新的響應式圖片載入系統
-    const imageConfig = getModalSidepanelImageConfig(
-      project,
-      deviceInfo.isMobile,
-      networkCondition
-    );
-
-    const mediaPath = imageConfig.src;
-    const fallbackPath = imageConfig.fallbackSrc;
-
-    // 智慧決定是否使用影片：只有無縮圖的影片才顯示原始影片
-    const shouldShowVideo = isVideoFile(project.path) && !project.imageSRC;
+    // 使用響應式圖片系統，固定為 modal-sidepanel 情境（thumbnail）
+    const mediaPath = getResponsiveImagePath(project as ProjectData, 'modal-sidepanel');
 
     // 檢查圖片載入狀態
     const isImageLoaded = loadedImages.has(mediaPath);
     const isImageLoading = loadingImages.has(mediaPath);
+
+    // 檢查是否為影片且沒有縮圖
+    const shouldShowVideo = isVideo(project.path) && !project.imageSRC && !project.paths;
 
     if (shouldShowVideo) {
       return (
@@ -158,23 +138,6 @@ export default function ModalSidepanel({
               {isImageLoading && (
                 <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
               )}
-
-              {/* 開發模式：顯示優化指示器 */}
-              {process.env.NODE_ENV === 'development' && (
-                <div className="absolute top-1 right-1 space-y-1">
-                  {imageConfig.optimizationLevel !== 'none' && (
-                    <div className={`text-white text-xs px-1 rounded opacity-90 ${imageConfig.optimizationLevel === 'high' ? 'bg-green-500' :
-                      imageConfig.optimizationLevel === 'medium' ? 'bg-blue-500' : 'bg-yellow-500'
-                      }`}>
-                      {imageConfig.optimizationLevel === 'high' ? '最佳化' :
-                        imageConfig.optimizationLevel === 'medium' ? '優化' : '輕度優化'}
-                    </div>
-                  )}
-                  <div className="bg-gray-700 text-white text-xs px-1 rounded opacity-75">
-                    {imageConfig.estimatedSize}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -185,10 +148,9 @@ export default function ModalSidepanel({
             height={240}
             className={`w-full h-full object-cover transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
-            quality={imageConfig.quality}
-            priority={imageConfig.priority}
-            loading={imageConfig.loading}
-            sizes={imageConfig.sizes}
+            quality={85}
+            priority={projects.findIndex(p => p.id === project.id) < 6} // 前6張優先載入
+            sizes="320px"
             onLoad={() => {
               setLoadedImages(prev => new Set(prev).add(mediaPath));
               setLoadingImages(prev => {
@@ -196,23 +158,17 @@ export default function ModalSidepanel({
                 newSet.delete(mediaPath);
                 return newSet;
               });
-
-              // 記錄載入成功
-              logImageUsage(project, mediaPath, 'ModalSidepanel載入成功');
-            }}
-            onError={() => {
-              // 載入失敗時處理
-              if (mediaPath !== fallbackPath) {
-                console.warn(`[ModalSidepanel] 優化圖片載入失敗，項目: ${project.id}`);
-              }
-
-              setLoadingImages(prev => {
-                const newSet = new Set(prev);
-                newSet.delete(mediaPath);
-                return newSet;
-              });
             }}
           />
+
+          {/* 開發模式：顯示縮圖指示器 */}
+          {process.env.NODE_ENV === 'development' && project.paths && (
+            <div className="absolute top-1 right-1">
+              <div className="bg-green-500 text-white text-xs px-1 rounded opacity-90">
+                縮圖
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -271,7 +227,8 @@ export default function ModalSidepanel({
     <>
       {/* 側邊欄主體 */}
       <div
-        className={`fixed top-0 ${isOpen ? 'border-2 border-r-0 border-gray-100' : 'border-none'} bg-white rounded-md rounded-tl-none rounded-bl-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
+        className={`fixed top-0 ${isOpen ? 'border-2 border-r-0 border-gray-100' : 'border-none'
+          } bg-white rounded-md rounded-tl-none rounded-bl-none overflow-y-auto right-0 h-full shadow-2xl z-[99] transition-all duration-300 ${isOpen ? 'w-[320px]' : 'w-0'
           }`}
         onClick={(e) => {
           // 防止點擊 sidepanel 時觸發外部的關閉事件
@@ -280,7 +237,7 @@ export default function ModalSidepanel({
       >
         {/* 內容區域 */}
         <div className={`h-full overflow-hidden ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
-          <div className="h-full overflow-y-auto p-4 pb-[calc(5vh+40px)]">
+          <div className="h-full overflow-y-auto p-4 pb-8]">
             <div className="space-y-4">
               {projects.map(project => renderProjectCard(project))}
             </div>

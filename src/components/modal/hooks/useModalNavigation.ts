@@ -2,18 +2,7 @@ import { useMemo } from 'react';
 import { useStore } from '@/stores';
 import { getAdjacentProjects } from '../utils';
 import projectsData from '@/app/data/projects.json';
-
-// 定義項目數據類型
-interface ProjectData {
-    id: string;
-    path: string;
-    title: string;
-    subtitle: string;
-    section: string[];
-    bgColor: string;
-    imageSRC?: string; // 新增 imageSRC 屬性
-    [key: string]: unknown;
-}
+import { type ProjectData } from '@/utils/responsiveImage';
 
 export const useModalNavigation = () => {
     const { modal, openModal } = useStore();

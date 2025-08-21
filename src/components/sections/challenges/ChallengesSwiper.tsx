@@ -5,6 +5,7 @@ import { useStore } from '@/stores'
 import projectsData from '@/app/data/projects.json'
 import { ItemDisplayWithNavigation } from '@/components/shared'
 import Image from 'next/image'
+import { getResponsiveImagePath, type ProjectData } from '@/utils/responsiveImage'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -44,12 +45,12 @@ const ChallengesSwiper: React.FC = () => {
 
     // 從 projects.json 過濾 challenge 資料
     const challengeData = useMemo(() => {
-        const data = (projectsData as ChallengeItem[]).filter((item: ChallengeItem) => {
+        const data = (projectsData as ProjectData[]).filter((item: ProjectData) => {
             if (Array.isArray(item.section)) {
                 return item.section.includes('challenge')
             }
             return item.section === 'challenge'
-        })
+        }) as ChallengeItem[]
         console.log('Challenge data:', data)
         return data
     }, [])
@@ -141,7 +142,7 @@ const ChallengesSwiper: React.FC = () => {
                             >
                                 <div className="relative border border-gray-300 w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300">
                                     <Image
-                                        src={item.path}
+                                        src={getResponsiveImagePath(item as unknown as ProjectData, 'challenges-swiper')}
                                         alt={item.title}
                                         fill
                                         className="object-cover border border-[0.5rem] border-white"

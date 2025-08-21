@@ -1,4 +1,5 @@
-import { ReportData, AdjacentProjects } from './types';
+import { AdjacentProjects } from './types';
+import { type ProjectData } from '@/utils/responsiveImage';
 
 /**
  * 根據當前項目計算前一個和下一個項目（支援循環導航）
@@ -7,8 +8,8 @@ import { ReportData, AdjacentProjects } from './types';
  * @returns 前一個和下一個項目
  */
 export const getAdjacentProjects = (
-  currentProject: ReportData,
-  allProjects: ReportData[]
+  currentProject: ProjectData,
+  allProjects: ProjectData[]
 ): AdjacentProjects => {
   if (!currentProject || !allProjects || allProjects.length === 0) {
     return { prev: null, next: null };
@@ -45,10 +46,10 @@ export const getAdjacentProjects = (
  * @returns 相鄰項目或 null
  */
 export const getAdjacentProject = (
-  currentProject: ReportData,
-  allProjects: ReportData[],
+  currentProject: ProjectData,
+  allProjects: ProjectData[],
   direction: 'prev' | 'next'
-): ReportData | null => {
+): ProjectData | null => {
   const adjacent = getAdjacentProjects(currentProject, allProjects);
   return direction === 'prev' ? adjacent.prev : adjacent.next;
 };
@@ -58,7 +59,7 @@ export const getAdjacentProject = (
  * @param project 項目資料
  * @returns 是否為影片
  */
-export const isVideoProject = (project: ReportData): boolean => {
+export const isVideoProject = (project: ProjectData): boolean => {
   if (!project.path) return false;
 
   const fileExtension = project.path.split('.').pop()?.toLowerCase() || '';
