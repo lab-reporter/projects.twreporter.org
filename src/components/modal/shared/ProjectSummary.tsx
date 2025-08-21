@@ -60,8 +60,10 @@ export default function ProjectSummary({
   };
 
   return (
-    <div className={`max-w-[40rem] mx-auto ${className}`}>
-      <ul className="my-12 no-list-style p-4 px-8 bg-white text-lg font-noto-sans-tc border border-gray-200 rounded-lg">
+    <div className={`max-w-[40rem] relative mx-auto ${className}`}>
+      <div className="absolute top-[1rem] right-[-1.5rem] w-[5rem] h-[1px] bg-red-90 rotate-45"></div>
+      <div className="absolute bottom-[1rem] left-[-1.5rem] w-[5rem] h-[1px] bg-red-90 rotate-45"></div>
+      <ul className="my-12 no-list-style px-8 py-12 bg-white text-lg font-noto-sans-tc">
         {items ? (
           items.map((item, index) => renderItem(item, index, false))
         ) : (

@@ -346,7 +346,7 @@ export default function DonatePanel() {
 
                 {/* 🔘 行動呼籲按鈕 - 使用統一的 Button 元件 */}
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     size="md"
                     shape="circle"
                     onClick={handleOpenClaimModal}
@@ -355,13 +355,6 @@ export default function DonatePanel() {
                     領取辦法
                 </Button>
 
-                {/* 原本的按鈕實作（已替換為統一元件） */}
-                {/* <button
-                    onClick={handleOpenClaimModal}
-                    className="mt-4 bg-gray-100 px-4 py-2 rounded-full text-black cursor-pointer hover:bg-red-50 hover:text-white transition-all duration-300"
-                >
-                    領取辦法
-                </button> */}
             </div>
 
             {/* 

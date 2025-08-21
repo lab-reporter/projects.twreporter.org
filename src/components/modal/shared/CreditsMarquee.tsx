@@ -22,7 +22,7 @@ export default function CreditsMarquee({
       <div className="w-64 h-[1px] bg-gray-400 mx-auto mb-10"></div>
 
       {/* 製作團隊標題 */}
-      <h6 className="text-gray-600 mb-4">製作團隊</h6>
+      <h6 className="text-gray-900 mb-4">製作團隊</h6>
 
       {/* 跑馬燈容器 - 突破父容器寬度限制 */}
       <div className="relative overflow-hidden w-full left-1/2 transform -translate-x-1/2 group">

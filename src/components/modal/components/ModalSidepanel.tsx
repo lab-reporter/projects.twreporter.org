@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../shared/NavigationIcons';
 import { Button } from '@/components/shared';
 
@@ -29,9 +30,74 @@ export default function ModalSidepanel({
   currentProjectId,
   onSelectProject
 }: ModalSidepanelProps) {
+  // 圖片載入狀態管理
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
+  const preloadedImagesRef = useRef<Set<string>>(new Set());
+
   // 判斷是否為影片檔案
   const isVideo = (path: string) => {
     return path.endsWith('.mp4') || path.endsWith('.webm');
+  };
+
+  // 預載圖片函數
+  const preloadImage = useCallback((src: string) => {
+    if (preloadedImagesRef.current.has(src) || isVideo(src)) return;
+
+    setLoadingImages(prev => new Set(prev).add(src));
+
+    const img = new window.Image();
+    img.onload = () => {
+      setLoadedImages(prev => new Set(prev).add(src));
+      setLoadingImages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(src);
+        return newSet;
+      });
+      preloadedImagesRef.current.add(src);
+    };
+    img.onerror = () => {
+      setLoadingImages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(src);
+        return newSet;
+      });
+    };
+    img.src = src;
+  }, []);
+
+  // 當 ModalSidepanel 即將開啟時預載圖片
+  useEffect(() => {
+    if (isOpen && projects.length > 0) {
+      // 立即預載前幾張重要圖片
+      projects.slice(0, 6).forEach(project => {
+        const isInnovation = project.section.includes('innovation');
+        const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+        if (!isVideo(mediaPath)) {
+          preloadImage(mediaPath);
+        }
+      });
+
+      // 延遲預載剩餘圖片
+      setTimeout(() => {
+        projects.slice(6).forEach(project => {
+          const isInnovation = project.section.includes('innovation');
+          const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+          if (!isVideo(mediaPath)) {
+            preloadImage(mediaPath);
+          }
+        });
+      }, 300);
+    }
+  }, [isOpen, projects, preloadImage]);
+
+  // Hover 時預載圖片（提前預載機制）
+  const handleProjectHover = (project: Project) => {
+    const isInnovation = project.section.includes('innovation');
+    const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+    if (!isVideo(mediaPath) && !preloadedImagesRef.current.has(mediaPath)) {
+      preloadImage(mediaPath);
+    }
   };
 
   // 渲染媒體內容（圖片或影片）
@@ -42,6 +108,10 @@ export default function ModalSidepanel({
 
     // 如果是 Innovation 且有 imageSRC，強制使用圖片模式
     const shouldUseImage = isInnovation && project.imageSRC;
+
+    // 檢查圖片載入狀態
+    const isImageLoaded = loadedImages.has(mediaPath);
+    const isImageLoading = loadingImages.has(mediaPath);
 
     if (!shouldUseImage && isVideo(mediaPath)) {
       return (
@@ -56,14 +126,37 @@ export default function ModalSidepanel({
       );
     } else {
       return (
-        <Image
-          src={mediaPath}
-          alt={project.title}
-          width={320}
-          height={240}
-          className="w-full h-full object-cover"
-          quality={85}
-        />
+        <div className="w-full h-full relative">
+          {/* 載入中的骨架屏 */}
+          {!isImageLoaded && (
+            <div className={`absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center transition-opacity duration-200 ${isImageLoading ? 'opacity-100' : 'opacity-60'
+              }`}>
+              {isImageLoading && (
+                <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+              )}
+            </div>
+          )}
+
+          <Image
+            src={mediaPath}
+            alt={project.title}
+            width={320}
+            height={240}
+            className={`w-full h-full object-cover transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+            quality={85}
+            priority={projects.findIndex(p => p.id === project.id) < 6} // 前6張優先載入
+            sizes="320px"
+            onLoad={() => {
+              setLoadedImages(prev => new Set(prev).add(mediaPath));
+              setLoadingImages(prev => {
+                const newSet = new Set(prev);
+                newSet.delete(mediaPath);
+                return newSet;
+              });
+            }}
+          />
+        </div>
       );
     }
   };
@@ -81,6 +174,7 @@ export default function ModalSidepanel({
           }`}
         style={{ cursor: 'pointer' }}
         onClick={() => onSelectProject(project.id)}
+        onMouseEnter={() => handleProjectHover(project)}
       >
         <div className="flex flex-col h-auto">
           {/* 圖片影片區域 */}

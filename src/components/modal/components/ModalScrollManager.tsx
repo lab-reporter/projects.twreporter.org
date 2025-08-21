@@ -453,9 +453,9 @@ export default function ModalScrollManager({
             >
                 {/* 滾動進度條 - 只在沒有 InnovationSlidesContainer 時顯示 */}
                 {!hasSlideContainer && (
-                    <div className="sticky top-0 left-0 mb-[-4px] w-full h-1 bg-transparent z-20">
+                    <div className="sticky top-0 left-0 mb-[-6px] w-full h-[6px] bg-transparent z-20">
                         <div
-                            className="h-full bg-red-70"
+                            className="h-full bg-gradient-to-r from-[#5656F3] via-[#9651CA] to-[#F32137]"
                             style={{ width: `${scrollProgress * 100}%` }}
                         ></div>
                     </div>
@@ -468,44 +468,6 @@ export default function ModalScrollManager({
             {/* 關閉按鈕與過度滾動進度圓環 */}
             <div className={`fixed top-4 z-[10000] transition-all duration-300 ${isSidepanelOpen ? 'right-[320px]' : 'right-4'}`} onClick={(e) => e.stopPropagation()}>
                 <div className="relative w-12 h-12">
-                    {/* 過度滾動進度圓環 - 暫時停用 */}
-                    {/* 一般滾動模式 */}
-                    {/* {!hasSlideContainer && isAtBottom && overScrollDistance > 0 && hasScrolledAfterReachingBottom && (() => {
-                        const radius = 18;
-                        const circumference = 2 * Math.PI * radius;
-                        const progress = Math.min(overScrollDistance / window.innerHeight, 1);
-                        const strokeDashoffset = circumference - (progress * circumference);
-
-                        return (
-                            <svg className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 -rotate-90" viewBox="0 0 40 40">
-                                <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-                                <circle
-                                    cx="20" cy="20" r={radius} fill="none" stroke="#C40D23" strokeWidth="3"
-                                    strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
-                                    className="transition-all duration-100 ease-out"
-                                />
-                            </svg>
-                        );
-                    })()} */}
-
-                    {/* InnovationSlidesContainer 模式 */}
-                    {/* {hasSlideContainer && isLastSlide && slideOverScrollDistance > 0 && (() => {
-                        const radius = 18;
-                        const circumference = 2 * Math.PI * radius;
-                        const progress = Math.min(slideOverScrollDistance / window.innerHeight, 1);
-                        const strokeDashoffset = circumference - (progress * circumference);
-
-                        return (
-                            <svg className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 -rotate-90" viewBox="0 0 40 40">
-                                <circle cx="20" cy="20" r={radius} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-                                <circle
-                                    cx="20" cy="20" r={radius} fill="none" stroke="#C40D23" strokeWidth="3"
-                                    strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
-                                    className="transition-all duration-100 ease-out"
-                                />
-                            </svg>
-                        );
-                    })()} */}
 
                     {/* 關閉按鈕 - 使用統一的 Button 元件 */}
                     <Button
@@ -515,17 +477,6 @@ export default function ModalScrollManager({
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                         aria-label="關閉模態視窗"
                     />
-
-                    {/* 原本的內嵌按鈕實作（已替換為統一元件） */}
-                    {/* <button
-                        onClick={onClose}
-                        className="group absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 flex items-center justify-center rounded-full bg-white/50 shadow-md hover:bg-black transition-colors duration-300"
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="stroke-current group-hover:stroke-white">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button> */}
                 </div>
             </div>
             {/* 側邊欄 */}
