@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "setup": "mkdir -p ../copy && cp -r '../copy/src' ../copy/ && cp -r '../copy/public' ../copy/ && cp '../copy/package.json' ../copy/",
-    "sync-copy": "rm -rf ../copy && npm run setup"
+    "sync-copy": "rm -rf ../copy && npm run setup",
+    "analyze-images": "node scripts/generate-missing-images.js",
+    "create-thumbs": "node scripts/create-thumbnails.js",
+    "validate-thumbs": "node scripts/create-thumbnails.js --validate",
+    "thumbs-guide": "node scripts/create-thumbnails-manual.js",
+    "thumbs-progress": "node scripts/create-thumbnails-manual.js --progress"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

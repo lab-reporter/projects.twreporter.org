@@ -84,7 +84,7 @@ export default function ShareLink({
     };
 
     return (
-        <div className={`flex flex-wrap items-center justify-center gap-3 mb-4 ${className}`}>
+        <div className={`relative flex flex-wrap items-center justify-center gap-3 mb-4 ${className}`}>
             {/* 複製連結按鈕 */}
             <button
                 onClick={handleCopyLink}

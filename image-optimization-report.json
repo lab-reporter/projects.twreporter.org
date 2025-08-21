@@ -1,0 +1,1465 @@
+{
+  "summary": {
+    "totalProjects": 32,
+    "projectsWithMissingImages": 32,
+    "totalMissingImages": 116,
+    "highPriorityProjects": 10
+  },
+  "recommendations": {
+    "immediate": [
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-1-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-1-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-1-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-1-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-2-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-2-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-2-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-2-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-3-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-3-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-3-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-3-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-4-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-4-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-4-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-4-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-5-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-5-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-5-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-5-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-6-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-6-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-6-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-6-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-7-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-7-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-7-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-7-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-8-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-8-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-8-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-8-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-9-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-9-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-9-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-9-lg.webp"
+        ]
+      },
+      {
+        "section": "innovation",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/innovations/innovation-10-thumb.webp",
+          "建立 small (500x375): /assets/innovations/innovation-10-sm.webp",
+          "建立 medium (800x600): /assets/innovations/innovation-10-md.webp",
+          "建立 large (1200x900): /assets/innovations/innovation-10-lg.webp"
+        ]
+      }
+    ],
+    "secondary": [
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-1-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-1-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-1-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-2-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-2-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-2-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-3-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-3-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-3-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-4-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-4-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-4-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-5-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-5-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-5-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-6-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-6-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-6-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-7-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-7-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-7-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-8-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-8-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-8-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-9-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-9-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-9-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-10-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-10-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-10-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-11-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-11-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-11-lg.webp"
+        ]
+      },
+      {
+        "section": "reports",
+        "missingCount": 3,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/reports/reports-12-thumb.webp",
+          "建立 medium (800x600): /assets/reports/reports-12-md.webp",
+          "建立 large (1200x900): /assets/reports/reports-12-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-1-1-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-1-1-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-1-1-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-1-1-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-2-0-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-2-0-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-2-0-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-2-0-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-3-1-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-3-1-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-3-1-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-3-1-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-4-1-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-4-1-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-4-1-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-4-1-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-5-1-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-5-1-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-5-1-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-5-1-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-6-0-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-6-0-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-6-0-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-6-0-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-7-0-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-7-0-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-7-0-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-7-0-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-8-0-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-8-0-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-8-0-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-8-0-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-9-0-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-9-0-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-9-0-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-9-0-lg.webp"
+        ]
+      },
+      {
+        "section": "challenge",
+        "missingCount": 4,
+        "estimatedSavings": "高",
+        "actions": [
+          "建立 thumbnail (320x240): /assets/challenges/challenge-10-1-thumb.webp",
+          "建立 small (500x375): /assets/challenges/challenge-10-1-sm.webp",
+          "建立 medium (800x600): /assets/challenges/challenge-10-1-md.webp",
+          "建立 large (1200x900): /assets/challenges/challenge-10-1-lg.webp"
+        ]
+      }
+    ],
+    "optional": []
+  },
+  "details": [
+    {
+      "projectId": "reports-1",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-1-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-2",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-2.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-2-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-2-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-2-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-2-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-3",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-3.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-3-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-3-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-3-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-3-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-4",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-4.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-4-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-4-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-4-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-4-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-5",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-5.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-5-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-5-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-5-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-5-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-6",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-6.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-6-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-6-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-6-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-6-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-7",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-7.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-7-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-7-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-7-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-7-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-8",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-8.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-8-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-8-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-8-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-8-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-9",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-9.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-9-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-9-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-9-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-9-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-10",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-10.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-10-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-10-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-10-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-10-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-11",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-11.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-11-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-11-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-11-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-11-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "reports-12",
+      "section": "reports",
+      "currentPath": "/assets/reports/reports-12.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [
+        {
+          "size": "small",
+          "path": "/assets/reports/reports-12-sm.webp"
+        }
+      ],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/reports/reports-12-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/reports/reports-12-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/reports/reports-12-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "innovation-1",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-1.webm",
+      "imageSRC": "/assets/innovations/innovation-1.webp",
+      "videoSRC": "/assets/innovations/innovation-1.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-2",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-2.webm",
+      "imageSRC": "/assets/innovations/innovation-2.webp",
+      "videoSRC": "/assets/innovations/innovation-2.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-2-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-2-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-2-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-2-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-3",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-3.webm",
+      "imageSRC": "/assets/innovations/innovation-3.webp",
+      "videoSRC": "/assets/innovations/innovation-3.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-3-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-3-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-3-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-3-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-4",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-4.webm",
+      "imageSRC": "/assets/innovations/innovation-4.webp",
+      "videoSRC": "/assets/innovations/innovation-4.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-4-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-4-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-4-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-4-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-5",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-5.webm",
+      "imageSRC": "/assets/innovations/innovation-5.webp",
+      "videoSRC": "/assets/innovations/innovation-5.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-5-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-5-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-5-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-5-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-6",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-6.webm",
+      "imageSRC": "/assets/innovations/innovation-6.webp",
+      "videoSRC": "/assets/innovations/innovation-6.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-6-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-6-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-6-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-6-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-7",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-7.webm",
+      "imageSRC": "/assets/innovations/innovation-7.webp",
+      "videoSRC": "/assets/innovations/innovation-7.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-7-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-7-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-7-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-7-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-8",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-8.webm",
+      "imageSRC": "/assets/innovations/innovation-8.webp",
+      "videoSRC": "/assets/innovations/innovation-8.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-8-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-8-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-8-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-8-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-9",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-9.webm",
+      "imageSRC": "/assets/innovations/innovation-9.webp",
+      "videoSRC": "/assets/innovations/innovation-9.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-9-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-9-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-9-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-9-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "innovation-10",
+      "section": "innovation",
+      "currentPath": "/assets/innovations/innovation-10.webm",
+      "imageSRC": "/assets/innovations/innovation-10.webp",
+      "videoSRC": "/assets/innovations/innovation-10.mp4",
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/innovations/innovation-10-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/innovations/innovation-10-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/innovations/innovation-10-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/innovations/innovation-10-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "high"
+    },
+    {
+      "projectId": "challenge-1",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-1-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-1-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-1-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-1-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-1-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-2",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-2-0.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-2-0-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-2-0-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-2-0-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-2-0-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-3",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-3-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-3-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-3-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-3-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-3-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-4",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-4-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-4-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-4-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-4-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-4-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-5",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-5-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-5-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-5-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-5-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-5-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-6",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-6-0.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-6-0-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-6-0-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-6-0-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-6-0-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-7",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-7-0.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-7-0-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-7-0-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-7-0-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-7-0-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-8",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-8-0.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-8-0-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-8-0-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-8-0-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-8-0-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-9",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-9-0.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-9-0-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-9-0-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-9-0-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-9-0-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    },
+    {
+      "projectId": "challenge-10",
+      "section": "challenge",
+      "currentPath": "/assets/challenges/challenge-10-1.webp",
+      "imageSRC": null,
+      "videoSRC": null,
+      "existing": [],
+      "missing": [
+        {
+          "size": "thumbnail",
+          "suggestedPath": "/assets/challenges/challenge-10-1-thumb.webp",
+          "recommendedDimensions": "320x240",
+          "estimatedSavings": "60-80%"
+        },
+        {
+          "size": "small",
+          "suggestedPath": "/assets/challenges/challenge-10-1-sm.webp",
+          "recommendedDimensions": "500x375",
+          "estimatedSavings": "40-60%"
+        },
+        {
+          "size": "medium",
+          "suggestedPath": "/assets/challenges/challenge-10-1-md.webp",
+          "recommendedDimensions": "800x600",
+          "estimatedSavings": "20-40%"
+        },
+        {
+          "size": "large",
+          "suggestedPath": "/assets/challenges/challenge-10-1-lg.webp",
+          "recommendedDimensions": "1200x900",
+          "estimatedSavings": "10-20%"
+        }
+      ],
+      "priority": "medium"
+    }
+  ]
+}

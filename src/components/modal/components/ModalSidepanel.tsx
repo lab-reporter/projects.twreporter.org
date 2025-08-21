@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../shared/NavigationIcons';
 import { Button } from '@/components/shared';
+import { getOptimizedSidepanelImage, isVideoFile, getPreloadUrls, logImageUsage } from '@/utils/imageAdapter';
 
 interface Project {
   id: string;
@@ -35,14 +36,14 @@ export default function ModalSidepanel({
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const preloadedImagesRef = useRef<Set<string>>(new Set());
 
-  // 判斷是否為影片檔案
-  const isVideo = (path: string) => {
-    return path.endsWith('.mp4') || path.endsWith('.webm');
-  };
+  // 智慧預載：使用優化後的圖片路徑
+  const getOptimizedPreloadUrls = useCallback(() => {
+    return getPreloadUrls(projects, 6);
+  }, [projects]);
 
   // 預載圖片函數
   const preloadImage = useCallback((src: string) => {
-    if (preloadedImagesRef.current.has(src) || isVideo(src)) return;
+    if (preloadedImagesRef.current.has(src) || isVideoFile(src)) return;
 
     setLoadingImages(prev => new Set(prev).add(src));
 
@@ -69,54 +70,67 @@ export default function ModalSidepanel({
   // 當 ModalSidepanel 即將開啟時預載圖片
   useEffect(() => {
     if (isOpen && projects.length > 0) {
-      // 立即預載前幾張重要圖片
-      projects.slice(0, 6).forEach(project => {
-        const isInnovation = project.section.includes('innovation');
-        const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
-        if (!isVideo(mediaPath)) {
-          preloadImage(mediaPath);
+      // 使用智慧預載策略
+      const preloadUrls = getOptimizedPreloadUrls();
+
+      // 立即預載高優先級圖片
+      const highPriorityUrls = preloadUrls.filter(item => item.priority === 'high');
+      highPriorityUrls.forEach(item => {
+        preloadImage(item.url);
+
+        // 開發模式記錄
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`[ModalSidepanel] 預載高優先級圖片:`, item.url);
         }
       });
 
-      // 延遲預載剩餘圖片
+      // 延遲預載中優先級圖片
       setTimeout(() => {
+        const mediumPriorityUrls = preloadUrls.filter(item => item.priority === 'medium');
+        mediumPriorityUrls.forEach(item => {
+          preloadImage(item.url);
+        });
+
+        // 繼續預載剩餘項目
         projects.slice(6).forEach(project => {
-          const isInnovation = project.section.includes('innovation');
-          const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
-          if (!isVideo(mediaPath)) {
-            preloadImage(mediaPath);
+          const optimizedImage = getOptimizedSidepanelImage(project);
+          if (!isVideoFile(optimizedImage.src)) {
+            preloadImage(optimizedImage.src);
           }
         });
       }, 300);
     }
-  }, [isOpen, projects, preloadImage]);
+  }, [isOpen, projects, preloadImage, getOptimizedPreloadUrls]);
 
   // Hover 時預載圖片（提前預載機制）
   const handleProjectHover = (project: Project) => {
-    const isInnovation = project.section.includes('innovation');
-    const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
-    if (!isVideo(mediaPath) && !preloadedImagesRef.current.has(mediaPath)) {
-      preloadImage(mediaPath);
+    const optimizedImage = getOptimizedSidepanelImage(project);
+    if (!isVideoFile(optimizedImage.src) && !preloadedImagesRef.current.has(optimizedImage.src)) {
+      preloadImage(optimizedImage.src);
+
+      // 開發模式記錄使用情況
+      logImageUsage(project, optimizedImage.src, 'Hover預載');
     }
   };
 
   // 渲染媒體內容（圖片或影片）
   const renderMedia = (project: Project) => {
-    // 對於 Innovation 項目，優先使用 imageSRC（webp 圖片）來降低載入負擔
-    const isInnovation = project.section.includes('innovation');
-    const mediaPath = isInnovation && project.imageSRC ? project.imageSRC : project.path;
+    // 使用優化後的圖片管理系統
+    const optimizedImage = getOptimizedSidepanelImage(project);
+    const mediaPath = optimizedImage.src;
+    const fallbackPath = optimizedImage.fallback;
 
-    // 如果是 Innovation 且有 imageSRC，強制使用圖片模式
-    const shouldUseImage = isInnovation && project.imageSRC;
+    // 智慧決定是否使用影片：只有無縮圖的影片才顯示原始影片
+    const shouldShowVideo = isVideoFile(project.path) && !project.imageSRC;
 
     // 檢查圖片載入狀態
     const isImageLoaded = loadedImages.has(mediaPath);
     const isImageLoading = loadingImages.has(mediaPath);
 
-    if (!shouldUseImage && isVideo(mediaPath)) {
+    if (shouldShowVideo) {
       return (
         <video
-          src={mediaPath}
+          src={project.path}
           className="w-full h-full object-contain"
           muted
           loop
@@ -134,6 +148,13 @@ export default function ModalSidepanel({
               {isImageLoading && (
                 <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
               )}
+
+              {/* 開發模式：顯示優化指示器 */}
+              {optimizedImage.isOptimized && process.env.NODE_ENV === 'development' && (
+                <div className="absolute top-1 right-1 bg-green-500 text-white text-xs px-1 rounded opacity-80">
+                  最佳化
+                </div>
+              )}
             </div>
           )}
 
@@ -149,6 +170,21 @@ export default function ModalSidepanel({
             sizes="320px"
             onLoad={() => {
               setLoadedImages(prev => new Set(prev).add(mediaPath));
+              setLoadingImages(prev => {
+                const newSet = new Set(prev);
+                newSet.delete(mediaPath);
+                return newSet;
+              });
+
+              // 記錄載入成功
+              logImageUsage(project, mediaPath, 'ModalSidepanel載入成功');
+            }}
+            onError={() => {
+              // 載入失敗時處理
+              if (mediaPath !== fallbackPath) {
+                console.warn(`[ModalSidepanel] 優化圖片載入失敗，項目: ${project.id}`);
+              }
+
               setLoadingImages(prev => {
                 const newSet = new Set(prev);
                 newSet.delete(mediaPath);
