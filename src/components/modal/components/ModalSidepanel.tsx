@@ -237,7 +237,7 @@ export default function ModalSidepanel({
       >
         {/* 內容區域 */}
         <div className={`h-full overflow-hidden ${isOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
-          <div className="h-full overflow-y-auto p-4 pb-8]">
+          <div className="h-full overflow-y-auto p-4 pb-8">
             <div className="space-y-4">
               {projects.map(project => renderProjectCard(project))}
             </div>
