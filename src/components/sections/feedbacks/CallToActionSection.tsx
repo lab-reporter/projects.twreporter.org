@@ -438,7 +438,7 @@ export default function CallToActionSection() {
       // ============================*/}
             <div
                 id="section-support"
-                className="relative flex flex-col items-center justify-center h-screen"
+                className="relative flex flex-col items-center justify-center min-h-screen"
                 style={{
                     opacity: getCurrentProgress(progress).donatePanelFadeIn,
                     transform: `translateY(${(1 - getCurrentProgress(progress).donatePanelFadeIn) * 20}px)`,

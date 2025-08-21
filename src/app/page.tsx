@@ -165,6 +165,7 @@ export default function Home() {
 
       {/* 主要內容區域：包含所有頁面章節，移除高度限制讓 sticky footer 生效 */}
       <main ref={mainRef} className="relative z-10 w-full min-h-screen transition-colors duration-300 bg-white">
+        <SectionNavigation />
         <HeroSection />
         <ReportsSection />
         <InnovationsSection />
@@ -178,7 +179,6 @@ export default function Home() {
       {/* 全域 UI 組件層：在所有內容之上 */}
       <Navigation />
       <Modal />
-      <SectionNavigation />
 
     </div>
   );

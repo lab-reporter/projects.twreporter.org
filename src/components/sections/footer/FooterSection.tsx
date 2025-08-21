@@ -56,7 +56,7 @@ export default function FooterSection() {
     };
     return (
         <footer
-            className="sticky bottom-0 z-0 left-0 w-full bg-white text-black py-16 px-4 md:py-24 md:px-16"
+            className="sticky bottom-0 z-0 left-0 w-full bg-white text-black py-16 px-12"
             id="section-footer"
         >
             <div className="relative max-w-7xl mx-auto">
@@ -72,7 +72,7 @@ export default function FooterSection() {
                                 alt="報導者 The Reporter"
                                 width={300}
                                 height={45}
-                                className="h-8 md:h-12 w-auto"
+                                className="w-1/2 min-w-[15rem] sm:min-w-[18rem]"
                             />
                         </div>
 

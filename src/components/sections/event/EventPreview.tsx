@@ -5,14 +5,14 @@ import { Button } from '@/components/shared';
 
 export default function EventPreview() {
     return (
-        <section id="section-event" className="relative w-full min-h-screen text-white flex flex-col items-center justify-center">
+        <section id="section-event" className="py-24 relative w-full min-h-screen text-white flex flex-col items-center justify-center">
 
             <h3 className="text-center mb-8">
                 走進現場 <br />
                 與報導者相會
             </h3>
 
-            <div className="max-w-[80rem] mx-auto px-8 flex gap-8 items-start justify-center text-center">
+            <div className="max-w-[80rem] mx-auto px-8 flex flex-col lg:flex-row  gap-8 items-start justify-center text-center">
                 <div className="flex flex-col items-center justify-center bg-white text-black">
                     <div className="relative w-full">
                         <Image
