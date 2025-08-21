@@ -32,16 +32,16 @@ export default function ShareLink({
             iconSrc: '/assets/icon-facebook.svg',
             getShareUrl: (url, title, description) =>
                 `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title + ' - ' + description)}`,
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-50 hover:bg-blue-100 border-blue-200'
+            color: 'text-gray-800',
+            bgColor: 'hover:bg-gray-100 bg-white'
         },
         {
             name: 'LINE',
             iconSrc: '/assets/icon-line.svg',
             getShareUrl: (url, title, description) =>
                 `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
-            color: 'text-green-600',
-            bgColor: 'bg-green-50 hover:bg-green-100 border-green-200'
+            color: 'text-gray-800',
+            bgColor: 'hover:bg-gray-100 bg-white'
         },
         {
             name: 'Twitter',
@@ -49,7 +49,7 @@ export default function ShareLink({
             getShareUrl: (url, title, description) =>
                 `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-gray-800',
-            bgColor: 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+            bgColor: 'hover:bg-gray-100 bg-white'
         }
     ];
 
@@ -84,7 +84,7 @@ export default function ShareLink({
     };
 
     return (
-        <div className={`flex flex-wrap gap-3 ${className}`}>
+        <div className={`flex flex-wrap items-center justify-center gap-3 ${className}`}>
             {/* 複製連結按鈕 */}
             <button
                 onClick={handleCopyLink}
@@ -119,7 +119,7 @@ export default function ShareLink({
                         width={18}
                         height={18}
                     />
-                    <span className="text-sm">分享到 {platform.name}</span>
+                    <span className="text-sm">{platform.name}</span>
                 </button>
             ))}
         </div>
