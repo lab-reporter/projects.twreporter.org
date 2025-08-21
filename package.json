@@ -13,7 +13,9 @@
     "create-thumbs": "node scripts/create-thumbnails.js",
     "validate-thumbs": "node scripts/create-thumbnails.js --validate",
     "thumbs-guide": "node scripts/create-thumbnails-manual.js",
-    "thumbs-progress": "node scripts/create-thumbnails-manual.js --progress"
+    "thumbs-progress": "node scripts/create-thumbnails-manual.js --progress",
+    "validate-images": "node scripts/validate-responsive-images.js",
+    "test-image": "node scripts/validate-responsive-images.js --test"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

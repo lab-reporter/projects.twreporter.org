@@ -3,7 +3,7 @@
  * 根據現有的檔案結構提供最佳的圖片路徑
  */
 
-import { ImageSizes, SectionType } from './imageManager';
+import { ImageSizes } from './imageManager';
 
 /**
  * 現有檔案結構的圖片路徑映射
@@ -19,38 +19,97 @@ export function getAvailableImagePath(
     },
     preferredSize: 'thumbnail' | 'small' | 'medium' | 'large' = 'thumbnail'
 ): string {
-    const section = projectData.section[0] as SectionType;
-    const isInnovation = section === 'innovation';
+    // 統一的路徑生成邏輯
+    const basePath = getBasePath(projectData);
+    const pathWithoutExt = basePath.replace(/\.(webp|jpg|jpeg|png|mp4|webm)$/i, '');
 
-    // 對於 Innovation 項目，優先使用 imageSRC（webp 圖片）
-    if (isInnovation && projectData.imageSRC) {
-        return projectData.imageSRC;
+    // 根據 preferredSize 生成對應路徑
+    const sizeMap = {
+        thumbnail: `${pathWithoutExt}-thumb.webp`,
+        small: `${pathWithoutExt}-sm.webp`,
+        medium: `${pathWithoutExt}-md.webp`,
+        large: `${pathWithoutExt}-lg.webp`
+    };
+
+    // 優先返回請求的尺寸
+    const preferredPath = sizeMap[preferredSize];
+    if (preferredPath && fileExistsInPublic(preferredPath)) {
+        return preferredPath;
     }
 
-    // 對於 Reports 項目，檢查是否有小尺寸版本
-    if (section === 'reports') {
-        const reportId = projectData.id.replace('reports-', '');
-        const hasSmallVersion = checkReportsSmallVersion(reportId);
+    // Fallback 策略：按優先級尋找可用的尺寸
+    const fallbackOrder = getFallbackOrder(preferredSize);
 
-        if (preferredSize === 'thumbnail' || preferredSize === 'small') {
-            if (hasSmallVersion) {
-                return `/assets/reports/reports-${reportId}-sm.webp`;
-            }
+    for (const size of fallbackOrder) {
+        const fallbackPath = sizeMap[size];
+        if (fallbackPath && fileExistsInPublic(fallbackPath)) {
+            return fallbackPath;
         }
-
-        // Fallback 到原始圖片
-        return projectData.path;
     }
 
-    // 對於 Challenges 或其他項目
+    // 最終 fallback 到原始路徑
+    return basePath;
+}
+
+/**
+ * 獲取基礎路徑（考慮 Innovation 的 imageSRC）
+ */
+function getBasePath(projectData: {
+    id: string;
+    path: string;
+    imageSRC?: string;
+    section: string[];
+}): string {
+    // Innovation 項目現在也使用統一命名，不再特殊處理 imageSRC
     return projectData.path;
+}
+
+/**
+ * 獲取 fallback 順序
+ */
+function getFallbackOrder(preferredSize: 'thumbnail' | 'small' | 'medium' | 'large'): ('thumbnail' | 'small' | 'medium' | 'large')[] {
+    switch (preferredSize) {
+        case 'thumbnail':
+            return ['small', 'medium', 'large'];
+        case 'small':
+            return ['thumbnail', 'medium', 'large'];
+        case 'medium':
+            return ['small', 'large', 'thumbnail'];
+        case 'large':
+            return ['medium', 'small', 'thumbnail'];
+        default:
+            return ['thumbnail', 'small', 'medium', 'large'];
+    }
+}
+
+/**
+ * 檢查檔案是否存在於 public 目錄
+ * 在瀏覽器環境中，我們假設檔案存在（由於無法直接檢查檔案系統）
+ */
+function fileExistsInPublic(path: string): boolean {
+    // 在瀏覽器環境中，我們基於檔案命名規則假設檔案存在
+    // 這個函數主要用於 Node.js 環境的工具腳本
+    if (typeof window !== 'undefined') {
+        return true; // 瀏覽器環境中假設檔案存在
+    }
+
+    // Node.js 環境中可以實際檢查檔案
+    try {
+        // 動態 import 以避免 webpack 警告
+        const fs = eval('require')('fs');
+        const nodePath = eval('require')('path');
+        const fullPath = nodePath.join(process.cwd(), 'public', path);
+        return fs.existsSync(fullPath);
+    } catch {
+        return true; // 如果檢查失敗，假設檔案存在
+    }
 }
 
 /**
  * 檢查 Reports 是否有小尺寸版本
  * 根據現有檔案結構判斷
  */
-function checkReportsSmallVersion(reportId: string): boolean {
+function _checkReportsSmallVersion(reportId: string): boolean {
     // 根據目錄結構，reports-1 到 reports-12 都有 -sm 版本
     const reportNumber = parseInt(reportId);
     return reportNumber >= 1 && reportNumber <= 12;
@@ -69,35 +128,16 @@ export function getCurrentImageSizes(
         section: string[];
     }
 ): Partial<ImageSizes> {
-    const section = projectData.section[0] as SectionType;
-    const isInnovation = section === 'innovation';
+    const basePath = getBasePath(projectData);
+    const pathWithoutExt = basePath.replace(/\.(webp|jpg|jpeg|png|mp4|webm)$/i, '');
 
-    if (isInnovation && projectData.imageSRC) {
-        // Innovation 項目有 imageSRC 作為縮圖
-        return {
-            thumbnail: projectData.imageSRC,
-            small: projectData.imageSRC,
-            original: projectData.path
-        };
-    }
-
-    if (section === 'reports') {
-        const reportId = projectData.id.replace('reports-', '');
-        const hasSmallVersion = checkReportsSmallVersion(reportId);
-
-        if (hasSmallVersion) {
-            return {
-                thumbnail: `/assets/reports/reports-${reportId}-sm.webp`,
-                small: `/assets/reports/reports-${reportId}-sm.webp`,
-                medium: projectData.path,
-                original: projectData.path
-            };
-        }
-    }
-
-    // 預設情況：只有原始圖片
+    // 現在所有項目都有完整的尺寸變體
     return {
-        original: projectData.path
+        thumbnail: `${pathWithoutExt}-thumb.webp`,
+        small: `${pathWithoutExt}-sm.webp`,
+        medium: `${pathWithoutExt}-md.webp`,
+        large: `${pathWithoutExt}-lg.webp`, // 你沒有建立 -lg，但系統會 fallback
+        original: basePath
     };
 }
 

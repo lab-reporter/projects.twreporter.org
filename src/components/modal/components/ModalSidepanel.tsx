@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../shared/NavigationIcons';
 import { Button } from '@/components/shared';
 import { getOptimizedSidepanelImage, isVideoFile, getPreloadUrls, logImageUsage } from '@/utils/imageAdapter';
+import { getModalSidepanelImageConfig, detectDeviceInfo, detectNetworkCondition } from '@/utils/responsiveImageLoader';
 
 interface Project {
   id: string;
@@ -35,6 +36,10 @@ export default function ModalSidepanel({
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(new Set());
   const preloadedImagesRef = useRef<Set<string>>(new Set());
+
+  // 裝置和網路狀況檢測
+  const [deviceInfo] = useState(() => detectDeviceInfo());
+  const [networkCondition] = useState(() => detectNetworkCondition());
 
   // 智慧預載：使用優化後的圖片路徑
   const getOptimizedPreloadUrls = useCallback(() => {
@@ -115,10 +120,15 @@ export default function ModalSidepanel({
 
   // 渲染媒體內容（圖片或影片）
   const renderMedia = (project: Project) => {
-    // 使用優化後的圖片管理系統
-    const optimizedImage = getOptimizedSidepanelImage(project);
-    const mediaPath = optimizedImage.src;
-    const fallbackPath = optimizedImage.fallback;
+    // 使用新的響應式圖片載入系統
+    const imageConfig = getModalSidepanelImageConfig(
+      project,
+      deviceInfo.isMobile,
+      networkCondition
+    );
+
+    const mediaPath = imageConfig.src;
+    const fallbackPath = imageConfig.fallbackSrc;
 
     // 智慧決定是否使用影片：只有無縮圖的影片才顯示原始影片
     const shouldShowVideo = isVideoFile(project.path) && !project.imageSRC;
@@ -150,9 +160,19 @@ export default function ModalSidepanel({
               )}
 
               {/* 開發模式：顯示優化指示器 */}
-              {optimizedImage.isOptimized && process.env.NODE_ENV === 'development' && (
-                <div className="absolute top-1 right-1 bg-green-500 text-white text-xs px-1 rounded opacity-80">
-                  最佳化
+              {process.env.NODE_ENV === 'development' && (
+                <div className="absolute top-1 right-1 space-y-1">
+                  {imageConfig.optimizationLevel !== 'none' && (
+                    <div className={`text-white text-xs px-1 rounded opacity-90 ${imageConfig.optimizationLevel === 'high' ? 'bg-green-500' :
+                      imageConfig.optimizationLevel === 'medium' ? 'bg-blue-500' : 'bg-yellow-500'
+                      }`}>
+                      {imageConfig.optimizationLevel === 'high' ? '最佳化' :
+                        imageConfig.optimizationLevel === 'medium' ? '優化' : '輕度優化'}
+                    </div>
+                  )}
+                  <div className="bg-gray-700 text-white text-xs px-1 rounded opacity-75">
+                    {imageConfig.estimatedSize}
+                  </div>
                 </div>
               )}
             </div>
@@ -165,9 +185,10 @@ export default function ModalSidepanel({
             height={240}
             className={`w-full h-full object-cover transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
               }`}
-            quality={85}
-            priority={projects.findIndex(p => p.id === project.id) < 6} // 前6張優先載入
-            sizes="320px"
+            quality={imageConfig.quality}
+            priority={imageConfig.priority}
+            loading={imageConfig.loading}
+            sizes={imageConfig.sizes}
             onLoad={() => {
               setLoadedImages(prev => new Set(prev).add(mediaPath));
               setLoadingImages(prev => {
