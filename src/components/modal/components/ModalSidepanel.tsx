@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { ChevronLeftIcon, ChevronRightIcon } from '../../shared/NavigationIcons';
 import { Button } from '@/components/shared';
 
 interface Project {
@@ -138,33 +139,27 @@ export default function ModalSidepanel({
 
       {/* 展開/收合按鈕 */}
       <div
-        className={`fixed top-16 z-[100] transition-all duration-300 ${isOpen ? 'right-[320px]' : 'right-4'
+        className={`fixed top-16 p-2 z-[100] transition-all duration-300 ${isOpen ? 'right-[320px]' : 'right-4'
           }`}
         onClick={(e) => {
           // 防止點擊按鈕時觸發外部的關閉事件
           e.stopPropagation();
         }}
       >
-        <div className="w-12 h-12 flex items-center justify-center">
-          <Button
-            variant="close"
-            size="sm"
-            onClick={onToggle}
-            className="w-9 h-9"
-            aria-label={isOpen ? '收合側邊欄' : '展開側邊欄'}
-            leftIcon={
-              <Image
-                src="/assets/modal-sidepanel-arrow.svg"
-                alt="modal-sidepanel-arrow"
-                width={20}
-                height={20}
-                className={`${isOpen ? 'rotate-0' : 'rotate-180'
-                  } ${isOpen ? 'translate-x-[1px]' : '-translate-x-[1px]'
-                  } group-hover:invert duration-300 transition-all`}
-              />
-            }
-          />
-        </div>
+        <Button
+          variant="close"
+          shape="circle"
+          size="sm"
+          onClick={onToggle}
+          aria-label={isOpen ? '收合側邊欄' : '展開側邊欄'}
+          leftIcon={
+            isOpen ? (
+              <ChevronRightIcon size={20} />
+            ) : (
+              <ChevronLeftIcon size={20} />
+            )
+          }
+        />
       </div>
 
       {/* 自訂樣式：限制文字行數 */}

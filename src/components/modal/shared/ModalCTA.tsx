@@ -9,9 +9,9 @@ interface ModalCTAProps {
 
 export function ModalCTA({ onClose }: ModalCTAProps) {
     return (
-        <div className="flex flex-col items-center justify-center space-y-8">
-            <ShareLink />
+        <div className="flex flex-col items-center justify-center">
             <ModalDonate onClose={onClose} />
+            <ShareLink />
         </div>
     );
 }

@@ -60,9 +60,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     // 圖示尺寸配置
     const getIconSize = () => {
         return {
-            sm: 12,
-            md: 16,
-            lg: 20
+            sm: 16,
+            md: 20,
+            lg: 24
         }[size];
     };
 
@@ -129,11 +129,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
             : 'bg-white text-black hover:bg-gray-100 border-transparent',  // 啟用狀態：白色背景，黑色文字
         noClick: 'bg-transparent hover:bg-transparent text-gray-700 cursor-default',
         navigation: 'bg-white border border-gray-300 shadow-md hover:bg-black text-gray-700 hover:text-white',
-        close: 'bg-white/50 shadow-md hover:bg-black text-gray-700 hover:text-white',
+        close: 'bg-white/50 shadow-md hover:bg-black hover:text-white',
     };
 
     // 基礎樣式
-    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-90';
+    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300';
 
     // 禁用狀態樣式
     const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer';

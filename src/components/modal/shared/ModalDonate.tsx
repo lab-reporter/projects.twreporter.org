@@ -62,10 +62,10 @@ export default function ModalDonate({ onClose }: ModalDonateProps) {
                     {/* Modal 內容容器 */}
                     <div className="relative w-full h-full overflow-y-auto">
                         {/* 關閉按鈕 */}
-                        <div className="absolute top-4 right-4 z-10">
+                        <div className="absolute top-8 right-8 z-10">
                             <Button
                                 variant="close"
-                                size="md"
+                                size="sm"
                                 onClick={handleCloseModal}
                                 aria-label="關閉捐款視窗"
                             />

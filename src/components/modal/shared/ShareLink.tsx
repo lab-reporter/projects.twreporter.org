@@ -33,7 +33,7 @@ export default function ShareLink({
             getShareUrl: (url, title, description) =>
                 `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-gray-800',
-            bgColor: 'hover:bg-gray-100 bg-white'
+            bgColor: 'hover:bg-white bg-gray-100'
         },
         {
             name: 'LINE',
@@ -41,15 +41,15 @@ export default function ShareLink({
             getShareUrl: (url, title, description) =>
                 `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-gray-800',
-            bgColor: 'hover:bg-gray-100 bg-white'
+            bgColor: 'hover:bg-white bg-gray-100'
         },
         {
-            name: 'Twitter',
+            name: 'X(Twitter)',
             iconSrc: '/assets/icon-twitter.svg',
             getShareUrl: (url, title, description) =>
                 `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + description)}`,
             color: 'text-gray-800',
-            bgColor: 'hover:bg-gray-100 bg-white'
+            bgColor: 'hover:bg-white bg-gray-100'
         }
     ];
 
@@ -84,13 +84,13 @@ export default function ShareLink({
     };
 
     return (
-        <div className={`flex flex-wrap items-center justify-center gap-3 ${className}`}>
+        <div className={`flex flex-wrap items-center justify-center gap-3 mb-4 ${className}`}>
             {/* 複製連結按鈕 */}
             <button
                 onClick={handleCopyLink}
                 className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors duration-200 font-medium ${copied
-                    ? 'bg-green-50 border-green-200 text-green-700'
-                    : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700'
+                    ? 'bg-white text-black border-black'
+                    : 'bg-gray-100 hover:bg-white border-gray-200 text-gray-700'
                     }`}
             >
                 <Image
