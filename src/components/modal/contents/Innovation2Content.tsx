@@ -74,23 +74,21 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
             alt="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
-            className="object-contain flex-shrink-0"
+            className="object-contain"
           />
           <Shared.SlideTextCard
             text="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
-            className="bottom-24"
+            className=""
           />
-          <div className="absolute bottom-16 left-0 right-0">
-            <Shared.ShareLink className="justify-center" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

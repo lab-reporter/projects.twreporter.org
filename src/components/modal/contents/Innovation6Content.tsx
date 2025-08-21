@@ -178,23 +178,21 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態，歡迎分享給你身邊的大小朋友！"
-            className="object-contain flex-shrink-0"
+            alt="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態。"
+            className="object-contain"
           />
           <Shared.SlideTextCard
-            text="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態，歡迎分享給你身邊的大小朋友！"
-            className="bottom-32"
+            text="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態。"
+            className=""
           />
-          <div className="absolute bottom-16 left-0 right-0">
-            <Shared.ShareLink className="justify-center" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

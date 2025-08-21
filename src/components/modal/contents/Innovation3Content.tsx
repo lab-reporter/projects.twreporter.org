@@ -49,21 +49,21 @@ export default function Innovation3Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
             alt="元件庫已收錄7款小工具，濃縮《報導者》10年的數位敘事經驗，希望這些工具能成為你的數位內容創作好幫手。"
-            className="object-contain flex-shrink-0"
+            className="object-contain"
           />
           <Shared.SlideTextCard
             text="元件庫已收錄7款小工具，濃縮《報導者》10年的數位敘事經驗，希望這些工具能成為你的數位內容創作好幫手。"
             className=""
           />
-          <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
-            <Shared.ShareLink />
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

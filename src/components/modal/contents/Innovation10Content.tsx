@@ -46,23 +46,21 @@ export default function Innovation10Content({ projectData, onNavigate: _onNaviga
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
             alt="想知道你家立委關心什麼？你關注的議題有誰在討論？一起關注「報導者觀測站」，用數位科技強化公民與媒體監督的力量。"
-            className="object-contain flex-shrink-0"
+            className="object-contain"
           />
           <Shared.SlideTextCard
             text="想知道你家立委關心什麼？你關注的議題有誰在討論？一起關注「報導者觀測站」，用數位科技強化公民與媒體監督的力量。"
-            className="bottom-32"
+            className=""
           />
-          <div className="absolute bottom-16 left-0 right-0">
-            <Shared.ShareLink className="justify-center" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

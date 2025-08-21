@@ -86,20 +86,10 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
         </Shared.TextContent>
       </Shared.ContentWrapper>
 
-
-      {/* 分享功能 */}
-      <div className="px-6 py-4">
-        <Shared.ShareLink />
+      {/* CTA 區域 */}
+      <div className="p-6">
+        <Shared.ModalCTA onClose={onClose} />
       </div>
-
-      {/* 支持報導者按鈕 */}
-      <Shared.ModalDonate onClose={onClose} />
-
-      {/* 導航按鈕 */}
-      {/* <Shared.NavigationControls
-        onNavigate={onNavigate}
-        adjacentProjects={adjacentProjects}
-      /> */}
     </Shared.Container>
   );
 }

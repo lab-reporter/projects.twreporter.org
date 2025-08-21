@@ -65,23 +65,21 @@ export default function Innovation5Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。如果你還沒看過《報導者》影音新聞，歡迎到 YouTube 頻道按讚、訂閱、開啟小鈴噹！"
-            className="object-contain flex-shrink-0"
+            alt="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。"
+            className="object-contain"
           />
           <Shared.SlideTextCard
-            text="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。如果你還沒看過《報導者》影音新聞，歡迎到 YouTube 頻道按讚、訂閱、開啟小鈴噹！"
-            className="bottom-32"
+            text="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。"
+            className=""
           />
-          <div className="absolute bottom-16 left-0 right-0">
-            <Shared.ShareLink className="justify-center" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

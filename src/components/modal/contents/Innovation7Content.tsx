@@ -67,23 +67,21 @@ export default function Innovation7Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="flex flex-col items-center">
+        <Shared.InnovationSlide className="">
           <Shared.SlideMedia
             type="video"
             src={projectData.path}
-            alt="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。歡迎收藏，一起見證這個時代的切片。"
-            className="object-contain flex-shrink-0"
+            alt="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。"
+            className="object-contain"
           />
           <Shared.SlideTextCard
-            text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。歡迎收藏，一起見證這個時代的切片。"
-            className="bottom-32"
+            text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。"
+            className=""
           />
-          <div className="absolute bottom-16 left-0 right-0">
-            <Shared.ShareLink className="justify-center" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0">
-            <Shared.ModalDonate onClose={onClose} />
-          </div>
+        </Shared.InnovationSlide>
+
+        <Shared.InnovationSlide className="flex flex-col items-center justify-center">
+          <Shared.ModalCTA onClose={onClose} />
         </Shared.InnovationSlide>
       </Shared.InnovationSlidesContainer>
     </div>

@@ -42,3 +42,4 @@ export { default as SlideIframe } from './SlideIframe';
 export { default as SlideTextCard } from './SlideTextCard';
 export { default as MediaTextSlide } from './MediaTextSlide';
 export { default as ShareLink } from './ShareLink';
+export { ModalCTA } from './ModalCTA';
