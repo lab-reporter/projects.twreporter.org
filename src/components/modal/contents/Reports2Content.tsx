@@ -105,7 +105,7 @@ export default function Reports2Content({ projectData, onNavigate: _onNavigate, 
           <Shared.CreditsItem role="文字" names={["何柏均", "嚴文廷", "林慧貞", "何榮幸"]} />
           <Shared.CreditsItem role="攝影" names={["陳曉威", "鄭宇辰", "余志偉"]} />
           <Shared.CreditsItem role="封面攝影" names="陳曉威" />
-          <Shared.CreditsItem role="漫畫多媒體、設計" names="黃禹禎" />
+          <Shared.CreditsItem role="漫畫多媒體、設計" names="黃禹禛" />
           <Shared.CreditsItem role="資料整理與地圖製作" names={["戴淨妍", "柯皓翔", "何柏均"]} />
           <Shared.CreditsItem role="編輯" names={["張詩芸", "洪琴宣", "陳思樺"]} />
           <Shared.CreditsItem role="特別感謝" names={["政治大學民族系名譽教授林修澈", "政治大學原住民族研究中心主任黃季平"]} />

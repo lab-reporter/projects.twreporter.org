@@ -168,10 +168,10 @@ const getCurrentProgress = (overallProgress: number) => {
         zoom: progress(0.4, 0.6),         // 縮放放大
         textAnimation: progress(0.5, 0.55), // 文字動畫進度
         imageFadeIn: progress(0.5, 0.6),   // 背景圖片淡入
-        rotateY: progress(0.65, 0.7),      // rotateY旋轉
-        fade: progress(0.65, 0.7),       // 淡出消失
-        secondSectionFadeOut: progress(0.6, 0.65), // 第二部分淡出
-        donatePanelFadeIn: progress(0.7, 0.75),  // 贊助面板淡入
+        rotateY: progress(0.7, 0.75),      // rotateY旋轉
+        fade: progress(0.7, 0.75),       // 淡出消失
+        secondSectionFadeOut: progress(0.7, 0.75), // 第二部分淡出
+        donatePanelFadeIn: progress(0.8, 0.85),  // 贊助面板淡入
     };
 };
 

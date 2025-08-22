@@ -125,7 +125,7 @@ export default function Reports1Content({ projectData, onNavigate: _onNavigate, 
           <Shared.CreditsItem role="文字" names={["楊智強", "何柏均", "嚴文廷", "李雪莉"]} />
           <Shared.CreditsItem role="攝影" names="楊子磊" />
           <Shared.CreditsItem role="漫畫" names="柳廣成" />
-          <Shared.CreditsItem role="設計" names="黃禹禎" />
+          <Shared.CreditsItem role="設計" names="黃禹禛" />
           <Shared.CreditsItem role="專案管理" names="洪琴宣" />
           <Shared.CreditsItem role="編輯" names={["張詩芸", "陳思樺"]} />
         </Shared.CreditsMarquee>
