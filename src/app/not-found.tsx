@@ -168,8 +168,8 @@ export default function NotFound() {
 
     const mousePosition = useMouseTracking3D({
         enabled: isClient && isVisible,
-        rangeMin: 30,  // 固定值，zoom 後的狀態
-        rangeMax: 70,  // 固定值，zoom 後的狀態
+        rangeMin: 10,  // 固定值，zoom 後的狀態
+        rangeMax: 90,  // 固定值，zoom 後的狀態
         useLerp: true,
         lerpFactor: 0.1
         // 使用預設的行動裝置停用設定（disableOnMobile: true, disableOnTablet: true）

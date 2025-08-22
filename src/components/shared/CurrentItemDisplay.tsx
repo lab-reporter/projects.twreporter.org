@@ -36,16 +36,16 @@ export default function CurrentItemDisplay({
         >
             {/* 標題 */}
             {title && (
-                <h4 className="text-inherit">
+                <h4 className="text-3xl text-inherit">
                     {title}
                 </h4>
             )}
             {/* 副標題 */}
             {subtitle && (
-                <h6 className="
-                mt-2 text-inherit font-noto-sans-tc font-normal text-md leading-relaxed">
+                <p className="
+                mt-2 text-inherit font-noto-sans-tc font-normal text-lg text-center leading-relaxed">
                     {subtitle}
-                </h6>
+                </p>
             )}
         </div>
     );

@@ -55,12 +55,10 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
             '--gradient-angle': '180deg',
             backgroundImage: `conic-gradient(
             from var(--gradient-angle) at 50% 50%,
-            #C3968E 0%,
-            #EE666F 25%,
-            #98457C 50%,
-            #677DA5 75%,
-            #CCB5F9 99%,
-            #C3968E 100%
+            #5656F3 0%,
+            #9651CA 40%,
+            #F32137 80%,
+            #5656F3 100%
         )`,
             animation: 'rotateGradient 5s linear infinite',
         } as React.CSSProperties;
@@ -154,7 +152,7 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                                             userSelect: 'none',
                                             background: isCenterCard ? gradientStyle.backgroundImage : 'black',
                                             animation: isCenterCard ? gradientStyle.animation : 'none',
-                                            padding: isCenterCard ? '4px' : '0',
+                                            padding: isCenterCard ? '2px' : '2px',
                                             border: isCenterCard ? 'none' : '1px solid #AAA',
                                         }}
                                     >

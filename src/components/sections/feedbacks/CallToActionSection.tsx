@@ -460,7 +460,7 @@ export default function CallToActionSection() {
                     </div>
                     <h1>
                         <span className="font-azeret-mono text-8xl leading-none">{calculateDisplayNumber(getCurrentProgress(progress).textAnimation)}</span>
-                        <span className="text-xl font-noto-serif-tc font-bold">位</span>
+                        <span className="text-4xl font-noto-serif-tc font-bold">位</span>
                     </h1>
                     <h4 className="mb-2">定期定額捐款支持的夥伴</h4>
                 </div>

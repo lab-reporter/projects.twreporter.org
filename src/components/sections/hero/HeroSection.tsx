@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 
 import { useBreakpoint } from '@/hooks/useBreakpoint'
 import ScrollDownIndicator from '@/components/shared/ScrollDownIndicator';
+import Image from 'next/image';
 
 // 將整體滾動進度 (0~1) 分割成多個動畫階段
 const getCurrentProgress = (overallProgress: number) => {
@@ -154,15 +155,45 @@ export default function HeroSection() {
                     </h5>
                 </div>
                 {/* 影片區域 */}
-                <div className="h-full py-20">
+                <div className="h-full p-20 relative">
                     <video
                         // ref={videoRef}
                         src="/assets/KV/motion 2160p.mp4"
                         autoPlay
                         muted
-                        loop={false}
+                        loop={true}
                         className="w-full h-full object-cover"
                     ></video>
+                    <div className="w-full h-full absolute z-10 top-0 left-0 wave-animation">
+                        <Image
+                            src="/assets/KV/KV-Waves.webp"
+                            alt="KV聲波"
+                            fill
+                            sizes="100vw"
+                            priority
+                            className="w-full h-full invert object-contain"
+                        />
+                    </div>
+                    <style jsx>{`
+                    @keyframes wavePulse {
+                        0% {
+                            transform: scale(0.8);
+                            opacity: 0;
+                        }
+                        50% {
+                            transform: scale(0.9);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: scale(1);
+                            opacity: 0;
+                        }
+                    }
+                    
+                    .wave-animation {
+                        animation: wavePulse 1.5s linear infinite;
+                    }
+                `}</style>
                 </div>
             </div>
             <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
