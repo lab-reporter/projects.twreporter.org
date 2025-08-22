@@ -178,7 +178,7 @@ export default function NotFound() {
     // ============================
     // 工具函數區塊
     // ============================
-    const getResponsiveValues = (width: number) => {
+    const getResponsiveValues = (_width: number) => {
 
         return { sliderSize: 5 };
     };

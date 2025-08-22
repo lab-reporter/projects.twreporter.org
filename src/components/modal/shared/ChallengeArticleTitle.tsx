@@ -10,7 +10,7 @@ interface ChallengeArticleTitleProps {
 // 挑戰章節文章主標題元件
 export default function ChallengeArticleTitle({
   title,
-  className = ""
+  className: _className = ""
 }: ChallengeArticleTitleProps) {
   return (
     <div className="pointer-events-none select-none relative my-24">
