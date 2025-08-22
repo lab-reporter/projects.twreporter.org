@@ -137,7 +137,7 @@ const ChallengesSwiper: React.FC = () => {
                             data-swiper-slide-index={index}
                         >
                             <div
-                                className="relative w-full h-full cursor-pointer"
+                                className="relative w-full h-full"
                                 onClick={() => handleCardClick(item, index)}
                             >
                                 <div className="relative border border-gray-300 w-full h-full rounded-sm overflow-hidden shadow-2xl bg-white transform transition-transform duration-300">

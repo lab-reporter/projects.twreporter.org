@@ -6,9 +6,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useStoreSSR } from '@/hooks/useStoreSSR';
 import DonatePanel from "@/components/sections/support/DonatePanel";
-import TestimonialSwiper from "./TestimonialSwiper";
+import TestimonialSwiper, { type TestimonialSwiperRef } from "./TestimonialSwiper";
 import Image from "next/image";
 import EventPreview from "@/components/sections/event/EventPreview";
+import Button from "@/components/shared/Button";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/shared/NavigationIcons";
 
 // 註冊 GSAP 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -314,6 +316,11 @@ export default function CallToActionSection() {
     const [progress, setProgress] = useState(0);
 
     // ============================
+    // TestimonialSwiper 控制
+    // ============================
+    const testimonialSwiperRef = useRef<TestimonialSwiperRef>(null);
+
+    // ============================
     // 支持者數據管理（從 store 獲取，SSR 安全）
     // ============================
     const supporterCount = useStoreSSR((state) => state.supporterCount, 8165);
@@ -382,13 +389,39 @@ export default function CallToActionSection() {
             {/* ============================
       // 第一部分：證言展示區域
       // ============================*/}
-            <div className="relative w-full h-screen py-16 flex flex-col items-center justify-center overflow-hidden">
-                <h2 className="mb-32 leading-relaxed">
+            <div className="relative w-full min-h-screen py-16 flex flex-col items-center justify-center">
+                <h2 className="mb-16 leading-relaxed">
                     持續求真的路上
                     <br />
                     感謝有眾聲同行
                 </h2>
-                <TestimonialSwiper />
+
+                {/* 導航箭頭與 Swiper 容器 */}
+                <div className="flex justify-center items-center w-full mb-8 gap-4">
+                    {/* 上一個按鈕 */}
+                    <Button
+                        variant="navigation"
+                        shape="circle"
+                        size="sm"
+                        onClick={() => testimonialSwiperRef.current?.slidePrev()}
+                        aria-label="上一個證言"
+                        leftIcon={<ChevronLeftIcon size={16} />}
+                        className="opacity-50 hover:opacity-100"
+                    />
+
+                    {/* 下一個按鈕 */}
+                    <Button
+                        variant="navigation"
+                        size="sm"
+                        shape="circle"
+                        onClick={() => testimonialSwiperRef.current?.slideNext()}
+                        aria-label="下一個證言"
+                        leftIcon={<ChevronRightIcon size={16} />}
+                        className="opacity-50 hover:opacity-100"
+                    />
+                </div>
+                {/* TestimonialSwiper */}
+                <TestimonialSwiper ref={testimonialSwiperRef} />
             </div>
 
             {/* ============================

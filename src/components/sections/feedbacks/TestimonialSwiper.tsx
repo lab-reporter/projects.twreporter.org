@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -29,16 +30,30 @@ interface TestimonialSwiperProps {
     testimonials?: Array<{ text: string }>;
 }
 
-export default function TestimonialSwiper({ testimonials }: TestimonialSwiperProps) {
-    const [activeIndex, setActiveIndex] = useState(0);
+// 導出的控制方法介面
+export interface TestimonialSwiperRef {
+    slideNext: () => void;
+    slidePrev: () => void;
+}
 
-    // 使用傳入的資料或預設資料
-    const testimonialsToUse = testimonials || testimonialData;
+const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProps>(
+    ({ testimonials }, ref) => {
+        const [activeIndex, setActiveIndex] = useState(0);
+        const swiperRef = useRef<SwiperType>();
 
-    // 漸層樣式定義 - 從 CallToActionSection 的 Box 組件複製
-    const gradientStyle = {
-        '--gradient-angle': '180deg',
-        backgroundImage: `conic-gradient(
+        // 使用傳入的資料或預設資料
+        const testimonialsToUse = testimonials || testimonialData;
+
+        // 導出控制方法給父組件使用
+        useImperativeHandle(ref, () => ({
+            slideNext: () => swiperRef.current?.slideNext(),
+            slidePrev: () => swiperRef.current?.slidePrev(),
+        }));
+
+        // 漸層樣式定義 - 從 CallToActionSection 的 Box 組件複製
+        const gradientStyle = {
+            '--gradient-angle': '180deg',
+            backgroundImage: `conic-gradient(
             from var(--gradient-angle) at 50% 50%,
             #C3968E 0%,
             #EE666F 25%,
@@ -47,14 +62,14 @@ export default function TestimonialSwiper({ testimonials }: TestimonialSwiperPro
             #CCB5F9 99%,
             #C3968E 100%
         )`,
-        animation: 'rotateGradient 5s linear infinite',
-    } as React.CSSProperties;
+            animation: 'rotateGradient 5s linear infinite',
+        } as React.CSSProperties;
 
-    return (
-        <>
-            {/* CSS 動畫定義 */}
-            <style>
-                {`
+        return (
+            <>
+                {/* CSS 動畫定義 */}
+                <style>
+                    {`
                 @property --gradient-angle {
                     syntax: "<angle>";
                     inherits: true;
@@ -74,50 +89,93 @@ export default function TestimonialSwiper({ testimonials }: TestimonialSwiperPro
                     width: 20rem !important;
                     flex-shrink: 0;
                 }
+                
+                /* 游標狀態控制 */
+                .mySwiper {
+                    cursor: pointer;
+                }
+                
+                .mySwiper:active {
+                    cursor: grabbing;
+                }
+                
+                .mySwiper .swiper-slide {
+                    cursor: pointer;
+                    /* 為所有樣式變化加入平滑過渡效果 */
+                    transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+                    /* 效能優化 - 告知瀏覽器這些屬性會改變 */
+                    will-change: transform;
+                    /* 預設狀態 */
+                    transform: scale(1);
+                }
+                
+                .mySwiper .swiper-slide:active {
+                    cursor: grabbing;
+                }
+                
+                /* 卡片內容的過渡效果 */
+                .mySwiper .swiper-slide > div {
+                    transition: all 1s ease;
+                    /* 效能優化 - 告知瀏覽器內容樣式會改變 */
+                    will-change: background, border, padding;
+                }
+                
+                /* 中央卡片的放大效果 - 使用更高優先級確保雙向過渡 */
+                .mySwiper .swiper-slide.center-card {
+                    transform: scale(1.1) !important;
+                }
                 `}
-            </style>
+                </style>
 
-            <Swiper
-                slidesPerView="auto"
-                centeredSlides={true}
-                spaceBetween={30}
-                grabCursor={true}
-                loop={true}
-                modules={[Pagination]}
-                className="mySwiper w-full"
-                onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-            >
-                {testimonialsToUse.map((testimonial, index) => {
-                    // 計算是否為中央卡片（考慮 loop 模式）
-                    const isCenterCard = index === activeIndex;
+                <Swiper
+                    slidesPerView="auto"
+                    slideToClickedSlide={true}
+                    centeredSlides={true}
+                    spaceBetween={30}
+                    grabCursor={false}
+                    loop={true}
+                    modules={[Pagination]}
+                    className="mySwiper w-full cursor-pointer"
+                    onSwiper={(swiper) => {
+                        swiperRef.current = swiper;
+                    }}
+                    onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+                >
+                    {testimonialsToUse.map((testimonial, index) => {
+                        // 計算是否為中央卡片（考慮 loop 模式）
+                        const isCenterCard = index === activeIndex;
 
-                    return (
-                        <>
-                            <SwiperSlide key={index}>
-                                <div
-                                    className="w-[20rem] h-[25rem] flex-shrink-0"
-                                    style={{
-                                        background: isCenterCard ? gradientStyle.backgroundImage : 'black',
-                                        animation: isCenterCard ? gradientStyle.animation : 'none',
-                                        padding: isCenterCard ? '4px' : '0',
-                                        transform: isCenterCard ? 'scale(1.1)' : 'scale(1)',
-                                        border: isCenterCard ? 'none' : '1px solid #AAA',
-                                    }}
-                                >
+                        return (
+                            <>
+                                <SwiperSlide key={index} className={isCenterCard ? 'center-card' : ''}>
                                     <div
-                                        className="w-full h-full p-8 text-white flex items-center justify-center text-sm leading-relaxed"
+                                        className="w-[20rem] h-[25rem] flex-shrink-0"
                                         style={{
-                                            backgroundColor: 'black',
+                                            userSelect: 'none',
+                                            background: isCenterCard ? gradientStyle.backgroundImage : 'black',
+                                            animation: isCenterCard ? gradientStyle.animation : 'none',
+                                            padding: isCenterCard ? '4px' : '0',
+                                            border: isCenterCard ? 'none' : '1px solid #AAA',
                                         }}
                                     >
-                                        {testimonial.text}
+                                        <div
+                                            className="w-full h-full p-8 text-white flex items-center justify-center text-sm leading-relaxed"
+                                            style={{
+                                                backgroundColor: 'black',
+                                            }}
+                                        >
+                                            {testimonial.text}
+                                        </div>
                                     </div>
-                                </div>
-                            </SwiperSlide>
-                        </>
-                    );
-                })}
-            </Swiper>
-        </>
-    );
-}
+                                </SwiperSlide>
+                            </>
+                        );
+                    })}
+                </Swiper>
+            </>
+        );
+    });
+
+TestimonialSwiper.displayName = 'TestimonialSwiper';
+
+export default TestimonialSwiper;
