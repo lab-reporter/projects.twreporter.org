@@ -11,7 +11,7 @@ interface SectionHeadingsProps {
 export default function SectionHeadings({ titleEn, titleZh, children, className }: SectionHeadingsProps) {
   return (
     < div className={`mx-auto w-full px-8 flex flex-col items-center justify-center ${className || ''}`} >
-      <h1 className="text-center">
+      <h1 className="text-center mb-4">
         {titleEn}
       </h1>
       <h2 className="text-center">

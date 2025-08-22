@@ -250,7 +250,7 @@ export default function DonatePanel() {
                     {/* 主要呼籲標題 */}
                     <h3 className="text-white leading-normal">
                         成為 <br />
-                        第<span className="text-8xl font-normal">{displayNextSupporterNumber.toLocaleString()}</span>位<br />
+                        第<span className="text-8xl leading-none font-normal font-azeret-mono">{displayNextSupporterNumber}</span>位<br />
                         定期定額支持者
                     </h3>
                 </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC, Roboto_Slab } from 'next/font/google'
+import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC, Roboto_Slab, Azeret_Mono } from 'next/font/google'
 import "./globals.css";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script'
@@ -36,6 +36,14 @@ const robotoSlab = Roboto_Slab({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-roboto-slab',
+})
+
+// 初始化 Azeret Mono 字型
+const azeretMono = Azeret_Mono({
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-azeret-mono',
 })
 
 export const metadata: Metadata = {
@@ -103,6 +111,7 @@ export default function RootLayout({
         ${notoSerifTC.variable} 
         ${notoSansTC.variable} 
         ${robotoSlab.variable}
+        ${azeretMono.variable}
       `}
     >
       <head>

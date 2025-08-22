@@ -49,7 +49,7 @@ export default function ReportsSection() {
       >
         <div className="w-full lg:h-screen flex flex-col items-center justify-center">
           <SectionHeadings
-            titleEn="IMPACT"
+            titleEn="Impact"
             titleZh="深度報導・影響力"
           >
             <p className="leading-relaxed">

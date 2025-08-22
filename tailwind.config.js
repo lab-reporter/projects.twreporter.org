@@ -90,6 +90,7 @@ module.exports = {
         'roboto-slab': ['var(--font-roboto-slab)', 'Roboto Slab', 'serif'],
         'alverata': ['alverata', 'var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
         'alverata-mixed': ['alverata', 'var(--font-noto-serif-tc)', 'Noto Serif TC', 'serif'],
+        'azeret-mono': ['var(--font-azeret-mono)', 'Azeret Mono', 'monospace'],
       },
       animation: {
         marquee: 'marquee 30s linear infinite',
@@ -155,6 +156,9 @@ module.exports = {
         },
         '.font-serif-mixed': {
           'font-family': 'alverata, var(--font-noto-serif-tc), "Noto Serif TC", serif',
+        },
+        '.font-azeret-mono': {
+          'font-family': 'var(--font-azeret-mono), "Azeret Mono", monospace',
         },
       }
       addUtilities(newUtilities);

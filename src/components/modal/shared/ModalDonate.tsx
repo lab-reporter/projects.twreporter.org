@@ -58,7 +58,7 @@ export default function ModalDonate({ onClose }: ModalDonateProps) {
 
             {/* 捐款 Modal 彈跳視窗 */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[20000] flex items-center justify-center">
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
                     {/* 背景遮罩 */}
                     <div
                         className="absolute inset-0 bg-black/70 backdrop-blur-sm"

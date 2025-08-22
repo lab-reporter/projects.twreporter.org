@@ -358,12 +358,12 @@ export default function SupportMainSection() {
       {/* 綁定 ref 用於動畫觸發偵測 */}
       <div ref={supporterRef} className="text-center mb-8">
         <p className="text-white text-base mb-6 opacity-80">
-          現在已有{displaySupporterCount.toLocaleString()}位定期定額支持者
+          現在已有{displaySupporterCount}位定期定額支持者
         </p>
 
         {/* 主要呼籲標題 */}
         <h1 className="text-white text-5xl font-bold mb-4">
-          成為第{displayNextSupporterNumber.toLocaleString()}位定期定額支持者
+          成為第{displayNextSupporterNumber}位定期定額支持者
         </h1>
       </div>
 
@@ -387,8 +387,8 @@ export default function SupportMainSection() {
               type="button"
               onClick={() => handleAmountSelection(amount)}
               className={`flex-1 max-w-[150px] py-3 px-6 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
-                  ? "bg-gray-300 text-black"
-                  : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
+                ? "bg-gray-300 text-black"
+                : "bg-transparent border border-gray-700 text-white hover:border-gray-300"
                 }`}
             >
               {amount}
@@ -420,8 +420,8 @@ export default function SupportMainSection() {
           onClick={handleSupport}
           disabled={!canSupport}
           className={`rounded-full py-3 px-10 text-lg transition-all duration-300 mt-4 relative z-10 ${canSupport
-              ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
-              : "bg-gray-800 text-gray-500 cursor-not-allowed"
+            ? "bg-gray-300 text-black cursor-pointer hover:bg-gray-100"
+            : "bg-gray-800 text-gray-500 cursor-not-allowed"
             }`}
         >
           立即支持
