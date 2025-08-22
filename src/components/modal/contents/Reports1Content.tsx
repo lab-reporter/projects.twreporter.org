@@ -102,7 +102,8 @@ export default function Reports1Content({ projectData, onNavigate: _onNavigate, 
               《報導者》記者歷時10個月的追蹤，跟著這群外籍生走進教室、進到CNC車床工廠、隱形眼鏡廠、腳踏車零件廠、食品加工廠裡，目睹一個個仰慕台灣、於是背債來台讀書的年輕生命，在教室裡被迫上著聽不懂的中文課，7成時間得在工廠打工甚至打黑工，陷入債務的漩渦與循環。
             </p>
             <p>
-              此報導的刊登引起政府、民間各界關注。立法委員范雲與多個民間團體在報導發布隔天召開記者會，要求教育部全面調查；隔月，教育部依《私立學校法》規定，決議中州科大自111學年度起停止全部班級招生；2023年7月，該校已正式停辦。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/technological-and-vocational-college-foreign-students-become-cheap-labors">專題報導</Shared.TextContentLink>
+              的刊登引起政府、民間各界關注。立法委員范雲與多個民間團體在報導發布隔天召開記者會，要求教育部全面調查；隔月，教育部依《私立學校法》規定，決議中州科大自111學年度起停止全部班級招生；2023年7月，該校已正式停辦。
             </p>
             <p>
               檢調方面，歷經超過半年的蒐證，彰化地檢署於2022年10月以違反《人口販運防制法》、《刑法》、《貪污治罪條例》、《個人資料保護法》等罪行，對中州科大時任副校長柴鈁武、苗栗縣政府公務員涂榮輝等共10人提起公訴。這是台灣外籍生遭到剝削案件中，首次以人口販運罪起訴，從學界、人力仲介、台商到公務員等，涉案人員範圍廣大。2024年6月，彰化地方法院一審宣判，柴鈁武等人重判5年6個月到2年不等的有期徒刑；涂榮輝犯圖利罪，重判7年有期徒刑，併科240萬元罰金，褫奪公權5年。
@@ -116,10 +117,7 @@ export default function Reports1Content({ projectData, onNavigate: _onNavigate, 
           </div>
         </Shared.TextContent>
 
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/a/2023-09-11-chinese-foreign-students-in-taiwan-abuse-case">
-          閱讀完整專題
-        </Shared.ExternalLink>
+
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

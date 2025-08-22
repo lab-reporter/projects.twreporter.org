@@ -14,11 +14,11 @@ export { default as ReportsParallaxPhoto } from './ReportsParallaxPhoto';
 
 // 文字內容組件
 export { default as TextContent } from './TextContent';
+export { default as TextContentLink } from './TextContentLink';
 export { default as ProjectSummary } from './ProjectSummary';
 
 // 互動組件
 export { default as ActionButtons } from './ActionButtons';
-export { default as ExternalLink } from './ExternalLink';
 export { default as Navigation } from './Navigation';
 export { default as NavigationControls } from './NavigationControls';
 export { default as ModalDonate } from './ModalDonate';

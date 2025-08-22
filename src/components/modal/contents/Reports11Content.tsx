@@ -95,15 +95,11 @@ export default function Reports11Content({ projectData, onNavigate: _onNavigate,
               《報導者》與俄羅斯流亡記者聯手合作，在2024年1月揭露台灣高階工具機在全球地緣政治博弈中的關鍵角色。報導指出，這些透過第三國（例如：土耳其）轉運至俄羅斯的工具機，有部分機器已進入被美方列入黑名單的軍工業廠商。
             </p>
             <p>
-              報導刊出後，立即引起社會及國際媒體的關注，《經濟學人》、《華盛頓郵報》也跟進。經濟部在2月2日回應，針對涉及俄羅斯武器製造商透過第三國輸入台灣工具機的狀況，經濟部已將報導中的俄商 I Machine 列入實體名單，禁止出口；同時，經濟部進一步加強出口管制措施，包含提高違規罰則至100萬元、要求業者申報最終使用人，以及針對高轉運風險國家的出口進行更嚴格審查。此外，經濟部也承諾，未來將針對工具機業者加強教育訓練，要求業者在出口前做好盡責調查。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/taiwan-machine-tool-russia-sanctions">專題報導</Shared.TextContentLink>
+              刊出後，立即引起社會及國際媒體的關注，《經濟學人》、《華盛頓郵報》也跟進。經濟部在2月2日回應，針對涉及俄羅斯武器製造商透過第三國輸入台灣工具機的狀況，經濟部已將報導中的俄商 I Machine 列入實體名單，禁止出口；同時，經濟部進一步加強出口管制措施，包含提高違規罰則至100萬元、要求業者申報最終使用人，以及針對高轉運風險國家的出口進行更嚴格審查。此外，經濟部也承諾，未來將針對工具機業者加強教育訓練，要求業者在出口前做好盡責調查。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/a/machine-tools-taiwan-russia-sanctions-turkey">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>
@@ -113,7 +109,7 @@ export default function Reports11Content({ projectData, onNavigate: _onNavigate,
           <Shared.CreditsItem role="封面設計" names="吳政達" />
           <Shared.CreditsItem role="設計" names="江世民" />
           <Shared.CreditsItem role="編輯" names="張詩芸" />
-          <Shared.CreditsItem role="社群企劃" names={["陳思樺", "何昱泳", "莊孟翰"]} />
+          <Shared.CreditsItem role="社群企劃" names={["陳思樺", "何昱泓", "莊孟翰"]} />
         </Shared.CreditsMarquee>
       </Shared.ContentWrapper>
 

@@ -98,18 +98,15 @@ export default function Reports5Content({ projectData, onNavigate: _onNavigate, 
               《報導者》從2015年後勁五輕關廠開始，針對雲林與高雄的石化地帶進行超過3年的追蹤調查，全景式地勾勒石化業交纓的國際政治經濟、黨國體制、產業路線、民主化與環境運動、公共安全，甚至是最新的空污與健康風險關聯之迯的科學戰爭。
             </p>
             <p>
-              2018年7月，《報導者》揭露台塑集團申報空污數據「系統性造假」，促使監察委員於同年10月開始列案調查。調查一年後，監察院在2019年10月公布調查報告指出，環保署早在2010年就發現台塑華亞汽電空污數據造假，卻遲遲沒有修改管制方法，導致其他類似造假情況難以成案，消極怠慢不作為，對環保署提出糾正。
+              2018年7月，《報導者》推出
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/fpc-sixth-naphtha-cracker-20-years">專題報導</Shared.TextContentLink>
+              ，揭露台塑集團申報空汙數據「系統性造假」，促使監察委員於同年10月開始列案調査。調查一年後，監察院在2019年10月公布調査報告指出，環保署早在2010年就發現台塑華亞汽電空汙數據造假，卻遲遲沒有修改管制方法，導致其他類似造假情況難以成案，消極怠慢不作爲，對環保署提出糾正。
             </p>
             <p>
               除了產生污染的工廠被調查外，檢測工廠污染程度的環境檢測業也是此次調查報告的重點之一。監察院除了建議環保署應盡速建立第三方公正認證機制並制定《環境檢測法》專法外，也希望環保署針對協助台塑集團造假的軟體公司的財產利盆範圍內追繳不法利得，達到警示嚇阻效果，以提升環境檢測數據的公信力。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/formosa-plastics">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

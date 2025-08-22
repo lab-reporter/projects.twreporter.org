@@ -109,18 +109,19 @@ export default function Reports3Content({ projectData, onNavigate: _onNavigate, 
               由於Supriyanto案受到各界矚目，屏東地檢署主任檢察官陳韻如於《血淚漁場》專題報導刊出當天（2016年12月19日）即表示，此案已分案重啟調査。行政院長林全則於同年12月22日行政院會中，要求漁業署嚴格執法、農委會健全漁工勞動檢査機制，以確保漁工權益，落實「經濟社會文化權利國際公約」相關規定。
             </p>
             <p>
-              《報導者》從2016年開始追蹤遠洋漁業，2016～2021年分別推出《血淚漁場》一部曲「造假、剝削、血淚漁場」、二部曲「海上人口販運」、三部曲「未竟的遠洋治理」。在各方的監督、政府和民間的共同努力下，台灣在2017年初順利通過「遠洋漁業三法」嚴格監管，並在2019年卸下歐盟祭出的黃牌。
+              《報導者》從2016年開始追蹤遠洋漁業，2016～2021年分別推出《血淚漁場》
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/far-sea-fishing-investigative-report">一部曲「造假、剝削、血淚漁場」</Shared.TextContentLink>
+              、
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/slave-fishermen">二部曲「海上人口販運」</Shared.TextContentLink>
+              、
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/unfinished-far-sea-fishing-governance">三部曲「未竟的遠洋治理」</Shared.TextContentLink>。
+              在各方的監督、政府和民間的共同努力下，台灣在2017年初順利通過「遠洋漁業三法」嚴格監管，並在2019年卸下歐盟祭出的黃牌。
             </p>
             <p>
               2025年，Supriyanto死亡案在抗爭、纏訟10年後，於5月8日經屏東地方法院調解，家屬透過委任律師與船長、輪機長達成和解。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/far-sea-fishing-investigative-report">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

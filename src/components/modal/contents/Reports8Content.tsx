@@ -93,18 +93,14 @@ export default function Reports8Content({ projectData, onNavigate: _onNavigate, 
               採訪團隊也進入國內線上博弈產業龍頭「奕智博數位娛樂」的總部，當時代理執行長信誓旦旦地拿出「博弈代工經營許可」、聲稱自己不碰金流、合法，但從記者調查拍攝到的視訊賭博用賭桌與員工電腦螢幕以簡體字顯示下注者的個資，觀察到許多不對勁，並在報導中點出此產業遊走於法律灰色地帶。
             </p>
             <p>
-              報導刊出後引發檢警單位關注，奕智博公司被查獲大規模洗錢，根據警方調查，光是奕智博公司一週的洗錢金額就超過新台幣50億元；以年度來推估，數字更是高達2,600億元，是台灣一年沒收毒品犯罪所得的10倍以上。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/online-gambling-industry-in-taiwan">專題報導</Shared.TextContentLink>
+              刊出後引發檢警單位關注，奕智博公司被查獲大規模洗錢，根據警方調查，光是奕智博公司一週的洗錢金額就超過新台幣50億元；以年度來推估，數字更是高達2,600億元，是台灣一年沒收毒品犯罪所得的10倍以上。
             </p>
             <p>
               2023年，奕智博洗錢案三審定讞，涉案的立法院職員與奕智博代理執行長均遭判刑，奕智博負責人莊鴻飛仍在境外潛逃中。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/online-gambling-industry-in-taiwan">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

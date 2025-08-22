@@ -100,7 +100,8 @@ export default function Reports4Content({ projectData, onNavigate: _onNavigate, 
               《報導者》記者群在全國深入採訪了上百名在高風險家庭中長大的少年，看見有孩子被安置在兒少機構，卻在不意間成為其他院生性掠奪的對象；有人為了幫家裡多攜一點錢，遠走異鄉，成為詐騙集團的一分子；專題的主要受訪者「土豆」，未滿十八歲就要背著噴農藥的桶子謀生計，在呸漫的毒性氣體中爭一口氣。
             </p>
             <p>
-              系列專題刊登後引發極大迴響，不少讀者寫信與電話詢問提供這群少年少女工作機會與教育經費的可能，特別對於「土豆」的處境感到不捨。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/high-risk-youth-left-in-relic">系列專題</Shared.TextContentLink>
+              刊登後引發極大迴響，不少讀者寫信與電話詢問提供這群少年少女工作機會與教育經費的可能，特別對於「土豆」的處境感到不捨。
             </p>
             <p>
               《報導者》 與立法委員劉建國丶李麗芬共同舉行「廢墟裡的少年──看見他們，幫助增能」公聽會 。全台近15個青少年NPO與會，陳述他們在全台各地看見的「土豆們」的故事，會中專家建請勞動部成立少年就業輔導單位、並修改《勞工保險條例》，讓微型企業也強制納保，從保障就業安全開始，逐步強化這些少年的社會保護網。
@@ -110,11 +111,6 @@ export default function Reports4Content({ projectData, onNavigate: _onNavigate, 
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/youth-at-risk">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

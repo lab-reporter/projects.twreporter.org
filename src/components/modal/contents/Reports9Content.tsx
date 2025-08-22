@@ -88,15 +88,11 @@ export default function Reports9Content({ projectData, onNavigate: _onNavigate, 
               記者多次與不法販售笑氣的人員接觸、獲取對方信任後，得以瞭解笑氣從源頭非法進貨的方式、如何在網路上兜售以及如何運貨到府等銷售鏈；同時也採訪生產一氧化二氮的廠商，讓合法業者進一步釐清合法使用與非法販售笑氣的來源與可能的流向，並提出政府管理的可行方法。
             </p>
             <p>
-              專題刊出後促成經濟部工業局、環保署調整笑氣源頭管理的方式，並且研議相關法規。2020年10月，環保署正式公告將笑氣納入 《毒性及關注化學物質管理法》，網購笑氣、持有笑氣皆可處罰，並將對笑氣添加臭味，遯止吸食風氣；而台北市政府、桃園市政府亦針對笑氣制定行政規則與管理草案並加強稽查。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/laughing-gas-nitrous-oxid-substance-abuse">專題報導</Shared.TextContentLink>
+              刊出後促成經濟部工業局、環保署調整笑氣源頭管理的方式，並且研議相關法規。2020年10月，環保署正式公告將笑氣納入 《毒性及關注化學物質管理法》，網購笑氣、持有笑氣皆可處罰，並將對笑氣添加臭味，遯止吸食風氣；而台北市政府、桃園市政府亦針對笑氣制定行政規則與管理草案並加強稽查。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/laughing-gas-in-taiwan">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

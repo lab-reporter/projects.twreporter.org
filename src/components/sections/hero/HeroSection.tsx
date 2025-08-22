@@ -204,10 +204,8 @@ export default function HeroSection() {
                         這條獨立媒體之路 <br />
                         已經走了10年
                         <span style={{
-                            transform: 'scale(2, 1)',
-                            display: 'inline-block',
-                            transformOrigin: 'left center',
-                        }}>—</span>
+                            letterSpacing: -8,
+                        }}>——</span>
                     </h2>
                     <h5>
                         看看我們跟讀者一起走過了什麼

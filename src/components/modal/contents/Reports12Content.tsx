@@ -97,15 +97,13 @@ export default function Reports12Content({ projectData, onNavigate: _onNavigate,
               除了網路犯罪，記者也獨家掌握20年前販售並性侵未成年女童和少女的「權自立」案後續。記者追蹤超過半年後發現，此案並未因權男死亡而結束，我們獨家揭露他與一位任職美術館的共犯梁恩睿，隱身普通人群，20年來，誘騙、性侵、拍攝、散布兒少性剝削影像的犯罪模式非但沒有絕跡，甚至已流通於「暗網」。
             </p>
             <p>
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/child-and-youth-sexual-exploitation">系列專題</Shared.TextContentLink>
               除了文字報導，此系列專題更製作Podcast、影音向網路大眾解釋兒少性剝削犯罪的樣貌。影音報導推出後，在YouTube與Instagram平台引起廣大迴響，共吸引超過160萬人次的觀看；另外，編輯檾也同步把專題裡蜀集到的證據提供給執法單位，幫助檢警偵辦相關案件。
             </p>
           </div>
         </Shared.TextContent>
 
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/child-sexual-exploitation-materials-csem">
-          閱讀完整專題
-        </Shared.ExternalLink>
+
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

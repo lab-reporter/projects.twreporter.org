@@ -92,7 +92,23 @@ export default function Reports7Content({ projectData, onNavigate: _onNavigate, 
               《報導者》採訪團隊從都會走進偏鄉，看見兒童急重症科醫師老化凋零、在後繼無人中「爆肝」；提供24小時兒童急診的醫院持續消退，家長半夜抱病兒可能求助無門；守護巴掌天使的新生兒科醫師無償外接轉診病兒、風險得自扛；站在兒虐最前線的兒少保護醫療工作者，往往只能義務「做功德」；擔負重症醫療最後線及創新技術、世代健康研究任務的四大兒童醫院，都因經費不足而「玩假的」。
             </p>
             <p>
-              2018年4月，《報導者》推出第一波兒童醫療專題《每天我們失去5個孩子——搶救兒童高死亡率》，6月再刊登《流浪的早療兒——誰是慢天使的麥田捕手？》專題報導，探討兒童高死亡率及偏鄉早療困境。
+              2018年4月，《報導者》推出第一波兒童醫療專題
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/child-health-care-taiwan">《每天我們失去5個孩子&nbsp;
+                <span
+                  style={{
+                    letterSpacing: -2,
+                  }}
+                >——</span>
+                &nbsp;搶救兒童高死亡率》</Shared.TextContentLink>
+              ，6月再刊登
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/child-early-intervention">《流浪的早療兒&nbsp;
+                <span
+                  style={{
+                    letterSpacing: -2,
+                  }}
+                >——</span>
+                &nbsp;誰是慢天使的麥田捕手？》</Shared.TextContentLink>
+              專題報導，探討兒童高死亡率及偏鄉早療困境。
             </p>
             <p>
               同年8月，行政院公布「我國少子女化對策計畫」白皮書，將兒童高死亡率及早療議題列為專章重點強化，回應報導提出的相關呼籲。
@@ -106,10 +122,6 @@ export default function Reports7Content({ projectData, onNavigate: _onNavigate, 
           </div>
         </Shared.TextContent>
 
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/child-mortality-rate">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>
@@ -136,6 +148,6 @@ export default function Reports7Content({ projectData, onNavigate: _onNavigate, 
         onNavigate={onNavigate}
         adjacentProjects={adjacentProjects}
       /> */}
-    </Shared.Container>
+    </Shared.Container >
   );
 }

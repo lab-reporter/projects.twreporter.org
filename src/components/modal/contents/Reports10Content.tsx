@@ -93,18 +93,14 @@ export default function Reports10Content({ projectData, onNavigate: _onNavigate,
               此外，製作團隊也在系列報導整理2022～2023年中國解放軍對台灣的軍事騷擾路線圖，更結合日本防衛省2022年8月以來的共軍進逼動態資料，用多媒體圖解呈現解放軍兵臨城下的威壓，以及美國與日本在第一島鏈上的戰略回應。
             </p>
             <p>
-              此系列報導刊登後即引起多方專業人士迴響，也吸引國際媒體關注。《華盛頓郵報》（Washington Post）主動邀請《報導者》合作，將專題報導中，針對中國戰機與戰艦侵襲台灣海峽周邊的軌跡分析轉譯成英文版，並在2023年11月13日《華郵》的報導中引用《報導者》沖繩專題內製作的圖表與相關內容，與其廣大的外國讀者分享。
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/taiwanyuji-first-island-chain-japan-okinawa">專題報導</Shared.TextContentLink>
+              刊登後即引起多方專業人士迴響，也吸引國際媒體關注。《華盛頓郵報》（Washington Post）主動邀請《報導者》合作，將專題報導中，針對中國戰機與戰艦侵襲台灣海峽周邊的軌跡分析轉譯成英文版，並在2023年11月13日《華郵》的報導中引用《報導者》沖繩專題內製作的圖表與相關內容，與其廣大的外國讀者分享。
             </p>
             <p>
               2024年10月，《報導者》與春山出版合作發行《島鏈有事：如果明日就是臺海戰爭，國際第一線怎麼危機應變？沖繩、日本、臺灣為何命運相連？》，另外收錄小熊英二、吳叡人、國場幸之助、許仁碩等多位專家訪談，多角度呈現台灣、日本、沖繩之間對「台灣有事」的觀點歧異，並試圖尋找對話的可能。
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/first-island-chain-under-chinese-threat">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>

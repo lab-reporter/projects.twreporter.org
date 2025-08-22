@@ -92,7 +92,9 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
         <Shared.TextContent>
           <div className="space-y-4">
             <p>
-              2018年10月21日普悠瑪18死翻覆事故3個月後，《報導者》調查歷年列車座位數與經費，推出《傾斜掉的台鐵——太魯閣、普悠瑪誤東部10年》專題，揭發花東部鐵路建設10年、500億投資連環錯，埋下普悠瑪事故悲劇引信。報導引起各方重視，交通部與台鐵也在2019年5月針對花東運量不足的問題進行檢討改善。
+              2018年10月21日普悠瑪18死翻覆事故3個月後，《報導者》調查歷年列車座位數與經費，推出
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/railway-eastern-line-policy-after-puyuma-express-accident">《傾斜掉的台鐵——太魯閣、普悠瑪誤東部10年》</Shared.TextContentLink>
+              專題，揭發花東部鐵路建設10年、500億投資連環錯，埋下普悠瑪事故悲劇引信。報導引起各方重視，交通部與台鐵也在2019年5月針對花東運量不足的問題進行檢討改善。
             </p>
             <p>
               然而事故發生近一年後，《報導者》發現，普悠瑪事故後成立首個行政院級的「台鐵總體檢小組」隨著選舉結束、內閣改組後悄然解散，連體檢完整報告都被隱匿消失，而花東、宜蘭線的列車仍在新馬站前過彎。
@@ -101,7 +103,9 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
               《報導者》記者持續追蹤，重回事故現場，走訪多位專家小組成員、普悠瑪事故偵查單位及運安中心，並獨家取得345頁《台鐵局總體檢報告》全文，發現台鐵長期依賴國外設備與技術、看型錄就下單，演變成負債千億、大到改變不了的賠錢巨獸；此外，台鐵長年存在的「誰簽字、誰負責」文化讓升職如同跳火坑，形成人才「反淘汰」。
             </p>
             <p>
-              2019年9月4日專題報導出爐後，行政院與交通部承受不小壓力，經過多次溝通，時任交通部長林佳龍選擇在同月12日傍晚公布體檢報告，將全文放在交通部官網供全民下載、檢視。
+              2019年9月4日
+              <Shared.TextContentLink href="https://www.twreporter.org/topics/taiwan-railway-examination-report">專題報導</Shared.TextContentLink>
+              出爐後，行政院與交通部承受不小壓力，經過多次溝通，時任交通部長林佳龍選擇在同月12日傍晚公布體檢報告，將全文放在交通部官網供全民下載、檢視。
             </p>
             <p>
               本系列報導獲得的獨家資料與影像紀錄，也獲國家運輸安全調查委員會重視，成為釐清普悠瑪事故運安調查的參考資料。
@@ -111,11 +115,6 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
             </p>
           </div>
         </Shared.TextContent>
-
-        {/* 閱讀完整專題按鈕 */}
-        <Shared.ExternalLink href="https://www.twreporter.org/topics/taiwan-railway-administration-investigation">
-          閱讀完整專題
-        </Shared.ExternalLink>
 
         {/* 製作團隊Credits */}
         <Shared.CreditsMarquee>
