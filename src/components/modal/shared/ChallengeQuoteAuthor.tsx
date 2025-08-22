@@ -22,8 +22,8 @@ export default function ChallengeQuoteAuthor({
   ].filter(Boolean).join('');
 
   return (
-    <h3 className={`text-2xl font-bold text-center ${className}`}>
+    <p className={`font-medium ${className}`}>
       {fullAuthorText}
-    </h3>
+    </p>
   );
 }

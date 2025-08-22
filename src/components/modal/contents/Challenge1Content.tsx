@@ -16,7 +16,7 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
 
-          <div className="space-y-4">
+          <div className="">
             {/* 引言作者 */}
             <Shared.ChallengeQuoteAuthor
               organization="報導者"
@@ -57,15 +57,15 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
               對我而言，這場大膽驚險的媒體實驗，也圓了年少時想要創辦獨立媒體的夢想。儘管這條路比我想像中還要辛苦百倍，但我和同事們已經奮鬥走過8年，無論未來的挑戰如何艱辛，我們依舊會盡最大努力來重建媒體的公共性，繼續為健全台灣媒體生態與深化台灣民主發展貢獻心力。
             </p>
 
-            <div className="bg-gray-50 p-6 rounded-lg space-y-2 italic">
-              <p className="text-center">Somewhere ages and ages hence:</p>
-              <p className="text-center">在多年、多年以後的某地某個時刻，</p>
-              <p className="text-center">Two roads diverged in a wood, and I—</p>
-              <p className="text-center">敘說我曾行經樹林中兩路分岔，而我——</p>
-              <p className="text-center">I took the one less traveled by,</p>
-              <p className="text-center">我踏上了乏人問津的那條，</p>
-              <p className="text-center">And that has made all the difference.</p>
-              <p className="text-center">而這造就截然不同的人生。</p>
+            <div className="mt-8 mb-4">
+              <p className="text-center text-lg font-alverata italic">Somewhere ages and ages hence:</p>
+              <p className="text-center text-lg font-noto-serif-tc font-medium mb-4">在多年、多年以後的某地某個時刻，</p>
+              <p className="text-center text-lg font-alverata italic">Two roads diverged in a wood, and I—</p>
+              <p className="text-center text-lg font-noto-serif-tc font-medium mb-4">敘說我曾行經樹林中兩路分岔，而我——</p>
+              <p className="text-center text-lg font-alverata italic">I took the one less traveled by,</p>
+              <p className="text-center text-lg font-noto-serif-tc font-medium mb-4">我踏上了乏人問津的那條，</p>
+              <p className="text-center text-lg font-alverata italic">And that has made all the difference.</p>
+              <p className="text-center text-lg font-noto-serif-tc font-medium mb-4">而這造就截然不同的人生。</p>
             </div>
 
             <p>

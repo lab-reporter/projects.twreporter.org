@@ -150,7 +150,7 @@ export default function SectionNavigation() {
       }}
     >
       <div className="flex flex-col justify-center items-center gap-4">
-        {/* 第一組按鈕：reports, innovations, challenges */}
+        {/* 第一組按鈕：reports, innovations, challenㄋges */}
         {firstGroupSections.map((section) => (
           <button
             key={section.id}

@@ -6,13 +6,13 @@ interface ChallengeSectionHeadingProps {
 }
 
 // 挑戰章節小標題元件
-export default function ChallengeSectionHeading({ 
+export default function ChallengeSectionHeading({
   text,
-  className = "" 
+  className = ""
 }: ChallengeSectionHeadingProps) {
   return (
-    <h4 className={`text-xl font-bold text-center ${className}`}>
+    <h5 className={`font-bold mt-12 mb-6 text-center ${className}`}>
       {text}
-    </h4>
+    </h5>
   );
 }

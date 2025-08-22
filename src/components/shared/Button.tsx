@@ -133,7 +133,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     };
 
     // 基礎樣式
-    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300';
+    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus:ring-0';
 
     // 禁用狀態樣式
     const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer';

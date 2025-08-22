@@ -275,8 +275,8 @@ export default function DonatePanel() {
                                 type="button"
                                 onClick={() => handleAmountSelection(amount)}
                                 className={`flex-1 py-3 px-8 text-lg cursor-pointer transition-all duration-300 relative z-10 ${selectedAmount === amount
-                                    ? "bg-red-70 border-red-70"
-                                    : "bg-white/10 border border-[1px] border-white text-white hover:border-gray-300"
+                                    ? "bg-white text-black border-red-70"
+                                    : "bg-white/10 border border-[1px] border-white hover:bg-white/50 text-white hover:border-gray-300"
                                     }`}
                             >
                                 {amount}
@@ -285,7 +285,7 @@ export default function DonatePanel() {
                     </div>
 
                     {/* 自訂金額輸入區域 */}
-                    <div className="font-noto-sans-tc flex items-center w-full mb-6 relative border-b border-white">
+                    <div className="font-noto-sans-tc flex items-center w-full mb-4 relative border-b border-white">
                         <input
                             type="text"
                             value={customAmount}
@@ -297,10 +297,12 @@ export default function DonatePanel() {
                         <span className="font-noto-sans-tc absolute right-4 text-white">元/月</span>
                     </div>
 
-                    {/* 錯誤訊息顯示區域（條件渲染） */}
-                    {errorMessage && (
-                        <p className="text-red-400 mb-4 text-center">{errorMessage}</p>
-                    )}
+                    {/* 錯誤訊息顯示區域（固定高度空間） */}
+                    <div className="h-6 flex items-center justify-center">
+                        {errorMessage && (
+                            <p className="text-red-90 text-center">{errorMessage}</p>
+                        )}
+                    </div>
 
                     <button
                         type="button"
