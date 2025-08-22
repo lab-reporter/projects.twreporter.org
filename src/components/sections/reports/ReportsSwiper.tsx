@@ -419,9 +419,10 @@ export default function ReportsSwiper() {
         {/* 當前項目資訊展示區域：顯示在輪播下方 */}
         <div
           ref={currentItemDisplayRef}
-          className="absolute bottom-[15%] w-full flex justify-center items-center"
+          className="absolute w-full flex justify-center items-center"
           style={{
             opacity: 0,
+            bottom: `${sliderSize * 0.75}vw`,
           }}
         >
           <ItemDisplayWithNavigation

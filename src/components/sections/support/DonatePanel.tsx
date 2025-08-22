@@ -74,7 +74,7 @@ export default function DonatePanel() {
                             // 動畫目標數值
                             count: supporterCount,
                             // 動畫執行時間
-                            duration: 1,
+                            duration: 0.5,
                             // 緩動函數類型
                             ease: "power2.out",
                             // 動畫更新時的回調函數

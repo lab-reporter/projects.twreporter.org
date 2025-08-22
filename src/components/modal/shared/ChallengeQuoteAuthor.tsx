@@ -8,17 +8,17 @@ interface ChallengeQuoteAuthorProps {
 }
 
 // 挑戰章節引言作者元件
-export default function ChallengeQuoteAuthor({ 
+export default function ChallengeQuoteAuthor({
   author,
   title,
   organization,
-  className = "" 
+  className = ""
 }: ChallengeQuoteAuthorProps) {
   // 組合完整的作者資訊
   const fullAuthorText = [
     organization && `《${organization}》`,
     title,
-    `${author}：`
+    `${author}`
   ].filter(Boolean).join('');
 
   return (
