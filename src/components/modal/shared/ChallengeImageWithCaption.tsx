@@ -7,8 +7,6 @@ interface ChallengeImageWithCaptionProps {
   src: string;
   alt: string;
   caption?: string;
-  width?: number;
-  height?: number;
   priority?: boolean;
   className?: string;
   containerClassName?: string;
@@ -19,8 +17,6 @@ export default function ChallengeImageWithCaption({
   src,
   alt,
   caption,
-  width = 800,
-  height = 600,
   priority = false,
   className = "",
   containerClassName = ""
@@ -45,20 +41,18 @@ export default function ChallengeImageWithCaption({
 
   return (
     <div className={`img-container py-4 ${containerClassName}`}>
-      <div className="relative w-full" style={{ aspectRatio: `${width}/${height}` }}>
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          className={`object-cover ${className}`}
-          priority={priority}
-          quality={85}
-          onError={() => setImageError(true)}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-        />
-      </div>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className={`!relative h-auto w-full object-contain ${className}`}
+        priority={priority}
+        quality={85}
+        onError={() => setImageError(true)}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+      />
       {caption && (
-        <p className="text-sm mt-4 text-justify text-gray-700">
+        <p className="text-sm mt-2 mb-4 text-justify text-gray-700">
           {caption}
         </p>
       )}

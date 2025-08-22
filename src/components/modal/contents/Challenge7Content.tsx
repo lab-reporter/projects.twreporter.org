@@ -61,8 +61,7 @@ export default function Challenge7Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-7-1.webp"
               alt="《蘋果日報》刊登《血淚漁場》專題"
               caption="2016年12月19日的《蘋果日報》以A1、A2兩塊全版刊登《血淚漁場》專題精華內容。"
-              width={800}
-              height={600}
+
             />
 
             <Shared.ChallengeSectionHeading text="建立付費授權模式，長期簽約互惠合作" />
@@ -97,8 +96,7 @@ export default function Challenge7Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-7-2.webp"
               alt="《華盛頓郵報》轉譯《報導者》圖表"
               caption="《華盛頓郵報》在《報導者》授權下，將《報導者》針對中國軍機與戰艦侵襲台灣海峽周邊的軌跡分析，轉譯成英文版。"
-              width={800}
-              height={600}
+
             />
 
             <p>

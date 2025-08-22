@@ -41,8 +41,7 @@ export default function Challenge6Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-6-1.webp"
               alt="台南維冠大樓倒塌事故現場"
               caption="台南維冠大樓因地震發生倒塌，時任《報導者》攝影記者余志偉於事故之後趕至現場拍下畫面。（攝影／余志偉）"
-              width={800}
-              height={600}
+
             />
 
             <Shared.ChallengeSectionHeading text="2018年普悠瑪號事故隔天的即時深度報導" />
@@ -73,8 +72,7 @@ export default function Challenge6Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-6-2.webp"
               alt="防疫期間的送行者"
               caption="2021年防疫第三級警戒期間，攝影記者楊子磊拍攝送行者為確診死者送行過程。"
-              width={800}
-              height={600}
+
             />
 
             <Shared.ChallengeSectionHeading text="量力而為，關切重大社會事件" />

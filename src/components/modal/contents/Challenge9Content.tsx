@@ -57,8 +57,7 @@ export default function Challenge9Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-9-1.webp"
               alt="第一本《報導者》影響力報告"
               caption="2019年第一本《報導者》影響力報告，左為本冊，右為別冊。"
-              width={800}
-              height={600}
+
             />
 
             <p>
@@ -79,8 +78,7 @@ export default function Challenge9Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-9-2.webp"
               alt="台中科博館贊助者大會"
               caption="2022年於台中科博館舉辦的贊助者大會現場，贊助者翻閱影響力報告。"
-              width={800}
-              height={600}
+
             />
 
             <p>

@@ -10,7 +10,7 @@ export default function ChallengeFixedBackground() {
         src="/assets/challenges/challenge-bg.svg"
         alt="挑戰背景圖"
         fill
-        className="object-cover"
+        className="object-cover opacity-40"
         priority // 背景圖片優先載入
         quality={90}
       />

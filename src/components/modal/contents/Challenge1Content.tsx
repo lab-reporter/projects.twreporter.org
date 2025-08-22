@@ -52,8 +52,6 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-1-1.webp"
               alt="2015年9月1日當天《報導者》成立記者會現場。"
               caption="2015年9月1日當天《報導者》成立記者會現場。"
-              width={800}
-              height={600}
             />
             <p>
               對我而言，這場大膽驚險的媒體實驗，也圓了年少時想要創辦獨立媒體的夢想。儘管這條路比我想像中還要辛苦百倍，但我和同事們已經奮鬥走過8年，無論未來的挑戰如何艱辛，我們依舊會盡最大努力來重建媒體的公共性，繼續為健全台灣媒體生態與深化台灣民主發展貢獻心力。
@@ -79,8 +77,6 @@ export default function Challenge1Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-1-2.webp"
               alt="2016年「報導者走出去」系列講座，我們首度「開箱編輯室」與讀者面對面互動，圖為松菸閱樂書店場次。"
               caption="2016年「報導者走出去」系列講座，我們首度「開箱編輯室」與讀者面對面互動，圖為松菸閱樂書店場次。"
-              width={800}
-              height={600}
             />
           </div>
         </Shared.TextContent>

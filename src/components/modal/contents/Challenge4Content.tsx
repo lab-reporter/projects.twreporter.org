@@ -53,8 +53,6 @@ export default function Challenge4Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-4-1.webp"
               alt="《報導者》首次簽訂團體協約"
               caption="2020年1月16日《報導者》首次簽訂團體協約，除勞資雙方代表外，時任勞動部長許銘春和台北市勞動局長賴香伶皆到場觀禮。"
-              width={800}
-              height={600}
             />
 
             <p>
@@ -83,8 +81,6 @@ export default function Challenge4Content({ projectData, onNavigate: _onNavigate
               src="/assets/challenges/challenge-4-2.webp"
               alt="勞資雙方再次續約團協"
               caption="2023年1月13日勞資雙方再次續約團協，在和諧互信的勞資關係下，只經過兩次協商，就達成第二次團協簽訂共識。"
-              width={800}
-              height={600}
             />
 
             <p>
