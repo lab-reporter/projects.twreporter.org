@@ -77,13 +77,13 @@ export default function ReportsSection() {
       )}
 
       {/* 載入中狀態：避免 SSR/CSR 不匹配 */}
-      {!isClient && (
+      {/* {!isClient && (
         <div className="mt-[-100vh] w-full relative h-[calc(100vh+400px)]">
           <div className="sticky top-0 left-0 w-full h-screen flex items-center justify-center">
             <div className="text-gray-500">載入中...</div>
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 }

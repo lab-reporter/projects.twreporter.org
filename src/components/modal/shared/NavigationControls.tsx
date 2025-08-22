@@ -86,8 +86,9 @@ export default function NavigationControls({
             <div>
               <h5
                 className={`text-gray-600 group-hover:text-black transition-colors line-clamp-2 ${isNext ? 'text-right' : 'text-left '}`}
-                dangerouslySetInnerHTML={{ __html: project.title }}
-              />
+              >
+                {project.title}
+              </h5>
               {project.subtitle && (
                 <p className={`text-gray-600 group-hover:text-black transition-colors text-base font-medium line-clamp-3 leading-relaxed ${isNext ? 'text-right' : ''}`}>
                   {project.subtitle}

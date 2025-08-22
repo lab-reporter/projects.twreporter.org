@@ -137,7 +137,7 @@ export default function ReportsParallaxPhoto({
                 return (
                     <div
                         key={index}
-                        className="h-auto absolute transition-all duration-300 ease-out"
+                        className="pointer-events-none h-auto absolute transition-all duration-300 ease-out"
                         style={{
                             width: currentWidth,
                             top: currentTop,

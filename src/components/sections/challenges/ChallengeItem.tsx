@@ -19,8 +19,9 @@ export default function ChallengeItem({ title, onClick, className = '' }: Challe
         </h1> */}
         <h3
           className="text-black relative z-1 hover:text-gray-700 transition-colors duration-300"
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
+        >
+          {title}
+        </h3>
         <div className="text-gray-100 relative z-1 mt-4 text-md bg-gray-900 inline-block px-4 py-2">
           Read More
         </div>

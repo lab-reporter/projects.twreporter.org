@@ -143,7 +143,7 @@ export default function SectionNavigation() {
     // 導航容器：固定在右側中間位置，簡單淡入效果
     // 使用 hidden md:flex 來確保在小裝置上完全不渲染
     <nav
-      className="w-[4rem] border-white sticky left-[100vw] top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out"
+      className="select-none w-[4rem] border-white sticky left-[100vw] top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out"
       style={{
         opacity: isSectionNavigationVisible ? 1 : 0,
         transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`

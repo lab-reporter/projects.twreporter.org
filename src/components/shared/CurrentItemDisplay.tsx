@@ -28,22 +28,24 @@ export default function CurrentItemDisplay({
 
     return (
         <div
-            className={`max-w-[45rem] md:min-w-[32.5rem] px-4 ${className} ${currentItem && onTitleClick
-                ? 'cursor-pointer hover:opacity-50 transition-opacity duration-300'
+            className={`select-none max-w-[40rem] w-full md:min-w-[25rem] group px-4 ${className} ${currentItem && onTitleClick
+                ? 'cursor-pointer hover:text-gray-600'
                 : ''
                 }`}
             onClick={currentItem && onTitleClick ? handleTitleClick : undefined}
         >
             {/* 標題 */}
             {title && (
-                <h4
-                    className="mb-2"
-                    dangerouslySetInnerHTML={{ __html: title }}
-                />
+                <h4 className="text-inherit">
+                    {title}
+                </h4>
             )}
             {/* 副標題 */}
             {subtitle && (
-                <h6 className="text-gray-700 font-noto-sans-tc font-normal text-md leading-relaxed" dangerouslySetInnerHTML={{ __html: subtitle }} />
+                <h6 className="
+                mt-2 text-inherit font-noto-sans-tc font-normal text-md leading-relaxed">
+                    {subtitle}
+                </h6>
             )}
         </div>
     );

@@ -6,14 +6,15 @@ interface ChallengeArticleTitleProps {
 }
 
 // 挑戰章節文章主標題元件
-export default function ChallengeArticleTitle({ 
-  title, 
-  className = "" 
+export default function ChallengeArticleTitle({
+  title,
+  className = ""
 }: ChallengeArticleTitleProps) {
   return (
-    <h2 
+    <h2
       className={`text-4xl py-12 font-bold text-center ${className}`}
-      dangerouslySetInnerHTML={{ __html: title }}
-    />
+    >
+      {title}
+    </h2>
   );
 }

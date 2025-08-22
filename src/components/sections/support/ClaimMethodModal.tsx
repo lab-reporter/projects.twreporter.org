@@ -47,7 +47,7 @@ export default function ClaimMethodModal({ onClose }: ClaimMethodModalProps) {
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-[25000] p-4"
+            className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-md flex items-center justify-center z-[25000] p-4"
             onClick={handleBackdropClick}
         >
             <div className="bg-white rounded-lg shadow-xl max-w-xl w-full overflow-y-auto relative">
@@ -85,7 +85,7 @@ export default function ClaimMethodModal({ onClose }: ClaimMethodModalProps) {
 
                         <p className="text-sm text-gray-600">
                             如您對十週年限定回饋品有任何問題，歡迎來信&nbsp;
-                            <a href="mailto:events@twreporter.org" className="text-gold-70 hover:underline">
+                            <a href="mailto:events@twreporter.org" className="underline-offset-4 hover:decoration-red-70 hover:text-red-70">
                                 events@twreporter.org
                             </a>
                             &nbsp;與《報導者》聯絡。

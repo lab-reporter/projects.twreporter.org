@@ -422,7 +422,7 @@ export default function ReportsSwiper() {
           className="absolute w-full flex justify-center items-center"
           style={{
             opacity: 0,
-            bottom: `${sliderSize * 0.75}vw`,
+            bottom: `${sliderSize * 0.5}vw`,
           }}
         >
           <ItemDisplayWithNavigation

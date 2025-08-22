@@ -11,8 +11,8 @@ interface SectionHeadingsProps {
 
 export default function SectionHeadings({ titleEn, titleZh, children, className }: SectionHeadingsProps) {
   return (
-    < div className={`mx-auto w-full px-8 flex flex-col items-center justify-center ${className || ''}`} >
-      <div className="relative">
+    < div className={`select-none  mx-auto w-full px-8 flex flex-col items-center justify-center ${className || ''}`} >
+      <div className="pointer-events-none select-none relative">
         <h1 className="text-center mb-4 relative z-10">
           {titleEn}
         </h1>

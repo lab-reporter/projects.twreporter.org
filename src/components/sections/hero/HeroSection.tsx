@@ -31,64 +31,6 @@ export default function HeroSection() {
     const [scrollProgress, setScrollProgress] = useState(0);
     // 響應式斷點檢測：用於判斷是否為行動裝置
     const breakpoint = useBreakpoint();
-    // 定義各個導航項目與對應的 section
-    // const navigationItems = [
-    //     { id: 'reports', englishTitle: 'Impact', chineseTitle: '深度報導・影響力' },
-    //     { id: 'innovations', englishTitle: 'Innovation', chineseTitle: '開放新聞室・創新' },
-    //     { id: 'challenges', englishTitle: 'Breakthrough', chineseTitle: '非營利媒體・突圍' },
-    //     { id: 'support', englishTitle: 'Support Us', chineseTitle: '支持報導者走過下個十年' }
-    // ];
-
-    // // 滾動到指定章節的函數（參考 SectionNavigation 的實作）
-    // const scrollToSection = async (sectionId: string) => {
-    //     // 檢查是否有 swiper 正在動畫，如果是則忽略此次調用
-    //     if (document.body.hasAttribute('data-swiper-animating')) {
-    //         if (process.env.NODE_ENV === 'development') {
-    //             console.log('🚫 HeroSection: 忽略跳轉請求，swiper 正在動畫中');
-    //         }
-    //         return;
-    //     }
-
-    //     // 查找目標元素
-    //     const targetElement = document.getElementById(`section-${sectionId}`);
-    //     if (!targetElement) return;
-
-    //     // 立即更新當前章節狀態
-    //     const { setCurrentSection } = useStore.getState();
-    //     setCurrentSection(sectionId);
-
-    //     // 獲取目標位置
-    //     const targetPosition = targetElement.offsetTop;
-
-    //     // 手動處理背景顏色
-    //     const mainElement = document.querySelector('main');
-    //     if (mainElement) {
-    //         // 如果跳轉到 feedbacks 或 support，背景應該是黑色
-    //         if (sectionId === 'feedbacks' || sectionId === 'support') {
-    //             mainElement.style.backgroundColor = 'rgba(0, 0, 0, 1)';
-    //         } else {
-    //             // 其他區塊背景應該是白色
-    //             mainElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    //         }
-    //     }
-
-    //     // 強制跳轉（無動畫）
-    //     window.scrollTo(0, targetPosition);
-
-    //     // 確保 ScrollTrigger 更新並重新計算背景動畫
-    //     setTimeout(async () => {
-    //         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-
-    //         // 刷新所有 ScrollTrigger
-    //         ScrollTrigger.refresh();
-
-    //         // 強制更新背景動畫的進度
-    //         const bgAnimation = ScrollTrigger.getById('main-background-animation');
-    //         if (bgAnimation) {
-    //             bgAnimation.refresh();
-    //         }
-    //     }, 50);
-    // };
 
     // ============================
     // GSAP ScrollTrigger 設定：統一的滾動進度管理
@@ -146,25 +88,25 @@ export default function HeroSection() {
     // ============================
     // 影片播放進度控制
     // ============================
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video || breakpoint === 'base' || breakpoint === 'sm') return;
+    // useEffect(() => {
+    //     const video = videoRef.current;
+    //     if (!video || breakpoint === 'base' || breakpoint === 'sm') return;
 
-        const currentProgress = getCurrentProgress(scrollProgress);
+    //     const currentProgress = getCurrentProgress(scrollProgress);
 
-        // 計算當前循環內的播放進度 (0-1)
-        const cycleProgress = (currentProgress.videoPlayback % 1);
+    //     // 計算當前循環內的播放進度 (0-1)
+    //     const cycleProgress = (currentProgress.videoPlayback % 1);
 
-        // 設定影片播放進度
-        if (video.duration && !isNaN(video.duration)) {
-            video.currentTime = video.duration * cycleProgress;
-        }
+    //     // 設定影片播放進度
+    //     if (video.duration && !isNaN(video.duration)) {
+    //         video.currentTime = video.duration * cycleProgress;
+    //     }
 
-        // 開發模式除錯資訊
-        if (process.env.NODE_ENV === 'development') {
-            console.log(`🎬 影片播放進度: ${(cycleProgress * 100).toFixed(1)}%, 循環: ${Math.floor(currentProgress.videoPlayback) + 1}/5`);
-        }
-    }, [scrollProgress, breakpoint]);
+    //     // 開發模式除錯資訊
+    //     if (process.env.NODE_ENV === 'development') {
+    //         console.log(`🎬 影片播放進度: ${(cycleProgress * 100).toFixed(1)}%, 循環: ${Math.floor(currentProgress.videoPlayback) + 1}/5`);
+    //     }
+    // }, [scrollProgress, breakpoint]);
 
     // ============================
     // 縮放動畫控制
@@ -210,23 +152,11 @@ export default function HeroSection() {
                     <h5>
                         看看我們跟讀者一起走過了什麼
                     </h5>
-                    {/* <ul className="mt-8">
-                    {navigationItems.map((item) => (
-                        <li
-                            key={item.id}
-                            onClick={() => scrollToSection(item.id)}
-                            className="py-2 lg:py-4 border-b border-gray-200 lg:pr-8 cursor-pointer transition-all duration-300 ease-in-out hover:border-red-70"
-                        >
-                            <h4 className="font-normal lg:text-left text-center lg:mb-2 mb-0">{item.englishTitle}</h4>
-                            <h6 className="lg:text-left text-center">{item.chineseTitle}</h6>
-                        </li>
-                    ))}
-                </ul> */}
                 </div>
                 {/* 影片區域 */}
                 <div className="h-full py-20">
                     <video
-                        ref={videoRef}
+                        // ref={videoRef}
                         src="/assets/KV/motion 2160p.mp4"
                         autoPlay
                         muted

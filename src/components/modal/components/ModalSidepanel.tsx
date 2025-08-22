@@ -207,8 +207,9 @@ export default function ModalSidepanel({
                 ? 'text-black font-medium'
                 : 'text-gray-600 group-hover:text-black'
                 } transition-colors`}
-              dangerouslySetInnerHTML={{ __html: project.title }}
-            />
+            >
+              {project.title}
+            </h5>
             {project.subtitle && (
               <p className={`text-sm mt-1 line-clamp-1 ${isActive
                 ? 'text-gray-700'

@@ -53,7 +53,7 @@ export default function ItemDisplayWithNavigation({
 
 
     return (
-        <div className={`flex px-8 justify-center items-center ${className}`}>
+        <div className={`w-full flex px-8 justify-center items-center ${className}`}>
             {/* 上一個按鈕 */}
             <Button
                 variant="navigation"
