@@ -129,18 +129,18 @@ function NotFoundItem({
 // ============================
 // 固定的圖片路徑陣列
 const imageData: NotFoundImageItem[] = [
-    { path: '/assets/reports/reports-1.webp', title: '綁債．黑工．留學陷阱', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-2.webm', title: '山頭上的掐奪', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-3.webm', title: '造假．剝削．血淚漁場', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-4.webp', title: '廢墟裡的少年', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-5.webp', title: '六輕營運20年', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-6.webp', title: '死嬰百場', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-7.webm', title: '移工：我不回去了', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-8.webm', title: '軍秘帽', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-9.webp', title: '資安風暴', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-10.webp', title: '少子化海嘯', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-11.webp', title: '戒嚴時代', bgColor: '#F1F1F1' },
-    { path: '/assets/reports/reports-12.webm', title: '清官難為', bgColor: '#F1F1F1' }
+    { path: '/assets/reports/reports-1-thumb.webp', title: '綁債．黑工．留學陷阱', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-2-thumb.webp', title: '山頭上的掐奪', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-3-thumb.webp', title: '造假．剝削．血淚漁場', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-4-thumb.webp', title: '廢墟裡的少年', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-5-thumb.webp', title: '六輕營運20年', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-6-thumb.webp', title: '死嬰百場', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-7-thumb.webp', title: '移工：我不回去了', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-8-thumb.webp', title: '軍秘帽', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-9-thumb.webp', title: '資安風暴', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-10-thumb.webp', title: '少子化海嘯', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-11-thumb.webp', title: '戒嚴時代', bgColor: '#F1F1F1' },
+    { path: '/assets/reports/reports-12-thumb.webp', title: '清官難為', bgColor: '#F1F1F1' }
 ];
 
 export default function NotFound() {
@@ -179,19 +179,8 @@ export default function NotFound() {
     // 工具函數區塊
     // ============================
     const getResponsiveValues = (width: number) => {
-        if (width < 640) {
-            return { sliderSize: 10.5 };
-        } else if (width < 768) {
-            return { sliderSize: 9 };
-        } else if (width < 1024) {
-            return { sliderSize: 8 };
-        } else if (width < 1280) {
-            return { sliderSize: 7 };
-        } else if (width < 1536) {
-            return { sliderSize: 5 };
-        } else {
-            return { sliderSize: 4 };
-        }
+
+        return { sliderSize: 5 };
     };
 
     const shouldPlayVideo = () => {
@@ -419,11 +408,11 @@ export default function NotFound() {
                 {/* 404 資訊和返回按鈕 */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                     <div className="text-center pointer-events-auto p-12">
-                        <h1 className="text-8xl font-bold mb-4 text-white">404</h1>
+                        <h1 className="leading-none text-white">404</h1>
                         <p className="text-2xl mb-8 text-white/80">頁面不存在</p>
                         <button
                             onClick={handleReturnHome}
-                            className="inline-block px-8 py-4 bg-white text-black rounded-full hover:bg-gray-200 transition-all duration-300 font-medium text-lg shadow-lg"
+                            className="inline-block px-4 py-2 bg-white text-black rounded-full hover:bg-gray-200 transition-all duration-300"
                         >
                             返回首頁
                         </button>
