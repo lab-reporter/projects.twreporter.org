@@ -16,7 +16,7 @@ export default function Challenge4Content({ projectData, onNavigate: _onNavigate
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
 
-          <div className="space-y-4">
+          <div className="">
             <Shared.ChallengeQuoteAuthor author="《報導者》創辦人兼執行長 何榮幸：" />
 
             <p>

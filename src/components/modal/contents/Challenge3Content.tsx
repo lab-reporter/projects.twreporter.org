@@ -16,8 +16,8 @@ export default function Challenge3Content({ projectData, onNavigate: _onNavigate
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
 
-          <div className="space-y-4">
-            <Shared.ChallengeQuoteAuthor author="《報導者》營運長 李雪莉：" />
+          <div className="">
+            <Shared.ChallengeQuoteAuthor author="《報導者》營運長 李雪莉" />
 
             <p>
               2016年的某天，我還記得是去尼泊爾參加全球深度報導網（Global Investigative Journalism Network，GIJN）的年度大會（Global Investigative Journalism Conference，GIJC）後不久，我在台北街頭等紅綠燈時，巧遇同樣去了尼泊爾的一位媒體前輩，在短短等待綠燈通行的幾十秒，她對我說：「妳應該是那場會議收穫最多的人吧！」

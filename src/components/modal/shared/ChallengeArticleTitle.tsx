@@ -14,13 +14,13 @@ export default function ChallengeArticleTitle({
 }: ChallengeArticleTitleProps) {
   return (
     <div className="pointer-events-none select-none relative my-24">
-      <h3 className="text-center z-10">
+      <h3 className="text-center z-10 relative">
         {title}
       </h3>
       <Image
         src="/assets/line.png"
         alt="Innovation"
-        className="absolute top-[50%] left-1/2 -translate-x-1/2 z-0 max-w-[30rem] h-auto"
+        className="absolute bottom-[-1rem] left-1/2 -translate-x-1/2 z-0 w-full h-8"
         width={1382}
         height={213}
       />

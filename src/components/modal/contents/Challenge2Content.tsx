@@ -16,7 +16,7 @@ export default function Challenge2Content({ projectData, onNavigate: _onNavigate
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
 
-          <div className="space-y-4">
+          <div className="">
             {/* 引言作者 */}
             <Shared.ChallengeQuoteAuthor
               organization="報導者"

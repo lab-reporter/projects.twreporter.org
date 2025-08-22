@@ -16,7 +16,7 @@ export default function Challenge10Content({ projectData, onNavigate: _onNavigat
           {/* 文章標題 */}
           <Shared.ChallengeArticleTitle title={projectData.title} />
 
-          <div className="space-y-4">
+          <div className="">
             <p>
               從2015年9月1日創辦《報導者》至今，我最常被問到的問題是：非營利媒體這條路如此艱辛，是什麼原因支撐你走到現在？
             </p>

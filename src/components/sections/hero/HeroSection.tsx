@@ -16,7 +16,7 @@ const getCurrentProgress = (overallProgress: number) => {
 
     return {
         // 影片播放進度：0-1 整個範圍，循環播放 5 次
-        videoPlayback: overallProgress * 10, // 0-5，每 0.2 為一個循環
+        // videoPlayback: overallProgress * 10, // 0-5，每 0.2 為一個循環
         // 縮放動畫：0.05-1 範圍
         scaleAnimation: progress(0.05, 1),
     };
@@ -26,7 +26,7 @@ export default function HeroSection() {
     // DOM 元素參考：用於 GSAP 動畫控制
     const heroSectionRef = useRef<HTMLDivElement>(null);
     // 影片元素參考：用於控制影片播放進度
-    const videoRef = useRef<HTMLVideoElement>(null);
+    // const videoRef = useRef<HTMLVideoElement>(null);
     // 滾動進度狀態
     const [scrollProgress, setScrollProgress] = useState(0);
     // 響應式斷點檢測：用於判斷是否為行動裝置

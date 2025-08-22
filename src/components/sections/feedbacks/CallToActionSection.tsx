@@ -116,8 +116,8 @@ const Row = ({
         <div
             className="flex -mb-px"
             style={{
-                transformStyle: 'preserve-3d',
-                perspective: '500px',
+                // transformStyle: 'preserve-3d',
+                // perspective: '500px',
                 // translateX 實現水平移動，負值向左移動
                 transform: `translateX(-${offset * 100}%)`,
             }}
@@ -167,10 +167,10 @@ const getCurrentProgress = (overallProgress: number) => {
         allRow: progress(0.1, 0.4),      // 全部行顯示
         zoom: progress(0.4, 0.6),         // 縮放放大
         textAnimation: progress(0.5, 0.55), // 文字動畫進度
-        imageFadeIn: progress(0.6, 0.7),   // 背景圖片淡入
-        rotateY: progress(0.7, 0.8),      // rotateY旋轉
-        fade: progress(0.6, 0.7),       // 淡出消失
-        secondSectionFadeOut: progress(0.65, 0.7), // 第二部分淡出
+        imageFadeIn: progress(0.5, 0.6),   // 背景圖片淡入
+        rotateY: progress(0.65, 0.7),      // rotateY旋轉
+        fade: progress(0.65, 0.7),       // 淡出消失
+        secondSectionFadeOut: progress(0.6, 0.65), // 第二部分淡出
         donatePanelFadeIn: progress(0.7, 0.75),  // 贊助面板淡入
     };
 };
@@ -373,7 +373,6 @@ export default function CallToActionSection() {
         >
             {/* Cut Scene 動畫區域 */}
             <div className="w-full h-screen flex items-center justify-center sticky top-0 left-0 overflow-hidden">
-                <Grid progress={progress} showDebug={true} />
                 <Image
                     src="/assets/Donate-BG.png"
                     alt="Donate背景"
@@ -384,6 +383,7 @@ export default function CallToActionSection() {
                         opacity: getCurrentProgress(progress).imageFadeIn,
                     }}
                 />
+                <Grid progress={progress} showDebug={true} />
             </div>
 
             {/* ============================
