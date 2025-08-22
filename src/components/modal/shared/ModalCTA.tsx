@@ -9,7 +9,7 @@ interface ModalCTAProps {
 
 export function ModalCTA({ onClose }: ModalCTAProps) {
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center py-12 gap-8">
             <ModalDonate onClose={onClose || (() => { })} />
             <ShareLink />
         </div>

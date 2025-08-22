@@ -17,7 +17,7 @@ export default function CreditsMarquee({
   const animationDuration = childCount * 4;
 
   return (
-    <div className={`py-12 text-center ${className}`}>
+    <div className={`pt-12 text-center ${className}`}>
       {/* 分隔線 */}
       <div className="w-64 h-[1px] bg-gray-400 mx-auto mb-10"></div>
 

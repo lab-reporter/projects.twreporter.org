@@ -453,7 +453,7 @@ export default function ModalScrollManager({
             >
                 {/* 滾動進度條 - 只在沒有 InnovationSlidesContainer 時顯示 */}
                 {!hasSlideContainer && (
-                    <div className="sticky top-0 left-0 mb-[-6px] w-full h-[6px] bg-transparent z-20">
+                    <div className="sticky top-0 left-0 mb-[-4px] w-full h-[4px] bg-transparent z-20">
                         <div
                             className="h-full bg-gradient-to-l from-[#5656F3] via-[#9651CA] to-[#F32137] rounded-full"
                             style={{ width: `${scrollProgress * 100}%` }}
