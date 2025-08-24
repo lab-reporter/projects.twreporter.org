@@ -53,12 +53,12 @@ export default function Innovation4Content({ projectData, onNavigate: _onNavigat
           />
         </Shared.InnovationSlide>
 
-        <Shared.InnovationSlide className="">
+        <Shared.InnovationSlide className="relative">
           <Shared.SlideMedia
             type="iframe"
             src="https://www.listennotes.com/podcasts/the-real-storyby-報導者-報導者-soundon-製作團隊-FIh41mSR5qs/embed/"
             alt="讓社會各個角落、多元價值的聲音被聽見、開啟對話，是《報導者》持續努力的目標。"
-            className="w-1/2 mx-auto h-full pt-12"
+            className="w-[60%] px-12 mx-auto h-full pt-12"
           />
           <Shared.SlideTextCard
             text="讓社會各個角落、多元價值的聲音被聽見、開啟對話，是《報導者》持續努力的目標。"
@@ -71,7 +71,7 @@ export default function Innovation4Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="《報導者》Podcast 節目已累積將近3,000萬次收聽，兩度獲卓越新聞獎。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="《報導者》Podcast 節目已累積將近3,000萬次收聽，兩度獲卓越新聞獎。"

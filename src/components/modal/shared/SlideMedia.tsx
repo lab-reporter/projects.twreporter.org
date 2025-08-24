@@ -61,7 +61,7 @@ export default function SlideMedia({
         <iframe
           src={src}
           title={iframeProps?.title || alt || 'Embedded content'}
-          className={`w-full h-full ${className}`}
+          className={`${className}`}
           allow={iframeProps?.allow}
           allowFullScreen={iframeProps?.allowFullscreen}
           sandbox={iframeProps?.sandbox}

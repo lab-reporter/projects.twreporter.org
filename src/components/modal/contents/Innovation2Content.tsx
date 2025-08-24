@@ -79,7 +79,7 @@ export default function Innovation2Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="多媒體擴展了敘事邊界與讀者參與方式，你對哪一則多媒體新聞印象最深呢？"

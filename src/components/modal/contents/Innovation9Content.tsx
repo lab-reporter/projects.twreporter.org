@@ -72,7 +72,7 @@ export default function Innovation9Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="10年來，《報導者》在黑暗中維繫一絲微光，希望透過鏡頭，我們能記錄更多社會角落的印記。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="10年來，《報導者》在黑暗中維繫一絲微光，希望透過鏡頭，我們能記錄更多社會角落的印記。"

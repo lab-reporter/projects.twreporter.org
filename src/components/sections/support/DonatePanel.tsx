@@ -241,10 +241,10 @@ export default function DonatePanel() {
     return (
         // 主要頁面區塊：支持頁面
         <div
-            className="p-12 w-full h-full text-white flex flex-col lg:flex-row justify-center items-center gap-16"
+            className="relative p-12 w-full h-full text-white flex flex-col lg:flex-row justify-center items-center gap-16"
         >
             {/* 左側贊助支持區塊 */}
-            <div className="">
+            <div className="relative">
                 {/* 數字顯示區域：支持者人數統計（動畫觸發點） */}
                 <div ref={supporterRef} className="text-center">
                     {/* 主要呼籲標題 */}

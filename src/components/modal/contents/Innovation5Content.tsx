@@ -70,7 +70,7 @@ export default function Innovation5Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="影音新聞是理解複雜議題的橋梁，召喚觀眾重新靠近深度報導。"

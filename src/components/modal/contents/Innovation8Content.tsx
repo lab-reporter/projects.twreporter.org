@@ -69,7 +69,7 @@ export default function Innovation8Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="「Live and breathe something」是一個英文片語，告訴著我們：每天生活呼吸觸碰到的，或許就是你視為和生命一樣重要的事情。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="「Live and breathe something」是一個英文片語，告訴著我們：每天生活呼吸觸碰到的，或許就是你視為和生命一樣重要的事情。"

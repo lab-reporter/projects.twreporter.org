@@ -95,7 +95,7 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
         <Shared.InnovationSlide className="flex flex-col items-center justify-center">
           <div className="w-full max-w-[60rem] py-12 mx-auto h-auto flex flex-col">
             {/* 語言切換按鈕區域 */}
-            <div className="flex flex-wrap justify-center gap-2 mb-2 px-4">
+            <div className="flex flex-wrap justify-center gap-2 mb-8 px-4">
               {languages.map((lang) => (
                 <Button
                   key={lang.code}
@@ -110,12 +110,12 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
               ))}
             </div>
             {/* iframe 媒體區域 */}
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <Shared.SlideMedia
                 type="iframe"
                 src={currentIframeSrc}
                 alt="為了讓多元族群孩子也能接觸優質新聞，2023年與央廣合作，推出華語、台灣台語、台灣客語、英語、日語、印尼語、泰語、越南語、菲律賓與、粵語等10種語言讀報。"
-                className="py-12 mx-auto h-[30rem]"
+                className="mx-auto h-[30rem] w-full"
               />
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function Innovation6Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="《少年報導者》把每個孩子當成獨立的大人，透過深度報導與議題教案，讓老師、家長和孩子一起思辨世界動態。"

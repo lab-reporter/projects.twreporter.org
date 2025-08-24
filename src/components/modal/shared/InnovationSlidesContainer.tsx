@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Button from '../../shared/Button';
+import { ChevronUpIcon, ChevronDownIcon } from '../../shared/NavigationIcons';
 
 interface InnovationSlidesContainerProps {
   children: React.ReactNode;
@@ -51,7 +53,7 @@ export default function InnovationSlidesContainer({
     // 動畫結束後解除鎖定
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 500);
+    }, 200);
   }, [currentSlide, slideCount, onSlideChange]);
 
   // 處理滾輪事件
@@ -175,11 +177,13 @@ export default function InnovationSlidesContainer({
         ))}
       </div>
 
-      {/* 圓點導航 */}
+      {/* 圓點導航與切換按鈕 */}
       <DotNavigation
         total={slideCount}
         current={currentSlide}
         onDotClick={goToSlide}
+        onPrevious={() => goToSlide(currentSlide - 1)}
+        onNext={() => goToSlide(currentSlide + 1)}
       />
     </div>
   );
@@ -198,7 +202,7 @@ function SlidePage({ children, isActive }: SlidePageProps) {
     <div
       className={`
         absolute inset-0 w-full h-full
-        transition-opacity duration-500 ease-in-out
+        transition-opacity duration-200 ease-in-out
         ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}
       `}
     >
@@ -207,38 +211,74 @@ function SlidePage({ children, isActive }: SlidePageProps) {
   );
 }
 
-// 圓點導航組件
+// 圓點導航組件（含上下切換按鈕）
 interface DotNavigationProps {
   total: number;
   current: number;
   onDotClick: (index: number) => void;
+  onPrevious: () => void;
+  onNext: () => void;
 }
 
-function DotNavigation({ total, current, onDotClick }: DotNavigationProps) {
+function DotNavigation({ total, current, onDotClick, onPrevious, onNext }: DotNavigationProps) {
+  // 判斷是否為邊界狀態（禁用按鈕）
+  const isFirstSlide = current === 0;
+  const isLastSlide = current === total - 1;
+
   return (
     <div className="
       absolute left-4 top-1/2 -translate-y-1/2 z-20
       md:left-8
-      flex flex-col gap-3
+      flex flex-col items-center gap-2
       md:flex-col
-      sm:absolute sm:bottom-4 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
+      sm:absolute sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
       sm:flex-row
     ">
-      {Array.from({ length: total }, (_, index) => (
-        <button
-          key={index}
-          onClick={() => onDotClick(index)}
-          className={`
-            w-3 h-3 rounded-full transition-all duration-300
-            hover:scale-125
-            ${index === current
-              ? 'bg-red-70 scale-125'
-              : 'bg-white/50 border border-gray-400 hover:bg-red-90'
-            }
-          `}
-          aria-label={`Go to slide ${index + 1}`}
-        />
-      ))}
+      {/* 上一頁按鈕（桌面版在上方，手機版在左方）*/}
+      <Button
+        variant="navigation"
+        shape="circle"
+        size="sm"
+        onClick={onPrevious}
+        disabled={isFirstSlide}
+        aria-label="上一張投影片"
+        leftIcon={<ChevronUpIcon size={16} className="" />}
+        className="sm:order-1"
+      />
+
+      {/* 圓點導航區域 */}
+      <div className="
+        flex flex-row md:flex-col gap-3
+        order-2
+      ">
+        {Array.from({ length: total }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => onDotClick(index)}
+            className={`
+              w-3 h-3 rounded-full transition-all duration-300
+              hover:scale-125
+              ${index === current
+                ? 'bg-red-70 scale-125'
+                : 'bg-white/50 border border-gray-400 hover:bg-red-90'
+              }
+            `}
+            aria-label={`前往第 ${index + 1} 張投影片`}
+          />
+        ))}
+      </div>
+
+      {/* 下一頁按鈕（桌面版在下方，手機版在右方）*/}
+      <Button
+        variant="navigation"
+        shape="circle"
+        size="sm"
+        onClick={onNext}
+        disabled={isLastSlide}
+        aria-label="下一張投影片"
+        leftIcon={<ChevronDownIcon size={16} className="" />}
+        className="sm:order-3"
+      />
     </div>
   );
 }

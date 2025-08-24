@@ -72,7 +72,7 @@ export default function Innovation7Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="以「事件簿」為名，期望透過一個又一個的事件，在將來串連成一個更宏觀的紀錄。"

@@ -54,7 +54,7 @@ export default function Innovation3Content({ projectData, onNavigate: _onNavigat
             type="video"
             src={projectData.path}
             alt="元件庫已收錄7款小工具，濃縮《報導者》10年的數位敘事經驗，希望這些工具能成為你的數位內容創作好幫手。"
-            className="object-contain"
+            className="object-contain w-full h-full"
           />
           <Shared.SlideTextCard
             text="元件庫已收錄7款小工具，濃縮《報導者》10年的數位敘事經驗，希望這些工具能成為你的數位內容創作好幫手。"
