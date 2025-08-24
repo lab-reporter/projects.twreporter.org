@@ -100,7 +100,7 @@ export default function InnovationsSwiperMobile() {
     // ============================
     return (
         <div
-            className="relative w-full flex flex-col gap-16 select-none"
+            className=" relative w-full flex flex-col gap-16 select-none"
             style={{
                 userSelect: "none",
                 WebkitUserSelect: "none",
@@ -113,19 +113,14 @@ export default function InnovationsSwiperMobile() {
                 modules={[EffectFlip, Pagination, Navigation]}
                 effect="flip"
                 grabCursor={true}
-                pagination={{
-                    clickable: true,
-                }}
-                navigation={true}
+                pagination={false}
+                navigation={false}
                 onSlideChange={handleSlideChange}
                 onSwiper={handleSwiperInit}
                 loop={true}
                 // 確保第一張在正中央
                 initialSlide={0}
-                className="w-full max-w-sm mx-auto"
-                style={{
-                    paddingBottom: '50px', // 為 pagination 留空間
-                }}
+                className="w-[80%] mx-auto"
             >
                 {innovationsData.map((item, index) => (
                     <SwiperSlide
@@ -139,7 +134,7 @@ export default function InnovationsSwiperMobile() {
                         }}
                     >
                         <div
-                            className="relative w-full aspect-[4/3] select-none cursor-pointer hover:opacity-90 transition-opacity"
+                            className="relative w-full aspect-[4/3] select-none cursor-pointer"
                             style={{
                                 userSelect: "none",
                                 WebkitUserSelect: "none",
@@ -152,7 +147,7 @@ export default function InnovationsSwiperMobile() {
                             <video
                                 src={item.videoSRC} // 使用 MP4 格式的影片
                                 poster={getResponsiveImagePath(item as unknown as ProjectData, 'innovations-mobile')} // 使用響應式封面圖
-                                className="w-full h-full object-cover select-none rounded-lg"
+                                className="w-full h-full object-cover select-none"
                                 muted
                                 playsInline
                                 preload="metadata"
@@ -170,7 +165,7 @@ export default function InnovationsSwiperMobile() {
                             />
 
                             {/* 視覺提示層 */}
-                            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-200 rounded-lg" />
+                            <div className="absolute inset-0 transition-colors duration-200" />
                         </div>
                     </SwiperSlide>
                 ))}

@@ -139,7 +139,7 @@ export default function HeroSection() {
                 ref={heroSectionRef}
                 className="
             relative bg-white w-full mb-[-100v] max-w-[100rem] mx-auto flex flex-col-reverse justify-center items-center
-            h-[100dvh] lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-32 lg:py-0 lg:flex-row gap-8 lg:gap-0"
+            h-[100dvh] lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-20 lg:py-0 lg:flex-row gap-8 lg:gap-0"
             >
                 {/* 文字區塊 */}
                 <div className="w-auto flex-shrink-0 flex flex-col lg:justify-start justify-center items-center lg:items-start">
@@ -155,14 +155,14 @@ export default function HeroSection() {
                     </h5>
                 </div>
                 {/* 影片區域 */}
-                <div className="h-full p-20 relative">
+                <div className="h-full p-10 relative">
                     <video
                         // ref={videoRef}
                         src="/assets/KV/motion 2160p.mp4"
                         autoPlay
                         muted
                         loop={true}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                     ></video>
                     <div className="w-full h-full absolute z-10 top-0 left-0 wave-animation">
                         <Image

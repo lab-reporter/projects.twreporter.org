@@ -19,7 +19,7 @@ export default function SectionHeadings({ titleEn, titleZh, children, className 
         <Image
           src="/assets/line.png"
           alt="Innovation"
-          className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 z-0 max-w-[30rem] h-auto"
+          className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 z-0 max-w-[30rem] w-full h-auto"
           width={1382}
           height={213}
         />

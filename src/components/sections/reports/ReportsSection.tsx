@@ -39,7 +39,7 @@ export default function ReportsSection() {
     <section
       // 頁面錨點 ID
       id="section-reports"
-      className="relative w-full h-auto text-black flex flex-col items-center justify-center"
+      className="relative py-40 lg:py-0 w-full h-auto text-black flex flex-col items-center justify-center"
     >
       {/* 章節標題區域 */}
       <div
