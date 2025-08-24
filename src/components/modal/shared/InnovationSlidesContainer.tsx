@@ -236,7 +236,7 @@ function DotNavigation({ total, current, onDotClick, onPrevious, onNext }: DotNa
     ">
       {/* 上一頁按鈕（桌面版在上方，手機版在左方）*/}
       <Button
-        variant="navigation"
+        variant="close"
         shape="circle"
         size="sm"
         onClick={onPrevious}
@@ -270,7 +270,7 @@ function DotNavigation({ total, current, onDotClick, onPrevious, onNext }: DotNa
 
       {/* 下一頁按鈕（桌面版在下方，手機版在右方）*/}
       <Button
-        variant="navigation"
+        variant="close"
         shape="circle"
         size="sm"
         onClick={onNext}
