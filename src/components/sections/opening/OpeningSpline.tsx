@@ -162,16 +162,6 @@ export default function OpeningSpline() {
                     position="bottom-right"
                 />
             )}
-
-            {/* 原本的 SKIP 按鈕實作（已替換為統一元件） */}
-            {/* {showSkipButton && (
-                <button
-                    onClick={handleSkip}
-                    className="absolute leading-none bottom-4 right-4 z-[99999] bg-[rgba(0,0,0,0.5)] backdrop-blur-lg text-gray-200 px-2 py-2 text-sm hover:bg-gray-800 hover:text-white transition-colors"
-                >
-                    SKIP
-                </button>
-            )} */}
         </div>
     );
 }
