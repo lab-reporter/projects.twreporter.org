@@ -97,7 +97,7 @@ export default function SectionNavigation() {
   // 第一組按鈕的樣式生成函數
   const getFirstGroupButtonClass = (sectionId: string) => {
     const isActive = activeSection === sectionId;
-    const baseClass = 'bg-transparent backdrop-blur-md border-none cursor-pointer transition-all duration-300 ease-out';
+    const baseClass = 'bg-transparent border-none cursor-pointer transition-all duration-300 ease-out';
 
     if (isActive) {
       return `${baseClass} text-black`;

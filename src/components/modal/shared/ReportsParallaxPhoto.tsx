@@ -218,7 +218,7 @@ export default function ReportsParallaxPhoto({
                         />
 
                         {/* 開發模式：顯示響應式調試資訊 */}
-                        {process.env.NODE_ENV === 'development' && (
+                        {/* {process.env.NODE_ENV === 'development' && (
                             <div className="absolute top-2 right-2 bg-black/80 text-white text-[10px] px-2 py-1 rounded font-mono">
                                 <div className="text-green-300">Parallax Mode</div>
                                 <div className="text-yellow-300">BP: {breakpoint}</div>
@@ -227,7 +227,7 @@ export default function ReportsParallaxPhoto({
                                 <div>Z: {currentZ}</div>
                                 <div>W: {currentWidth}</div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 );
             })}

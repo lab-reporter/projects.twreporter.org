@@ -62,8 +62,8 @@ export default function Modal() {
         // 設定初始狀態（隱藏）
         gsap.set(modalBody, {
           opacity: 0.5,
-          scale: 0.25,
-          rotateY: 90,
+          scale: 0.5,
+          // rotateY: 30,
           transformOrigin: 'center center',
           transformPerspective: 500  // 加入透視深度
         });
@@ -72,22 +72,22 @@ export default function Modal() {
         openTween = gsap.to(modalBody, {
           opacity: 1,
           scale: 1,
-          rotateY: 0,
+          // rotateY: 0,
           transformPerspective: 500,  // 保持透視深度
-          duration: 0.6,
-          ease: 'back.in(1.7)'
+          duration: 0.3,
+          ease: 'power1.out'
         });
       });
     } else if (shouldRender) {
       // 關閉動畫：回到隱藏狀態
       if (modalBody) {
         closeTween = gsap.to(modalBody, {
-          opacity: 0.5,
+          opacity: 0,
           scale: 0.25,
-          rotateY: 90,
+          // rotateY: 30,
           transformPerspective: 500,  // 保持透視深度
           duration: 0.3,
-          ease: 'back.in(1.7)',
+          ease: 'power1.in',
           onComplete: () => {
             // 動畫完成後隱藏組件並清除快照
             setShouldRender(false);

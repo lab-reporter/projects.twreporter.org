@@ -129,10 +129,10 @@ const ChallengesSwiper: React.FC = () => {
                             style={{
                                 width: '35vw',
                                 height: '26vw',
-                                minWidth: '400px',
-                                minHeight: '300px',
-                                maxWidth: '600px',
-                                maxHeight: '450px'
+                                minWidth: '300px',
+                                minHeight: '225px',
+                                maxWidth: '450px',
+                                maxHeight: '337.5px'
                             }}
                             data-swiper-slide-index={index}
                         >

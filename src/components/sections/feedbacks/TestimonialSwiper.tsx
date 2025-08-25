@@ -132,7 +132,6 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                     spaceBetween={10}
                     grabCursor={false}
                     loop={true}
-                    modules={[Pagination]}
                     className="mySwiper w-full cursor-pointer"
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper;
@@ -147,7 +146,7 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                             <>
                                 <SwiperSlide key={index} className={isCenterCard ? 'center-card' : ''}>
                                     <div
-                                        className="w-[18rem] h-[24rem] flex-shrink-0"
+                                        className="lg:w-[18rem] lg:h-[24rem] w-[16.5rem] h-[22rem] flex-shrink-0"
                                         style={{
                                             userSelect: 'none',
                                             background: isCenterCard ? gradientStyle.backgroundImage : 'black',
@@ -157,7 +156,8 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                                         }}
                                     >
                                         <p
-                                            className="font-noto-serif-tc text-justify w-full h-full p-8 text-white flex items-center justify-center leading-relaxed"
+                                            className="
+                                            lg:text-base text-sm font-noto-serif-tc text-justify w-full h-full p-8 text-white flex items-center justify-center leading-relaxed"
                                             style={{
                                                 backgroundColor: 'black',
                                             }}
