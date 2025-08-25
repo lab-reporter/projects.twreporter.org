@@ -5,4 +5,5 @@ export { default as NavigationButtons } from './NavigationButtons';
 export { default as ItemDisplayWithNavigation } from './ItemDisplayWithNavigation';
 export { default as CloseButton } from './CloseButton';
 export { default as Button } from './Button';
-export { default as SkipButton } from './SkipButton'; 
+export { default as SkipButton } from './SkipButton';
+export { default as SpotlightCard } from './SpotlightCard'; 

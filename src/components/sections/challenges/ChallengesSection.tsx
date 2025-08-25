@@ -13,7 +13,7 @@ const ChallengesSection = () => {
     })
 
     return (
-        <section id="section-challenges" className="py-40 lg:py-80">
+        <section id="section-challenges">
             <SectionHeadings
                 titleEn="Breakthrough"
                 titleZh="非營利媒體・突圍"

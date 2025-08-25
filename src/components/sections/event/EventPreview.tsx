@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Button } from '@/components/shared';
+import { Button, SpotlightCard } from '@/components/shared';
 
 export default function EventPreview() {
     return (
@@ -12,7 +12,11 @@ export default function EventPreview() {
                 與報導者相會
             </h3>
             <div className="max-w-[80rem] mx-auto px-8 flex flex-col lg:flex-row  gap-8 items-start justify-center text-center">
-                <div className="flex flex-col items-center justify-center bg-white text-black">
+                {/* 展覽卡片 */}
+                <SpotlightCard
+                    className="flex flex-col items-center justify-center bg-white text-black"
+                    spotlightColor="rgba(239, 68, 68, 0.3)"
+                >
                     <div className="relative w-full">
                         <Image
                             src="/assets/event_exhibition.jpg"
@@ -38,11 +42,15 @@ export default function EventPreview() {
                             #免費參觀
                         </p>
                     </div>
-                </div>
-                <a
+                </SpotlightCard>
+
+                {/* 晚會卡片 */}
+                <SpotlightCard
                     href="https://twreporter.kktix.cc/events/whosreporter-taipei"
                     target="_blank"
-                    className="hover:scale-[1.02] transition-transform duration-300 flex flex-col items-center justify-center bg-white text-black">
+                    className="flex flex-col items-center justify-center bg-white text-black"
+                    spotlightColor="rgba(239, 68, 68, 0.3)"
+                >
                     <div className="relative w-full">
                         <Image
                             src="/assets/event_party.jpg"
@@ -72,7 +80,7 @@ export default function EventPreview() {
                             9月24日 開放搶票
                         </Button>
                     </div>
-                </a>
+                </SpotlightCard>
             </div>
         </section>
     );
