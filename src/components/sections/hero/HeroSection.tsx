@@ -16,8 +16,6 @@ const getCurrentProgress = (overallProgress: number) => {
         clamp((overallProgress - start) / (end - start));
 
     return {
-        // 影片播放進度：0-1 整個範圍，循環播放 5 次
-        // videoPlayback: overallProgress * 10, // 0-5，每 0.2 為一個循環
         // 縮放動畫：0.05-1 範圍
         scaleAnimation: progress(0.05, 1),
     };
@@ -26,8 +24,7 @@ const getCurrentProgress = (overallProgress: number) => {
 export default function HeroSection() {
     // DOM 元素參考：用於 GSAP 動畫控制
     const heroSectionRef = useRef<HTMLDivElement>(null);
-    // 影片元素參考：用於控制影片播放進度
-    // const videoRef = useRef<HTMLVideoElement>(null);
+
     // 滾動進度狀態
     const [scrollProgress, setScrollProgress] = useState(0);
     // 響應式斷點檢測：用於判斷是否為行動裝置
@@ -87,29 +84,6 @@ export default function HeroSection() {
     }, [breakpoint]);
 
     // ============================
-    // 影片播放進度控制
-    // ============================
-    // useEffect(() => {
-    //     const video = videoRef.current;
-    //     if (!video || breakpoint === 'base' || breakpoint === 'sm') return;
-
-    //     const currentProgress = getCurrentProgress(scrollProgress);
-
-    //     // 計算當前循環內的播放進度 (0-1)
-    //     const cycleProgress = (currentProgress.videoPlayback % 1);
-
-    //     // 設定影片播放進度
-    //     if (video.duration && !isNaN(video.duration)) {
-    //         video.currentTime = video.duration * cycleProgress;
-    //     }
-
-    //     // 開發模式除錯資訊
-    //     if (process.env.NODE_ENV === 'development') {
-    //         console.log(`🎬 影片播放進度: ${(cycleProgress * 100).toFixed(1)}%, 循環: ${Math.floor(currentProgress.videoPlayback) + 1}/5`);
-    //     }
-    // }, [scrollProgress, breakpoint]);
-
-    // ============================
     // 縮放動畫控制
     // ============================
     useEffect(() => {
@@ -160,7 +134,6 @@ export default function HeroSection() {
                 {/* 影片區域 */}
                 <div className="h-full p-10 relative">
                     <video
-                        // ref={videoRef}
                         src="/assets/KV/motion 2160p.mp4"
                         autoPlay
                         muted

@@ -197,8 +197,8 @@ export function useReportsAnimation({
                     if (progress > 0.5) {
                         // 只在第二階段（0.5-1.0）調整
                         const secondPhaseProgress = (progress - 0.5) * 2; // 將 0.5-1.0 映射到 0-1
-                        const minRange = 30 + (46 - 30) * secondPhaseProgress;
-                        const maxRange = 70 - (70 - 54) * secondPhaseProgress;
+                        const minRange = 40 + (46 - 40) * secondPhaseProgress;
+                        const maxRange = 60 - (60 - 54) * secondPhaseProgress;
                         setMouseRangeMin(minRange);
                         setMouseRangeMax(maxRange);
                     } else {

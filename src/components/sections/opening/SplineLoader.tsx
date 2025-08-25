@@ -157,7 +157,8 @@ export default function SplineLoader({
 
     // 載入完成：顯示 Spline 3D 場景
     return React.createElement('spline-viewer', {
-        url: "https://prod.spline.design/r238ZLkUTwD7XGEN/scene.splinecode",
+        // url: "https://prod.spline.design/r238ZLkUTwD7XGEN/scene.splinecode",
+        url: "/scene.splinecode",
         style: { width: '100%', height: '100%' }
     });
 }
