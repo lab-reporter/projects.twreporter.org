@@ -170,6 +170,7 @@ export default function Home() {
         <ReportsSection />
         <InnovationsSection />
         <ChallengesSection />
+        <div className="h-[20rem]"></div>
         <CallToActionSection />
       </main>
 

@@ -163,15 +163,15 @@ const getCurrentProgress = (overallProgress: number) => {
         clamp((overallProgress - start) / (end - start));
 
     return {
-        centerRow: progress(0.05, 0.1),   // 中央行顯示
-        allRow: progress(0.1, 0.4),      // 全部行顯示
-        zoom: progress(0.4, 0.6),         // 縮放放大
-        textAnimation: progress(0.5, 0.55), // 文字動畫進度
+        centerRow: progress(0.1, 0.2),   // 中央行顯示
+        allRow: progress(0.2, 0.5),      // 全部行顯示
+        zoom: progress(0.5, 0.7),         // 縮放放大
+        textAnimation: progress(0.5, 0.6), // 文字動畫進度
         imageFadeIn: progress(0.5, 0.6),   // 背景圖片淡入
         rotateY: progress(0.7, 0.75),      // rotateY旋轉
         fade: progress(0.7, 0.75),       // 淡出消失
-        secondSectionFadeOut: progress(0.7, 0.75), // 第二部分淡出
-        donatePanelFadeIn: progress(0.8, 0.85),  // 贊助面板淡入
+        secondSectionFadeOut: progress(0.6, 0.7), // 第二部分淡出
+        donatePanelFadeIn: progress(0.7, 0.75),  // 贊助面板淡入
     };
 };
 
@@ -390,7 +390,7 @@ export default function CallToActionSection() {
       // 第一部分：證言展示區域
       // ============================*/}
             <div className="relative w-full min-h-screen py-16 flex flex-col items-center justify-center">
-                <h2 className="mb-16 leading-relaxed">
+                <h2 className="mb-8">
                     持續求真的路上
                     <br />
                     感謝有眾聲同行

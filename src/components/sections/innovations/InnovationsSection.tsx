@@ -204,12 +204,12 @@ export default function InnovationsSection() {
       {isClient && isDesktop && (
         <div className="relative w-full">
           {/* Swiper 容器 */}
-          <div className="sticky z-[100] top-0 w-full mx-auto h-auto overflow-x-hidden">
+          <div className="sticky z-[100] top-0 w-full mx-auto h-auto overflow-hidden">
 
             {/* 3D 場景容器 */}
             <div
               ref={containerRef}
-              className="w-full max-w-[40rem] mx-auto aspect-[4/3] lg:h-full relative"
+              className="w-full max-w-[40rem] mx-auto aspect-[4/3] h-full lg:h-screen relative"
               style={{
                 // 動態設定透視距離
                 perspective: is3DEnabled && isVisible ? "500px" : "none",
@@ -249,7 +249,8 @@ export default function InnovationsSection() {
             </div>
 
             {/* 當前項目資訊展示區 */}
-            <div className="z-[100] mt-8 w-full flex justify-center items-center">
+            <div className="z-[100] mt-8 w-full flex justify-center items-center 
+            lg:absolute lg:bottom-8 lg:left-0 lg:right-0 lg:top-auto">
               <ItemDisplayWithNavigation
                 title={currentItem?.title}
                 subtitle={currentItem?.subtitle}

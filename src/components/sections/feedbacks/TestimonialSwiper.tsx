@@ -129,7 +129,7 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                     slidesPerView="auto"
                     slideToClickedSlide={true}
                     centeredSlides={true}
-                    spaceBetween={30}
+                    spaceBetween={10}
                     grabCursor={false}
                     loop={true}
                     modules={[Pagination]}
@@ -147,7 +147,7 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                             <>
                                 <SwiperSlide key={index} className={isCenterCard ? 'center-card' : ''}>
                                     <div
-                                        className="w-[20rem] h-[25rem] flex-shrink-0"
+                                        className="w-[18rem] h-[24rem] flex-shrink-0"
                                         style={{
                                             userSelect: 'none',
                                             background: isCenterCard ? gradientStyle.backgroundImage : 'black',
@@ -156,14 +156,14 @@ const TestimonialSwiper = forwardRef<TestimonialSwiperRef, TestimonialSwiperProp
                                             border: isCenterCard ? 'none' : '1px solid #AAA',
                                         }}
                                     >
-                                        <div
-                                            className="w-full h-full p-8 text-white flex items-center justify-center text-sm leading-relaxed"
+                                        <p
+                                            className="font-noto-serif-tc text-justify w-full h-full p-8 text-white flex items-center justify-center leading-relaxed"
                                             style={{
                                                 backgroundColor: 'black',
                                             }}
                                         >
                                             {testimonial.text}
-                                        </div>
+                                        </p>
                                     </div>
                                 </SwiperSlide>
                             </>

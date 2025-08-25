@@ -11,7 +11,6 @@ export default function EventPreview() {
                 走進現場 <br />
                 與報導者相會
             </h3>
-
             <div className="max-w-[80rem] mx-auto px-8 flex flex-col lg:flex-row  gap-8 items-start justify-center text-center">
                 <div className="flex flex-col items-center justify-center bg-white text-black">
                     <div className="relative w-full">
@@ -40,7 +39,10 @@ export default function EventPreview() {
                         </p>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-center bg-white text-black">
+                <a
+                    href="https://twreporter.kktix.cc/events/whosreporter-taipei"
+                    target="_blank"
+                    className="hover:scale-[1.02] transition-transform duration-300 flex flex-col items-center justify-center bg-white text-black">
                     <div className="relative w-full">
                         <Image
                             src="/assets/event_party.jpg"
@@ -66,14 +68,11 @@ export default function EventPreview() {
                             variant="outline"
                             size="sm"
                             className="mt-4"
-                            onClick={() => {
-                                window.open('https://twreporter.kktix.cc/events/whosreporter-taipei', '_blank');
-                            }}
                         >
                             9月24日 開放搶票
                         </Button>
                     </div>
-                </div>
+                </a>
             </div>
         </section>
     );

@@ -33,36 +33,7 @@ export default function SectionNavigation() {
       console.log('🎯 SectionNavigation - activeSection:', activeSection);
     }
   }, [currentSection, activeSection]);
-  // 結合 store 狀態和視窗寬度判斷是否顯示
-  const [isWindowSizeValid, setIsWindowSizeValid] = useState(true);
-
-
-  // 副作用：監聽視窗大小變化
-  useEffect(() => {
-    // 初始化視窗寬度
-    if (typeof window !== 'undefined') {
-      // 根據視窗寬度設定是否顯示
-      setIsWindowSizeValid(window.innerWidth >= 768);
-    }
-
-    // 處理視窗大小變化
-    const handleResize = () => {
-      if (typeof window !== 'undefined') {
-        const width = window.innerWidth;
-        // 小於 768px 時隱藏
-        setIsWindowSizeValid(width >= 768);
-      }
-    };
-
-    // 註冊事件監聽器
-    window.addEventListener('resize', handleResize);
-
-    // 清理函數
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
+  // 注意：已移除視窗寬度限制，現在透過 CSS 響應式設計來控制顯示
 
   // 滾動到指定章節的函數
   const scrollToSection = async (sectionId: string) => {
@@ -118,8 +89,8 @@ export default function SectionNavigation() {
     }, 50);
   };
 
-  // 如果導航不可見或視窗太小，不渲染任何內容
-  if (!isSectionNavigationVisible || !isWindowSizeValid) {
+  // 如果導航不可見，不渲染任何內容
+  if (!isSectionNavigationVisible) {
     return null;
   }
 
@@ -136,66 +107,67 @@ export default function SectionNavigation() {
 
   // 第二組按鈕的樣式生成函數
   const getSecondGroupButtonClass = () => {
-    return 'py-4 px-2 text-white bg-red-70 hover:bg-red-50 border-none cursor-pointer rounded-full mt-4 transition-all duration-300 ease-out';
+    return 'px-4 py-2 lg:py-4 lg:px-2 text-white bg-red-70 hover:bg-red-50 border-none cursor-pointer rounded-full lg:mt-4 transition-all duration-300 ease-out';
   };
 
   return (
     // 導航容器：固定在右側中間位置，簡單淡入效果
-    // 使用 hidden md:flex 來確保在小裝置上完全不渲染
-    <nav
-      className="select-none w-[4rem] border-white sticky left-[100vw] top-1/2 -translate-y-1/2 z-[999] transition-all duration-500 ease-out"
-      style={{
-        opacity: isSectionNavigationVisible ? 1 : 0,
-        transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`
-      }}
-    >
-      <div className="flex flex-col justify-center items-center gap-4">
-        {/* 第一組按鈕：reports, innovations, challenㄋges */}
-        {firstGroupSections.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => scrollToSection(section.id)}
-            className={getFirstGroupButtonClass(section.id)}
-            title={section.name}
-            aria-label={`跳到 ${section.name} 區塊`}
-          >
-            <p
-              className="text-sm font-medium tracking-wider font-noto-sans-tc"
-              style={{
-                // 垂直排列文字
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                lineHeight: '1'
-              }}
-            >
-              {section.name}
-            </p>
-          </button>
-        ))}
 
-        {/* 第二組按鈕：support */}
-        {secondGroupSections.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => scrollToSection(section.id)}
-            className={getSecondGroupButtonClass()}
-            title={section.name}
-            aria-label={`跳到 ${section.name} 區塊`}
-          >
-            <p
-              className="text-sm font-medium tracking-wider font-noto-sans-tc"
-              style={{
-                // 垂直排列文字
-                writingMode: 'vertical-rl',
-                textOrientation: 'mixed',
-                lineHeight: '1'
-              }}
+    <>
+      <nav
+        className="
+      select-none border-white z-[999] transition-all duration-500 ease-out
+      fixed bottom-4 w-full
+      lg:sticky lg:w-[4rem] lg:left-[100vw] lg:top-1/2 lg:-translate-y-1/2"
+        style={{
+          opacity: isSectionNavigationVisible ? 1 : 0,
+          transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`
+        }}
+      >
+        <div className="flex lg:flex-col justify-center items-center gap-4">
+          {/* 第一組按鈕：reports, innovations, challenㄋges */}
+          {firstGroupSections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className={getFirstGroupButtonClass(section.id)}
+              title={section.name}
+              aria-label={`跳到 ${section.name} 區塊`}
             >
-              {section.name}
-            </p>
-          </button>
-        ))}
-      </div>
-    </nav>
+              <p
+                className="text-sm font-medium tracking-wider font-noto-sans-tc lg:[writing-mode:vertical-rl] lg:[text-orientation:mixed]"
+                style={{
+                  // lg 以上才使用垂直排列文字，lg 以下保持預設的水平排列
+                  lineHeight: '1'
+                }}
+              >
+                {section.name}
+              </p>
+            </button>
+          ))}
+
+          {/* 第二組按鈕：support */}
+          {secondGroupSections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className={getSecondGroupButtonClass()}
+              title={section.name}
+              aria-label={`跳到 ${section.name} 區塊`}
+            >
+              <p
+                className="text-sm font-medium tracking-wider font-noto-sans-tc lg:[writing-mode:vertical-rl] lg:[text-orientation:mixed]"
+                style={{
+                  // lg 以上才使用垂直排列文字，lg 以下保持預設的水平排列
+                  lineHeight: '1'
+                }}
+              >
+                {section.name}
+              </p>
+            </button>
+          ))}
+        </div>
+      </nav>
+    </>
   );
 }

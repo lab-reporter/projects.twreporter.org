@@ -139,8 +139,11 @@ export default function HeroSection() {
                 ref={heroSectionRef}
                 className="
             relative bg-white w-full mb-[-100v] max-w-[100rem] mx-auto flex flex-col-reverse justify-center items-center
-            h-[100dvh] lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-20 lg:py-0 lg:flex-row gap-8 lg:gap-0"
+            h-[100dvh] lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-40 lg:py-0 lg:flex-row gap-2 lg:gap-0"
             >
+                <div className="lg:absolute lg:bottom-12 lg:left-1/2 lg:-translate-x-1/2">
+                    <ScrollDownIndicator />
+                </div>
                 {/* 文字區塊 */}
                 <div className="w-auto flex-shrink-0 flex flex-col lg:justify-start justify-center items-center lg:items-start">
                     <h2 className="font-bold leading-[1] lg:text-left text-center">
@@ -195,9 +198,6 @@ export default function HeroSection() {
                     }
                 `}</style>
                 </div>
-            </div>
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-                <ScrollDownIndicator />
             </div>
         </>
     );

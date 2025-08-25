@@ -43,7 +43,7 @@ export default function CurrentItemDisplay({
             {/* 副標題 */}
             {subtitle && (
                 <p className="
-                mt-2 text-inherit font-noto-sans-tc font-normal text-lg text-center leading-relaxed">
+                mt-2 text-inherit font-noto-sans-tc font-normal lg:text-lg text-center leading-relaxed">
                     {subtitle}
                 </p>
             )}
