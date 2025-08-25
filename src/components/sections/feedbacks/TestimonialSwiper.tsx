@@ -5,10 +5,9 @@ import type { Swiper as SwiperType } from 'swiper';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
 
 // import required modules
-import { Pagination } from 'swiper/modules';
+// Pagination 模組已移除，當前不需要分頁功能
 
 // 測試用證言資料
 const testimonialData = [
