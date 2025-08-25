@@ -109,7 +109,7 @@ export default function ReportsParallaxPhoto({
     return (
         <div
             ref={containerRef}
-            className="w-full h-[70vh] relative mb-24"
+            className="w-full h-[70vh] relative mb-4"
             style={{
                 transformStyle: 'preserve-3d',
                 perspective: getPerspective(),
@@ -145,15 +145,16 @@ export default function ReportsParallaxPhoto({
                             transform: `translateZ(${currentZ}px)`,
                             zIndex: Math.floor(currentZ / 10)
                         }}
-                        onMouseEnter={(e) => {
-                            // 只在非手機版啟用 hover 效果
-                            if (!isMobile || enableMobileParallax) {
-                                e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1.05)`;
-                            }
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1)`;
-                        }}>
+                    // onMouseEnter={(e) => {
+                    //     // 只在非手機版啟用 hover 效果
+                    //     if (!isMobile || enableMobileParallax) {
+                    //         e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1.05)`;
+                    //     }
+                    // }}
+                    // onMouseLeave={(e) => {
+                    //     e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1)`;
+                    // }}
+                    >
                         <Image
                             src={photo.src}
                             alt={photo.alt || `reports-photo-${index + 1}`}

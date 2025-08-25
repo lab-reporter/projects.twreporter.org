@@ -39,7 +39,7 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-6/report-6-1.webp",
             position: {
-              top: { base: "22%", sm: "24%", md: "24%", lg: "25%" },
+              top: { base: "22%", sm: "24%", md: "24%", lg: "20%" },
               left: { base: "25%", sm: "22%", md: "21%", lg: "20%" },
               z: { base: 24, sm: 34, md: 41, lg: 48 }
             },
@@ -48,17 +48,17 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-6/report-6-2.webp",
             position: {
-              top: { base: "12%", sm: "14%", md: "14%", lg: "15%" },
+              top: { base: "12%", sm: "14%", md: "14%", lg: "10%" },
               left: { base: "20%", sm: "42%", md: "47%", lg: "50%" },
-              z: { base: 31, sm: 43, md: 53, lg: 62 }
+              z: { base: 31, sm: 33, md: 43, lg: 42 }
             },
             width: { base: "75vw", sm: "58vw", md: "42vw", lg: "29vw" }
           },
           {
             src: "/assets/reports/report-6/report-6-3.webp",
             position: {
-              top: { base: "45%", sm: "47%", md: "49%", lg: "50%" },
-              left: { base: "10%", sm: "7%", md: "6%", lg: "5%" },
+              top: { base: "45%", sm: "47%", md: "49%", lg: "57%" },
+              left: { base: "10%", sm: "7%", md: "6%", lg: "10%" },
               z: { base: 19, sm: 27, md: 33, lg: 38 }
             },
             width: { base: "60vw", sm: "42vw", md: "30vw", lg: "21vw" },
@@ -67,7 +67,7 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-6/report-6-4.webp",
             position: {
-              top: { base: "60%", sm: "62%", md: "64%", lg: "65%" },
+              top: { base: "60%", sm: "62%", md: "64%", lg: "55%" },
               left: { base: "25%", sm: "35%", md: "38%", lg: "40%" },
               z: { base: 28, sm: 39, md: 47, lg: 55 }
             },
@@ -76,7 +76,7 @@ export default function Reports6Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-6/report-6-5.webp",
             position: {
-              top: { base: "45%", sm: "47%", md: "49%", lg: "50%" },
+              top: { base: "45%", sm: "47%", md: "49%", lg: "60%" },
               left: { base: "30%", sm: "58%", md: "62%", lg: "65%" },
               z: { base: 22, sm: 30, md: 37, lg: 43 }
             },

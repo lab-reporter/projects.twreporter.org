@@ -40,7 +40,7 @@ export default function Reports2Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-2/report-2-1.webp",
             position: {
-              top: { base: "5%", sm: "8%", md: "10%", lg: "10%" },
+              top: { base: "5%", sm: "8%", md: "10%", lg: "5%" },
               left: { base: "10%", sm: "10%", md: "10%", lg: "10%" },
               z: { base: 20, sm: 28, md: 34, lg: 40 }
             },
@@ -49,11 +49,11 @@ export default function Reports2Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-2/report-2-2.webp",
             position: {
-              top: { base: "30%", sm: "22%", md: "18%", lg: "15%" },
+              top: { base: "30%", sm: "22%", md: "18%", lg: "8%" },
               left: { base: "15%", sm: "30%", md: "40%", lg: "45%" },
               z: { base: 30, sm: 40, md: 50, lg: 60 }
             },
-            width: { base: "60vw", sm: "45vw", md: "30vw", lg: "24vw", xl: "20vw" },
+            width: { base: "60vw", sm: "45vw", md: "30vw", lg: "24vw", xl: "25vw" },
             visibility: { base: false, sm: true }
           },
           {
@@ -68,11 +68,11 @@ export default function Reports2Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-2/report-2-4.webp",
             position: {
-              top: { base: "70%", sm: "60%", md: "50%", lg: "45%" },
+              top: { base: "70%", sm: "60%", md: "50%", lg: "40%" },
               left: { base: "25%", sm: "40%", md: "50%", lg: "55%" },
-              z: { base: 25, sm: 35, md: 42, lg: 50 }
+              z: { base: 25, sm: 35, md: 42, lg: 70 }
             },
-            width: { base: "70vw", sm: "55vw", md: "40vw", lg: "35vw", xl: "30vw" },
+            width: { base: "70vw", sm: "55vw", md: "40vw", lg: "30vw", xl: "27vw" },
             visibility: { base: false, sm: true }
           }
         ]}

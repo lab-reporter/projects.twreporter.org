@@ -33,7 +33,7 @@ export default function Reports9Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-9/report-9-1.webp",
             position: {
-              top: { base: "9%", sm: "11%", md: "11%", lg: "12%" },
+              top: { base: "9%", sm: "11%", md: "11%", lg: "8%" },
               left: { base: "25%", sm: "22%", md: "23%", lg: "24%" },
               z: { base: 25, sm: 35, md: 43, lg: 50 }
             },
@@ -44,16 +44,16 @@ export default function Reports9Content({ projectData, onNavigate: _onNavigate, 
             position: {
               top: { base: "25%", sm: "26%", md: "27%", lg: "28%" },
               left: { base: "20%", sm: "50%", md: "55%", lg: "58%" },
-              z: { base: 35, sm: 49, md: 60, lg: 70 }
+              z: { base: 35, sm: 39, md: 50, lg: 50 }
             },
             width: { base: "75vw", sm: "55vw", md: "40vw", lg: "27vw" }
           },
           {
             src: "/assets/reports/report-9/report-9-3.webp",
             position: {
-              top: { base: "53%", sm: "55%", md: "57%", lg: "58%" },
+              top: { base: "53%", sm: "55%", md: "57%", lg: "55%" },
               left: { base: "22%", sm: "38%", md: "42%", lg: "45%" },
-              z: { base: 18, sm: 25, md: 30, lg: 35 }
+              z: { base: 45, sm: 45, md: 52, lg: 55 }
             },
             width: { base: "65vw", sm: "48vw", md: "33vw", lg: "23vw" },
             visibility: { base: false, sm: true }

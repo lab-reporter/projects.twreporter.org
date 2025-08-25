@@ -47,17 +47,17 @@ export default function Reports8Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-8/report-8-2.webp",
             position: {
-              top: { base: "45%", sm: "47%", md: "49%", lg: "50%" },
-              left: { base: "30%", sm: "62%", md: "67%", lg: "70%" },
+              top: { base: "45%", sm: "47%", md: "49%", lg: "45%" },
+              left: { base: "30%", sm: "62%", md: "67%", lg: "65%" },
               z: { base: 21, sm: 29, md: 36, lg: 42 }
             },
-            width: { base: "60vw", sm: "42vw", md: "28vw", lg: "21vw" },
+            width: { base: "60vw", sm: "42vw", md: "28vw", lg: "24vw" },
             visibility: { base: false, sm: true }
           },
           {
             src: "/assets/reports/report-8/report-8-3.webp",
             position: {
-              top: { base: "12%", sm: "14%", md: "14%", lg: "15%" },
+              top: { base: "12%", sm: "14%", md: "14%", lg: "10%" },
               left: { base: "20%", sm: "40%", md: "45%", lg: "48%" },
               z: { base: 28, sm: 39, md: 47, lg: 55 }
             },

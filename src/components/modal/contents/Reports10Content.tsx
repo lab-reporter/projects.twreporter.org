@@ -41,7 +41,7 @@ export default function Reports10Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-10/report-10-1.webp",
             position: {
-              top: { base: "17%", sm: "19%", md: "19%", lg: "20%" },
+              top: { base: "17%", sm: "19%", md: "19%", lg: "10%" },
               left: { base: "25%", sm: "30%", md: "33%", lg: "35%" },
               z: { base: 23, sm: 32, md: 39, lg: 46 }
             },
@@ -69,7 +69,7 @@ export default function Reports10Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-10/report-10-5.webp",
             position: {
-              top: { base: "33%", sm: "35%", md: "37%", lg: "38%" },
+              top: { base: "33%", sm: "35%", md: "37%", lg: "28%" },
               left: { base: "20%", sm: "58%", md: "63%", lg: "66%" },
               z: { base: 21, sm: 29, md: 35, lg: 41 }
             },

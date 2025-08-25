@@ -44,7 +44,7 @@ export default function Reports3Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-3/report-3-1.webp",
             position: {
-              top: { base: "10%", sm: "13%", md: "14%", lg: "15%" },
+              top: { base: "10%", sm: "13%", md: "14%", lg: "5%" },
               left: { base: "20%", sm: "15%", md: "13%", lg: "12%" },
               z: { base: 23, sm: 32, md: 38, lg: 45 }
             },
@@ -53,16 +53,16 @@ export default function Reports3Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-3/report-3-2.webp",
             position: {
-              top: { base: "50%", sm: "52%", md: "54%", lg: "55%" },
+              top: { base: "50%", sm: "52%", md: "54%", lg: "50%" },
               left: { base: "15%", sm: "25%", md: "32%", lg: "35%" },
               z: { base: 30, sm: 42, md: 51, lg: 60 }
             },
-            width: { base: "75vw", sm: "55vw", md: "40vw", lg: "28vw" }
+            width: { base: "35vw", sm: "32vw", md: "30vw", lg: "24vw" }
           },
           {
             src: "/assets/reports/report-3/report-3-3.webp",
             position: {
-              top: { base: "47%", sm: "49%", md: "51%", lg: "52%" },
+              top: { base: "47%", sm: "49%", md: "51%", lg: "42%" },
               left: { base: "10%", sm: "8%", md: "8%", lg: "8%" },
               z: { base: 18, sm: 25, md: 30, lg: 35 }
             },
@@ -72,7 +72,7 @@ export default function Reports3Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-3/report-3-4.webp",
             position: {
-              top: { base: "15%", sm: "18%", md: "19%", lg: "20%" },
+              top: { base: "15%", sm: "18%", md: "19%", lg: "10%" },
               left: { base: "25%", sm: "35%", md: "38%", lg: "40%" },
               z: { base: 25, sm: 35, md: 43, lg: 50 }
             },
@@ -81,7 +81,7 @@ export default function Reports3Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-3/report-3-5.webp",
             position: {
-              top: { base: "40%", sm: "42%", md: "44%", lg: "45%" },
+              top: { base: "40%", sm: "42%", md: "44%", lg: "35%" },
               left: { base: "30%", sm: "55%", md: "62%", lg: "67%" },
               z: { base: 20, sm: 28, md: 34, lg: 40 }
             },

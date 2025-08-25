@@ -39,11 +39,11 @@ export default function Reports12Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-12/report-12-1.webp",
             position: {
-              top: { base: "9%", sm: "11%", md: "11%", lg: "12%" },
+              top: { base: "9%", sm: "11%", md: "11%", lg: "8%" },
               left: { base: "20%", sm: "18%", md: "18%", lg: "18%" },
               z: { base: 25, sm: 35, md: 43, lg: 50 }
             },
-            width: { base: "70vw", sm: "52vw", md: "37vw", lg: "25vw" }
+            width: { base: "70vw", sm: "52vw", md: "37vw", lg: "23vw" }
           },
           {
             src: "/assets/reports/report-12/report-12-2.webp",
@@ -52,7 +52,7 @@ export default function Reports12Content({ projectData, onNavigate: _onNavigate,
               left: { base: "25%", sm: "50%", md: "55%", lg: "58%" },
               z: { base: 35, sm: 49, md: 60, lg: 70 }
             },
-            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "24vw" }
+            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "22vw" }
           },
           {
             src: "/assets/reports/report-12/report-12-3.webp",
@@ -66,7 +66,7 @@ export default function Reports12Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-12/report-12-4.webp",
             position: {
-              top: { base: "50%", sm: "52%", md: "54%", lg: "55%" },
+              top: { base: "50%", sm: "52%", md: "54%", lg: "50%" },
               left: { base: "15%", sm: "12%", md: "11%", lg: "10%" },
               z: { base: 30, sm: 42, md: 51, lg: 60 }
             },
@@ -75,7 +75,7 @@ export default function Reports12Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-12/report-12-5.webp",
             position: {
-              top: { base: "55%", sm: "57%", md: "59%", lg: "60%" },
+              top: { base: "55%", sm: "57%", md: "59%", lg: "55%" },
               left: { base: "30%", sm: "55%", md: "59%", lg: "62%" },
               z: { base: 23, sm: 32, md: 39, lg: 45 }
             },

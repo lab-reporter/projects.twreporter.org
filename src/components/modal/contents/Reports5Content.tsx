@@ -40,11 +40,11 @@ export default function Reports5Content({ projectData, onNavigate: _onNavigate, 
           {
             src: "/assets/reports/report-5/report-5-1.webp",
             position: {
-              top: { base: "17%", sm: "19%", md: "19%", lg: "20%" },
+              top: { base: "17%", sm: "19%", md: "19%", lg: "10%" },
               left: { base: "20%", sm: "18%", md: "18%", lg: "18%" },
               z: { base: 21, sm: 29, md: 36, lg: 42 }
             },
-            width: { base: "70vw", sm: "55vw", md: "38vw", lg: "26vw" }
+            width: { base: "40vw", sm: "35vw", md: "28vw", lg: "24vw" }
           },
           {
             src: "/assets/reports/report-5/report-5-2.webp",
@@ -68,19 +68,19 @@ export default function Reports5Content({ projectData, onNavigate: _onNavigate, 
             src: "/assets/reports/report-5/report-5-4.webp",
             position: {
               top: { base: "30%", sm: "33%", md: "34%", lg: "35%" },
-              left: { base: "22%", sm: "38%", md: "42%", lg: "45%" },
+              left: { base: "22%", sm: "38%", md: "42%", lg: "40%" },
               z: { base: 34, sm: 48, md: 58, lg: 68 }
             },
-            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "24vw" }
+            width: { base: "35vw", sm: "30vw", md: "25vw", lg: "20vw" }
           },
           {
             src: "/assets/reports/report-5/report-5-5.webp",
             position: {
               top: { base: "50%", sm: "52%", md: "54%", lg: "55%" },
-              left: { base: "18%", sm: "25%", md: "28%", lg: "30%" },
+              left: { base: "18%", sm: "25%", md: "28%", lg: "50%" },
               z: { base: 23, sm: 32, md: 39, lg: 45 }
             },
-            width: { base: "75vw", sm: "60vw", md: "45vw", lg: "30vw" },
+            width: { base: "35vw", sm: "30vw", md: "27vw", lg: "25vw" },
             visibility: { base: false, sm: true }
           }
         ]}

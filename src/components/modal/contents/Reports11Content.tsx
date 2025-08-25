@@ -33,7 +33,7 @@ export default function Reports11Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-11/report-11-1.webp",
             position: {
-              top: { base: "9%", sm: "11%", md: "11%", lg: "12%" },
+              top: { base: "9%", sm: "11%", md: "11%", lg: "5%" },
               left: { base: "15%", sm: "10%", md: "9%", lg: "8%" },
               z: { base: 15, sm: 21, md: 26, lg: 30 }
             },
@@ -47,22 +47,22 @@ export default function Reports11Content({ projectData, onNavigate: _onNavigate,
               left: { base: "20%", sm: "52%", md: "57%", lg: "60%" },
               z: { base: 33, sm: 46, md: 56, lg: 65 }
             },
-            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "28vw" }
+            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "27vw" }
           },
           {
             src: "/assets/reports/report-11/report-11-3.webp",
             position: {
-              top: { base: "22%", sm: "24%", md: "24%", lg: "25%" },
+              top: { base: "22%", sm: "24%", md: "24%", lg: "15%" },
               left: { base: "20%", sm: "22%", md: "24%", lg: "25%" },
               z: { base: 18, sm: 25, md: 30, lg: 35 }
             },
-            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "24vw" }
+            width: { base: "65vw", sm: "50vw", md: "35vw", lg: "22vw" }
           },
           {
             src: "/assets/reports/report-11/report-11-4.webp",
             position: {
-              top: { base: "45%", sm: "47%", md: "49%", lg: "50%" },
-              left: { base: "22%", sm: "37%", md: "40%", lg: "43%" },
+              top: { base: "45%", sm: "47%", md: "49%", lg: "55%" },
+              left: { base: "22%", sm: "37%", md: "40%", lg: "48%" },
               z: { base: 28, sm: 39, md: 47, lg: 55 }
             },
             width: { base: "70vw", sm: "52vw", md: "37vw", lg: "25vw" }
@@ -70,11 +70,11 @@ export default function Reports11Content({ projectData, onNavigate: _onNavigate,
           {
             src: "/assets/reports/report-11/report-11-5.webp",
             position: {
-              top: { base: "50%", sm: "52%", md: "54%", lg: "55%" },
+              top: { base: "50%", sm: "52%", md: "54%", lg: "48%" },
               left: { base: "18%", sm: "17%", md: "16%", lg: "15%" },
               z: { base: 20, sm: 28, md: 34, lg: 40 }
             },
-            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "27vw" },
+            width: { base: "75vw", sm: "58vw", md: "42vw", lg: "26vw" },
             visibility: { base: false, sm: true }
           }
         ]}
