@@ -90,7 +90,7 @@ const ChallengesSwiper: React.FC = () => {
     // 渲染
     // ============================
     return (
-        <div className="w-full relative overflow-hidden mt-12">
+        <div className="w-full relative overflow-hidden py-20 lg:py-60">
             {/* Swiper 容器 */}
             <div className="relative">
                 <Swiper

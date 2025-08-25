@@ -56,7 +56,7 @@ export default function FooterSection() {
     };
     return (
         <footer
-            className="sticky bottom-0 z-0 left-0 w-full bg-white text-black py-16 px-12"
+            className="relative lg:sticky bottom-0 z-[9999999] lg:z-0 left-0 w-full bg-white text-black py-16 px-12"
             id="section-footer"
         >
             <div className="relative max-w-7xl mx-auto">
