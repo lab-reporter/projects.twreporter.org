@@ -66,15 +66,19 @@ export default function FooterSection() {
                     {/* Logo 和描述文字區域 */}
                     <div className="lg:col-span-7 xl:col-span-6">
                         {/* Logo */}
-                        <div className="mb-8">
+                        <a className="block mb-8"
+                            href="https://www.twreporter.org"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <Image
                                 src="/assets/footer-logo.svg"
                                 alt="報導者 The Reporter"
                                 width={300}
                                 height={45}
-                                className="w-1/2 min-w-[15rem] sm:min-w-[18rem]"
+                                className="w-1/2 min-w-[15rem] sm:min-w-[18rem] grayscale hover:grayscale-0 transition-all duration-300"
                             />
-                        </div>
+                        </a>
 
                         {/* 描述文字 */}
                         <div className="mb-8">
@@ -94,7 +98,7 @@ export default function FooterSection() {
                                     href="https://www.twreporter.org"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-body-base text-gray-700 hover:text-black transition-colors duration-300"
+                                    className="text-body-base text-gray-600 hover:text-black transition-colors duration-300"
                                 >
                                     前往官網
                                 </a>
@@ -104,7 +108,7 @@ export default function FooterSection() {
                             <div>
                                 <button
                                     onClick={() => scrollToSection('support')}
-                                    className="text-body-base text-gray-700 hover:text-black transition-colors duration-300 cursor-pointer"
+                                    className="text-body-base text-gray-600 hover:text-black transition-colors duration-300 cursor-pointer"
                                 >
                                     贊助支持
                                 </button>

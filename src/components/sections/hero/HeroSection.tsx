@@ -138,7 +138,7 @@ export default function HeroSection() {
             <div
                 ref={heroSectionRef}
                 className="
-            relative bg-white w-full mb-[-100v] max-w-[100rem] mx-auto flex flex-col-reverse justify-center items-center
+            relative w-full mb-[-100v] max-w-[100rem] mx-auto flex flex-col-reverse justify-center items-center
             h-[100dvh] lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-40 lg:py-0 lg:flex-row gap-2 lg:gap-0"
             >
                 <div className="lg:absolute lg:bottom-12 lg:left-1/2 lg:-translate-x-1/2">

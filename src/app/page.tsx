@@ -121,7 +121,7 @@ export default function Home() {
             onUpdate: (self) => {
               // 根據滾動進度計算背景色透明度
               const progress = self.progress;
-              const colorProgress = 255 - progress * 255;
+              const colorProgress = 241 - progress * 241;
               // 設定背景色：從白色漸變到黑色，透明度始終為1
               gsap.set(mainElement, {
                 backgroundColor: `rgb(${colorProgress}, ${colorProgress}, ${colorProgress})`
@@ -164,7 +164,7 @@ export default function Home() {
       <OpeningSpline />
 
       {/* 主要內容區域：包含所有頁面章節，移除高度限制讓 sticky footer 生效 */}
-      <main ref={mainRef} className="relative z-10 w-full min-h-screen transition-colors duration-300 bg-white">
+      <main ref={mainRef} className="relative z-10 w-full min-h-screen transition-colors duration-300 bg-gray-100">
         <SectionNavigation />
         <HeroSection />
         <ReportsSection />
