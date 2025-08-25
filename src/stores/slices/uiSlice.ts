@@ -52,7 +52,7 @@ export const uiSlice: StateCreator<
 > = (set) => ({
   isNavigationOpen: false,
   isNavigationVisible: false,
-  isSectionNavigationVisible: false,
+  isSectionNavigationVisible: true, // 暫時改為預設顯示，停用 useReportsAnimation 的控制
   isSidePanelOpen: false,
   sidePanelContent: null,
   // isNextSectionButtonVisible: false, // 已移除：NextSectionButton 不再使用

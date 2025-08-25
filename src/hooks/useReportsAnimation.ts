@@ -165,7 +165,7 @@ export function useReportsAnimation({
         }, 0.75);
 
         // 追蹤狀態的變量
-        let navShown = false;
+        // let navShown = false; // 暫時停用導航控制，不再需要此變數
         let interactionEnabled = false;
 
         // ============================
@@ -181,16 +181,17 @@ export function useReportsAnimation({
             onUpdate: (self) => {
                 const progress = self.progress;
 
+                // 暫時停用導航控制機制 - SectionNavigation 現在預設為顯示
                 // 在 75% 進度時（對應第二階段中間）顯示/隱藏導航
-                if (progress > 0.75 && !navShown) {
-                    navShown = true;
-                    setNavigationVisible(true);
-                    setSectionNavigationVisible(true);
-                } else if (progress <= 0.75 && navShown) {
-                    navShown = false;
-                    setNavigationVisible(false);
-                    setSectionNavigationVisible(false);
-                }
+                // if (progress > 0.75 && !navShown) {
+                //     navShown = true;
+                //     setNavigationVisible(true);
+                //     setSectionNavigationVisible(true);
+                // } else if (progress <= 0.75 && navShown) {
+                //     navShown = false;
+                //     setNavigationVisible(false);
+                //     setSectionNavigationVisible(false);
+                // }
 
                 // 動態調整滑鼠追蹤範圍（在第二階段進行）
                 if (setMouseRangeMin && setMouseRangeMax) {

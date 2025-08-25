@@ -118,8 +118,9 @@ export default function SectionNavigation() {
         className="
       select-none border-white z-[999] transition-all duration-500 ease-out
       fixed bottom-4 w-full
-      lg:sticky lg:w-[4rem] lg:left-[100vw] lg:top-1/2 lg:-translate-y-1/2"
+      lg:sticky lg:w-[4rem] lg:right-0 lg:top-1/2 lg:-translate-y-1/2"
         style={{
+          float: 'right',
           opacity: isSectionNavigationVisible ? 1 : 0,
           transform: `translateY(-50%) translateX(${isSectionNavigationVisible ? '0' : '20px'})`
         }}
