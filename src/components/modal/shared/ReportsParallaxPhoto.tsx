@@ -6,6 +6,15 @@ import { useMouseTracking3D } from '@/hooks/useMouseTracking3D';
 import { useBreakpoint } from '@/hooks/useBreakpoint';
 import { getResponsiveValue, type ResponsiveValue } from '@/utils/responsive';
 
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+
 // 照片項目介面
 export interface PhotoItem {
     src: string;
@@ -33,20 +42,22 @@ export default function ReportsParallaxPhoto({
     const containerRef = useRef<HTMLDivElement>(null);
     const breakpoint = useBreakpoint();
 
-    // 判斷是否為行動裝置
+    // 判斷是否為行動裝置（md 以下：<768px）
     const isMobile = breakpoint === 'base' || breakpoint === 'sm';
 
-    // 使用滑鼠追蹤 Hook（統一的行動裝置檢測）
+    // 判斷是否應該使用 Swiper 模式
+    const shouldUseSwiper = isMobile;
+
+    // 只在非 Swiper 模式下使用滑鼠追蹤
     useMouseTracking3D({
-        enabled: true,  // 總是啟用，內部會根據裝置類型自動處理
+        enabled: !shouldUseSwiper,  // 只在視差模式下啟用
         targetRef: containerRef,
         cssProperty: 'perspectiveOrigin',
         rangeMin: 20,
         rangeMax: 80,
         useLerp: true,
         lerpFactor: 0.1,
-        // 如果 enableMobileParallax 為 true，則強制在行動裝置上也啟用
-        disableOnMobile: !enableMobileParallax,
+        disableOnMobile: true,
         disableOnTablet: !enableMobileParallax
     });
 
@@ -106,7 +117,58 @@ export default function ReportsParallaxPhoto({
         return getResponsiveValue(perspectiveValues, breakpoint);
     };
 
-    return (
+    // Swiper 模式渲染函數
+    const renderSwiperMode = () => (
+        <div className="w-full mb-4">
+            <Swiper
+                slidesPerView={3}
+                spaceBetween={20}
+                freeMode={true}
+                pagination={false}
+                modules={[FreeMode, Pagination]}
+                className="reports-parallax-swiper"
+                breakpoints={{
+                    // 手機版：顯示 2.5 張
+                    320: {
+                        slidesPerView: 1.5,
+                        spaceBetween: 15,
+                    },
+                    // 小平板：顯示 3 張
+                    640: {
+                        slidesPerView: 2.25,
+                        spaceBetween: 20,
+                    }
+                }}
+            >
+                {photos.map((photo, index) => (
+                    <SwiperSlide key={index}>
+                        <div className="relative aspect-[4/3] w-full">
+                            <Image
+                                src={photo.src}
+                                alt={photo.alt || `reports-photo-${index + 1}`}
+                                fill
+                                className="object-cover border-2 border-white shadow-lg rounded-sm"
+                                sizes="(max-width: 640px) 40vw, 30vw"
+                                priority={index < 3} // 前三張圖片優先載入
+                            />
+                        </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+
+            {/* 開發模式：顯示當前模式 */}
+            {process.env.NODE_ENV === 'development' && (
+                <div className="mt-2 text-center">
+                    <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                        Swiper Mode - {breakpoint}
+                    </span>
+                </div>
+            )}
+        </div>
+    );
+
+    // 視差模式渲染函數
+    const renderParallaxMode = () => (
         <div
             ref={containerRef}
             className="w-full h-[70vh] relative mb-4"
@@ -145,15 +207,6 @@ export default function ReportsParallaxPhoto({
                             transform: `translateZ(${currentZ}px)`,
                             zIndex: Math.floor(currentZ / 10)
                         }}
-                    // onMouseEnter={(e) => {
-                    //     // 只在非手機版啟用 hover 效果
-                    //     if (!isMobile || enableMobileParallax) {
-                    //         e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1.05)`;
-                    //     }
-                    // }}
-                    // onMouseLeave={(e) => {
-                    //     e.currentTarget.style.transform = `translateZ(${currentZ}px) scale(1)`;
-                    // }}
                     >
                         <Image
                             src={photo.src}
@@ -167,6 +220,7 @@ export default function ReportsParallaxPhoto({
                         {/* 開發模式：顯示響應式調試資訊 */}
                         {process.env.NODE_ENV === 'development' && (
                             <div className="absolute top-2 right-2 bg-black/80 text-white text-[10px] px-2 py-1 rounded font-mono">
+                                <div className="text-green-300">Parallax Mode</div>
                                 <div className="text-yellow-300">BP: {breakpoint}</div>
                                 <div>T: {currentTop}</div>
                                 <div>L: {currentLeft}</div>
@@ -179,4 +233,7 @@ export default function ReportsParallaxPhoto({
             })}
         </div>
     );
+
+    // 根據螢幕尺寸選擇渲染模式
+    return shouldUseSwiper ? renderSwiperMode() : renderParallaxMode();
 }

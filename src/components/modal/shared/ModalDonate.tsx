@@ -48,9 +48,11 @@ export default function ModalDonate({ onClose }: ModalDonateProps) {
                     <div className="flex justify-end w-full">
                         <button
                             onClick={handleOpenModal}
-                            className="mt-2 bg-black backdrop-blur-sm leading-none text-white px-6 py-3 hover:bg-gray-700 transition-colors duration-100"
+                            className="group relative overflow-hidden mt-2 bg-black backdrop-blur-sm leading-none text-white px-6 py-3 hover:bg-gray-700 transition-colors duration-100"
                         >
-                            贊助支持
+                            <span className="relative z-10 leading-none">贊助支持</span>
+                            <div className="absolute w-2 opacity-0 aspect-square rounded-full bg-gradient-to-l from-[#5656F3] via-[#9651CA] to-[#F32137] top-1/2 left-[-1rem] -translate-y-1/2 group-hover:w-[150%] group-hover:opacity-100 transition-all ease-in-out duration-[600ms]">
+                            </div>
                         </button>
                     </div>
                 </div>
