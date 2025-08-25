@@ -207,6 +207,9 @@ export default function ModalSidepanel({
                 ? 'text-black font-medium'
                 : 'text-gray-600 group-hover:text-black'
                 } transition-colors`}
+              style={{
+                textWrap: 'balance'
+              }}
             >
               {project.title}
             </h5>

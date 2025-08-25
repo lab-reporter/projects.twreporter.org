@@ -14,7 +14,10 @@ export default function ChallengeArticleTitle({
 }: ChallengeArticleTitleProps) {
   return (
     <div className="pointer-events-none select-none relative my-24">
-      <h3 className="text-center z-10 relative">
+      <h3 className="text-center z-10 relative"
+        style={{
+          textWrap: 'balance'
+        }}>
         {title}
       </h3>
       <Image

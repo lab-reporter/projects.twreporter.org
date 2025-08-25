@@ -315,6 +315,13 @@ export default function DonatePanel() {
                     >
                         立即支持
                     </button>
+                    <a href="https://support.twreporter.org/"
+                        className="opacity-50 text-white/80 underline "
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        其他贊助方式
+                    </a>
                 </div>
             </div>
             {/* 

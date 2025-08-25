@@ -1,6 +1,5 @@
-import { useOptimizedMouseTracking } from './useOptimizedMouseTracking';
 import { useBreakpoint } from './useBreakpoint';
-import { MutableRefObject } from 'react';
+import { MutableRefObject, useEffect, useRef, useCallback } from 'react';
 
 interface Use3DMouseTrackingOptions {
   enabled: boolean;
@@ -43,22 +42,82 @@ export function useMouseTracking3D({
     !(disableOnMobile && isMobile) &&
     !(disableOnTablet && isTablet);
 
-  // DEBUG: 在開發環境中輸出裝置檢測結果
-  if (process.env.NODE_ENV === 'development' && enabled) {
-    const deviceType = isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop';
-    const statusText = shouldEnable ? '✅ 啟用' : '❌ 停用';
-    console.log(`🎯 MouseTracking3D [${deviceType}]: ${statusText} (原始enabled: ${enabled})`);
-  }
+  // 滑鼠位置狀態
+  const mouseRef = useRef({ x: 50, y: 50 });
+  const targetRef2 = useRef({ x: 50, y: 50 });
+  const rafRef = useRef<number>(0);
 
-  // 使用統一的配置參數
-  return useOptimizedMouseTracking({
-    enabled: shouldEnable,
-    throttleMs: isLowPerformance ? 32 : 16,
-    rangeMin,
-    rangeMax,
-    useLerp,
-    lerpFactor,
-    targetRef,
-    cssProperty
-  });
+  // 節流的滑鼠移動處理函數
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!shouldEnable || !targetRef?.current) return;
+
+    const rect = targetRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    // 限制在指定範圍內
+    mouseRef.current.x = Math.max(rangeMin, Math.min(rangeMax, x));
+    mouseRef.current.y = Math.max(rangeMin, Math.min(rangeMax, y));
+  }, [shouldEnable, rangeMin, rangeMax, targetRef]);
+
+  // 動畫循環
+  const animate = useCallback(() => {
+    if (!shouldEnable || !targetRef?.current) return;
+
+    if (useLerp) {
+      // 使用 lerp 進行平滑過渡
+      targetRef2.current.x += (mouseRef.current.x - targetRef2.current.x) * lerpFactor;
+      targetRef2.current.y += (mouseRef.current.y - targetRef2.current.y) * lerpFactor;
+    } else {
+      targetRef2.current.x = mouseRef.current.x;
+      targetRef2.current.y = mouseRef.current.y;
+    }
+
+    // 更新 CSS 屬性
+    if (targetRef.current) {
+      targetRef.current.style[cssProperty as any] = `${targetRef2.current.x}% ${targetRef2.current.y}%`;
+    }
+
+    rafRef.current = requestAnimationFrame(animate);
+  }, [shouldEnable, useLerp, lerpFactor, cssProperty, targetRef]);
+
+  useEffect(() => {
+    if (!shouldEnable) return;
+
+    // DEBUG: 在開發環境中輸出裝置檢測結果
+    if (process.env.NODE_ENV === 'development') {
+      const deviceType = isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop';
+      console.log(`🎯 MouseTracking3D [${deviceType}]: ✅ 啟用`);
+    }
+
+    // 添加事件監聽器
+    const throttleMs = isLowPerformance ? 32 : 16;
+    let lastTime = 0;
+
+    const throttledMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastTime >= throttleMs) {
+        handleMouseMove(e);
+        lastTime = now;
+      }
+    };
+
+    window.addEventListener('mousemove', throttledMouseMove);
+
+    // 開始動畫循環
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('mousemove', throttledMouseMove);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [shouldEnable, handleMouseMove, animate, isLowPerformance, isMobile, isTablet]);
+
+  // 回傳滑鼠位置（兼容性）
+  return {
+    x: targetRef2.current.x,
+    y: targetRef2.current.y
+  };
 }

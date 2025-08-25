@@ -115,7 +115,8 @@ export default function HeroSection() {
             relative w-full mb-[-100v] max-w-[100rem] mx-auto flex flex-col-reverse justify-center items-center
             lg:h-screen lg:pt-0 lg:sticky lg:top-0 lg:px-12 py-16 lg:py-0 lg:flex-row gap-2 lg:gap-0"
             >
-                <div className="lg:absolute lg:bottom-12 lg:left-1/2 lg:-translate-x-1/2">
+                <div className="z-50 lg:absolute lg:bottom-12 lg:left-1/2 lg:-translate-x-1/2">
+                    scroll down to discover
                     <ScrollDownIndicator />
                 </div>
                 {/* 文字區塊 */}
@@ -140,6 +141,14 @@ export default function HeroSection() {
                         loop={true}
                         className="w-full h-full object-contain"
                     ></video>
+                    {/* <Image
+                        src="/assets/KV/Diamond Only.png"
+                        alt="KV聲波"
+                        fill
+                        sizes="100vw"
+                        priority
+                        className="w-full h-full object-contain"
+                    /> */}
                     <div className="w-full h-full absolute z-10 top-0 left-0 wave-animation">
                         <Image
                             src="/assets/KV/KV-Waves.webp"
