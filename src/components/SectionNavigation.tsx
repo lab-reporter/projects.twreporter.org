@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/stores';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 
 // 章節導航配置：定義所有可導航的頁面章節

@@ -208,7 +208,7 @@ function getGradientColorsByIndex(rowIndex: number, colIndex: number): string {
 // 主要網格組件：根據滾動進度動態生成多列 Row
 const Grid = ({
     progress,
-    showDebug = false,
+    showDebug: _showDebug = false,
 }: {
     progress: number;
     showDebug?: boolean;

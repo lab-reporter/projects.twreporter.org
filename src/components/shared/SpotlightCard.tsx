@@ -22,14 +22,16 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
     onClick
 }) => {
     const divRef = useRef<HTMLDivElement>(null);
+    const anchorRef = useRef<HTMLAnchorElement>(null);
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [opacity, setOpacity] = useState<number>(0);
 
-    const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
-        if (!divRef.current || isFocused) return;
+    const handleMouseMove = (e: React.MouseEvent) => {
+        const currentElement = href ? anchorRef.current : divRef.current;
+        if (!currentElement || isFocused) return;
 
-        const rect = divRef.current.getBoundingClientRect();
+        const rect = currentElement.getBoundingClientRect();
         setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     };
 
@@ -57,18 +59,6 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
         }
     };
 
-    // 共用的事件處理器和樣式
-    const commonProps = {
-        ref: divRef,
-        onMouseMove: handleMouseMove,
-        onFocus: handleFocus,
-        onBlur: handleBlur,
-        onMouseEnter: handleMouseEnter,
-        onMouseLeave: handleMouseLeave,
-        className: `relative overflow-hidden transition-transform duration-300 ${className}`,
-        onClick: handleClick
-    };
-
     const spotlightOverlay = (
         <div
             className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out"
@@ -79,10 +69,21 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
         />
     );
 
+    // 共用的事件處理器和樣式（不包含 ref）
+    const commonEventProps = {
+        onMouseMove: handleMouseMove,
+        onFocus: handleFocus,
+        onBlur: handleBlur,
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+        className: `relative overflow-hidden transition-transform duration-300 ${className}`,
+        onClick: handleClick
+    };
+
     // 如果有 href，則渲染為 a 標籤
     if (href) {
         return (
-            <a href={href} target={target} {...commonProps}>
+            <a href={href} target={target} ref={anchorRef} {...commonEventProps}>
                 {spotlightOverlay}
                 {children}
             </a>
@@ -91,7 +92,7 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
 
     // 否則渲染為 div
     return (
-        <div {...commonProps}>
+        <div ref={divRef} {...commonEventProps}>
             {spotlightOverlay}
             {children}
         </div>

@@ -57,9 +57,9 @@ export default function Challenge8Content({ projectData, onNavigate: _onNavigate
             </p>
 
             <Shared.ChallengeImageWithCaption
-              src="/assets/challenges/challenge-8-2.webp"
-              alt="《報導者》全體同事9週年合照"
-              caption="2024年8月26日《報導者》全體同事拍攝9週年合照。"
+              src="/assets/challenges/challenge-8-0.webp"
+              alt="《報導者》全體同事10週年合照"
+              caption="2025年8月18日《報導者》全體同事拍攝10週年合照。"
 
             />
 
