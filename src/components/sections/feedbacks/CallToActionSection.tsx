@@ -286,20 +286,11 @@ const Grid = ({
             </div>
 
             {/* Debug 面板 */}
-            {showDebug && (
+            {/* {showDebug && (
                 <div className="z-[10000000] border border-white/20 bg-[#00000050] absolute top-4 left-4 bg-opacity-80 text-white p-4 rounded-lg font-mono text-sm">
                     <div>滾動進度: {(progress * 100).toFixed(1)}%</div>
-                    {/* <div>中央行: {(currentProgress.centerRow * 100).toFixed(1)}%</div>
-                    <div>全部行: {(currentProgress.allRow * 100).toFixed(1)}%</div>
-                    <div>縮放: {(currentProgress.zoom * 100).toFixed(1)}%</div>
-                    <div>旋轉Y: {(currentProgress.rotateY * 100).toFixed(1)}%</div>
-                    <div>淡出: {(currentProgress.fade * 100).toFixed(1)}%</div>
-                    <div>贊助面板: {(currentProgress.donatePanelFadeIn * 100).toFixed(1)}%</div>
-                    <div className="mt-2 text-gray-300">網格: {colsPerRow} × {totalRows}</div>
-                    <div>螢幕: {width} × {height}</div>
-                    <div>縮放: {fitScale.toFixed(2)} × {zoomScale.toFixed(2)}</div> */}
                 </div>
-            )}
+            )} */}
         </>
     );
 };
