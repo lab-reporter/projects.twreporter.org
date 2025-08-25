@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
+    "build:static": "next build",
     "start": "next start",
     "lint": "next lint",
     "setup": "mkdir -p ../copy && cp -r '../copy/src' ../copy/ && cp -r '../copy/public' ../copy/ && cp '../copy/package.json' ../copy/",

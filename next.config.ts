@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   distDir: 'out',
   // 禁用尾隨斜線（避免路徑問題）
   trailingSlash: false,
+  // 不設定 assetPrefix，使用預設的絕對路徑（適用於根目錄部署）
+  // 如果需要部署到子目錄，請設定 basePath: '/your-subdirectory'
   // 靜態部署時禁用圖片優化（因為需要伺服器）
   images: {
     unoptimized: true,

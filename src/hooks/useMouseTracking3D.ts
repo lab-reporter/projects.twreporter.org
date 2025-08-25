@@ -75,7 +75,7 @@ export function useMouseTracking3D({
 
     // 更新 CSS 屬性
     if (targetRef.current) {
-      targetRef.current.style[cssProperty as any] = `${targetRef2.current.x}% ${targetRef2.current.y}%`;
+      (targetRef.current.style as unknown as Record<string, string>)[cssProperty] = `${targetRef2.current.x}% ${targetRef2.current.y}%`;
     }
 
     rafRef.current = requestAnimationFrame(animate);
