@@ -227,12 +227,10 @@ function DotNavigation({ total, current, onDotClick, onPrevious, onNext }: DotNa
 
   return (
     <div className="
-      absolute left-4 top-1/2 -translate-y-1/2 z-20
-      md:left-8
-      flex flex-col items-center gap-2
-      md:flex-col
-      sm:absolute sm:bottom-8 sm:left-1/2 sm:-translate-x-1/2 sm:top-auto sm:translate-y-0
-      sm:flex-row
+      absolute z-20
+      lg:left-8 lg:flex-col
+      flex flex-row items-center gap-2
+      absolute bottom-4 left-1/2 -translate-x-1/2 top-auto translate-y-0
     ">
       {/* 上一頁按鈕（桌面版在上方，手機版在左方）*/}
       <Button
@@ -248,8 +246,8 @@ function DotNavigation({ total, current, onDotClick, onPrevious, onNext }: DotNa
 
       {/* 圓點導航區域 */}
       <div className="
-        flex flex-row md:flex-col gap-3
-        order-2
+        flex flex-row lg:flex-col gap-3
+        sm:order-2
       ">
         {Array.from({ length: total }, (_, index) => (
           <button
