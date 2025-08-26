@@ -1,15 +1,13 @@
+const STORAGE_BASE_URL =
+  'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote'
+
 export const dataPath = {
-  chart:
-    'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/data/sheets/chart.csv',
+  chart: `${STORAGE_BASE_URL}/data/sheets/chart.csv`,
+  mapData: `${STORAGE_BASE_URL}/data/sheets/vill.csv`,
+  chartFootnotes: `${STORAGE_BASE_URL}/data/sheets/footnotes.csv`,
+  colorPalette: `${STORAGE_BASE_URL}/data/sheets/colors.csv`,
   baseMap(area: string) {
-    return `https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/map/${area}.json`
+    return `${STORAGE_BASE_URL}/map/${area}.json`
   },
-  mapData:
-    'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/data/sheets/vill.csv',
-  chartFootnotes:
-    'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/data/sheets/footnotes.csv',
-  colorPalette:
-    'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/data/sheets/colors.csv',
-  imgStamp:
-    'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/stamp.png',
+  imgStamp: `${STORAGE_BASE_URL}/assets/stamp.png`,
 }
