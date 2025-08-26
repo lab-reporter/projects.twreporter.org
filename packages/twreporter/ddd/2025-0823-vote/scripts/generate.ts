@@ -19,7 +19,7 @@ const STORAGE_BASE_URL =
   'https://projects.twreporter.org/twreporter/ddd/2025-0823-vote'
 
 // iframe HTML
-function generateHTML(iframe: IFrameConfig): string {
+function createIframeHTML(iframe: IFrameConfig): string {
   const { comp, attr } = iframe
 
   const attrString = Object.entries(attr)
@@ -52,8 +52,7 @@ function generateHTML(iframe: IFrameConfig): string {
 </html>`
 }
 
-// Embed code for iframe HTML
-function generateEmbedCode(key: string, dl: boolean = false) {
+function buildEmbedCode(key: string, dl: boolean = false) {
   return `<div
   style="
     position: relative;
@@ -90,33 +89,7 @@ function generateEmbedCode(key: string, dl: boolean = false) {
 </div>`
 }
 
-function generateViewHtml(keys: string[]) {
-  const embedCodes = keys.map((key) => ({
-    html: generateEmbedCode(key, true),
-    display: generateEmbedCode(key),
-  }))
-
-  const embedBlocks = embedCodes.map(
-    (code) => `<div style="margin: 10px 0;">
-    <textarea disabled style="width: 100%; height: 100px; margin: 5px 0;">${code.display}</textarea>
-    ${code.html}
-</div>`
-  )
-
-  return `<html>
-  <head>
-    <meta charset="UTF-8">
-  </head>
-  <body style="background: #F1F1F1;">
-    <textarea disabled style="width: 100%; height: 100px; margin: 5px 0;">${embedCodes.map(
-      (c) => c.display
-    )}</textarea>
-    ${embedBlocks.join('\n')}
-  </body>
-</html>`
-}
-
-function generateWebComponentEmbed(iframe: IFrameConfig): string {
+function buildWebComponent(iframe: IFrameConfig): string {
   const { comp, attr } = iframe
 
   const attrString = Object.entries(attr)
@@ -128,10 +101,10 @@ function generateWebComponentEmbed(iframe: IFrameConfig): string {
   ></${comp}>`
 }
 
-function generateWebComponentHTML(config: Config) {
+function createDownloadPageHTML(config: Config) {
   const components = Object.entries(config).map(([key, iframe]) => ({
-    wc: generateWebComponentEmbed(iframe),
-    iframe: generateEmbedCode(key),
+    wc: buildWebComponent(iframe),
+    iframe: buildEmbedCode(key),
   }))
 
   const iframes = components.map((c) => c.iframe).join('\n')
@@ -183,46 +156,46 @@ function generateWebComponentHTML(config: Config) {
 </html>`
 }
 
-// Main function
+function initConfig(configPath: string, outputDir: string) {
+  const fileContents = fs.readFileSync(configPath, 'utf8')
+  const config = yaml.load(fileContents) as Config
+
+  // Create output directory if it doesn't exist
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true })
+  }
+
+  return config
+}
+
 function generateHTMLFiles(
   configPath: string = './output.yml',
   outputDir: string = './iframe'
-): void {
+) {
   try {
-    const fileContents = fs.readFileSync(configPath, 'utf8')
-    const config = yaml.load(fileContents) as Config
-
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true })
-    }
-
-    const keys = Object.keys(config)
+    const config = initConfig(configPath, outputDir)
 
     Object.entries(config).forEach(([key, iframeConfig]) => {
-      const htmlContent = generateHTML(iframeConfig)
+      const iframe = createIframeHTML(iframeConfig)
 
-      const fileName = `${key}.html`
-      const filePath = path.join(outputDir, fileName)
-      fs.writeFileSync(filePath, htmlContent, 'utf8')
+      fs.writeFileSync(path.join(outputDir, `${key}.html`), iframe, 'utf8')
 
-      console.log(`Generated: ${fileName}`)
+      console.log(`[iframe] HTML created for: ${key}`)
     })
 
     fs.writeFileSync(
       path.join(outputDir, 'wc.html'),
-      generateWebComponentHTML(config)
+      createDownloadPageHTML(config)
     )
 
-    console.log('All HTML files generated successfully!')
-
-    fs.writeFileSync(
-      path.join(outputDir, 'view.html'),
-      generateViewHtml(keys),
-      'utf8'
-    )
+    console.log('[Web Component] Download page created.')
   } catch (error) {
-    console.error('Error generating HTML files:', error)
+    console.error('[Error]', error)
   }
 }
 
-generateHTMLFiles()
+function main() {
+  generateHTMLFiles()
+}
+
+main()
