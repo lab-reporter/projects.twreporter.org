@@ -1,5 +1,10 @@
 # 2025-0823-vote
 
+## 使用文章／專題
+
+- [【Data Reporter】7 張圖表，看「第二波大罷免」各村里投票結果](https://www.twreporter.org/a/data-reporter-2025-823-recall-results)
+- [第二波大罷免：7 藍委罷免案投票率低、全被否決，賴清德表示執政團隊進行 4 項調整，朱立倫交棒點名盧秀燕](https://www.twreporter.org/a/2025-823-recall-results)
+
 ## 專案架構
 
 主要的兩個元件（長條圖與地圖），採用 Web Component 的方式輸出，檔案存在 [`src/wc/`](src/wc/) 裡面：
