@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- [FONTS] Fetch from base document -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- [FONTS] End -->
+
+    <title>[Dev] Vite + Svelte</title>
+  </head>
+  <body style="background: #f1f1f1">
+    <script type="module" src="/src/main.ts"></script>
+    <h1>地圖</h1>
+    <twreporter-map map-area="新北11" data-area="B01"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="台中2" data-area="B02"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="台中3" data-area="B03"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="台中8" data-area="B04"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="竹縣2" data-area="B05"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="南投1" data-area="B06"></twreporter-map>
+    <h1>地圖</h1>
+    <twreporter-map map-area="南投2" data-area="B07"></twreporter-map>
+    <h1>長條圖</h1>
+    <twreporter-chart
+      cands="B02,B03,B04"
+      title="台中市各選區罷免結果一覽"
+    ></twreporter-chart>
+    <h1>長條圖</h1>
+    <twreporter-chart
+      cands="B01,B05"
+      title="新北市、新竹縣各選區罷免結果一覽"
+    ></twreporter-chart>
+    <h1>長條圖</h1>
+    <twreporter-chart
+      cands="B06,B07"
+      title="南投縣各選區罷免結果一覽"
+    ></twreporter-chart>
+  </body>
+</html>

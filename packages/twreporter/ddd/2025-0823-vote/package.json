@@ -1,0 +1,40 @@
+{
+  "name": "823-recall-graphics",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "deploy": "npm run build && gcloud storage cp ./dist/assets/index.js gs://projects.twreporter.org/twreporter/ddd/2025-0823-vote/index.js --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
+    "deploy:iframe": "npm run generate && cd iframe && gcloud storage cp * gs://projects.twreporter.org/twreporter/ddd/2025-0823-vote/iframe/ --content-type='text/html; charset=utf-8' --cache-control='public, max-age=300'",
+    "generate": "tsx scripts/generate.ts",
+    "build": "vite build",
+    "start": "vite preview",
+    "lint": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@tsconfig/svelte": "^5.0.4",
+    "@types/d3": "^7.4.3",
+    "@types/geojson": "^7946.0.15",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.3.0",
+    "@types/papaparse": "^5.3.16",
+    "js-yaml": "^4.1.0",
+    "svelte": "^5.15.0",
+    "svelte-check": "^4.1.1",
+    "svelte-maplibre-gl": "^1.0.1",
+    "tsx": "^4.20.4",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.5"
+  },
+  "dependencies": {
+    "@tanstack/svelte-query": "^5.85.3",
+    "@turf/turf": "^7.2.0",
+    "chart.js": "^4.5.0",
+    "chartjs-plugin-annotation": "^3.1.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "modern-screenshot": "^4.6.5",
+    "papaparse": "^5.5.3"
+  }
+}
