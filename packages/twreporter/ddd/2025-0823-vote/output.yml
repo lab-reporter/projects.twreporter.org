@@ -1,0 +1,59 @@
+bar-1: # 輸出 iframe 元件的 key -- https://.../iframe/{key}.html
+  comp: twreporter-chart # 使用的 Web Component 元件名：長條圖 twreporter-chart、地圖 twreporter-map
+  attr: # 元件的輸入資料
+    cands: B02,B03,B04 # twreporter-chart -- cands 輸入用逗點分隔的候選人編號，見「不斷更新」試算表 `Area` 欄位
+    title: 台中市各選區罷免結果一覽 # twreporter-chart -- title 輸入圖卡標題
+
+bar-2:
+  comp: twreporter-chart
+  attr:
+    cands: B01,B05
+    title: 新北市、新竹縣各選區罷免結果一覽
+
+bar-3:
+  comp: twreporter-chart
+  attr:
+    cands: B06,B07
+    title: 南投縣各選區罷免結果一覽
+
+map-1:
+  comp: twreporter-map
+  attr:
+    map-area: 新北11 # twreporter-map -- map-area 輸入選區名，讀取地圖圖資使用 -- https://.../map/{選區名}.json
+    data-area: B01 # twreporter-map -- data-area 輸入單一候選人編號，見「不斷更新」試算表 `Area` 欄位
+
+map-2:
+  comp: twreporter-map
+  attr:
+    map-area: 台中2
+    data-area: B02
+
+map-3:
+  comp: twreporter-map
+  attr:
+    map-area: 台中3
+    data-area: B03
+
+map-4:
+  comp: twreporter-map
+  attr:
+    map-area: 台中8
+    data-area: B04
+
+map-5:
+  comp: twreporter-map
+  attr:
+    map-area: 竹縣2
+    data-area: B05
+
+map-6:
+  comp: twreporter-map
+  attr:
+    map-area: 南投1
+    data-area: B06
+
+map-7:
+  comp: twreporter-map
+  attr:
+    map-area: 南投2
+    data-area: B07
