@@ -125,10 +125,10 @@
         <div class="legend-item">
           {#each $colorQuery.data?.steps.slice(0, -1) as step}
             <div
-                    class="legend-single-wrapper"
-                    class:agree={+step['級距'] > 0}
-                    class:disagree={+step['級距'] < 0}
-                    class:tied={+step['級距'] === 0}
+              class="legend-single-wrapper"
+              class:agree={+step['級距'] > 0}
+              class:disagree={+step['級距'] < 0}
+              class:tied={+step['級距'] === 0}
             >
               <div
                 class="continuous-legend"
@@ -287,11 +287,7 @@
   .tied {
     align-items: center;
   }
-  .continuous-legend {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+
   .legend-number {
     font-size: 12px;
     color: #666;
