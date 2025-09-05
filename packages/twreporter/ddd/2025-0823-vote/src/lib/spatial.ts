@@ -55,7 +55,7 @@ export function getMapConfig(
     ? bbox(buffer(basemap, 3) as GeoJSON)
     : [121.5, 25.025, 121.58, 25.1]
 
-  const expandedBounds = expandToAspectRatio(bounds, 1.3 )
+  const expandedBounds = expandToAspectRatio(bounds, 1.3)
 
   const geojsonCenter = (
     basemap ? center(basemap).geometry.coordinates : [121.54, 25.06]

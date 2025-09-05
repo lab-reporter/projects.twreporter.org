@@ -34,8 +34,7 @@
 
   const cand = $derived($chartQuery.data)
 
-  $effect(() => {
-    if (!cand || !chartCanvas || !cand) return
+    if (!cand || !chartCanvas) return
 
     // 設定圖表資料
     const data = [
