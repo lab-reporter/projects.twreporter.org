@@ -3,7 +3,12 @@
 <script lang="ts">
   import LayeredPhotos from './LayeredPhotos.svelte'
 
-  let { name, base, layers }: { name: string; base: string; layers: string } =
+  let {
+    name,
+    base,
+    layers,
+    footnotes,
+  }: { name: string; base: string; layers: string; footnotes: string } =
     $props()
 </script>
 
@@ -14,4 +19,5 @@
     const [name, src, legend] = layer.trim().split(' ')
     return { name, src, legend }
   })}
+  footnotes={footnotes.split(',').map((f) => f.trim())}
 />
