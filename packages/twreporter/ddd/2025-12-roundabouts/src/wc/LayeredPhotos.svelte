@@ -99,6 +99,7 @@
     position: relative;
     padding: 0 10px;
     background: #f1f1f1;
+    --btn-size: 10px;
   }
 
   .header {
@@ -154,14 +155,14 @@
     padding: 4px 0;
     background: white;
     border-radius: 5px 5px 0 0;
-    font-size: 10px;
+    font-size: var(--btn-size);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     opacity: 0.5;
   }
 
   @media (min-width: 500px) {
-    .controls button {
-      font-size: 14px;
+    .container {
+      --btn-size: 14px;
     }
   }
 
@@ -170,7 +171,7 @@
   }
 
   .controls .legend {
-    width: 10px;
+    width: var(--btn-size);
     aspect-ratio: 1/1;
     margin-right: 5px;
   }
