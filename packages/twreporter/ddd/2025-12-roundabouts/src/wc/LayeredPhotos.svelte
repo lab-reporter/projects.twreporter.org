@@ -14,6 +14,10 @@
       layer.name === name ? updatedLayer : { ...layer, show: false }
     )
   }
+
+  const activateLayer = (layer: LayerState) => {
+    updateLayer(layer.name, { ...layer, show: true })
+  }
 </script>
 
 <link
@@ -28,11 +32,7 @@
       <button
         title={layer.name}
         class:active={layer.show}
-        onmouseenter={() =>
-          updateLayer(layer.name, {
-            ...layer,
-            show: true,
-          })}
+        onmouseenter={() => activateLayer(layer)}
       >
         {#if layer.legend}
           <img src={layer.legend} alt={layer.name} class="legend" />
@@ -46,6 +46,15 @@
     <div class="layers">
       {#each layerState as layer}
         <img src={layer.src} alt={layer.name} class:show={layer.show} />
+      {/each}
+    </div>
+    <div class="hover-overlay" aria-hidden="true">
+      {#each layerState as layer}
+        <div
+          role="presentation"
+          aria-hidden="true"
+          onmouseenter={() => activateLayer(layer)}
+        ></div>
       {/each}
     </div>
   </div>
@@ -82,6 +91,27 @@
 
   .layers .show {
     opacity: 1;
+  }
+
+  .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    pointer-events: none;
+  }
+
+  .hover-overlay div {
+    pointer-events: auto;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-overlay {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    }
   }
 
   .controls {
