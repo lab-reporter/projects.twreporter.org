@@ -2,12 +2,17 @@
   type Layer = { legend?: string; name: string; src: string }
   type LayerState = Layer & { show: boolean }
 
-  let { name, base, layers }: { name: string; base: string; layers: Layer[] } =
+  let {
+    name,
+    base,
+    layers,
+    footnotes,
+  }: { name: string; base: string; layers: Layer[]; footnotes: string[] } =
     $props()
 
-  let layerState = $state(
-    layers.map((l, index) => ({ ...l, show: index === 0 ? true : false }))
-  )
+  let layerState = $state(layers.map((l, index) => ({ ...l, show: true })))
+
+  let lockedState = $state(true)
 
   const updateLayer = (name: string, updatedLayer: LayerState) => {
     layerState = layerState.map((layer) =>
@@ -27,19 +32,37 @@
 />
 
 <div class="container">
+  <div class="header"><h1>{name}</h1></div>
   <div class="controls">
-    {#each layerState as layer}
-      <button
-        title={layer.name}
-        class:active={layer.show}
-        onmouseenter={() => activateLayer(layer)}
-      >
-        {#if layer.legend}
-          <img src={layer.legend} alt={layer.name} class="legend" />
-        {/if}
-        {layer.name}</button
-      >
-    {/each}
+    <button
+      class:active={layerState.every((layer) => layer.show)}
+      onclick={() => {
+        lockedState = true
+        layerState = layerState.map((layer) => ({ ...layer, show: true }))
+      }}
+    >
+      顯示所有事故
+    </button>
+    <div class="indv">
+      {#each layerState as layer}
+        <button
+          title={layer.name}
+          class:active={layer.show}
+          onclick={() => {
+            activateLayer(layer)
+            lockedState = false
+          }}
+          onmouseenter={() => {
+            if (!lockedState) activateLayer(layer)
+          }}
+        >
+          {#if layer.legend}
+            <img src={layer.legend} alt={layer.name} class="legend" />
+          {/if}
+          {layer.name}</button
+        >
+      {/each}
+    </div>
   </div>
   <div class="images">
     <img src={base} alt={name} />
@@ -48,14 +71,17 @@
         <img src={layer.src} alt={layer.name} class:show={layer.show} />
       {/each}
     </div>
-    <div class="hover-overlay" aria-hidden="true">
-      {#each layerState as layer}
-        <div
-          role="presentation"
-          aria-hidden="true"
-          onmouseenter={() => activateLayer(layer)}
-        ></div>
-      {/each}
+    <div class="footer">
+      <div class="footnotes">
+        {#each footnotes as footnote}
+          <p>{footnote}</p>
+        {/each}
+      </div>
+      <img
+        src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+        class="logo"
+        alt="報導者 The Reporter"
+      />
     </div>
   </div>
 </div>
@@ -71,6 +97,17 @@
   .container {
     max-width: 730px;
     position: relative;
+    padding: 0 10px;
+    background: #f1f1f1;
+  }
+
+  .header {
+    padding: 10px 0;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    font-weight: bold;
   }
 
   .images {
@@ -93,33 +130,20 @@
     opacity: 1;
   }
 
-  .hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    pointer-events: none;
-  }
-
-  .hover-overlay div {
-    pointer-events: auto;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .hover-overlay {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    }
-  }
-
   .controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  .controls .indv {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: white;
   }
 
   .controls button {
@@ -127,16 +151,51 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 10px;
+    padding: 4px 0;
+    background: white;
+    border-radius: 5px 5px 0 0;
+    font-size: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0.5;
+  }
+
+  @media (min-width: 500px) {
+    .controls button {
+      font-size: 14px;
+    }
   }
 
   .controls .active {
-    font-weight: bold;
+    opacity: 1;
   }
 
   .controls .legend {
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    aspect-ratio: 1/1;
     margin-right: 5px;
+  }
+
+  .footer {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    --footer-scale: 1;
+  }
+
+  .footer p {
+    color: #acacac;
+    font-size: calc(10px * var(--footer-scale));
+  }
+
+  @media (min-width: 500px) {
+    .footer {
+      --footer-scale: 1.25;
+    }
+  }
+
+  .footer .logo {
+    width: calc(14.5px * var(--footer-scale));
+    height: calc(15.5px * var(--footer-scale));
   }
 </style>
