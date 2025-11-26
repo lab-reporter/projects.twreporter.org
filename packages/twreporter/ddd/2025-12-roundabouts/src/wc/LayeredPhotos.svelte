@@ -114,7 +114,7 @@
   }
 
   .header {
-    padding: 5px 0 10px;
+    padding: 5px 0 0;
   }
 
   @media (min-width: 500px) {
@@ -126,6 +126,7 @@
   .header h1 {
     font-size: 24px;
     font-weight: bold;
+    padding: 5px 0 10px;
   }
 
   @media (min-width: 500px) {
@@ -202,7 +203,7 @@
 
   .controls .active {
     opacity: 1;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .controls .all {
