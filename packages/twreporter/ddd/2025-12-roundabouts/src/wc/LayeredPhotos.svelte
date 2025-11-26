@@ -36,10 +36,12 @@
   <div class="controls">
     <button
       class:active={layerState.every((layer) => layer.show)}
+      class:all={layerState.every((layer) => layer.show)}
       onclick={() => {
         lockedState = true
         layerState = layerState.map((layer) => ({ ...layer, show: true }))
       }}
+      class="full"
     >
       顯示所有事故
     </button>
@@ -48,6 +50,7 @@
         <button
           title={layer.name}
           class:active={layer.show}
+          class:all={layerState.every((layer) => layer.show)}
           onclick={() => {
             activateLayer(layer)
             lockedState = false
@@ -71,18 +74,18 @@
         <img src={layer.src} alt={layer.name} class:show={layer.show} />
       {/each}
     </div>
-    <div class="footer">
-      <div class="footnotes">
-        {#each footnotes as footnote}
-          <p>{footnote}</p>
-        {/each}
-      </div>
-      <img
-        src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
-        class="logo"
-        alt="報導者 The Reporter"
-      />
+  </div>
+  <div class="footer">
+    <div class="footnotes">
+      {#each footnotes as footnote}
+        <p>{footnote}</p>
+      {/each}
     </div>
+    <img
+      src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+      class="logo"
+      alt="報導者 The Reporter"
+    />
   </div>
 </div>
 
@@ -97,18 +100,38 @@
   .container {
     max-width: 730px;
     position: relative;
-    padding: 0 10px;
+    padding: 8px 10px;
     background: #f1f1f1;
     --btn-size: 10px;
+    border-top: #e2e2e2 1px solid;
+    border-bottom: #e2e2e2 1px solid;
+  }
+
+  @media (min-width: 500px) {
+    .container {
+      padding: 10px 10px;
+    }
   }
 
   .header {
-    padding: 10px 0;
+    padding: 5px 0 10px;
+  }
+
+  @media (min-width: 500px) {
+    .header h1 {
+      padding: 5px 0 15px;
+    }
   }
 
   .header h1 {
     font-size: 24px;
     font-weight: bold;
+  }
+
+  @media (min-width: 500px) {
+    .header h1 {
+      font-size: 28px;
+    }
   }
 
   .images {
@@ -158,6 +181,11 @@
     font-size: var(--btn-size);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     opacity: 0.5;
+    letter-spacing: 0.7px;
+  }
+
+  .controls .full {
+    border-radius: 5px;
   }
 
   @media (min-width: 500px) {
@@ -166,8 +194,20 @@
     }
   }
 
+  @media (min-width: 670px) {
+    .container {
+      --btn-size: 16px;
+    }
+  }
+
   .controls .active {
     opacity: 1;
+    font-weight: 500;
+  }
+
+  .controls .all {
+    opacity: 1;
+    font-weight: 400;
   }
 
   .controls .legend {
@@ -177,11 +217,32 @@
   }
 
   .footer {
-    padding: 10px 0;
+    padding: 10px 0 10px 0;
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: space-between;
     --footer-scale: 1;
+    --footer-logo-scale: 1.25;
+  }
+
+  @media (min-width: 500px) {
+    .footer {
+      padding: 15px 0 10px 0;
+      --footer-scale: 1.6;
+      --footer-logo-scale: 2;
+    }
+  }
+
+  .footnotes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  @media (min-width: 500px) {
+    .footnotes {
+      gap: 5px;
+    }
   }
 
   .footer p {
@@ -189,14 +250,8 @@
     font-size: calc(10px * var(--footer-scale));
   }
 
-  @media (min-width: 500px) {
-    .footer {
-      --footer-scale: 1.25;
-    }
-  }
-
   .footer .logo {
-    width: calc(14.5px * var(--footer-scale));
-    height: calc(15.5px * var(--footer-scale));
+    width: calc(14.5px * var(--footer-logo-scale));
+    height: calc(15.5px * var(--footer-logo-scale));
   }
 </style>
