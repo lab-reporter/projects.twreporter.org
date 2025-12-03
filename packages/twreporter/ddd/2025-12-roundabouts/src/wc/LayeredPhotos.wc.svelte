@@ -40,24 +40,20 @@
     <div class="header"><h1>{name}</h1></div>
 
     {#if "groups" in props}
-        {#key activeGroupId}
-            {#each groups as group}
-                <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
-                <div hidden={activeGroupId !== group.id}>
-                    <LayeredPhotos
-                        base={props[`base-${group.id}`]}
-                        layers={props[`layers-${group.id}`]
-                            .split(",")
-                            .map((layer) => {
-                                const [name, src, legend] = layer
-                                    .trim()
-                                    .split(" ");
-                                return { name, src, legend };
-                            })}
-                    />
-                </div>
-            {/each}
-        {/key}
+        {#each groups as group}
+            <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
+            <div hidden={activeGroupId !== group.id}>
+                <LayeredPhotos
+                    base={props[`base-${group.id}`]}
+                    layers={props[`layers-${group.id}`]
+                        .split(",")
+                        .map((layer) => {
+                            const [name, src, legend] = layer.trim().split(" ");
+                            return { name, src, legend };
+                        })}
+                />
+            </div>
+        {/each}
 
         <div class="controls">
             {#each groups as group}
