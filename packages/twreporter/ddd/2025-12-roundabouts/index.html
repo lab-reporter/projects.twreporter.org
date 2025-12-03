@@ -1,40 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- [FONTS] Fetch from base document -->
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto+Slab:wght@100..900&display=swap"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <!-- [FONTS] End -->
+        <!-- [FONTS] Fetch from base document -->
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin="anonymous"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto+Slab:wght@100..900&display=swap"
+            rel="stylesheet"
+            crossorigin="anonymous"
+        />
+        <!-- [FONTS] End -->
 
-    <title>[Dev] Vite + Svelte</title>
-  </head>
-  <body style="background-color: #f1f1f1">
-    <twreporter-layered-photos
-      name="湯德章圓環事故型態"
-      base="https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/base.png"
-      layers="
-        向左側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/1.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%B7%A6%E5%81%B4%E6%92%9E.svg, 
-        向右側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/2.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%8F%B3%E5%81%B4%E6%92%9E.svg,
-        同向擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E6%93%A6%E6%92%9E.svg,
-        同向直行擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E6%93%A6%E6%92%9E.svg"
-      footnotes="資料來源：警政署交通事故（A1、A2類）資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
-    ></twreporter-layered-photos>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+        <title>[Dev] Vite + Svelte</title>
+    </head>
+    <body style="background-color: #f1f1f1">
+        <twreporter-layered-photos
+            name="台南歸仁圓環標線改善後向右側撞事故明顯減少"
+            groups="before 改善前（2020-2022）, after 改善後（2022-2025）"
+            base-before="https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/before_base.png"
+            layers-before="
+                向右側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/before_1.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%8F%B3%E5%81%B4%E6%92%9E.svg,
+                側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/before_2.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%81%B4%E6%92%9E.svg,
+                同向右轉擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/before_3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E5%8F%B3%E8%BD%89%E6%93%A6%E6%92%9E.svg
+            "
+            base-after="https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/after_base.png"
+            layers-after="
+                向右側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/after_1.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%8F%B3%E5%81%B4%E6%92%9E.svg,
+                側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/after_2.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%81%B4%E6%92%9E.svg,
+                同向右轉擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/multi-base/after_3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E5%8F%B3%E8%BD%89%E6%93%A6%E6%92%9E.svg
+            "
+            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署交通事故（A1、A2類）資料, 資料整理：黃靖緯、林雨佑｜設計：江世民"
+        ></twreporter-layered-photos>
+
+        <div>---</div>
+
+        <twreporter-layered-photos
+            name="湯德章圓環事故型態"
+            base="https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/base.png"
+            layers="
+            向左側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/1.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%B7%A6%E5%81%B4%E6%92%9E.svg,
+            向右側撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/2.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E5%81%B4%E6%92%9E_%E5%90%91%E5%8F%B3%E5%81%B4%E6%92%9E.svg,
+            同向擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E6%93%A6%E6%92%9E.svg,
+            同向直行擦撞 https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/roundabouts/1/3.png https://storage.googleapis.com/data-reporter-infographics/dev/2025-12-roundabouts/legends/%E6%93%A6%E6%92%9E_%E5%90%8C%E5%90%91%E6%93%A6%E6%92%9E.svg"
+            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：內政部警政署交通A1/A2事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+        ></twreporter-layered-photos>
+        <script type="module" src="/src/main.ts"></script>
+    </body>
 </html>
