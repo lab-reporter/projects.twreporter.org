@@ -1,15 +1,18 @@
 <script lang="ts">
     type Layer = { legend?: string; name: string; src: string };
+    type Base = { src: string; opacity?: string };
     type LayerState = Layer & { show: boolean };
 
-    let { base, layers }: { base: string; layers: Layer[] } = $props();
+    let { bases, layers }: { bases: Base[]; layers: Layer[] } = $props();
 
-    let layerState = $state(layers.map((l, index) => ({ ...l, show: true })));
+    let layerState = $state(layers.map((l) => ({ ...l, show: true })));
+    let reversedLayerState = $derived([...layerState].reverse());
 
     let lockedState = $state(true);
+    let showAllLayers = $state(false);
 
     const updateLayer = (name: string, updatedLayer: LayerState) => {
-        layerState = layerState.map((layer) =>
+        layerState = layerState?.map((layer) =>
             layer.name === name ? updatedLayer : { ...layer, show: false },
         );
     };
@@ -20,47 +23,76 @@
 </script>
 
 <div class="controls">
-    <button
-        class:active={layerState.every((layer) => layer.show)}
-        class:all={layerState.every((layer) => layer.show)}
-        onclick={() => {
-            lockedState = true;
-            layerState = layerState.map((layer) => ({
-                ...layer,
-                show: true,
-            }));
-        }}
-        class="full"
-    >
-        顯示所有事故
-    </button>
-    <div class="indv">
-        {#each layerState as layer}
-            <button
-                title={layer.name}
-                class:active={layer.show}
-                class:all={layerState.every((layer) => layer.show)}
-                onclick={() => {
-                    activateLayer(layer);
-                    lockedState = false;
-                }}
-                onmouseenter={() => {
-                    if (!lockedState) activateLayer(layer);
-                }}
-            >
-                {#if layer.legend}
-                    <img src={layer.legend} alt={layer.name} class="legend" />
-                {/if}
-                {layer.name}</button
-            >
-        {/each}
-    </div>
+    {#if layerState}
+        <button
+            class:active={showAllLayers}
+            class:all={showAllLayers}
+            onclick={() => {
+                if (showAllLayers == false) {
+                    lockedState = true;
+                    showAllLayers = true;
+                } else {
+                    showAllLayers = false;
+                }
+                layerState = layerState?.map((layer) => ({
+                    ...layer,
+                    show: true,
+                }));
+            }}
+            class="full"
+        >
+            顯示所有事故
+        </button>
+        <div class="indv">
+            {#each layerState as layer}
+                <button
+                    title={layer.name}
+                    class:active={layer.show}
+                    class:all={layerState.every((layer) => layer.show)}
+                    onclick={() => {
+                        activateLayer(layer);
+                        lockedState = false;
+                        showAllLayers = false;
+                    }}
+                    onmouseenter={() => {
+                        if (!lockedState) activateLayer(layer);
+                    }}
+                >
+                    {#if layer.legend}
+                        <img
+                            src={layer.legend}
+                            alt={layer.name}
+                            class="legend"
+                        />
+                    {/if}
+                    {layer.name}</button
+                >
+            {/each}
+        </div>
+    {/if}
 </div>
 <div class="images">
-    <img src={base} alt={base} />
+    <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
     <div class="layers">
-        {#each layerState as layer}
-            <img src={layer.src} alt={layer.name} class:show={layer.show} />
+        {#each bases as base}
+            <img
+                src={base.src}
+                alt={base.src}
+                style:opacity={showAllLayers ? "1" : (base.opacity ?? "1")}
+                onerror={function () {
+                    this.style = "display:none";
+                }}
+            />
+        {/each}
+        {#each reversedLayerState as layer}
+            <img
+                src={layer.src}
+                alt={layer.name}
+                class:show={layer.show}
+                onerror={function () {
+                    this.style = "display:none";
+                }}
+            />
         {/each}
     </div>
 </div>
@@ -132,7 +164,6 @@
 
     .controls .legend {
         width: var(--btn-size);
-        aspect-ratio: 1/1;
         margin-right: 5px;
     }
 </style>

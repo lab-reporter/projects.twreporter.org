@@ -44,7 +44,10 @@
             <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
             <div hidden={activeGroupId !== group.id}>
                 <LayeredPhotos
-                    base={props[`base-${group.id}`]}
+                    bases={props[`base-${group.id}`].split(",").map((base) => {
+                        const [src, opacity] = base.trim().split(" ");
+                        return { src, opacity };
+                    })}
                     layers={props[`layers-${group.id}`]
                         .split(",")
                         .map((layer) => {
@@ -66,7 +69,10 @@
         </div>
     {:else}
         <LayeredPhotos
-            base={props.base}
+            bases={props.base.split(",").map((base) => {
+                const [src, opacity] = base.trim().split(" ");
+                return { src, opacity };
+            })}
             layers={props.layers.split(",").map((layer) => {
                 const [name, src, legend] = layer.trim().split(" ");
                 return { name, src, legend };
