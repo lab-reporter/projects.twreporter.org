@@ -1,19 +1,27 @@
 <script lang="ts">
     type Layer = { legend?: string; name: string; src: string };
     type Base = { src: string; opacity?: string };
-    type LayerState = Layer & { show: boolean };
+    type LayerState = Layer & { show: boolean; disabled: boolean };
 
     let { bases, layers }: { bases: Base[]; layers: Layer[] } = $props();
 
-    let layerState = $state(layers.map((l) => ({ ...l, show: true })));
+    let layerState = $state(
+        layers.map((l) => ({ ...l, show: true, disabled: false })),
+    );
     let reversedLayerState = $derived([...layerState].reverse());
 
     let lockedState = $state(true);
     let showAllLayers = $state(false);
 
-    const updateLayer = (name: string, updatedLayer: LayerState) => {
+    const updateLayer = (
+        name: string,
+        updatedLayer: LayerState,
+        toggleOthers = true,
+    ) => {
         layerState = layerState?.map((layer) =>
-            layer.name === name ? updatedLayer : { ...layer, show: false },
+            layer.name === name
+                ? updatedLayer
+                : { ...layer, show: toggleOthers ? false : layer.show },
         );
     };
 
@@ -47,8 +55,10 @@
             {#each layerState as layer}
                 <button
                     title={layer.name}
-                    class:active={layer.show}
-                    class:all={layerState.every((layer) => layer.show)}
+                    class:active={layer.show && !layer.disabled}
+                    class:all={layerState.every((layer) => layer.show) &&
+                        !layer.disabled}
+                    class:stripe={layer.disabled}
                     onclick={() => {
                         activateLayer(layer);
                         lockedState = false;
@@ -57,6 +67,7 @@
                     onmouseenter={() => {
                         if (!lockedState) activateLayer(layer);
                     }}
+                    disabled={layer.disabled}
                 >
                     {#if layer.legend}
                         <img
@@ -91,6 +102,14 @@
                 class:show={layer.show}
                 onerror={function () {
                     this.style = "display:none";
+                    updateLayer(
+                        layer.name,
+                        {
+                            ...layer,
+                            disabled: true,
+                        },
+                        false,
+                    );
                 }}
             />
         {/each}
@@ -146,6 +165,16 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         opacity: 0.5;
         letter-spacing: 0.7px;
+    }
+
+    button.stripe {
+        background: repeating-linear-gradient(
+            -45deg,
+            #c5c5c5,
+            #c5c5c5 4px,
+            #ffffff 4px,
+            #ffffff 8px
+        );
     }
 
     .controls .full {
