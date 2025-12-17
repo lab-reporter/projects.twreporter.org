@@ -171,9 +171,9 @@
         background: repeating-linear-gradient(
             -45deg,
             #c5c5c5,
-            #c5c5c5 4px,
-            #ffffff 4px,
-            #ffffff 8px
+            #c5c5c5 3px,
+            #ffffff 3px,
+            #ffffff 6px
         );
     }
 
