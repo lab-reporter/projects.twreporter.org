@@ -3,69 +3,88 @@
     type Base = { src: string; opacity?: string };
     type LayerState = Layer & { show: boolean; disabled: boolean };
 
-    let { bases, layers }: { bases: Base[]; layers: Layer[] } = $props();
+    let { bases, layers: inputLayers }: { bases: Base[]; layers: Layer[] } =
+        $props();
 
-    let layerState = $state(
-        layers.map((l) => ({ ...l, show: true, disabled: false })),
+    let layers = $state(
+        inputLayers.map((l) => ({ ...l, show: true, disabled: false })),
     );
-    let reversedLayerState = $derived([...layerState].reverse());
 
-    let lockedState = $state(true);
-    let showAllLayers = $state(false);
+    let hoverLocked = $state(true);
+    let showingSingleImage = $derived(
+        layers.filter((l) => l.show).length === 1,
+    );
+    let showAllBaseImages = $state(false);
+    const toggleBaseImages = () => {
+        if (showAllBaseImages == false) {
+            hoverLocked = true;
+            showAllBaseImages = true;
+        } else {
+            showAllBaseImages = false;
+        }
+    };
 
     const updateLayer = (
         name: string,
         updatedLayer: LayerState,
         toggleOthers = true,
     ) => {
-        layerState = layerState?.map((layer) =>
+        layers = layers?.map((layer) =>
             layer.name === name
                 ? updatedLayer
                 : { ...layer, show: toggleOthers ? false : layer.show },
         );
     };
 
-    const activateLayer = (layer: LayerState) => {
-        updateLayer(layer.name, { ...layer, show: true });
+    const activateLayer = (name: string) => {
+        layers = layers.map((layer) =>
+            layer.name === name
+                ? { ...layer, show: true }
+                : { ...layer, show: false },
+        );
+        hoverLocked = false;
+        showAllBaseImages = false;
+    };
+
+    const activateAllLayers = () => {
+        layers = layers?.map((layer) => ({
+            ...layer,
+            show: true,
+        }));
     };
 </script>
 
 <div class="controls">
-    {#if layerState}
+    {#if layers}
         <button
-            class:active={showAllLayers}
-            class:all={showAllLayers}
+            class:active={showAllBaseImages}
+            class:all={showAllBaseImages}
             onclick={() => {
-                if (showAllLayers == false) {
-                    lockedState = true;
-                    showAllLayers = true;
-                } else {
-                    showAllLayers = false;
-                }
-                layerState = layerState?.map((layer) => ({
-                    ...layer,
-                    show: true,
-                }));
+                toggleBaseImages();
+                activateAllLayers();
             }}
             class="full"
         >
             顯示所有事故
         </button>
         <div class="indv">
-            {#each layerState as layer}
+            {#each layers as layer}
                 <button
                     title={layer.name}
                     class:active={layer.show && !layer.disabled}
-                    class:all={layerState.every((layer) => layer.show) &&
+                    class:all={layers.every((layer) => layer.show) &&
                         !layer.disabled}
                     class:stripe={layer.disabled}
                     onclick={() => {
-                        activateLayer(layer);
-                        lockedState = false;
-                        showAllLayers = false;
+                        console.log({ layer: { ...layer } });
+                        if (layer.show && showingSingleImage) {
+                            activateAllLayers();
+                        } else {
+                            activateLayer(layer.name);
+                        }
                     }}
                     onmouseenter={() => {
-                        if (!lockedState) activateLayer(layer);
+                        if (!hoverLocked) activateLayer(layer.name);
                     }}
                     disabled={layer.disabled}
                 >
@@ -89,13 +108,13 @@
             <img
                 src={base.src}
                 alt={base.src}
-                style:opacity={showAllLayers ? "1" : (base.opacity ?? "1")}
+                style:opacity={showAllBaseImages ? "1" : (base.opacity ?? "1")}
                 onerror={function () {
                     this.style = "display:none";
                 }}
             />
         {/each}
-        {#each reversedLayerState as layer}
+        {#each [...layers].reverse() as layer}
             <img
                 src={layer.src}
                 alt={layer.name}
