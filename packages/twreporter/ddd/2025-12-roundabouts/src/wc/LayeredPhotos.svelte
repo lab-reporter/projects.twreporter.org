@@ -76,9 +76,9 @@
                         !layer.disabled}
                     class:stripe={layer.disabled}
                     onclick={() => {
-                        console.log({ layer: { ...layer } });
                         if (layer.show && showingSingleImage) {
                             activateAllLayers();
+                            hoverLocked = true;
                         } else {
                             activateLayer(layer.name);
                         }
