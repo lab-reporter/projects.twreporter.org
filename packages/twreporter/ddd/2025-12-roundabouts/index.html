@@ -22,9 +22,11 @@
         />
         <!-- [FONTS] End -->
 
-        <title>[Dev] Vite + Svelte</title>
+        <title>2025-12-roundabouts</title>
     </head>
     <body style="background-color: #f1f1f1">
+        <script type="module" src="/src/main.ts"></script>
+
         "<twreporter-layered-photos
             name="台南民生綠園圓環整體事故全台最多，「向右側撞」比例與數量最高"
             base="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/湯德章圓環/湯德章圓環_底圖.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/湯德章圓環/湯德章圓環_點位_全.png 0.3"
@@ -32,7 +34,7 @@
         自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/湯德章圓環/湯德章圓環_點位_自撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
         同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/湯德章圓環/湯德章圓環_點位_同向右轉擦撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png,
         交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/湯德章圓環/湯德章圓環_點位_交叉撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料、農業部林保署航遙分署,資料整理：黃靖緯、林雨佑｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="台北景福門圓環事故型態"
@@ -41,37 +43,31 @@
         向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/景福門圓環/景福門圓環_點位_向右側撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/景福門圓環/景福門圓環_點位_同向直行擦撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
         同向左轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/景福門圓環/景福門圓環_點位_同向左轉擦撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向左轉擦撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料、農業部林保署航遙分署,資料整理：黃靖緯、林雨佑｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="台北公館圓環修改前後事故型態"
-            groups="before 修改前, after 修改後"
+            groups="before 圓環拆除前（2020-2025/09）, after 圓環拆除後（2025/09/29-11/15）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_全_後.png 0.3"
             layers-before="向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_向左側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png,
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_同向直行擦撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
         同向左轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_同向左轉擦撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向左轉擦撞.png,
         向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_向右側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png"
-            layers-after="向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_向左側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png,
-        同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_同向直行擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
-        同向擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_同向擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向擦撞.png,
-        追撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_追撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/追撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            layers-after="同向擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_同向擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向擦撞.png,
+        追撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_追撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/追撞.png,
+        側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/側撞.png,
+        自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/公館圓環/公館圓環_點位_自撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,註3：拆除後資料區間為2025/09/29至11/15，由於期間較短，因此一併呈現A3類（財損）事故,資料來源：警政署A1、A2類交通事故資料、台北市政府交通局,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="台南後甲圓環混正交路口，增加出入環交叉撞"
-            groups="before 修改前, after 修改後"
-            base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_全_前.png 0.3"
-            base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_全_後.png 0.3"
-            layers-before="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_向右側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
-        自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_自撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
-        交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_交叉撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png,
-        同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_同向右轉擦撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png"
-            layers-after="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_向右側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
-        自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_自撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
-        交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_交叉撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png,
-        同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_同向右轉擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            base="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_底圖.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_全.png 0.3"
+            layers="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_向右側撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
+        自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_自撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
+        交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_交叉撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png,
+        同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/後甲圓環/後甲圓環_點位_同向右轉擦撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料、Google Earth,資料整理：黃靖緯、林雨佑｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="新竹東門圓環採傳統同心圓設計，車道數不平衡增加衝突點"
@@ -80,11 +76,11 @@
         自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新竹東門圓環/新竹東門圓環_點位_自撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
         同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新竹東門圓環/新竹東門圓環_點位_同向右轉擦撞.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png,
         行人事故 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新竹東門圓環/新竹東門圓環_點位_行人事故.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/行人事故.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料、農業部林保署航遙分署,資料整理：黃靖緯、林雨佑｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="高雄文橫三路廣西路口圓環改圓環前後事故類型"
-            groups="before 修改前, after 修改後"
+            groups="before 修改前正交路口（2020-2024/03）, after 改為圓環後（2024/03-2025/10）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_全_後.png 0.3"
             layers-before="同向側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_同向側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向側撞.png,
@@ -95,11 +91,11 @@
         交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_交叉撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png,
         向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_向左側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png,
         直行追撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/文橫三路/文橫三路_點位_直行追撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/直行追撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="高雄瑞福路、崗山南街路口改圓環前後事故類型"
-            groups="before 修改前, after 修改後"
+            groups="before 修改前正交路口（2020-2024/11）, after 改為圓環後（2024/11-2025/10）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_全_後.png 0.3"
             layers-before="向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_向左側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png,
@@ -110,11 +106,11 @@
         直行追撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_直行追撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/直行追撞.png,
         行人事故 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_行人事故_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/行人事故.png,
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/瑞福路/瑞福路_點位_同向直行擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="屏東建基圓環修改前後事故類型"
-            groups="before 修改前, after 修改後"
+            groups="before 改造前（2020-2023/05）, after 改造後（2023/05-2025/10）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_全_後.png 0.3"
             layers-before="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_向右側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
@@ -125,11 +121,11 @@
         自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_自撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png,
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_同向直行擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
         向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/建基圓環/建基圓環_點位_向左側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="台南歸仁圓環修改前後事故類型"
-            groups="before 修改前, after 修改後"
+            groups="before 改造前（2020-2022/12）, after 改造後（2022/12-2025/10）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_全_後.png 0.3"
             layers-before="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_向右側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
@@ -140,11 +136,11 @@
         側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/側撞.png,
         右轉追撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_右轉追撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/右轉追撞.png,
         同向右轉擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/歸仁圓環/歸仁圓環_點位_同向右轉擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向右轉擦撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
             name="台南玉井圓環修改前後事故類型"
-            groups="before 修改前, after 修改後"
+            groups="before 改造前（2020-2024/11）, after 改造後（2024/11-2025/10）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_全_後.png 0.3"
             layers-before="交叉撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_交叉撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/交叉撞.png,
@@ -155,11 +151,11 @@
         同向側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_同向側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向側撞.png,
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_同向直行擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
         向左側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/玉井圓環/玉井圓環_點位_向左側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向左側撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >" "<twreporter-layered-photos
-            name="台南新營圓環從傳統同心圓改為渦輪圓環設計"
-            groups="before 修改前, after 修改後"
+            name="台南新營圓環從傳統同心圓改為螺旋圓環設計"
+            groups="before 改造前（2020-2025/10）, after 改造後空拍圖（2025/12）"
             base-before="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_底圖_前.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_全_前.png 0.3"
             base-after="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_底圖_後.png, https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_全_後.png 0.3"
             layers-before="向右側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_向右側撞_前.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/向右側撞.png,
@@ -170,9 +166,8 @@
         同向直行擦撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_同向直行擦撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向直行擦撞.png,
         同向側撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_同向側撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/同向側撞.png,
         自撞 https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/roundabouts/新營圓環/新營圓環_點位_自撞_後.png https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/legends/自撞.png"
-            footnotes="註：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文末方法論說明,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜設計：江世民"
+            footnotes="註1：事故類型經《報導者》將原始資料根據行徑方向與撞擊部位重新對照，請見文中方法論說明,註2：根據現場事故記錄的方式與標準不同，地圖中的少數事故GPS點位可能有所飄移，並非所有點位皆是碰撞發生當下地點。,註3：新營圓環於2025/12完成改造，故完工後僅有空拍對比圖，無呈現事故點位,資料來源：警政署A1、A2類交通事故資料,資料整理：黃靖緯、林雨佑｜攝影：謝佩穎｜設計：江世民"
         ></twreporter-layered-photos
         >"
-        <script type="module" src="/src/main.ts"></script>
     </body>
 </html>

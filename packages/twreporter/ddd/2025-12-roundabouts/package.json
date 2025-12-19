@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "deploy": "npm run build && gcloud storage cp ./dist/assets/index.js $BUCKET/js/index.js --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./index.$RELEASE.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
+    "deploy": "npm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
     "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2025-12-roundabouts RELEASE=dev npm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts RELEASE=prod npm run deploy"
   },
@@ -20,5 +20,8 @@
     "svelte-check": "^4.3.4",
     "typescript": "~5.9.3",
     "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "modern-screenshot": "^4.6.7"
   }
 }

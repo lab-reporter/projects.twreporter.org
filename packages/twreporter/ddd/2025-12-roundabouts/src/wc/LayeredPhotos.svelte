@@ -163,7 +163,7 @@
         border-radius: 5px 5px 0 0;
         font-size: var(--btn-size);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        opacity: 0.5;
+        opacity: 0.2;
         letter-spacing: 0.7px;
     }
 

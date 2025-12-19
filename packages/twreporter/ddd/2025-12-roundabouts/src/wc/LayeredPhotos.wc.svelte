@@ -2,6 +2,13 @@
 <svelte:options customElement={{ tag: "twreporter-layered-photos" }} />
 
 <script lang="ts">
+    import { domToPng } from "modern-screenshot";
+    let container: HTMLDivElement | null = null;
+
+    // 使用 `?download` 檢查是否要開啟下載選項
+    const urlParams = new URLSearchParams(window.location.search);
+    const showDownload = urlParams.has("download");
+
     import LayeredPhotos from "./LayeredPhotos.svelte";
 
     let {
@@ -36,7 +43,7 @@
     crossorigin="anonymous"
 />
 
-<div class="container">
+<div class="container" bind:this={container}>
     <div class="header"><h1>{name}</h1></div>
 
     {#if "groups" in props}
@@ -94,6 +101,28 @@
     </div>
 </div>
 
+{#if showDownload}
+    <div class="download-control">
+        <p>
+            視窗寬度：{innerWidth}px（下載前請拉寬到超過730px）
+        </p>
+        <button
+            class="dl-button"
+            onclick={() =>
+                container &&
+                domToPng(container, {
+                    quality: 1,
+                    scale: 3,
+                }).then((dataUrl) => {
+                    const a = document.createElement("a");
+                    a.href = dataUrl;
+                    a.download = `${name ?? "圖表"}／報導者.png`;
+                    a.click();
+                })}>下載 PNG</button
+        >
+    </div>
+{/if}
+
 <style>
     * {
         --tr-text: #404040;
@@ -103,7 +132,7 @@
     }
 
     .container {
-        max-width: 730px;
+        max-width: 600px;
         position: relative;
         padding: 8px 10px;
         background: #f1f1f1;
@@ -215,5 +244,21 @@
     .footer .logo {
         width: calc(14.5px * var(--footer-logo-scale));
         height: calc(15.5px * var(--footer-logo-scale));
+    }
+
+    .download-control {
+        margin-top: 12px;
+    }
+
+    .dl-button {
+        font-family: "Roboto Slab", "Noto Sans TC", sans-serif;
+        padding: 5px 15px;
+        background-color: #404040;
+        color: white;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-top: 5px;
     }
 </style>
