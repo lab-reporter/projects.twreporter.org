@@ -1,110 +1,105 @@
 <script lang="ts">
     type Layer = { legend?: string; name: string; src: string };
     type Base = { src: string; opacity?: string };
-    type LayerState = Layer & { show: boolean; disabled: boolean };
+    type ViewMode = "default" | "showAll" | "single";
 
-    let { bases, layers: inputLayers }: { bases: Base[]; layers: Layer[] } =
-        $props();
+    let { bases, layers }: { bases: Base[]; layers: Layer[] } = $props();
 
-    let layers = $state(
-        inputLayers.map((l) => ({ ...l, show: true, disabled: false })),
-    );
+    let viewMode = $state<ViewMode>("default");
+    let activeLayerName = $state<string | null>(null);
+    let disabledLayers = $state(new Set<string>());
 
-    let hoverLocked = $state(true);
-    let showingSingleImage = $derived(
-        layers.filter((l) => l.show).length === 1,
-    );
-    let showAllBaseImages = $state(false);
-    const toggleBaseImages = () => {
-        if (showAllBaseImages == false) {
-            hoverLocked = true;
-            showAllBaseImages = true;
+    let hoverLocked = $derived(viewMode !== "single");
+    let showAllBaseImages = $derived(viewMode === "showAll");
+
+    const isLayerVisible = (name: string): boolean => {
+        if (viewMode === "single") {
+            return name === activeLayerName;
+        }
+        return true; // 'default' and 'showAll' show all layers
+    };
+
+    const isLayerDisabled = (name: string): boolean => {
+        return disabledLayers.has(name);
+    };
+
+    // Actions
+    const selectSingleLayer = (name: string) => {
+        viewMode = "single";
+        activeLayerName = name;
+    };
+
+    const resetToDefault = () => {
+        viewMode = "default";
+        activeLayerName = null;
+    };
+
+    const toggleShowAll = () => {
+        if (viewMode === "showAll") {
+            resetToDefault();
         } else {
-            showAllBaseImages = false;
+            viewMode = "showAll";
+            activeLayerName = null;
         }
     };
 
-    const updateLayer = (
-        name: string,
-        updatedLayer: LayerState,
-        toggleOthers = true,
-    ) => {
-        layers = layers?.map((layer) =>
-            layer.name === name
-                ? updatedLayer
-                : { ...layer, show: toggleOthers ? false : layer.show },
-        );
+    const handleLayerClick = (name: string) => {
+        if (viewMode === "single" && activeLayerName === name) {
+            // Clicking active layer in single mode -> back to default
+            resetToDefault();
+        } else {
+            selectSingleLayer(name);
+        }
     };
 
-    const activateLayer = (name: string) => {
-        layers = layers.map((layer) =>
-            layer.name === name
-                ? { ...layer, show: true }
-                : { ...layer, show: false },
-        );
-        hoverLocked = false;
-        showAllBaseImages = false;
+    const handleLayerHover = (e: PointerEvent, name: string) => {
+        // Because mobile devices trigger mouseEnter and click event at the same time,
+        // only respond to pointer mouse hover, not touch events.
+        if (!hoverLocked && e.pointerType === "mouse") {
+            selectSingleLayer(name);
+        }
     };
 
-    const activateAllLayers = () => {
-        layers = layers?.map((layer) => ({
-            ...layer,
-            show: true,
-        }));
+    const markLayerDisabled = (name: string) => {
+        disabledLayers = new Set([...disabledLayers, name]);
     };
 </script>
 
 <div class="controls">
-    {#if layers}
-        <button
-            class:active={showAllBaseImages}
-            class:all={showAllBaseImages}
-            onclick={() => {
-                toggleBaseImages();
-                activateAllLayers();
-            }}
-            class="full"
-        >
-            顯示所有事故
-        </button>
-        <div class="indv">
-            {#each layers as layer}
-                <button
-                    title={layer.name}
-                    class:active={layer.show && !layer.disabled}
-                    class:all={layers.every((layer) => layer.show) &&
-                        !layer.disabled}
-                    class:stripe={layer.disabled}
-                    onclick={() => {
-                        if (layer.show && showingSingleImage) {
-                            activateAllLayers();
-                            hoverLocked = true;
-                        } else {
-                            activateLayer(layer.name);
-                        }
-                    }}
-                    onmouseenter={() => {
-                        if (!hoverLocked) activateLayer(layer.name);
-                    }}
-                    disabled={layer.disabled}
-                >
-                    {#if layer.legend}
-                        <img
-                            src={layer.legend}
-                            alt={layer.name}
-                            class="legend"
-                        />
-                    {/if}
-                    {layer.name}</button
-                >
-            {/each}
-        </div>
-    {/if}
+    <button
+        class:active={viewMode === "showAll"}
+        class:all={viewMode === "showAll"}
+        onclick={toggleShowAll}
+        class="full"
+    >
+        顯示所有事故
+    </button>
+    <div class="indv">
+        {#each layers as layer (layer.name)}
+            {@const disabled = isLayerDisabled(layer.name)}
+            {@const visible = isLayerVisible(layer.name)}
+            {@const allVisible = viewMode !== "single"}
+            <button
+                title={layer.name}
+                class:active={visible && !disabled}
+                class:all={allVisible && !disabled}
+                class:stripe={disabled}
+                onclick={() => handleLayerClick(layer.name)}
+                onpointerenter={(e) => handleLayerHover(e, layer.name)}
+                {disabled}
+            >
+                {#if layer.legend}
+                    <img src={layer.legend} alt={layer.name} class="legend" />
+                {/if}
+                {layer.name}
+            </button>
+        {/each}
+    </div>
 </div>
 <div class="images">
     <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
     <div class="layers">
-        {#each bases as base}
+        {#each bases as base (base.src)}
             <img
                 src={base.src}
                 alt={base.src}
@@ -114,21 +109,15 @@
                 }}
             />
         {/each}
-        {#each [...layers].reverse() as layer}
+        {#each [...layers].reverse() as layer (layer.name)}
+            {@const visible = isLayerVisible(layer.name)}
             <img
                 src={layer.src}
                 alt={layer.name}
-                class:show={layer.show}
+                class:show={visible}
                 onerror={function () {
                     this.style = "display:none";
-                    updateLayer(
-                        layer.name,
-                        {
-                            ...layer,
-                            disabled: true,
-                        },
-                        false,
-                    );
+                    markLayerDisabled(layer.name);
                 }}
             />
         {/each}
