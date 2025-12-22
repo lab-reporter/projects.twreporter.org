@@ -1,9 +1,14 @@
 <script lang="ts">
     type Layer = { legend?: string; name: string; src: string };
     type Base = { src: string; opacity?: string };
+    type Legend = { src: string; name: string };
     type ViewMode = "default" | "showAll" | "single";
 
-    let { bases, layers }: { bases: Base[]; layers: Layer[] } = $props();
+    let {
+        bases,
+        layers,
+        legends,
+    }: { bases: Base[]; layers: Layer[]; legends?: Legend[] } = $props();
 
     let viewMode = $state<ViewMode>("default");
     let activeLayerName = $state<string | null>(null);
@@ -121,6 +126,16 @@
                 }}
             />
         {/each}
+        {#if legends}
+            <div class="legends">
+                {#each legends as legend}
+                    <div class="floating-legend">
+                        <img src={legend.src} alt={legend.name} />
+                        <p>{legend.name}</p>
+                    </div>
+                {/each}
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -134,11 +149,39 @@
         width: 100%;
     }
 
-    .layers img {
+    .layers > img {
         position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
+    }
+
+    .layers .legends {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 10px 10px;
+        margin: 20px 20px;
+        backdrop-filter: blur(5px);
+        background-color: #f1f1f1c8;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .floating-legend {
+        display: flex;
+        gap: 5px;
+        height: var(--btn-size);
+        align-items: center;
+    }
+
+    .floating-legend img {
+        width: var(--btn-size);
+    }
+
+    .floating-legend p {
+        font-size: var(--btn-size);
     }
 
     .layers .show {

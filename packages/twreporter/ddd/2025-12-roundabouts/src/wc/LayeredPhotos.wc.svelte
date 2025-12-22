@@ -16,11 +16,12 @@
         footnotes: inputFootnotes,
         ...props // We use non-destructured props to support dynamic props with group ids in them.
     }: { name: string; footnotes: string } & (
-        | { base: string; layers: string }
+        | { base: string; layers: string; legends?: string }
         | {
               groups: string;
               [x: `base-${string}`]: string;
               [x: `layers-${string}`]: string;
+              [x: `legends-${string}`]: string;
           }
     ) = $props();
 
@@ -43,85 +44,101 @@
     crossorigin="anonymous"
 />
 
-<div class="container" bind:this={container}>
-    <div class="header"><h1>{name}</h1></div>
+<div class="outer">
+    <div class="container" bind:this={container}>
+        <div class="header"><h1>{name}</h1></div>
 
-    {#if "groups" in props}
-        {#each groups as group}
-            <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
-            <div hidden={activeGroupId !== group.id}>
-                <LayeredPhotos
-                    bases={props[`base-${group.id}`].split(",").map((base) => {
-                        const [src, opacity] = base.trim().split(" ");
-                        return { src, opacity };
-                    })}
-                    layers={props[`layers-${group.id}`]
-                        .split(",")
-                        .map((layer) => {
-                            const [name, src, legend] = layer.trim().split(" ");
-                            return { name, src, legend };
-                        })}
-                />
-            </div>
-        {/each}
-
-        <div class="controls">
+        {#if "groups" in props}
             {#each groups as group}
-                <button
-                    onclick={() => (activeGroupId = group.id)}
-                    class:active={activeGroupId === group.id}
-                    >{group.name}</button
-                >
+                <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
+                <div hidden={activeGroupId !== group.id}>
+                    <LayeredPhotos
+                        bases={props[`base-${group.id}`]
+                            .split(",")
+                            .map((base) => {
+                                const [src, opacity] = base.trim().split(" ");
+                                return { src, opacity };
+                            })}
+                        layers={props[`layers-${group.id}`]
+                            .split(",")
+                            .map((layer) => {
+                                const [name, src, legend] = layer
+                                    .trim()
+                                    .split(" ");
+                                return { name, src, legend };
+                            })}
+                        legends={props[`legends-${group.id}`]
+                            ?.split(",")
+                            .map((base) => {
+                                const [name, src] = base.trim().split(" ");
+                                return { src, name };
+                            })}
+                    />
+                </div>
             {/each}
+
+            <div class="controls">
+                {#each groups as group}
+                    <button
+                        onclick={() => (activeGroupId = group.id)}
+                        class:active={activeGroupId === group.id}
+                        >{group.name}</button
+                    >
+                {/each}
+            </div>
+        {:else}
+            <LayeredPhotos
+                bases={props.base.split(",").map((base) => {
+                    const [src, opacity] = base.trim().split(" ");
+                    return { src, opacity };
+                })}
+                layers={props.layers.split(",").map((layer) => {
+                    const [name, src, legend] = layer.trim().split(" ");
+                    return { name, src, legend };
+                })}
+                legends={props.legends?.split(",").map((base) => {
+                    const [name, src] = base.trim().split(" ");
+                    return { src, name };
+                })}
+            />
+        {/if}
+
+        <div class="footer">
+            <div class="footnotes">
+                {#each footnotes as footnote}
+                    <p>{footnote}</p>
+                {/each}
+            </div>
+            <img
+                src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+                class="logo"
+                alt="報導者 The Reporter"
+            />
         </div>
-    {:else}
-        <LayeredPhotos
-            bases={props.base.split(",").map((base) => {
-                const [src, opacity] = base.trim().split(" ");
-                return { src, opacity };
-            })}
-            layers={props.layers.split(",").map((layer) => {
-                const [name, src, legend] = layer.trim().split(" ");
-                return { name, src, legend };
-            })}
-        />
+    </div>
+
+    {#if showDownload}
+        <div class="download-control">
+            <p>
+                視窗寬度：{innerWidth}px（下載前請拉寬到超過730px）
+            </p>
+            <button
+                class="dl-button"
+                onclick={() =>
+                    container &&
+                    domToPng(container, {
+                        quality: 1,
+                        scale: 3,
+                    }).then((dataUrl) => {
+                        const a = document.createElement("a");
+                        a.href = dataUrl;
+                        a.download = `${name ?? "圖表"}／報導者.png`;
+                        a.click();
+                    })}>下載 PNG</button
+            >
+        </div>
     {/if}
-
-    <div class="footer">
-        <div class="footnotes">
-            {#each footnotes as footnote}
-                <p>{footnote}</p>
-            {/each}
-        </div>
-        <img
-            src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
-            class="logo"
-            alt="報導者 The Reporter"
-        />
-    </div>
 </div>
-
-{#if showDownload}
-    <div class="download-control">
-        <p>
-            視窗寬度：{innerWidth}px（下載前請拉寬到超過730px）
-        </p>
-        <button
-            class="dl-button"
-            onclick={() =>
-                container &&
-                domToPng(container, {
-                    quality: 1,
-                    scale: 3,
-                }).then((dataUrl) => {
-                    const a = document.createElement("a");
-                    a.href = dataUrl;
-                    a.download = `${name ?? "圖表"}／報導者.png`;
-                    a.click();
-                })}>下載 PNG</button
-        >
-    </div>
-{/if}
 
 <style>
     * {
@@ -129,6 +146,13 @@
         color: var(--tr-text);
         font-family: "Roboto Slab", "Noto Sans TC", sans-serif;
         text-align: left !important;
+    }
+
+    .outer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .container {
