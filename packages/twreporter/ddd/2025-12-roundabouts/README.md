@@ -1,12 +1,21 @@
-# twreporter-layered-photos
+# 2025-12-roundabouts
 
-## Import script tag
+## 使用文章／專題
+
+- [【Data Reporter】全台圓環大體檢（上）：哪些圓環頻傳傷亡事故？癥結怎解？](https://www.twreporter.org/a/taiwan-roundabouts-reckoning-1)
+- [【Data Reporter】全台圓環大體檢（下）：從首座螺旋圓環誕生，看人本交通新設計如何落地](https://www.twreporter.org/a/taiwan-roundabouts-reckoning-2)
+
+## twreporter-layered-photos
+
+### Usage
+
+#### Import script tag
 
 ```html
-<script src="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/js/index.js"></script>
+<script src="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/js/index-{timestamp}.js"></script>
 ```
 
-## Usage
+#### Use in HTML
 
 This is a standard [Web Component](https://developer.mozilla.org/en-US/docs/Web/Web_Components), you can use it directly in your html like so:
 
