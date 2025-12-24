@@ -163,7 +163,8 @@
         padding: 10px 10px;
         margin: 20px 20px;
         backdrop-filter: blur(5px);
-        background-color: #f1f1f1c8;
+        background-color: #f1f1f1;
+        border-radius: 5px;
         display: flex;
         flex-direction: column;
         gap: 5px;
@@ -226,6 +227,7 @@
             #ffffff 4px,
             #ffffff 8px
         );
+        cursor: not-allowed;
     }
 
     .controls .full {
