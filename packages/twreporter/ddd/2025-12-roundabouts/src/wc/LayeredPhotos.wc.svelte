@@ -226,6 +226,12 @@
         letter-spacing: 0.7px;
     }
 
+    @media (max-width: 400px) {
+        .controls button {
+            padding: 8px 0;
+        }
+    }
+
     .controls .active {
         opacity: 1;
         font-weight: 600;
