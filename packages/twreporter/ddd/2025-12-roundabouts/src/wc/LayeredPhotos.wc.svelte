@@ -110,7 +110,7 @@
                 {/each}
             </div>
             <img
-                src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+                src="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/assets/logo-black.png"
                 class="logo"
                 alt="報導者 The Reporter"
             />
