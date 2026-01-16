@@ -1,0 +1,27 @@
+{
+  "name": "2025-12-roundabouts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "deploy": "npm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2025-12-roundabouts RELEASE=dev npm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts RELEASE=prod npm run deploy"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tsconfig/svelte": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "svelte": "^5.43.8",
+    "svelte-check": "^4.3.4",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "modern-screenshot": "^4.6.7"
+  }
+}
