@@ -1,19 +1,21 @@
 # Table with Popup in Svelte and Vite
-Add `?term=` to the slug to choose different term's database 
+
+Add `?term=` to the slug to choose different term's database
 
 install
-```npm install```
+`npm install`
 
 dev environment
-```npm run dev```
+`npm run dev`
 
 build and deploy to GCP
-```npm run deploy```
+`npm run deploy`
 
 embed code
+
 ```
 <iframe
-  src="https://projects.twreporter.org/twreporter/ddd/2025-0911-lawmaker-electricity/table/index.html?term=10&1"
+  src="https://projects.twreporter.org/twreporter/ddd/2025-0911-lawmaker-electricity/table/index.html?term=10"
   id="twreporter-table-{term}"
   scrolling="no"
 ></iframe>
