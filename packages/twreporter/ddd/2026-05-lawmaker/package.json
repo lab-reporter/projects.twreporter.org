@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "deploy": "npm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
     "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2026-05-lawmaker RELEASE=dev npm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker RELEASE=prod npm run deploy"
@@ -17,6 +19,8 @@
     "@tsconfig/svelte": "^5.0.6",
     "@types/d3": "^7.4.3",
     "@types/node": "^24.10.1",
+    "prettier": "^3.8.2",
+    "prettier-plugin-svelte": "^3.5.1",
     "svelte": "^5.43.8",
     "svelte-check": "^4.3.4",
     "typescript": "~5.9.3",

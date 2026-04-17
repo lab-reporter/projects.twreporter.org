@@ -1,14 +1,14 @@
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import { defineConfig } from "vite";
+import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from 'vite'
 
-const timestamp = new Date().getTime();
+const timestamp = new Date().getTime()
 
 // https://vite.dev/config/
 export default defineConfig({
   base:
-    process.env.RELEASE === "prod"
-      ? "/twreporter/ddd/2026-05-lawmaker/js"
-      : "/data-reporter-infographics/dev/2026-05-lawmaker/js",
+    process.env.RELEASE === 'prod'
+      ? '/twreporter/ddd/2026-05-lawmaker/js'
+      : '/data-reporter-infographics/dev/2026-05-lawmaker/js',
   plugins: [
     svelte({
       compilerOptions: {
@@ -20,15 +20,15 @@ export default defineConfig({
     rollupOptions: {
       output: {
         entryFileNames:
-          process.env.RELEASE === "prod"
+          process.env.RELEASE === 'prod'
             ? `assets/[name]-${timestamp}.js`
             : `assets/[name].js`,
         chunkFileNames:
-          process.env.RELEASE === "prod"
+          process.env.RELEASE === 'prod'
             ? `assets/[name]-${timestamp}.js`
             : `assets/[name].js`,
         assetFileNames:
-          process.env.RELEASE === "prod"
+          process.env.RELEASE === 'prod'
             ? `assets/[name]-${timestamp}.[ext]`
             : `assets/[name].[ext]`,
       },
@@ -37,4 +37,4 @@ export default defineConfig({
   define: {
     BUILD_TIME: JSON.stringify(new Date().valueOf()),
   },
-});
+})

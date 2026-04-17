@@ -1,5 +1,5 @@
 export type GraphicConfig = {
-  title: string;
-  subtitle: string;
-  footnotes?: string[];
-};
+  title: string
+  subtitle: string
+  footnotes?: string[]
+}

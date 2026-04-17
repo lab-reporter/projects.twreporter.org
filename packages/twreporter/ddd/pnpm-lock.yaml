@@ -32,6 +32,12 @@ importers:
       '@types/node':
         specifier: ^24.10.1
         version: 24.12.2
+      prettier:
+        specifier: ^3.8.2
+        version: 3.8.2
+      prettier-plugin-svelte:
+        specifier: ^3.5.1
+        version: 3.5.1(prettier@3.8.2)(svelte@5.55.3)
       svelte:
         specifier: ^5.43.8
         version: 5.55.3
@@ -989,6 +995,17 @@ packages:
 
   potpack@2.1.0:
     resolution: {integrity: sha512-pcaShQc1Shq0y+E7GqJqvZj8DTthWV1KeHGdi0Z6IAin2Oi3JnLCOfwnCo84qc+HAp52wT9nK9H7FAJp5a44GQ==}
+
+  prettier-plugin-svelte@3.5.1:
+    resolution: {integrity: sha512-65+fr5+cgIKWKiqM1Doum4uX6bY8iFCdztvvp2RcF+AJoieaw9kJOFMNcJo/bkmKYsxFaM9OsVZK/gWauG/5mg==}
+    peerDependencies:
+      prettier: ^3.0.0
+      svelte: ^3.2.0 || ^4.0.0-next.0 || ^5.0.0-next.0
+
+  prettier@3.8.2:
+    resolution: {integrity: sha512-8c3mgTe0ASwWAJK+78dpviD+A8EqhndQPUBpNUIPt6+xWlIigCwfN01lWr9MAede4uqXGTEKeQWTvzb3vjia0Q==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   proper-url-join@2.1.2:
     resolution: {integrity: sha512-wp0MVpPYbQhwxRFjFkhWwHUoH5PyAA0SCVUpwRxjc9JzSzddPB4GDhu5I+eCYhdpG0S7jvVubsLPEi4pFd77rg==}
@@ -2118,6 +2135,13 @@ snapshots:
       source-map-js: 1.2.1
 
   potpack@2.1.0: {}
+
+  prettier-plugin-svelte@3.5.1(prettier@3.8.2)(svelte@5.55.3):
+    dependencies:
+      prettier: 3.8.2
+      svelte: 5.55.3
+
+  prettier@3.8.2: {}
 
   proper-url-join@2.1.2:
     dependencies:
