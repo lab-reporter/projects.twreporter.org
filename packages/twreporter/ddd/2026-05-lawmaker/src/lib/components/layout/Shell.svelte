@@ -10,13 +10,11 @@
 
   const {
     name,
-    description,
     children,
     footnotes,
   }: {
     name: string
-    description?: string
-    footnotes?: string[]
+    footnotes: string[]
     children: Snippet
   } = $props()
 </script>
@@ -34,6 +32,18 @@
     </div>
 
     {@render children()}
+    <div class="footer">
+      <div class="footnotes">
+        {#each footnotes as footnote}
+          <p>{footnote}</p>
+        {/each}
+      </div>
+      <img
+        src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+        class="logo"
+        alt="報導者 The Reporter"
+      />
+    </div>
   </div>
 
   {#if showDownload}
@@ -138,12 +148,26 @@
   }
 
   * {
+    --text-xs: 14px;
+    --text-s: 16px;
+    --text-m: 18px;
+    --text-l: 24px;
+    --text-xl: 28px;
+    --text-xl-leading: 1.1;
+
+    @media (max-width: 480px) {
+      --text-l: 18px;
+      --text-xl: 22px;
+    }
+  }
+
+  * {
     --text-color: var(--neutral-gray-800);
     --backgrouond-color: var(--neutral-white);
 
     color: var(--text-color);
 
-    font-family: var(--font, 'Noto Sans TC'), sans-serif;
+    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
     text-align: left !important;
   }
 
@@ -160,14 +184,15 @@
     max-width: 730px;
     width: 100%;
     position: relative;
-    padding: 5px 20px 50px 20px;
+    padding: 20px;
     background: var(--backgrouond-color);
-    border-radius: 3px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
   .header {
-    padding: 5px 0 0;
-    margin-bottom: 30px;
     display: flex;
     align-items: end;
     justify-content: space-between;
@@ -175,8 +200,34 @@
 
   .header h1 {
     white-space: pre-wrap;
-    font-size: 36px;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl-leading);
     font-weight: 700;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .footnotes {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .footnotes p {
+    font-size: var(--text-s);
+    font-weight: 400;
+    color: var(--neutral-gray-600);
+  }
+
+  .logo {
+    width: 29px;
+    height: 31px;
   }
 
   .download-control {
@@ -184,7 +235,6 @@
   }
 
   .dl-button {
-    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
     padding: 5px 15px;
     background-color: #404040;
     color: white;
