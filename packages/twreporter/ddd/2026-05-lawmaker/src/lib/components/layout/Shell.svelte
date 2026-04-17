@@ -1,9 +1,6 @@
 <script lang="ts">
     import { domToPng } from "modern-screenshot";
     import type { Snippet } from "svelte";
-    import Background from "../icons/Background.svelte";
-    import DoubleBackground from "../icons/DoubleBackground.svelte";
-    import Background2 from "../icons/Background-2.svelte";
 
     let container: HTMLDivElement | null = $state(null);
 
@@ -13,18 +10,14 @@
 
     const {
         name,
+        description,
         children,
-        headerChildren,
-        backgroundStyle = "default",
-        raw = false,
+        footnotes
     }: {
         name: string;
         description?: string;
         footnotes?: string[];
         children: Snippet;
-        headerChildren?: Snippet;
-        backgroundStyle?: "default" | "alternative" | "double";
-        raw?: boolean;
     } = $props();
 </script>
 
@@ -34,53 +27,38 @@
     crossorigin="anonymous"
 />
 
-{#if raw}
-    <div>
-        {@render children()}
-    </div>
-{:else}
-    <div class="outer">
-        <div
-            class="container"
-            bind:this={container}
-            class:double={backgroundStyle === "double"}
-        >
-            {#if backgroundStyle === "default"}
-                <Background />
-            {:else if backgroundStyle === "alternative"}
-                <Background2 />
-            {:else if backgroundStyle === "double"}
-                <DoubleBackground />
-            {/if}
+<div class="outer">
+    <div
+        class="container"
+        bind:this={container}
+    >
 
-            <div class="header">
-                <h1>{name}</h1>
-                {@render headerChildren?.()}
-            </div>
-
-            {@render children()}
+        <div class="header">
+            <h1>{name}</h1>
         </div>
 
-        {#if showDownload}
-            <div class="download-control">
-                <button
-                    class="dl-button"
-                    onclick={() =>
-                        container &&
-                        domToPng(container, {
-                            quality: 1,
-                            scale: 3,
-                        }).then((dataUrl) => {
-                            const a = document.createElement("a");
-                            a.href = dataUrl;
-                            a.download = `${name ?? "圖表"}／報導者.png`;
-                            a.click();
-                        })}>下載 PNG</button
-                >
-            </div>
-        {/if}
+        {@render children()}
     </div>
-{/if}
+
+    {#if showDownload}
+        <div class="download-control">
+            <button
+                class="dl-button"
+                onclick={() =>
+                    container &&
+                    domToPng(container, {
+                        quality: 1,
+                        scale: 3,
+                    }).then((dataUrl) => {
+                        const a = document.createElement("a");
+                        a.href = dataUrl;
+                        a.download = `${name ?? "圖表"}／報導者.png`;
+                        a.click();
+                    })}>下載 PNG</button
+            >
+        </div>
+    {/if}
+</div>
 
 <style>
     * {
@@ -115,7 +93,7 @@
         --inner-shadow-heavy: -2px -2px 4px 0 rgba(0, 0, 0, 0.5) inset;
 
         color: var(--black-700);
-        font-family: var(--font, "GenJyuuGothicL"), sans-serif;
+        font-family: var(--font, "Noto Sans TC"), sans-serif;
         text-align: left !important;
     }
 
@@ -136,10 +114,6 @@
         background: var(--background);
         border-radius: 3px;
         --btn-size: 9px;
-    }
-
-    .container.double {
-        padding-bottom: 20px;
     }
 
     @media (max-width: 550px) {
