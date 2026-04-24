@@ -27,8 +27,8 @@
 
   const config = $derived({
     text: {
-      minSize: 8,
-      maxSize: 48,
+      minSize: 5,
+      maxSize: 40,
       ...text,
     },
     baseColor: {
