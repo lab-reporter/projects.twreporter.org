@@ -3,32 +3,16 @@
 <script lang="ts">
   import WordCloud from './lib/components/WordCloud.svelte'
   import Shell from './lib/components/layout/Shell.svelte'
+  import { keys } from './lib/constants/wordcloud'
 
-  const wordclouds = [
-    {
-      name: '國民黨',
-      labelColor: 'var(--supportive-heavy)',
-      src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
-    },
-    {
-      name: '民進黨',
-      labelColor: '#748C80',
-      textColor: { hue: 280, saturation: 15 },
-      src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
-    },
-  ]
+  const { key }: { key: string } = $props()
+
+  const config = $derived(keys[key])
 </script>
 
-<Shell
-  name="國、民兩黨補助型提案用詞"
-  footnotes={[
-    '註：',
-    '資料來源：六都議會、報導者觀測站',
-    '資料整理：黃靖緯 ｜ 設計：江世民',
-  ]}
->
+<Shell name={config.title} footnotes={config.footnotes}>
   <div class="container">
-    {#each wordclouds as wordcloud}
+    {#each config.clouds as wordcloud}
       <div
         class="block label"
         style:--color={wordcloud.labelColor}
