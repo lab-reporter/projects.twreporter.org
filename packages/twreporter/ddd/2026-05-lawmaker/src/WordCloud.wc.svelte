@@ -1,7 +1,6 @@
 <svelte:options customElement={{ tag: 'twreporter-wordcloud' }} />
 
 <script lang="ts">
-  import defaultWords from './assets/test.json'
   import WordCloud from './lib/components/WordCloud.svelte'
   import Shell from './lib/components/layout/Shell.svelte'
 </script>
@@ -14,5 +13,7 @@
     '資料整理：黃靖緯 ｜ 設計：江世民',
   ]}
 >
-  <WordCloud words={defaultWords} />
+  <WordCloud
+    src="https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json"
+  />
 </Shell>

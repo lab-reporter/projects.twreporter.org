@@ -1,5 +1,6 @@
 <script lang="ts">
   import { domToPng } from 'modern-screenshot'
+  import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query'
   import type { Snippet } from 'svelte'
 
   let container: HTMLDivElement | null = $state(null)
@@ -17,6 +18,8 @@
     footnotes: string[]
     children: Snippet
   } = $props()
+
+  const queryClient = new QueryClient()
 </script>
 
 <link
@@ -25,46 +28,48 @@
   crossorigin="anonymous"
 />
 
-<div class="outer">
-  <div class="container" bind:this={container}>
-    <div class="header">
-      <h1>{name}</h1>
-    </div>
-
-    {@render children()}
-    <div class="footer">
-      <div class="footnotes">
-        {#each footnotes as footnote}
-          <p>{footnote}</p>
-        {/each}
+<QueryClientProvider client={queryClient}>
+  <div class="outer">
+    <div class="container" bind:this={container}>
+      <div class="header">
+        <h1>{name}</h1>
       </div>
-      <img
-        src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
-        class="logo"
-        alt="報導者 The Reporter"
-      />
-    </div>
-  </div>
 
-  {#if showDownload}
-    <div class="download-control">
-      <button
-        class="dl-button"
-        onclick={() =>
-          container &&
-          domToPng(container, {
-            quality: 1,
-            scale: 3,
-          }).then((dataUrl) => {
-            const a = document.createElement('a')
-            a.href = dataUrl
-            a.download = `${name ?? '圖表'}／報導者.png`
-            a.click()
-          })}>下載 PNG</button
-      >
+      {@render children()}
+      <div class="footer">
+        <div class="footnotes">
+          {#each footnotes as footnote}
+            <p>{footnote}</p>
+          {/each}
+        </div>
+        <img
+          src="https://projects.twreporter.org/twreporter/ddd/2025-0823-vote/assets/logo-black.png"
+          class="logo"
+          alt="報導者 The Reporter"
+        />
+      </div>
     </div>
-  {/if}
-</div>
+
+    {#if showDownload}
+      <div class="download-control">
+        <button
+          class="dl-button"
+          onclick={() =>
+            container &&
+            domToPng(container, {
+              quality: 1,
+              scale: 3,
+            }).then((dataUrl) => {
+              const a = document.createElement('a')
+              a.href = dataUrl
+              a.download = `${name ?? '圖表'}／報導者.png`
+              a.click()
+            })}>下載 PNG</button
+        >
+      </div>
+    {/if}
+  </div>
+</QueryClientProvider>
 
 <style>
   * {

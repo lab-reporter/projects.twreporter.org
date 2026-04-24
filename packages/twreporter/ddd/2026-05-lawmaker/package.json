@@ -28,6 +28,7 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
+    "@tanstack/svelte-query": "^6.1.17",
     "d3": "^7.9.0",
     "d3-cloud": "^1.2.9",
     "modern-screenshot": "^4.6.7"

@@ -2,17 +2,17 @@
   import { scaleSqrt } from 'd3'
   import cloud from 'd3-cloud'
 
-  import { onMount } from 'svelte'
+  import { createQuery } from '@tanstack/svelte-query'
   import { colorScale, type Word } from '../wordcloud'
 
   let {
-    words,
+    src,
     width = 500,
     height = 500,
     minSize = 12,
     maxSize = 96,
   }: {
-    words: Word[]
+    src: string
     width?: number
     height?: number
     minSize?: number
@@ -20,6 +20,20 @@
   } = $props()
 
   let computedTokens = $state<cloud.Word[]>()
+
+  const wordQuery = createQuery(() => ({
+    queryKey: ['words', src],
+    queryFn: async () => {
+      const response = await fetch(src)
+      if (!response.ok) {
+        throw new Error('Failed to fetch words')
+      }
+
+      return (await response.json()) as Word[]
+    },
+  }))
+
+  const words = $derived(wordQuery.data)
 
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
@@ -29,7 +43,9 @@
     return colorScale({ factor, hue: 35, saturation: 70, lightness: 85 })
   }
 
-  onMount(() => {
+  $effect(() => {
+    if (!words) return
+
     const tokens = words.map((word) => ({
       text: word.token,
       count: parseInt(word.count),
@@ -57,7 +73,7 @@
   })
 </script>
 
-<div>
+<div class="wordcloud">
   <svg
     width="100%"
     height="100%"
@@ -77,4 +93,27 @@
       {/each}
     </g>
   </svg>
+  {#if wordQuery.isLoading}
+    <img
+      src="https://www.twreporter.org/images/spinner-logo.gif"
+      alt="Loading..."
+      class="loading-spinner"
+    />
+  {/if}
 </div>
+
+<style>
+  .wordcloud {
+    position: relative;
+  }
+
+  .loading-spinner {
+    --size: 80px;
+
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: var(--size);
+    height: var(--sizez);
+  }
+</style>
