@@ -8,17 +8,34 @@
   let {
     src,
     ratio = 1,
-    minSize = 8,
-    maxSize = 48,
+    text,
+    baseColor,
   }: {
     src: string
     ratio?: number
-    minSize?: number
-    maxSize?: number
+    text?: {
+      minSize?: number
+      maxSize?: number
+    }
+    baseColor?: { hue?: number; saturation?: number; lightness?: number }
   } = $props()
 
   let containerWidth = $state(0)
   let computedTokens = $state<cloud.Word[]>()
+
+  const config = $derived({
+    text: {
+      minSize: 8,
+      maxSize: 48,
+      ...text,
+    },
+    baseColor: {
+      hue: 35,
+      saturation: 65,
+      lightness: 85,
+      ...baseColor,
+    },
+  })
 
   const wordQuery = createQuery(() => ({
     queryKey: ['words', src],
@@ -39,9 +56,16 @@
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
 
-    const scale = scaleSqrt().domain([minSize, maxSize]).range([0, 1])
+    const scale = scaleSqrt()
+      .domain([config.text.minSize, config.text.maxSize])
+      .range([0, 1])
     const factor = scale(size)
-    return colorScale({ factor, hue: 35, saturation: 70, lightness: 85 })
+    return colorScale({
+      factor,
+      hue: config.baseColor.hue,
+      saturation: config.baseColor.saturation,
+      lightness: config.baseColor.lightness,
+    })
   }
 
   $effect(() => {
@@ -54,7 +78,9 @@
 
     const counts = tokens.map((token) => token.count)
     const domain = [Math.min(...counts), Math.max(...counts)]
-    const scale = scaleSqrt().domain(domain).range([minSize, maxSize])
+    const scale = scaleSqrt()
+      .domain(domain)
+      .range([config.text.minSize, config.text.maxSize])
 
     cloud()
       .size([width, height])
@@ -64,7 +90,7 @@
           size: scale(t.count),
         })),
       )
-      .padding(3)
+      .padding(2)
       .rotate(0)
       .fontSize((d) => d.size ?? 0)
       .on('end', (result) => {

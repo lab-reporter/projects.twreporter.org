@@ -7,11 +7,13 @@
   const wordclouds = [
     {
       name: '國民黨',
-      color: 'var(--supportive-heavy)',
+      labelColor: 'var(--supportive-heavy)',
       src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
     },
     {
       name: '民進黨',
+      labelColor: '#748C80',
+      textColor: { hue: 280, saturation: 15 },
       src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
     },
   ]
@@ -29,13 +31,17 @@
     {#each wordclouds as wordcloud}
       <div
         class="block label"
-        style:--color="var(--supportive-heavy)"
+        style:--color={wordcloud.labelColor}
         style:--text-color="white"
       >
         {wordcloud.name}
       </div>
       <div class="block wordcloud">
-        <WordCloud ratio={2 / 1} src={wordcloud.src} />
+        <WordCloud
+          ratio={2 / 1}
+          src={wordcloud.src}
+          baseColor={wordcloud.textColor}
+        />
       </div>
     {/each}
   </div>

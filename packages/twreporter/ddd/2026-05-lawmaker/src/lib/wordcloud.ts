@@ -3,15 +3,18 @@ export type Word = {
   count: string
 }
 
+export type Color = {
+  hue: number
+  saturation: number
+  lightness: number
+}
+
 export function colorScale({
   factor,
   ...base
 }: {
   factor: number
-  hue: number
-  saturation: number
-  lightness: number
-}) {
+} & Color) {
   const lightness = base.lightness - factor * 50
   const saturation = factor * base.saturation
   return `hsl(${base.hue}, ${saturation}%, ${lightness}%)`
