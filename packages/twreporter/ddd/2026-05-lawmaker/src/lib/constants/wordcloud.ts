@@ -23,13 +23,13 @@ export const keys: Record<
       {
         name: '國民黨',
         labelColor: 'var(--supportive-heavy)',
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/kmt_unnested.json',
       },
       {
         name: '民進黨',
         labelColor: '#748C80',
         textColor: { hue: 280, saturation: 15 },
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/dpp_unnested.json',
       },
     ],
   },
@@ -43,13 +43,13 @@ export const keys: Record<
       {
         name: '民眾黨',
         labelColor: 'var(--supportive-heavy)',
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/tpp_unnested.json',
       },
       {
         name: '無黨團結聯盟',
         labelColor: '#748C80',
         textColor: { hue: 280, saturation: 15 },
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/npsu_unnested.json',
       },
     ],
   },
@@ -64,13 +64,13 @@ export const keys: Record<
       {
         name: '資淺議員',
         labelColor: 'var(--supportive-heavy)',
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/meetingTermCount_lte_3_relative.json',
       },
       {
         name: '資深議員',
         labelColor: '#748C80',
         textColor: { hue: 280, saturation: 15 },
-        src: 'https://storage.googleapis.com/data-reporter-infographics/dev/2026-05-lawmaker/data/test.json',
+        src: 'https://projects.twreporter.org/twreporter/ddd/2026-05-lawmaker/data/meetingTermCount_gt_3_relative.json',
       },
     ],
   },
