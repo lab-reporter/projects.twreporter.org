@@ -20,9 +20,10 @@
     baseColor?: { hue?: number; saturation?: number; lightness?: number }
   } = $props()
 
-  let containerWidth = $state(0)
-  let renderWidth = $state<number | null>(null)
   let computedTokens = $state<cloud.Word[]>()
+
+  const width = 400
+  const height = $derived(400 * (1 / ratio))
 
   const config = $derived({
     text: {
@@ -51,14 +52,6 @@
   }))
 
   const words = $derived(wordQuery.data)
-  const layoutWidth = $derived(renderWidth ?? 0)
-  const layoutHeight = $derived(layoutWidth / ratio)
-
-  $effect(() => {
-    if (renderWidth || containerWidth <= 0) return
-
-    renderWidth = containerWidth
-  })
 
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
@@ -76,7 +69,7 @@
   }
 
   $effect(() => {
-    if (!words || layoutWidth <= 0) return
+    if (!words) return
 
     const tokens = words.map((word) => ({
       text: word.token,
@@ -90,7 +83,7 @@
       .range([config.text.minSize, config.text.maxSize])
 
     cloud()
-      .size([layoutWidth, layoutHeight])
+      .size([width, height])
       .words(
         tokens.map((t) => ({
           text: t.text,
@@ -107,18 +100,14 @@
   })
 </script>
 
-<div
-  class="wordcloud"
-  bind:clientWidth={containerWidth}
-  style={`--aspect-ratio: ${ratio}`}
->
+<div class="wordcloud" style:--aspect-ratio={ratio}>
   <svg
     width="100%"
     height="100%"
-    viewBox={`0 0 ${layoutWidth} ${layoutHeight}`}
-    preserveAspectRatio="xMinYMin meet"
+    viewBox={`0 0 ${width} ${height}`}
+    preserveAspectRatio="xMinYMin"
   >
-    <g transform={`translate(${layoutWidth / 2}, ${layoutHeight / 2})`}>
+    <g transform={`translate(${width / 2}, ${height / 2})`}>
       {#each computedTokens as word (word.text)}
         <text
           font-size={`${word.size}px`}
