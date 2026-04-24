@@ -7,18 +7,17 @@
 
   let {
     src,
-    width = 500,
-    height = 500,
-    minSize = 12,
-    maxSize = 96,
+    ratio = 1,
+    minSize = 8,
+    maxSize = 48,
   }: {
     src: string
-    width?: number
-    height?: number
+    ratio?: number
     minSize?: number
     maxSize?: number
   } = $props()
 
+  let containerWidth = $state(0)
   let computedTokens = $state<cloud.Word[]>()
 
   const wordQuery = createQuery(() => ({
@@ -34,6 +33,8 @@
   }))
 
   const words = $derived(wordQuery.data)
+  const width = $derived(Math.max(containerWidth, 1))
+  const height = $derived(Math.max(width / ratio, 1))
 
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
@@ -73,11 +74,15 @@
   })
 </script>
 
-<div class="wordcloud">
+<div
+  class="wordcloud"
+  bind:clientWidth={containerWidth}
+  style={`--aspect-ratio: ${ratio}`}
+>
   <svg
     width="100%"
     height="100%"
-    viewBox={`0 0 ${height} ${width}`}
+    viewBox={`0 0 ${width} ${height}`}
     preserveAspectRatio="xMinYMin"
   >
     <g transform={`translate(${width / 2}, ${height / 2})`}>
@@ -105,6 +110,8 @@
 <style>
   .wordcloud {
     position: relative;
+    width: 100%;
+    aspect-ratio: var(--aspect-ratio);
   }
 
   .loading-spinner {
@@ -114,6 +121,6 @@
     inset: 0;
     margin: auto;
     width: var(--size);
-    height: var(--sizez);
+    height: var(--size);
   }
 </style>
