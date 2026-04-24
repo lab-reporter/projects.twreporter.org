@@ -21,6 +21,7 @@
   } = $props()
 
   let containerWidth = $state(0)
+  let renderWidth = $state<number | null>(null)
   let computedTokens = $state<cloud.Word[]>()
 
   const config = $derived({
@@ -50,8 +51,14 @@
   }))
 
   const words = $derived(wordQuery.data)
-  const width = $derived(Math.max(containerWidth, 1))
-  const height = $derived(Math.max(width / ratio, 1))
+  const layoutWidth = $derived(renderWidth ?? 0)
+  const layoutHeight = $derived(layoutWidth / ratio)
+
+  $effect(() => {
+    if (renderWidth || containerWidth <= 0) return
+
+    renderWidth = containerWidth
+  })
 
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
@@ -69,7 +76,7 @@
   }
 
   $effect(() => {
-    if (!words) return
+    if (!words || layoutWidth <= 0) return
 
     const tokens = words.map((word) => ({
       text: word.token,
@@ -83,7 +90,7 @@
       .range([config.text.minSize, config.text.maxSize])
 
     cloud()
-      .size([width, height])
+      .size([layoutWidth, layoutHeight])
       .words(
         tokens.map((t) => ({
           text: t.text,
@@ -108,10 +115,10 @@
   <svg
     width="100%"
     height="100%"
-    viewBox={`0 0 ${width} ${height}`}
-    preserveAspectRatio="xMinYMin"
+    viewBox={`0 0 ${layoutWidth} ${layoutHeight}`}
+    preserveAspectRatio="xMinYMin meet"
   >
-    <g transform={`translate(${width / 2}, ${height / 2})`}>
+    <g transform={`translate(${layoutWidth / 2}, ${layoutHeight / 2})`}>
       {#each computedTokens as word (word.text)}
         <text
           font-size={`${word.size}px`}
