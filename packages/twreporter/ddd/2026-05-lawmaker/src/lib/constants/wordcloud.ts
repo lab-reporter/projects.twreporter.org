@@ -1,10 +1,13 @@
 import type { Color } from '../wordcloud'
 
+export type ScaleAlgorithm = 'linear' | 'sqrt'
+
 export const keys: Record<
   string,
   {
     title: string
     footnotes: string[]
+    algo?: ScaleAlgorithm
     clouds: {
       name: string
       src: string
@@ -60,6 +63,7 @@ export const keys: Record<
       '資料來源：六都議會提案系統、報導者觀測站',
       '資料整理：黃靖緯 ｜ 設計：江世民',
     ],
+    algo: 'linear',
     clouds: [
       {
         name: '資淺議員',

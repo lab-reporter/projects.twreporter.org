@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { scaleSqrt } from 'd3'
+  import { scaleSqrt, scaleLinear } from 'd3'
   import cloud from 'd3-cloud'
 
   import { createQuery } from '@tanstack/svelte-query'
+  import type { ScaleAlgorithm } from '../constants/wordcloud'
   import { colorScale, type Word } from '../wordcloud'
 
   let {
@@ -10,6 +11,7 @@
     ratio = 1,
     text,
     baseColor,
+    algo = 'sqrt',
   }: {
     src: string
     ratio?: number
@@ -18,6 +20,7 @@
       maxSize?: number
     }
     baseColor?: { hue?: number; saturation?: number; lightness?: number }
+    algo?: ScaleAlgorithm
   } = $props()
 
   let computedTokens = $state<cloud.Word[]>()
@@ -53,10 +56,15 @@
 
   const words = $derived(wordQuery.data)
 
+  function createScale() {
+    const scaleFactory = algo === 'linear' ? scaleLinear : scaleSqrt
+    return scaleFactory()
+  }
+
   function getColor(size: number | undefined) {
     if (!size) return '#ccc'
 
-    const scale = scaleSqrt()
+    const scale = createScale()
       .domain([config.text.minSize, config.text.maxSize])
       .range([0, 1])
     const factor = scale(size)
@@ -78,7 +86,7 @@
 
     const counts = tokens.map((token) => token.count)
     const domain = [Math.min(...counts), Math.max(...counts)]
-    const scale = scaleSqrt()
+    const scale = createScale()
       .domain(domain)
       .range([config.text.minSize, config.text.maxSize])
 
@@ -90,7 +98,7 @@
           size: scale(t.count),
         })),
       )
-      .padding(2)
+      .padding(1)
       .rotate(0)
       .fontSize((d) => d.size ?? 0)
       .on('end', (result) => {

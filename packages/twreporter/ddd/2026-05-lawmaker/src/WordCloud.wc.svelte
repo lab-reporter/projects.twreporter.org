@@ -25,6 +25,7 @@
           ratio={2 / 1}
           src={wordcloud.src}
           baseColor={wordcloud.textColor}
+          algo={config.algo}
         />
       </div>
     {/each}
