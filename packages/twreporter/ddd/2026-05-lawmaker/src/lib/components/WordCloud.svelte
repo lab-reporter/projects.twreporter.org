@@ -45,7 +45,7 @@
   const wordQuery = createQuery(() => ({
     queryKey: ['words', src],
     queryFn: async () => {
-      const response = await fetch(`${src}?v1`)
+      const response = await fetch(`${src}?v=2`)
       if (!response.ok) {
         throw new Error('Failed to fetch words')
       }
