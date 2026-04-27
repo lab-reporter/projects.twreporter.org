@@ -27,6 +27,9 @@
           baseColor={wordcloud.textColor}
           algo={config.algo}
         />
+        {#if wordcloud.note}
+          <p>{wordcloud.note}</p>
+        {/if}
       </div>
     {/each}
   </div>
@@ -57,6 +60,13 @@
   }
 
   .block.wordcloud {
+    flex-direction: column;
     padding: 10px;
+  }
+
+  .block.wordcloud p {
+    color: var(--neutral-gray-600);
+    text-align: center;
+    font-weight: 500;
   }
 </style>
