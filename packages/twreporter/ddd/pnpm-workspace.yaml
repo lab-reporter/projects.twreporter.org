@@ -1,2 +1,3 @@
 packages:
-   - '2026-05-lawmaker'
+  - "2026-05-lawmaker"
+  - "node-graph"
