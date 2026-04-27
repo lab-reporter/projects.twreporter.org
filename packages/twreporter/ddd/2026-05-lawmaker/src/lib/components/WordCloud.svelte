@@ -81,7 +81,7 @@
 
     const tokens = words.map((word) => ({
       text: word.token,
-      count: parseInt(word.count),
+      count: parseFloat(word.count),
     }))
 
     const counts = tokens.map((token) => token.count)
