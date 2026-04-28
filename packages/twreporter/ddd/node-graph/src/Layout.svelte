@@ -3,7 +3,7 @@
     import { ClerkProvider } from 'svelte-clerk/client'
 
     import App from './App.svelte'
-    import { clientEnv } from './environment-variables'
+    import { clientEnv } from './lib/environment-variables'
 
     setupConvex(clientEnv.convex.url)
 </script>

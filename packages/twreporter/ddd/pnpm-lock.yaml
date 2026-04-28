@@ -68,6 +68,9 @@ importers:
       convex-svelte:
         specifier: ^0.0.12
         version: 0.0.12(convex@1.36.0)(svelte@5.55.4)
+      sv-router:
+        specifier: ^0.16.0
+        version: 0.16.0(svelte@5.55.4)
       svelte-clerk:
         specifier: ^1.1.4
         version: 1.1.4(svelte@5.55.4)
@@ -1297,6 +1300,12 @@ packages:
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
 
+  sv-router@0.16.0:
+    resolution: {integrity: sha512-x5SiV6Hp6GRmGXAgu1H4g/x9oKhVIMeUwYodA+QF1JdzcWsCXsOGyWjcwjSNR+Mw2iiculGPynpys8MfA6PJRA==}
+    hasBin: true
+    peerDependencies:
+      svelte: ^5
+
   svelte-check@4.4.6:
     resolution: {integrity: sha512-kP1zG81EWaFe9ZyTv4ZXv44Csi6Pkdpb7S3oj6m+K2ec/IcDg/a8LsFsnVLqm2nxtkSwsd5xPj/qFkTBgXHXjg==}
     engines: {node: '>= 18.0.0'}
@@ -2432,6 +2441,11 @@ snapshots:
       fast-sha256: 1.3.0
 
   std-env@3.10.0: {}
+
+  sv-router@0.16.0(svelte@5.55.4):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.55.4
 
   svelte-check@4.4.6(picomatch@4.0.4)(svelte@5.55.3)(typescript@5.9.3):
     dependencies:

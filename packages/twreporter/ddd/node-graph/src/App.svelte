@@ -6,6 +6,9 @@
         useClerkContext,
         UserButton,
     } from 'svelte-clerk/client'
+    import { Router } from 'sv-router'
+    import './router.ts'
+    import { p } from './router'
 
     const convex = useConvexClient()
     const clerk = useClerkContext()
@@ -24,3 +27,8 @@
     <UserButton />
 </Show>
 <div>Hello, World!</div>
+
+<a href={p('/')}>Home</a>
+<a href={p('/editor')}>Editor</a>
+
+<Router base="#" />
