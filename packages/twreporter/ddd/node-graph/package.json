@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "convex:dev": "convex dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
@@ -20,6 +21,7 @@
   },
   "dependencies": {
     "convex": "^1.36.0",
+    "convex-helpers": "^0.1.115",
     "convex-svelte": "^0.0.12",
     "svelte-clerk": "^1.1.4"
   }

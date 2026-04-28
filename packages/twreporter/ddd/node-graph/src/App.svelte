@@ -1,14 +1,11 @@
 <script lang="ts">
+    import { useConvexClient } from 'convex-svelte'
     import {
-        ClerkProvider,
         Show,
         SignInButton,
         useClerkContext,
         UserButton,
     } from 'svelte-clerk/client'
-    import { setupConvex, useConvexClient } from 'convex-svelte'
-
-    import { env } from './environment-variables'
 
     const convex = useConvexClient()
     const clerk = useClerkContext()

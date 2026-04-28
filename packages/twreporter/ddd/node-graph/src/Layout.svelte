@@ -3,11 +3,11 @@
     import { ClerkProvider } from 'svelte-clerk/client'
 
     import App from './App.svelte'
-    import { env } from './environment-variables'
+    import { clientEnv } from './environment-variables'
 
-    setupConvex(env.convex.url)
+    setupConvex(clientEnv.convex.url)
 </script>
 
-<ClerkProvider publishableKey={env.clerk.publishableKey}>
+<ClerkProvider publishableKey={clientEnv.clerk.publishableKey}>
     <App />
 </ClerkProvider>
