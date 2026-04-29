@@ -8,7 +8,7 @@
  * @module
  */
 
-import type * as auth from "../auth.js";
+import type * as graphs from "../graphs.js";
 import type * as lib_environmentVariables from "../lib/environmentVariables.js";
 import type * as lib_helpers from "../lib/helpers.js";
 
@@ -19,7 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  auth: typeof auth;
+  graphs: typeof graphs;
   "lib/environmentVariables": typeof lib_environmentVariables;
   "lib/helpers": typeof lib_helpers;
 }>;
