@@ -1,14 +1,9 @@
 <script lang="ts">
     import { useConvexClient } from 'convex-svelte'
-    import {
-        Show,
-        SignInButton,
-        useClerkContext,
-        UserButton,
-    } from 'svelte-clerk/client'
     import { Router } from 'sv-router'
+    import { useClerkContext } from 'svelte-clerk/client'
+    import Layout from './lib/components/Layout.svelte'
     import './router.ts'
-    import { p } from './router'
 
     const convex = useConvexClient()
     const clerk = useClerkContext()
@@ -20,15 +15,6 @@
     })
 </script>
 
-<Show when="signed-out">
-    <SignInButton />
-</Show>
-<Show when="signed-in">
-    <UserButton />
-</Show>
-<div>Hello, World!</div>
-
-<a href={p('/')}>Home</a>
-<a href={p('/editor')}>Editor</a>
-
-<Router base="#" />
+<Layout>
+    <Router base="#" />
+</Layout>

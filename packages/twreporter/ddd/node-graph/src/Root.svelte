@@ -1,9 +1,10 @@
 <script lang="ts">
     import { setupConvex } from 'convex-svelte'
-    import { ClerkProvider } from 'svelte-clerk/client'
+    import { ClerkProvider, Show } from 'svelte-clerk/client'
 
     import App from './App.svelte'
     import { clientEnv } from './lib/environment-variables'
+    import Login from './routes/Login.svelte'
 
     setupConvex(clientEnv.convex.url)
 </script>
@@ -16,7 +17,12 @@
 
 <div class="layout">
     <ClerkProvider publishableKey={clientEnv.clerk.publishableKey}>
-        <App />
+        <Show when="signed-in">
+            <App />
+        </Show>
+        <Show when="signed-out">
+            <Login />
+        </Show>
     </ClerkProvider>
 </div>
 
@@ -29,6 +35,7 @@
         --brand-heavy: rgba(196, 13, 35, 1);
         --brand-dark: rgba(155, 5, 30, 1);
         --neutral-white: rgba(255, 255, 255, 1);
+        --neutral-gray-50: rgba(250, 250, 250, 1);
         --neutral-gray-100: rgba(241, 241, 241, 1);
         --neutral-gray-200: rgba(226, 226, 226, 1);
         --neutral-gray-300: rgba(205, 205, 205, 1);
