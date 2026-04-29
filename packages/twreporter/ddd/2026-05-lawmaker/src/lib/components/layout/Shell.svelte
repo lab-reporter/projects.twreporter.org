@@ -120,6 +120,11 @@
     --chart-patina-3: rgba(142, 161, 151, 1);
     --chart-patina-4: rgba(93, 111, 110, 1);
     --chart-patina-5: rgba(66, 79, 79, 1);
+    --chart-mint-1: rgba(213, 231, 222, 1);
+    --chart-mint-2: rgba(172, 208, 198, 1);
+    --chart-mint-3: rgba(108, 161, 152, 1);
+    --chart-mint-4: rgba(80, 110, 105, 1);
+    --chart-mint-5: rgba(48, 74, 71, 1);
     --chart-purple-1: rgba(235, 221, 240, 1);
     --chart-purple-2: rgba(208, 182, 217, 1);
     --chart-purple-3: rgba(162, 125, 180, 1);
@@ -191,7 +196,7 @@
     position: relative;
     padding: 20px;
     background: var(--backgrouond-color);
-    border-radius: 5px;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     gap: 15px;

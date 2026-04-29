@@ -32,6 +32,8 @@
     text: {
       minSize: 5,
       maxSize: 40,
+      minWeight: 150,
+      maxWeight: 600,
       ...text,
     },
     baseColor: {
@@ -74,6 +76,15 @@
       saturation: config.baseColor.saturation,
       lightness: config.baseColor.lightness,
     })
+  }
+
+  function getFontWeight(size: number | undefined) {
+    if (!size) return 400
+
+    const scale = createScale()
+      .domain([config.text.minSize, config.text.maxSize])
+      .range([config.text.minWeight, config.text.maxWeight])
+    return Math.round(scale(size))
   }
 
   $effect(() => {
@@ -119,6 +130,7 @@
       {#each computedTokens as word (word.text)}
         <text
           font-size={`${word.size}px`}
+          font-weight={getFontWeight(word.size)}
           text-anchor="middle"
           transform={`translate(${word.x}, ${word.y}) rotate(${word.rotate})`}
           fill={getColor(word.size)}
