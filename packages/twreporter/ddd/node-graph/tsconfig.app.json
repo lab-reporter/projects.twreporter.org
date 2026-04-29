@@ -4,6 +4,10 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "es2023",
     "module": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "~convex/*": ["convex/_generated/*"]
+    },
     "types": ["svelte", "vite/client"],
     "noEmit": true,
     /**
