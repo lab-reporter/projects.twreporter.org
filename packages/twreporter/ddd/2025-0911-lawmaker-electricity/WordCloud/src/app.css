@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
+}
+:root {
+  --graphWidth: 730px;
+  --fs-xs: 14px;
+  --fs-s: 16px;
+  --fs-m: 18px;
+  --fs-l: 24px;
+  --fs-xl: 28px;
+  --containerPadding: 20px;
+  --chartContainerPadding: 10px;
+  --firstColumnWidth: 190px;
+  @media (min-width: 481px) and (max-width: 580px) {
+    --firstColumnWidth: 105px;
+  }
+  @media (max-width: 480px) {
+    --fs-l: 18px;
+    --fs-xl: 22px;
+    --containerPadding: 10px;
+    --chartContainerPadding: 7px 5px;
+    --firstColumnWidth: 90px;
+  }
+}
+body {
+  background-color: #f1f1f1;
+}
+
+.container {
+  background-color: #fff;
+  padding: var(--containerPadding);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  border-radius: 5px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.header h1 {
+  font-size: var(--fs-xl);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #404040;
+}
+.header h2 {
+  font-size: var(--fs-l);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #404040;
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 5px;
+  width: 100%;
+}
+.footer svg.twreporter-logo {
+  width: 28px;
+  height: 26px;
+}
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+}
+.footer p {
+  color: #808080;
+  font-size: var(--fs-s);
+  font-weight: 400;
+}
+
+.chartContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  /*background-color: #f1f1f1;*/
+  border-radius: 5px;
+  /*padding: var(--chartContainerPadding);*/
+  box-sizing: border-box;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+table {
+  width: 100%;
+}
+th, td {
+  word-wrap:break-word;
+  line-height: 1.2;
+  border: 2px solid #fff;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+
+  font-weight: 700;
+  color: #333;
+  font-size: var(--fs-m);
+  @media (max-width: 480px) {
+    font-weight: 600;
+    color: #333;
+    font-size: var(--fs-s);
+    line-height: 0.5;
+  }
+}
+th p, td p {
+  font-weight: 500;
+  color: #888;
+  margin-top: 0;
+  font-size: var(--fs-s);
+  @media (max-width: 480px) {
+    font-size: var(--fs-xs);
+    margin-top: 8px;
+  }
+}
+.groupTopic {
+  width: 1rem;
+  color: #f1f1f1;
+  font-weight: 450;
+  line-height: 1.2;
+}
+
+
+.desktop-only {
+  display: block;
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+.mobile-only {
+  display: none;
+  @media (max-width: 480px) {
+    display: block;
+  }
+}
+
+/* export style */
+/*.container {*/
+/*  width: calc(var(--graphWidth) - 2 * var(--containerPadding));*/
+/*  height: calc(var(--graphWidth) * 5/4 - 2 * var(--containerPadding));*/
+/*}*/

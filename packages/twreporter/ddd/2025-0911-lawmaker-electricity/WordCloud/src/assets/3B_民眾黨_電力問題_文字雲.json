@@ -1,0 +1,1469 @@
+[
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "台電",
+    "count": "120",
+    "rank": "1",
+    "rel_freq": "0.0176056338"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "電價",
+    "count": "110",
+    "rank": "2",
+    "rel_freq": "0.01613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "停電",
+    "count": "89",
+    "rank": "3",
+    "rel_freq": "0.01305751174"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "經濟部",
+    "count": "56",
+    "rank": "4",
+    "rel_freq": "0.008215962441"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "電廠",
+    "count": "39",
+    "rank": "5",
+    "rel_freq": "0.005721830986"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "虧損",
+    "count": "34",
+    "rank": "6",
+    "rel_freq": "0.004988262911"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "日本",
+    "count": "32",
+    "rank": "7",
+    "rel_freq": "0.004694835681"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "電力",
+    "count": "31",
+    "rank": "8",
+    "rel_freq": "0.004548122066"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "民生",
+    "count": "29",
+    "rank": "9",
+    "rel_freq": "0.004254694836"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "再生能源",
+    "count": "27",
+    "rank": "10",
+    "rel_freq": "0.003961267606"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "用電",
+    "count": "26",
+    "rank": "11",
+    "rel_freq": "0.003814553991"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "綠電",
+    "count": "25",
+    "rank": "12",
+    "rel_freq": "0.003667840376"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "弊案",
+    "count": "25",
+    "rank": "12",
+    "rel_freq": "0.003667840376"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "核能",
+    "count": "25",
+    "rank": "12",
+    "rel_freq": "0.003667840376"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "物價",
+    "count": "24",
+    "rank": "13",
+    "rel_freq": "0.003521126761"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "延役",
+    "count": "24",
+    "rank": "13",
+    "rel_freq": "0.003521126761"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "發電",
+    "count": "23",
+    "rank": "14",
+    "rel_freq": "0.003374413146"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "漲價",
+    "count": "21",
+    "rank": "15",
+    "rel_freq": "0.003080985915"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "能源",
+    "count": "21",
+    "rank": "15",
+    "rel_freq": "0.003080985915"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "美國",
+    "count": "21",
+    "rank": "15",
+    "rel_freq": "0.003080985915"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "台積電",
+    "count": "21",
+    "rank": "15",
+    "rel_freq": "0.003080985915"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "AI",
+    "count": "20",
+    "rank": "16",
+    "rel_freq": "0.0029342723"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "環評",
+    "count": "20",
+    "rank": "16",
+    "rel_freq": "0.0029342723"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "天然氣",
+    "count": "20",
+    "rank": "16",
+    "rel_freq": "0.0029342723"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "九州",
+    "count": "20",
+    "rank": "16",
+    "rel_freq": "0.0029342723"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "環境部",
+    "count": "19",
+    "rank": "17",
+    "rel_freq": "0.002787558685"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "除役",
+    "count": "19",
+    "rank": "17",
+    "rel_freq": "0.002787558685"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "廠商",
+    "count": "18",
+    "rank": "18",
+    "rel_freq": "0.00264084507"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "勞動部",
+    "count": "18",
+    "rank": "18",
+    "rel_freq": "0.00264084507"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "防爆",
+    "count": "17",
+    "rank": "19",
+    "rel_freq": "0.002494131455"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "地震",
+    "count": "17",
+    "rank": "19",
+    "rel_freq": "0.002494131455"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "半導體",
+    "count": "17",
+    "rank": "19",
+    "rel_freq": "0.002494131455"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "檢測",
+    "count": "16",
+    "rank": "20",
+    "rel_freq": "0.00234741784"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "燃料",
+    "count": "16",
+    "rank": "20",
+    "rel_freq": "0.00234741784"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "買電",
+    "count": "16",
+    "rank": "20",
+    "rel_freq": "0.00234741784"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "光電",
+    "count": "16",
+    "rank": "20",
+    "rel_freq": "0.00234741784"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "鑄鐵",
+    "count": "15",
+    "rank": "21",
+    "rel_freq": "0.002200704225"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "燃煤",
+    "count": "15",
+    "rank": "21",
+    "rel_freq": "0.002200704225"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "漏洞",
+    "count": "15",
+    "rank": "21",
+    "rel_freq": "0.002200704225"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "缺電",
+    "count": "15",
+    "rank": "21",
+    "rel_freq": "0.002200704225"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "真相",
+    "count": "15",
+    "rank": "21",
+    "rel_freq": "0.002200704225"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "總統",
+    "count": "14",
+    "rank": "22",
+    "rel_freq": "0.00205399061"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "核三廠",
+    "count": "14",
+    "rank": "22",
+    "rel_freq": "0.00205399061"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "右邊",
+    "count": "14",
+    "rank": "22",
+    "rel_freq": "0.00205399061"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "職安署",
+    "count": "13",
+    "rank": "23",
+    "rel_freq": "0.001907276995"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "價格",
+    "count": "13",
+    "rank": "23",
+    "rel_freq": "0.001907276995"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "跳電",
+    "count": "13",
+    "rank": "23",
+    "rel_freq": "0.001907276995"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "金屬",
+    "count": "13",
+    "rank": "23",
+    "rel_freq": "0.001907276995"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "中油",
+    "count": "13",
+    "rank": "23",
+    "rel_freq": "0.001907276995"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "起訴",
+    "count": "12",
+    "rank": "24",
+    "rel_freq": "0.00176056338"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "民生用電",
+    "count": "12",
+    "rank": "24",
+    "rel_freq": "0.00176056338"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "購電",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "蓋牌",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "經濟委員會",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "開源",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "政治",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "次數",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "合格",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "民進黨",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "台南",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "太陽能",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "工程",
+    "count": "11",
+    "rank": "25",
+    "rel_freq": "0.001613849765"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "賴清德",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "調漲",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "補貼",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "球化率",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "國發會",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "核電",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "核一廠",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "便宜",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "金融",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "往上走",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "不法",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "2026",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "2024",
+    "count": "10",
+    "rank": "26",
+    "rel_freq": "0.00146713615"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "醫師",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "德國",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "綠能",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "造假",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "設廠",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "接線",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "納稅",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "看起",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "保證",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "材料",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "台北市",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "太貴",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "大林",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "2030",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "2025",
+    "count": "9",
+    "rank": "27",
+    "rel_freq": "0.001320422535"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "總質詢",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "榮民",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "號機",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "節流",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "健康",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "核電廠",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "活化",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "花東",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "所得",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "沒有關係",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "用水",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "水泥",
+    "count": "8",
+    "rank": "28",
+    "rel_freq": "0.00117370892"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "醫療",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "總裁",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "檢驗",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "衝擊",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "撥補",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "圓型",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "勞動",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "設備",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "移走",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "採購",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "國會",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "商業",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "配件",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "科技",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "林文信",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "抗議",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "召集",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "加班",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "火力發電",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "土地",
+    "count": "7",
+    "rank": "29",
+    "rel_freq": "0.001026995305"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "IEEE",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "醫院",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "謹言",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "機組",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "蔡英文",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "緩漲",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "線性",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "標案",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "農業部",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "慎行",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "費率",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "單據",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "郭部長",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "國民黨",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "退輔會",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "財經",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "挹注",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "重啟",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "科學",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "保冷",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "防制",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "利潤",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "收入",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "危機",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "犯罪",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "支出",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "手機",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "升息",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "內傷",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "不漲",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "八年",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "2023",
+    "count": "6",
+    "rank": "30",
+    "rel_freq": "0.0008802816901"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "蔡總統",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "數學",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "價錢",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "嘉義",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "電費",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "結構",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "俄烏戰爭",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "太高",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  },
+  {
+    "topic": "電力問題",
+    "party_slug": "tpp",
+    "term": "11",
+    "token": "中興",
+    "count": "5",
+    "rank": "31",
+    "rel_freq": "0.0007335680751"
+  }
+]

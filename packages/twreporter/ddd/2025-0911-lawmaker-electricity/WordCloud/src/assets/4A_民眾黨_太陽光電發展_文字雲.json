@@ -1,0 +1,1343 @@
+[
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "經濟部",
+    "count": "198",
+    "rank": "1",
+    "rel_freq": "0.01042544229"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "綠電",
+    "count": "139",
+    "rank": "2",
+    "rel_freq": "0.007318871104"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "再生能源",
+    "count": "121",
+    "rank": "3",
+    "rel_freq": "0.006371103623"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "能源",
+    "count": "116",
+    "rank": "4",
+    "rel_freq": "0.006107834878"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "台電",
+    "count": "111",
+    "rank": "5",
+    "rel_freq": "0.005844566133"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "農委會",
+    "count": "105",
+    "rank": "6",
+    "rel_freq": "0.005528643639"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "農業",
+    "count": "94",
+    "rank": "7",
+    "rel_freq": "0.004949452401"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2025",
+    "count": "78",
+    "rank": "8",
+    "rel_freq": "0.004106992418"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "環保署",
+    "count": "73",
+    "rank": "9",
+    "rel_freq": "0.003843723673"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "儲能",
+    "count": "73",
+    "rank": "9",
+    "rel_freq": "0.003843723673"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "光電",
+    "count": "70",
+    "rank": "10",
+    "rel_freq": "0.003685762426"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "減碳",
+    "count": "62",
+    "rank": "11",
+    "rel_freq": "0.003264532435"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電廠",
+    "count": "59",
+    "rank": "12",
+    "rel_freq": "0.003106571188"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "國發會",
+    "count": "59",
+    "rank": "12",
+    "rel_freq": "0.003106571188"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "發電",
+    "count": "58",
+    "rank": "13",
+    "rel_freq": "0.003053917439"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "天然氣",
+    "count": "58",
+    "rank": "13",
+    "rel_freq": "0.003053917439"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳費",
+    "count": "57",
+    "rank": "14",
+    "rel_freq": "0.00300126369"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "綠能",
+    "count": "55",
+    "rank": "15",
+    "rel_freq": "0.002895956192"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "轉型",
+    "count": "54",
+    "rank": "16",
+    "rel_freq": "0.002843302443"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2050",
+    "count": "52",
+    "rank": "17",
+    "rel_freq": "0.002737994945"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電網",
+    "count": "46",
+    "rank": "19",
+    "rel_freq": "0.002422072452"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "全球",
+    "count": "45",
+    "rank": "20",
+    "rel_freq": "0.002369418703"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "醫療",
+    "count": "44",
+    "rank": "21",
+    "rel_freq": "0.002316764954"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "設備",
+    "count": "44",
+    "rank": "21",
+    "rel_freq": "0.002316764954"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電價",
+    "count": "41",
+    "rank": "22",
+    "rel_freq": "0.002158803707"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "甲烷",
+    "count": "41",
+    "rank": "22",
+    "rel_freq": "0.002158803707"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "價格",
+    "count": "40",
+    "rank": "23",
+    "rel_freq": "0.002106149958"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "排放",
+    "count": "40",
+    "rank": "23",
+    "rel_freq": "0.002106149958"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "交易",
+    "count": "40",
+    "rank": "23",
+    "rel_freq": "0.002106149958"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "台糖",
+    "count": "40",
+    "rank": "23",
+    "rel_freq": "0.002106149958"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "歐盟",
+    "count": "39",
+    "rank": "24",
+    "rel_freq": "0.002053496209"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "裝置",
+    "count": "39",
+    "rank": "24",
+    "rel_freq": "0.002053496209"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "金融",
+    "count": "39",
+    "rank": "24",
+    "rel_freq": "0.002053496209"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "停電",
+    "count": "37",
+    "rank": "25",
+    "rel_freq": "0.001948188711"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "氣候變遷",
+    "count": "37",
+    "rank": "25",
+    "rel_freq": "0.001948188711"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "屋頂",
+    "count": "37",
+    "rank": "25",
+    "rel_freq": "0.001948188711"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "容量",
+    "count": "36",
+    "rank": "26",
+    "rel_freq": "0.001895534962"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "建置",
+    "count": "36",
+    "rank": "26",
+    "rel_freq": "0.001895534962"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "農地",
+    "count": "35",
+    "rank": "27",
+    "rel_freq": "0.001842881213"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "太陽能",
+    "count": "34",
+    "rank": "28",
+    "rel_freq": "0.001790227464"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "綠色",
+    "count": "33",
+    "rank": "29",
+    "rel_freq": "0.001737573715"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電動車",
+    "count": "32",
+    "rank": "30",
+    "rel_freq": "0.001684919966"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "台積電",
+    "count": "32",
+    "rank": "30",
+    "rel_freq": "0.001684919966"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "藻礁",
+    "count": "30",
+    "rank": "31",
+    "rel_freq": "0.001579612468"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "路徑",
+    "count": "30",
+    "rank": "31",
+    "rel_freq": "0.001579612468"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "平台",
+    "count": "30",
+    "rank": "31",
+    "rel_freq": "0.001579612468"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "市場",
+    "count": "30",
+    "rank": "31",
+    "rel_freq": "0.001579612468"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "公民",
+    "count": "29",
+    "rank": "32",
+    "rel_freq": "0.001526958719"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳稅",
+    "count": "28",
+    "rank": "33",
+    "rel_freq": "0.001474304971"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "部門",
+    "count": "28",
+    "rank": "33",
+    "rel_freq": "0.001474304971"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "海洋",
+    "count": "28",
+    "rank": "33",
+    "rel_freq": "0.001474304971"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "太陽",
+    "count": "28",
+    "rank": "33",
+    "rel_freq": "0.001474304971"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "土地",
+    "count": "28",
+    "rank": "33",
+    "rel_freq": "0.001474304971"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "輔導",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "造林",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "公室",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "中研院",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "中油",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2023",
+    "count": "27",
+    "rank": "34",
+    "rel_freq": "0.001421651222"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電池",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "電力",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "跨部會",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "氣候",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "前瞻",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "生態",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "主權基金",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2030",
+    "count": "26",
+    "rank": "35",
+    "rel_freq": "0.001368997473"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "離岸風電",
+    "count": "25",
+    "rank": "36",
+    "rel_freq": "0.001316343724"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "憑證",
+    "count": "25",
+    "rank": "36",
+    "rel_freq": "0.001316343724"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "地面型",
+    "count": "25",
+    "rank": "36",
+    "rel_freq": "0.001316343724"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳匯",
+    "count": "24",
+    "rank": "37",
+    "rel_freq": "0.001263689975"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "零碳排",
+    "count": "24",
+    "rank": "37",
+    "rel_freq": "0.001263689975"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "森林",
+    "count": "24",
+    "rank": "37",
+    "rel_freq": "0.001263689975"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "設施",
+    "count": "24",
+    "rank": "37",
+    "rel_freq": "0.001263689975"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "虧損",
+    "count": "23",
+    "rank": "38",
+    "rel_freq": "0.001211036226"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "燃油",
+    "count": "23",
+    "rank": "38",
+    "rel_freq": "0.001211036226"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "專案",
+    "count": "23",
+    "rank": "38",
+    "rel_freq": "0.001211036226"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "主任",
+    "count": "23",
+    "rank": "38",
+    "rel_freq": "0.001211036226"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2026",
+    "count": "23",
+    "rank": "38",
+    "rel_freq": "0.001211036226"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "優先",
+    "count": "22",
+    "rank": "39",
+    "rel_freq": "0.001158382477"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "數位",
+    "count": "22",
+    "rank": "39",
+    "rel_freq": "0.001158382477"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "補貼",
+    "count": "22",
+    "rank": "39",
+    "rel_freq": "0.001158382477"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "國土",
+    "count": "22",
+    "rank": "39",
+    "rel_freq": "0.001158382477"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "總統",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "盤查",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "廢棄物",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳排",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "園區",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "交易平台",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "用電",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2020",
+    "count": "21",
+    "rank": "40",
+    "rel_freq": "0.001105728728"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "廠商",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "節能",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "進口",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "健康",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "計算",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "生質",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "充電樁",
+    "count": "20",
+    "rank": "41",
+    "rel_freq": "0.001053074979"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "機車",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "徵收",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳權",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "碳定價",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "跳電",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "事故",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "生技",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "平地",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "日本",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "中國",
+    "count": "19",
+    "rank": "42",
+    "rel_freq": "0.00100042123"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "衝擊",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "策略",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "訓練",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "缺電",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "消費者",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "科技",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "研發",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "青年",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "供應鏈",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "出口",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "不利",
+    "count": "18",
+    "rank": "43",
+    "rel_freq": "0.000947767481"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "燃料",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "獎勵",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "農民",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "損失",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "結構",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "面積",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "三接",
+    "count": "17",
+    "rank": "44",
+    "rel_freq": "0.0008951137321"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "CBAM",
+    "count": "16",
+    "rank": "45",
+    "rel_freq": "0.0008424599832"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "模式",
+    "count": "16",
+    "rank": "45",
+    "rel_freq": "0.0008424599832"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "誘因",
+    "count": "16",
+    "rank": "45",
+    "rel_freq": "0.0008424599832"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "民生",
+    "count": "16",
+    "rank": "45",
+    "rel_freq": "0.0008424599832"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "薪資",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "認證",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "漁電共生",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "達標",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "農舍",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "萬度",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "疏失",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "減量",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "通膨",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "財政部",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "耕作",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "太陽光",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "5G",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2040",
+    "count": "15",
+    "rank": "46",
+    "rel_freq": "0.0007898062342"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "禁售",
+    "count": "14",
+    "rank": "47",
+    "rel_freq": "0.0007371524853"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "美國",
+    "count": "14",
+    "rank": "47",
+    "rel_freq": "0.0007371524853"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "居民",
+    "count": "14",
+    "rank": "47",
+    "rel_freq": "0.0007371524853"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "用電大戶",
+    "count": "14",
+    "rank": "47",
+    "rel_freq": "0.0007371524853"
+  },
+  {
+    "topic": "太陽光電發展",
+    "party_slug": "tpp",
+    "term": "10",
+    "token": "2024",
+    "count": "14",
+    "rank": "47",
+    "rel_freq": "0.0007371524853"
+  }
+]

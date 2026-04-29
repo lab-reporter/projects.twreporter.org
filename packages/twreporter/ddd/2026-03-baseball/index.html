@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- [FONTS] Fetch from base document -->
+        <link
+            rel="preconnect"
+            href="https://fonts.googleapis.com"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin="anonymous"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto+Slab:wght@100..900&display=swap"
+            rel="stylesheet"
+            crossorigin="anonymous"
+        />
+        <style>
+            @font-face {
+                font-family: "GenJyuuGothicL";
+                src: url("https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-ExtraLight.woff2")
+                    format("woff2");
+                font-weight: 200;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "GenJyuuGothicL";
+                src: url("https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Light.woff2")
+                    format("woff2");
+                font-weight: 300;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "GenJyuuGothicL";
+                src: url("https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Medium.woff2")
+                    format("woff2");
+                font-weight: 500;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "GenJyuuGothicL";
+                src: url("https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Bold.woff2")
+                    format("woff2");
+                font-weight: 700;
+                font-style: normal;
+                font-display: swap;
+            }
+
+            @font-face {
+                font-family: "GenJyuuGothicL";
+                src: url("https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Heavy.woff2")
+                    format("woff2");
+                font-weight: 900;
+                font-style: normal;
+                font-display: swap;
+            }
+        </style>
+        <!-- [FONTS] End -->
+
+        <title>2026-03-baseball</title>
+    </head>
+    <body style="background-color: #f1f1f1">
+        <script type="module" src="/src/main.ts"></script>
+
+        <h1>捕手</h1>
+        <twreporter-umpire-hex></twreporter-umpire-hex>
+
+        <h1>A01樂譜｜尚勇</h1>
+        <twreporter-interactive-piano key="A01"></twreporter-interactive-piano>
+
+        <h1>A02節拍｜尚勇、口號</h1>
+        <twreporter-interactive-music key="A02"></twreporter-interactive-music>
+
+        <h1>A03樂譜｜氣蓋</h1>
+        <twreporter-interactive-piano key="A03"></twreporter-interactive-piano>
+
+        <h1>A04節拍｜氣蓋、反拍</h1>
+        <twreporter-interactive-music key="A04"></twreporter-interactive-music>
+
+        <h1>A05樂譜｜尚勇 vs 流行樂</h1>
+        <twreporter-interactive-piano
+            key="A05"
+            background-style="double"
+        ></twreporter-interactive-piano>
+
+        <h1>D01滿版｜樹狀圖</h1>
+        <twreporter-scroll-diagram></twreporter-scroll-diagram>
+        <p>文字文字文字</p>
+        <div class="spacer"></div>
+
+        <style>
+            h1 {
+                height: 20px;
+            }
+
+            .spacer {
+                height: 100vh;
+            }
+        </style>
+
+        <!--
+            Embed code style snippet, see
+            https://github.com/lab-reporter/storytelling-monorepo/blob/f0d3e92e6fa13020d02728b3586ee6ca7f05ceb5/packages/cms/migrations/20240305071659_update_scrollable_video_list/migration.sql
+            for latest definition
+        -->
+        <style>
+            :root {
+                --body-width: calc(300 / 375 * 100%);
+            }
+
+            @media (max-width: 767px) {
+                :root {
+                    --body-width: 93.2vw;
+                }
+            }
+            @media (min-width: 768px) and (max-width: 1023px) {
+                :root {
+                    --body-width: 512px;
+                }
+            }
+
+            @media (min-width: 1024px) and (max-width: 1439px) {
+                :root {
+                    --body-width: 550px;
+                }
+            }
+
+            @media (min-width: 1440px) {
+                :root {
+                    --body-width: 730px;
+                }
+            }
+
+            .embed-code-container {
+                width: 100vw;
+                margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+            }
+        </style>
+    </body>
+</html>
