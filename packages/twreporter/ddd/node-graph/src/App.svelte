@@ -3,7 +3,7 @@
     import { Router } from 'sv-router'
     import { useClerkContext } from 'svelte-clerk/client'
     import Layout from './lib/components/Layout.svelte'
-    import './router.ts'
+    import './router'
 
     const convex = useConvexClient()
     const clerk = useClerkContext()
