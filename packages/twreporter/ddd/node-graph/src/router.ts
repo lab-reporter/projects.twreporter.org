@@ -9,7 +9,7 @@ export const {
   route,
 } = createRouter({
   '/': Home,
-  '/editor': Editor,
+  '/editor/:graphId': Editor,
 })
 
 type P = typeof path

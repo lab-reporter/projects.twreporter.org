@@ -1,11 +1,23 @@
-<script>
+<script lang="ts">
+    import { useQuery } from 'convex-svelte'
+    import { api } from '~convex/api'
+    import type { Id } from '~convex/dataModel'
     import Canvas from '../lib/components/Canvas.svelte'
     import Header from '../lib/components/Header.svelte'
     import Sidebar from '../lib/components/Sidebar.svelte'
     import Topbar from '../lib/components/Topbar.svelte'
+    import { route } from '../router'
+
+    const graphTitle = useQuery(api.graphs.getGraphTitle, () =>
+        route.params.graphId
+            ? { graphId: route.params.graphId as Id<'graphs'> }
+            : 'skip',
+    )
 </script>
 
-<Header />
+<Header title={graphTitle.data ?? undefined} />
 <Topbar />
 <Sidebar />
-<Canvas />
+{#if route.params.graphId}
+    <Canvas graphId={route.params.graphId} />
+{/if}
