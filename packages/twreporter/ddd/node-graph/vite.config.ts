@@ -7,5 +7,9 @@ export default defineConfig({
     process.env.RELEASE === 'prod'
       ? '/twreporter/ddd/node-graph/js'
       : '/data-reporter-infographics/dev/node-graph/js',
-  plugins: [svelte()],
+  plugins: [
+    svelte({
+      emitCss: false,
+    }),
+  ],
 })
