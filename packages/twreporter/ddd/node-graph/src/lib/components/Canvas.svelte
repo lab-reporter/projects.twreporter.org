@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { Position, SvelteFlow, type NodeTypes, type EdgeTypes } from '@xyflow/svelte'
+    import {
+        Position,
+        SvelteFlow,
+        type NodeTypes,
+        type EdgeTypes,
+    } from '@xyflow/svelte'
     import { useQuery, useConvexClient } from 'convex-svelte'
     import { api } from '~convex/api'
     import type { Id } from '~convex/dataModel'
@@ -166,7 +171,6 @@
         min-width: 0;
         min-height: 0;
         background: transparent;
-        border-top: 1px solid var(--neutral-gray-300);
     }
 
     .canvas-shell.message-state {
