@@ -9,7 +9,8 @@ export const {
   route,
 } = createRouter({
   '/': Home,
-  '/editor/:graphId': Editor,
+  '/graphs/:graphId': Editor,
+  '/graphs/:graphId/designs/:designId': Editor,
 })
 
 type P = typeof path

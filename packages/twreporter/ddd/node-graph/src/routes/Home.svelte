@@ -29,7 +29,9 @@
                 {#each graphList.data as graph}
                     <a
                         class="item"
-                        href={p('/editor/:graphId', { params: { graphId: graph._id } })}
+                        href={p('/graphs/:graphId', {
+                            params: { graphId: graph._id },
+                        })}
                     >
                         <div class="main">
                             <h2>{graph.name}</h2>
@@ -59,8 +61,16 @@
         justify-content: center;
         padding: 24px;
         background:
-            radial-gradient(circle at top, rgba(244, 198, 198, 0.3), transparent 30%),
-            linear-gradient(180deg, var(--neutral-gray-50), var(--neutral-gray-200));
+            radial-gradient(
+                circle at top,
+                rgba(244, 198, 198, 0.3),
+                transparent 30%
+            ),
+            linear-gradient(
+                180deg,
+                var(--neutral-gray-50),
+                var(--neutral-gray-200)
+            );
     }
 
     .home .card {
