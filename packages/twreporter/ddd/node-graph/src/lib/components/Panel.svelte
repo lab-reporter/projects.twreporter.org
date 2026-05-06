@@ -26,6 +26,7 @@
         border-bottom-right-radius: 0;
         border-top-width: 0;
         border-right-width: 0;
+        padding: 25px 15px;
     }
 
     .panel.left {
@@ -34,5 +35,6 @@
         border-bottom-left-radius: 0;
         border-left-width: 0;
         border-bottom-width: 0;
+        padding: 20px;
     }
 </style>
