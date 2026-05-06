@@ -7,6 +7,7 @@
     import Sidebar from '../lib/components/Sidebar.svelte'
     import Topbar from '../lib/components/Topbar.svelte'
     import { route } from '../router'
+    import Frame from '../lib/components/Frame.svelte'
 
     const graphTitle = useQuery(api.graphs.getGraphTitle, () =>
         route.params.graphId
@@ -19,5 +20,7 @@
 <Topbar />
 <Sidebar />
 {#if route.params.graphId}
-    <Canvas graphId={route.params.graphId} />
+    <Frame>
+        <Canvas graphId={route.params.graphId} />
+    </Frame>
 {/if}
