@@ -87,6 +87,9 @@ importers:
       '@types/node':
         specifier: ^24.12.2
         version: 24.12.2
+      material-design-icons-literal-types:
+        specifier: ^1.0.45
+        version: 1.0.45
       svelte:
         specifier: ^5.55.4
         version: 5.55.4
@@ -1242,6 +1245,9 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
+  material-design-icons-literal-types@1.0.45:
+    resolution: {integrity: sha512-hAbCt/6UmjHJ4IuRZTIbm7fDM427CSm6ChH//uTqlHDoJ6+IJ8Bgu2dW/A86FbijTGyBhAK/HmD0NkD9Y3bF+Q==}
 
   modern-screenshot@4.6.8:
     resolution: {integrity: sha512-GJkv/yWPOJTlxj1LZDU2k474cDyOWL+LVaqTdDWQwQ5d8zIuTz1892+1cV9V0ZpK6HYZFo/+BNLBbierO9d2TA==}
@@ -2432,6 +2438,8 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  material-design-icons-literal-types@1.0.45: {}
 
   modern-screenshot@4.6.8: {}
 
