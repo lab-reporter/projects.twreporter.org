@@ -1,4 +1,5 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 
@@ -21,4 +22,12 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rolldownOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        embed: resolve(__dirname, 'embed.html'),
+      },
+    },
+  },
 })
