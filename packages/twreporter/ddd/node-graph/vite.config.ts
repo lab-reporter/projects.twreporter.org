@@ -16,6 +16,9 @@ export default defineConfig({
   plugins: [
     svelte({
       emitCss: false,
+      compilerOptions: {
+        customElement: true,
+      },
     }),
   ],
 })
