@@ -1,7 +1,7 @@
 import { mount } from 'svelte'
-import Layout from './Layout.svelte'
+import Root from './Root.svelte'
 
-const app = mount(Layout, {
+const app = mount(Root, {
   target: document.getElementById('app')!,
 })
 

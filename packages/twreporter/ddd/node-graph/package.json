@@ -8,18 +8,23 @@
     "convex:dev": "convex dev",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "deploy": "pnpm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=dev pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/node-graph RELEASE=prod pnpm run deploy"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^24.12.2",
+    "material-design-icons-literal-types": "^1.0.45",
     "svelte": "^5.55.4",
     "svelte-check": "^4.4.6",
     "typescript": "~6.0.2",
     "vite": "^8.0.9"
   },
   "dependencies": {
+    "@xyflow/svelte": "^1.5.2",
     "convex": "^1.36.0",
     "convex-helpers": "^0.1.115",
     "convex-svelte": "^0.0.12",
