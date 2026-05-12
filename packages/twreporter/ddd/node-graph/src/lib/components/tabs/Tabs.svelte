@@ -30,6 +30,7 @@
 <style>
     .tabs-root {
         display: flex;
+        flex: 1 1 auto;
         flex-direction: column;
         gap: 15px;
     }
