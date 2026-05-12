@@ -1,8 +1,11 @@
+Never start dev servers unless explicitly told to, please assume the dev server is already running.
+
 # Frontend
 
 This project uses Svelte 5 and Vite for frontend development. 
 
-Make sure to use the latest Svelte 5 rune syntax.
+- Make sure to use the latest Svelte 5 rune syntax.
+- Never use `:global()` css selector unless modifying the components in an external library.
 
 # Backend
 
