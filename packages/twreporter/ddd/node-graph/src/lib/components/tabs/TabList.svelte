@@ -34,6 +34,7 @@
 
 <style>
   .tab-list {
+    flex: 0 0 auto;
     padding: 5px;
     width: 100%;
     display: flex;

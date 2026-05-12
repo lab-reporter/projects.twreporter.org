@@ -28,8 +28,10 @@
 <style>
     .panel {
         order: 1;
-        flex-basis: 100%;
+        flex: 1 1 auto;
+        min-height: 0;
         min-width: 0;
+        overflow-y: auto;
     }
 
     .panel[hidden] {

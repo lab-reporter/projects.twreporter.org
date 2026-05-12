@@ -31,7 +31,9 @@
     .tabs-root {
         display: flex;
         flex: 1 1 auto;
+        min-height: 0;
         flex-direction: column;
         gap: 15px;
+        overflow: hidden;
     }
 </style>
