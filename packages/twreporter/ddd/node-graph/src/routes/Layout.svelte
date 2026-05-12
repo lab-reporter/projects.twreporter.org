@@ -1,12 +1,7 @@
 <script lang="ts">
-    import { setupConvex } from 'convex-svelte'
-    import { ClerkProvider, Show } from 'svelte-clerk/client'
+    import type { Snippet } from 'svelte'
 
-    import App from './App.svelte'
-    import { clientEnv } from './lib/environment-variables'
-    import Login from './routes/Login.svelte'
-
-    setupConvex(clientEnv.convex.url)
+    const { children }: { children: Snippet } = $props()
 </script>
 
 <link
@@ -21,14 +16,7 @@
 />
 
 <div class="layout">
-    <ClerkProvider publishableKey={clientEnv.clerk.publishableKey}>
-        <Show when="signed-in">
-            <App />
-        </Show>
-        <Show when="signed-out">
-            <Login />
-        </Show>
-    </ClerkProvider>
+    {@render children()}
 </div>
 
 <style>
@@ -137,7 +125,12 @@
     }
 
     .layout {
+        display: grid;
+        width: 100vw;
+        height: 100dvh;
+        overflow: hidden;
+        grid-template-columns: 300px 1fr;
+        grid-template-rows: 85px 1fr;
         background-color: var(--backgrouond-color);
-        min-height: 100dvh;
     }
 </style>

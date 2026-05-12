@@ -1,20 +1,19 @@
 <script lang="ts">
-    import { useConvexClient } from 'convex-svelte'
     import { Router } from 'sv-router'
-    import { useClerkContext } from 'svelte-clerk/client'
-    import Layout from './lib/components/Layout.svelte'
     import './router'
 
-    const convex = useConvexClient()
-    const clerk = useClerkContext()
+    import { setupConvex } from 'convex-svelte'
+    import { ClerkProvider } from 'svelte-clerk/client'
 
-    $effect.pre(() => {
-        convex.setAuth(
-            async () => clerk.session?.getToken({ template: 'convex' }) ?? null,
-        )
-    })
+    import AuthProvider from './lib/components/providers/AuthProvider.svelte'
+    import { clientEnv } from './lib/environment-variables'
+
+    setupConvex(clientEnv.convex.url)
+
 </script>
 
-<Layout>
-    <Router base="#" />
-</Layout>
+<ClerkProvider publishableKey={clientEnv.clerk.publishableKey}>
+    <AuthProvider>
+        <Router base="#" />
+    </AuthProvider>
+</ClerkProvider>
