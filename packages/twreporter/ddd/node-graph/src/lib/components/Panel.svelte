@@ -1,40 +1,44 @@
 <script lang="ts">
-    import type { Snippet } from 'svelte'
+  import type { Snippet } from 'svelte'
 
-    const {
-        children,
-        variant,
-    }: { children: Snippet; variant?: 'top' | 'left' } = $props()
+  const { children, variant }: { children: Snippet; variant?: 'top' | 'left' } =
+    $props()
 </script>
 
 <div class={['panel', variant]}>
-    {@render children()}
+  {@render children()}
 </div>
 
 <style>
-    .panel {
-        width: 100%;
-        height: 100%;
-        background-color: var(--neutral-gray-50);
-        border-radius: 10px;
-        border: 1px solid var(--neutral-gray-400);
-    }
+  .panel {
+    width: 100%;
+    height: 100%;
+    background-color: var(--neutral-gray-50);
+    border-radius: 10px;
+    border: 1px solid var(--neutral-gray-400);
+  }
 
-    .panel.top {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-width: 0;
-        border-right-width: 0;
-        padding: 25px 15px;
-    }
+  .panel.top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    padding: 25px 15px;
+    display: flex;
+    align-items: center;
+  }
 
-    .panel.left {
-        border-top-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-        border-left-width: 0;
-        border-bottom-width: 0;
-        padding: 20px;
-    }
+  .panel.left {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+    border-bottom-width: 0;
+    padding: 20px;
+  }
 </style>

@@ -15,7 +15,7 @@ export const {
   '/login': Login,
   '/graphs/:graphId': GraphEditor,
   '/graphs/:graphId/designs/:designId': DesignEditor,
-  layout: Layout
+  layout: Layout,
 })
 
 type P = typeof path
