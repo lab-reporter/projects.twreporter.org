@@ -31,6 +31,7 @@
     "convex-helpers": "^0.1.115",
     "convex-svelte": "^0.0.12",
     "d3-force": "^3.0.0",
+    "modern-screenshot": "^4.6.7",
     "sv-router": "^0.16.0",
     "svelte-clerk": "^1.1.4",
     "svelte-sonner": "^1.1.1"
