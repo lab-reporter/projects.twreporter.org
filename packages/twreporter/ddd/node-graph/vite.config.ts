@@ -11,6 +11,7 @@ export default defineConfig({
       : '/data-reporter-infographics/dev/node-graph/js',
   resolve: {
     alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
       '~convex': fileURLToPath(new URL('./convex/_generated', import.meta.url)),
     },
   },
