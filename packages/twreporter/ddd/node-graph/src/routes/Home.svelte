@@ -59,6 +59,7 @@
         font-size: var(--text-l);
         font-weight: 700;
         line-height: 1.2;
+        font-family: 'Noto Serif TC';
     }
 
     .content {
