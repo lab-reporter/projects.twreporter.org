@@ -9,11 +9,23 @@
     }: NodeProps<FlowNode> = $props()
 
     let isHovered = $state(false)
+
+    const nodeStyle = $derived(
+        [
+            `--node-background-color: ${data?.backgroundColor ?? '#F0D5BE'}`,
+            `--node-border-color: ${data?.borderColor ?? '#9F7544'}`,
+            `--node-text-color: ${data?.textColor ?? '#404040'}`,
+            `--node-description-background-color: ${data?.descriptionBackgroundColor ?? '#F1F1F1'}`,
+            `--node-description-text-color: ${data?.descriptionTextColor ?? '#404040'}`,
+        ].join('; '),
+    )
 </script>
 
 <div
     class="graph-node"
     class:expanded={data?.expanded}
+    class:selected={data?.selected}
+    class:multi-selected={data?.multiSelected}
     role="presentation"
     onpointerenter={() => {
         isHovered = true
@@ -21,6 +33,7 @@
     onpointerleave={() => {
         isHovered = false
     }}
+    style={nodeStyle}
 >
     <Handle
         type="target"
@@ -100,16 +113,26 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        border: 1px solid var(--node-border-color);
         border-radius: 7px;
-        background: var(--chart-earth-1);
+        background: var(--node-background-color);
         transition:
             width 160ms ease,
             background-color 160ms ease;
     }
 
+    .graph-node.selected .card {
+        outline: 2px solid var(--supportive-heavy);
+        outline-offset: 3px;
+    }
+
+    .graph-node.multi-selected .card {
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--supportive-heavy) 32%, transparent);
+    }
+
     .graph-node.expanded .card {
         padding: 5px;
-        background: color-mix(in srgb, var(--chart-earth-1) 76%, transparent);
+        background: color-mix(in srgb, var(--node-background-color) 76%, transparent);
         backdrop-filter: blur(5px);
     }
 
@@ -119,8 +142,8 @@
         min-height: 40px;
         padding: 5px 10px 8px;
         border-radius: 5px;
-        background: var(--chart-earth-2);
-        color: var(--neutral-gray-800);
+        background: var(--node-background-color);
+        color: var(--node-text-color);
         font-size: 18px;
         font-weight: 500;
         letter-spacing: 0.6px;
@@ -130,7 +153,8 @@
     .graph-node .body {
         margin: 0;
         padding: 5px 10px;
-        color: var(--neutral-gray-800);
+        background: var(--node-description-background-color);
+        color: var(--node-description-text-color);
         font-size: 14px;
         font-weight: 400;
         letter-spacing: 0.6px;

@@ -23,13 +23,30 @@
     const labelAngle = $derived.by(() => {
         const dx = targetX - sourceX
         const dy = targetY - sourceY
+        const arrowAngle = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360
 
-        return (Math.atan2(dy, dx) * 180) / Math.PI
+        if (
+            (arrowAngle >= 45 && arrowAngle <= 135) ||
+            (arrowAngle >= 225 && arrowAngle <= 315)
+        ) {
+            return 0
+        }
+
+        if (arrowAngle > 90 && arrowAngle < 270) {
+            return arrowAngle - 180
+        }
+
+        return arrowAngle > 180 ? arrowAngle - 360 : arrowAngle
     })
 
     const markerId = $derived(
         `graph-edge-arrow-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
     )
+
+    const strokeColor = $derived(data?.strokeColor ?? '#404040')
+    const arrowColor = $derived(data?.arrowColor ?? strokeColor)
+    const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F1F1F1')
+    const labelTextColor = $derived(data?.labelTextColor ?? '#404040')
 </script>
 
 <defs>
@@ -43,7 +60,7 @@
             orient="auto-start-reverse"
             markerUnits="strokeWidth"
         >
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--neutral-gray-800)" />
+            <path d="M 0 0 L 10 5 L 0 10 z" fill={arrowColor} />
         </marker>
     {/if}
 </defs>
@@ -61,7 +78,7 @@
         {id}
         path={edgePath}
         markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-        style="stroke: var(--neutral-gray-800); stroke-width: 1.1; fill: none;"
+        style={`stroke: ${data?.selected ? 'var(--supportive-heavy)' : strokeColor}; stroke-width: ${data?.selected ? 2 : 1.1}; fill: none;`}
         interactionWidth={24}
     />
 
@@ -70,7 +87,7 @@
             <div
                 class="edge-chip nodrag nopan"
                 role="presentation"
-                style={`transform: rotate(${labelAngle}deg);`}
+                style={`transform: rotate(${labelAngle}deg); --edge-label-background-color: ${labelBackgroundColor}; --edge-label-text-color: ${labelTextColor};`}
                 onpointerenter={() => {
                     isHovered = true
                 }}
@@ -115,8 +132,8 @@
         justify-content: center;
         padding: 4px;
         border-radius: 2px;
-        background: var(--neutral-gray-100);
-        color: var(--neutral-gray-800);
+        background: var(--edge-label-background-color);
+        color: var(--edge-label-text-color);
         font-size: 10px;
         font-weight: 500;
         letter-spacing: 0.6px;
