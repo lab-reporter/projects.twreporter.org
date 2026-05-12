@@ -6,6 +6,14 @@ export default {
   // for more information about preprocessors
   preprocess: vitePreprocess(),
   compilerOptions: {
-    customElement: true,
+    warningFilter: (warning) =>
+      warning.code !== 'options_missing_custom_element',
+  },
+  vitePlugin: {
+    dynamicCompileOptions({ filename }) {
+      if (filename.endsWith('.wc.svelte')) {
+        return { customElement: true }
+      }
+    },
   },
 }

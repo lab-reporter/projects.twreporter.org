@@ -17,8 +17,10 @@ export default defineConfig({
   plugins: [
     svelte({
       emitCss: false,
-      compilerOptions: {
-        customElement: true,
+      dynamicCompileOptions({ filename }) {
+        if (filename.endsWith('.wc.svelte')) {
+          return { customElement: true }
+        }
       },
     }),
   ],
