@@ -63,10 +63,12 @@
     appearance: none;
   }
 
-  .button.filled {
+  .button.filled,
+  .button.filled span {
     --button-background: var(--supportive-heavy);
     --button-border: transparent;
     --button-color: var(--neutral-gray-100);
+    color: var(--neutral-gray-100);
 
     font-weight: 500;
   }

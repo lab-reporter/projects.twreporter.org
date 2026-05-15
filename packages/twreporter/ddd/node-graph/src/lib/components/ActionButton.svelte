@@ -59,7 +59,8 @@
   }
 
   .button.active .surface,
-  .button[aria-pressed='true'] .surface {
+  .button[aria-pressed='true'] .surface,
+  .button[aria-pressed='true'] .icon {
     border-color: var(--supportive-heavy);
     background: var(--supportive-heavy);
     color: var(--neutral-white);
