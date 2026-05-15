@@ -167,6 +167,9 @@
     --text-xl-leading: 1.3;
 
     @media (max-width: 480px) {
+      --text-xs: 10px;
+      --text-s: 12px;
+      --text-m: 16px;
       --text-l: 18px;
       --text-xl: 22px;
     }
