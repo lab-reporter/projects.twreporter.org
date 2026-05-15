@@ -12,6 +12,7 @@
   import Canvas from '../lib/components/Canvas.svelte'
   import { createCanvasStoreContext } from '../lib/components/canvas/store.svelte'
   import Frame from '../lib/components/Frame.svelte'
+  import { safeParse } from '@/lib/utils/safe-parse'
 
   type DesignQueryData = NonNullable<
     FunctionReturnType<typeof api.designs.getDesign>
@@ -23,15 +24,7 @@
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
 
-  const graph = $derived.by<DesignQueryData | null>(() => {
-    if (!data) return null
-
-    try {
-      return JSON.parse(data) as DesignQueryData
-    } catch {
-      return null
-    }
-  })
+  const graph = $derived(safeParse<DesignQueryData>(data))
 
   const footnotes = $derived(
     [graph?.design?.footnotes?.trim()].filter((a) => a !== undefined),
