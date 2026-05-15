@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { get } from "svelte/store"
   import { slide } from 'svelte/transition'
   import SvgIcon from './SvgIcon.svelte'
 
@@ -20,12 +19,12 @@
 
   type State = { loading: boolean; error: boolean; data: Proposal[] }
 
-  let state = $state<State>({ loading: true, error: false, data: [] })
+  let loadState = $state<State>({ loading: true, error: false, data: [] })
   let expandedDesc = $state<Record<number, boolean>>({})
   let expandedProposers = $state<Record<number, boolean>>({})
 
   $effect(() => {
-    state = { loading: true, error: false, data: [] }
+    loadState = { loading: true, error: false, data: [] }
 
     fetch(`${src}?v=1`)
       .then((r) => {
@@ -33,12 +32,12 @@
         return r.json()
       })
       .then((data: Proposal[]) => {
-        state = { loading: false, error: false, data }
+        loadState = { loading: false, error: false, data }
         expandedDesc = Object.fromEntries(data.map((_, i) => [i, false]))
         expandedProposers = Object.fromEntries(data.map((_, i) => [i, false]))
       })
       .catch(() => {
-        state = { loading: false, error: true, data: [] }
+        loadState = { loading: false, error: true, data: [] }
       })
   })
 
@@ -57,16 +56,16 @@
 </script>
 
 <div class="embeddings">
-  {#if state.loading}
+  {#if loadState.loading}
     <img
       src="https://www.twreporter.org/images/spinner-logo.gif"
       alt="Loading..."
       class="loading-spinner"
     />
-  {:else if state.error}
+  {:else if loadState.error}
     <p class="error">資料載入失敗</p>
   {:else}
-    {#each state.data as proposal, i}
+    {#each loadState.data as proposal, i}
       <div class="card">
         <div class="card-header">
           <div class="section council">{proposal.縣市}議案</div>
