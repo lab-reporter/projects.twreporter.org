@@ -9,4 +9,8 @@
   }: { name: MaterialSymbols } & HTMLAttributes<HTMLSpanElement> = $props()
 </script>
 
-<span class={['material-symbols-outlined', clasName]} {...rest}>{name}</span>
+<span
+  class={['material-symbols-outlined', clasName]}
+  style:color="inherit"
+  {...rest}>{name}</span
+>
