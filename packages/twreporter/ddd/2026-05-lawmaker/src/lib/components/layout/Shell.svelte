@@ -80,6 +80,7 @@
     --brand-heavy: rgba(196, 13, 35, 1);
     --brand-dark: rgba(155, 5, 30, 1);
     --neutral-white: rgba(255, 255, 255, 1);
+    --neutral-gray-50: rgba(250, 250, 250, 1);
     --neutral-gray-100: rgba(241, 241, 241, 1);
     --neutral-gray-200: rgba(226, 226, 226, 1);
     --neutral-gray-300: rgba(205, 205, 205, 1);
@@ -163,7 +164,7 @@
     --text-m: 18px;
     --text-l: 24px;
     --text-xl: 28px;
-    --text-xl-leading: 1.1;
+    --text-xl-leading: 1.3;
 
     @media (max-width: 480px) {
       --text-l: 18px;
@@ -194,12 +195,12 @@
     max-width: 730px;
     width: 100%;
     position: relative;
-    padding: 20px;
+    padding: 20px 20px 22px 20px;
     background: var(--backgrouond-color);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 17px;
   }
 
   .header {
@@ -226,7 +227,7 @@
   .footnotes {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
   }
 
   .footnotes p {
