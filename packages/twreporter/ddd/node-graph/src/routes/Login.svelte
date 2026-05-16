@@ -1,10 +1,11 @@
 <script>
-  import { getUser } from '../lib/auth/user'
+  import { getUser } from '@/lib/auth/user.svelte'
   import { navigate } from '../router'
   import { SignInButton } from 'svelte-clerk/client'
 
-  $effect.pre(() => {
-    const user = getUser()
+  const { user, isUserLoading } = getUser()
+  $effect(() => {
+    if (isUserLoading) return
 
     if (user) {
       navigate('/')
