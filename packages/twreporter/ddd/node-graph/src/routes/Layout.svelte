@@ -115,15 +115,6 @@
     }
   }
 
-  :global(*) {
-    --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-gray-200);
-
-    color: var(--text-color);
-
-    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
-  }
-
   .layout {
     display: grid;
     width: 100vw;
@@ -132,5 +123,12 @@
     grid-template-columns: 300px 1fr;
     grid-template-rows: 85px 1fr;
     background-color: var(--backgrouond-color);
+
+    --text-color: var(--neutral-gray-800);
+    --backgrouond-color: var(--neutral-gray-200);
+
+    color: var(--text-color);
+
+    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
   }
 </style>
