@@ -2,12 +2,13 @@
   import { useQuery } from 'convex-svelte'
   import { UserButton } from 'svelte-clerk/client'
   import { api } from '~convex/api'
-  import Badge from '../lib/components/Badge.svelte'
+  import Badge from '../lib/components/ui/Badge.svelte'
+  import CreateGraphForm from '../lib/components/graph-list/CreateGraphForm.svelte'
   import GraphItem from '../lib/components/graph-list/GraphItem.svelte'
   import Loading from '../lib/components/icons/Loading.svelte'
   import Logo from '../lib/components/icons/Logo.svelte'
   import LegacyGraphImport from '../lib/components/LegacyGraphImport.svelte'
-  import Panel from '../lib/components/Panel.svelte'
+  import Panel from '../lib/components/ui/Panel.svelte'
 
   const graphList = useQuery(api.graphs.listGraphs, {})
 </script>
@@ -24,7 +25,9 @@
   <LegacyGraphImport />
 </Panel>
 
-<Panel variant="left">請選擇節點圖或圖表</Panel>
+<Panel variant="left">
+  <CreateGraphForm />
+</Panel>
 
 <div class="content">
   <h1 id="graphs-title">節點圖</h1>
