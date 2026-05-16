@@ -1,21 +1,62 @@
 <script lang="ts">
-  import { useQuery } from 'convex-svelte'
+  import { useConvexClient, useQuery } from 'convex-svelte'
+  import { SvelteSet } from 'svelte/reactivity'
+  import { toast } from 'svelte-sonner'
   import { api } from '~convex/api'
-  import type { Doc } from '~convex/dataModel'
+  import type { Doc, Id } from '~convex/dataModel'
   import { formatDateTime } from '../../../lib/utils/date'
   import { navigate } from '../../../router'
-  import ActionButton from '../ActionButton.svelte'
-  import Badge from '../Badge.svelte'
+  import ActionButton from '../ui/ActionButton.svelte'
+  import Badge from '../ui/Badge.svelte'
   import Loading from '../icons/Loading.svelte'
   import MaterialSymbols from '../icons/MaterialSymbols.svelte'
 
-  const { graph }: { graph: Doc<'graphs'> } = $props()
+  type Props = {
+    graph: Doc<'graphs'>
+  }
 
+  const { graph }: Props = $props()
+
+  const convex = useConvexClient()
   let isDesignsExpanded = $state(false)
+  let isDeleting = $state(false)
+  const deletingDesignIds = new SvelteSet<Id<'designs'>>()
 
   const designList = useQuery(api.designs.listDesignsForGraph, () =>
     isDesignsExpanded ? { graphId: graph._id } : 'skip',
   )
+
+  async function deleteGraph() {
+    if (!confirm(`確定要刪除「${graph.name}」嗎？此操作無法復原。`)) return
+
+    isDeleting = true
+
+    try {
+      await convex.mutation(api.graphs.deleteGraph, { graphId: graph._id })
+      toast.success('已刪除節點圖')
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : '無法刪除節點圖')
+    } finally {
+      isDeleting = false
+    }
+  }
+
+  async function deleteDesign(design: Doc<'designs'>) {
+    if (!confirm(`確定要刪除「${design.title}」嗎？此操作無法復原。`)) return
+
+    deletingDesignIds.add(design._id)
+
+    try {
+      await convex.mutation(api.designs.deleteDesign, {
+        designId: design._id,
+      })
+      toast.success('已刪除設計')
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : '無法刪除設計')
+    } finally {
+      deletingDesignIds.delete(design._id)
+    }
+  }
 </script>
 
 <div class="item">
@@ -45,6 +86,7 @@
     </ActionButton>
     <ActionButton
       label="圖表"
+      disabled={isDeleting}
       onclick={() => {
         if (isDesignsExpanded) {
           isDesignsExpanded = false
@@ -54,6 +96,13 @@
       }}
     >
       <MaterialSymbols name="design_services" />
+    </ActionButton>
+    <ActionButton
+      label={isDeleting ? '刪除中' : '刪除'}
+      disabled={isDeleting}
+      onclick={deleteGraph}
+    >
+      <MaterialSymbols name="delete" />
     </ActionButton>
   </div>
 </div>
@@ -66,20 +115,31 @@
       <Badge>尚無設計</Badge>
     {:else}
       {#each designList.data as design (design._id)}
+        {@const isDesignDeleting = deletingDesignIds.has(design._id)}
         <div class="design-item">
           <p>{design.title}</p>
-          <ActionButton
-            label="開啟"
-            onclick={() =>
-              navigate('/graphs/:graphId/designs/:designId', {
-                params: {
-                  graphId: design.graphId,
-                  designId: design._id,
-                },
-              })}
-          >
-            <MaterialSymbols name="open_in_new" />
-          </ActionButton>
+          <div class="design-actions">
+            <ActionButton
+              label="開啟"
+              disabled={isDesignDeleting}
+              onclick={() =>
+                navigate('/graphs/:graphId/designs/:designId', {
+                  params: {
+                    graphId: design.graphId,
+                    designId: design._id,
+                  },
+                })}
+            >
+              <MaterialSymbols name="open_in_new" />
+            </ActionButton>
+            <ActionButton
+              label={isDesignDeleting ? '刪除中' : '刪除'}
+              disabled={isDesignDeleting}
+              onclick={() => deleteDesign(design)}
+            >
+              <MaterialSymbols name="delete" />
+            </ActionButton>
+          </div>
         </div>
       {/each}
     {/if}
@@ -129,6 +189,12 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
+  }
+
+  .design-actions {
+    display: flex;
+    gap: 10px;
     align-items: center;
   }
 
