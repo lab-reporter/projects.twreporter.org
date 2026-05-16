@@ -2,8 +2,8 @@
   import { useConvexClient } from 'convex-svelte'
   import { toast } from 'svelte-sonner'
   import { api } from '~convex/api'
-  import ActionButton from './ui/ActionButton.svelte'
-  import MaterialSymbols from './icons/MaterialSymbols.svelte'
+  import ActionButton from '../ui/ActionButton.svelte'
+  import MaterialSymbols from '../icons/MaterialSymbols.svelte'
 
   const convex = useConvexClient()
   let importInput = $state<HTMLInputElement | null>(null)

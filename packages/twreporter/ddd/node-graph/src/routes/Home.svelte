@@ -7,7 +7,7 @@
   import GraphItem from '../lib/components/graph-list/GraphItem.svelte'
   import Loading from '../lib/components/icons/Loading.svelte'
   import Logo from '../lib/components/icons/Logo.svelte'
-  import LegacyGraphImport from '../lib/components/LegacyGraphImport.svelte'
+  import LegacyGraphImport from '../lib/components/graph-list/LegacyGraphImport.svelte'
   import Panel from '../lib/components/ui/Panel.svelte'
 
   const graphList = useQuery(api.graphs.listGraphs, {})
