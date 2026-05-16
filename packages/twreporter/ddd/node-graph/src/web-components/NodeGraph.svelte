@@ -3,22 +3,18 @@
     defaultViewportKey,
     type ViewportKey,
   } from '@/lib/constants/viewports'
-  import { buildDesignFlow } from '@/lib/features/canvas/buildDesignFlow'
-  import { useSvelteFlow } from '@xyflow/svelte'
+  import { safeParse } from '@/lib/utils/safe-parse'
   import type { FunctionReturnType } from 'convex/server'
   import { api } from '~convex/api'
-  import Canvas from '../lib/components/Canvas.svelte'
-  import { createCanvasStoreContext } from '../lib/components/canvas/store.svelte'
+  import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/Frame.svelte'
-  import { safeParse } from '@/lib/utils/safe-parse'
+  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
 
   type DesignQueryData = NonNullable<
     FunctionReturnType<typeof api.designs.getDesign>
   >
 
   let { data }: { data?: string } = $props()
-
-  createCanvasStoreContext()
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
 
@@ -50,14 +46,7 @@
       description={graph.design?.description}
       {footnotes}
     >
-      <Canvas
-        nodes={flow.nodes}
-        edges={flow.edges}
-        readonly
-        emptyMessage="尚未選取節點。"
-        backgroundColor={graph.design?.backgroundColor}
-        fitOnLayoutChange
-      />
+      <Canvas nodes={flow.nodes} edges={flow.edges} readonly />
     </Frame>
   {/if}
 </div>
