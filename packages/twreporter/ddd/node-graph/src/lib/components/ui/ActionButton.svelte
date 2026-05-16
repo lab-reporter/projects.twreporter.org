@@ -18,7 +18,7 @@
 </script>
 
 <button class={['button', className]} {type} aria-label={ariaLabel} {...rest}>
-  <span class="surface" aria-hidden="true">
+  <span class="surface">
     <span class="icon">
       {@render children?.()}
     </span>
@@ -70,7 +70,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
+    padding: 8px;
     height: 40px;
     border: 1px solid var(--neutral-gray-200);
     border-radius: 4px;
@@ -83,7 +83,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
     height: 24px;
   }
 

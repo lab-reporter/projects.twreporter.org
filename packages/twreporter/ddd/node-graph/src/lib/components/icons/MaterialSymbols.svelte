@@ -5,12 +5,17 @@
   const {
     name,
     class: clasName,
+    size = 24,
     ...rest
-  }: { name: MaterialSymbols } & HTMLAttributes<HTMLSpanElement> = $props()
+  }: {
+    name: MaterialSymbols
+    size?: number
+  } & HTMLAttributes<HTMLSpanElement> = $props()
 </script>
 
 <span
   class={['material-symbols-outlined', clasName]}
   style:color="inherit"
+  style:font-size={size && `${size}px`}
   {...rest}>{name}</span
 >

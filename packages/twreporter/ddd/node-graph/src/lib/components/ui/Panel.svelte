@@ -27,6 +27,12 @@
     padding: 25px 15px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel.top > :global(div) {
+    display: flex;
+    gap: 10px;
   }
 
   .panel.left {
