@@ -19,16 +19,24 @@
     type = 'button',
     disabled = false,
     'aria-label': ariaLabel = label,
+    onclick,
     ...rest
   }: Props = $props()
+
+  let loading: boolean = $state(false)
 </script>
 
 <button
   class={['button', variant, className]}
   {type}
-  {disabled}
+  disabled={loading ?? disabled}
   aria-label={ariaLabel}
   {...rest}
+  onclick={async (e) => {
+    loading = true
+    await onclick?.(e)
+    loading = false
+  }}
 >
   {#if children}
     {@render children()}
