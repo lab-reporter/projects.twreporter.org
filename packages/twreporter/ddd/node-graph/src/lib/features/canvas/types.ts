@@ -52,3 +52,6 @@ export type GraphEdgeData = Pick<
 
 export type FlowNode = Node<GraphNodeData, 'graph-node'>
 export type FlowEdge = Edge<GraphEdgeData, 'graph-edge'>
+export type CanvasSelectedItem =
+  | { id: FlowNode['id']; type: FlowNode['type'] }
+  | { id: FlowEdge['id']; type: FlowEdge['type'] }

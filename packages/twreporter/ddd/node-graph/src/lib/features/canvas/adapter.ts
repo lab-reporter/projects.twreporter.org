@@ -3,7 +3,12 @@ import type { FunctionReturnType } from 'convex/server'
 import { api } from '~convex/api'
 import type { ViewportKey } from '../../constants/viewports'
 import { normalizeEdgeStyle, normalizeNodeStyle } from '../../utils/canvas'
-import type { FlowEdge, FlowNode, NodePosition } from './types'
+import type {
+  CanvasSelectedItem,
+  FlowEdge,
+  FlowNode,
+  NodePosition,
+} from './types'
 
 type DesignQueryData = NonNullable<
   FunctionReturnType<typeof api.designs.getDesign>
@@ -40,7 +45,7 @@ export function buildDesignFlow(input: {
   graph: DesignQueryData | null | undefined
   readonly: boolean
   activeLayoutKey: ViewportKey
-  selectedItem: FlowEdge | FlowNode | null
+  selectedItem: CanvasSelectedItem | null
   tooltipsEnabled: boolean
 }) {
   const { graph, readonly, activeLayoutKey, selectedItem, tooltipsEnabled } =
@@ -136,7 +141,7 @@ type GraphQueryData = NonNullable<
 export function buildGraphFlow(input: {
   graph: GraphQueryData | null | undefined
   readonly: boolean
-  selectedItem: FlowEdge | FlowNode | null
+  selectedItem: CanvasSelectedItem | null
   selectedNodeIds: string[]
   tooltipsEnabled: boolean
 }) {

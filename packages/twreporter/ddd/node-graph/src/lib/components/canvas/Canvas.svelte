@@ -92,10 +92,14 @@
       zoomOnPinch={!readonly}
       panOnScroll={!readonly}
       onnodeclick={({ node }) => {
-        if (!readonly) canvasState.selectedItem = node
+        if (!readonly) {
+          canvasState.selectedItem = { id: node.id, type: node.type }
+        }
       }}
       onedgeclick={({ edge }) => {
-        if (!readonly) canvasState.selectedItem = edge
+        if (!readonly) {
+          canvasState.selectedItem = { id: edge.id, type: edge.type }
+        }
       }}
       onpaneclick={() => {
         if (!readonly) canvasState.selectedItem = null
