@@ -1,9 +1,9 @@
 <script>
-  import { getUser } from '@/lib/auth/user.svelte'
+  import { useAuth } from '@/lib/features/use-auth.svelte'
   import { navigate } from '../router'
   import { SignInButton } from 'svelte-clerk/client'
 
-  const { user, isUserLoading } = getUser()
+  const { user, isUserLoading } = useAuth()
   $effect(() => {
     if (isUserLoading) return
 
