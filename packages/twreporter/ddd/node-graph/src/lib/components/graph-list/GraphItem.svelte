@@ -27,7 +27,7 @@
   )
 
   async function deleteGraph() {
-    if (!confirm(`確定要刪除「${graph.name}」嗎？此操作無法復原。`)) return
+    if (!confirm(`確定要刪除「${graph.name}」嗎？此操作無法復原！`)) return
 
     isDeleting = true
 
@@ -42,7 +42,7 @@
   }
 
   async function deleteDesign(design: Doc<'designs'>) {
-    if (!confirm(`確定要刪除「${design.title}」嗎？此操作無法復原。`)) return
+    if (!confirm(`確定要刪除「${design.title}」嗎？此操作無法復原！`)) return
 
     deletingDesignIds.add(design._id)
 
