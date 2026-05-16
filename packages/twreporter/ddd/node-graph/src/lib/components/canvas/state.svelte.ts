@@ -1,4 +1,4 @@
-import type { FlowEdge, FlowNode } from './types'
+import type { FlowEdge, FlowNode } from '@/lib/features/canvas/types'
 
 export const canvasState = $state({
   selectedItem: null as FlowNode | FlowEdge | null,
