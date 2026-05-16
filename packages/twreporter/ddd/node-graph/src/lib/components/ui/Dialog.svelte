@@ -2,15 +2,26 @@
   import type { Snippet } from 'svelte'
   import Button from './Button.svelte'
 
-  type Props = {
+  let {
+    open = $bindable(false),
+    title,
+    children,
+    trigger,
+  }: {
     open?: boolean
     title?: string
     children: Snippet
-    onclose?: () => void
-  }
-
-  let { open = false, title, children, onclose }: Props = $props()
+    trigger: Snippet
+  } = $props()
 </script>
+
+<button
+  onclick={() => {
+    open = true
+  }}
+>
+  {@render trigger()}
+</button>
 
 {#if open}
   <div class="backdrop" role="presentation" onclick={onclose}>
@@ -20,16 +31,18 @@
       aria-modal="true"
       aria-label={title}
       tabindex="-1"
-      onclick={(event) => event.stopPropagation()}
-      onkeydown={(event) => {
-        if (event.key === 'Escape') onclose?.()
-      }}
     >
       <header class="header">
         {#if title}
           <h2>{title}</h2>
         {/if}
-        <Button label="關閉" variant="outlined" onclick={onclose} />
+        <Button
+          label="關閉"
+          variant="outlined"
+          onclick={() => {
+            open = false
+          }}
+        />
       </header>
 
       <div class="body">
@@ -60,7 +73,6 @@
     overflow: hidden;
     border-radius: 8px;
     background: var(--neutral-white);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
     font-family: 'Noto Sans TC', sans-serif;
   }
 
