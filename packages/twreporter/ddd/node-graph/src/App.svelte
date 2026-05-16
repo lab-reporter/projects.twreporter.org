@@ -10,6 +10,7 @@
   import { clientEnv } from './lib/environment-variables'
 
   import { Toaster } from 'svelte-sonner'
+  import HistoryProvider from './lib/components/providers/HistoryProvider.svelte'
 
   setupConvex(clientEnv.convex.url)
 </script>
@@ -17,8 +18,10 @@
 <ClerkProvider publishableKey={clientEnv.clerk.publishableKey}>
   <AuthProvider>
     <SvelteFlowProvider>
-      <Router base="#" />
-      <Toaster />
+      <HistoryProvider>
+        <Router base="#" />
+        <Toaster />
+      </HistoryProvider>
     </SvelteFlowProvider>
   </AuthProvider>
 </ClerkProvider>
