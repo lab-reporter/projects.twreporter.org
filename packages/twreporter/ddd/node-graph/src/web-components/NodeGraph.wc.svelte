@@ -16,7 +16,6 @@
     display: block;
     width: 100%;
     max-width: 720px;
-    aspect-ratio: 1 / 1;
     margin: 0 auto;
   }
 </style>
