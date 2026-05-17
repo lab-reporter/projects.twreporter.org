@@ -1,5 +1,5 @@
 <script lang="ts">
-  import MaterialSymbols from '../icons/MaterialSymbols.svelte'
+  import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
 
   let { label, checked = false }: { label: string; checked?: boolean } =
     $props()
