@@ -31,7 +31,7 @@
       readonly: true,
       activeLayoutKey,
       selectedItem: null,
-      tooltipsEnabled: false,
+      tooltipsEnabled: true,
     }),
   )
 
