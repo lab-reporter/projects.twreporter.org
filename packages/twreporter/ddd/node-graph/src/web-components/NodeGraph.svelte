@@ -43,14 +43,14 @@
     debouncedFitView({
       duration: 100,
       interpolate: 'linear',
+      padding: {
+        x: '5%',
+        y: '5%',
+        top: '22%',
+      },
     })
   })
 </script>
-
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@xyflow/svelte@1.5.2/dist/style.css"
-/>
 
 <div class="node-graph" bind:clientWidth>
   {#if graph}

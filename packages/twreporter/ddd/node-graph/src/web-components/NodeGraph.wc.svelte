@@ -7,6 +7,22 @@
   let { data }: { data?: string } = $props()
 </script>
 
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@xyflow/svelte@1.5.2/dist/style.css"
+/>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+  rel="stylesheet"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/tailwindcss-preflight@1.0.1/preflight.min.css"
+  crossorigin="anonymous"
+/>
+
 <SvelteFlowProvider>
   <NodeGraph {data} />
 </SvelteFlowProvider>
