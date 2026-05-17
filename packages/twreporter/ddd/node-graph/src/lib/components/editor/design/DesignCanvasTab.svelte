@@ -1,7 +1,7 @@
 <script lang="ts">
-  import SidebarCard from '../../sidebar/SidebarCard.svelte'
-  import SidebarColorInput from '../../sidebar/SidebarColorInput.svelte'
-  import SidebarSection from '../../sidebar/SidebarSection.svelte'
+  import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
+  import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
+  import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { CanvasMetadata } from '../types'
 
   let {

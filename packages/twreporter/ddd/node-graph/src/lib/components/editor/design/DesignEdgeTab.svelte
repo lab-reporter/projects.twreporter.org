@@ -1,6 +1,6 @@
 <script lang="ts">
-  import SidebarColorInput from '../../sidebar/SidebarColorInput.svelte'
-  import SidebarSection from '../../sidebar/SidebarSection.svelte'
+  import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
+  import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { EdgeStyle } from '../types'
 
   let {

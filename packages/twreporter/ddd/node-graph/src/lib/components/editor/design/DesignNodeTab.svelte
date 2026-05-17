@@ -1,7 +1,7 @@
 <script lang="ts">
-  import SidebarCheckboxRow from '../../sidebar/SidebarCheckboxRow.svelte'
-  import SidebarColorInput from '../../sidebar/SidebarColorInput.svelte'
-  import SidebarSection from '../../sidebar/SidebarSection.svelte'
+  import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
+  import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
+  import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { NodeStyle } from '../types'
 
   let {

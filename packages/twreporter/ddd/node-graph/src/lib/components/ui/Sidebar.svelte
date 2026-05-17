@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import Panel from './Panel.svelte'
-  import TabList from '../tabs/TabList.svelte'
-  import Tabs from '../tabs/Tabs.svelte'
+  import TabList from '../ui/tabs/TabList.svelte'
+  import Tabs from '../ui/tabs/Tabs.svelte'
 
   let {
     tabs,
