@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SvelteFlow } from '@xyflow/svelte'
+  import { SvelteFlow, useSvelteFlow } from '@xyflow/svelte'
   import '@xyflow/svelte/dist/style.css'
   import type {
     FlowEdge,
@@ -27,22 +27,23 @@
   } = $props()
 
   const history = useHistory()
+  const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
 
   let dragStartPositions = new Map<string, NodePosition>()
 
-  function rememberDragStart(currentNodes: FlowNode[]) {
+  function rememberDragStart() {
     dragStartPositions = new Map(
-      currentNodes.map((node) => [
+      getNodes().map((node) => [
         node.id,
         { x: node.position.x, y: node.position.y },
       ]),
     )
   }
 
-  function handleNodeDragStop(currentNodes: FlowNode[]) {
+  function handleNodeDragStop() {
     if (readonly || !onMoveNodes) return
 
-    const moves = currentNodes
+    const moves = getNodes()
       .map((node) => {
         const from = dragStartPositions.get(node.id)
 
@@ -104,11 +105,11 @@
       onpaneclick={() => {
         if (!readonly) canvasState.selectedItem = null
       }}
-      onnodedragstart={({ nodes: currentNodes }) => {
-        if (!readonly) rememberDragStart(currentNodes)
+      onnodedragstart={() => {
+        if (!readonly) rememberDragStart()
       }}
-      onnodedragstop={({ nodes: currentNodes }) => {
-        handleNodeDragStop(currentNodes)
+      onnodedragstop={() => {
+        handleNodeDragStop()
       }}
     ></SvelteFlow>
   </div>
