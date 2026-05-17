@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { localStore } from '@/lib/features/local-store.svelte'
   import Layout from '../routes/Layout.svelte'
 
-  let inputHtml = $state()
+  let inputHtml = localStore('preview-embed-code-input', '')
 </script>
 
 <Layout>
@@ -9,10 +10,10 @@
     <h1>Embed Code 測試預覽頁</h1>
 
     <p>請在此貼上圖表工具產生的 Embed Code</p>
-    <textarea bind:value={inputHtml}></textarea>
+    <textarea bind:value={inputHtml.value}></textarea>
 
     <div class="preview">
-      {@html inputHtml}
+      {@html inputHtml.value}
     </div>
   </div>
 </Layout>
