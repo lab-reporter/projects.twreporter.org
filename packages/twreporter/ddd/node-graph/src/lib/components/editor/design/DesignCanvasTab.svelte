@@ -2,40 +2,35 @@
   import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
+  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
   import type { CanvasMetadata } from '../types'
 
+  type CanvasFields = {
+    [K in keyof CanvasMetadata]: ConvexField<CanvasMetadata[K]>
+  }
+
   let {
-    metadata = $bindable(),
-    oncommitColor,
-    oncommitText,
+    fields,
     error,
   }: {
-    metadata: CanvasMetadata
-    oncommitColor: () => void
-    oncommitText: () => void
+    fields: CanvasFields
     error?: string | null
   } = $props()
 </script>
 
 <SidebarSection title="畫布">
-  <SidebarColorInput
-    label="背景"
-    bind:value={metadata.backgroundColor}
-    onchange={oncommitColor}
-  />
+  <SidebarColorInput label="背景" bind:value={fields.backgroundColor.value} />
 
   <SidebarCard title="標題">
-    <input type="text" bind:value={metadata.title} oninput={oncommitText} />
+    <input type="text" bind:value={fields.title.value} />
   </SidebarCard>
 
   <SidebarCard title="副標題">
-    <textarea rows="3" bind:value={metadata.description} oninput={oncommitText}
-    ></textarea>
+    <textarea rows="3" bind:value={fields.description.value}></textarea>
   </SidebarCard>
 
   <SidebarCard title="註腳">
-    <textarea rows="4" bind:value={metadata.footnotes} oninput={oncommitText}
-    ></textarea>
+    <textarea rows="4" bind:value={fields.footnotes.value}></textarea>
   </SidebarCard>
 
   {#if error}<p class="error">{error}</p>{/if}

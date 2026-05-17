@@ -1,39 +1,32 @@
 <script lang="ts">
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
+  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
   import type { EdgeStyle } from '../types'
 
+  type EdgeStyleFields = {
+    [K in keyof EdgeStyle]: ConvexField<EdgeStyle[K]>
+  }
+
   let {
-    edgeStyle = $bindable(),
-    oncommit,
+    fields,
     error,
   }: {
-    edgeStyle: EdgeStyle
-    oncommit: () => void
+    fields: EdgeStyleFields
     error?: string | null
   } = $props()
 </script>
 
 <SidebarSection title="線段">
-  <SidebarColorInput
-    label="線段"
-    bind:value={edgeStyle.strokeColor}
-    onchange={oncommit}
-  />
-  <SidebarColorInput
-    label="箭頭"
-    bind:value={edgeStyle.arrowColor}
-    onchange={oncommit}
-  />
+  <SidebarColorInput label="線段" bind:value={fields.strokeColor.value} />
+  <SidebarColorInput label="箭頭" bind:value={fields.arrowColor.value} />
   <SidebarColorInput
     label="標籤背景"
-    bind:value={edgeStyle.labelBackgroundColor}
-    onchange={oncommit}
+    bind:value={fields.labelBackgroundColor.value}
   />
   <SidebarColorInput
     label="標籤文字"
-    bind:value={edgeStyle.labelTextColor}
-    onchange={oncommit}
+    bind:value={fields.labelTextColor.value}
   />
 
   {#if error}<p class="error">{error}</p>{/if}

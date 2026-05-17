@@ -1,6 +1,10 @@
+export type ConvexField<T> = {
+  value: T | undefined
+}
+
 export function useConvexField<T>(
   getRemote: () => T | undefined,
-  mutate: (v: T) => void,
+  mutate: (v: T) => void | Promise<void>,
   delay = 300,
 ) {
   let value = $state<T | undefined>(undefined)

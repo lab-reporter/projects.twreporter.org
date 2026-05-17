@@ -2,57 +2,45 @@
   import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
+  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
   import type { NodeStyle } from '../types'
 
+  type NodeStyleFields = {
+    [K in keyof NodeStyle]: ConvexField<NodeStyle[K]>
+  }
+
   let {
-    nodeStyle = $bindable(),
-    oncommit,
+    fields,
     error,
   }: {
-    nodeStyle: NodeStyle
-    oncommit: () => void
+    fields: NodeStyleFields
     error?: string | null
   } = $props()
 </script>
 
 <SidebarSection title="節點">
-  <SidebarColorInput
-    label="背景"
-    bind:value={nodeStyle.backgroundColor}
-    onchange={oncommit}
-  />
-  <SidebarColorInput
-    label="邊框"
-    bind:value={nodeStyle.borderColor}
-    onchange={oncommit}
-  />
-  <SidebarColorInput
-    label="文字"
-    bind:value={nodeStyle.textColor}
-    onchange={oncommit}
-  />
+  <SidebarColorInput label="背景" bind:value={fields.backgroundColor.value} />
+  <SidebarColorInput label="邊框" bind:value={fields.borderColor.value} />
+  <SidebarColorInput label="文字" bind:value={fields.textColor.value} />
   <SidebarColorInput
     label="描述背景"
-    bind:value={nodeStyle.descriptionBackgroundColor}
-    onchange={oncommit}
+    bind:value={fields.descriptionBackgroundColor.value}
   />
   <SidebarColorInput
     label="描述文字"
-    bind:value={nodeStyle.descriptionTextColor}
-    onchange={oncommit}
+    bind:value={fields.descriptionTextColor.value}
   />
 
   <button
     class="checkbox-button"
     type="button"
     onclick={() => {
-      nodeStyle.descriptionDefaultOpen = !nodeStyle.descriptionDefaultOpen
-      oncommit()
+      fields.descriptionDefaultOpen.value = !fields.descriptionDefaultOpen.value
     }}
   >
     <SidebarCheckboxRow
       label="預設開啟描述"
-      checked={nodeStyle.descriptionDefaultOpen}
+      checked={fields.descriptionDefaultOpen.value}
     />
   </button>
 

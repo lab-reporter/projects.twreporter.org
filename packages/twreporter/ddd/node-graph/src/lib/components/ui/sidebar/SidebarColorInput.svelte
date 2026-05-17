@@ -6,11 +6,9 @@
   let {
     label,
     value = $bindable(),
-    onchange,
   }: {
     label: string
-    value: string
-    onchange?: () => void
+    value?: string
   } = $props()
 
   const id = generateRandomId()
@@ -20,21 +18,9 @@
 <SidebarCard title={label}>
   <SidebarInputBox>
     <label for={colorInputId} class="color-box" style:background-color={value}>
-      <input
-        type="color"
-        id={colorInputId}
-        bind:value
-        aria-label={label}
-        oninput={onchange}
-      />
+      <input type="color" id={colorInputId} bind:value aria-label={label} />
     </label>
-    <input
-      class="hex"
-      type="text"
-      bind:value
-      spellcheck="false"
-      oninput={onchange}
-    />
+    <input class="hex" type="text" bind:value spellcheck="false" />
   </SidebarInputBox>
 </SidebarCard>
 
