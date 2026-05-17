@@ -1,9 +1,10 @@
 <script>
-  import { useAuth } from '@/lib/features/use-auth.svelte'
   import { navigate } from '../router'
-  import { SignInButton } from 'svelte-clerk/client'
+  import { SignInButton, useClerkContext } from 'svelte-clerk/client'
 
-  const { user, isUserLoading } = useAuth()
+  const clerk = useClerkContext()
+  const user = $derived(clerk.user)
+  const isUserLoading = $derived(!clerk.isLoaded)
   $effect(() => {
     if (isUserLoading) return
 
