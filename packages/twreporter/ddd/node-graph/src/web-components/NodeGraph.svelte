@@ -35,7 +35,7 @@
   )
 
   const { fitView } = useSvelteFlow()
-  const debouncedFitView = debounce(fitView, 300)
+  const debouncedFitView = debounce(fitView, 100)
 
   $effect(() => {
     activeLayoutKey
