@@ -160,6 +160,7 @@
     color: var(--neutral-gray-500);
     font-size: var(--size);
     line-height: 1.3;
+    white-space: pre-wrap;
   }
 
   .logo {

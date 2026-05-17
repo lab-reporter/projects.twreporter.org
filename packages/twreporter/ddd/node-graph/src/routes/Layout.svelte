@@ -28,6 +28,7 @@
     --brand-heavy: rgba(196, 13, 35, 1);
     --brand-dark: rgba(155, 5, 30, 1);
     --neutral-white: rgba(255, 255, 255, 1);
+    --neutral-offwhite: #fafafa;
     --neutral-gray-50: rgba(250, 250, 250, 1);
     --neutral-gray-100: rgba(241, 241, 241, 1);
     --neutral-gray-200: rgba(226, 226, 226, 1);
