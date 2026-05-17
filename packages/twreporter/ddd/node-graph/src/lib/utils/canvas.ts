@@ -1,5 +1,5 @@
 import { defaultEdgeStyle, defaultNodeStyle } from '../constants/styles'
-import type { EdgeStyle, NodeStyle } from '../components/sidebar/types'
+import type { EdgeStyle, NodeStyle } from '../components/editor/types'
 
 export function normalizeNodeStyle(
   style?: Partial<NodeStyle> | null,

@@ -1,0 +1,49 @@
+<script lang="ts">
+  import SidebarColorInput from '../../sidebar/SidebarColorInput.svelte'
+  import SidebarSection from '../../sidebar/SidebarSection.svelte'
+  import type { EdgeStyle } from '../types'
+
+  let {
+    edgeStyle = $bindable(),
+    oncommit,
+    error,
+  }: {
+    edgeStyle: EdgeStyle
+    oncommit: () => void
+    error?: string | null
+  } = $props()
+</script>
+
+<SidebarSection title="線段">
+  <SidebarColorInput
+    label="線段"
+    bind:value={edgeStyle.strokeColor}
+    onchange={oncommit}
+  />
+  <SidebarColorInput
+    label="箭頭"
+    bind:value={edgeStyle.arrowColor}
+    onchange={oncommit}
+  />
+  <SidebarColorInput
+    label="標籤背景"
+    bind:value={edgeStyle.labelBackgroundColor}
+    onchange={oncommit}
+  />
+  <SidebarColorInput
+    label="標籤文字"
+    bind:value={edgeStyle.labelTextColor}
+    onchange={oncommit}
+  />
+
+  {#if error}<p class="error">{error}</p>{/if}
+</SidebarSection>
+
+<style>
+  .error {
+    margin: 0;
+    color: #b42318;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+</style>
