@@ -35,12 +35,15 @@
   )
 
   const { fitView } = useSvelteFlow()
-  const debouncedFitView = debounce(fitView, 500)
+  const debouncedFitView = debounce(fitView, 300)
 
   $effect(() => {
     activeLayoutKey
     clientWidth
-    debouncedFitView()
+    debouncedFitView({
+      duration: 100,
+      interpolate: 'linear',
+    })
   })
 </script>
 
