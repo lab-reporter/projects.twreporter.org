@@ -6,6 +6,14 @@
   import { useHistory } from '@/lib/features/use-history.svelte'
   import { useSvelteFlow } from '@xyflow/svelte'
 
+  let {
+    autoLayoutDisabled = false,
+    onAutoLayout,
+  }: {
+    autoLayoutDisabled?: boolean
+    onAutoLayout?: () => void
+  } = $props()
+
   const history = useHistory()
   const { fitView } = useSvelteFlow()
 </script>
@@ -26,8 +34,11 @@
     >
       <MaterialSymbols name="redo" />
     </ActionButton>
-    <!-- TODO: Implement auto-layout -->
-    <ActionButton label="自動排列">
+    <ActionButton
+      label="自動排列"
+      disabled={autoLayoutDisabled}
+      onclick={() => onAutoLayout?.()}
+    >
       <MaterialSymbols name="auto_awesome_motion" />
     </ActionButton>
     <ActionButton label="Fit" onclick={() => fitView()}>

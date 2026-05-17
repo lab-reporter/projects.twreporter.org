@@ -37,10 +37,17 @@
   import GraphTopBar from '../lib/components/editor/graph/GraphTopBar.svelte'
   import TabContent from '../lib/components/ui/tabs/TabContent.svelte'
   import { useHistory } from '../lib/features/use-history.svelte'
+  import { useAutoLayout } from '../lib/features/canvas/use-auto-layout.svelte'
   import { navigate, route } from '../router'
 
   const convex = useConvexClient()
   const history = useHistory()
+  const autoLayout = useAutoLayout({
+    getNodes: () => flow.nodes,
+    getEdges: () => flow.edges,
+    onMoveNodes: (moves) => persistNodeMoves(moves, 'to'),
+    onUndoMoveNodes: (moves) => persistNodeMoves(moves, 'from'),
+  })
 
   const graphId = route.params.graphId as Id<'graphs'>
 
@@ -287,7 +294,10 @@
 
 <Header title={graphTitle.data ?? undefined} />
 
-<GraphTopBar />
+<GraphTopBar
+  autoLayoutDisabled={autoLayout.busy || flow.nodes.length < 2}
+  onAutoLayout={() => void autoLayout.applyAutoLayout()}
+/>
 
 <Sidebar
   bind:activeTabValue={activeSidebarTab}
