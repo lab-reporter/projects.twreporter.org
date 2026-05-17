@@ -14,6 +14,10 @@ type DesignQueryData = NonNullable<
   FunctionReturnType<typeof api.designs.getDesign>
 >
 
+type GraphQueryData = NonNullable<
+  FunctionReturnType<typeof api.graphs.getGraph>
+>
+
 function resolvePosition(input: {
   graph: DesignQueryData
   nodeId: string
@@ -133,10 +137,6 @@ export function buildDesignFlow(input: {
 
   return { nodes, edges }
 }
-
-type GraphQueryData = NonNullable<
-  FunctionReturnType<typeof api.graphs.getGraph>
->
 
 export function buildGraphFlow(input: {
   graph: GraphQueryData | null | undefined
