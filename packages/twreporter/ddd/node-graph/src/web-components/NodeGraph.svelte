@@ -1,24 +1,23 @@
 <script lang="ts">
-  import {
-    defaultViewportKey,
-    type ViewportKey,
-  } from '@/lib/constants/viewports'
+  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
+  import { debounce } from '@/lib/utils/debounce'
   import { safeParse } from '@/lib/utils/safe-parse'
+  import { useSvelteFlow } from '@xyflow/svelte'
   import type { FunctionReturnType } from 'convex/server'
   import { api } from '~convex/api'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/Frame.svelte'
-  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
-  import { useSvelteFlow } from '@xyflow/svelte'
-  import { debounce } from '@/lib/utils/debounce'
 
   type DesignQueryData = NonNullable<
     FunctionReturnType<typeof api.designs.getDesign>
   >
-
   let { data }: { data?: string } = $props()
 
-  let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
+  let clientWidth = $state<number>()
+
+  const activeLayoutKey = $derived(
+    (clientWidth ?? 0) <= 500 ? 'mobile' : 'desktop',
+  )
 
   const graph = $derived(safeParse<DesignQueryData>(data))
 
@@ -37,9 +36,9 @@
 
   const { fitView } = useSvelteFlow()
   const debouncedFitView = debounce(fitView, 500)
-  let clientWidth = $state<number>()
 
   $effect(() => {
+    activeLayoutKey
     clientWidth
     debouncedFitView()
   })
