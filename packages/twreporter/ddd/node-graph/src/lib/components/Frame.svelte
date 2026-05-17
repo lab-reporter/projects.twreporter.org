@@ -2,12 +2,14 @@
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
   import { assets } from '../constants/assets'
+  import Legends from './ui/legends/Legends.svelte'
+  import type { Legends as LegendsType } from './ui/legends/types'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
     description?: string
     children: Snippet
-    legends?: Snippet
+    legends?: LegendsType
     layers?: Snippet
     footnotes?: string[] | string
   }
@@ -31,7 +33,7 @@
       {#if description}<h2 class="description">{description}</h2>{/if}
 
       {#if legends}
-        {@render legends()}
+        <Legends {legends} />
       {/if}
     </div>
 
@@ -95,6 +97,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--gap);
+    width: calc(100% - var(--left) - var(--right));
   }
 
   .right {
