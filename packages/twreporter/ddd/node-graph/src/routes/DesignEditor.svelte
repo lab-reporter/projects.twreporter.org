@@ -9,7 +9,7 @@
   import type { Id } from '~convex/dataModel'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Header from '../lib/components/editor/Header.svelte'
-  import Frame from '../lib/components/Frame.svelte'
+  import Frame from '../lib/components/frame/Frame.svelte'
   import DesignCanvasTab from '../lib/components/editor/design/DesignCanvasTab.svelte'
   import DesignEdgeTab from '../lib/components/editor/design/DesignEdgeTab.svelte'
   import DesignNodeTab from '../lib/components/editor/design/DesignNodeTab.svelte'

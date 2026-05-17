@@ -6,7 +6,7 @@
   import type { FunctionReturnType } from 'convex/server'
   import { api } from '~convex/api'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
-  import Frame from '../lib/components/Frame.svelte'
+  import Frame from '../lib/components/frame/Frame.svelte'
 
   type DesignQueryData = NonNullable<
     FunctionReturnType<typeof api.designs.getDesign>
