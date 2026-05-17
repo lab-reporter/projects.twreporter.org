@@ -9,6 +9,8 @@
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/Frame.svelte'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
+  import { useSvelteFlow } from '@xyflow/svelte'
+  import { debounce } from '@/lib/utils/debounce'
 
   type DesignQueryData = NonNullable<
     FunctionReturnType<typeof api.designs.getDesign>
@@ -32,6 +34,15 @@
       tooltipsEnabled: false,
     }),
   )
+
+  const { fitView } = useSvelteFlow()
+  const debouncedFitView = debounce(fitView, 500)
+  let clientWidth = $state<number>()
+
+  $effect(() => {
+    clientWidth
+    debouncedFitView()
+  })
 </script>
 
 <link
@@ -39,7 +50,7 @@
   href="https://cdn.jsdelivr.net/npm/@xyflow/svelte@1.5.2/dist/style.css"
 />
 
-<div class="node-graph">
+<div class="node-graph" bind:clientWidth>
   {#if graph}
     <Frame
       title={graph.design?.title}
