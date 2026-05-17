@@ -12,7 +12,7 @@
   <span class="title">聚焦層數</span>
   {#if open}
     <div class="dots">
-      {#each steps as step}
+      {#each steps as step, index (`${step.name}-${index}`)}
         <button
           class="dot-box"
           onclick={() => (layerSliderState.activeStep = step)}
@@ -26,7 +26,9 @@
           {#if layerSliderState.activeStep?.name === step.name}
             <div class="step-info-box">
               <p class="step-title">{step.name}</p>
-              <p class="step-description">{step.description}</p>
+              {#if step.description}
+                <p class="step-description">{step.description}</p>
+              {/if}
             </div>
           {/if}
         </button>
@@ -90,7 +92,7 @@
 
   .step-info-box {
     position: absolute;
-    top: -17.5px;
+    top: -50%;
     right: 0;
     width: fit-content;
     display: flex;
