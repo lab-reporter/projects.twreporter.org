@@ -272,7 +272,7 @@
     { label: '節點', value: sidebarTabs.nodes },
     { label: '線段', value: sidebarTabs.edges },
     { label: '群組', value: sidebarTabs.groups, disabled: true },
-    { label: '畫布', value: sidebarTabs.canvas },
+    { label: '圖表', value: sidebarTabs.canvas },
   ]}
 >
   <TabContent value={sidebarTabs.nodes}>
