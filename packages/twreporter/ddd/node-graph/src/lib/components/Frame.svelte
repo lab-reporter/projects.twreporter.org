@@ -120,6 +120,7 @@
   }
 
   .title,
+  .description,
   .footnote {
     margin: 0;
   }
@@ -129,6 +130,16 @@
 
     font-size: var(--size);
     font-weight: 700;
+
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+  }
+
+  .description {
+    --size: 16px;
+
+    font-size: var(--size);
+    font-weight: 400;
 
     line-height: 1.25;
     letter-spacing: 0.4px;
