@@ -1,5 +1,5 @@
 import { v } from 'convex/values'
-import type { Id } from './_generated/dataModel'
+import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
 
@@ -7,6 +7,179 @@ async function touchGraph(ctx: MutationCtx, graphId: Id<'graphs'>) {
   await ctx.db.patch(graphId, {
     updatedAt: Date.now(),
   })
+}
+
+function normalizeCategoryKey(label: string) {
+  return label.trim().toLocaleLowerCase()
+}
+
+function normalizeLegacyCategoryKey(key: string) {
+  return key.trim().toLocaleLowerCase()
+}
+
+async function ensureCategory(ctx: MutationCtx, label: string) {
+  const trimmedLabel = label.trim()
+  const key = normalizeCategoryKey(trimmedLabel)
+
+  if (!key) throw new Error('Category is required')
+
+  const existing = await ctx.db
+    .query('categories')
+    .withIndex('by_key', (q) => q.eq('key', key))
+    .unique()
+
+  if (existing) return existing
+
+  const categoryId = await ctx.db.insert('categories', {
+    key,
+    label: trimmedLabel,
+    color: '#d1d5db',
+  })
+  const category = await ctx.db.get(categoryId)
+
+  if (!category) throw new Error('Failed to create category')
+
+  return category
+}
+
+async function ensureLegacyCategory(
+  ctx: MutationCtx,
+  input: { key: string; label?: string; color?: string },
+) {
+  const key = normalizeLegacyCategoryKey(input.key)
+  const label = input.label?.trim() || input.key.trim()
+
+  if (!key) throw new Error('Category is required')
+
+  const existing = await ctx.db
+    .query('categories')
+    .withIndex('by_key', (q) => q.eq('key', key))
+    .unique()
+
+  if (existing) return existing
+
+  const categoryId = await ctx.db.insert('categories', {
+    key,
+    label,
+    color: input.color?.trim() || '#d1d5db',
+  })
+  const category = await ctx.db.get(categoryId)
+
+  if (!category) throw new Error('Failed to create category')
+
+  return category
+}
+
+type LegacyCategory = {
+  label?: unknown
+  color?: unknown
+}
+
+type LegacyNode = {
+  id?: unknown
+  label?: unknown
+  category?: unknown
+  note?: unknown
+  infoSource?: unknown
+  position?: unknown
+}
+
+type LegacyEdge = {
+  id?: unknown
+  source?: unknown
+  target?: unknown
+  label?: unknown
+  note?: unknown
+  infoSource?: unknown
+}
+
+type LegacyGraph = {
+  version?: unknown
+  nodes?: unknown
+  edges?: unknown
+  categories?: unknown
+}
+
+type ParsedLegacyNode = LegacyNode & {
+  id: string
+  label: string
+  category: string
+  position: { x: number; y: number }
+}
+
+type ParsedLegacyEdge = LegacyEdge & {
+  id: string
+  source: string
+  target: string
+}
+
+function asOptionalString(value: unknown) {
+  return typeof value === 'string' ? value : undefined
+}
+
+function parseLegacyGraph(value: unknown): LegacyGraph {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Legacy graph payload must be an object')
+  }
+
+  return value as LegacyGraph
+}
+
+function parseLegacyNode(value: unknown): ParsedLegacyNode {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Legacy node payload must be an object')
+  }
+
+  const node = value as LegacyNode
+
+  if (typeof node.id !== 'string') throw new Error('Legacy node id is required')
+  if (typeof node.label !== 'string')
+    throw new Error(`Legacy node ${node.id} is missing a label`)
+  if (typeof node.category !== 'string')
+    throw new Error(`Legacy node ${node.id} is missing a category`)
+  if (
+    !node.position ||
+    typeof node.position !== 'object' ||
+    Array.isArray(node.position) ||
+    typeof (node.position as { x?: unknown }).x !== 'number' ||
+    typeof (node.position as { y?: unknown }).y !== 'number'
+  ) {
+    throw new Error(`Legacy node ${node.id} is missing a valid position`)
+  }
+
+  return node as ParsedLegacyNode
+}
+
+function parseLegacyEdge(value: unknown): ParsedLegacyEdge {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error('Legacy edge payload must be an object')
+  }
+
+  const edge = value as LegacyEdge
+
+  if (typeof edge.id !== 'string') throw new Error('Legacy edge id is required')
+  if (typeof edge.source !== 'string')
+    throw new Error(`Legacy edge ${edge.id} is missing a source`)
+  if (typeof edge.target !== 'string')
+    throw new Error(`Legacy edge ${edge.id} is missing a target`)
+
+  return edge as ParsedLegacyEdge
+}
+
+function getLegacyCategoryMetadata(categories: unknown, key: string) {
+  if (
+    !categories ||
+    typeof categories !== 'object' ||
+    Array.isArray(categories)
+  )
+    return undefined
+
+  const category = (categories as Record<string, unknown>)[key]
+
+  if (!category || typeof category !== 'object' || Array.isArray(category))
+    return undefined
+
+  return category as LegacyCategory
 }
 
 export const getGraph = userQuery({
@@ -20,11 +193,19 @@ export const getGraph = userQuery({
 
     const [categories, nodes, edges] = await Promise.all([
       ctx.db.query('categories').collect(),
-      ctx.db.query('nodes').withIndex('by_graph', (q) => q.eq('graphId', args.graphId)).collect(),
-      ctx.db.query('edges').withIndex('by_graph', (q) => q.eq('graphId', args.graphId)).collect(),
+      ctx.db
+        .query('nodes')
+        .withIndex('by_graph', (q) => q.eq('graphId', args.graphId))
+        .collect(),
+      ctx.db
+        .query('edges')
+        .withIndex('by_graph', (q) => q.eq('graphId', args.graphId))
+        .collect(),
     ])
 
-    const categoriesByKey = new Map(categories.map((category) => [category.key, category]))
+    const categoriesByKey = new Map(
+      categories.map((category) => [category.key, category]),
+    )
     const nodesById = new Map(nodes.map((node) => [node._id, node]))
 
     return {
@@ -73,6 +254,572 @@ export const listGraphs = userQuery({
     const graphs = await ctx.db.query('graphs').collect()
 
     return graphs.sort((a, b) => b.updatedAt - a.updatedAt)
+  },
+})
+
+export const listCategories = userQuery({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query('categories').take(200)
+  },
+})
+
+export const createGraph = userMutation({
+  args: {
+    name: v.string(),
+    description: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const name = args.name.trim()
+    const description = args.description?.trim()
+
+    if (!name) throw new Error('Graph name is required')
+
+    const now = Date.now()
+
+    return await ctx.db.insert('graphs', {
+      name,
+      description: description || undefined,
+      updatedAt: now,
+    })
+  },
+})
+
+async function deleteDesignById(ctx: MutationCtx, designId: Id<'designs'>) {
+  const [designNodes, designEdges, designLayouts] = await Promise.all([
+    ctx.db
+      .query('designNodes')
+      .withIndex('by_designId', (q) => q.eq('designId', designId))
+      .collect(),
+    ctx.db
+      .query('designEdges')
+      .withIndex('by_designId', (q) => q.eq('designId', designId))
+      .collect(),
+    ctx.db
+      .query('designLayouts')
+      .withIndex('by_designId_and_sortOrder', (q) => q.eq('designId', designId))
+      .collect(),
+  ])
+
+  for (const designLayout of designLayouts) {
+    const layoutNodes = await ctx.db
+      .query('designLayoutNodes')
+      .withIndex('by_layoutId', (q) => q.eq('layoutId', designLayout._id))
+      .collect()
+
+    for (const layoutNode of layoutNodes) {
+      await ctx.db.delete(layoutNode._id)
+    }
+
+    await ctx.db.delete(designLayout._id)
+  }
+
+  for (const designNode of designNodes) {
+    await ctx.db.delete(designNode._id)
+  }
+
+  for (const designEdge of designEdges) {
+    await ctx.db.delete(designEdge._id)
+  }
+
+  await ctx.db.delete(designId)
+}
+
+export const deleteGraph = userMutation({
+  args: {
+    graphId: v.id('graphs'),
+  },
+  handler: async (ctx, args) => {
+    const graph = await ctx.db.get(args.graphId)
+
+    if (!graph) return
+
+    const [designs, nodes, edges] = await Promise.all([
+      ctx.db
+        .query('designs')
+        .withIndex('by_graphId_and_updatedAt', (q) =>
+          q.eq('graphId', args.graphId),
+        )
+        .collect(),
+      ctx.db
+        .query('nodes')
+        .withIndex('by_graph', (q) => q.eq('graphId', args.graphId))
+        .collect(),
+      ctx.db
+        .query('edges')
+        .withIndex('by_graph', (q) => q.eq('graphId', args.graphId))
+        .collect(),
+    ])
+
+    for (const design of designs) {
+      await deleteDesignById(ctx, design._id)
+    }
+
+    for (const edge of edges) {
+      await ctx.db.delete(edge._id)
+    }
+
+    for (const node of nodes) {
+      await ctx.db.delete(node._id)
+    }
+
+    await ctx.db.delete(args.graphId)
+  },
+})
+
+export const importLegacyGraph = userMutation({
+  args: {
+    fileName: v.string(),
+    legacyGraph: v.any(),
+  },
+  handler: async (ctx, args) => {
+    const legacyGraph = parseLegacyGraph(args.legacyGraph)
+
+    if (legacyGraph.version !== '2.5') {
+      throw new Error('Only legacy graph version 2.5 is supported')
+    }
+    if (!Array.isArray(legacyGraph.nodes))
+      throw new Error('Legacy graph nodes must be an array')
+    if (!Array.isArray(legacyGraph.edges))
+      throw new Error('Legacy graph edges must be an array')
+
+    const name =
+      args.fileName.replace(/\.json$/i, '').trim() || 'Imported legacy graph'
+    const now = Date.now()
+    const graphId = await ctx.db.insert('graphs', {
+      name,
+      description: `Imported from legacy graph format v${legacyGraph.version}`,
+      updatedAt: now,
+    })
+    const legacyNodeIdToNodeId = new Map<string, Id<'nodes'>>()
+
+    for (const rawNode of legacyGraph.nodes) {
+      const node = parseLegacyNode(rawNode)
+      const legacyNodeId = node.id.trim()
+      const label = node.label.trim()
+
+      if (!legacyNodeId) throw new Error('Legacy node id is required')
+      if (!label)
+        throw new Error(`Legacy node ${legacyNodeId} is missing a label`)
+      if (legacyNodeIdToNodeId.has(legacyNodeId)) {
+        throw new Error(`Duplicate legacy node id: ${legacyNodeId}`)
+      }
+
+      const categoryMetadata = getLegacyCategoryMetadata(
+        legacyGraph.categories,
+        node.category,
+      )
+      const category = await ensureLegacyCategory(ctx, {
+        key: node.category,
+        label: asOptionalString(categoryMetadata?.label),
+        color: asOptionalString(categoryMetadata?.color),
+      })
+      const nodeId = await ctx.db.insert('nodes', {
+        graphId,
+        label,
+        categoryKey: category.key,
+        note: asOptionalString(node.note)?.trim() || undefined,
+        infoSource: asOptionalString(node.infoSource)?.trim() || undefined,
+        position: node.position,
+        expanded: false,
+        updatedAt: now,
+      })
+
+      legacyNodeIdToNodeId.set(legacyNodeId, nodeId)
+    }
+
+    let importedEdgeCount = 0
+
+    for (const rawEdge of legacyGraph.edges) {
+      const edge = parseLegacyEdge(rawEdge)
+      const source = legacyNodeIdToNodeId.get(edge.source.trim())
+      const target = legacyNodeIdToNodeId.get(edge.target.trim())
+
+      if (!source || !target) {
+        throw new Error(`Legacy edge ${edge.id} references a missing node`)
+      }
+
+      if (source === target) continue
+
+      await ctx.db.insert('edges', {
+        graphId,
+        source,
+        target,
+        label: asOptionalString(edge.label)?.trim() || undefined,
+        note: asOptionalString(edge.note)?.trim() || undefined,
+        infoSource: asOptionalString(edge.infoSource)?.trim() || undefined,
+        directed: false,
+        updatedAt: now,
+      })
+      importedEdgeCount += 1
+    }
+
+    return {
+      graphId,
+      nodeCount: legacyNodeIdToNodeId.size,
+      edgeCount: importedEdgeCount,
+    }
+  },
+})
+
+export const upsertCategory = userMutation({
+  args: {
+    label: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ensureCategory(ctx, args.label)
+  },
+})
+
+export const createNode = userMutation({
+  args: {
+    graphId: v.id('graphs'),
+    label: v.string(),
+    categoryLabel: v.string(),
+    note: v.optional(v.string()),
+    infoSource: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const graph = await ctx.db.get(args.graphId)
+
+    if (!graph) throw new Error('Graph not found')
+
+    const label = args.label.trim()
+
+    if (!label) throw new Error('Node label is required')
+
+    const category = await ensureCategory(ctx, args.categoryLabel)
+    const now = Date.now()
+    const siblingNodes = await ctx.db
+      .query('nodes')
+      .withIndex('by_graph', (q) => q.eq('graphId', args.graphId))
+      .take(500)
+    const index = siblingNodes.length
+    const nodeId = await ctx.db.insert('nodes', {
+      graphId: args.graphId,
+      label,
+      categoryKey: category.key,
+      note: args.note?.trim() || undefined,
+      infoSource: args.infoSource?.trim() || undefined,
+      position: {
+        x: 120 + (index % 8) * 140,
+        y: 120 + Math.floor(index / 8) * 110,
+      },
+      expanded: false,
+      updatedAt: now,
+    })
+
+    await touchGraph(ctx, args.graphId)
+
+    return nodeId
+  },
+})
+
+export const restoreNodeSnapshot = userMutation({
+  args: {
+    graphId: v.id('graphs'),
+    node: v.object({
+      label: v.string(),
+      categoryLabel: v.string(),
+      note: v.optional(v.string()),
+      infoSource: v.optional(v.string()),
+      position: v.object({ x: v.number(), y: v.number() }),
+      expanded: v.boolean(),
+    }),
+    edges: v.array(
+      v.object({
+        source: v.union(v.id('nodes'), v.literal('__RESTORED_NODE__')),
+        target: v.union(v.id('nodes'), v.literal('__RESTORED_NODE__')),
+        label: v.optional(v.string()),
+        note: v.optional(v.string()),
+        infoSource: v.optional(v.string()),
+        directed: v.boolean(),
+      }),
+    ),
+  },
+  handler: async (ctx, args) => {
+    const graph = await ctx.db.get(args.graphId)
+
+    if (!graph) throw new Error('Graph not found')
+
+    const label = args.node.label.trim()
+
+    if (!label) throw new Error('Node label is required')
+
+    const category = await ensureCategory(ctx, args.node.categoryLabel)
+    const now = Date.now()
+    const nodeId = await ctx.db.insert('nodes', {
+      graphId: args.graphId,
+      label,
+      categoryKey: category.key,
+      note: args.node.note?.trim() || undefined,
+      infoSource: args.node.infoSource?.trim() || undefined,
+      position: args.node.position,
+      expanded: args.node.expanded,
+      updatedAt: now,
+    })
+    const edgeIds = []
+
+    for (const edge of args.edges) {
+      const source = edge.source === '__RESTORED_NODE__' ? nodeId : edge.source
+      const target = edge.target === '__RESTORED_NODE__' ? nodeId : edge.target
+
+      if (source === target) continue
+
+      const [sourceNode, targetNode] = await Promise.all([
+        ctx.db.get(source),
+        ctx.db.get(target),
+      ])
+
+      if (!sourceNode || sourceNode.graphId !== args.graphId) continue
+      if (!targetNode || targetNode.graphId !== args.graphId) continue
+
+      edgeIds.push(
+        await ctx.db.insert('edges', {
+          graphId: args.graphId,
+          source,
+          target,
+          label: edge.label?.trim() || undefined,
+          note: edge.note?.trim() || undefined,
+          infoSource: edge.infoSource?.trim() || undefined,
+          directed: edge.directed,
+          updatedAt: now,
+        }),
+      )
+    }
+
+    await touchGraph(ctx, args.graphId)
+
+    return { nodeId, edgeIds }
+  },
+})
+
+export const updateNodeDetails = userMutation({
+  args: {
+    nodeId: v.id('nodes'),
+    label: v.string(),
+    categoryLabel: v.string(),
+    note: v.optional(v.string()),
+    infoSource: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const node = await ctx.db.get(args.nodeId)
+
+    if (!node) throw new Error('Node not found')
+
+    const label = args.label.trim()
+
+    if (!label) throw new Error('Node label is required')
+
+    const category = await ensureCategory(ctx, args.categoryLabel)
+    const now = Date.now()
+
+    await ctx.db.patch(args.nodeId, {
+      label,
+      categoryKey: category.key,
+      note: args.note?.trim() || undefined,
+      infoSource: args.infoSource?.trim() || undefined,
+      updatedAt: now,
+    })
+    await touchGraph(ctx, node.graphId)
+  },
+})
+
+export const deleteNode = userMutation({
+  args: {
+    nodeId: v.id('nodes'),
+  },
+  handler: async (ctx, args) => {
+    const node = await ctx.db.get(args.nodeId)
+
+    if (!node) return
+
+    const [sourceEdges, targetEdges, designNodes] = await Promise.all([
+      ctx.db
+        .query('edges')
+        .withIndex('by_source', (q) => q.eq('source', args.nodeId))
+        .take(500),
+      ctx.db
+        .query('edges')
+        .withIndex('by_target', (q) => q.eq('target', args.nodeId))
+        .take(500),
+      ctx.db
+        .query('designNodes')
+        .withIndex('by_nodeId', (q) => q.eq('nodeId', args.nodeId))
+        .take(500),
+    ])
+    const edgeIds = new Set(
+      [...sourceEdges, ...targetEdges].map((edge) => edge._id),
+    )
+
+    for (const edgeId of edgeIds) {
+      await deleteEdgeById(ctx, edgeId)
+    }
+
+    for (const designNode of designNodes) {
+      await deleteDesignNodeArtifacts(ctx, designNode)
+      await ctx.db.delete(designNode._id)
+    }
+
+    await ctx.db.delete(args.nodeId)
+    await touchGraph(ctx, node.graphId)
+  },
+})
+
+async function deleteDesignNodeArtifacts(
+  ctx: MutationCtx,
+  designNode: Doc<'designNodes'>,
+) {
+  const layoutNodes = await ctx.db
+    .query('designLayoutNodes')
+    .withIndex('by_designNodeId', (q) => q.eq('designNodeId', designNode._id))
+    .take(500)
+
+  for (const layoutNode of layoutNodes) {
+    await ctx.db.delete(layoutNode._id)
+  }
+}
+
+async function deleteEdgeById(ctx: MutationCtx, edgeId: Id<'edges'>) {
+  const designEdges = await ctx.db
+    .query('designEdges')
+    .withIndex('by_edgeId', (q) => q.eq('edgeId', edgeId))
+    .take(500)
+
+  for (const designEdge of designEdges) {
+    await ctx.db.delete(designEdge._id)
+  }
+
+  await ctx.db.delete(edgeId)
+}
+
+export const createEdge = userMutation({
+  args: {
+    graphId: v.id('graphs'),
+    source: v.id('nodes'),
+    target: v.id('nodes'),
+    label: v.optional(v.string()),
+    note: v.optional(v.string()),
+    infoSource: v.optional(v.string()),
+    directed: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    if (args.source === args.target)
+      throw new Error('Self-loop edges are not allowed')
+
+    const [graph, sourceNode, targetNode] = await Promise.all([
+      ctx.db.get(args.graphId),
+      ctx.db.get(args.source),
+      ctx.db.get(args.target),
+    ])
+
+    if (!graph) throw new Error('Graph not found')
+    if (!sourceNode || sourceNode.graphId !== args.graphId)
+      throw new Error('Source node not found')
+    if (!targetNode || targetNode.graphId !== args.graphId)
+      throw new Error('Target node not found')
+
+    const now = Date.now()
+    const edgeId = await ctx.db.insert('edges', {
+      graphId: args.graphId,
+      source: args.source,
+      target: args.target,
+      label: args.label?.trim() || undefined,
+      note: args.note?.trim() || undefined,
+      infoSource: args.infoSource?.trim() || undefined,
+      directed: args.directed,
+      updatedAt: now,
+    })
+
+    await touchGraph(ctx, args.graphId)
+
+    return edgeId
+  },
+})
+
+export const restoreEdgeSnapshot = userMutation({
+  args: {
+    graphId: v.id('graphs'),
+    edge: v.object({
+      source: v.id('nodes'),
+      target: v.id('nodes'),
+      label: v.optional(v.string()),
+      note: v.optional(v.string()),
+      infoSource: v.optional(v.string()),
+      directed: v.boolean(),
+    }),
+  },
+  handler: async (ctx, args) => {
+    if (args.edge.source === args.edge.target)
+      throw new Error('Self-loop edges are not allowed')
+
+    const [graph, sourceNode, targetNode] = await Promise.all([
+      ctx.db.get(args.graphId),
+      ctx.db.get(args.edge.source),
+      ctx.db.get(args.edge.target),
+    ])
+
+    if (!graph) throw new Error('Graph not found')
+    if (!sourceNode || sourceNode.graphId !== args.graphId)
+      throw new Error('Source node not found')
+    if (!targetNode || targetNode.graphId !== args.graphId)
+      throw new Error('Target node not found')
+
+    const now = Date.now()
+    const edgeId = await ctx.db.insert('edges', {
+      graphId: args.graphId,
+      source: args.edge.source,
+      target: args.edge.target,
+      label: args.edge.label?.trim() || undefined,
+      note: args.edge.note?.trim() || undefined,
+      infoSource: args.edge.infoSource?.trim() || undefined,
+      directed: args.edge.directed,
+      updatedAt: now,
+    })
+
+    await touchGraph(ctx, args.graphId)
+
+    return edgeId
+  },
+})
+
+export const updateEdgeDetails = userMutation({
+  args: {
+    edgeId: v.id('edges'),
+    label: v.optional(v.string()),
+    note: v.optional(v.string()),
+    infoSource: v.optional(v.string()),
+    directed: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const edge = await ctx.db.get(args.edgeId)
+
+    if (!edge) throw new Error('Edge not found')
+
+    const now = Date.now()
+
+    await ctx.db.patch(args.edgeId, {
+      label: args.label?.trim() || undefined,
+      note: args.note?.trim() || undefined,
+      infoSource: args.infoSource?.trim() || undefined,
+      directed: args.directed,
+      updatedAt: now,
+    })
+    await touchGraph(ctx, edge.graphId)
+  },
+})
+
+export const deleteEdge = userMutation({
+  args: {
+    edgeId: v.id('edges'),
+  },
+  handler: async (ctx, args) => {
+    const edge = await ctx.db.get(args.edgeId)
+
+    if (!edge) return
+
+    await deleteEdgeById(ctx, args.edgeId)
+    await touchGraph(ctx, edge.graphId)
   },
 })
 

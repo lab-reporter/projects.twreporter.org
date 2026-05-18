@@ -1,0 +1,7 @@
+_generated
+.agents
+.claude
+.codex
+.vscode
+*.json
+*.md
