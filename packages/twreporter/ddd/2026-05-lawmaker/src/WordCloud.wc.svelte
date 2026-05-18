@@ -13,17 +13,15 @@
 <Shell name={config.title} footnotes={config.footnotes}>
   <div class="container">
     {#each config.clouds as wordcloud}
-      <div
-        class="block label"
-        style:--color={wordcloud.labelColor}
-        style:--text-color="white"
-      >
-        {wordcloud.name}
+    <div class="wordcloud-wrapper">
+      <div class="block label">
+        <div class="icon" style:--color={wordcloud.labelColor}></div>
+        <div class="label">{wordcloud.name}</div>
       </div>
-      <div class="block wordcloud">
         {#if wordcloud.note}
-          <p>{wordcloud.note}</p>
+          <div class="block note">{wordcloud.note}</div>
         {/if}
+      <div class="block wordcloud">
         <WordCloud
           ratio={2 / 1}
           src={wordcloud.src}
@@ -31,44 +29,72 @@
           algo={config.algo}
         />
       </div>
+      </div>
     {/each}
   </div>
 </Shell>
 
 <style>
   .container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .wordcloud-wrapper {
     display: grid;
     grid-template-columns: 40px 1fr;
-    gap: 5px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'label note'
+      'label wordcloud';
+    gap: 0px;
+    border-radius: 3px;
+    border: 1px solid var(--neutral-gray-200);
   }
 
   .block {
-    border-radius: 3px;
-    background-color: var(--color, var(--neutral-gray-100));
+    background-color: var(--neutral-gray-100);
     color: var(--text-color, var(--neutral-gray-900));
     padding: 5px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     word-wrap: break-word;
+    border: 1px solid var(--neutral-gray-200);
   }
 
-  .block.label {
+  .icon {
+    width: var(--text-m);
+    height: var(--text-m);
+    background-color: var(--color, black);
+    border-radius: 2px;
+  }
+
+  .label {
+    grid-area: label;
+    gap: 6px;
     text-align: center;
     font-weight: 500;
     font-size: var(--text-m);
-    line-height: 130%;
+    line-height: 115%;
+    color: var(--neutral-gray-800);
   }
 
   .block.wordcloud {
+    grid-area: wordcloud;
     flex-direction: column;
     padding: 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--neutral-gray-50);
   }
 
-  .block.wordcloud p {
+  .block.note {
+    grid-area: note;
     color: var(--neutral-gray-600);
-    margin-bottom: 10px;
     text-align: center;
     font-weight: 500;
+    font-size: var(--text-s);
   }
 </style>

@@ -1,9 +1,9 @@
-<svelte:options customElement={{ tag: 'twreporter-embeddings' }} />
+<svelte:options customElement={{ tag: 'twreporter-table' }} />
 
 <script lang="ts">
+  import Table from './lib/components/Table.svelte'
   import Shell from './lib/components/layout/Shell.svelte'
-  import Embeddings from './lib/components/Embeddings.svelte'
-  import { keys } from './lib/constants/embeddings'
+  import { keys } from './lib/constants/table'
 
   const { key }: { key: string } = $props()
 
@@ -11,5 +11,5 @@
 </script>
 
 <Shell name={config.title} footnotes={config.footnotes}>
-  <Embeddings src={config.src} />
+  <Table tables={config.tables} gridColumns={config.gridColumns} />
 </Shell>
