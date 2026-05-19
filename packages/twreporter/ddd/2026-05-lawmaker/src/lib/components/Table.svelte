@@ -20,8 +20,13 @@
 
     const srcMap = new Map<string, number[]>()
     tables.forEach((table, i) => {
-      if (!srcMap.has(table.src)) srcMap.set(table.src, [])
-      srcMap.get(table.src)!.push(i)
+      if (table.data) {
+        const rows = table.filter ? table.data.filter(table.filter) : table.data
+        states[i] = { loading: false, error: false, rows }
+      } else if (table.src) {
+        if (!srcMap.has(table.src)) srcMap.set(table.src, [])
+        srcMap.get(table.src)!.push(i)
+      }
     })
 
     srcMap.forEach((indices, src) => {
