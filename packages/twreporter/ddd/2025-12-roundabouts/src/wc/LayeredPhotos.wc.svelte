@@ -9,13 +9,22 @@
     const urlParams = new URLSearchParams(window.location.search);
     const showDownload = urlParams.has("download");
 
+    import { assets } from "../lib/constants/assets";
+    import BarChart from "./BarChart.svelte";
     import LayeredPhotos from "./LayeredPhotos.svelte";
+    import Footer from "../lib/components/Footer.svelte";
+
+    type Group = { id: string; name: string };
+    type ParsedBase = { src: string; opacity?: string };
+    type ParsedLayer = { name: string; src: string; legend?: string };
+    type ParsedLegend = { src: string; name: string };
 
     let {
         name,
         footnotes: inputFootnotes,
+        layout,
         ...props // We use non-destructured props to support dynamic props with group ids in them.
-    }: { name: string; footnotes: string } & (
+    }: { name: string; footnotes: string; layout?: string } & (
         | { base: string; layers: string; legends?: string }
         | {
               groups: string;
@@ -23,19 +32,64 @@
               [x: `layers-${string}`]: string;
               [x: `legends-${string}`]: string;
           }
-    ) = $props();
+    ) & {
+            "barchart-x"?: string;
+            "barchart-y"?: string;
+            "barchart-value"?: string;
+            "barchart-y-color"?: string;
+            "compass-rotation"?: string;
+        } = $props();
 
-    const footnotes = inputFootnotes.split(",").map((f) => f.trim());
+    const splitCsv = (input = "") =>
+        input
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean);
 
-    const groups =
+    const parseBases = (input = ""): ParsedBase[] =>
+        splitCsv(input).map((base) => {
+            const [src, opacity] = base.split(/\s+/);
+            return { src, opacity };
+        });
+
+    const parseLayers = (input = ""): ParsedLayer[] =>
+        splitCsv(input).map((layer) => {
+            const [name, src, legend] = layer.split(/\s+/);
+            return { name, src, legend };
+        });
+
+    const parseLegends = (input = ""): ParsedLegend[] =>
+        splitCsv(input).map((base) => {
+            const [name, src] = base.split(/\s+/);
+            return { src, name };
+        });
+
+    const getDynamicProp = (key: string) =>
+        (props as Record<string, string | undefined>)[key];
+
+    const footnotes = splitCsv(inputFootnotes);
+    const isVerticalWithBarchart = layout === "vertical-with-barchart";
+
+    const groups: Group[] | undefined =
         "groups" in props
-            ? props.groups.split(",").map((g) => {
-                  const [id, name] = g.trim().split(" ");
+            ? splitCsv(props.groups).map((g) => {
+                  const [id, name] = g.split(/\s+/);
                   return { id, name };
               })
             : undefined;
 
     let activeGroupId = $state(groups?.[0].id);
+
+    const barchartX = splitCsv(props["barchart-x"]);
+    const barchartY = splitCsv(props["barchart-y"]);
+    const barchartValues = splitCsv(props["barchart-value"]).map((row) =>
+        row
+            .split(/\s+/)
+            .map(Number)
+            .filter((value) => Number.isFinite(value)),
+    );
+    const barchartColors = splitCsv(props["barchart-y-color"]);
+    const compassRotation = Number(props["compass-rotation"] ?? 0) || 0;
 </script>
 
 <link
@@ -44,35 +98,73 @@
     crossorigin="anonymous"
 />
 
-<div class="outer">
+<div class="outer" class:vertical-with-barchart={isVerticalWithBarchart}>
     <div class="container" bind:this={container}>
         <div class="header"><h1>{name}</h1></div>
 
-        {#if "groups" in props}
+        {#if isVerticalWithBarchart && groups}
+            <div class="controls bridge-tabs">
+                {#each groups as group}
+                    <button
+                        onclick={() => (activeGroupId = group.id)}
+                        class:active={activeGroupId === group.id}
+                        >{group.name}</button
+                    >
+                {/each}
+            </div>
+
+            <div class="vertical-graphs">
+                <div class="map-section">
+                    {#each groups as group}
+                        <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
+                        <div hidden={activeGroupId !== group.id}>
+                            <LayeredPhotos
+                                bases={parseBases(
+                                    getDynamicProp(`base-${group.id}`),
+                                )}
+                                layers={parseLayers(
+                                    getDynamicProp(`layers-${group.id}`),
+                                )}
+                                legends={parseLegends(
+                                    getDynamicProp(`legends-${group.id}`),
+                                )}
+                                vertical
+                            />
+                        </div>
+                    {/each}
+                    <img
+                        src={assets.compass}
+                        class="compass"
+                        style={`--compass-rotation: ${compassRotation}deg`}
+                        alt="指北針"
+                    />
+                </div>
+                <div class="chart-section">
+                    <BarChart
+                        xKeys={barchartX}
+                        yKeys={barchartY}
+                        values={barchartValues}
+                        colors={barchartColors}
+                    />
+                    <Footer
+                        {footnotes}
+                        --footer-scale="1"
+                        --footer-logo-scale="1.7"
+                    />
+                </div>
+            </div>
+        {:else if "groups" in props}
             {#each groups as group}
                 <!-- Use `hidden` to control group's visibility so that all elements are still rendered on load, preventing layout shift when switching groups -->
                 <div hidden={activeGroupId !== group.id}>
                     <LayeredPhotos
-                        bases={props[`base-${group.id}`]
-                            .split(",")
-                            .map((base) => {
-                                const [src, opacity] = base.trim().split(" ");
-                                return { src, opacity };
-                            })}
-                        layers={props[`layers-${group.id}`]
-                            .split(",")
-                            .map((layer) => {
-                                const [name, src, legend] = layer
-                                    .trim()
-                                    .split(" ");
-                                return { name, src, legend };
-                            })}
-                        legends={props[`legends-${group.id}`]
-                            ?.split(",")
-                            .map((base) => {
-                                const [name, src] = base.trim().split(" ");
-                                return { src, name };
-                            })}
+                        bases={parseBases(getDynamicProp(`base-${group.id}`))}
+                        layers={parseLayers(
+                            getDynamicProp(`layers-${group.id}`),
+                        )}
+                        legends={parseLegends(
+                            getDynamicProp(`legends-${group.id}`),
+                        )}
                     />
                 </div>
             {/each}
@@ -88,33 +180,15 @@
             </div>
         {:else}
             <LayeredPhotos
-                bases={props.base.split(",").map((base) => {
-                    const [src, opacity] = base.trim().split(" ");
-                    return { src, opacity };
-                })}
-                layers={props.layers.split(",").map((layer) => {
-                    const [name, src, legend] = layer.trim().split(" ");
-                    return { name, src, legend };
-                })}
-                legends={props.legends?.split(",").map((base) => {
-                    const [name, src] = base.trim().split(" ");
-                    return { src, name };
-                })}
+                bases={parseBases(props.base)}
+                layers={parseLayers(props.layers)}
+                legends={parseLegends(props.legends)}
             />
         {/if}
 
-        <div class="footer">
-            <div class="footnotes">
-                {#each footnotes as footnote}
-                    <p>{footnote}</p>
-                {/each}
-            </div>
-            <img
-                src="https://projects.twreporter.org/twreporter/ddd/2025-12-roundabouts/assets/logo-black.png"
-                class="logo"
-                alt="報導者 The Reporter"
-            />
-        </div>
+        {#if !isVerticalWithBarchart}
+            <Footer {footnotes} />
+        {/if}
     </div>
 
     {#if showDownload}
@@ -143,9 +217,18 @@
 <style>
     * {
         --tr-text: #404040;
+        --footer-scale: 1;
+        --footer-logo-scale: 1.25;
         color: var(--tr-text);
         font-family: "Roboto Slab", "Noto Sans TC", sans-serif;
         text-align: left !important;
+    }
+
+    @media (min-width: 500px) {
+        * {
+            --footer-scale: 1.6;
+            --footer-logo-scale: 2;
+        }
     }
 
     .outer {
@@ -237,43 +320,48 @@
         font-weight: 600;
     }
 
-    .footer {
-        padding: 10px 0 10px 0;
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        --footer-scale: 1;
-        --footer-logo-scale: 1.25;
+    .bridge-tabs {
+        gap: 6px;
+        margin-bottom: 8px;
     }
 
-    @media (min-width: 500px) {
-        .footer {
-            padding: 15px 0 10px 0;
-            --footer-scale: 1.6;
-            --footer-logo-scale: 2;
-        }
+    .controls.bridge-tabs button {
+        border-radius: 5px;
     }
 
-    .footnotes {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
+    .vertical-graphs {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(150px, 1fr);
+        gap: 12px;
+        align-items: stretch;
     }
 
-    @media (min-width: 500px) {
-        .footnotes {
-            gap: 5px;
-        }
+    .map-section {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
     }
 
-    .footer p {
-        color: #acacac;
-        font-size: calc(10px * var(--footer-scale));
+    .compass {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 6;
+        width: clamp(32px, 10%, 42px);
+        height: auto;
+        transform: rotate(var(--compass-rotation));
+        transform-origin: center;
     }
 
-    .footer .logo {
-        width: calc(14.5px * var(--footer-logo-scale));
-        height: calc(15.5px * var(--footer-logo-scale));
+    .chart-section {
+        display: grid;
+        grid-template-rows: minmax(220px, 1fr) auto;
+        gap: 12px;
+        width: 100%;
+        min-height: 0;
+    }
+
+    .vertical-with-barchart .footer {
     }
 
     .download-control {

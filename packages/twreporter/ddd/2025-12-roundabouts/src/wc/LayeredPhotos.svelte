@@ -8,7 +8,13 @@
         bases,
         layers,
         legends,
-    }: { bases: Base[]; layers: Layer[]; legends?: Legend[] } = $props();
+        vertical = false,
+    }: {
+        bases: Base[];
+        layers: Layer[];
+        legends?: Legend[];
+        vertical?: boolean;
+    } = $props();
 
     let viewMode = $state<ViewMode>("default");
     let activeLayerName = $state<string | null>(null);
@@ -70,7 +76,7 @@
     };
 </script>
 
-<div class="controls">
+<div class="controls" class:vertical>
     <button
         class:active={viewMode === "showAll"}
         class:all={viewMode === "showAll"}
@@ -221,12 +227,6 @@
         letter-spacing: 0.7px;
     }
 
-    @media (max-width: 400px) {
-        .controls button {
-            padding: 8px 0;
-        }
-    }
-
     button.stripe {
         background: repeating-linear-gradient(
             -45deg,
@@ -255,5 +255,65 @@
     .controls .legend {
         width: var(--btn-size);
         margin-right: 5px;
+    }
+
+    .controls.vertical {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 5;
+        width: auto;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .controls.vertical .full {
+        display: none;
+    }
+
+    .controls.vertical .indv {
+        width: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .controls.vertical button {
+        gap: 7px;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        justify-content: center;
+        align-items: center;
+        line-height: 1.35;
+        letter-spacing: 0;
+        opacity: 1;
+    }
+
+    .controls.vertical button:not(.active, .all) {
+        opacity: 0.55;
+    }
+
+    .controls.vertical .legend {
+        margin: 0;
+    }
+
+    @media (max-width: 400px) {
+        .controls button {
+            padding: 8px 0;
+        }
+
+        .controls.vertical button {
+            font-size: 10px;
+            padding: 10px 5px;
+        }
+
+        .controls.vertical {
+            top: 10px;
+            left: 10px;
+        }
     }
 </style>
