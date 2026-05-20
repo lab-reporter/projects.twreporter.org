@@ -166,7 +166,7 @@
                     <Footer
                         {footnotes}
                         --footer-scale="0.75"
-                        --footer-logo-scale="1.7"
+                        --footer-logo-scale="1.5"
                     />
                 </div>
             </div>

@@ -299,6 +299,7 @@
 
     .controls.vertical .legend {
         margin: 0;
+        max-width: unset;
     }
 
     @media (max-width: 400px) {
@@ -308,7 +309,6 @@
 
         .controls.vertical button {
             font-size: 10px;
-            padding: 10px 5px;
         }
 
         .controls.vertical {
