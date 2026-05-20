@@ -23,7 +23,8 @@
 
     const width = 330;
     const height = 950;
-    const margin = { top: 35, right: 0, bottom: 38, left: 46 };
+    const margin = { top: 70, right: 0, bottom: 38, left: 46 };
+    const fallbackColors = ["#404040", "#b8b8b8"];
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -64,12 +65,43 @@
         const colorScale = d3
             .scaleOrdinal<string, string>()
             .domain(yKeys)
-            .range(colors);
+            .range(colors.length ? colors : fallbackColors);
+
+        root.attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
+
+        const legend = root
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(${margin.left}, 0)`);
+
+        const legendItems = legend
+            .selectAll("g")
+            .data(yKeys)
+            .join("g")
+            .attr("transform", (_, index) => {
+                const x = index % 2 === 0 ? 0 : 130;
+                const y = Math.floor(index / 2) * 28;
+                return `translate(${x}, ${y})`;
+            });
+
+        legendItems
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", 4)
+            .attr("width", 18)
+            .attr("height", 18)
+            .attr("fill", (key) => colorScale(key));
+
+        legendItems
+            .append("text")
+            .attr("x", 28)
+            .attr("y", 18)
+            .attr("fill", "#404040")
+            .attr("font-size", 16)
+            .attr("font-family", "Noto Sans TC, sans-serif")
+            .text((key) => key);
 
         const chart = root
-            .attr("viewBox", `0 0 ${width} ${height}`)
-            .attr("role", "img")
-            .attr("aria-label", "事故數量堆疊長條圖")
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -84,9 +116,7 @@
                     .tickFormat((value) => `${value}`),
             )
             .call((g) => g.select(".domain").remove())
-            .call((g) =>
-                g.selectAll(".tick line").attr("stroke", "#cfcfcf"),
-            )
+            .call((g) => g.selectAll(".tick line").attr("stroke", "#cfcfcf"))
             .call((g) =>
                 g
                     .selectAll(".tick text")
@@ -94,7 +124,10 @@
                     .attr("dy", "-0.35em")
                     .attr("fill", "#404040")
                     .attr("font-size", 18)
-                    .attr("font-family", "Roboto Slab, Noto Sans TC, sans-serif"),
+                    .attr(
+                        "font-family",
+                        "Roboto Slab, Noto Sans TC, sans-serif",
+                    ),
             );
 
         chart
