@@ -1,6 +1,5 @@
 <script lang="ts">
     import * as d3 from "d3";
-    import { onMount } from "svelte";
 
     type Datum = {
         x: string;
@@ -20,11 +19,10 @@
     } = $props();
 
     let svg: SVGSVGElement | null = null;
+    let chartHeight = $state(0);
 
     const width = 330;
-    const height = 950;
-    const margin = { top: 70, right: 0, bottom: 38, left: 46 };
-    const fallbackColors = ["#404040", "#b8b8b8"];
+    const margin = { top: 0, right: 0, bottom: 0, left: 80 };
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -36,11 +34,12 @@
     );
 
     const draw = () => {
-        if (!svg) return;
+        if (!svg || chartHeight <= 0) return;
 
         const root = d3.select(svg);
         root.selectAll("*").remove();
 
+        const height = Math.max(chartHeight, margin.top + margin.bottom);
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         const totals = chartData.map((datum) =>
@@ -65,7 +64,7 @@
         const colorScale = d3
             .scaleOrdinal<string, string>()
             .domain(yKeys)
-            .range(colors.length ? colors : fallbackColors);
+            .range(colors);
 
         root.attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
 
@@ -73,33 +72,6 @@
             .append("g")
             .attr("class", "legend")
             .attr("transform", `translate(${margin.left}, 0)`);
-
-        const legendItems = legend
-            .selectAll("g")
-            .data(yKeys)
-            .join("g")
-            .attr("transform", (_, index) => {
-                const x = index % 2 === 0 ? 0 : 130;
-                const y = Math.floor(index / 2) * 28;
-                return `translate(${x}, ${y})`;
-            });
-
-        legendItems
-            .append("rect")
-            .attr("x", 0)
-            .attr("y", 4)
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("fill", (key) => colorScale(key));
-
-        legendItems
-            .append("text")
-            .attr("x", 28)
-            .attr("y", 18)
-            .attr("fill", "#404040")
-            .attr("font-size", 16)
-            .attr("font-family", "Noto Sans TC, sans-serif")
-            .text((key) => key);
 
         const chart = root
             .append("g")
@@ -173,17 +145,16 @@
             );
     };
 
-    onMount(draw);
     $effect(draw);
 </script>
 
-<svg bind:this={svg} class="bar-chart"></svg>
+<svg bind:this={svg} class="bar-chart" bind:clientHeight={chartHeight}></svg>
 
 <style>
     .bar-chart {
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
         overflow: visible;
     }
 </style>
