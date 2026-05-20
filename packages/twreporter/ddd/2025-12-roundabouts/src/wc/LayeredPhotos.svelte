@@ -259,8 +259,8 @@
 
     .controls.vertical {
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 15px;
+        left: 15px;
         z-index: 5;
         width: auto;
         align-items: flex-start;
@@ -282,7 +282,7 @@
         gap: 7px;
         padding: 10px;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.92);
+        background: var(--neutral-white);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
         writing-mode: vertical-rl;
         text-orientation: mixed;

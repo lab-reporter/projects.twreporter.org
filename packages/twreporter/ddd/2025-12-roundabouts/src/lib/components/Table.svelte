@@ -40,7 +40,7 @@
         font-weight: 700;
         color: var(--neutral-gray-800);
         text-align: center;
-        padding: 6px;
+        padding: 6px 0;
         border: 1px solid var(--neutral-gray-200);
         background-color: var(--neutral-gray-200);
         border-radius: 2px 2px 0 0;
@@ -69,7 +69,7 @@
 
     th,
     td {
-        padding: 8px 12px;
+        padding: 8px 0;
         vertical-align: middle;
         text-align: center;
         border-right: 1px solid var(--neutral-gray-200);
@@ -82,7 +82,7 @@
         }
 
         caption {
-            padding: 3px;
+            padding: 3px 0;
         }
     }
 
