@@ -34,13 +34,13 @@
               [x: `layers-${string}`]: string;
               [x: `legends-${string}`]: string;
               [x: `labels-${string}`]: string;
+              [x: `compass-rotation-${string}`]: string;
           }
     ) & {
             "barchart-x"?: string;
             "barchart-y"?: string;
             "barchart-value"?: string;
             "barchart-y-color"?: string;
-            "compass-rotation"?: string;
             "table-name"?: string;
             "table-value"?: string;
             labels?: string;
@@ -95,7 +95,6 @@
             .filter((value) => Number.isFinite(value)),
     );
     const barchartColors = splitCsv(props["barchart-y-color"]);
-    const compassRotation = Number(props["compass-rotation"] ?? 0) || 0;
     const tableName = props["table-name"];
     const table = splitCsv(props["table-value"]).map((row) =>
         splitCsv(row, " "),
@@ -144,13 +143,14 @@
                                 )}
                             />
                         </div>
+                        <img
+                            hidden={activeGroupId !== group.id}
+                            src={assets.compass}
+                            class="compass"
+                            style={`--compass-rotation: ${getDynamicProp(`compass-rotation-${group.id}`)}deg`}
+                            alt="指北針"
+                        />
                     {/each}
-                    <img
-                        src={assets.compass}
-                        class="compass"
-                        style={`--compass-rotation: ${compassRotation}deg`}
-                        alt="指北針"
-                    />
                 </div>
                 <div class="chart-section">
                     <Table name={tableName} {table} />
