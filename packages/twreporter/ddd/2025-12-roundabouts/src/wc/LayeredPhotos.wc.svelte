@@ -10,11 +10,11 @@
     const showDownload = urlParams.has("download");
 
     import { assets } from "../lib/constants/assets";
-    import BarChart from "./BarChart.svelte";
     import LayeredPhotos from "./LayeredPhotos.svelte";
     import Footer from "../lib/components/Footer.svelte";
     import Legends from "../lib/components/Legends.svelte";
     import Table from "../lib/components/Table.svelte";
+    import BarChart from "../lib/components/BarChart.svelte";
 
     type Group = { id: string; name: string };
     type ParsedBase = { src: string; opacity?: string };
