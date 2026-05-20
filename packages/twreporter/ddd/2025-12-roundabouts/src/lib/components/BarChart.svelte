@@ -22,7 +22,7 @@
     let width = $state(0);
     let height = $state(0);
 
-    const margin = { top: 25, right: 10, bottom: 20, left: 32.5 };
+    const margin = { top: 25, right: 10, bottom: 27.5, left: 32.5 };
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -139,7 +139,7 @@
                     .selectAll("text")
                     .attr("y", 15)
                     .attr("fill", "#404040")
-                    .attr("font-size", "var(--btn-size)")
+                    .attr("font-size", 12)
                     .attr("font-family", "Noto Sans TC, sans-serif"),
             );
     };
