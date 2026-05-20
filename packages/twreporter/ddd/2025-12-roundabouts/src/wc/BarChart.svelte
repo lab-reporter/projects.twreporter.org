@@ -68,11 +68,6 @@
 
         root.attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
 
-        const legend = root
-            .append("g")
-            .attr("class", "legend")
-            .attr("transform", `translate(${margin.left}, 0)`);
-
         const chart = root
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
