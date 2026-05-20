@@ -18,11 +18,11 @@
         colors: string[];
     } = $props();
 
-    let svg: SVGSVGElement | null = null;
-    let chartHeight = $state(0);
+    let svg = $state<SVGSVGElement | null>(null);
+    let width = $state(0);
+    let height = $state(0);
 
-    const width = 250;
-    const margin = { top: 0, right: 10, bottom: 0, left: 42.5 };
+    const margin = { top: 25, right: 10, bottom: 20, left: 32.5 };
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -34,14 +34,15 @@
     );
 
     const draw = () => {
-        if (!svg || chartHeight <= 0) return;
+        if (!svg || width <= 0 || height <= 0) return;
 
         const root = d3.select(svg);
         root.selectAll("*").remove();
 
-        const height = Math.max(chartHeight, margin.top + margin.bottom);
-        const innerWidth = width - margin.left - margin.right;
-        const innerHeight = height - margin.top - margin.bottom;
+        const chartWidth = Math.max(width, margin.left + margin.right);
+        const chartHeight = Math.max(height, margin.top + margin.bottom);
+        const innerWidth = chartWidth - margin.left - margin.right;
+        const innerHeight = chartHeight - margin.top - margin.bottom;
         const totals = chartData.map((datum) =>
             yKeys.reduce((sum, key) => sum + datum.values[key], 0),
         );
@@ -66,7 +67,10 @@
             .domain(yKeys)
             .range(colors);
 
-        root.attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
+        root.attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`).attr(
+            "role",
+            "img",
+        );
 
         const chart = root
             .append("g")
@@ -90,7 +94,7 @@
                     .attr("x", -10)
                     .attr("dy", "-0.35em")
                     .attr("fill", "#404040")
-                    .attr("font-size", 18)
+                    .attr("font-size", 12)
                     .attr(
                         "font-family",
                         "Roboto Slab, Noto Sans TC, sans-serif",
@@ -135,7 +139,7 @@
                     .selectAll("text")
                     .attr("y", 15)
                     .attr("fill", "#404040")
-                    .attr("font-size", 18)
+                    .attr("font-size", "var(--btn-size)")
                     .attr("font-family", "Noto Sans TC, sans-serif"),
             );
     };
@@ -143,9 +147,31 @@
     $effect(draw);
 </script>
 
-<svg bind:this={svg} class="bar-chart" bind:clientHeight={chartHeight}></svg>
+<div class="chart-wrapper">
+    <div
+        class="chart-inner"
+        bind:clientWidth={width}
+        bind:clientHeight={height}
+    >
+        {#if width > 0 && height > 0}
+            <svg bind:this={svg} class="bar-chart" {width} {height}></svg>
+        {/if}
+    </div>
+</div>
 
 <style>
+    .chart-wrapper {
+        flex: 1;
+        min-height: 0;
+        min-width: 0;
+        position: relative;
+    }
+
+    .chart-inner {
+        position: absolute;
+        inset: 0;
+    }
+
     .bar-chart {
         display: block;
         width: 100%;
