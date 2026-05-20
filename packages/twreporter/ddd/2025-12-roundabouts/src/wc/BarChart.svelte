@@ -21,7 +21,7 @@
     let svg: SVGSVGElement | null = null;
     let chartHeight = $state(0);
 
-    const width = 330;
+    const width = 250;
     const margin = { top: 0, right: 0, bottom: 0, left: 80 };
 
     const chartData = $derived<Datum[]>(
