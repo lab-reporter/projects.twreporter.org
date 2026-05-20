@@ -33,6 +33,7 @@
               [x: `base-${string}`]: string;
               [x: `layers-${string}`]: string;
               [x: `legends-${string}`]: string;
+              [x: `labels-${string}`]: string;
           }
     ) & {
             "barchart-x"?: string;
@@ -42,6 +43,7 @@
             "compass-rotation"?: string;
             "table-name"?: string;
             "table-value"?: string;
+            labels?: string;
         } = $props();
 
     const splitCsv = (input = "", delimiter = ",") =>
@@ -137,6 +139,9 @@
                                     getDynamicProp(`legends-${group.id}`),
                                 )}
                                 vertical
+                                labels={splitCsv(
+                                    getDynamicProp(`labels-${group.id}`),
+                                )}
                             />
                         </div>
                     {/each}

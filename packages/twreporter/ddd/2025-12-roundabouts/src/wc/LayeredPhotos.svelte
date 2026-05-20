@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Label from "../lib/components/Label.svelte";
+
     type Layer = { legend?: string; name: string; src: string };
     type Base = { src: string; opacity?: string };
     type Legend = { src: string; name: string };
@@ -9,10 +11,12 @@
         layers,
         legends,
         vertical = false,
+        labels,
     }: {
         bases: Base[];
         layers: Layer[];
         legends?: Legend[];
+        labels?: string[];
         vertical?: boolean;
     } = $props();
 
@@ -76,6 +80,15 @@
     };
 </script>
 
+<div class="labels">
+    {#if labels?.[0]}
+        <Label>{labels[0]}</Label>
+    {/if}
+    {#if labels?.[1]}
+        <Label>{labels[1]}</Label>
+    {/if}
+</div>
+
 <div class="controls" class:vertical>
     <button
         class:active={viewMode === "showAll"}
@@ -134,7 +147,7 @@
                 }}
             />
         {/each}
-        {#if legends}
+        {#if legends && legends.length > 0}
             <div class="legends">
                 {#each legends as legend}
                     <div class="floating-legend">
@@ -151,6 +164,22 @@
     .images {
         width: 100%;
         position: relative;
+    }
+
+    .labels {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin: auto;
+        height: 100%;
+        padding: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 50;
+        pointer-events: none;
     }
 
     .layers {
@@ -314,6 +343,10 @@
         .controls.vertical {
             top: 10px;
             left: 10px;
+        }
+
+        .labels {
+            padding: 10px;
         }
     }
 </style>
