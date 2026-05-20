@@ -20,7 +20,13 @@
         gap: 5px;
         align-items: center;
         justify-content: center;
-        --size: 5px;
+        --size: 7.5px;
+    }
+
+    @media (max-width: 400px) {
+        .legends {
+            --size: 6px;
+        }
     }
 
     .legend {
@@ -37,6 +43,6 @@
     }
 
     .legend-text {
-        font-size: 8px;
+        font-size: calc(var(--size) * (6 / 5));
     }
 </style>
