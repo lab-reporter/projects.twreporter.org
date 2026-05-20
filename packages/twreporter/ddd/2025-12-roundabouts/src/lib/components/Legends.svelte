@@ -15,7 +15,6 @@
 <style>
     .legends {
         width: 100%;
-        height: 25px;
         display: flex;
         flex-wrap: wrap;
         gap: 2.5px 5px;
