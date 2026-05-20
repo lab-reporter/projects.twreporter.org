@@ -82,7 +82,7 @@
             .call(
                 d3
                     .axisLeft(yScale)
-                    .ticks(Math.min(yMax / 10, 10))
+                    .ticks(5)
                     .tickSize(-innerWidth)
                     .tickFormat((value) => `${value}`),
             )
