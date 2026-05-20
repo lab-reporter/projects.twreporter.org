@@ -78,7 +78,11 @@
     @media (max-width: 400px) {
         th,
         td {
-            padding: 6px 10px;
+            padding: 2px 0;
+        }
+
+        caption {
+            padding: 3px;
         }
     }
 

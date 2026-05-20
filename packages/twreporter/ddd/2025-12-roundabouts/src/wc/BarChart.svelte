@@ -22,7 +22,7 @@
     let chartHeight = $state(0);
 
     const width = 250;
-    const margin = { top: 0, right: 0, bottom: 0, left: 80 };
+    const margin = { top: 0, right: 10, bottom: 0, left: 42.5 };
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -87,7 +87,7 @@
             .call((g) =>
                 g
                     .selectAll(".tick text")
-                    .attr("x", -34)
+                    .attr("x", -10)
                     .attr("dy", "-0.35em")
                     .attr("fill", "#404040")
                     .attr("font-size", 18)
@@ -133,7 +133,7 @@
             .call((g) =>
                 g
                     .selectAll("text")
-                    .attr("y", 22)
+                    .attr("y", 15)
                     .attr("fill", "#404040")
                     .attr("font-size", 18)
                     .attr("font-family", "Noto Sans TC, sans-serif"),

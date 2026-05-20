@@ -148,24 +148,28 @@
                     />
                 </div>
                 <div class="chart-section">
-                    <Legends
-                        legends={barchartY.map((name, index) => {
-                            return {
-                                name,
-                                color: barchartColors[index],
-                            };
-                        })}
-                    />
-                    <BarChart
-                        xKeys={barchartX}
-                        yKeys={barchartY}
-                        values={barchartValues}
-                        colors={barchartColors}
-                    />
                     <Table name={tableName} {table} />
+
+                    <div class="bar-chart">
+                        <Legends
+                            legends={barchartY.map((name, index) => {
+                                return {
+                                    name,
+                                    color: barchartColors[index],
+                                };
+                            })}
+                        />
+                        <BarChart
+                            xKeys={barchartX}
+                            yKeys={barchartY}
+                            values={barchartValues}
+                            colors={barchartColors}
+                        />
+                    </div>
+
                     <Footer
                         {footnotes}
-                        --footer-scale="0.75"
+                        --footer-scale="1.2"
                         --footer-logo-scale="1.5"
                     />
                 </div>
@@ -363,7 +367,7 @@
         position: relative;
         padding: 8px 10px;
         background: #f1f1f1;
-        --btn-size: 9px;
+        --btn-size: 12px;
         border-top: #e2e2e2 1px solid;
         border-bottom: #e2e2e2 1px solid;
     }
@@ -476,7 +480,7 @@
     .chart-section {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 15px;
         width: 100%;
         min-height: 0;
     }
@@ -495,5 +499,11 @@
         cursor: pointer;
         font-size: 12px;
         margin-top: 5px;
+    }
+
+    .bar-chart {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 </style>

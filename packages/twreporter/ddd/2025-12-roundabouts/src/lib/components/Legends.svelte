@@ -17,16 +17,11 @@
         width: 100%;
         height: 25px;
         display: flex;
-        gap: 5px;
+        flex-wrap: wrap;
+        gap: 2.5px 5px;
         align-items: center;
         justify-content: center;
-        --size: 7.5px;
-    }
-
-    @media (max-width: 400px) {
-        .legends {
-            --size: 6px;
-        }
+        --size: 10px;
     }
 
     .legend {
@@ -44,5 +39,6 @@
 
     .legend-text {
         font-size: calc(var(--size) * (6 / 5));
+        white-space: nowrap;
     }
 </style>

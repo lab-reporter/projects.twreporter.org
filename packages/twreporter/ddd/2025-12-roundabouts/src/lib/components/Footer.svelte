@@ -17,16 +17,9 @@
 
 <style>
     .footer {
-        padding: 10px 0 10px 0;
         display: flex;
         align-items: end;
         justify-content: space-between;
-    }
-
-    @media (min-width: 500px) {
-        .footer {
-            padding: 15px 0 10px 0;
-        }
     }
 
     .footnotes {
@@ -44,6 +37,12 @@
     .footer p {
         color: #acacac;
         font-size: calc(10px * var(--footer-scale));
+    }
+
+    @media (max-width: 400px) {
+        .footer p {
+            font-size: var(--text-xs);
+        }
     }
 
     .footer .logo {
