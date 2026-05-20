@@ -193,7 +193,7 @@
     flex-direction: column-reverse;
   }
   .card + .card {
-    margin-bottom: -200px;
+    margin-bottom: -205px;
     position: relative;
   }
   .card {
@@ -217,6 +217,7 @@
     font-weight: 700;
     border-radius: 4px 0 0 0;
     font-family: 'Roboto Slab', 'Noto Serif TC', serif;
+    border-width: 1px 0 1px 1px;
   }
   .date {
     font-size: var(--text-s);
@@ -230,6 +231,7 @@
     gap: 10px;
     padding: 10px 20px 20px 20px;
     background-color: var(--neutral-gray-50);
+    border-width: 0 1px 1px 1px;
   }
   .card-title {
     font-size: var(--text-xl);
@@ -272,6 +274,7 @@
     border-radius: 0 0 4px 4px;
     padding: 10px 20px;
     gap: 7px;
+    border-width: 0 1px 1px 1px;
   }
   .section-header {
     display: flex;
@@ -302,6 +305,7 @@
     border-radius: 0 0 4px 0;
     padding: 10px;
     align-self: start;
+    border-width: 0 1px 1px 0;
   }
   .proposer-count {
     font-size: var(--text-xs);
