@@ -102,7 +102,9 @@
     </div>
 </div>
 <div class="images">
-    <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
+    {#if bases[0]}
+        <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
+    {/if}
     <div class="layers">
         {#each bases as base (base.src)}
             <img
