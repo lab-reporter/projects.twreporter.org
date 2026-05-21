@@ -440,7 +440,7 @@
 
     @media (max-width: 400px) {
         .controls button {
-            padding: 8px 0;
+            padding: 5px 0;
         }
     }
 

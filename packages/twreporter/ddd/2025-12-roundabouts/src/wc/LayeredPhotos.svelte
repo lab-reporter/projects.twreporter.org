@@ -338,6 +338,9 @@
 
         .controls.vertical button {
             font-size: 10px;
+            gap: 3px;
+            padding: 7px 5px 8px 5px;
+            border-radius: 3px;
         }
 
         .controls.vertical {
