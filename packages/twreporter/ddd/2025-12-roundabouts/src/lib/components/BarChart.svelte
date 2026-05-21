@@ -22,7 +22,7 @@
     let width = $state(0);
     let height = $state(0);
 
-    const margin = { top: 25, right: 10, bottom: 27.5, left: 32.5 };
+    const margin = { top: 25, right: 10, bottom: 27.5, left: 27.5 };
 
     const chartData = $derived<Datum[]>(
         xKeys.map((x, xIndex) => ({
@@ -82,7 +82,7 @@
             .call(
                 d3
                     .axisLeft(yScale)
-                    .ticks(5)
+                    .ticks(3)
                     .tickSize(-innerWidth)
                     .tickFormat((value) => `${value}`),
             )
@@ -94,7 +94,7 @@
                     .attr("x", -10)
                     .attr("dy", "-0.35em")
                     .attr("fill", "#404040")
-                    .attr("font-size", 12)
+                    .attr("font-size", 10)
                     .attr(
                         "font-family",
                         "Roboto Slab, Noto Sans TC, sans-serif",
