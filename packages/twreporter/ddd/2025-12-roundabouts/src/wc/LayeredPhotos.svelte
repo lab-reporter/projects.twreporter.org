@@ -115,7 +115,7 @@
                 {#if layer.legend}
                     <img src={layer.legend} alt={layer.name} class="legend" />
                 {/if}
-                {layer.name}
+                <span>{layer.name}</span>
             </button>
         {/each}
     </div>
@@ -317,9 +317,12 @@
         text-orientation: mixed;
         justify-content: center;
         align-items: center;
-        line-height: 1.35;
         letter-spacing: 0;
         opacity: 1;
+    }
+
+    .controls.vertical span {
+        margin-left: -2.25px;
     }
 
     .controls.vertical button:not(.active, .all) {
@@ -327,7 +330,8 @@
     }
 
     .controls.vertical .legend {
-        margin: 0;
+        margin-right: 0;
+        margin-left: 0.2px;
         max-width: unset;
     }
 
