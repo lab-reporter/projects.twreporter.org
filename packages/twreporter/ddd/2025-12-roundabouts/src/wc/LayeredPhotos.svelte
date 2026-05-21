@@ -340,7 +340,7 @@
         }
 
         .controls.vertical {
-            top: 10px;
+            top: 40px;
             left: 10px;
         }
     }

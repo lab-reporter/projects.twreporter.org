@@ -12,7 +12,7 @@
     div {
         background-color: var(--neutral-gray-900);
         opacity: 0.9;
-        padding: 10px 8px 10px 10px;
+        padding: 7.5px;
         display: flex;
         align-items: center;
         width: 100%;
