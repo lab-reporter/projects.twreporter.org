@@ -307,6 +307,7 @@
     }
 
     .controls.vertical button {
+        width: unset;
         gap: 7px;
         padding: 10px;
         border-radius: 8px;
