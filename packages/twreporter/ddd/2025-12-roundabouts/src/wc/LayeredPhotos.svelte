@@ -341,7 +341,7 @@
         }
 
         .controls.vertical {
-            top: 40px;
+            top: 30px;
             left: 10px;
         }
     }

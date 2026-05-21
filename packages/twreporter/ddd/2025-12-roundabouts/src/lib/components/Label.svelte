@@ -24,4 +24,10 @@
         letter-spacing: 0.72px;
         color: var(--neutral-white);
     }
+
+    @media (max-width: 400px) {
+        div {
+            padding: 5px;
+        }
+    }
 </style>
