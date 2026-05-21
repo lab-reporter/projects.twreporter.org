@@ -143,14 +143,13 @@
                                 )}
                             />
                         </div>
-                        <img
-                            hidden={activeGroupId !== group.id}
-                            src={assets.compass}
-                            class="compass"
-                            style={`--compass-rotation: ${getDynamicProp(`compass-rotation-${group.id}`)}deg`}
-                            alt="指北針"
-                        />
                     {/each}
+                    <img
+                        src={assets.compass}
+                        class="compass"
+                        style={`--compass-rotation: ${getDynamicProp(`compass-rotation-${activeGroupId}`)}deg`}
+                        alt="指北針"
+                    />
                 </div>
                 <div class="chart-section">
                     <Table name={tableName} {table} />
@@ -481,6 +480,7 @@
         height: auto;
         transform: rotate(var(--compass-rotation));
         transform-origin: center;
+        transition: all 0.2s ease;
     }
 
     @media (max-width: 400px) {
