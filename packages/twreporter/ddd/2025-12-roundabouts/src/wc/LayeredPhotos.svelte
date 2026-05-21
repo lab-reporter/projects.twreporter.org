@@ -172,7 +172,6 @@
         left: 0px;
         margin: auto;
         height: 100%;
-        padding: 20px;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -288,7 +287,7 @@
 
     .controls.vertical {
         position: absolute;
-        top: 15px;
+        top: 50px;
         left: 15px;
         z-index: 5;
         width: auto;
@@ -312,7 +311,7 @@
         padding: 10px;
         border-radius: 8px;
         background: var(--neutral-white);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        box-shadow: -2px -2px 10px 0 rgba(0, 0, 0, 0.25) inset, 5px 3px 10px 0 rgba(0, 0, 0, 0.10);
         writing-mode: vertical-rl;
         text-orientation: mixed;
         justify-content: center;
@@ -343,10 +342,6 @@
         .controls.vertical {
             top: 10px;
             left: 10px;
-        }
-
-        .labels {
-            padding: 10px;
         }
     }
 </style>
