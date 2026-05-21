@@ -11,7 +11,6 @@
 <style>
     div {
         background-color: var(--neutral-gray-900);
-        opacity: 0.9;
         padding: 7.5px;
         display: flex;
         align-items: center;

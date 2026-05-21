@@ -474,13 +474,19 @@
 
     .compass {
         position: absolute;
-        top: 10px;
+        top: 40px;
         right: 10px;
         z-index: 6;
         width: clamp(32px, 10%, 42px);
         height: auto;
         transform: rotate(var(--compass-rotation));
         transform-origin: center;
+    }
+
+    @media (max-width: 400px) {
+        .compass {
+            top: 30px;
+        }
     }
 
     .chart-section {
