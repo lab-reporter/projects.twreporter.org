@@ -20,6 +20,7 @@
         display: flex;
         align-items: end;
         justify-content: space-between;
+        gap: 5px;
     }
 
     .footnotes {
@@ -37,6 +38,7 @@
     .footer p {
         color: #acacac;
         font-size: calc(10px * var(--footer-scale));
+        text-align: justify;
     }
 
     @media (max-width: 400px) {
