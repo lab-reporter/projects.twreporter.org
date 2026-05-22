@@ -1,4 +1,115 @@
-import type { BarSeries } from '../components/Bar.svelte'
+import type { BarSeries, BarDatum } from '../components/Bar.svelte'
+
+export type BarGridItem = {
+  label?: string
+  data: BarDatum[]
+  color?: string
+}
+
+export const gridKeys: Record<
+  string,
+  {
+    title: string
+    footnotes: string[]
+    gridColumns?: number
+    layout?: 'vertical' | 'horizontal'
+    yMax?: number
+    yMin?: number
+    yTickCount?: number
+    yTickCountMobile?: number
+    ratio?: number
+    xLabel?: string
+    yLabel?: string
+    colorMap?: Record<string, string>
+    items: BarGridItem[]
+  }
+> = {
+  BG01: {
+    title: '各縣市議員提案數量（依政黨）',
+    footnotes: [
+      '資料來源：六都議會提案系統、報導者觀測站',
+      '資料整理：黃靖緯 ｜ 設計：江世民',
+    ],
+    gridColumns: 2,
+    layout: 'horizontal',
+    // yMax: 400,
+    yMin: 0,
+    yTickCount: 4,
+    yTickCountMobile: 10,
+    ratio: 1.4,
+    colorMap: {
+      '國民黨': 'var(--chart-blue-3)',
+      '民進黨': 'var(--chart-olive-3)',
+      '無黨籍': 'var(--chart-gray-3)',
+      '民眾黨': 'var(--chart-mint-3)',
+      '新黨': 'var(--chart-earth-3)',
+      '社會民主黨': 'var(--chart-indigo-3)',
+      '無黨團結聯盟': 'var(--chart-purple-3)',
+      '台灣基進': 'var(--chart-red-3)',
+      '台聯': 'var(--chart-gray-3)',
+    },
+    items: [
+      {
+        label: '台北市',
+        data: [
+          { label: '國民黨', value: 101 },
+          { label: '民進黨', value: 101 },
+          { label: '無黨籍', value: 101 },
+          { label: '民眾黨', value: 90 },
+          { label: '新黨', value: 57 },
+          { label: '社會民主黨', value: 22 },
+        ],
+      },
+      {
+        label: '新北市',
+        data: [
+          { label: '民進黨', value: 386 },
+          { label: '國民黨', value: 291 },
+          { label: '無黨籍', value: 55 },
+          { label: '無黨團結聯盟', value: 32 },
+          { label: '民眾黨', value: 5 },
+        ],
+      },
+      {
+        label: '桃園市',
+        data: [
+          { label: '國民黨', value: 326 },
+          { label: '民進黨', value: 282 },
+          { label: '無黨籍', value: 39 },
+        ],
+      },
+      {
+        label: '台中市',
+        data: [
+          { label: '國民黨', value: 175 },
+          { label: '民進黨', value: 174 },
+          { label: '無黨籍', value: 68 },
+          { label: '民眾黨', value: 52 },
+        ],
+      },
+      {
+        label: '高雄市',
+        data: [
+          { label: '民進黨', value: 166 },
+          { label: '國民黨', value: 98 },
+          { label: '台灣基進', value: 26 },
+          { label: '無黨籍', value: 22 },
+          { label: '無黨團結聯盟', value: 4 },
+        ],
+      },
+      {
+        label: '台南市',
+        data: [
+          { label: '民進黨', value: 308 },
+          { label: '無黨籍', value: 137 },
+          { label: '國民黨', value: 134 },
+          { label: '無黨團結聯盟', value: 43 },
+          { label: '台聯', value: 8 },
+        ],
+      },
+    ],
+  },
+}
 
 export const keys: Record<
   string,
@@ -15,7 +126,7 @@ export const keys: Record<
   }
 > = {
   B01: {
-    title: '各黨提案數量',
+    title: '六都除新北、台北都是執政黨提出較多補助議案',
     footnotes: [
       '資料來源：六都議會提案系統、報導者觀測站',
       '資料整理：黃靖緯 ｜ 設計：江世民',
@@ -57,7 +168,7 @@ export const keys: Record<
       },
     ],
   },
-  B03: {
+  B02: {
     title: '六都議員人均提案量隨資歷降低',
     footnotes: [
       '註：資歷9、10屆議員僅各有一人',

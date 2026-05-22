@@ -17,6 +17,7 @@
     src,
     data: inlineData,
     color = 'var(--chart-olive-3, #7a8c3a)',
+    colorMap,
     stacked = false,
     layout = 'vertical',
     series,
@@ -31,6 +32,7 @@
     src?: string
     data?: BarDatum[]
     color?: string
+    colorMap?: Record<string, string>
     stacked?: boolean
     layout?: 'vertical' | 'horizontal'
     series?: BarSeries[]
@@ -62,11 +64,19 @@
     ro.observe(svgEl)
     return () => ro.disconnect()
   })
+
+  let screenWidth = $state(window.innerWidth)
+  $effect(() => {
+    const handler = () => { screenWidth = window.innerWidth }
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  })
+
   const totalHeight = $derived(totalWidth * (1 / ratio))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
   const tickCount = $derived(
-    renderedWidth < 480 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
+    screenWidth < 767 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
   )
 
   // --- Single-series ---
@@ -252,7 +262,7 @@
                 y={linearScale(d.value)}
                 width={bandScale.bandwidth()}
                 height={chartHeight - linearScale(d.value)}
-                fill={color}
+                fill={colorMap?.[d.label] ?? color}
                 // rx="2"
               />
             {:else}
@@ -261,7 +271,7 @@
                 x={0}
                 height={bandScale.bandwidth()}
                 width={linearScale(d.value)}
-                fill={color}
+                fill={colorMap?.[d.label] ?? color}
                 // rx="2"
               />
             {/if}
@@ -316,7 +326,7 @@
     flex: 1;
     min-width: 0;
     margin: -8px 0 -20px 0;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 767px) {
       margin: -8px 0 -25px 0;
     }
   }

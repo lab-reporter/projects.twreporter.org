@@ -166,9 +166,9 @@
     --text-xl: 28px;
     --text-xl-leading: 1.3;
 
-    @media (max-width: 480px) {
-      --text-xs: 10px;
-      --text-s: 12px;
+    @media (max-width: 767px) {
+      --text-xs: 12px;
+      --text-s: 14px;
       --text-m: 16px;
       --text-l: 18px;
       --text-xl: 22px;
@@ -242,7 +242,7 @@
   .logo {
     width: 29px;
     height: 31px;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 767px) {
       width: 20px;
       height: 21px;
     }

@@ -62,13 +62,13 @@
     background-color: var(--neutral-gray-100);
     border-radius: 3px;
     padding: 25px 20px 20px 20px;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 767px) {
       padding: 15px 0px 12px 10px;
     }
   }
 
   .bar-name {
-    font-size: var(--text-s);
+    font-size: var(--text-m);
     font-weight: 500;
     color: var(--neutral-gray-700);
     margin-bottom: 6px;
