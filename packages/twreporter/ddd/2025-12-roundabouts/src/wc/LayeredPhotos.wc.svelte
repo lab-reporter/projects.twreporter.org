@@ -109,7 +109,11 @@
 
 <div class="outer" class:vertical-with-barchart={isVerticalWithBarchart}>
     <div class="container" bind:this={container}>
-        <div class="header"><h1>{name}</h1></div>
+        <div class="header">
+            {#each name.split("\\n") as title}
+                <h1>{title}</h1>
+            {/each}
+        </div>
 
         {#if isVerticalWithBarchart && groups}
             <div class="controls bridge-tabs">
@@ -384,19 +388,18 @@
     }
 
     .header {
-        padding: 5px 0 0;
+        padding: 10px 0;
     }
 
     @media (min-width: 500px) {
-        .header h1 {
-            padding: 5px 0 15px;
+        .header {
+            padding: 10px 0 15px;
         }
     }
 
     .header h1 {
         font-size: 24px;
         font-weight: bold;
-        padding: 5px 0 10px;
     }
 
     @media (min-width: 500px) {
