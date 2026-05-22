@@ -58,7 +58,6 @@
     border-radius: 4px;
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
     font-size: var(--text-s);
-    max-width: 250px;
     white-space: nowrap;
     border: 1px solid var(--neutral-gray-200);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -74,15 +73,20 @@
   .legend {
     display: flex;
     align-items: center;
+    align-self: stretch;
     gap: 6px;
+    max-width: 200px;
     color: var(--neutral-gray-700);
     border-right: 1.5px solid var(--neutral-gray-200);
     padding: 6px 10px 8px 0;
+    @media screen and (max-width: 767px) {
+      max-width: 180px;
+    }
   }
   .legend-swatch {
-    width: var(--text-s);
-    height: var(--text-s);
-    border-radius: 2px;
+    width: 6px;
+    align-self: stretch;
+    border-radius: 1px;
     flex-shrink: 0;
   }
   .legend-label {

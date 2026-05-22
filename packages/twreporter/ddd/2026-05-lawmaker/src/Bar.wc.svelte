@@ -37,11 +37,12 @@
             src={bar.src}
             data={bar.data}
             color={bar.color}
+            colorMap={config.colorMap}
             layout={config.layout}
             xLabel={bar.xLabel}
             yLabel={bar.yLabel}
             yTickCount={config.yTickCount}
-          yTickCountMobile={config.yTickCountMobile}
+            yTickCountMobile={config.yTickCountMobile}
             yMin={config.yMin}
             yMax={config.yMax}
           />

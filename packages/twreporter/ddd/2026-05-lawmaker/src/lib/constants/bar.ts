@@ -121,6 +121,7 @@ export const keys: Record<
     yTickCountMobile?: number
     yMin?: number
     yMax?: number
+    colorMap?: Record<string, string>
     bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
   }
 > = {
@@ -179,6 +180,10 @@ export const keys: Record<
     yTickCount: 10,
     yMin: 0,
     yMax: 200,
+    colorMap: {
+      '9': 'var(--neutral-gray-400)',
+      '10': 'var(--neutral-gray-400)',
+    },
     bars: [
       {
         color: 'var(--chart-olive-3)',
