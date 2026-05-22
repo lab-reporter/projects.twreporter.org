@@ -242,6 +242,10 @@
   .logo {
     width: 29px;
     height: 31px;
+    @media screen and (max-width: 480px) {
+      width: 20px;
+      height: 21px;
+    }
   }
 
   .download-control {

@@ -105,7 +105,7 @@
     gap: 12px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     .grid {
       grid-template-columns: 1fr;
     }
@@ -155,6 +155,9 @@
     padding: 8px 12px;
     vertical-align: middle;
     border-right: 1px solid var(--neutral-gray-200);
+    @media screen and (max-width: 480px) {
+      padding: 6px 8px;
+    }
   }
 
   th:last-child,

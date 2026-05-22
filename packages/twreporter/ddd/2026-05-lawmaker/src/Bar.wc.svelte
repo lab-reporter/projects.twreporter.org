@@ -21,6 +21,10 @@
           series={config.bars}
           xLabel={firstBar.xLabel}
           yLabel={firstBar.yLabel}
+          yTickCount={config.yTickCount}
+          yTickCountMobile={config.yTickCountMobile}
+          yMin={config.yMin}
+          yMax={config.yMax}
         />
       </div>
     {:else}
@@ -36,6 +40,10 @@
             layout={config.layout}
             xLabel={bar.xLabel}
             yLabel={bar.yLabel}
+            yTickCount={config.yTickCount}
+          yTickCountMobile={config.yTickCountMobile}
+            yMin={config.yMin}
+            yMax={config.yMax}
           />
         </div>
       {/each}
@@ -53,7 +61,10 @@
   .bar-wrapper {
     background-color: var(--neutral-gray-100);
     border-radius: 3px;
-    padding: 15px;
+    padding: 25px 20px 20px 20px;
+    @media screen and (max-width: 480px) {
+      padding: 15px 0px 12px 10px;
+    }
   }
 
   .bar-name {

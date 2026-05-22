@@ -7,6 +7,10 @@ export const keys: Record<
     footnotes: string[]
     stacked?: boolean
     layout?: 'vertical' | 'horizontal'
+    yTickCount?: number
+    yTickCountMobile?: number
+    yMin?: number
+    yMax?: number
     bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
   }
 > = {
@@ -18,6 +22,10 @@ export const keys: Record<
     ],
     stacked: true,
     layout: 'horizontal',
+    yTickCount: 10,
+    yTickCountMobile: 5,
+    yMin: 0,
+    yMax: 500,
     bars: [
       {
         name: '鄰里（長）補助',
@@ -47,6 +55,38 @@ export const keys: Record<
           { label: '社會民主黨', value: 0 },
         ],
       },
+    ],
+  },
+  B03: {
+    title: '六都議員人均提案量隨資歷降低',
+    footnotes: [
+      '註：資歷9、10屆議員僅各有一人',
+      '資料來源：六都議會提案系統、報導者觀測站',
+      '資料整理：黃靖緯 ｜ 設計：江世民',
+    ],
+    stacked: false,
+    layout: 'vertical',
+    yTickCount: 10,
+    yMin: 0,
+    yMax: 200,
+    bars: [
+      {
+        color: 'var(--chart-olive-3)',
+        xLabel: '資歷（年）',
+        yLabel: '人均案量',
+        data: [
+          { label: '1', value: 188.2 },
+          { label: '2', value: 175.7 },
+          { label: '3', value: 153.1 },
+          { label: '4', value: 129.4 },
+          { label: '5', value: 117.7 },
+          { label: '6', value: 113.9 },
+          { label: '7', value: 77 },
+          { label: '8', value: 79.7 },
+          { label: '9', value: 192 },
+          { label: '10', value: 106 },
+        ],
+      }
     ],
   },
 }

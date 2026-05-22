@@ -11,7 +11,7 @@
   import { createQuery } from '@tanstack/svelte-query'
 
   export type BarDatum = { label: string; value: number }
-  export type BarSeries = { name: string; data: BarDatum[]; color?: string }
+  export type BarSeries = { name?: string; data: BarDatum[]; color?: string }
 
   let {
     src,
@@ -23,6 +23,10 @@
     ratio = 1,
     xLabel,
     yLabel,
+    yTickCount = 5,
+    yTickCountMobile,
+    yMin,
+    yMax: yMaxProp,
   }: {
     src?: string
     data?: BarDatum[]
@@ -33,6 +37,10 @@
     ratio?: number
     xLabel?: string
     yLabel?: string
+    yTickCount?: number
+    yTickCountMobile?: number
+    yMin?: number
+    yMax?: number
   } = $props()
 
   let yAxisTextWidth = $state(44)
@@ -57,6 +65,9 @@
   const totalHeight = $derived(totalWidth * (1 / ratio))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
+  const tickCount = $derived(
+    renderedWidth < 480 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
+  )
 
   // --- Single-series ---
   const dataQuery = createQuery<BarDatum[]>(() => ({
@@ -73,7 +84,9 @@
   const isLoading = $derived(!inlineData && dataQuery.isLoading)
 
   // --- Stacked: merge series into [{label, key1: v, key2: v, ...}] ---
-  const stackKeys = $derived(series?.map((s) => s.name) ?? [])
+  const stackKeys = $derived(
+    series?.map((s) => s.name).filter((n): n is string => n !== undefined) ?? [],
+  )
 
   const mergedData = $derived.by(() => {
     if (!series?.length) return []
@@ -82,7 +95,7 @@
       const entry: Record<string, string | number> = { label }
       for (const s of series) {
         const item = s.data.find((d) => d.label === label)
-        entry[s.name] = item?.value ?? 0
+        if (s.name !== undefined) entry[s.name] = item?.value ?? 0
       }
       return entry
     })
@@ -122,7 +135,7 @@
   )
   const linearScale = $derived(
     scaleLinear()
-      .domain([0, yMax * 1.1])
+      .domain([yMin ?? 0, yMaxProp ?? yMax * 1.1])
       .range(layout === 'horizontal' ? [0, width] : [chartHeight, 0])
       .nice(),
   )
@@ -134,8 +147,8 @@
     if (!xAxisEl || !xDomain.length) return
     const axis =
       layout === 'horizontal'
-        ? axisBottom(linearScale).ticks(5)
-        : axisBottom(bandScale)
+        ? axisBottom(linearScale).ticks(tickCount).tickSize(-chartHeight).tickPadding(8)
+        : axisBottom(bandScale).tickSize(0).tickPadding(4)
     select(xAxisEl).call(axis.tickSizeOuter(0))
     if (layout === 'vertical') {
       select(xAxisEl)
@@ -150,8 +163,8 @@
     if (!yAxisEl || !xDomain.length) return
     const axis =
       layout === 'horizontal'
-        ? axisLeft(bandScale)
-        : axisLeft(linearScale).ticks(5)
+        ? axisLeft(bandScale).tickSize(0).tickPadding(6)
+        : axisLeft(linearScale).ticks(tickCount).tickSize(-width).tickPadding(7)
     select(yAxisEl).call(axis.tickSizeOuter(0))
 
     let maxW = 0
@@ -205,6 +218,8 @@
       overflow="visible"
     >
       <g transform={`translate(${margin.left}, ${margin.top})`}>
+        <g bind:this={yAxisEl} class="y-axis" />
+        <g bind:this={xAxisEl} transform={`translate(0, ${chartHeight})`} class="x-axis" />
         {#if stacked && series}
           {#each stackedLayers as layer, i}
             {#each layer as seg}
@@ -253,8 +268,6 @@
           {/each}
         {/if}
 
-        <g bind:this={xAxisEl} transform={`translate(0, ${chartHeight})`} />
-        <g bind:this={yAxisEl} />
       </g>
     </svg>
   </div>
@@ -302,7 +315,10 @@
   .bar-chart-y svg {
     flex: 1;
     min-width: 0;
-    margin: -8px 0 -17px 0;
+    margin: -8px 0 -20px 0;
+    @media screen and (max-width: 480px) {
+      margin: -8px 0 -25px 0;
+    }
   }
 
   .bar-chart :global(.tick text),
@@ -314,6 +330,11 @@
     font-size: var(--text-s);
     fill: var(--neutral-gray-700);
     font-weight: 500;
+  }
+
+  .bar-chart :global(.y-axis .tick line),
+  .bar-chart :global(.x-axis .tick line) {
+    stroke: var(--neutral-gray-200);
   }
 
   .axis-label {
@@ -337,8 +358,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 5px 25px;
-    padding: 6px 4px 2px;
+    gap: 3px 25px;
+    padding: 0 5px;
+    margin-top: -3px;
   }
 
   .legend-item {
