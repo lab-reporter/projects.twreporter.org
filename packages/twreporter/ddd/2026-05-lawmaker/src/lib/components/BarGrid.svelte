@@ -81,7 +81,7 @@
     color: var(--neutral-gray-800);
     text-align: center;
     padding: 6px;
-    border: 1px solid var(--neutral-gray-200);
+    border: 0px solid var(--neutral-gray-200);
     background-color: var(--neutral-gray-200);
     border-radius: 2px 2px 0 0;
   }
@@ -93,8 +93,8 @@
   .bar-wrapper {
     background-color: var(--neutral-gray-100);
     border-radius: 0 0 3px 3px;
-    padding: 0 5px 5px 0px;
-    border: 1px solid var(--neutral-gray-200);
+    padding: 0 6px 5px 3px;
+    border: 0px solid var(--neutral-gray-200);
     border-top: none;
   }
 </style>

@@ -35,7 +35,6 @@ export const gridKeys: Record<
     // yMax: 400,
     yMin: 0,
     yTickCount: 4,
-    yTickCountMobile: 10,
     ratio: 1.4,
     colorMap: {
       '國民黨': 'var(--chart-blue-3)',

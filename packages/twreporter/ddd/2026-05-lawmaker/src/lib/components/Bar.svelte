@@ -9,6 +9,7 @@
     stack,
   } from 'd3'
   import { createQuery } from '@tanstack/svelte-query'
+  import Tooltip from './Tooltip.svelte'
 
   export type BarDatum = { label: string; value: number }
   export type BarSeries = { name?: string; data: BarDatum[]; color?: string }
@@ -198,6 +199,19 @@
   function seriesColor(i: number) {
     return series?.[i]?.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length]
   }
+
+  type TooltipState = { x: number; y: number; label: string; value: number; seriesName?: string; seriesColor?: string }
+  let tooltip = $state<TooltipState | null>(null)
+
+  function onBarEnter(e: MouseEvent, label: string, value: number, seriesName?: string, seriesColor?: string) {
+    tooltip = { x: e.clientX, y: e.clientY, label, value, seriesName, seriesColor }
+  }
+  function onBarMove(e: MouseEvent) {
+    if (tooltip) tooltip = { ...tooltip, x: e.clientX, y: e.clientY }
+  }
+  function onBarLeave() {
+    tooltip = null
+  }
 </script>
 
 <div class="bar-chart" style:--aspect-ratio={ratio}>
@@ -235,21 +249,27 @@
             {#each layer as seg}
               {#if layout === 'vertical'}
                 <rect
+                  role="img"
                   x={bandScale(seg.data.label as string)}
                   y={linearScale(seg[1])}
                   width={bandScale.bandwidth()}
                   height={linearScale(seg[0]) - linearScale(seg[1])}
                   fill={seriesColor(i)}
-                  // rx="2"
+                  onmouseenter={(e) => onBarEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
+                  onmousemove={onBarMove}
+                  onmouseleave={onBarLeave}
                 />
               {:else}
                 <rect
+                  role="img"
                   y={bandScale(seg.data.label as string)}
                   x={linearScale(seg[0])}
                   height={bandScale.bandwidth()}
                   width={linearScale(seg[1]) - linearScale(seg[0])}
                   fill={seriesColor(i)}
-                  // rx="2"
+                  onmouseenter={(e) => onBarEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
+                  onmousemove={onBarMove}
+                  onmouseleave={onBarLeave}
                 />
               {/if}
             {/each}
@@ -258,21 +278,27 @@
           {#each singleData as d (d.label)}
             {#if layout === 'vertical'}
               <rect
+                role="img"
                 x={bandScale(d.label)}
                 y={linearScale(d.value)}
                 width={bandScale.bandwidth()}
                 height={chartHeight - linearScale(d.value)}
                 fill={colorMap?.[d.label] ?? color}
-                // rx="2"
+                onmouseenter={(e) => onBarEnter(e, d.label, d.value)}
+                onmousemove={onBarMove}
+                onmouseleave={onBarLeave}
               />
             {:else}
               <rect
+                role="img"
                 y={bandScale(d.label)}
                 x={0}
                 height={bandScale.bandwidth()}
                 width={linearScale(d.value)}
                 fill={colorMap?.[d.label] ?? color}
-                // rx="2"
+                onmouseenter={(e) => onBarEnter(e, d.label, d.value)}
+                onmousemove={onBarMove}
+                onmouseleave={onBarLeave}
               />
             {/if}
           {/each}
@@ -294,6 +320,17 @@
       src="https://www.twreporter.org/images/spinner-logo.gif"
       alt="Loading..."
       class="loading-spinner"
+    />
+  {/if}
+
+  {#if tooltip}
+    <Tooltip
+      x={tooltip.x}
+      y={tooltip.y}
+      label={tooltip.label}
+      value={tooltip.value}
+      seriesName={tooltip.seriesName}
+      seriesColor={tooltip.seriesColor}
     />
   {/if}
 </div>
