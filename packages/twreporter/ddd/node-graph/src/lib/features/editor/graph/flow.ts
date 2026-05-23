@@ -36,7 +36,3 @@ export function filterGraphNodes(
     `${node.label} ${node.categoryLabel}`.toLocaleLowerCase().includes(term),
   )
 }
-
-export function removeSelectedNodeId(nodeIds: string[], nodeId: string) {
-  return nodeIds.filter((id) => id !== nodeId)
-}

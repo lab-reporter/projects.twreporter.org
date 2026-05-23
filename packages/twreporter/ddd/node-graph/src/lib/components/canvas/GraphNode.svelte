@@ -5,6 +5,7 @@
 
   let {
     data,
+    selected,
     targetPosition = Position.Left,
     sourcePosition = Position.Right,
   }: NodeProps<FlowNode> = $props()
@@ -21,8 +22,7 @@
   style:--node-description-text-color={data.descriptionTextColor ??
     defaultNodeStyle.descriptionTextColor}
   class:expanded={data.expanded}
-  class:selected={data.selected}
-  class:multi-selected={data.multiSelected}
+  class:selected
   role="presentation"
 >
   <Handle

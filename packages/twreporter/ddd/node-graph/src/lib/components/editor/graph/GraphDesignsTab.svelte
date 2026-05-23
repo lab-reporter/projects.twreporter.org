@@ -1,8 +1,8 @@
 <script lang="ts">
   import Button from '@/lib/components/ui/Button.svelte'
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
-  import SidebarCheckboxRow from '@/lib/components/ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarSection from '@/lib/components/ui/sidebar/SidebarSection.svelte'
+  import { useSvelteFlow } from '@xyflow/svelte'
   import type { Id } from '~convex/dataModel'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
 
@@ -30,24 +30,23 @@
   } = $props()
 
   const canvasState = getCanvasContext()
+  const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
+
+  function clearSelection() {
+    for (const node of getNodes()) {
+      updateNode(node.id, { selected: false })
+    }
+
+    for (const edge of getEdges()) {
+      updateEdge(edge.id, { selected: false })
+    }
+  }
 </script>
 
 <div class="tab-body">
   <SidebarSection title="建立設計">
-    <button
-      class="toggle-row"
-      type="button"
-      onclick={() => {
-        canvasState.selectionMode = !canvasState.selectionMode
-      }}
-    >
-      <SidebarCheckboxRow
-        label="選取節點"
-        checked={canvasState.selectionMode}
-      />
-    </button>
     <SidebarCard>
-      <span>已選 {canvasState.selectedNodeIds.length} 個節點</span>
+      <span>已選 {canvasState.selectedItems.length} 個節點</span>
     </SidebarCard>
     <div class="field">
       <label for="design-title">標題</label>
@@ -61,20 +60,12 @@
     <div class="actions">
       <Button
         variant="filled"
-        disabled={creatingDesign || canvasState.selectedNodeIds.length === 0}
+        disabled={creatingDesign || canvasState.selectedItems.length === 0}
         onclick={onsubmit}
       >
         建立
       </Button>
-      <Button
-        variant="outlined"
-        onclick={() => {
-          canvasState.selectedItem = null
-          canvasState.selectedNodeIds = []
-        }}
-      >
-        清除
-      </Button>
+      <Button variant="outlined" onclick={clearSelection}>清除</Button>
     </div>
   </SidebarSection>
 
@@ -135,15 +126,6 @@
     display: flex;
     gap: 8px;
     align-items: center;
-  }
-
-  .toggle-row {
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: inherit;
   }
 
   .design-list {

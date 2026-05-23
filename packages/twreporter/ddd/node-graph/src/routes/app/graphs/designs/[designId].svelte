@@ -64,7 +64,6 @@
       graph: designData.data,
       readonly: false,
       activeLayoutKey,
-      selectedItem: canvasState.selectedItem,
       tooltipsEnabled: canvasState.tooltipsEnabled,
     }),
   )

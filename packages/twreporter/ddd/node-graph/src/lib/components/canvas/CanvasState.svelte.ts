@@ -1,26 +1,38 @@
 import type { CanvasSelectedItem } from '@/lib/features/canvas/types'
+import { useOnSelectionChange } from '@xyflow/svelte'
 import { getContext, setContext } from 'svelte'
 
 interface CanvasState {
   selectedItem: CanvasSelectedItem | null
-  selectedNodeIds: string[]
-  selectionMode: boolean
+  selectedItems: CanvasSelectedItem[]
   tooltipsEnabled: boolean
 }
 
 class CanvasStateClass implements CanvasState {
   selectedItem: CanvasSelectedItem | null = $state(null)
-  selectedNodeIds: string[] = $state([])
+  selectedItems: CanvasSelectedItem[] = $state([])
 
-  selectionMode = $state(false)
   tooltipsEnabled = $state(true)
 
   constructor() {
-    $effect(() => {
-      if (this.selectionMode) {
+    useOnSelectionChange(({ nodes, edges }) => {
+      if (nodes.length + edges.length === 1) {
+        this.selectedItems = []
+        if (nodes.length === 1)
+          this.selectedItem = { id: nodes[0].id, type: 'graph-node' }
+        if (edges.length === 1)
+          this.selectedItem = { id: edges[0].id, type: 'graph-edge' }
+        return
+      }
+
+      this.selectedItem = null
+      this.selectedItems =
+        nodes.length > 1
+          ? nodes.map((node) => ({ id: node.id, type: 'graph-node' }))
+          : []
+
+      if (edges.length > 0) {
         this.selectedItem = null
-      } else {
-        this.selectedNodeIds = [] as string[]
       }
     })
   }

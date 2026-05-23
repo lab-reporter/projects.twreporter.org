@@ -29,7 +29,6 @@
       graph,
       readonly: true,
       activeLayoutKey,
-      selectedItem: null,
       tooltipsEnabled: true,
     }),
   )

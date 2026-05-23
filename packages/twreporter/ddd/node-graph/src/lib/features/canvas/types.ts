@@ -26,8 +26,6 @@ export type GraphNodeData = Pick<
   descriptionTextColor?: NonNullable<
     Doc<'designNodes'>['nodeStyle']
   >['descriptionTextColor']
-  selected?: boolean
-  multiSelected?: boolean
   tooltipsEnabled?: boolean
 }
 
@@ -46,7 +44,6 @@ export type GraphEdgeData = Pick<
   labelTextColor?: NonNullable<
     Doc<'designEdges'>['edgeStyle']
   >['labelTextColor']
-  selected?: boolean
   tooltipsEnabled?: boolean
 }
 

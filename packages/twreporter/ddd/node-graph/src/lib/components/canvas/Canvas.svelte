@@ -10,7 +10,6 @@
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
   import { useHistory } from '@/lib/features/use-history.svelte'
-  import { getCanvasContext } from './CanvasState.svelte'
 
   let {
     nodes = $bindable(),
@@ -28,7 +27,6 @@
 
   const history = useHistory()
   const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
-  const canvasState = getCanvasContext()
 
   let dragStartPositions = new Map<string, NodePosition>()
 
@@ -85,31 +83,14 @@
       minZoom={0.4}
       maxZoom={1.75}
       nodeDragThreshold={4}
-      elementsSelectable={false}
-      selectionOnDrag={false}
+      elementsSelectable={!readonly}
+      selectionOnDrag={!readonly}
       panOnDrag={!readonly}
       nodesDraggable={!readonly}
       nodesConnectable={false}
       zoomOnScroll={!readonly}
       zoomOnPinch={!readonly}
       panOnScroll={!readonly}
-      onnodeclick={({ node }) => {
-        if (readonly) return
-
-        if (canvasState.selectionMode) {
-          canvasState.selectedNodeIds.push(node.id)
-        } else {
-          canvasState.selectedItem = { id: node.id, type: node.type }
-        }
-      }}
-      onedgeclick={({ edge }) => {
-        if (!readonly) {
-          canvasState.selectedItem = { id: edge.id, type: edge.type }
-        }
-      }}
-      onpaneclick={() => {
-        if (!readonly) canvasState.selectedItem = null
-      }}
       onnodedragstart={() => {
         if (!readonly) rememberDragStart()
       }}

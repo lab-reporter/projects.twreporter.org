@@ -15,7 +15,6 @@
     filterGraphNodes,
     getSelectedGraphEdge,
     getSelectedGraphNode,
-    removeSelectedNodeId,
   } from '@/lib/features/editor/graph/flow'
   import {
     createEdgeFormFromEdge,
@@ -37,11 +36,14 @@
   import { useHistory } from '@/lib/features/use-history.svelte'
   import { navigate, route } from '@/routes/router'
   import { useConvexClient, useQuery } from 'convex-svelte'
+  import { useSvelteFlow } from '@xyflow/svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
+  import type { CanvasSelectedItem } from '@/lib/features/canvas/types'
 
   const convex = useConvexClient()
   const history = useHistory()
+  const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
   const autoLayout = useAutoLayout({
     getNodes: () => flow.nodes,
     getEdges: () => flow.edges,
@@ -64,6 +66,7 @@
   let searchTerm = $state('')
   let designForm = $state(createEmptyDesignForm())
   let hydratedSelectionKey = $state<string | null>(null)
+  let pendingSelectedItem = $state<CanvasSelectedItem | null>(null)
 
   const sidebarTabs = {
     details: 'details',
@@ -75,8 +78,6 @@
     buildGraphFlow({
       graph: graph.data,
       readonly: false,
-      selectedItem: canvasState.selectedItem,
-      selectedNodeIds: canvasState.selectedNodeIds,
       tooltipsEnabled: canvasState.tooltipsEnabled,
     }),
   )
@@ -111,6 +112,16 @@
     }
   })
 
+  $effect(() => {
+    if (!pendingSelectedItem) return
+    flow.nodes.length
+    flow.edges.length
+
+    if (applyFlowSelection(pendingSelectedItem)) {
+      pendingSelectedItem = null
+    }
+  })
+
   async function persistNodeMoves(
     moves: NodePositionMove[],
     direction: 'from' | 'to',
@@ -125,23 +136,40 @@
     )
   }
 
+  function applyFlowSelection(selectedItem: CanvasSelectedItem | null) {
+    let found = selectedItem === null
+
+    for (const node of getNodes()) {
+      const selected =
+        selectedItem?.type === 'graph-node' && selectedItem.id === node.id
+      if (selected) found = true
+      updateNode(node.id, { selected })
+    }
+
+    for (const edge of getEdges()) {
+      const selected =
+        selectedItem?.type === 'graph-edge' && selectedItem.id === edge.id
+      if (selected) found = true
+      updateEdge(edge.id, { selected })
+    }
+
+    return found
+  }
+
+  function selectItem(selectedItem: CanvasSelectedItem | null) {
+    pendingSelectedItem = applyFlowSelection(selectedItem) ? null : selectedItem
+  }
+
   function selectNode(nodeId: Id<'nodes'>) {
-    canvasState.selectedItem = { type: 'graph-node', id: nodeId }
+    selectItem({ type: 'graph-node', id: nodeId })
   }
 
   function selectEdge(edgeId: Id<'edges'>) {
-    canvasState.selectedItem = { type: 'graph-edge', id: edgeId }
+    selectItem({ type: 'graph-edge', id: edgeId })
   }
 
-  function clearSelection(nodeId?: Id<'nodes'>) {
-    canvasState.selectedItem = null
-
-    if (nodeId) {
-      canvasState.selectedNodeIds = removeSelectedNodeId(
-        canvasState.selectedNodeIds,
-        nodeId,
-      )
-    }
+  function clearSelection() {
+    selectItem(null)
   }
 
   async function updateNodeDetails(nodeId: Id<'nodes'>, input: NodeForm) {
@@ -166,7 +194,7 @@
 
   async function deleteNodeById(nodeId: Id<'nodes'>) {
     await convex.mutation(api.graphs.deleteNode, { nodeId })
-    clearSelection(nodeId)
+    clearSelection()
   }
 
   async function deleteEdgeById(edgeId: Id<'edges'>) {
@@ -395,7 +423,7 @@
       bind:searchTerm
       nodes={filteredNodes}
       onselect={(nodeId) => {
-        canvasState.selectedItem = { type: 'graph-node', id: nodeId }
+        selectNode(nodeId)
         activeSidebarTab = sidebarTabs.details
       }}
     />
@@ -422,10 +450,12 @@
               description: designForm.description.trim() || undefined,
             })
 
-            if (canvasState.selectedNodeIds.length > 0) {
+            if (canvasState.selectedItems.length > 0) {
               await convex.mutation(api.designs.addNodesToDesign, {
                 designId,
-                nodeIds: canvasState.selectedNodeIds as Id<'nodes'>[],
+                nodeIds: canvasState.selectedItems.map(
+                  (item) => item.id,
+                ) as Id<'nodes'>[],
               })
             }
 
