@@ -20,7 +20,7 @@
 </div>
 
 <style>
-  :global(*) {
+  :root {
     /* 報導者 Library */
     --brand-faded: rgba(244, 198, 198, 1);
     --brand-pastel: rgba(247, 105, 119, 1);
@@ -100,9 +100,7 @@
     --chart-gray-3: rgba(170, 165, 165, 1);
     --chart-gray-4: rgba(107, 104, 104, 1);
     --chart-gray-5: rgba(70, 66, 66, 1);
-  }
 
-  :global(*) {
     --text-xs: 14px;
     --text-s: 16px;
     --text-m: 18px;
@@ -114,22 +112,22 @@
       --text-l: 18px;
       --text-xl: 22px;
     }
+
+    --text-color: var(--neutral-gray-800);
+    --backgrouond-color: var(--neutral-gray-100);
   }
 
   .layout {
-    display: grid;
     width: 100vw;
     height: 100dvh;
     overflow: hidden;
+
+    display: grid;
     grid-template-columns: 300px 1fr;
     grid-template-rows: 85px 1fr;
+
     background-color: var(--backgrouond-color);
-
-    --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-gray-200);
-
     color: var(--text-color);
-
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
   }
 </style>
