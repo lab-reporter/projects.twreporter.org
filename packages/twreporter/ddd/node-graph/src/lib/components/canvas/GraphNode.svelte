@@ -48,7 +48,7 @@
     {/if}
   </div>
 
-  {#if data.tooltipsEnabled}
+  {#if data.tooltipsEnabled && !data.expanded}
     <div class="node-popup nodrag nopan">
       <div class="summary">
         {#if data.label}
