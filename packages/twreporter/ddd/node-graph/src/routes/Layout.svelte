@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { setCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
   import type { Snippet } from 'svelte'
 
   const { children }: { children: Snippet } = $props()
+
+  // Contexts
+  setCanvasContext()
 </script>
 
 <link

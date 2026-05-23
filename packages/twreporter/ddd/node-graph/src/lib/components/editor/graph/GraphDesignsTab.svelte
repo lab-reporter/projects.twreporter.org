@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import Button from '@/lib/components/ui/Button.svelte'
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
   import SidebarCheckboxRow from '@/lib/components/ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarSection from '@/lib/components/ui/sidebar/SidebarSection.svelte'
   import type { Id } from '~convex/dataModel'
+  import { getCanvasContext } from '../../canvas/CanvasState.svelte'
 
   type DesignForm = {
     title: string
@@ -28,6 +28,8 @@
     onsubmit: () => void
     onopen: (designId: Id<'designs'>) => void
   } = $props()
+
+  const canvasState = getCanvasContext()
 </script>
 
 <div class="tab-body">

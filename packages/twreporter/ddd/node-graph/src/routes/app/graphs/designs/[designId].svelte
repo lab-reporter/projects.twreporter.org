@@ -8,7 +8,6 @@
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
 
-  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
   import type {
@@ -29,8 +28,10 @@
   import Canvas from '@/lib/components/canvas/Canvas.svelte'
   import Header from '@/lib/components/editor/Header.svelte'
   import DesignTopBar from '@/lib/components/editor/design/DesignTopBar.svelte'
+  import { getCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
 
   const convex = useConvexClient()
+  const canvasState = getCanvasContext()
 
   const designTitle = useQuery(api.designs.getDesignTitle, {
     designId: route.params.designId as Id<'designs'>,

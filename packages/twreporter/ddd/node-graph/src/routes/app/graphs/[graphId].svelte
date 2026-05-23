@@ -1,6 +1,6 @@
 <script lang="ts">
   import Canvas from '@/lib/components/canvas/Canvas.svelte'
-  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
+  import { getCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
   import GraphDesignsTab from '@/lib/components/editor/graph/GraphDesignsTab.svelte'
   import GraphNodesAndEdgesTab from '@/lib/components/editor/graph/GraphNodesAndEdgesTab.svelte'
   import GraphSearchTab from '@/lib/components/editor/graph/GraphSearchTab.svelte'
@@ -48,6 +48,7 @@
     onMoveNodes: (moves) => persistNodeMoves(moves, 'to'),
     onUndoMoveNodes: (moves) => persistNodeMoves(moves, 'from'),
   })
+  const canvasState = getCanvasContext()
 
   const graphId = route.params.graphId as Id<'graphs'>
 

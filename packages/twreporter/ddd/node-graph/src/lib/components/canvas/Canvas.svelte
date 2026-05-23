@@ -9,8 +9,8 @@
   } from '../../features/canvas/types'
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
-  import { canvasState } from './CanvasState.svelte'
   import { useHistory } from '@/lib/features/use-history.svelte'
+  import { getCanvasContext } from './CanvasState.svelte'
 
   let {
     nodes = $bindable(),
@@ -28,6 +28,7 @@
 
   const history = useHistory()
   const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
+  const canvasState = getCanvasContext()
 
   let dragStartPositions = new Map<string, NodePosition>()
 
@@ -93,7 +94,11 @@
       zoomOnPinch={!readonly}
       panOnScroll={!readonly}
       onnodeclick={({ node }) => {
-        if (!readonly) {
+        if (readonly) return
+
+        if (canvasState.selectionMode) {
+          canvasState.selectedNodeIds.push(node.id)
+        } else {
           canvasState.selectedItem = { id: node.id, type: node.type }
         }
       }}
