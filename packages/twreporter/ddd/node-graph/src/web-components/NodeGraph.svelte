@@ -97,4 +97,8 @@
     width: 100%;
     height: 80vh;
   }
+
+  .node-graph :global(*) {
+    text-align: left !important;
+  }
 </style>
