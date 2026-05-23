@@ -9,7 +9,10 @@
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
   import { buildGraphFlow } from '@/lib/features/canvas/adapter'
-  import type { NodePositionMove } from '@/lib/features/canvas/types'
+  import type {
+    CanvasSelectedItem,
+    NodePositionMove,
+  } from '@/lib/features/canvas/types'
   import { useAutoLayout } from '@/lib/features/canvas/use-auto-layout.svelte'
   import {
     filterGraphNodes,
@@ -18,7 +21,6 @@
   } from '@/lib/features/editor/graph/flow'
   import {
     createEdgeFormFromEdge,
-    createEmptyDesignForm,
     createEmptyEdgeForm,
     createEmptyNodeForm,
     createNodeFormFromNode,
@@ -34,12 +36,11 @@
     getNodeSnapshot,
   } from '@/lib/features/editor/snapshots'
   import { useHistory } from '@/lib/features/use-history.svelte'
-  import { navigate, route } from '@/routes/router'
-  import { useConvexClient, useQuery } from 'convex-svelte'
+  import { route } from '@/routes/router'
   import { useSvelteFlow } from '@xyflow/svelte'
+  import { useConvexClient, useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
-  import type { CanvasSelectedItem } from '@/lib/features/canvas/types'
 
   const convex = useConvexClient()
   const history = useHistory()
@@ -59,12 +60,11 @@
   const categories = useQuery(api.graphs.listCategories, () => ({}))
   const designs = useQuery(api.designs.listDesignsForGraph, { graphId })
 
-  let creatingDesign = $state(false)
   let activeSidebarTab = $state('details')
   let nodeForm = $state(createEmptyNodeForm())
   let edgeForm = $state(createEmptyEdgeForm())
   let searchTerm = $state('')
-  let designForm = $state(createEmptyDesignForm())
+
   let hydratedSelectionKey = $state<string | null>(null)
   let pendingSelectedItem = $state<CanvasSelectedItem | null>(null)
 
@@ -430,53 +430,7 @@
   </TabContent>
 
   <TabContent value={sidebarTabs.design}>
-    <GraphDesignsTab
-      bind:designForm
-      designs={designs.data ?? []}
-      {creatingDesign}
-      onsubmit={async () => {
-        if (creatingDesign) return
-        const title = designForm.title.trim()
-
-        if (!title) return
-
-        creatingDesign = true
-
-        try {
-          const designId = await convex.mutation(api.designs.createDesign, {
-            graphId,
-            title,
-            description: designForm.description.trim() || undefined,
-          })
-
-          if (canvasState.selectedItems.length > 0) {
-            await convex.mutation(api.designs.addNodesToDesign, {
-              designId,
-              nodeIds: canvasState.selectedItems.map(
-                (item) => item.id,
-              ) as Id<'nodes'>[],
-            })
-          }
-
-          navigate('/graphs/:graphId/designs/:designId', {
-            params: {
-              graphId,
-              designId,
-            },
-          })
-        } finally {
-          creatingDesign = false
-        }
-      }}
-      onopen={(designId) => {
-        navigate('/graphs/:graphId/designs/:designId', {
-          params: {
-            graphId,
-            designId,
-          },
-        })
-      }}
-    />
+    <GraphDesignsTab designs={designs.data ?? []} />
   </TabContent>
 
   {#snippet footer()}

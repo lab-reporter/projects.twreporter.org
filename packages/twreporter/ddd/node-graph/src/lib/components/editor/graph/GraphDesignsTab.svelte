@@ -6,31 +6,27 @@
   import type { Id } from '~convex/dataModel'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
   import EmptyState from '../../ui/EmptyState.svelte'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
+  import { navigate, route } from '@/routes/router'
+  import { toast } from 'svelte-sonner'
+  import { createEmptyDesignForm } from '@/lib/features/editor/graph/form'
 
-  type DesignForm = {
-    title: string
-    description: string
-  }
   type DesignListItem = {
     _id: Id<'designs'>
     title: string
   }
 
   let {
-    designForm = $bindable(),
     designs,
-    creatingDesign,
-    onsubmit,
-    onopen,
   }: {
-    designForm: DesignForm
     designs: DesignListItem[]
-    creatingDesign: boolean
-    onsubmit: () => void | Promise<void>
-    onopen: (designId: Id<'designs'>) => void
   } = $props()
 
+  const convex = useConvexClient()
   const canvasState = getCanvasContext()
+  let designForm = $state(createEmptyDesignForm())
+  const graphId = route.params.graphId as Id<'graphs'>
   const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
 
   function clearSelection() {
@@ -61,8 +57,38 @@
     <div class="actions">
       <Button
         variant="filled"
-        disabled={creatingDesign || canvasState.selectedItems.length === 0}
-        onclick={onsubmit}
+        onclick={async () => {
+          const title = designForm.title.trim()
+          if (!title) return
+
+          const selectedNodeIds = canvasState.selectedItems.map(
+            (item) => item.id,
+          ) as Id<'nodes'>[]
+
+          try {
+            const designId = await convex.mutation(api.designs.createDesign, {
+              graphId,
+              title,
+              description: designForm.description.trim() || undefined,
+            })
+
+            if (selectedNodeIds.length > 0) {
+              await convex.mutation(api.designs.addNodesToDesign, {
+                designId,
+                nodeIds: selectedNodeIds,
+              })
+            }
+
+            navigate('/graphs/:graphId/designs/:designId', {
+              params: {
+                graphId,
+                designId,
+              },
+            })
+          } catch {
+            toast.error('無法建立設計')
+          }
+        }}
       >
         建立
       </Button>
@@ -79,7 +105,13 @@
           <button
             class="design-link"
             type="button"
-            onclick={() => onopen(design._id)}
+            onclick={() =>
+              navigate('/graphs/:graphId/designs/:designId', {
+                params: {
+                  graphId,
+                  designId: design._id,
+                },
+              })}
           >
             {design.title}
           </button>
