@@ -1,6 +1,6 @@
 <script lang="ts">
   import { UserButton } from 'svelte-clerk/client'
-  import { p } from '../../../router'
+  import { p } from '../../../routes/router'
 
   const { title }: { title?: string } = $props()
 </script>

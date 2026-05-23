@@ -1,9 +1,9 @@
 import { createRouter } from 'sv-router'
-import Home from './routes/Home.svelte'
-import GraphEditor from './routes/GraphEditor.svelte'
-import DesignEditor from './routes/DesignEditor.svelte'
-import Login from './routes/Login.svelte'
-import Layout from './routes/Layout.svelte'
+import Home from './app/index.svelte'
+import GraphEditor from './app/graphs/designs/[designId].svelte'
+import DesignEditor from './app/graphs/[graphId].svelte'
+import Login from './app/login.svelte'
+import Layout from './layout.svelte'
 
 export const {
   p: path,

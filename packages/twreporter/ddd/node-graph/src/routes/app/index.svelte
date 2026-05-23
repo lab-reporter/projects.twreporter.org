@@ -2,13 +2,13 @@
   import { useQuery } from 'convex-svelte'
   import { UserButton } from 'svelte-clerk/client'
   import { api } from '~convex/api'
-  import Badge from '../lib/components/ui/Badge.svelte'
-  import CreateGraphForm from '../lib/components/home/CreateGraphForm.svelte'
-  import GraphItem from '../lib/components/home/GraphItem.svelte'
-  import Loading from '../lib/components/icons/Loading.svelte'
-  import Logo from '../lib/components/icons/Logo.svelte'
-  import LegacyGraphImport from '../lib/components/home/LegacyGraphImport.svelte'
-  import Panel from '../lib/components/ui/Panel.svelte'
+  import Badge from '../../lib/components/ui/Badge.svelte'
+  import CreateGraphForm from '../../lib/components/home/CreateGraphForm.svelte'
+  import GraphItem from '../../lib/components/home/GraphItem.svelte'
+  import Loading from '../../lib/components/icons/Loading.svelte'
+  import Logo from '../../lib/components/icons/Logo.svelte'
+  import LegacyGraphImport from '../../lib/components/home/LegacyGraphImport.svelte'
+  import Panel from '../../lib/components/ui/Panel.svelte'
 
   const graphList = useQuery(api.graphs.listGraphs, {})
 </script>

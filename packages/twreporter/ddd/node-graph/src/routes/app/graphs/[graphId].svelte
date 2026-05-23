@@ -7,20 +7,20 @@
   import { useConvexClient, useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
-  import Canvas from '../lib/components/canvas/Canvas.svelte'
-  import Header from '../lib/components/editor/Header.svelte'
-  import Frame from '../lib/components/frame/Frame.svelte'
-  import DesignCanvasTab from '../lib/components/editor/design/DesignCanvasTab.svelte'
-  import DesignEdgeTab from '../lib/components/editor/design/DesignEdgeTab.svelte'
-  import DesignNodeTab from '../lib/components/editor/design/DesignNodeTab.svelte'
-  import DesignTopBar from '../lib/components/editor/design/DesignTopBar.svelte'
+  import Canvas from '../../../lib/components/canvas/Canvas.svelte'
+  import Header from '../../../lib/components/editor/Header.svelte'
+  import Frame from '../../../lib/components/frame/Frame.svelte'
+  import DesignCanvasTab from '../../../lib/components/editor/design/DesignCanvasTab.svelte'
+  import DesignEdgeTab from '../../../lib/components/editor/design/DesignEdgeTab.svelte'
+  import DesignNodeTab from '../../../lib/components/editor/design/DesignNodeTab.svelte'
+  import DesignTopBar from '../../../lib/components/editor/design/DesignTopBar.svelte'
 
   import {
     defaultViewportKey,
     viewports,
     type ViewportKey,
-  } from '../lib/constants/viewports'
-  import { route } from '../router'
+  } from '../../../lib/constants/viewports'
+  import { route } from '../../router'
   import { canvasState } from '@/lib/components/canvas/state.svelte'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
