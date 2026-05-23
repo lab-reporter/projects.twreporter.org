@@ -1,7 +1,7 @@
 import { createRouter } from 'sv-router'
 import Home from './app/index.svelte'
-import GraphEditor from './app/graphs/designs/[designId].svelte'
-import DesignEditor from './app/graphs/[graphId].svelte'
+import GraphEditor from './app/graphs/[graphId].svelte'
+import DesignEditor from './app/graphs/designs/[designId].svelte'
 import Login from './app/login.svelte'
 import Layout from './layout.svelte'
 

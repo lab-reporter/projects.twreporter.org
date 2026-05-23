@@ -1,466 +1,347 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
+  import EmptyState from '@/lib/components/ui/EmptyState.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
-  import { buildGraphFlow } from '@/lib/features/canvas/adapter'
-  import type { NodePositionMove } from '@/lib/features/canvas/types'
-  import {
-    filterGraphNodes,
-    getSelectedGraphEdge,
-    getSelectedGraphNode,
-    removeSelectedNodeId,
-  } from '@/lib/features/editor/graph/flow'
-  import {
-    createEdgeFormFromEdge,
-    createEmptyDesignForm,
-    createEmptyEdgeForm,
-    createEmptyNodeForm,
-    createNodeFormFromNode,
-    toEdgeInput,
-    toNodeInput,
-    type EdgeDetails,
-    type EdgeForm,
-    type NodeForm,
-  } from '@/lib/features/editor/graph/form'
-  import {
-    getEdgeSnapshot,
-    getNodeDeleteSnapshot,
-    getNodeSnapshot,
-  } from '@/lib/features/editor/snapshots'
+  import { normalizeEdgeStyle, normalizeNodeStyle } from '@/lib/utils/canvas'
+  import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
+  import { useConvexField } from '@/lib/features/use-convex-field.svelte'
   import { useConvexClient, useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
-  import Canvas from '../../../../lib/components/canvas/Canvas.svelte'
-  import Header from '../../../../lib/components/editor/Header.svelte'
-  import GraphDesignsTab from '../../../../lib/components/editor/graph/GraphDesignsTab.svelte'
-  import GraphNodesAndEdgesTab from '../../../../lib/components/editor/graph/GraphNodesAndEdgesTab.svelte'
-  import GraphSearchTab from '../../../../lib/components/editor/graph/GraphSearchTab.svelte'
-  import GraphTopBar from '../../../../lib/components/editor/graph/GraphTopBar.svelte'
-  import TabContent from '../../../../lib/components/ui/tabs/TabContent.svelte'
-  import { useHistory } from '../../../../lib/features/use-history.svelte'
-  import { useAutoLayout } from '../../../../lib/features/canvas/use-auto-layout.svelte'
-  import { navigate, route } from '../../../router'
+
+  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
+  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
+  import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
+  import type {
+    CanvasMetadata,
+    EdgeStyle,
+    NodeStyle,
+  } from '@/lib/components/editor/types'
+  import { route } from '@/routes/router'
+  import {
+    defaultViewportKey,
+    viewports,
+    type ViewportKey,
+  } from '@/lib/constants/viewports'
+  import DesignNodeTab from '@/lib/components/editor/design/DesignNodeTab.svelte'
+  import DesignEdgeTab from '@/lib/components/editor/design/DesignEdgeTab.svelte'
+  import DesignCanvasTab from '@/lib/components/editor/design/DesignCanvasTab.svelte'
+  import Frame from '@/lib/components/frame/Frame.svelte'
+  import Canvas from '@/lib/components/canvas/Canvas.svelte'
+  import Header from '@/lib/components/editor/Header.svelte'
+  import DesignTopBar from '@/lib/components/editor/design/DesignTopBar.svelte'
 
   const convex = useConvexClient()
-  const history = useHistory()
-  const autoLayout = useAutoLayout({
-    getNodes: () => flow.nodes,
-    getEdges: () => flow.edges,
-    onMoveNodes: (moves) => persistNodeMoves(moves, 'to'),
-    onUndoMoveNodes: (moves) => persistNodeMoves(moves, 'from'),
+
+  const designTitle = useQuery(api.designs.getDesignTitle, {
+    designId: route.params.designId as Id<'designs'>,
   })
 
-  const graphId = route.params.graphId as Id<'graphs'>
+  const designData = useQuery(api.designs.getDesign, {
+    graphId: route.params.graphId as Id<'graphs'>,
+    designId: route.params.designId as Id<'designs'>,
+  })
 
-  const graphTitle = useQuery(api.graphs.getGraphTitle, { graphId })
-  const graph = useQuery(api.graphs.getGraph, { graphId })
-  const categories = useQuery(api.graphs.listCategories, () => ({}))
-  const designs = useQuery(api.designs.listDesignsForGraph, { graphId })
-
-  let creatingDesign = $state(false)
-  let activeSidebarTab = $state('details')
-  let nodeForm = $state(createEmptyNodeForm())
-  let edgeForm = $state(createEmptyEdgeForm())
-  let searchTerm = $state('')
-  let designForm = $state(createEmptyDesignForm())
-  let hydratedSelectionKey = $state<string | null>(null)
+  let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
+  let activeSidebarTab = $state('nodes')
+  let saveError = $state<string | null>(null)
 
   const sidebarTabs = {
-    details: 'details',
-    search: 'search',
-    design: 'design',
+    nodes: 'nodes',
+    edges: 'edges',
+    groups: 'groups',
+    canvas: 'canvas',
   }
+  const frameResolutionRatio = $derived(
+    viewports[activeLayoutKey].resolutionRatio,
+  )
+  const frameContainerAspectRatio = $derived(
+    `${frameResolutionRatio[0]} / ${frameResolutionRatio[1]}`,
+  )
 
-  const flow = $derived(
-    buildGraphFlow({
-      graph: graph.data,
+  const flow = $derived.by(() =>
+    buildDesignFlow({
+      graph: designData.data,
       readonly: false,
+      activeLayoutKey,
       selectedItem: canvasState.selectedItem,
-      selectedNodeIds: canvasState.selectedNodeIds,
       tooltipsEnabled: canvasState.tooltipsEnabled,
     }),
   )
-  const selectedNode = $derived.by(() => {
-    return getSelectedGraphNode(graph.data, canvasState.selectedItem)
+
+  let frameRef: HTMLDivElement | null | undefined = $state()
+
+  const embedCode = $derived(buildNodeGraphEmbedCode(designData.data))
+
+  const selectedNodeStyle = $derived.by(() => {
+    const data = designData.data
+
+    if (!data || canvasState.selectedItem?.type !== 'graph-node') {
+      return undefined
+    }
+
+    return normalizeNodeStyle(
+      data.designNodes.find(
+        (designNode) => designNode.nodeId === canvasState.selectedItem?.id,
+      )?.nodeStyle,
+    )
   })
-  const selectedEdge = $derived.by(() => {
-    return getSelectedGraphEdge(graph.data, canvasState.selectedItem)
+
+  const selectedEdgeStyle = $derived.by(() => {
+    const data = designData.data
+
+    if (!data || canvasState.selectedItem?.type !== 'graph-edge') {
+      return undefined
+    }
+
+    return normalizeEdgeStyle(
+      data.designEdges.find(
+        (designEdge) => designEdge.edgeId === canvasState.selectedItem?.id,
+      )?.edgeStyle,
+    )
   })
-  const filteredNodes = $derived.by(() => {
-    return filterGraphNodes(graph.data?.nodes ?? [], searchTerm)
-  })
+
+  const canvasFields = {
+    backgroundColor: useConvexField(
+      () => designData.data?.design.backgroundColor ?? undefined,
+      (backgroundColor) => updateDesignMetadata({ backgroundColor }),
+    ),
+    title: useConvexField(
+      () => designData.data?.design.title,
+      (title) => updateDesignMetadata({ title }),
+    ),
+    description: useConvexField(
+      () =>
+        designData.data
+          ? (designData.data.design.description ?? '')
+          : undefined,
+      (description) => updateDesignMetadata({ description }),
+    ),
+    footnotes: useConvexField(
+      () =>
+        designData.data ? (designData.data.design.footnotes ?? '') : undefined,
+      (footnotes) => updateDesignMetadata({ footnotes }),
+    ),
+  }
+
+  const nodeFields = {
+    backgroundColor: useConvexField(
+      () => selectedNodeStyle?.backgroundColor,
+      (backgroundColor) => updateNodeStyle({ backgroundColor }),
+    ),
+    borderColor: useConvexField(
+      () => selectedNodeStyle?.borderColor,
+      (borderColor) => updateNodeStyle({ borderColor }),
+    ),
+    textColor: useConvexField(
+      () => selectedNodeStyle?.textColor,
+      (textColor) => updateNodeStyle({ textColor }),
+    ),
+    descriptionBackgroundColor: useConvexField(
+      () => selectedNodeStyle?.descriptionBackgroundColor,
+      (descriptionBackgroundColor) =>
+        updateNodeStyle({ descriptionBackgroundColor }),
+    ),
+    descriptionTextColor: useConvexField(
+      () => selectedNodeStyle?.descriptionTextColor,
+      (descriptionTextColor) => updateNodeStyle({ descriptionTextColor }),
+    ),
+    descriptionDefaultOpen: useConvexField(
+      () => selectedNodeStyle?.descriptionDefaultOpen,
+      (descriptionDefaultOpen) => updateNodeStyle({ descriptionDefaultOpen }),
+      0,
+    ),
+  }
+
+  const edgeFields = {
+    strokeColor: useConvexField(
+      () => selectedEdgeStyle?.strokeColor,
+      (strokeColor) => updateEdgeStyle({ strokeColor }),
+    ),
+    arrowColor: useConvexField(
+      () => selectedEdgeStyle?.arrowColor,
+      (arrowColor) => updateEdgeStyle({ arrowColor }),
+    ),
+    labelBackgroundColor: useConvexField(
+      () => selectedEdgeStyle?.labelBackgroundColor,
+      (labelBackgroundColor) => updateEdgeStyle({ labelBackgroundColor }),
+    ),
+    labelTextColor: useConvexField(
+      () => selectedEdgeStyle?.labelTextColor,
+      (labelTextColor) => updateEdgeStyle({ labelTextColor }),
+    ),
+  }
 
   $effect(() => {
-    const selectedItem = canvasState.selectedItem
+    if (activeSidebarTab === sidebarTabs.groups) {
+      activeSidebarTab = sidebarTabs.nodes
+    }
+  })
 
-    if (!selectedItem) {
-      hydratedSelectionKey = 'none'
+  async function updateDesignMetadata(patch: Partial<CanvasMetadata>) {
+    if (!route.params.designId) return
+
+    saveError = null
+
+    try {
+      await convex.mutation(api.designs.updateDesignMetadata, {
+        designId: route.params.designId as Id<'designs'>,
+        ...patch,
+      })
+    } catch (error) {
+      saveError =
+        error instanceof Error ? error.message : '儲存設定時發生錯誤。'
+    }
+  }
+
+  async function updateNodeStyle(patch: Partial<NodeStyle>) {
+    if (
+      !route.params.designId ||
+      canvasState.selectedItem?.type !== 'graph-node'
+    ) {
       return
     }
 
-    const key = `${selectedItem.type}:${selectedItem.id}`
-
-    if (hydratedSelectionKey === key) return
-
-    if (selectedNode) {
-      hydratedSelectionKey = key
-      nodeForm = createNodeFormFromNode(selectedNode)
-    } else if (selectedEdge) {
-      hydratedSelectionKey = key
-      edgeForm = createEdgeFormFromEdge(selectedEdge)
-    }
-  })
-
-  async function persistNodeMoves(
-    moves: NodePositionMove[],
-    direction: 'from' | 'to',
-  ) {
-    await Promise.all(
-      moves.map((move) =>
-        convex.mutation(api.graphs.updateNodePosition, {
-          nodeId: move.nodeId as Id<'nodes'>,
-          position: move[direction],
-        }),
-      ),
-    )
-  }
-
-  function selectNode(nodeId: Id<'nodes'>) {
-    canvasState.selectedItem = { type: 'graph-node', id: nodeId }
-  }
-
-  function selectEdge(edgeId: Id<'edges'>) {
-    canvasState.selectedItem = { type: 'graph-edge', id: edgeId }
-  }
-
-  function clearSelection(nodeId?: Id<'nodes'>) {
-    canvasState.selectedItem = null
-
-    if (nodeId) {
-      canvasState.selectedNodeIds = removeSelectedNodeId(
-        canvasState.selectedNodeIds,
-        nodeId,
-      )
-    }
-  }
-
-  async function updateNodeDetails(nodeId: Id<'nodes'>, input: NodeForm) {
-    await convex.mutation(api.graphs.updateNodeDetails, {
-      nodeId,
-      label: input.label,
-      categoryLabel: input.categoryLabel,
-      infoSource: input.infoSource,
-      note: input.note,
-    })
-  }
-
-  async function updateEdgeDetails(edgeId: Id<'edges'>, input: EdgeDetails) {
-    await convex.mutation(api.graphs.updateEdgeDetails, {
-      edgeId,
-      label: input.label,
-      directed: input.directed,
-      infoSource: input.infoSource,
-      note: input.note,
-    })
-  }
-
-  async function deleteNodeById(nodeId: Id<'nodes'>) {
-    await convex.mutation(api.graphs.deleteNode, { nodeId })
-    clearSelection(nodeId)
-  }
-
-  async function deleteEdgeById(edgeId: Id<'edges'>) {
-    await convex.mutation(api.graphs.deleteEdge, { edgeId })
-    clearSelection()
-  }
-
-  async function createNode(input: {
-    label: string
-    categoryLabel: string
-    infoSource?: string
-    note?: string
-  }) {
-    if (!input.label.trim()) return
-
-    let currentNodeId = await convex.mutation(api.graphs.createNode, {
-      graphId,
-      label: input.label,
-      categoryLabel: input.categoryLabel,
-      infoSource: input.infoSource,
-      note: input.note,
+    const nodeId = canvasState.selectedItem.id
+    const nodeStyle = normalizeNodeStyle({
+      backgroundColor: nodeFields.backgroundColor.value,
+      borderColor: nodeFields.borderColor.value,
+      textColor: nodeFields.textColor.value,
+      descriptionBackgroundColor: nodeFields.descriptionBackgroundColor.value,
+      descriptionTextColor: nodeFields.descriptionTextColor.value,
+      descriptionDefaultOpen: nodeFields.descriptionDefaultOpen.value,
+      ...patch,
     })
 
-    selectNode(currentNodeId)
-    history.record({
-      undo: async () => {
-        await deleteNodeById(currentNodeId)
-      },
-      redo: async () => {
-        currentNodeId = await convex.mutation(api.graphs.createNode, {
-          graphId,
-          ...input,
-        })
-        selectNode(currentNodeId)
-      },
-    })
-  }
+    saveError = null
 
-  async function deleteNode(nodeId: Id<'nodes'>) {
-    const snapshot = getNodeDeleteSnapshot(graph.data, nodeId)
-    let currentNodeId = nodeId
-
-    await deleteNodeById(nodeId)
-
-    if (snapshot) {
-      history.record({
-        undo: async () => {
-          const restored = await convex.mutation(
-            api.graphs.restoreNodeSnapshot,
-            {
-              graphId,
-              node: snapshot.node,
-              edges: snapshot.edges,
-            },
-          )
-
-          currentNodeId = restored.nodeId
-          selectNode(restored.nodeId)
-        },
-        redo: async () => {
-          await deleteNodeById(currentNodeId)
-        },
+    try {
+      await convex.mutation(api.designs.updateDesignNodeStyle, {
+        designId: route.params.designId as Id<'designs'>,
+        nodeId: nodeId as Id<'nodes'>,
+        nodeStyle,
       })
+    } catch (error) {
+      saveError = error instanceof Error ? error.message : '儲存設定時發生錯誤'
     }
   }
 
-  async function createEdge(input: EdgeForm) {
-    if (!input.source || !input.target) return
-    if (input.source === input.target) return
+  async function updateEdgeStyle(patch: Partial<EdgeStyle>) {
+    if (
+      !route.params.designId ||
+      canvasState.selectedItem?.type !== 'graph-edge'
+    ) {
+      return
+    }
 
-    let currentEdgeId = await convex.mutation(api.graphs.createEdge, {
-      graphId,
-      source: input.source,
-      target: input.target,
-      label: input.label,
-      directed: input.directed,
-      infoSource: input.infoSource,
-      note: input.note,
+    const edgeId = canvasState.selectedItem.id
+    const edgeStyle = normalizeEdgeStyle({
+      strokeColor: edgeFields.strokeColor.value,
+      arrowColor: edgeFields.arrowColor.value,
+      labelBackgroundColor: edgeFields.labelBackgroundColor.value,
+      labelTextColor: edgeFields.labelTextColor.value,
+      ...patch,
     })
 
-    selectEdge(currentEdgeId)
-    history.record({
-      undo: async () => {
-        await deleteEdgeById(currentEdgeId)
-      },
-      redo: async () => {
-        currentEdgeId = await convex.mutation(api.graphs.createEdge, {
-          graphId,
-          source: input.source as Id<'nodes'>,
-          target: input.target as Id<'nodes'>,
-          label: input.label,
-          directed: input.directed,
-          infoSource: input.infoSource,
-          note: input.note,
-        })
-        selectEdge(currentEdgeId)
-      },
-    })
-  }
+    saveError = null
 
-  async function deleteEdge(edgeId: Id<'edges'>) {
-    const snapshot = getEdgeSnapshot(graph.data, edgeId)
-    let currentEdgeId = edgeId
-
-    await deleteEdgeById(edgeId)
-
-    if (snapshot) {
-      history.record({
-        undo: async () => {
-          currentEdgeId = await convex.mutation(
-            api.graphs.restoreEdgeSnapshot,
-            {
-              graphId,
-              edge: snapshot,
-            },
-          )
-          selectEdge(currentEdgeId)
-        },
-        redo: async () => {
-          await deleteEdgeById(currentEdgeId)
-        },
+    try {
+      await convex.mutation(api.designs.updateDesignEdgeStyle, {
+        designId: route.params.designId as Id<'designs'>,
+        edgeId: edgeId as Id<'edges'>,
+        edgeStyle,
       })
+    } catch (error) {
+      saveError = error instanceof Error ? error.message : '儲存設定時發生錯誤'
     }
   }
 </script>
 
-<Header title={graphTitle.data ?? undefined} />
+<Header title={designTitle.data?.designTitle} />
 
-<GraphTopBar
-  autoLayoutDisabled={autoLayout.busy || flow.nodes.length < 2}
-  onAutoLayout={() => void autoLayout.applyAutoLayout()}
+<DesignTopBar
+  bind:activeLayoutKey
+  {frameRef}
+  {frameResolutionRatio}
+  title={designData.data?.design.title}
+  {embedCode}
 />
 
 <Sidebar
   bind:activeTabValue={activeSidebarTab}
   tabs={[
-    { label: '編輯與詳情', value: sidebarTabs.details },
-    { label: '資料搜尋', value: sidebarTabs.search },
-    { label: '設計', value: sidebarTabs.design },
+    { label: '節點', value: sidebarTabs.nodes },
+    { label: '線段', value: sidebarTabs.edges },
+    { label: '群組', value: sidebarTabs.groups, disabled: true },
+    { label: '圖表', value: sidebarTabs.canvas },
   ]}
 >
-  <TabContent value={sidebarTabs.details}>
-    <GraphNodesAndEdgesTab
-      {selectedNode}
-      {selectedEdge}
-      nodes={graph.data?.nodes ?? []}
-      bind:nodeForm
-      bind:edgeForm
-      onsubmitNode={() => {
-        const input = toNodeInput(
-          nodeForm,
-          categories.data?.[0]?.label || '未分類',
-        )
-
-        if (selectedNode) {
-          if (!input.label.trim()) return
-          const nodeId = selectedNode._id
-          const previous = getNodeSnapshot(graph.data, nodeId)
-
-          void (async () => {
-            await updateNodeDetails(nodeId, input)
-
-            if (previous) {
-              history.record({
-                undo: async () => {
-                  await updateNodeDetails(nodeId, previous)
-                },
-                redo: async () => {
-                  await updateNodeDetails(nodeId, input)
-                },
-              })
-            }
-          })()
-        } else {
-          void createNode(input)
-          nodeForm = createEmptyNodeForm(categories.data?.[0]?.label ?? '')
-        }
-      }}
-      onsubmitEdge={() => {
-        const input = toEdgeInput(edgeForm)
-
-        if (selectedEdge) {
-          const edgeId = selectedEdge._id
-          const previous = getEdgeSnapshot(graph.data, edgeId)
-
-          void (async () => {
-            await updateEdgeDetails(edgeId, input)
-
-            if (previous) {
-              history.record({
-                undo: async () => {
-                  await updateEdgeDetails(edgeId, previous)
-                },
-                redo: async () => {
-                  await updateEdgeDetails(edgeId, input)
-                },
-              })
-            }
-          })()
-        } else {
-          void createEdge(input)
-          edgeForm = createEmptyEdgeForm()
-        }
-      }}
-      ondeleteNode={(nodeId) => void deleteNode(nodeId)}
-      ondeleteEdge={(edgeId) => void deleteEdge(edgeId)}
-      ontoggleNodeExpanded={() => {
-        if (canvasState.selectedItem?.type !== 'graph-node') return
-
-        const node = graph.data?.nodes.find(
-          (currentNode) => currentNode._id === canvasState.selectedItem?.id,
-        )
-
-        if (!node) return
-
-        void convex.mutation(api.graphs.setNodeExpanded, {
-          nodeId: node._id,
-          expanded: !node.expanded,
-        })
-      }}
-    />
+  <TabContent value={sidebarTabs.nodes}>
+    {#if canvasState.selectedItem?.type === 'graph-node'}
+      <DesignNodeTab fields={nodeFields} error={saveError} />
+    {:else}
+      <EmptyState message="請先在畫布選取一個節點" />
+    {/if}
   </TabContent>
-
-  <TabContent value={sidebarTabs.search}>
-    <GraphSearchTab
-      bind:searchTerm
-      nodes={filteredNodes}
-      onselect={(nodeId) => {
-        canvasState.selectedItem = { type: 'graph-node', id: nodeId }
-        activeSidebarTab = sidebarTabs.details
-      }}
-    />
+  <TabContent value={sidebarTabs.edges}>
+    {#if canvasState.selectedItem?.type === 'graph-edge'}
+      <DesignEdgeTab fields={edgeFields} error={saveError} />
+    {:else}
+      <EmptyState message="請先在畫布選取一條線段" />
+    {/if}
   </TabContent>
-
-  <TabContent value={sidebarTabs.design}>
-    <GraphDesignsTab
-      bind:designForm
-      designs={designs.data ?? []}
-      {creatingDesign}
-      onsubmit={() => {
-        if (creatingDesign) return
-        const title = designForm.title.trim()
-
-        if (!title) return
-
-        creatingDesign = true
-
-        void (async () => {
-          try {
-            const designId = await convex.mutation(api.designs.createDesign, {
-              graphId,
-              title,
-              description: designForm.description.trim() || undefined,
-            })
-
-            if (canvasState.selectedNodeIds.length > 0) {
-              await convex.mutation(api.designs.addNodesToDesign, {
-                designId,
-                nodeIds: canvasState.selectedNodeIds as Id<'nodes'>[],
-              })
-            }
-
-            navigate('/graphs/:graphId/designs/:designId', {
-              params: {
-                graphId,
-                designId,
-              },
-            })
-          } finally {
-            creatingDesign = false
-          }
-        })()
-      }}
-      onopen={(designId) => {
-        navigate('/graphs/:graphId/designs/:designId', {
-          params: {
-            graphId,
-            designId,
-          },
-        })
-      }}
-    />
+  <TabContent value={sidebarTabs.groups}></TabContent>
+  <TabContent value={sidebarTabs.canvas}>
+    <DesignCanvasTab fields={canvasFields} error={saveError} />
   </TabContent>
-
-  {#snippet footer()}
-    <datalist id="category-options">
-      {#each categories.data ?? [] as category (category._id)}
-        <option value={category.label}></option>
-      {/each}
-    </datalist>
-  {/snippet}
 </Sidebar>
-<Canvas
-  nodes={flow.nodes}
-  edges={flow.edges}
-  onMoveNodes={(moves) => persistNodeMoves(moves, 'to')}
-  onUndoMoveNodes={(moves) => persistNodeMoves(moves, 'from')}
-/>
+<div
+  class="frame-preview"
+  style:aspect-ratio={frameContainerAspectRatio}
+  bind:this={frameRef}
+>
+  <Frame
+    title={designData.data?.design.title}
+    description={designData.data?.design.description}
+    footnotes={designData.data?.design.footnotes}
+  >
+    <Canvas
+      nodes={flow.nodes}
+      edges={flow.edges}
+      onMoveNodes={async (moves) => {
+        if (!route.params.designId) return
+
+        await Promise.all(
+          moves.map((move) =>
+            convex.mutation(api.designs.setDesignLayoutNodePosition, {
+              designId: route.params.designId as Id<'designs'>,
+              layoutKey: activeLayoutKey,
+              nodeId: move.nodeId,
+              position: move.to,
+            }),
+          ),
+        )
+      }}
+      onUndoMoveNodes={async (moves) => {
+        if (!route.params.designId) return
+
+        await Promise.all(
+          moves.map((move) =>
+            convex.mutation(api.designs.setDesignLayoutNodePosition, {
+              designId: route.params.designId as Id<'designs'>,
+              layoutKey: activeLayoutKey,
+              nodeId: move.nodeId,
+              position: move.from,
+            }),
+          ),
+        )
+      }}
+    />
+  </Frame>
+</div>
+
+<style>
+  .frame-preview {
+    height: min(calc(100% - 20px), 1080px);
+    margin: auto;
+  }
+</style>
