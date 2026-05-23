@@ -11,7 +11,7 @@
     "build:lib": "vite --config vite.config.lib.ts build",
     "preview": "vite preview",
     "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "deploy": "pnpm run convex:deploy && pnpm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8' && pnpm run build:lib && gcloud storage cp ./dist/* $BUCKET/web-components/ --cache-control='no-cache'",
+    "deploy": "pnpm run convex:deploy && pnpm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8' && pnpm run build:lib && gcloud storage cp ./dist/*.js $BUCKET/web-components/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
     "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/node-graph RELEASE=production pnpm run deploy",
     "format:fix": "prettier --write .",
