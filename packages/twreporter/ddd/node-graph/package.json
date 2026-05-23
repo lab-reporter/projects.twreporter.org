@@ -4,16 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "convex:dev": "convex dev",
-    "convex:deploy": "convex deploy --env-file .env.$RELEASE",
-    "build": "vite build --mode $RELEASE",
+    "dev": "pnpm run \"/^dev:.*/\"",
+    "dev:convex": "convex dev",
+    "dev:web": "vite",
+
+    "build:web": "vite build --mode $RELEASE",
     "build:lib": "vite --config vite.config.lib.ts build",
-    "preview": "vite preview",
+
+    "upload:web": "gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
+    "upload:lib": "gcloud storage cp ./dist/*.js $BUCKET/web-components/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
+    "deploy:convex": "convex deploy --env-file .env.$RELEASE",
+
     "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "deploy": "pnpm run convex:deploy && pnpm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8' && pnpm run build:lib && gcloud storage cp ./dist/*.js $BUCKET/web-components/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
+
+    "deploy": "pnpm run deploy:convex && pnpm run build:web && pnpm run upload:web && pnpm run build:lib && pnpm run upload:lib",
     "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/node-graph RELEASE=production pnpm run deploy",
+
     "format:fix": "prettier --write .",
     "format:check": "prettier ."
   },
