@@ -5,6 +5,7 @@
   import { useSvelteFlow } from '@xyflow/svelte'
   import type { Id } from '~convex/dataModel'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
+  import EmptyState from '../../ui/EmptyState.svelte'
 
   type DesignForm = {
     title: string
@@ -71,7 +72,7 @@
 
   <SidebarSection title="既有設計">
     {#if designs.length === 0}
-      <p class="state-text">尚無設計</p>
+      <EmptyState message="尚無設計" />
     {:else}
       <div class="design-list">
         {#each designs as design (design._id)}
@@ -153,11 +154,5 @@
 
   .design-link:hover {
     background: var(--neutral-gray-100);
-  }
-
-  .state-text {
-    margin: 0;
-    color: var(--neutral-gray-500);
-    font-size: 12px;
   }
 </style>
