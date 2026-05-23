@@ -1,30 +1,14 @@
-import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { resolve } from 'node:path'
-import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
+import { viteBaseConfig } from './vite.config.base'
 
 // https://vite.dev/config/
 export default defineConfig({
+  ...viteBaseConfig,
   base:
     process.env.RELEASE === 'production'
       ? '/twreporter/ddd/node-graph/js'
       : '/data-reporter-infographics/dev/node-graph/js',
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '~convex': fileURLToPath(new URL('./convex/_generated', import.meta.url)),
-    },
-  },
-  plugins: [
-    svelte({
-      emitCss: false,
-      dynamicCompileOptions({ filename }) {
-        if (filename.endsWith('.wc.svelte')) {
-          return { customElement: true }
-        }
-      },
-    }),
-  ],
   build: {
     rolldownOptions: {
       input: {
