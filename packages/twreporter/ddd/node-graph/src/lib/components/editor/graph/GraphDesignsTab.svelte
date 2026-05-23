@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
+  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import Button from '@/lib/components/ui/Button.svelte'
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
   import SidebarCheckboxRow from '@/lib/components/ui/sidebar/SidebarCheckboxRow.svelte'

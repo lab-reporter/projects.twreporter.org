@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
+  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
   import { buildGraphFlow } from '@/lib/features/canvas/adapter'
   import type { NodePositionMove } from '@/lib/features/canvas/types'

@@ -21,7 +21,7 @@
     type ViewportKey,
   } from '../../../lib/constants/viewports'
   import { route } from '../../router'
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
+  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
   import type {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
+  import { canvasState } from '@/lib/components/canvas/CanvasState.svelte'
   import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
   import ActionButton from '@/lib/components/ui/ActionButton.svelte'
   import Panel from '@/lib/components/ui/Panel.svelte'

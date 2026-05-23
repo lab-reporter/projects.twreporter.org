@@ -1,6 +1,6 @@
 <script lang="ts">
   import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
-  import { layerSliderState } from './state.svelte'
+  import { layerSliderState } from './LayerSliderState.svelte'
   import type { LayerSliderSteps } from './types'
 
   let { steps }: { steps: LayerSliderSteps } = $props()

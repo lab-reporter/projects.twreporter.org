@@ -9,7 +9,7 @@
   } from '../../features/canvas/types'
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
-  import { canvasState } from './state.svelte'
+  import { canvasState } from './CanvasState.svelte'
   import { useHistory } from '@/lib/features/use-history.svelte'
 
   let {
