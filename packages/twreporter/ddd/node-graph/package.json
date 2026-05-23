@@ -15,7 +15,9 @@
     "upload:lib": "gcloud storage cp ./dist/*.js $BUCKET/web-components/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
     "deploy:convex": "convex deploy --env-file .env.$RELEASE",
 
-    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "check-types": "pnpm run --parallel \"/^check-types:.*/\"",
+    "check-types:web": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "check-types:convex": "convex codegen",
 
     "deploy": "pnpm run deploy:convex && pnpm run build:web && pnpm run upload:web && pnpm run build:lib && pnpm run upload:lib",
     "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
