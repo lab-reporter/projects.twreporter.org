@@ -434,7 +434,7 @@
       bind:designForm
       designs={designs.data ?? []}
       {creatingDesign}
-      onsubmit={() => {
+      onsubmit={async () => {
         if (creatingDesign) return
         const title = designForm.title.trim()
 
@@ -442,33 +442,31 @@
 
         creatingDesign = true
 
-        void (async () => {
-          try {
-            const designId = await convex.mutation(api.designs.createDesign, {
-              graphId,
-              title,
-              description: designForm.description.trim() || undefined,
-            })
+        try {
+          const designId = await convex.mutation(api.designs.createDesign, {
+            graphId,
+            title,
+            description: designForm.description.trim() || undefined,
+          })
 
-            if (canvasState.selectedItems.length > 0) {
-              await convex.mutation(api.designs.addNodesToDesign, {
-                designId,
-                nodeIds: canvasState.selectedItems.map(
-                  (item) => item.id,
-                ) as Id<'nodes'>[],
-              })
-            }
-
-            navigate('/graphs/:graphId/designs/:designId', {
-              params: {
-                graphId,
-                designId,
-              },
+          if (canvasState.selectedItems.length > 0) {
+            await convex.mutation(api.designs.addNodesToDesign, {
+              designId,
+              nodeIds: canvasState.selectedItems.map(
+                (item) => item.id,
+              ) as Id<'nodes'>[],
             })
-          } finally {
-            creatingDesign = false
           }
-        })()
+
+          navigate('/graphs/:graphId/designs/:designId', {
+            params: {
+              graphId,
+              designId,
+            },
+          })
+        } finally {
+          creatingDesign = false
+        }
       }}
       onopen={(designId) => {
         navigate('/graphs/:graphId/designs/:designId', {

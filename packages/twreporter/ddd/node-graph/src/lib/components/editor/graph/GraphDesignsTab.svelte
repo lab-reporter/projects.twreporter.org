@@ -26,7 +26,7 @@
     designForm: DesignForm
     designs: DesignListItem[]
     creatingDesign: boolean
-    onsubmit: () => void
+    onsubmit: () => void | Promise<void>
     onopen: (designId: Id<'designs'>) => void
   } = $props()
 
