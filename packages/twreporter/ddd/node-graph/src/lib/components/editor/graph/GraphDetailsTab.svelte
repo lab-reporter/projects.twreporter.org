@@ -59,10 +59,7 @@
   async function updateNodeDetails(nodeId: Id<'nodes'>, input: NodeForm) {
     await convex.mutation(api.graphs.updateNodeDetails, {
       nodeId,
-      label: input.label,
-      categoryLabel: input.categoryLabel,
-      infoSource: input.infoSource,
-      note: input.note,
+      ...input,
     })
   }
 
@@ -218,6 +215,10 @@
       <div class="field">
         <label for="node-note">備註</label>
         <textarea id="node-note" bind:value={nodeForm.note}></textarea>
+      </div>
+      <div class="field">
+        <label for="node-note">照片 URL</label>
+        <input id="node-note" bind:value={nodeForm.imageUrl} />
       </div>
       <button
         class="toggle-row"

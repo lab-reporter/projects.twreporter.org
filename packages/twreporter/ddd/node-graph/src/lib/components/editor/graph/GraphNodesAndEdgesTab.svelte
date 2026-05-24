@@ -46,6 +46,10 @@
       <label for="new-node-note">備註</label>
       <textarea id="new-node-note" bind:value={nodeForm.note}></textarea>
     </div>
+    <div class="field">
+      <label for="new-node-note">照片 URL</label>
+      <input id="new-node-note" bind:value={nodeForm.imageUrl} />
+    </div>
     <Button variant="filled" onclick={onsubmitNode}>新增節點</Button>
   </SidebarSection>
 

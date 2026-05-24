@@ -108,6 +108,7 @@ export default defineSchema({
     position: v.object({ x: v.number(), y: v.number() }), // graph-view position
     expanded: v.boolean(),
     updatedAt: v.number(),
+    imageUrl: v.optional(v.string()),
   }).index('by_graph', ['graphId']),
 
   edges: defineTable({

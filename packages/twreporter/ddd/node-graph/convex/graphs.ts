@@ -478,6 +478,7 @@ export const createNode = userMutation({
     categoryLabel: v.string(),
     note: v.optional(v.string()),
     infoSource: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
@@ -507,6 +508,7 @@ export const createNode = userMutation({
       },
       expanded: false,
       updatedAt: now,
+      imageUrl: args.imageUrl,
     })
 
     await touchGraph(ctx, args.graphId)
@@ -601,6 +603,7 @@ export const updateNodeDetails = userMutation({
     categoryLabel: v.string(),
     note: v.optional(v.string()),
     infoSource: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const node = await ctx.db.get(args.nodeId)
@@ -620,6 +623,7 @@ export const updateNodeDetails = userMutation({
       note: args.note?.trim() || undefined,
       infoSource: args.infoSource?.trim() || undefined,
       updatedAt: now,
+      imageUrl: args.imageUrl,
     })
     await touchGraph(ctx, node.graphId)
   },
