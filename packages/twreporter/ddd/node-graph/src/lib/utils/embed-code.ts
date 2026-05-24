@@ -1,5 +1,6 @@
 import type { FunctionReturnType } from 'convex/server'
 import type { api } from '~convex/api'
+import { assets } from '../constants/assets'
 
 type DesignQueryData = NonNullable<
   FunctionReturnType<typeof api.designs.getDesign>
@@ -18,5 +19,10 @@ export function buildNodeGraphEmbedCode(graph?: DesignQueryData | null) {
 
   const dumpedDesignData = JSON.stringify(graph)
 
-  return `<twreporter-node-graph data="${escapeHtmlAttribute(dumpedDesignData)}"></twreporter-node-graph>`
+  // TODO: Remove ?t=<currentTimestamp> once we've sorted out js caching on cloudflare
+  return `<script src="${assets.webComponentScript}?t=${new Date().getTime()}"></script>
+<link rel="stylesheet" href="${assets.embedCSS}">
+<div class="embed-code-container-hd-only">
+<twreporter-node-graph data="${escapeHtmlAttribute(dumpedDesignData)}"></twreporter-node-graph>
+</div>`
 }
