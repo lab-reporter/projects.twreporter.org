@@ -1,3 +1,4 @@
 packages:
-  - "2026-05-lawmaker"
-  - "node-graph"
+  - '2026-05-lawmaker'
+  - 'node-graph'
+  - 'shared'
