@@ -11,7 +11,7 @@ export type NodePositionMove = {
 
 export type GraphNodeData = Pick<
   Doc<'nodes'>,
-  'label' | 'note' | 'infoSource' | 'expanded'
+  'label' | 'note' | 'infoSource' | 'expanded' | 'imageUrl'
 > & {
   categoryLabel: Doc<'categories'>['label']
   categoryColor: Doc<'categories'>['color']

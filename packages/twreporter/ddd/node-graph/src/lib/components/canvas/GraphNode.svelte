@@ -40,7 +40,12 @@
 
   <div class="card">
     {#if data?.label}
-      <div class="title">{data.label}</div>
+      <div class="title">
+        {#if data.imageUrl}
+          <img alt={data.label} src={data.imageUrl} />
+        {/if}
+        {data.label}
+      </div>
     {/if}
 
     {#if data?.expanded && data.note}
@@ -131,6 +136,8 @@
   .graph-node .title {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    gap: 5px;
     text-align: center;
     min-height: 40px;
     padding: 5px 10px 8px;

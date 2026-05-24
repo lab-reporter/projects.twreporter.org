@@ -89,6 +89,7 @@ export function buildDesignFlow(input: {
         descriptionBackgroundColor: nodeStyle.descriptionBackgroundColor,
         descriptionTextColor: nodeStyle.descriptionTextColor,
         tooltipsEnabled,
+        imageUrl: node.imageUrl,
       },
       sourcePosition: Position.Right,
       targetPosition: Position.Left,
@@ -152,6 +153,7 @@ export function buildGraphFlow(input: {
       infoSource: node.infoSource,
       expanded: node.expanded,
       tooltipsEnabled,
+      imageUrl: node.imageUrl,
     },
     selected:
       node._id === input.canvasState?.selectedItem?.id ||
