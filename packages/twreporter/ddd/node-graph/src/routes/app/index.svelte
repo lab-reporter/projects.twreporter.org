@@ -71,5 +71,6 @@
     flex-direction: column;
     align-items: start;
     justify-content: start;
+    overflow-y: scroll;
   }
 </style>
