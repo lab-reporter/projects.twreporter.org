@@ -61,6 +61,7 @@
 
   const flow = $derived.by(() =>
     buildDesignFlow({
+      canvasState,
       graph: designData.data,
       readonly: false,
       activeLayoutKey,

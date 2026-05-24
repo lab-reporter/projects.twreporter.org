@@ -2,7 +2,7 @@ import type { CanvasSelectedItem } from '@/lib/features/canvas/types'
 import { useOnSelectionChange } from '@xyflow/svelte'
 import { getContext, setContext } from 'svelte'
 
-interface CanvasState {
+export interface CanvasState {
   selectedItem: CanvasSelectedItem | null
   selectedItems: CanvasSelectedItem[]
   tooltipsEnabled: boolean

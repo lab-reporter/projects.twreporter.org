@@ -2,6 +2,7 @@
   import Canvas from '@/lib/components/canvas/Canvas.svelte'
   import { getCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
   import GraphDesignsTab from '@/lib/components/editor/graph/GraphDesignsTab.svelte'
+  import GraphDetailsTab from '@/lib/components/editor/graph/GraphDetailsTab.svelte'
   import GraphNodesAndEdgesTab from '@/lib/components/editor/graph/GraphNodesAndEdgesTab.svelte'
   import GraphSearchTab from '@/lib/components/editor/graph/GraphSearchTab.svelte'
   import GraphTopBar from '@/lib/components/editor/graph/GraphTopBar.svelte'
@@ -14,27 +15,14 @@
     NodePositionMove,
   } from '@/lib/features/canvas/types'
   import { useAutoLayout } from '@/lib/features/canvas/use-auto-layout.svelte'
+  import { filterGraphNodes } from '@/lib/features/editor/graph/flow'
   import {
-    filterGraphNodes,
-    getSelectedGraphEdge,
-    getSelectedGraphNode,
-  } from '@/lib/features/editor/graph/flow'
-  import {
-    createEdgeFormFromEdge,
     createEmptyEdgeForm,
     createEmptyNodeForm,
-    createNodeFormFromNode,
     toEdgeInput,
     toNodeInput,
-    type EdgeDetails,
     type EdgeForm,
-    type NodeForm,
   } from '@/lib/features/editor/graph/form'
-  import {
-    getEdgeSnapshot,
-    getNodeDeleteSnapshot,
-    getNodeSnapshot,
-  } from '@/lib/features/editor/snapshots'
   import { useHistory } from '@/lib/features/use-history.svelte'
   import { route } from '@/routes/router'
   import { useSvelteFlow } from '@xyflow/svelte'
@@ -60,56 +48,31 @@
   const categories = useQuery(api.graphs.listCategories, () => ({}))
   const designs = useQuery(api.designs.listDesignsForGraph, { graphId })
 
-  let activeSidebarTab = $state('details')
+  const sidebarTabs = {
+    add: 'add',
+    details: 'details',
+    search: 'search',
+    design: 'design',
+  } as const
+
+  let activeSidebarTab =
+    $state<(typeof sidebarTabs)[keyof typeof sidebarTabs]>('add')
   let nodeForm = $state(createEmptyNodeForm())
   let edgeForm = $state(createEmptyEdgeForm())
   let searchTerm = $state('')
 
-  let hydratedSelectionKey = $state<string | null>(null)
   let pendingSelectedItem = $state<CanvasSelectedItem | null>(null)
-
-  const sidebarTabs = {
-    details: 'details',
-    search: 'search',
-    design: 'design',
-  }
 
   const flow = $derived(
     buildGraphFlow({
+      canvasState,
       graph: graph.data,
       readonly: false,
       tooltipsEnabled: canvasState.tooltipsEnabled,
     }),
   )
-  const selectedNode = $derived.by(() => {
-    return getSelectedGraphNode(graph.data, canvasState.selectedItem)
-  })
-  const selectedEdge = $derived.by(() => {
-    return getSelectedGraphEdge(graph.data, canvasState.selectedItem)
-  })
   const filteredNodes = $derived.by(() => {
     return filterGraphNodes(graph.data?.nodes ?? [], searchTerm)
-  })
-
-  $effect(() => {
-    const selectedItem = canvasState.selectedItem
-
-    if (!selectedItem) {
-      hydratedSelectionKey = 'none'
-      return
-    }
-
-    const key = `${selectedItem.type}:${selectedItem.id}`
-
-    if (hydratedSelectionKey === key) return
-
-    if (selectedNode) {
-      hydratedSelectionKey = key
-      nodeForm = createNodeFormFromNode(selectedNode)
-    } else if (selectedEdge) {
-      hydratedSelectionKey = key
-      edgeForm = createEdgeFormFromEdge(selectedEdge)
-    }
   })
 
   $effect(() => {
@@ -172,26 +135,6 @@
     selectItem(null)
   }
 
-  async function updateNodeDetails(nodeId: Id<'nodes'>, input: NodeForm) {
-    await convex.mutation(api.graphs.updateNodeDetails, {
-      nodeId,
-      label: input.label,
-      categoryLabel: input.categoryLabel,
-      infoSource: input.infoSource,
-      note: input.note,
-    })
-  }
-
-  async function updateEdgeDetails(edgeId: Id<'edges'>, input: EdgeDetails) {
-    await convex.mutation(api.graphs.updateEdgeDetails, {
-      edgeId,
-      label: input.label,
-      directed: input.directed,
-      infoSource: input.infoSource,
-      note: input.note,
-    })
-  }
-
   async function deleteNodeById(nodeId: Id<'nodes'>) {
     await convex.mutation(api.graphs.deleteNode, { nodeId })
     clearSelection()
@@ -233,34 +176,6 @@
     })
   }
 
-  async function deleteNode(nodeId: Id<'nodes'>) {
-    const snapshot = getNodeDeleteSnapshot(graph.data, nodeId)
-    let currentNodeId = nodeId
-
-    await deleteNodeById(nodeId)
-
-    if (snapshot) {
-      history.record({
-        undo: async () => {
-          const restored = await convex.mutation(
-            api.graphs.restoreNodeSnapshot,
-            {
-              graphId,
-              node: snapshot.node,
-              edges: snapshot.edges,
-            },
-          )
-
-          currentNodeId = restored.nodeId
-          selectNode(restored.nodeId)
-        },
-        redo: async () => {
-          await deleteNodeById(currentNodeId)
-        },
-      })
-    }
-  }
-
   async function createEdge(input: EdgeForm) {
     if (!input.source || !input.target) return
     if (input.source === input.target) return
@@ -295,31 +210,6 @@
     })
   }
 
-  async function deleteEdge(edgeId: Id<'edges'>) {
-    const snapshot = getEdgeSnapshot(graph.data, edgeId)
-    let currentEdgeId = edgeId
-
-    await deleteEdgeById(edgeId)
-
-    if (snapshot) {
-      history.record({
-        undo: async () => {
-          currentEdgeId = await convex.mutation(
-            api.graphs.restoreEdgeSnapshot,
-            {
-              graphId,
-              edge: snapshot,
-            },
-          )
-          selectEdge(currentEdgeId)
-        },
-        redo: async () => {
-          await deleteEdgeById(currentEdgeId)
-        },
-      })
-    }
-  }
-
   $effect(() => {
     if (canvasState.selectedItems.length > 0) {
       activeSidebarTab = sidebarTabs.design
@@ -341,15 +231,14 @@
 <Sidebar
   bind:activeTabValue={activeSidebarTab}
   tabs={[
-    { label: '編輯與詳情', value: sidebarTabs.details },
-    { label: '資料搜尋', value: sidebarTabs.search },
+    { label: '新增', value: sidebarTabs.add },
+    { label: '詳情', value: sidebarTabs.details },
+    { label: '搜尋', value: sidebarTabs.search },
     { label: '設計', value: sidebarTabs.design },
   ]}
 >
-  <TabContent value={sidebarTabs.details}>
+  <TabContent value={sidebarTabs.add}>
     <GraphNodesAndEdgesTab
-      {selectedNode}
-      {selectedEdge}
       nodes={graph.data?.nodes ?? []}
       bind:nodeForm
       bind:edgeForm
@@ -358,74 +247,20 @@
           nodeForm,
           categories.data?.[0]?.label || '未分類',
         )
-
-        if (selectedNode) {
-          if (!input.label.trim()) return
-          const nodeId = selectedNode._id
-          const previous = getNodeSnapshot(graph.data, nodeId)
-
-          void (async () => {
-            await updateNodeDetails(nodeId, input)
-
-            if (previous) {
-              history.record({
-                undo: async () => {
-                  await updateNodeDetails(nodeId, previous)
-                },
-                redo: async () => {
-                  await updateNodeDetails(nodeId, input)
-                },
-              })
-            }
-          })()
-        } else {
-          void createNode(input)
-          nodeForm = createEmptyNodeForm(categories.data?.[0]?.label ?? '')
-        }
+        void createNode(input)
+        nodeForm = createEmptyNodeForm(categories.data?.[0]?.label ?? '')
       }}
       onsubmitEdge={() => {
         const input = toEdgeInput(edgeForm)
 
-        if (selectedEdge) {
-          const edgeId = selectedEdge._id
-          const previous = getEdgeSnapshot(graph.data, edgeId)
-
-          void (async () => {
-            await updateEdgeDetails(edgeId, input)
-
-            if (previous) {
-              history.record({
-                undo: async () => {
-                  await updateEdgeDetails(edgeId, previous)
-                },
-                redo: async () => {
-                  await updateEdgeDetails(edgeId, input)
-                },
-              })
-            }
-          })()
-        } else {
-          void createEdge(input)
-          edgeForm = createEmptyEdgeForm()
-        }
-      }}
-      ondeleteNode={(nodeId) => void deleteNode(nodeId)}
-      ondeleteEdge={(edgeId) => void deleteEdge(edgeId)}
-      ontoggleNodeExpanded={() => {
-        if (canvasState.selectedItem?.type !== 'graph-node') return
-
-        const node = graph.data?.nodes.find(
-          (currentNode) => currentNode._id === canvasState.selectedItem?.id,
-        )
-
-        if (!node) return
-
-        void convex.mutation(api.graphs.setNodeExpanded, {
-          nodeId: node._id,
-          expanded: !node.expanded,
-        })
+        void createEdge(input)
+        edgeForm = createEmptyEdgeForm()
       }}
     />
+  </TabContent>
+
+  <TabContent value={sidebarTabs.details}>
+    <GraphDetailsTab />
   </TabContent>
 
   <TabContent value={sidebarTabs.search}>

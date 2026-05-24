@@ -4,6 +4,7 @@ import { api } from '~convex/api'
 import type { ViewportKey } from '../../constants/viewports'
 import { normalizeEdgeStyle, normalizeNodeStyle } from '../../utils/canvas'
 import type { FlowEdge, FlowNode, NodePosition } from './types'
+import type { CanvasState } from '@/lib/components/canvas/CanvasState.svelte'
 
 type DesignQueryData = NonNullable<
   FunctionReturnType<typeof api.designs.getDesign>
@@ -41,6 +42,7 @@ function resolvePosition(input: {
 }
 
 export function buildDesignFlow(input: {
+  canvasState?: CanvasState
   graph: DesignQueryData | null | undefined
   readonly: boolean
   activeLayoutKey: ViewportKey
@@ -65,6 +67,9 @@ export function buildDesignFlow(input: {
     return {
       id: node._id,
       type: 'graph-node',
+      selected:
+        node._id === input.canvasState?.selectedItem?.id ||
+        input.canvasState?.selectedItems.map((i) => i.id).includes(node._id),
       position: resolvePosition({
         graph,
         nodeId: node._id,
@@ -102,6 +107,7 @@ export function buildDesignFlow(input: {
       type: 'graph-edge',
       source: edge.source,
       target: edge.target,
+      selected: edge._id === input.canvasState?.selectedItem?.id,
       data: {
         relationLabel: edge.label ?? '',
         sourceLabel: edge.sourceLabel,
@@ -125,6 +131,7 @@ export function buildDesignFlow(input: {
 }
 
 export function buildGraphFlow(input: {
+  canvasState?: CanvasState
   graph: GraphQueryData | null | undefined
   readonly: boolean
   tooltipsEnabled: boolean
@@ -146,6 +153,9 @@ export function buildGraphFlow(input: {
       expanded: node.expanded,
       tooltipsEnabled,
     },
+    selected:
+      node._id === input.canvasState?.selectedItem?.id ||
+      input.canvasState?.selectedItems.map((i) => i.id).includes(node._id),
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     draggable: !readonly,
@@ -159,6 +169,7 @@ export function buildGraphFlow(input: {
     type: 'graph-edge',
     source: edge.source,
     target: edge.target,
+    selected: edge._id === input.canvasState?.selectedItem?.id,
     data: {
       relationLabel: edge.label ?? '',
       sourceLabel: edge.sourceLabel,
