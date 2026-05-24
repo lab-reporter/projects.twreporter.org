@@ -147,7 +147,6 @@
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0.6px;
-    line-height: 1.2;
   }
 
   .graph-node .body {
