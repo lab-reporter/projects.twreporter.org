@@ -11,16 +11,14 @@
   import { navigate, route } from '@/routes/router'
   import { toast } from 'svelte-sonner'
   import { createEmptyDesignForm } from '@/lib/features/editor/graph/form'
+  import type { FunctionReturnType } from 'convex/server'
 
-  type DesignListItem = {
-    _id: Id<'designs'>
-    title: string
-  }
+  type Designs = FunctionReturnType<typeof api.designs.listDesignsForGraph>
 
   let {
     designs,
   }: {
-    designs: DesignListItem[]
+    designs: Designs
   } = $props()
 
   const convex = useConvexClient()
@@ -97,7 +95,7 @@
   </SidebarSection>
 
   <SidebarSection title="既有設計">
-    {#if designs.length === 0}
+    {#if !designs || designs.length === 0}
       <EmptyState message="尚無設計" />
     {:else}
       <div class="design-list">

@@ -3,41 +3,12 @@
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
   import SidebarCheckboxRow from '@/lib/components/ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarSection from '@/lib/components/ui/sidebar/SidebarSection.svelte'
+  import type { GraphEdge, GraphNode } from '@/lib/features/editor/graph/flow'
+  import type {
+    EdgeFormState,
+    NodeFormState,
+  } from '@/lib/features/editor/graph/form'
   import type { Id } from '~convex/dataModel'
-
-  type GraphNode = {
-    _id: Id<'nodes'>
-    label: string
-    categoryLabel: string
-    infoSource?: string
-    note?: string
-    expanded: boolean
-  }
-  type GraphEdge = {
-    _id: Id<'edges'>
-    source: Id<'nodes'>
-    target: Id<'nodes'>
-    sourceLabel: string
-    targetLabel: string
-    label?: string
-    directed: boolean
-    infoSource?: string
-    note?: string
-  }
-  type NodeForm = {
-    label: string
-    categoryLabel: string
-    infoSource: string
-    note: string
-  }
-  type EdgeForm = {
-    source?: Id<'nodes'> | string
-    target?: Id<'nodes'> | string
-    label: string
-    directed: boolean
-    infoSource: string
-    note: string
-  }
 
   let {
     selectedNode,
@@ -54,8 +25,8 @@
     selectedNode?: GraphNode
     selectedEdge?: GraphEdge
     nodes: GraphNode[]
-    nodeForm: NodeForm
-    edgeForm: EdgeForm
+    nodeForm: NodeFormState
+    edgeForm: EdgeFormState
     onsubmitNode: () => void
     onsubmitEdge: () => void
     ondeleteNode: (nodeId: Id<'nodes'>) => void
