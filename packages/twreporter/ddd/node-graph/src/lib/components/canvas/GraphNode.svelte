@@ -80,7 +80,8 @@
 <style>
   .graph-node {
     position: relative;
-    width: 76px;
+    min-width: 76px;
+    max-width: 156px;
     pointer-events: auto;
   }
 
@@ -128,6 +129,7 @@
   .graph-node .title {
     display: flex;
     align-items: center;
+    text-align: center;
     min-height: 40px;
     padding: 5px 10px 8px;
     border-radius: 5px;
