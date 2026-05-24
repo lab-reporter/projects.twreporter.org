@@ -64,15 +64,17 @@
         {/if}
       </div>
 
-      <div class="detail">
-        {#if data.note}
-          <p class="note">{data.note}</p>
-        {/if}
+      {#if data.note || data.infoSource}
+        <div class="detail">
+          {#if data.note}
+            <p class="note">{data.note}</p>
+          {/if}
 
-        {#if data.infoSource}
-          <p class="source">資料來源｜{data.infoSource}</p>
-        {/if}
-      </div>
+          {#if data.infoSource}
+            <p class="source">資料來源｜{data.infoSource}</p>
+          {/if}
+        </div>
+      {/if}
     </div>
   {/if}
 </div>
@@ -160,9 +162,9 @@
     z-index: 99;
     display: flex;
     align-items: stretch;
-    min-width: 272px;
     border: 1px solid var(--neutral-gray-200);
     border-radius: 7px;
+    overflow: hidden;
     background: var(--neutral-white);
   }
 
@@ -176,8 +178,6 @@
     justify-content: space-between;
     gap: 8px;
     padding: 5px 10px 8px;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
     background: var(--neutral-white);
   }
 
@@ -208,8 +208,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 5px 10px 8px;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
+    width: 200px;
     background: var(--neutral-gray-200);
   }
 
