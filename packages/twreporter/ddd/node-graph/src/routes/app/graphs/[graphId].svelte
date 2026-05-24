@@ -319,6 +319,16 @@
       })
     }
   }
+
+  $effect(() => {
+    if (canvasState.selectedItems.length > 0) {
+      activeSidebarTab = sidebarTabs.design
+    }
+
+    if (canvasState.selectedItem) {
+      activeSidebarTab = sidebarTabs.details
+    }
+  })
 </script>
 
 <Header title={graphTitle.data ?? undefined} />
