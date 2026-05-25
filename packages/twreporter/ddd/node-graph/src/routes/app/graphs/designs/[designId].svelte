@@ -1,10 +1,7 @@
 <script lang="ts">
   import EmptyState from '@/lib/components/ui/EmptyState.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
-  import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
-  import { normalizeEdgeStyle, normalizeNodeStyle } from '@/lib/utils/canvas'
   import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
-  import type { Id } from '~convex/dataModel'
 
   import { DesignApi } from '@/lib/apis/design.svelte'
   import Canvas from '@/lib/components/canvas/Canvas.svelte'
@@ -14,7 +11,6 @@
   import DesignEdgeTab from '@/lib/components/editor/design/DesignEdgeTab.svelte'
   import DesignNodeTab from '@/lib/components/editor/design/DesignNodeTab.svelte'
   import DesignTopBar from '@/lib/components/editor/design/DesignTopBar.svelte'
-  import type { EdgeStyle, NodeStyle } from '@/lib/components/editor/types'
   import Frame from '@/lib/components/frame/Frame.svelte'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
   import { getTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
