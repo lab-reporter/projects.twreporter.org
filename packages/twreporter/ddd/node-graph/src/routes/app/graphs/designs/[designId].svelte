@@ -62,137 +62,15 @@
 
   const embedCode = $derived(buildNodeGraphEmbedCode(designData.data))
 
-  const selectedNodeStyle = $derived.by(() => {
-    const data = designData.data
-
-    if (!data || canvasState.selectedItem?.type !== 'graph-node') {
-      return undefined
-    }
-
-    return normalizeNodeStyle(
-      data.designNodes.find(
-        (designNode) => designNode.nodeId === canvasState.selectedItem?.id,
-      )?.nodeStyle,
-    )
-  })
-
-  const selectedEdgeStyle = $derived.by(() => {
-    const data = designData.data
-
-    if (!data || canvasState.selectedItem?.type !== 'graph-edge') {
-      return undefined
-    }
-
-    return normalizeEdgeStyle(
-      data.designEdges.find(
-        (designEdge) => designEdge.edgeId === canvasState.selectedItem?.id,
-      )?.edgeStyle,
-    )
-  })
-
-  const canvasFields = {
-    backgroundColor: useConvexOptimisticUpdateValue(
-      () => designData.data?.design.backgroundColor ?? undefined,
-      (backgroundColor) =>
-        designApi.updateDesignMetadata({ patch: { backgroundColor } }),
-    ),
-    title: useConvexOptimisticUpdateValue(
-      () => designData.data?.design.title,
-      (title) => designApi.updateDesignMetadata({ patch: { title } }),
-    ),
-    description: useConvexOptimisticUpdateValue(
-      () =>
-        designData.data
-          ? (designData.data.design.description ?? '')
-          : undefined,
-      (description) =>
-        designApi.updateDesignMetadata({ patch: { description } }),
-    ),
-    footnotes: useConvexOptimisticUpdateValue(
-      () =>
-        designData.data ? (designData.data.design.footnotes ?? '') : undefined,
-      (footnotes) => designApi.updateDesignMetadata({ patch: { footnotes } }),
-    ),
-    legends: useConvexOptimisticUpdateValue(
-      () => designData.data?.design.legends,
-      (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
-    ),
-  }
-
-  const nodeFields = {
-    backgroundColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.backgroundColor,
-      (backgroundColor) => updateNodeStyle({ backgroundColor }),
-    ),
-    borderColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.borderColor,
-      (borderColor) => updateNodeStyle({ borderColor }),
-    ),
-    textColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.textColor,
-      (textColor) => updateNodeStyle({ textColor }),
-    ),
-    descriptionBackgroundColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.descriptionBackgroundColor,
-      (descriptionBackgroundColor) =>
-        updateNodeStyle({ descriptionBackgroundColor }),
-    ),
-    descriptionTextColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.descriptionTextColor,
-      (descriptionTextColor) => updateNodeStyle({ descriptionTextColor }),
-    ),
-    descriptionDefaultOpen: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.descriptionDefaultOpen,
-      (descriptionDefaultOpen) => updateNodeStyle({ descriptionDefaultOpen }),
-    ),
-  }
-
-  const edgeFields = {
-    strokeColor: useConvexOptimisticUpdateValue(
-      () => selectedEdgeStyle?.strokeColor,
-      (strokeColor) => updateEdgeStyle({ strokeColor }),
-    ),
-    arrowColor: useConvexOptimisticUpdateValue(
-      () => selectedEdgeStyle?.arrowColor,
-      (arrowColor) => updateEdgeStyle({ arrowColor }),
-    ),
-    labelBackgroundColor: useConvexOptimisticUpdateValue(
-      () => selectedEdgeStyle?.labelBackgroundColor,
-      (labelBackgroundColor) => updateEdgeStyle({ labelBackgroundColor }),
-    ),
-    labelTextColor: useConvexOptimisticUpdateValue(
-      () => selectedEdgeStyle?.labelTextColor,
-      (labelTextColor) => updateEdgeStyle({ labelTextColor }),
-    ),
-  }
-
   $effect(() => {
-    if (tabsState.activeTab === sidebarTabs.groups) {
+    if (canvasState.selectedItem?.type === 'graph-node') {
       tabsState.activeTab = sidebarTabs.nodes
+    } else if (canvasState.selectedItem?.type === 'graph-edge') {
+      tabsState.activeTab = sidebarTabs.edges
+    } else {
+      tabsState.activeTab = sidebarTabs.canvas
     }
   })
-
-  function updateNodeStyle(patch: Partial<NodeStyle>) {
-    if (canvasState.selectedItem?.type !== 'graph-node') {
-      return
-    }
-
-    designApi.updateDesignNodeStyle({
-      nodeId: canvasState.selectedItem.id as Id<'nodes'>,
-      patch,
-    })
-  }
-
-  function updateEdgeStyle(patch: Partial<EdgeStyle>) {
-    if (canvasState.selectedItem?.type !== 'graph-edge') {
-      return
-    }
-
-    designApi.updateDesignEdgeStyle({
-      edgeId: canvasState.selectedItem.id as Id<'edges'>,
-      patch,
-    })
-  }
 </script>
 
 <Header title={designData.data?.design.title} />
@@ -215,21 +93,21 @@
 >
   <TabContent value={sidebarTabs.nodes}>
     {#if canvasState.selectedItem?.type === 'graph-node'}
-      <DesignNodeTab fields={nodeFields} />
+      <DesignNodeTab />
     {:else}
       <EmptyState message="請先在畫布選取一個節點" />
     {/if}
   </TabContent>
   <TabContent value={sidebarTabs.edges}>
     {#if canvasState.selectedItem?.type === 'graph-edge'}
-      <DesignEdgeTab fields={edgeFields} />
+      <DesignEdgeTab />
     {:else}
       <EmptyState message="請先在畫布選取一條線段" />
     {/if}
   </TabContent>
   <TabContent value={sidebarTabs.groups}></TabContent>
   <TabContent value={sidebarTabs.canvas}>
-    <DesignCanvasTab fields={canvasFields} />
+    <DesignCanvasTab />
   </TabContent>
 </Sidebar>
 <div

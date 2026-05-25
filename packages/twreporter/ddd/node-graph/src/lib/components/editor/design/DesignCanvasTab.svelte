@@ -1,19 +1,41 @@
 <script lang="ts">
-  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
+  import { DesignApi } from '@/lib/apis/design.svelte'
+  import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
   import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
-  import type { CanvasMetadata } from '../types'
 
-  type CanvasFields = {
-    [K in keyof CanvasMetadata]: ConvexField<CanvasMetadata[K]>
+  const designApi = new DesignApi()
+  const designData = $derived(designApi.designData)
+
+  const fields = {
+    backgroundColor: useConvexOptimisticUpdateValue(
+      () => designData.data?.design.backgroundColor ?? undefined,
+      (backgroundColor) =>
+        designApi.updateDesignMetadata({ patch: { backgroundColor } }),
+    ),
+    title: useConvexOptimisticUpdateValue(
+      () => designData.data?.design.title,
+      (title) => designApi.updateDesignMetadata({ patch: { title } }),
+    ),
+    description: useConvexOptimisticUpdateValue(
+      () =>
+        designData.data
+          ? (designData.data.design.description ?? '')
+          : undefined,
+      (description) =>
+        designApi.updateDesignMetadata({ patch: { description } }),
+    ),
+    footnotes: useConvexOptimisticUpdateValue(
+      () =>
+        designData.data ? (designData.data.design.footnotes ?? '') : undefined,
+      (footnotes) => designApi.updateDesignMetadata({ patch: { footnotes } }),
+    ),
+    legends: useConvexOptimisticUpdateValue(
+      () => designData.data?.design.legends,
+      (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
+    ),
   }
-
-  let {
-    fields,
-  }: {
-    fields: CanvasFields
-  } = $props()
 </script>
 
 <SidebarSection title="畫布">
