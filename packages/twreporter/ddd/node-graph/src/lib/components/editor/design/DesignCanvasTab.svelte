@@ -1,11 +1,9 @@
 <script lang="ts">
+  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
   import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
-  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
   import type { CanvasMetadata } from '../types'
-  import type { Legends } from '../../ui/legends/types'
-  import Button from '../../ui/Button.svelte'
 
   type CanvasFields = {
     [K in keyof CanvasMetadata]: ConvexField<CanvasMetadata[K]>
@@ -13,19 +11,9 @@
 
   let {
     fields,
-    error,
   }: {
     fields: CanvasFields
-    error?: string | null
   } = $props()
-
-  let legends = $state<Legends | undefined>()
-
-  $effect(() => {
-    if (!legends && fields.legends.value) {
-      legends = fields.legends.value
-    }
-  })
 </script>
 
 <SidebarSection title="畫布">
@@ -42,38 +30,60 @@
   <SidebarCard title="註腳">
     <textarea rows="4" bind:value={fields.footnotes.value}></textarea>
   </SidebarCard>
-
-  {#if error}<p class="error">{error}</p>{/if}
 </SidebarSection>
 
 <SidebarSection title="圖例">
-  {#each legends as legend, index (legend.label)}
+  {#each fields.legends.value as legend, index (legend.id)}
     <SidebarColorInput
       label={legend.label}
-      bind:value={legend.label}
-      bind:color={legend.color}
+      bind:value={
+        () => legend.label,
+        (newLabel) => {
+          fields.legends.value = [
+            ...(fields.legends.value ?? []).filter(
+              (l) => l.label !== legend.label,
+            ),
+            {
+              ...legend,
+              label: newLabel,
+            },
+          ]
+        }
+      }
+      bind:color={
+        () => legend.color,
+        (newColor) => {
+          fields.legends.value = [
+            ...(fields.legends.value ?? []).filter(
+              (l) => l.color !== legend.color,
+            ),
+            {
+              ...legend,
+              color: newColor,
+            },
+          ]
+        }
+      }
     />
     <button
       onclick={() => {
-        legends = legends?.filter((_, i) => i !== index)
+        fields.legends.value = fields.legends.value?.filter(
+          (l) => l.id !== legend.id,
+        )
       }}>刪除</button
     >
   {/each}
   <button
     onclick={() => {
-      legends = [
-        ...(legends ?? []),
+      fields.legends.value = [
+        ...(fields.legends.value ?? []),
         {
+          id: new Date().getTime().toString(),
           color: '#fafafa',
-          label: `圖例-${new Date().getTime()}`,
+          label: '圖例',
         },
       ]
     }}>新增</button
-  >
-  <Button
-    onclick={() => {
-      fields.legends.value = legends
-    }}>儲存</Button
   >
 </SidebarSection>
 
@@ -100,12 +110,5 @@
   textarea {
     resize: vertical;
     padding: 7px 8px;
-  }
-
-  .error {
-    margin: 0;
-    color: #b42318;
-    font-size: 12px;
-    line-height: 1.4;
   }
 </style>

@@ -2,6 +2,15 @@ import { v } from 'convex/values'
 import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
+import { designFields } from './schema'
+
+const graphParams = {
+  graphId: v.id('graphs'),
+}
+
+const designParams = {
+  designId: v.id('designs'),
+}
 
 const legendValidator = v.object({
   label: v.string(),
@@ -182,27 +191,6 @@ export const listDesignsForGraph = userQuery({
       )
       .order('desc')
       .take(50)
-  },
-})
-
-export const getDesignTitle = userQuery({
-  args: {
-    designId: v.id('designs'),
-  },
-  handler: async (ctx, args) => {
-    const design = await ctx.db.get(args.designId)
-
-    if (!design) return null
-
-    const graph = await ctx.db.get(design.graphId)
-
-    if (!graph) return null
-
-    return {
-      graphId: design.graphId,
-      graphName: graph.name,
-      designTitle: design.title,
-    }
   },
 })
 
@@ -428,14 +416,16 @@ export const listSelectableEdges = userQuery({
 })
 
 export const createDesign = userMutation({
-  args: {
-    graphId: v.id('graphs'),
-    title: v.string(),
-    description: v.optional(v.string()),
-    footnotes: v.optional(v.string()),
-    legends: v.optional(v.array(legendValidator)),
-    backgroundColor: v.optional(v.string()),
-  },
+  args: v
+    .object(designFields)
+    .pick(
+      'graphId',
+      'title',
+      'description',
+      'footnotes',
+      'legends',
+      'backgroundColor',
+    ),
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -461,14 +451,11 @@ export const createDesign = userMutation({
 })
 
 export const updateDesignMetadata = userMutation({
-  args: {
-    designId: v.id('designs'),
-    title: v.optional(v.string()),
-    description: v.optional(v.string()),
-    footnotes: v.optional(v.string()),
-    legends: v.optional(v.array(legendValidator)),
-    backgroundColor: v.optional(v.string()),
-  },
+  args: v
+    .object(designFields)
+    .pick('title', 'backgroundColor', 'description', 'footnotes', 'legends')
+    .partial()
+    .extend(designParams),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 

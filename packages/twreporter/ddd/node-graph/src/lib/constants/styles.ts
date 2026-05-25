@@ -9,7 +9,7 @@ export const defaultNodeStyle: NodeStyle = {
   textColor: '#404040',
   descriptionBackgroundColor: '#F1EBE6',
   descriptionTextColor: '#404040',
-  descriptionDefaultOpen: true,
+  descriptionDefaultOpen: false,
 }
 
 export const defaultEdgeStyle: EdgeStyle = {

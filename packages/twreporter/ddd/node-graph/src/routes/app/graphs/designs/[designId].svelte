@@ -1,52 +1,46 @@
 <script lang="ts">
   import EmptyState from '@/lib/components/ui/EmptyState.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
+  import {
+    useConvexField,
+    useConvexOptimisticUpdateValue,
+  } from '@/lib/features/use-convex-field.svelte'
   import { normalizeEdgeStyle, normalizeNodeStyle } from '@/lib/utils/canvas'
   import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
-  import { useConvexField } from '@/lib/features/use-convex-field.svelte'
-  import { useConvexClient, useQuery } from 'convex-svelte'
+  import { useConvexClient } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
 
-  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
+  import { DesignApi } from '@/lib/apis/design.svelte'
+  import Canvas from '@/lib/components/canvas/Canvas.svelte'
+  import { getCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
+  import Header from '@/lib/components/editor/Header.svelte'
+  import DesignCanvasTab from '@/lib/components/editor/design/DesignCanvasTab.svelte'
+  import DesignEdgeTab from '@/lib/components/editor/design/DesignEdgeTab.svelte'
+  import DesignNodeTab from '@/lib/components/editor/design/DesignNodeTab.svelte'
+  import DesignTopBar from '@/lib/components/editor/design/DesignTopBar.svelte'
+  import type { EdgeStyle, NodeStyle } from '@/lib/components/editor/types'
+  import Frame from '@/lib/components/frame/Frame.svelte'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
-  import type {
-    CanvasMetadata,
-    EdgeStyle,
-    NodeStyle,
-  } from '@/lib/components/editor/types'
-  import { route } from '@/routes/router'
+  import { getTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
   import {
     defaultViewportKey,
     viewports,
     type ViewportKey,
   } from '@/lib/constants/viewports'
-  import DesignNodeTab from '@/lib/components/editor/design/DesignNodeTab.svelte'
-  import DesignEdgeTab from '@/lib/components/editor/design/DesignEdgeTab.svelte'
-  import DesignCanvasTab from '@/lib/components/editor/design/DesignCanvasTab.svelte'
-  import Frame from '@/lib/components/frame/Frame.svelte'
-  import Canvas from '@/lib/components/canvas/Canvas.svelte'
-  import Header from '@/lib/components/editor/Header.svelte'
-  import DesignTopBar from '@/lib/components/editor/design/DesignTopBar.svelte'
-  import { getCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
+  import { buildDesignFlow } from '@/lib/features/canvas/adapter'
+  import { route } from '@/routes/router'
 
   const convex = useConvexClient()
   const canvasState = getCanvasContext()
+  const tabsState = getTabsContext('nodes')
 
-  const graphId = route.params.graphId as Id<'graphs'>
-  const designId = route.params.designId as Id<'designs'>
+  const designApi = new DesignApi()
+  const params = $derived(designApi.params)
 
-  const designTitle = useQuery(api.designs.getDesignTitle, {
-    designId,
-  })
-
-  const designData = useQuery(api.designs.getDesign, {
-    graphId,
-    designId,
-  })
+  const designData = $derived(designApi.designData)
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
-  let activeSidebarTab = $state('nodes')
   let saveError = $state<string | null>(null)
 
   const sidebarTabs = {
@@ -55,6 +49,7 @@
     groups: 'groups',
     canvas: 'canvas',
   }
+
   const frameResolutionRatio = $derived(
     viewports[activeLayoutKey].resolutionRatio,
   )
@@ -105,29 +100,31 @@
   })
 
   const canvasFields = {
-    backgroundColor: useConvexField(
+    backgroundColor: useConvexOptimisticUpdateValue(
       () => designData.data?.design.backgroundColor ?? undefined,
-      (backgroundColor) => updateDesignMetadata({ backgroundColor }),
+      (backgroundColor) =>
+        designApi.updateDesignMetadata({ patch: { backgroundColor } }),
     ),
-    title: useConvexField(
+    title: useConvexOptimisticUpdateValue(
       () => designData.data?.design.title,
-      (title) => updateDesignMetadata({ title }),
+      (title) => designApi.updateDesignMetadata({ patch: { title } }),
     ),
-    description: useConvexField(
+    description: useConvexOptimisticUpdateValue(
       () =>
         designData.data
           ? (designData.data.design.description ?? '')
           : undefined,
-      (description) => updateDesignMetadata({ description }),
+      (description) =>
+        designApi.updateDesignMetadata({ patch: { description } }),
     ),
-    footnotes: useConvexField(
+    footnotes: useConvexOptimisticUpdateValue(
       () =>
         designData.data ? (designData.data.design.footnotes ?? '') : undefined,
-      (footnotes) => updateDesignMetadata({ footnotes }),
+      (footnotes) => designApi.updateDesignMetadata({ patch: { footnotes } }),
     ),
-    legends: useConvexField(
+    legends: useConvexOptimisticUpdateValue(
       () => designData.data?.design.legends,
-      (legends) => updateDesignMetadata({ legends }),
+      (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
     ),
   }
 
@@ -180,26 +177,10 @@
   }
 
   $effect(() => {
-    if (activeSidebarTab === sidebarTabs.groups) {
-      activeSidebarTab = sidebarTabs.nodes
+    if (tabsState.activeTab === sidebarTabs.groups) {
+      tabsState.activeTab = sidebarTabs.nodes
     }
   })
-
-  async function updateDesignMetadata(patch: Partial<CanvasMetadata>) {
-    if (!route.params.designId) return
-
-    saveError = null
-
-    try {
-      await convex.mutation(api.designs.updateDesignMetadata, {
-        designId: route.params.designId as Id<'designs'>,
-        ...patch,
-      })
-    } catch (error) {
-      saveError =
-        error instanceof Error ? error.message : '儲存設定時發生錯誤。'
-    }
-  }
 
   async function updateNodeStyle(patch: Partial<NodeStyle>) {
     if (
@@ -264,7 +245,7 @@
   }
 </script>
 
-<Header title={designTitle.data?.designTitle} />
+<Header title={designData.data?.design.title} />
 
 <DesignTopBar
   bind:activeLayoutKey
@@ -275,7 +256,6 @@
 />
 
 <Sidebar
-  bind:activeTabValue={activeSidebarTab}
   tabs={[
     { label: '節點', value: sidebarTabs.nodes },
     { label: '線段', value: sidebarTabs.edges },
@@ -299,7 +279,7 @@
   </TabContent>
   <TabContent value={sidebarTabs.groups}></TabContent>
   <TabContent value={sidebarTabs.canvas}>
-    <DesignCanvasTab fields={canvasFields} error={saveError} />
+    <DesignCanvasTab fields={canvasFields} />
   </TabContent>
 </Sidebar>
 <div
@@ -310,7 +290,7 @@
   <Frame
     title={designData.data?.design.title}
     description={designData.data?.design.description}
-    footnotes={designData.data?.design.footnotes}
+    footnotes={designData.data?.design.footnotes?.split('\n')}
     legends={designData.data?.design.legends}
   >
     <Canvas

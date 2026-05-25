@@ -1,18 +1,10 @@
+import type { DesignQueryData } from '@/lib/apis/convex'
+import type { CanvasState } from '@/lib/components/canvas/CanvasState.svelte'
 import { Position } from '@xyflow/svelte'
-import type { FunctionReturnType } from 'convex/server'
-import { api } from '~convex/api'
 import type { ViewportKey } from '../../constants/viewports'
 import { normalizeEdgeStyle, normalizeNodeStyle } from '../../utils/canvas'
+import type { GraphQueryData } from '../editor/graph/flow'
 import type { FlowEdge, FlowNode, NodePosition } from './types'
-import type { CanvasState } from '@/lib/components/canvas/CanvasState.svelte'
-
-type DesignQueryData = NonNullable<
-  FunctionReturnType<typeof api.designs.getDesign>
->
-
-type GraphQueryData = NonNullable<
-  FunctionReturnType<typeof api.graphs.getGraph>
->
 
 function resolvePosition(input: {
   graph: DesignQueryData

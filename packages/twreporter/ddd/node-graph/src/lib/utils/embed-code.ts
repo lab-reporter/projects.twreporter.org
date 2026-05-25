@@ -1,10 +1,5 @@
-import type { FunctionReturnType } from 'convex/server'
-import type { api } from '~convex/api'
+import type { DesignQueryData } from '../apis/convex'
 import { assets } from '../constants/assets'
-
-type DesignQueryData = NonNullable<
-  FunctionReturnType<typeof api.designs.getDesign>
->
 
 function escapeHtmlAttribute(value: string) {
   return value

@@ -9,6 +9,7 @@
   import Header from '@/lib/components/editor/Header.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
+  import { getTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
   import { buildGraphFlow } from '@/lib/features/canvas/adapter'
   import type {
     CanvasSelectedItem,
@@ -40,6 +41,7 @@
     onUndoMoveNodes: (moves) => persistNodeMoves(moves, 'from'),
   })
   const canvasState = getCanvasContext()
+  const tabsState = getTabsContext('add')
 
   const graphId = route.params.graphId as Id<'graphs'>
 
@@ -55,8 +57,6 @@
     design: 'design',
   } as const
 
-  let activeSidebarTab =
-    $state<(typeof sidebarTabs)[keyof typeof sidebarTabs]>('add')
   let nodeForm = $state(createEmptyNodeForm())
   let edgeForm = $state(createEmptyEdgeForm())
   let searchTerm = $state('')
@@ -212,11 +212,11 @@
 
   $effect(() => {
     if (canvasState.selectedItems.length > 0) {
-      activeSidebarTab = sidebarTabs.design
+      tabsState.activeTab = sidebarTabs.design
     }
 
     if (canvasState.selectedItem) {
-      activeSidebarTab = sidebarTabs.details
+      tabsState.activeTab = sidebarTabs.details
     }
   })
 </script>
@@ -229,7 +229,6 @@
 />
 
 <Sidebar
-  bind:activeTabValue={activeSidebarTab}
   tabs={[
     { label: '新增', value: sidebarTabs.add },
     { label: '詳情', value: sidebarTabs.details },
@@ -269,7 +268,7 @@
       nodes={filteredNodes}
       onselect={(nodeId) => {
         selectNode(nodeId)
-        activeSidebarTab = sidebarTabs.details
+        tabsState.activeTab = sidebarTabs.details
       }}
     />
   </TabContent>

@@ -1,11 +1,13 @@
 <script lang="ts">
   import { setCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
+  import { setTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
   import type { Snippet } from 'svelte'
 
   const { children }: { children: Snippet } = $props()
 
   // Contexts
   setCanvasContext()
+  setTabsContext()
 </script>
 
 <link

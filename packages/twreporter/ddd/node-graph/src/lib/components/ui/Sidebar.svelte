@@ -6,7 +6,6 @@
 
   let {
     tabs,
-    activeTabValue = $bindable<string | undefined>(),
     children,
     footer,
   }: {
@@ -15,14 +14,13 @@
       value: string
       disabled?: boolean
     }[]
-    activeTabValue?: string
     children?: Snippet
     footer?: Snippet
   } = $props()
 </script>
 
 <Panel variant="left">
-  <Tabs bind:activeTabValue>
+  <Tabs>
     <TabList {tabs} />
     {@render children?.()}
   </Tabs>

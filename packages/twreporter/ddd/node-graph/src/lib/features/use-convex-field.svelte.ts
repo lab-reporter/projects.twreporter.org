@@ -4,7 +4,7 @@ export type ConvexField<T> = {
 
 export function useConvexField<T>(
   getRemote: () => T | undefined,
-  mutate: (v: T) => void | Promise<void>,
+  mutate: (v: T) => any | Promise<any>,
   delay = 300,
 ) {
   let value = $state<T | undefined>(undefined)
@@ -35,6 +35,20 @@ export function useConvexField<T>(
     },
     set value(v) {
       value = v
+    },
+  }
+}
+
+export function useConvexOptimisticUpdateValue<T>(
+  getState: () => T,
+  setState: (newState: T) => any,
+) {
+  return {
+    get value() {
+      return getState()
+    },
+    set value(newState) {
+      setState(newState)
     },
   }
 }

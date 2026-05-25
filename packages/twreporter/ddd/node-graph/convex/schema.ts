@@ -1,6 +1,28 @@
 import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
+export const designFields = {
+  graphId: v.id('graphs'),
+  title: v.string(),
+  description: v.optional(v.string()),
+  footnotes: v.optional(v.string()),
+  legends: v.array(
+    v.object({
+      id: v.string(),
+      label: v.string(),
+      color: v.string(),
+    }),
+  ),
+  backgroundColor: v.string(),
+  status: v.union(
+    v.literal('draft'),
+    v.literal('ready'),
+    v.literal('archived'),
+  ),
+  createdAt: v.number(),
+  updatedAt: v.number(),
+}
+
 export default defineSchema({
   graphs: defineTable({
     name: v.string(),
@@ -8,26 +30,10 @@ export default defineSchema({
     updatedAt: v.number(),
   }),
 
-  designs: defineTable({
-    graphId: v.id('graphs'),
-    title: v.string(),
-    description: v.optional(v.string()),
-    footnotes: v.optional(v.string()),
-    legends: v.array(
-      v.object({
-        label: v.string(),
-        color: v.string(),
-      }),
-    ),
-    backgroundColor: v.string(),
-    status: v.union(
-      v.literal('draft'),
-      v.literal('ready'),
-      v.literal('archived'),
-    ),
-    createdAt: v.number(),
-    updatedAt: v.number(),
-  }).index('by_graphId_and_updatedAt', ['graphId', 'updatedAt']),
+  designs: defineTable(designFields).index('by_graphId_and_updatedAt', [
+    'graphId',
+    'updatedAt',
+  ]),
 
   designLayouts: defineTable({
     graphId: v.id('graphs'),

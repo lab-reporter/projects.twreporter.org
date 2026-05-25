@@ -1,16 +1,12 @@
 <script lang="ts">
+  import type { DesignQueryData } from '@/lib/apis/convex'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import { debounce } from '@/lib/utils/debounce'
   import { safeParse } from '@/lib/utils/safe-parse'
   import { useSvelteFlow } from '@xyflow/svelte'
-  import type { FunctionReturnType } from 'convex/server'
-  import { api } from '~convex/api'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/frame/Frame.svelte'
 
-  type DesignQueryData = NonNullable<
-    FunctionReturnType<typeof api.designs.getDesign>
-  >
   let { data }: { data?: string } = $props()
 
   let clientWidth = $state<number>()
