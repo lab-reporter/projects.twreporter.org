@@ -12,10 +12,10 @@ const designParams = {
   designId: v.id('designs'),
 }
 
-const legendValidator = v.object({
-  label: v.string(),
-  color: v.string(),
-})
+const graphAndDesignParams = {
+  ...graphParams,
+  ...designParams,
+}
 
 const nodeStyleValidator = v.object({
   backgroundColor: v.string(),
@@ -176,9 +176,7 @@ async function materializeLayout(
 }
 
 export const listDesignsForGraph = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-  },
+  args: graphParams,
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -195,10 +193,7 @@ export const listDesignsForGraph = userQuery({
 })
 
 export const getDesign = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-  },
+  args: graphAndDesignParams,
   handler: async (ctx, args) => {
     const [graph, design] = await Promise.all([
       ctx.db.get(args.graphId),
@@ -320,9 +315,7 @@ export const getDesign = userQuery({
 })
 
 export const listDesignLayouts = userQuery({
-  args: {
-    designId: v.id('designs'),
-  },
+  args: designParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -348,10 +341,7 @@ export const listDesignLayouts = userQuery({
 })
 
 export const listSelectableNodes = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-  },
+  args: graphAndDesignParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -377,10 +367,7 @@ export const listSelectableNodes = userQuery({
 })
 
 export const listSelectableEdges = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-  },
+  args: graphAndDesignParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
