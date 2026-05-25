@@ -32,7 +32,10 @@
       (footnotes) => designApi.updateDesignMetadata({ patch: { footnotes } }),
     ),
     legends: useConvexOptimisticUpdateValue(
-      () => designData.data?.design.legends,
+      () =>
+        designData.data?.design.legends.sort((a, b) =>
+          a.id.localeCompare(b.id),
+        ),
       (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
     ),
   }
