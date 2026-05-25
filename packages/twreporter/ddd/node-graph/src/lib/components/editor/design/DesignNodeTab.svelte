@@ -11,10 +11,8 @@
 
   let {
     fields,
-    error,
   }: {
     fields: NodeStyleFields
-    error?: string | null
   } = $props()
 </script>
 
@@ -43,8 +41,6 @@
       checked={fields.descriptionDefaultOpen.value}
     />
   </button>
-
-  {#if error}<p class="error">{error}</p>{/if}
 </SidebarSection>
 
 <style>
@@ -54,12 +50,5 @@
     background: transparent;
     cursor: pointer;
     text-align: inherit;
-  }
-
-  .error {
-    margin: 0;
-    color: #b42318;
-    font-size: 12px;
-    line-height: 1.4;
   }
 </style>

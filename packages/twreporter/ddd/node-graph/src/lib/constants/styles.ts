@@ -1,4 +1,4 @@
-import type { Doc } from '~convex/dataModel'
+import type { Doc } from '../../../convex/_generated/dataModel'
 
 type NodeStyle = NonNullable<Doc<'designNodes'>['nodeStyle']>
 type EdgeStyle = NonNullable<Doc<'designEdges'>['edgeStyle']>

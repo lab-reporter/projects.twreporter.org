@@ -1,14 +1,9 @@
 <script lang="ts">
   import EmptyState from '@/lib/components/ui/EmptyState.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
-  import {
-    useConvexField,
-    useConvexOptimisticUpdateValue,
-  } from '@/lib/features/use-convex-field.svelte'
+  import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
   import { normalizeEdgeStyle, normalizeNodeStyle } from '@/lib/utils/canvas'
   import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
-  import { useConvexClient } from 'convex-svelte'
-  import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
 
   import { DesignApi } from '@/lib/apis/design.svelte'
@@ -29,19 +24,15 @@
     type ViewportKey,
   } from '@/lib/constants/viewports'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
-  import { route } from '@/routes/router'
 
-  const convex = useConvexClient()
   const canvasState = getCanvasContext()
   const tabsState = getTabsContext('nodes')
 
   const designApi = new DesignApi()
-  const params = $derived(designApi.params)
 
   const designData = $derived(designApi.designData)
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
-  let saveError = $state<string | null>(null)
 
   const sidebarTabs = {
     nodes: 'nodes',
@@ -129,48 +120,47 @@
   }
 
   const nodeFields = {
-    backgroundColor: useConvexField(
+    backgroundColor: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.backgroundColor,
       (backgroundColor) => updateNodeStyle({ backgroundColor }),
     ),
-    borderColor: useConvexField(
+    borderColor: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.borderColor,
       (borderColor) => updateNodeStyle({ borderColor }),
     ),
-    textColor: useConvexField(
+    textColor: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.textColor,
       (textColor) => updateNodeStyle({ textColor }),
     ),
-    descriptionBackgroundColor: useConvexField(
+    descriptionBackgroundColor: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.descriptionBackgroundColor,
       (descriptionBackgroundColor) =>
         updateNodeStyle({ descriptionBackgroundColor }),
     ),
-    descriptionTextColor: useConvexField(
+    descriptionTextColor: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.descriptionTextColor,
       (descriptionTextColor) => updateNodeStyle({ descriptionTextColor }),
     ),
-    descriptionDefaultOpen: useConvexField(
+    descriptionDefaultOpen: useConvexOptimisticUpdateValue(
       () => selectedNodeStyle?.descriptionDefaultOpen,
       (descriptionDefaultOpen) => updateNodeStyle({ descriptionDefaultOpen }),
-      0,
     ),
   }
 
   const edgeFields = {
-    strokeColor: useConvexField(
+    strokeColor: useConvexOptimisticUpdateValue(
       () => selectedEdgeStyle?.strokeColor,
       (strokeColor) => updateEdgeStyle({ strokeColor }),
     ),
-    arrowColor: useConvexField(
+    arrowColor: useConvexOptimisticUpdateValue(
       () => selectedEdgeStyle?.arrowColor,
       (arrowColor) => updateEdgeStyle({ arrowColor }),
     ),
-    labelBackgroundColor: useConvexField(
+    labelBackgroundColor: useConvexOptimisticUpdateValue(
       () => selectedEdgeStyle?.labelBackgroundColor,
       (labelBackgroundColor) => updateEdgeStyle({ labelBackgroundColor }),
     ),
-    labelTextColor: useConvexField(
+    labelTextColor: useConvexOptimisticUpdateValue(
       () => selectedEdgeStyle?.labelTextColor,
       (labelTextColor) => updateEdgeStyle({ labelTextColor }),
     ),
@@ -182,66 +172,26 @@
     }
   })
 
-  async function updateNodeStyle(patch: Partial<NodeStyle>) {
-    if (
-      !route.params.designId ||
-      canvasState.selectedItem?.type !== 'graph-node'
-    ) {
+  function updateNodeStyle(patch: Partial<NodeStyle>) {
+    if (canvasState.selectedItem?.type !== 'graph-node') {
       return
     }
 
-    const nodeId = canvasState.selectedItem.id
-    const nodeStyle = normalizeNodeStyle({
-      backgroundColor: nodeFields.backgroundColor.value,
-      borderColor: nodeFields.borderColor.value,
-      textColor: nodeFields.textColor.value,
-      descriptionBackgroundColor: nodeFields.descriptionBackgroundColor.value,
-      descriptionTextColor: nodeFields.descriptionTextColor.value,
-      descriptionDefaultOpen: nodeFields.descriptionDefaultOpen.value,
-      ...patch,
+    designApi.updateDesignNodeStyle({
+      nodeId: canvasState.selectedItem.id as Id<'nodes'>,
+      patch,
     })
-
-    saveError = null
-
-    try {
-      await convex.mutation(api.designs.updateDesignNodeStyle, {
-        designId: route.params.designId as Id<'designs'>,
-        nodeId: nodeId as Id<'nodes'>,
-        nodeStyle,
-      })
-    } catch (error) {
-      saveError = error instanceof Error ? error.message : '儲存設定時發生錯誤'
-    }
   }
 
-  async function updateEdgeStyle(patch: Partial<EdgeStyle>) {
-    if (
-      !route.params.designId ||
-      canvasState.selectedItem?.type !== 'graph-edge'
-    ) {
+  function updateEdgeStyle(patch: Partial<EdgeStyle>) {
+    if (canvasState.selectedItem?.type !== 'graph-edge') {
       return
     }
 
-    const edgeId = canvasState.selectedItem.id
-    const edgeStyle = normalizeEdgeStyle({
-      strokeColor: edgeFields.strokeColor.value,
-      arrowColor: edgeFields.arrowColor.value,
-      labelBackgroundColor: edgeFields.labelBackgroundColor.value,
-      labelTextColor: edgeFields.labelTextColor.value,
-      ...patch,
+    designApi.updateDesignEdgeStyle({
+      edgeId: canvasState.selectedItem.id as Id<'edges'>,
+      patch,
     })
-
-    saveError = null
-
-    try {
-      await convex.mutation(api.designs.updateDesignEdgeStyle, {
-        designId: route.params.designId as Id<'designs'>,
-        edgeId: edgeId as Id<'edges'>,
-        edgeStyle,
-      })
-    } catch (error) {
-      saveError = error instanceof Error ? error.message : '儲存設定時發生錯誤'
-    }
   }
 </script>
 
@@ -265,14 +215,14 @@
 >
   <TabContent value={sidebarTabs.nodes}>
     {#if canvasState.selectedItem?.type === 'graph-node'}
-      <DesignNodeTab fields={nodeFields} error={saveError} />
+      <DesignNodeTab fields={nodeFields} />
     {:else}
       <EmptyState message="請先在畫布選取一個節點" />
     {/if}
   </TabContent>
   <TabContent value={sidebarTabs.edges}>
     {#if canvasState.selectedItem?.type === 'graph-edge'}
-      <DesignEdgeTab fields={edgeFields} error={saveError} />
+      <DesignEdgeTab fields={edgeFields} />
     {:else}
       <EmptyState message="請先在畫布選取一條線段" />
     {/if}
@@ -297,32 +247,22 @@
       nodes={flow.nodes}
       edges={flow.edges}
       onMoveNodes={async (moves) => {
-        if (!route.params.designId) return
-
-        await Promise.all(
-          moves.map((move) =>
-            convex.mutation(api.designs.setDesignLayoutNodePosition, {
-              designId: route.params.designId as Id<'designs'>,
-              layoutKey: activeLayoutKey,
-              nodeId: move.nodeId,
-              position: move.to,
-            }),
-          ),
-        )
+        await designApi.setDesignLayoutNodePositions({
+          layoutKey: activeLayoutKey,
+          moves: moves.map((move) => ({
+            nodeId: move.nodeId,
+            position: move.to,
+          })),
+        })
       }}
       onUndoMoveNodes={async (moves) => {
-        if (!route.params.designId) return
-
-        await Promise.all(
-          moves.map((move) =>
-            convex.mutation(api.designs.setDesignLayoutNodePosition, {
-              designId: route.params.designId as Id<'designs'>,
-              layoutKey: activeLayoutKey,
-              nodeId: move.nodeId,
-              position: move.from,
-            }),
-          ),
-        )
+        await designApi.setDesignLayoutNodePositions({
+          layoutKey: activeLayoutKey,
+          moves: moves.map((move) => ({
+            nodeId: move.nodeId,
+            position: move.from,
+          })),
+        })
       }}
     />
   </Frame>

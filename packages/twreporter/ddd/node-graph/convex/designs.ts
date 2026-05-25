@@ -2,7 +2,16 @@ import { v } from 'convex/values'
 import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
-import { designFields } from './schema'
+import {
+  designEdgeFields,
+  designEdgeStyleFields,
+  designFields,
+  designLayoutFields,
+  designLayoutNodeFields,
+  designNodeFields,
+  designNodeStyleFields,
+} from './schema'
+import { defaultNodeStyle, defaultEdgeStyle } from '../src/lib/constants/styles'
 
 const graphParams = {
   graphId: v.id('graphs'),
@@ -12,39 +21,10 @@ const designParams = {
   designId: v.id('designs'),
 }
 
-const graphAndDesignParams = {
+const graphAndDesignParams = v.object({
   ...graphParams,
   ...designParams,
-}
-
-const nodeStyleValidator = v.object({
-  backgroundColor: v.string(),
-  borderColor: v.string(),
-  textColor: v.string(),
-  descriptionBackgroundColor: v.string(),
-  descriptionTextColor: v.string(),
-  descriptionDefaultOpen: v.boolean(),
 })
-
-const edgeStyleValidator = v.object({
-  strokeColor: v.string(),
-  arrowColor: v.string(),
-  labelBackgroundColor: v.string(),
-  labelTextColor: v.string(),
-})
-
-const layoutKindValidator = v.union(
-  v.literal('desktop'),
-  v.literal('mobile'),
-  v.literal('social'),
-  v.literal('custom'),
-)
-
-const designStatusValidator = v.union(
-  v.literal('draft'),
-  v.literal('ready'),
-  v.literal('archived'),
-)
 
 const fixedLayouts = [
   { key: 'desktop', label: 'Desktop', kind: 'desktop', sortOrder: 0 },
@@ -455,11 +435,12 @@ export const updateDesignMetadata = userMutation({
 })
 
 export const updateDesignNodeStyle = userMutation({
-  args: {
-    designId: v.id('designs'),
-    nodeId: v.id('nodes'),
-    nodeStyle: nodeStyleValidator,
-  },
+  args: v
+    .object(designNodeFields)
+    .pick('designId', 'nodeId')
+    .extend({
+      patch: v.object(designNodeStyleFields).partial(),
+    }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -472,7 +453,11 @@ export const updateDesignNodeStyle = userMutation({
     const now = Date.now()
 
     await ctx.db.patch(designNode._id, {
-      nodeStyle: args.nodeStyle,
+      nodeStyle: {
+        ...defaultNodeStyle,
+        ...designNode.nodeStyle,
+        ...args.patch,
+      },
       updatedAt: now,
     })
     await touchDesignAndGraph(ctx, design, now)
@@ -480,11 +465,12 @@ export const updateDesignNodeStyle = userMutation({
 })
 
 export const updateDesignEdgeStyle = userMutation({
-  args: {
-    designId: v.id('designs'),
-    edgeId: v.id('edges'),
-    edgeStyle: edgeStyleValidator,
-  },
+  args: v
+    .object(designEdgeFields)
+    .pick('designId', 'edgeId')
+    .extend({
+      patch: v.object(designEdgeStyleFields).partial(),
+    }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -497,7 +483,11 @@ export const updateDesignEdgeStyle = userMutation({
     const now = Date.now()
 
     await ctx.db.patch(designEdge._id, {
-      edgeStyle: args.edgeStyle,
+      edgeStyle: {
+        ...defaultEdgeStyle,
+        ...designEdge.edgeStyle,
+        ...args.patch,
+      },
       updatedAt: now,
     })
     await touchDesignAndGraph(ctx, design, now)
@@ -505,9 +495,7 @@ export const updateDesignEdgeStyle = userMutation({
 })
 
 export const archiveDesign = userMutation({
-  args: {
-    designId: v.id('designs'),
-  },
+  args: designParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -565,9 +553,7 @@ async function deleteDesignArtifacts(
 }
 
 export const deleteDesign = userMutation({
-  args: {
-    designId: v.id('designs'),
-  },
+  args: designParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -580,12 +566,10 @@ export const deleteDesign = userMutation({
 })
 
 export const materializeDesignLayout = userMutation({
-  args: {
-    designId: v.id('designs'),
-    key: v.string(),
-    label: v.optional(v.string()),
-    kind: layoutKindValidator,
-  },
+  args: v
+    .object(designLayoutFields)
+    .pick('designId', 'key', 'kind')
+    .extend({ label: v.optional(designLayoutFields.label) }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -602,8 +586,8 @@ export const materializeDesignLayout = userMutation({
 
 export const renameCustomDesignLayout = userMutation({
   args: {
-    layoutId: v.id('designLayouts'),
-    label: v.string(),
+    layoutId: designLayoutNodeFields.layoutId,
+    label: designLayoutFields.label,
   },
   handler: async (ctx, args) => {
     const layout = await ctx.db.get(args.layoutId)
@@ -625,7 +609,7 @@ export const renameCustomDesignLayout = userMutation({
 
 export const deleteMaterializedDesignLayout = userMutation({
   args: {
-    layoutId: v.id('designLayouts'),
+    layoutId: designLayoutNodeFields.layoutId,
   },
   handler: async (ctx, args) => {
     const layout = await ctx.db.get(args.layoutId)
@@ -651,10 +635,7 @@ export const deleteMaterializedDesignLayout = userMutation({
 })
 
 export const addNodeToDesign = userMutation({
-  args: {
-    designId: v.id('designs'),
-    nodeId: v.id('nodes'),
-  },
+  args: v.object(designNodeFields).pick('designId', 'nodeId'),
   handler: async (ctx, args) => {
     const [design, node] = await Promise.all([
       ctx.db.get(args.designId),
@@ -712,10 +693,12 @@ export const addNodeToDesign = userMutation({
 })
 
 export const addNodesToDesign = userMutation({
-  args: {
-    designId: v.id('designs'),
-    nodeIds: v.array(v.id('nodes')),
-  },
+  args: v
+    .object(designNodeFields)
+    .pick('designId')
+    .extend({
+      nodeIds: v.array(designNodeFields.nodeId),
+    }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -748,10 +731,7 @@ export const addNodesToDesign = userMutation({
 })
 
 export const removeNodeFromDesign = userMutation({
-  args: {
-    designId: v.id('designs'),
-    nodeId: v.id('nodes'),
-  },
+  args: v.object(designNodeFields).pick('designId', 'nodeId'),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -832,9 +812,7 @@ async function syncDesignEdges(
 }
 
 export const syncDesignEdgesForSelectedNodes = userMutation({
-  args: {
-    designId: v.id('designs'),
-  },
+  args: designParams,
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -847,23 +825,21 @@ export const syncDesignEdgesForSelectedNodes = userMutation({
   },
 })
 
-export const setDesignLayoutNodePosition = userMutation({
-  args: {
-    designId: v.id('designs'),
-    layoutKey: v.string(),
-    nodeId: v.id('nodes'),
-    position: v.object({ x: v.number(), y: v.number() }),
-  },
+export const setDesignLayoutNodePositions = userMutation({
+  args: v
+    .object(designLayoutNodeFields)
+    .pick('designId')
+    .extend({
+      layoutKey: designLayoutFields.key,
+      moves: v.array(
+        v.object(designLayoutNodeFields).pick('nodeId', 'position'),
+      ),
+    }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
     if (!design) throw new Error('Design not found')
-
-    const designNode = await getDesignNode(ctx, args.designId, args.nodeId)
-
-    if (!designNode) throw new Error('Node is not selected in this design')
-    if (designNode.graphId !== design.graphId)
-      throw new Error('Node does not belong to design graph')
+    if (args.moves.length === 0) return
 
     const defaultLayout = getFixedLayout(args.layoutKey)
     const now = Date.now()
@@ -877,28 +853,37 @@ export const setDesignLayoutNodePosition = userMutation({
       },
       now,
     )
-    const existing = await ctx.db
-      .query('designLayoutNodes')
-      .withIndex('by_layoutId_and_nodeId', (q) =>
-        q.eq('layoutId', layout._id).eq('nodeId', args.nodeId),
-      )
-      .unique()
 
-    if (existing) {
-      await ctx.db.patch(existing._id, {
-        position: args.position,
-        updatedAt: now,
-      })
-    } else {
-      await ctx.db.insert('designLayoutNodes', {
-        graphId: design.graphId,
-        designId: design._id,
-        layoutId: layout._id,
-        designNodeId: designNode._id,
-        nodeId: args.nodeId,
-        position: args.position,
-        updatedAt: now,
-      })
+    for (const move of args.moves) {
+      const designNode = await getDesignNode(ctx, args.designId, move.nodeId)
+
+      if (!designNode) throw new Error('Node is not selected in this design')
+      if (designNode.graphId !== design.graphId)
+        throw new Error('Node does not belong to design graph')
+
+      const existing = await ctx.db
+        .query('designLayoutNodes')
+        .withIndex('by_layoutId_and_nodeId', (q) =>
+          q.eq('layoutId', layout._id).eq('nodeId', move.nodeId),
+        )
+        .unique()
+
+      if (existing) {
+        await ctx.db.patch(existing._id, {
+          position: move.position,
+          updatedAt: now,
+        })
+      } else {
+        await ctx.db.insert('designLayoutNodes', {
+          graphId: design.graphId,
+          designId: design._id,
+          layoutId: layout._id,
+          designNodeId: designNode._id,
+          nodeId: move.nodeId,
+          position: move.position,
+          updatedAt: now,
+        })
+      }
     }
 
     await ctx.db.patch(layout._id, { updatedAt: now })
@@ -907,11 +892,9 @@ export const setDesignLayoutNodePosition = userMutation({
 })
 
 export const resetDesignLayoutNodePosition = userMutation({
-  args: {
-    designId: v.id('designs'),
-    layoutKey: v.string(),
-    nodeId: v.id('nodes'),
-  },
+  args: v.object(designLayoutNodeFields).pick('designId', 'nodeId').extend({
+    layoutKey: designLayoutFields.key,
+  }),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 
@@ -944,10 +927,7 @@ export const resetDesignLayoutNodePosition = userMutation({
 })
 
 export const setDesignStatus = userMutation({
-  args: {
-    designId: v.id('designs'),
-    status: designStatusValidator,
-  },
+  args: v.object(designFields).pick('status').extend(designParams),
   handler: async (ctx, args) => {
     const design = await ctx.db.get(args.designId)
 

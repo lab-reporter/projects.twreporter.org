@@ -23,6 +23,69 @@ export const designFields = {
   updatedAt: v.number(),
 }
 
+export const designLayoutFields = {
+  graphId: v.id('graphs'),
+  designId: v.id('designs'),
+  key: v.string(),
+  label: v.string(),
+  kind: v.union(
+    v.literal('desktop'),
+    v.literal('mobile'),
+    v.literal('social'),
+    v.literal('custom'),
+  ),
+  sortOrder: v.number(),
+  createdAt: v.number(),
+  updatedAt: v.number(),
+}
+
+export const designNodeStyleFields = {
+  backgroundColor: v.string(),
+  borderColor: v.string(),
+  textColor: v.string(),
+  descriptionBackgroundColor: v.string(),
+  descriptionTextColor: v.string(),
+  descriptionDefaultOpen: v.boolean(),
+}
+
+export const designNodeFields = {
+  graphId: v.id('graphs'),
+  designId: v.id('designs'),
+  nodeId: v.id('nodes'),
+  nodeStyle: v.optional(v.object(designNodeStyleFields)),
+  updatedAt: v.number(),
+}
+
+export const positionFields = {
+  x: v.number(),
+  y: v.number(),
+}
+
+export const designLayoutNodeFields = {
+  graphId: v.id('graphs'),
+  designId: v.id('designs'),
+  layoutId: v.id('designLayouts'),
+  designNodeId: v.id('designNodes'),
+  nodeId: v.id('nodes'),
+  position: v.object(positionFields),
+  updatedAt: v.number(),
+}
+
+export const designEdgeStyleFields = {
+  strokeColor: v.string(),
+  arrowColor: v.string(),
+  labelBackgroundColor: v.string(),
+  labelTextColor: v.string(),
+}
+
+export const designEdgeFields = {
+  graphId: v.id('graphs'),
+  designId: v.id('designs'),
+  edgeId: v.id('edges'),
+  edgeStyle: v.optional(v.object(designEdgeStyleFields)),
+  updatedAt: v.number(),
+}
+
 export default defineSchema({
   graphs: defineTable({
     name: v.string(),
@@ -35,72 +98,22 @@ export default defineSchema({
     'updatedAt',
   ]),
 
-  designLayouts: defineTable({
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-    key: v.string(),
-    label: v.string(),
-    kind: v.union(
-      v.literal('desktop'),
-      v.literal('mobile'),
-      v.literal('social'),
-      v.literal('custom'),
-    ),
-    sortOrder: v.number(),
-    createdAt: v.number(),
-    updatedAt: v.number(),
-  })
+  designLayouts: defineTable(designLayoutFields)
     .index('by_designId_and_sortOrder', ['designId', 'sortOrder'])
     .index('by_designId_and_key', ['designId', 'key']),
 
-  designNodes: defineTable({
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-    nodeId: v.id('nodes'),
-    nodeStyle: v.optional(
-      v.object({
-        backgroundColor: v.string(),
-        borderColor: v.string(),
-        textColor: v.string(),
-        descriptionBackgroundColor: v.string(),
-        descriptionTextColor: v.string(),
-        descriptionDefaultOpen: v.boolean(),
-      }),
-    ),
-    updatedAt: v.number(),
-  })
+  designNodes: defineTable(designNodeFields)
     .index('by_designId', ['designId'])
     .index('by_designId_and_nodeId', ['designId', 'nodeId'])
     .index('by_nodeId', ['nodeId']),
 
-  designLayoutNodes: defineTable({
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-    layoutId: v.id('designLayouts'),
-    designNodeId: v.id('designNodes'),
-    nodeId: v.id('nodes'),
-    position: v.object({ x: v.number(), y: v.number() }),
-    updatedAt: v.number(),
-  })
+  designLayoutNodes: defineTable(designLayoutNodeFields)
     .index('by_layoutId', ['layoutId'])
     .index('by_layoutId_and_nodeId', ['layoutId', 'nodeId'])
     .index('by_layoutId_and_designNodeId', ['layoutId', 'designNodeId'])
     .index('by_designNodeId', ['designNodeId']),
 
-  designEdges: defineTable({
-    graphId: v.id('graphs'),
-    designId: v.id('designs'),
-    edgeId: v.id('edges'),
-    edgeStyle: v.optional(
-      v.object({
-        strokeColor: v.string(),
-        arrowColor: v.string(),
-        labelBackgroundColor: v.string(),
-        labelTextColor: v.string(),
-      }),
-    ),
-    updatedAt: v.number(),
-  })
+  designEdges: defineTable(designEdgeFields)
     .index('by_designId', ['designId'])
     .index('by_designId_and_edgeId', ['designId', 'edgeId'])
     .index('by_edgeId', ['edgeId']),

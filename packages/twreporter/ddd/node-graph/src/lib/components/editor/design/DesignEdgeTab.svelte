@@ -10,10 +10,8 @@
 
   let {
     fields,
-    error,
   }: {
     fields: EdgeStyleFields
-    error?: string | null
   } = $props()
 </script>
 
@@ -28,15 +26,4 @@
     label="標籤文字"
     bind:value={fields.labelTextColor.value}
   />
-
-  {#if error}<p class="error">{error}</p>{/if}
 </SidebarSection>
-
-<style>
-  .error {
-    margin: 0;
-    color: #b42318;
-    font-size: 12px;
-    line-height: 1.4;
-  }
-</style>
