@@ -2,6 +2,13 @@ import { v } from 'convex/values'
 import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
+import { categoryFields, edgeFields, graphFields, nodeFields } from './schema'
+
+const graphParams = { graphId: nodeFields.graphId }
+const nodeParams = { nodeId: v.id('nodes') }
+const edgeParams = { edgeId: v.id('edges') }
+
+const optionalStringPatch = v.union(v.string(), v.null())
 
 async function touchGraph(ctx: MutationCtx, graphId: Id<'graphs'>) {
   await ctx.db.patch(graphId, {
@@ -183,9 +190,7 @@ function getLegacyCategoryMetadata(categories: unknown, key: string) {
 }
 
 export const getGraph = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-  },
+  args: graphParams,
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -238,9 +243,7 @@ export const getGraph = userQuery({
 })
 
 export const getGraphTitle = userQuery({
-  args: {
-    graphId: v.id('graphs'),
-  },
+  args: graphParams,
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -266,8 +269,8 @@ export const listCategories = userQuery({
 
 export const createGraph = userMutation({
   args: {
-    name: v.string(),
-    description: v.optional(v.string()),
+    name: graphFields.name,
+    description: graphFields.description,
   },
   handler: async (ctx, args) => {
     const name = args.name.trim()
@@ -326,9 +329,7 @@ async function deleteDesignById(ctx: MutationCtx, designId: Id<'designs'>) {
 }
 
 export const deleteGraph = userMutation({
-  args: {
-    graphId: v.id('graphs'),
-  },
+  args: graphParams,
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -464,7 +465,7 @@ export const importLegacyGraph = userMutation({
 
 export const upsertCategory = userMutation({
   args: {
-    label: v.string(),
+    label: categoryFields.label,
   },
   handler: async (ctx, args) => {
     return await ensureCategory(ctx, args.label)
@@ -473,12 +474,12 @@ export const upsertCategory = userMutation({
 
 export const createNode = userMutation({
   args: {
-    graphId: v.id('graphs'),
-    label: v.string(),
-    categoryLabel: v.string(),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
+    graphId: nodeFields.graphId,
+    label: nodeFields.label,
+    categoryLabel: categoryFields.label,
+    note: nodeFields.note,
+    infoSource: nodeFields.infoSource,
+    imageUrl: nodeFields.imageUrl,
   },
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
@@ -519,23 +520,24 @@ export const createNode = userMutation({
 
 export const restoreNodeSnapshot = userMutation({
   args: {
-    graphId: v.id('graphs'),
+    graphId: nodeFields.graphId,
     node: v.object({
-      label: v.string(),
-      categoryLabel: v.string(),
-      note: v.optional(v.string()),
-      infoSource: v.optional(v.string()),
-      position: v.object({ x: v.number(), y: v.number() }),
-      expanded: v.boolean(),
+      label: nodeFields.label,
+      categoryLabel: categoryFields.label,
+      note: nodeFields.note,
+      infoSource: nodeFields.infoSource,
+      position: nodeFields.position,
+      expanded: nodeFields.expanded,
+      imageUrl: nodeFields.imageUrl,
     }),
     edges: v.array(
       v.object({
-        source: v.union(v.id('nodes'), v.literal('__RESTORED_NODE__')),
-        target: v.union(v.id('nodes'), v.literal('__RESTORED_NODE__')),
-        label: v.optional(v.string()),
-        note: v.optional(v.string()),
-        infoSource: v.optional(v.string()),
-        directed: v.boolean(),
+        source: v.union(edgeFields.source, v.literal('__RESTORED_NODE__')),
+        target: v.union(edgeFields.target, v.literal('__RESTORED_NODE__')),
+        label: edgeFields.label,
+        note: edgeFields.note,
+        infoSource: edgeFields.infoSource,
+        directed: edgeFields.directed,
       }),
     ),
   },
@@ -559,6 +561,7 @@ export const restoreNodeSnapshot = userMutation({
       position: args.node.position,
       expanded: args.node.expanded,
       updatedAt: now,
+      imageUrl: args.node.imageUrl?.trim() || undefined,
     })
     const edgeIds = []
 
@@ -598,41 +601,60 @@ export const restoreNodeSnapshot = userMutation({
 
 export const updateNodeDetails = userMutation({
   args: {
-    nodeId: v.id('nodes'),
-    label: v.string(),
-    categoryLabel: v.string(),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
+    ...nodeParams,
+    patch: v.object({
+      label: v.optional(nodeFields.label),
+      categoryLabel: v.optional(categoryFields.label),
+      note: v.optional(optionalStringPatch),
+      infoSource: v.optional(optionalStringPatch),
+      imageUrl: v.optional(optionalStringPatch),
+      expanded: v.optional(nodeFields.expanded),
+    }),
   },
   handler: async (ctx, args) => {
     const node = await ctx.db.get(args.nodeId)
 
     if (!node) throw new Error('Node not found')
 
-    const label = args.label.trim()
+    const patch: Partial<Doc<'nodes'>> = {}
 
-    if (!label) throw new Error('Node label is required')
+    if (args.patch.label !== undefined) {
+      const label = args.patch.label.trim()
 
-    const category = await ensureCategory(ctx, args.categoryLabel)
+      if (!label) throw new Error('Node label is required')
+
+      patch.label = label
+    }
+    if (args.patch.categoryLabel !== undefined) {
+      const category = await ensureCategory(ctx, args.patch.categoryLabel)
+
+      patch.categoryKey = category.key
+    }
+    if (args.patch.note !== undefined) {
+      patch.note = args.patch.note?.trim() || undefined
+    }
+    if (args.patch.infoSource !== undefined) {
+      patch.infoSource = args.patch.infoSource?.trim() || undefined
+    }
+    if (args.patch.imageUrl !== undefined) {
+      patch.imageUrl = args.patch.imageUrl?.trim() || undefined
+    }
+    if (args.patch.expanded !== undefined) {
+      patch.expanded = args.patch.expanded
+    }
+
     const now = Date.now()
 
     await ctx.db.patch(args.nodeId, {
-      label,
-      categoryKey: category.key,
-      note: args.note?.trim() || undefined,
-      infoSource: args.infoSource?.trim() || undefined,
+      ...patch,
       updatedAt: now,
-      imageUrl: args.imageUrl,
     })
     await touchGraph(ctx, node.graphId)
   },
 })
 
 export const deleteNode = userMutation({
-  args: {
-    nodeId: v.id('nodes'),
-  },
+  args: nodeParams,
   handler: async (ctx, args) => {
     const node = await ctx.db.get(args.nodeId)
 
@@ -699,13 +721,13 @@ async function deleteEdgeById(ctx: MutationCtx, edgeId: Id<'edges'>) {
 
 export const createEdge = userMutation({
   args: {
-    graphId: v.id('graphs'),
-    source: v.id('nodes'),
-    target: v.id('nodes'),
-    label: v.optional(v.string()),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    directed: v.boolean(),
+    graphId: edgeFields.graphId,
+    source: edgeFields.source,
+    target: edgeFields.target,
+    label: edgeFields.label,
+    note: edgeFields.note,
+    infoSource: edgeFields.infoSource,
+    directed: edgeFields.directed,
   },
   handler: async (ctx, args) => {
     if (args.source === args.target)
@@ -743,14 +765,14 @@ export const createEdge = userMutation({
 
 export const restoreEdgeSnapshot = userMutation({
   args: {
-    graphId: v.id('graphs'),
+    graphId: edgeFields.graphId,
     edge: v.object({
-      source: v.id('nodes'),
-      target: v.id('nodes'),
-      label: v.optional(v.string()),
-      note: v.optional(v.string()),
-      infoSource: v.optional(v.string()),
-      directed: v.boolean(),
+      source: edgeFields.source,
+      target: edgeFields.target,
+      label: edgeFields.label,
+      note: edgeFields.note,
+      infoSource: edgeFields.infoSource,
+      directed: edgeFields.directed,
     }),
   },
   handler: async (ctx, args) => {
@@ -789,24 +811,38 @@ export const restoreEdgeSnapshot = userMutation({
 
 export const updateEdgeDetails = userMutation({
   args: {
-    edgeId: v.id('edges'),
-    label: v.optional(v.string()),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    directed: v.boolean(),
+    ...edgeParams,
+    patch: v.object({
+      label: v.optional(optionalStringPatch),
+      note: v.optional(optionalStringPatch),
+      infoSource: v.optional(optionalStringPatch),
+      directed: v.optional(edgeFields.directed),
+    }),
   },
   handler: async (ctx, args) => {
     const edge = await ctx.db.get(args.edgeId)
 
     if (!edge) throw new Error('Edge not found')
 
+    const patch: Partial<Doc<'edges'>> = {}
+
+    if (args.patch.label !== undefined) {
+      patch.label = args.patch.label?.trim() || undefined
+    }
+    if (args.patch.note !== undefined) {
+      patch.note = args.patch.note?.trim() || undefined
+    }
+    if (args.patch.infoSource !== undefined) {
+      patch.infoSource = args.patch.infoSource?.trim() || undefined
+    }
+    if (args.patch.directed !== undefined) {
+      patch.directed = args.patch.directed
+    }
+
     const now = Date.now()
 
     await ctx.db.patch(args.edgeId, {
-      label: args.label?.trim() || undefined,
-      note: args.note?.trim() || undefined,
-      infoSource: args.infoSource?.trim() || undefined,
-      directed: args.directed,
+      ...patch,
       updatedAt: now,
     })
     await touchGraph(ctx, edge.graphId)
@@ -814,9 +850,7 @@ export const updateEdgeDetails = userMutation({
 })
 
 export const deleteEdge = userMutation({
-  args: {
-    edgeId: v.id('edges'),
-  },
+  args: edgeParams,
   handler: async (ctx, args) => {
     const edge = await ctx.db.get(args.edgeId)
 
@@ -827,43 +861,35 @@ export const deleteEdge = userMutation({
   },
 })
 
-export const updateNodePosition = userMutation({
+export const updateNodePositions = userMutation({
   args: {
-    nodeId: v.id('nodes'),
-    position: v.object({
-      x: v.number(),
-      y: v.number(),
-    }),
+    graphId: nodeFields.graphId,
+    moves: v.array(
+      v.object({
+        nodeId: v.id('nodes'),
+        position: nodeFields.position,
+      }),
+    ),
   },
   handler: async (ctx, args) => {
-    const node = await ctx.db.get(args.nodeId)
+    const graph = await ctx.db.get(args.graphId)
 
-    if (!node) throw new Error('Node not found')
+    if (!graph) throw new Error('Graph not found')
 
-    await ctx.db.patch(args.nodeId, {
-      position: args.position,
-      updatedAt: Date.now(),
-    })
+    const now = Date.now()
 
-    await touchGraph(ctx, node.graphId)
-  },
-})
+    for (const move of args.moves) {
+      const node = await ctx.db.get(move.nodeId)
 
-export const setNodeExpanded = userMutation({
-  args: {
-    nodeId: v.id('nodes'),
-    expanded: v.boolean(),
-  },
-  handler: async (ctx, args) => {
-    const node = await ctx.db.get(args.nodeId)
+      if (!node) throw new Error('Node not found')
+      if (node.graphId !== args.graphId) throw new Error('Node not found')
 
-    if (!node) throw new Error('Node not found')
+      await ctx.db.patch(move.nodeId, {
+        position: move.position,
+        updatedAt: now,
+      })
+    }
 
-    await ctx.db.patch(args.nodeId, {
-      expanded: args.expanded,
-      updatedAt: Date.now(),
-    })
-
-    await touchGraph(ctx, node.graphId)
+    await touchGraph(ctx, args.graphId)
   },
 })

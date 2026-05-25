@@ -7,6 +7,7 @@
   import GraphSearchTab from '@/lib/components/editor/graph/GraphSearchTab.svelte'
   import GraphTopBar from '@/lib/components/editor/graph/GraphTopBar.svelte'
   import Header from '@/lib/components/editor/Header.svelte'
+  import { GraphApi } from '@/lib/apis/graph.svelte'
   import Sidebar from '@/lib/components/ui/Sidebar.svelte'
   import TabContent from '@/lib/components/ui/tabs/TabContent.svelte'
   import { getTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
@@ -25,13 +26,12 @@
     type EdgeForm,
   } from '@/lib/features/editor/graph/form'
   import { useHistory } from '@/lib/features/use-history.svelte'
-  import { route } from '@/routes/router'
   import { useSvelteFlow } from '@xyflow/svelte'
-  import { useConvexClient, useQuery } from 'convex-svelte'
+  import { useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
 
-  const convex = useConvexClient()
+  const graphApi = new GraphApi()
   const history = useHistory()
   const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
   const autoLayout = useAutoLayout({
@@ -43,11 +43,8 @@
   const canvasState = getCanvasContext()
   const tabsState = getTabsContext('add')
 
-  const graphId = route.params.graphId as Id<'graphs'>
+  const graphId = graphApi.params.graphId
 
-  const graphTitle = useQuery(api.graphs.getGraphTitle, { graphId })
-  const graph = useQuery(api.graphs.getGraph, { graphId })
-  const categories = useQuery(api.graphs.listCategories, () => ({}))
   const designs = useQuery(api.designs.listDesignsForGraph, { graphId })
 
   const sidebarTabs = {
@@ -66,13 +63,13 @@
   const flow = $derived(
     buildGraphFlow({
       canvasState,
-      graph: graph.data,
+      graph: graphApi.graphData.data,
       readonly: false,
       tooltipsEnabled: canvasState.tooltipsEnabled,
     }),
   )
   const filteredNodes = $derived.by(() => {
-    return filterGraphNodes(graph.data?.nodes ?? [], searchTerm)
+    return filterGraphNodes(graphApi.graphData.data?.nodes ?? [], searchTerm)
   })
 
   $effect(() => {
@@ -89,14 +86,12 @@
     moves: NodePositionMove[],
     direction: 'from' | 'to',
   ) {
-    await Promise.all(
-      moves.map((move) =>
-        convex.mutation(api.graphs.updateNodePosition, {
-          nodeId: move.nodeId as Id<'nodes'>,
-          position: move[direction],
-        }),
-      ),
-    )
+    await graphApi.updateNodePositions({
+      moves: moves.map((move) => ({
+        nodeId: move.nodeId as Id<'nodes'>,
+        position: move[direction],
+      })),
+    })
   }
 
   function applyFlowSelection(selectedItem: CanvasSelectedItem | null) {
@@ -136,12 +131,12 @@
   }
 
   async function deleteNodeById(nodeId: Id<'nodes'>) {
-    await convex.mutation(api.graphs.deleteNode, { nodeId })
+    await graphApi.deleteNode({ nodeId })
     clearSelection()
   }
 
   async function deleteEdgeById(edgeId: Id<'edges'>) {
-    await convex.mutation(api.graphs.deleteEdge, { edgeId })
+    await graphApi.deleteEdge({ edgeId })
     clearSelection()
   }
 
@@ -153,24 +148,22 @@
   }) {
     if (!input.label.trim()) return
 
-    let currentNodeId = await convex.mutation(api.graphs.createNode, {
-      graphId,
-      label: input.label,
-      categoryLabel: input.categoryLabel,
-      infoSource: input.infoSource,
-      note: input.note,
-    })
+    const createdNodeId = await graphApi.createNode(input)
 
+    if (!createdNodeId) return
+
+    let currentNodeId: Id<'nodes'> = createdNodeId
     selectNode(currentNodeId)
     history.record({
       undo: async () => {
         await deleteNodeById(currentNodeId)
       },
       redo: async () => {
-        currentNodeId = await convex.mutation(api.graphs.createNode, {
-          graphId,
-          ...input,
-        })
+        const nextNodeId = await graphApi.createNode(input)
+
+        if (!nextNodeId) return
+
+        currentNodeId = nextNodeId
         selectNode(currentNodeId)
       },
     })
@@ -180,8 +173,7 @@
     if (!input.source || !input.target) return
     if (input.source === input.target) return
 
-    let currentEdgeId = await convex.mutation(api.graphs.createEdge, {
-      graphId,
+    const createdEdgeId = await graphApi.createEdge({
       source: input.source,
       target: input.target,
       label: input.label,
@@ -190,14 +182,16 @@
       note: input.note,
     })
 
+    if (!createdEdgeId) return
+
+    let currentEdgeId: Id<'edges'> = createdEdgeId
     selectEdge(currentEdgeId)
     history.record({
       undo: async () => {
         await deleteEdgeById(currentEdgeId)
       },
       redo: async () => {
-        currentEdgeId = await convex.mutation(api.graphs.createEdge, {
-          graphId,
+        const nextEdgeId = await graphApi.createEdge({
           source: input.source as Id<'nodes'>,
           target: input.target as Id<'nodes'>,
           label: input.label,
@@ -205,6 +199,10 @@
           infoSource: input.infoSource,
           note: input.note,
         })
+
+        if (!nextEdgeId) return
+
+        currentEdgeId = nextEdgeId
         selectEdge(currentEdgeId)
       },
     })
@@ -221,7 +219,7 @@
   })
 </script>
 
-<Header title={graphTitle.data ?? undefined} />
+<Header title={graphApi.graphTitle.data ?? undefined} />
 
 <GraphTopBar
   autoLayoutDisabled={autoLayout.busy || flow.nodes.length < 2}
@@ -238,16 +236,18 @@
 >
   <TabContent value={sidebarTabs.add}>
     <GraphNodesAndEdgesTab
-      nodes={graph.data?.nodes ?? []}
+      nodes={graphApi.graphData.data?.nodes ?? []}
       bind:nodeForm
       bind:edgeForm
       onsubmitNode={() => {
         const input = toNodeInput(
           nodeForm,
-          categories.data?.[0]?.label || '未分類',
+          graphApi.categories.data?.[0]?.label || '未分類',
         )
         void createNode(input)
-        nodeForm = createEmptyNodeForm(categories.data?.[0]?.label ?? '')
+        nodeForm = createEmptyNodeForm(
+          graphApi.categories.data?.[0]?.label ?? '',
+        )
       }}
       onsubmitEdge={() => {
         const input = toEdgeInput(edgeForm)
@@ -279,7 +279,7 @@
 
   {#snippet footer()}
     <datalist id="category-options">
-      {#each categories.data ?? [] as category (category._id)}
+      {#each graphApi.categories.data ?? [] as category (category._id)}
         <option value={category.label}></option>
       {/each}
     </datalist>

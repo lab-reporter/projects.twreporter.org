@@ -86,12 +86,43 @@ export const designEdgeFields = {
   updatedAt: v.number(),
 }
 
+export const graphFields = {
+  name: v.string(),
+  description: v.optional(v.string()),
+  updatedAt: v.number(),
+}
+
+export const nodeFields = {
+  graphId: v.id('graphs'),
+  label: v.string(),
+  categoryKey: v.string(),
+  note: v.optional(v.string()),
+  infoSource: v.optional(v.string()),
+  position: v.object(positionFields),
+  expanded: v.boolean(),
+  updatedAt: v.number(),
+  imageUrl: v.optional(v.string()),
+}
+
+export const edgeFields = {
+  graphId: v.id('graphs'),
+  source: v.id('nodes'),
+  target: v.id('nodes'),
+  label: v.optional(v.string()),
+  note: v.optional(v.string()),
+  infoSource: v.optional(v.string()),
+  directed: v.boolean(),
+  updatedAt: v.number(),
+}
+
+export const categoryFields = {
+  key: v.string(),
+  label: v.string(),
+  color: v.string(),
+}
+
 export default defineSchema({
-  graphs: defineTable({
-    name: v.string(),
-    description: v.optional(v.string()),
-    updatedAt: v.number(),
-  }),
+  graphs: defineTable(graphFields),
 
   designs: defineTable(designFields).index('by_graphId_and_updatedAt', [
     'graphId',
@@ -118,35 +149,12 @@ export default defineSchema({
     .index('by_designId_and_edgeId', ['designId', 'edgeId'])
     .index('by_edgeId', ['edgeId']),
 
-  nodes: defineTable({
-    graphId: v.id('graphs'),
-    label: v.string(),
-    categoryKey: v.string(),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    position: v.object({ x: v.number(), y: v.number() }), // graph-view position
-    expanded: v.boolean(),
-    updatedAt: v.number(),
-    imageUrl: v.optional(v.string()),
-  }).index('by_graph', ['graphId']),
+  nodes: defineTable(nodeFields).index('by_graph', ['graphId']),
 
-  edges: defineTable({
-    graphId: v.id('graphs'),
-    source: v.id('nodes'),
-    target: v.id('nodes'),
-    label: v.optional(v.string()),
-    note: v.optional(v.string()),
-    infoSource: v.optional(v.string()),
-    directed: v.boolean(),
-    updatedAt: v.number(),
-  })
+  edges: defineTable(edgeFields)
     .index('by_graph', ['graphId'])
     .index('by_source', ['source'])
     .index('by_target', ['target']),
 
-  categories: defineTable({
-    key: v.string(),
-    label: v.string(),
-    color: v.string(),
-  }).index('by_key', ['key']),
+  categories: defineTable(categoryFields).index('by_key', ['key']),
 })
