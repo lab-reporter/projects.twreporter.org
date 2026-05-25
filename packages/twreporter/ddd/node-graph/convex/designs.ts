@@ -403,16 +403,7 @@ export const listSelectableEdges = userQuery({
 })
 
 export const createDesign = userMutation({
-  args: v
-    .object(designFields)
-    .pick(
-      'graphId',
-      'title',
-      'description',
-      'footnotes',
-      'legends',
-      'backgroundColor',
-    ),
+  args: v.object(designFields).pick('graphId', 'title', 'description'),
   handler: async (ctx, args) => {
     const graph = await ctx.db.get(args.graphId)
 
@@ -423,9 +414,9 @@ export const createDesign = userMutation({
       graphId: args.graphId,
       title: args.title,
       description: args.description,
-      footnotes: args.footnotes,
-      legends: args.legends ?? [],
-      backgroundColor: args.backgroundColor ?? '#ffffff',
+      footnotes: '',
+      legends: [],
+      backgroundColor: '#ffffff',
       status: 'draft',
       createdAt: now,
       updatedAt: now,
