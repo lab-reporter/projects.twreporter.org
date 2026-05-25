@@ -97,6 +97,7 @@
       onnodedragstop={() => {
         handleNodeDragStop()
       }}
+      zIndexMode="manual"
     ></SvelteFlow>
   </div>
 </div>

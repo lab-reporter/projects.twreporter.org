@@ -1,14 +1,18 @@
 <script lang="ts">
   import { defaultNodeStyle } from '@/lib/constants/styles'
   import type { FlowNode } from '@/lib/features/canvas/types'
-  import { Handle, Position, type NodeProps } from '@xyflow/svelte'
+  import { Handle, NodeToolbar, Position, type NodeProps } from '@xyflow/svelte'
 
   let {
     data,
     selected,
     targetPosition = Position.Left,
     sourcePosition = Position.Right,
+    zIndex,
+    id,
   }: NodeProps<FlowNode> = $props()
+
+  let isPopupOpen = $state(false)
 </script>
 
 <div
@@ -23,7 +27,14 @@
     defaultNodeStyle.descriptionTextColor}
   class:expanded={data.expanded}
   class:selected
+  style:z-index={zIndex}
   role="presentation"
+  onmouseenter={() => {
+    isPopupOpen = true
+  }}
+  onmouseleave={() => {
+    isPopupOpen = false
+  }}
 >
   <Handle
     type="target"
@@ -54,33 +65,41 @@
   </div>
 
   {#if data.tooltipsEnabled && !data.expanded}
-    <div class="node-popup nodrag nopan">
-      <div class="summary">
-        {#if data.label}
-          <div class="name">{data.label}</div>
-        {/if}
-        {#if data.categoryLabel}
-          <div
-            class="category"
-            style={`--category-color: ${data.categoryColor};`}
-          >
-            {data.categoryLabel}
+    <NodeToolbar
+      isVisible={isPopupOpen}
+      nodeId={id}
+      position={Position.Right}
+      align="start"
+      offset={-10}
+    >
+      <div class="node-popup nodrag nopan">
+        <div class="summary">
+          {#if data.label}
+            <div class="name">{data.label}</div>
+          {/if}
+          {#if data.categoryLabel}
+            <div
+              class="category"
+              style={`--category-color: ${data.categoryColor};`}
+            >
+              {data.categoryLabel}
+            </div>
+          {/if}
+        </div>
+
+        {#if data.note || data.infoSource}
+          <div class="detail">
+            {#if data.note}
+              <p class="note">{data.note}</p>
+            {/if}
+
+            {#if data.infoSource}
+              <p class="source">資料來源｜{data.infoSource}</p>
+            {/if}
           </div>
         {/if}
       </div>
-
-      {#if data.note || data.infoSource}
-        <div class="detail">
-          {#if data.note}
-            <p class="note">{data.note}</p>
-          {/if}
-
-          {#if data.infoSource}
-            <p class="source">資料來源｜{data.infoSource}</p>
-          {/if}
-        </div>
-      {/if}
-    </div>
+    </NodeToolbar>
   {/if}
 </div>
 
@@ -90,6 +109,7 @@
     min-width: 76px;
     max-width: 156px;
     pointer-events: auto;
+    z-index: 10;
   }
 
   .graph-node :global(.handle) {
@@ -160,8 +180,7 @@
     line-height: 1.35;
   }
 
-  .graph-node .node-popup {
-    visibility: hidden;
+  .node-popup {
     position: absolute;
     top: 0;
     left: calc(100% + 14px);
@@ -172,10 +191,6 @@
     border-radius: 7px;
     overflow: hidden;
     background: var(--neutral-white);
-  }
-
-  .graph-node:hover .node-popup {
-    visibility: inherit;
   }
 
   .node-popup .summary {
