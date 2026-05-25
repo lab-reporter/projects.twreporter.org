@@ -33,13 +33,16 @@
   const convex = useConvexClient()
   const canvasState = getCanvasContext()
 
+  const graphId = route.params.graphId as Id<'graphs'>
+  const designId = route.params.designId as Id<'designs'>
+
   const designTitle = useQuery(api.designs.getDesignTitle, {
-    designId: route.params.designId as Id<'designs'>,
+    designId,
   })
 
   const designData = useQuery(api.designs.getDesign, {
-    graphId: route.params.graphId as Id<'graphs'>,
-    designId: route.params.designId as Id<'designs'>,
+    graphId,
+    designId,
   })
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
@@ -121,6 +124,10 @@
       () =>
         designData.data ? (designData.data.design.footnotes ?? '') : undefined,
       (footnotes) => updateDesignMetadata({ footnotes }),
+    ),
+    legends: useConvexField(
+      () => designData.data?.design.legends,
+      (legends) => updateDesignMetadata({ legends }),
     ),
   }
 
@@ -304,6 +311,7 @@
     title={designData.data?.design.title}
     description={designData.data?.design.description}
     footnotes={designData.data?.design.footnotes}
+    legends={designData.data?.design.legends}
   >
     <Canvas
       nodes={flow.nodes}

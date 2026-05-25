@@ -6,9 +6,11 @@
   let {
     label,
     value = $bindable(),
+    color = $bindable(),
   }: {
     label: string
     value?: string
+    color?: string
   } = $props()
 
   const id = generateRandomId()
@@ -17,8 +19,21 @@
 
 <SidebarCard title={label}>
   <SidebarInputBox>
-    <label for={colorInputId} class="color-box" style:background-color={value}>
-      <input type="color" id={colorInputId} bind:value aria-label={label} />
+    <label
+      for={colorInputId}
+      class="color-box"
+      style:background-color={color ?? value}
+    >
+      {#if color}
+        <input
+          type="color"
+          id={colorInputId}
+          bind:value={color}
+          aria-label={label}
+        />
+      {:else}
+        <input type="color" id={colorInputId} bind:value aria-label={label} />
+      {/if}
     </label>
     <input class="hex" type="text" bind:value spellcheck="false" />
   </SidebarInputBox>

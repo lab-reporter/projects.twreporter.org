@@ -6,7 +6,7 @@ export type EdgeStyle = NonNullable<Doc<'designEdges'>['edgeStyle']>
 
 export type CanvasMetadata = Pick<
   Doc<'designs'>,
-  'backgroundColor' | 'title'
+  'backgroundColor' | 'title' | 'legends'
 > & {
   description: NonNullable<Doc<'designs'>['description']>
   footnotes: NonNullable<Doc<'designs'>['footnotes']>
