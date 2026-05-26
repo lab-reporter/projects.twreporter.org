@@ -143,7 +143,7 @@
 
   .graph-node.expanded .card {
     padding: 2px;
-    background: var(--node-background-color);
+    background: var(--node-description-background-color);
   }
 
   .graph-node .title {
@@ -155,7 +155,7 @@
     min-height: 40px;
     padding: 5px 10px 8px;
     border-radius: 3px;
-    background: #f0d5be;
+    background: var(--node-background-color);
     color: var(--node-text-color);
     font-size: 18px;
     font-weight: 500;
