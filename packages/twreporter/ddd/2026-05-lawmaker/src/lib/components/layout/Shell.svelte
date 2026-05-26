@@ -177,7 +177,7 @@
 
   * {
     --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-white);
+    --backgrouond-color: var(--neutral-gray-50);
 
     color: var(--text-color);
 
