@@ -80,8 +80,9 @@
 <style>
   .graph-node {
     position: relative;
-    width: 76px;
+    /* max-width: 115px; */
     pointer-events: auto;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   }
 
   .graph-node :global(.handle) {
@@ -96,14 +97,14 @@
   }
 
   .graph-node.expanded {
-    width: 191px;
+    max-width: 188px;
   }
 
   .graph-node .card {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    border-radius: 7px;
+    gap: 1px;
+    border-radius: 3px;
     background: var(--node-background-color);
     transition:
       width 160ms ease,
@@ -112,17 +113,16 @@
 
   .graph-node.selected .card {
     outline: 2px solid var(--supportive-heavy);
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
 
   .graph-node.expanded .card {
-    padding: 5px;
+    padding: 2px;
     background: color-mix(
       in srgb,
-      var(--node-background-color) 76%,
+      var(--node-background-color) 100%,
       transparent
     );
-    backdrop-filter: blur(5px);
   }
 
   .graph-node .title {
@@ -130,7 +130,7 @@
     align-items: center;
     min-height: 40px;
     padding: 5px 10px 8px;
-    border-radius: 5px;
+    border-radius: 3px;
     background: #f0d5be;
     color: var(--node-text-color);
     font-size: 18px;
@@ -142,10 +142,9 @@
   .graph-node .body {
     margin: 0;
     padding: 5px 10px;
-    background: var(--node-description-background-color);
     color: var(--node-description-text-color);
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 500;
     letter-spacing: 0.6px;
     line-height: 1.35;
   }
@@ -153,29 +152,33 @@
   .graph-node .node-popup {
     visibility: hidden;
     position: absolute;
-    top: 0;
-    left: calc(100% + 14px);
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 99;
     display: flex;
+    flex-direction: column;
     align-items: stretch;
-    min-width: 272px;
-    border: 1px solid var(--neutral-gray-200);
-    border-radius: 7px;
+    border: 1px solid var(--neutral-gray-50);
+    border-radius: 3px;
     background: var(--neutral-white);
+    opacity: 0.95;
+    padding: 8px 10px;
+    gap: 3px;
   }
 
   .graph-node:hover .node-popup {
     visibility: inherit;
   }
+  .graph-node.expanded:hover .node-popup {
+    visibility: hidden;
+  }
 
   .node-popup .summary {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     gap: 8px;
-    padding: 5px 10px 8px;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
     background: var(--neutral-white);
   }
 
@@ -190,8 +193,8 @@
 
   .node-popup .category {
     align-self: flex-start;
-    padding: 2px 4px 3px;
-    border-radius: 4px;
+    padding: 2px 4px;
+    border-radius: 2px;
     background: var(--category-color, var(--chart-earth-2));
     color: var(--neutral-gray-800);
     font-size: 8px;
@@ -205,19 +208,17 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 5px 10px 8px;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
-    background: var(--neutral-gray-200);
+    background: var(--neutral-gray-50);
   }
 
   .node-popup .note {
     margin: 0;
-    color: var(--neutral-gray-800);
+    color: var(--neutral-gray-700);
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 0.6px;
     line-height: 1.5;
+    min-width: 150px;
   }
 
   .node-popup .source {
