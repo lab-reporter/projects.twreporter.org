@@ -4,7 +4,13 @@ export const restoredNodeEndpoint = '__RESTORED_NODE__' as const
 
 type GraphNode = Pick<
   Doc<'nodes'>,
-  '_id' | 'label' | 'infoSource' | 'note' | 'position' | 'expanded'
+  | '_id'
+  | 'label'
+  | 'infoSource'
+  | 'note'
+  | 'position'
+  | 'expanded'
+  | 'imageUrl'
 > & {
   categoryLabel: Doc<'categories'>['label']
 }
@@ -60,6 +66,7 @@ export function getNodeSnapshot(
     note: node.note,
     position: node.position,
     expanded: node.expanded,
+    imageUrl: node.imageUrl,
   }
 }
 

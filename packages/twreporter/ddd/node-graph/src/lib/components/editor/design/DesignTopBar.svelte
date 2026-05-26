@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
   import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
   import ActionButton from '@/lib/components/ui/ActionButton.svelte'
   import Button from '@/lib/components/ui/Button.svelte'
@@ -15,6 +14,7 @@
   import { copyToClipboard } from '@/lib/utils/copy'
   import { exportAndDownloadImage } from '@/lib/utils/export'
   import { useSvelteFlow } from '@xyflow/svelte'
+  import { getCanvasContext } from '../../canvas/CanvasState.svelte'
 
   let {
     activeLayoutKey = $bindable(),
@@ -32,6 +32,7 @@
 
   const history = useHistory()
   const { fitView } = useSvelteFlow()
+  const canvasState = getCanvasContext()
 </script>
 
 <Panel variant="top">

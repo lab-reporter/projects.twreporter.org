@@ -1,4 +1,4 @@
-import type { Doc } from '~convex/dataModel'
+import type { Doc } from '../../../convex/_generated/dataModel'
 
 type NodeStyle = NonNullable<Doc<'designNodes'>['nodeStyle']>
 type EdgeStyle = NonNullable<Doc<'designEdges'>['edgeStyle']>
@@ -9,7 +9,7 @@ export const defaultNodeStyle: NodeStyle = {
   textColor: '#404040',
   descriptionBackgroundColor: '#F1EBE6',
   descriptionTextColor: '#404040',
-  descriptionDefaultOpen: true,
+  descriptionDefaultOpen: false,
 }
 
 export const defaultEdgeStyle: EdgeStyle = {

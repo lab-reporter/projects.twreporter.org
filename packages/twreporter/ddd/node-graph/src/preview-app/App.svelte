@@ -1,6 +1,6 @@
 <script lang="ts">
   import { localStore } from '@/lib/features/local-store.svelte'
-  import Layout from '../routes/Layout.svelte'
+  import Layout from '../routes/layout.svelte'
 
   let inputHtml = localStore('preview-embed-code-input', '')
 </script>

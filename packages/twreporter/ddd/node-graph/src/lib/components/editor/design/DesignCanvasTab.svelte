@@ -1,21 +1,44 @@
 <script lang="ts">
+  import { DesignApi } from '@/lib/apis/design.svelte'
+  import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
   import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
-  import type { ConvexField } from '@/lib/features/use-convex-field.svelte'
-  import type { CanvasMetadata } from '../types'
 
-  type CanvasFields = {
-    [K in keyof CanvasMetadata]: ConvexField<CanvasMetadata[K]>
+  const designApi = new DesignApi()
+  const designData = $derived(designApi.designData)
+
+  const fields = {
+    backgroundColor: useConvexOptimisticUpdateValue(
+      () => designData.data?.design.backgroundColor ?? undefined,
+      (backgroundColor) =>
+        designApi.updateDesignMetadata({ patch: { backgroundColor } }),
+    ),
+    title: useConvexOptimisticUpdateValue(
+      () => designData.data?.design.title,
+      (title) => designApi.updateDesignMetadata({ patch: { title } }),
+    ),
+    description: useConvexOptimisticUpdateValue(
+      () =>
+        designData.data
+          ? (designData.data.design.description ?? '')
+          : undefined,
+      (description) =>
+        designApi.updateDesignMetadata({ patch: { description } }),
+    ),
+    footnotes: useConvexOptimisticUpdateValue(
+      () =>
+        designData.data ? (designData.data.design.footnotes ?? '') : undefined,
+      (footnotes) => designApi.updateDesignMetadata({ patch: { footnotes } }),
+    ),
+    legends: useConvexOptimisticUpdateValue(
+      () =>
+        designData.data?.design.legends.sort((a, b) =>
+          a.id.localeCompare(b.id),
+        ),
+      (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
+    ),
   }
-
-  let {
-    fields,
-    error,
-  }: {
-    fields: CanvasFields
-    error?: string | null
-  } = $props()
 </script>
 
 <SidebarSection title="畫布">
@@ -32,8 +55,61 @@
   <SidebarCard title="註腳">
     <textarea rows="4" bind:value={fields.footnotes.value}></textarea>
   </SidebarCard>
+</SidebarSection>
 
-  {#if error}<p class="error">{error}</p>{/if}
+<SidebarSection title="圖例">
+  {#each fields.legends.value as legend, index (legend.id)}
+    <SidebarColorInput
+      label={legend.label}
+      bind:value={
+        () => legend.label,
+        (newLabel) => {
+          fields.legends.value = [
+            ...(fields.legends.value ?? []).filter(
+              (l) => l.label !== legend.label,
+            ),
+            {
+              ...legend,
+              label: newLabel,
+            },
+          ]
+        }
+      }
+      bind:color={
+        () => legend.color,
+        (newColor) => {
+          fields.legends.value = [
+            ...(fields.legends.value ?? []).filter(
+              (l) => l.color !== legend.color,
+            ),
+            {
+              ...legend,
+              color: newColor,
+            },
+          ]
+        }
+      }
+    />
+    <button
+      onclick={() => {
+        fields.legends.value = fields.legends.value?.filter(
+          (l) => l.id !== legend.id,
+        )
+      }}>刪除</button
+    >
+  {/each}
+  <button
+    onclick={() => {
+      fields.legends.value = [
+        ...(fields.legends.value ?? []),
+        {
+          id: new Date().getTime().toString(),
+          color: '#fafafa',
+          label: '圖例',
+        },
+      ]
+    }}>新增</button
+  >
 </SidebarSection>
 
 <style>
@@ -59,12 +135,5 @@
   textarea {
     resize: vertical;
     padding: 7px 8px;
-  }
-
-  .error {
-    margin: 0;
-    color: #b42318;
-    font-size: 12px;
-    line-height: 1.4;
   }
 </style>

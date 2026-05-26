@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
   import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
   import ActionButton from '@/lib/components/ui/ActionButton.svelte'
   import Panel from '@/lib/components/ui/Panel.svelte'
   import { useHistory } from '@/lib/features/use-history.svelte'
   import { useSvelteFlow } from '@xyflow/svelte'
+  import { getCanvasContext } from '../../canvas/CanvasState.svelte'
 
   let {
     autoLayoutDisabled = false,
@@ -16,6 +16,7 @@
 
   const history = useHistory()
   const { fitView } = useSvelteFlow()
+  const canvasState = getCanvasContext()
 </script>
 
 <Panel variant="top">

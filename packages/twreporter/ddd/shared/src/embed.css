@@ -1,0 +1,42 @@
+/* Embed code style snippet, see
+https://github.com/lab-reporter/storytelling-monorepo/tree/dev/packages/cms/migrations/20240305071659_update_scrollable_video_list/migration.sql
+for latest definition */
+
+:root {
+  --body-width: calc(300 / 375 * 100%);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --body-width: 93.2vw;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --body-width: 512px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root {
+    --body-width: 550px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --body-width: 730px;
+  }
+}
+
+.embed-code-container {
+  width: 100vw;
+  margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+}
+
+@media (min-width: 102px) {
+  .embed-code-container-hd-only {
+    width: 100vw;
+    margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+  }
+}

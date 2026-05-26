@@ -1,13 +1,6 @@
 <script lang="ts">
+  import type { GraphNode } from '@/lib/features/editor/graph/flow'
   import type { Id } from '~convex/dataModel'
-
-  type SearchNode = {
-    _id: Id<'nodes'>
-    label: string
-    categoryLabel: string
-    categoryColor: string
-    infoSource?: string
-  }
 
   let {
     searchTerm = $bindable(),
@@ -15,7 +8,7 @@
     onselect,
   }: {
     searchTerm: string
-    nodes: SearchNode[]
+    nodes: GraphNode[]
     onselect: (nodeId: Id<'nodes'>) => void
   } = $props()
 </script>

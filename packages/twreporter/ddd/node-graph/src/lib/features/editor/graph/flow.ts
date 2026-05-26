@@ -6,6 +6,8 @@ export type GraphQueryData = NonNullable<
   FunctionReturnType<typeof api.graphs.getGraph>
 >
 
+export type GraphNode = GraphQueryData['nodes'][number]
+
 export function getSelectedGraphNode(
   graph: GraphQueryData | null | undefined,
   selectedItem: CanvasSelectedItem | null,
@@ -14,6 +16,8 @@ export function getSelectedGraphNode(
     ? graph?.nodes.find((node) => node._id === selectedItem.id)
     : undefined
 }
+
+export type GraphEdge = GraphQueryData['edges'][number]
 
 export function getSelectedGraphEdge(
   graph: GraphQueryData | null | undefined,
@@ -35,8 +39,4 @@ export function filterGraphNodes(
   return nodes.filter((node) =>
     `${node.label} ${node.categoryLabel}`.toLocaleLowerCase().includes(term),
   )
-}
-
-export function removeSelectedNodeId(nodeIds: string[], nodeId: string) {
-  return nodeIds.filter((id) => id !== nodeId)
 }

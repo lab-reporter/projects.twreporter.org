@@ -1,16 +1,12 @@
 <script lang="ts">
+  import type { DesignQueryData } from '@/lib/apis/convex'
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import { debounce } from '@/lib/utils/debounce'
   import { safeParse } from '@/lib/utils/safe-parse'
   import { useSvelteFlow } from '@xyflow/svelte'
-  import type { FunctionReturnType } from 'convex/server'
-  import { api } from '~convex/api'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
-  import Frame from '../lib/components/Frame.svelte'
+  import Frame from '../lib/components/frame/Frame.svelte'
 
-  type DesignQueryData = NonNullable<
-    FunctionReturnType<typeof api.designs.getDesign>
-  >
   let { data }: { data?: string } = $props()
 
   let clientWidth = $state<number>()
@@ -29,7 +25,6 @@
       graph,
       readonly: true,
       activeLayoutKey,
-      selectedItem: null,
       tooltipsEnabled: true,
     }),
   )
@@ -46,7 +41,8 @@
       padding: {
         x: '5%',
         y: '5%',
-        top: '22%',
+        top: '10%',
+        bottom: '10%',
       },
     })
   })
@@ -97,5 +93,9 @@
   .node-graph {
     width: 100%;
     height: 80vh;
+  }
+
+  .node-graph :global(*) {
+    text-align: left !important;
   }
 </style>

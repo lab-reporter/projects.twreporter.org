@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Router } from 'sv-router'
-  import './router'
+  import './routes/router'
 
   import { SvelteFlowProvider } from '@xyflow/svelte'
   import { setupConvex } from 'convex-svelte'

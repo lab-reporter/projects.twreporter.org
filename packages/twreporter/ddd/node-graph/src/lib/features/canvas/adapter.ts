@@ -1,22 +1,10 @@
+import type { DesignQueryData } from '@/lib/apis/convex'
+import type { CanvasState } from '@/lib/components/canvas/CanvasState.svelte'
 import { Position } from '@xyflow/svelte'
-import type { FunctionReturnType } from 'convex/server'
-import { api } from '~convex/api'
 import type { ViewportKey } from '../../constants/viewports'
 import { normalizeEdgeStyle, normalizeNodeStyle } from '../../utils/canvas'
-import type {
-  CanvasSelectedItem,
-  FlowEdge,
-  FlowNode,
-  NodePosition,
-} from './types'
-
-type DesignQueryData = NonNullable<
-  FunctionReturnType<typeof api.designs.getDesign>
->
-
-type GraphQueryData = NonNullable<
-  FunctionReturnType<typeof api.graphs.getGraph>
->
+import type { GraphQueryData } from '../editor/graph/flow'
+import type { FlowEdge, FlowNode, NodePosition } from './types'
 
 function resolvePosition(input: {
   graph: DesignQueryData
@@ -46,14 +34,13 @@ function resolvePosition(input: {
 }
 
 export function buildDesignFlow(input: {
+  canvasState?: CanvasState
   graph: DesignQueryData | null | undefined
   readonly: boolean
   activeLayoutKey: ViewportKey
-  selectedItem: CanvasSelectedItem | null
   tooltipsEnabled: boolean
 }) {
-  const { graph, readonly, activeLayoutKey, selectedItem, tooltipsEnabled } =
-    input
+  const { graph, readonly, activeLayoutKey, tooltipsEnabled } = input
 
   if (!graph) return { nodes: [], edges: [] }
 
@@ -72,6 +59,9 @@ export function buildDesignFlow(input: {
     return {
       id: node._id,
       type: 'graph-node',
+      selected:
+        node._id === input.canvasState?.selectedItem?.id ||
+        input.canvasState?.selectedItems.map((i) => i.id).includes(node._id),
       position: resolvePosition({
         graph,
         nodeId: node._id,
@@ -90,16 +80,12 @@ export function buildDesignFlow(input: {
         textColor: nodeStyle.textColor,
         descriptionBackgroundColor: nodeStyle.descriptionBackgroundColor,
         descriptionTextColor: nodeStyle.descriptionTextColor,
-        selected:
-          selectedItem?.type === 'graph-node' && selectedItem.id === node._id,
-        multiSelected: false,
         tooltipsEnabled,
+        imageUrl: node.imageUrl,
       },
       sourcePosition: Position.Right,
       targetPosition: Position.Left,
       draggable: !readonly,
-      selectable: false,
-      focusable: false,
       dragHandle: '.graph-node',
     }
   })
@@ -114,6 +100,7 @@ export function buildDesignFlow(input: {
       type: 'graph-edge',
       source: edge.source,
       target: edge.target,
+      selected: edge._id === input.canvasState?.selectedItem?.id,
       data: {
         relationLabel: edge.label ?? '',
         sourceLabel: edge.sourceLabel,
@@ -125,13 +112,11 @@ export function buildDesignFlow(input: {
         arrowColor: edgeStyle.arrowColor,
         labelBackgroundColor: edgeStyle.labelBackgroundColor,
         labelTextColor: edgeStyle.labelTextColor,
-        selected:
-          selectedItem?.type === 'graph-edge' && selectedItem.id === edge._id,
         tooltipsEnabled,
       },
       label: edge.label,
-      selectable: false,
-      focusable: false,
+      selectable: !readonly,
+      focusable: !readonly,
     }
   })
 
@@ -139,14 +124,12 @@ export function buildDesignFlow(input: {
 }
 
 export function buildGraphFlow(input: {
+  canvasState?: CanvasState
   graph: GraphQueryData | null | undefined
   readonly: boolean
-  selectedItem: CanvasSelectedItem | null
-  selectedNodeIds: string[]
   tooltipsEnabled: boolean
 }) {
-  const { graph, readonly, selectedItem, selectedNodeIds, tooltipsEnabled } =
-    input
+  const { graph, readonly, tooltipsEnabled } = input
 
   if (!graph) return { nodes: [], edges: [] }
 
@@ -161,16 +144,17 @@ export function buildGraphFlow(input: {
       note: node.note,
       infoSource: node.infoSource,
       expanded: node.expanded,
-      selected:
-        selectedItem?.type === 'graph-node' && selectedItem.id === node._id,
-      multiSelected: selectedNodeIds.includes(node._id),
       tooltipsEnabled,
+      imageUrl: node.imageUrl,
     },
+    selected:
+      node._id === input.canvasState?.selectedItem?.id ||
+      input.canvasState?.selectedItems.map((i) => i.id).includes(node._id),
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     draggable: !readonly,
-    selectable: false,
-    focusable: false,
+    selectable: !readonly,
+    focusable: !readonly,
     dragHandle: '.graph-node',
   }))
 
@@ -179,6 +163,7 @@ export function buildGraphFlow(input: {
     type: 'graph-edge',
     source: edge.source,
     target: edge.target,
+    selected: edge._id === input.canvasState?.selectedItem?.id,
     data: {
       relationLabel: edge.label ?? '',
       sourceLabel: edge.sourceLabel,
@@ -186,13 +171,11 @@ export function buildGraphFlow(input: {
       note: edge.note,
       infoSource: edge.infoSource,
       directed: edge.directed,
-      selected:
-        selectedItem?.type === 'graph-edge' && selectedItem.id === edge._id,
       tooltipsEnabled,
     },
     label: edge.label,
-    selectable: false,
-    focusable: false,
+    selectable: !readonly,
+    focusable: !readonly,
   }))
 
   return { nodes, edges }

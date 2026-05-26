@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getTabsContext } from './context'
+  import { getTabsContext } from './TabsState.svelte'
 
   const {
     tabs,
@@ -15,7 +15,7 @@
     {@const label = typeof tab === 'string' ? tab : tab.label}
     {@const value = typeof tab === 'string' ? tab : tab.value}
     {@const disabled = typeof tab === 'string' ? false : tab.disabled}
-    {@const selected = tabsContext.activeTabValue() === value}
+    {@const selected = tabsContext.activeTab === value}
     <button
       class={['tab', selected && 'selected']}
       type="button"
@@ -24,7 +24,7 @@
       {disabled}
       onclick={() => {
         if (disabled) return
-        tabsContext.selectTab(value)
+        tabsContext.activeTab = value
       }}
     >
       {label}

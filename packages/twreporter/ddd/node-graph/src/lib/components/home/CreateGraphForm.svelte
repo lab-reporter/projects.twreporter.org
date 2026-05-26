@@ -2,7 +2,7 @@
   import { useConvexClient } from 'convex-svelte'
   import { toast } from 'svelte-sonner'
   import { api } from '~convex/api'
-  import { navigate } from '../../../router'
+  import { navigate } from '../../../routes/router'
   import Button from '../ui/Button.svelte'
 
   const convex = useConvexClient()

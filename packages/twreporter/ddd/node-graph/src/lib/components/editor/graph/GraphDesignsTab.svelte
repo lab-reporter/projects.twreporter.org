@@ -1,51 +1,47 @@
 <script lang="ts">
-  import { canvasState } from '@/lib/components/canvas/state.svelte'
   import Button from '@/lib/components/ui/Button.svelte'
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
-  import SidebarCheckboxRow from '@/lib/components/ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarSection from '@/lib/components/ui/sidebar/SidebarSection.svelte'
+  import { useSvelteFlow } from '@xyflow/svelte'
   import type { Id } from '~convex/dataModel'
+  import { getCanvasContext } from '../../canvas/CanvasState.svelte'
+  import EmptyState from '../../ui/EmptyState.svelte'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
+  import { navigate, route } from '@/routes/router'
+  import { toast } from 'svelte-sonner'
+  import { createEmptyDesignForm } from '@/lib/features/editor/graph/form'
+  import type { FunctionReturnType } from 'convex/server'
 
-  type DesignForm = {
-    title: string
-    description: string
-  }
-  type DesignListItem = {
-    _id: Id<'designs'>
-    title: string
-  }
+  type Designs = FunctionReturnType<typeof api.designs.listDesignsForGraph>
 
   let {
-    designForm = $bindable(),
     designs,
-    creatingDesign,
-    onsubmit,
-    onopen,
   }: {
-    designForm: DesignForm
-    designs: DesignListItem[]
-    creatingDesign: boolean
-    onsubmit: () => void
-    onopen: (designId: Id<'designs'>) => void
+    designs: Designs
   } = $props()
+
+  const convex = useConvexClient()
+  const canvasState = getCanvasContext()
+  let designForm = $state(createEmptyDesignForm())
+  const graphId = route.params.graphId as Id<'graphs'>
+  const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
+
+  function clearSelection() {
+    for (const node of getNodes()) {
+      updateNode(node.id, { selected: false })
+    }
+
+    for (const edge of getEdges()) {
+      updateEdge(edge.id, { selected: false })
+    }
+  }
 </script>
 
 <div class="tab-body">
   <SidebarSection title="建立設計">
-    <button
-      class="toggle-row"
-      type="button"
-      onclick={() => {
-        canvasState.selectionMode = !canvasState.selectionMode
-      }}
-    >
-      <SidebarCheckboxRow
-        label="選取節點"
-        checked={canvasState.selectionMode}
-      />
-    </button>
     <SidebarCard>
-      <span>已選 {canvasState.selectedNodeIds.length} 個節點</span>
+      <span>已選 {canvasState.selectedItems.length} 個節點</span>
     </SidebarCard>
     <div class="field">
       <label for="design-title">標題</label>
@@ -59,33 +55,61 @@
     <div class="actions">
       <Button
         variant="filled"
-        disabled={creatingDesign || canvasState.selectedNodeIds.length === 0}
-        onclick={onsubmit}
+        onclick={async () => {
+          const title = designForm.title.trim()
+          if (!title) return
+
+          const selectedNodeIds = canvasState.selectedItems.map(
+            (item) => item.id,
+          ) as Id<'nodes'>[]
+
+          try {
+            const designId = await convex.mutation(api.designs.createDesign, {
+              graphId,
+              title,
+              description: designForm.description.trim() || undefined,
+            })
+
+            if (selectedNodeIds.length > 0) {
+              await convex.mutation(api.designs.addNodesToDesign, {
+                designId,
+                nodeIds: selectedNodeIds,
+              })
+            }
+
+            navigate('/graphs/:graphId/designs/:designId', {
+              params: {
+                graphId,
+                designId,
+              },
+            })
+          } catch {
+            toast.error('無法建立設計')
+          }
+        }}
       >
         建立
       </Button>
-      <Button
-        variant="outlined"
-        onclick={() => {
-          canvasState.selectedItem = null
-          canvasState.selectedNodeIds = []
-        }}
-      >
-        清除
-      </Button>
+      <Button variant="outlined" onclick={clearSelection}>清除</Button>
     </div>
   </SidebarSection>
 
   <SidebarSection title="既有設計">
-    {#if designs.length === 0}
-      <p class="state-text">尚無設計</p>
+    {#if !designs || designs.length === 0}
+      <EmptyState message="尚無設計" />
     {:else}
       <div class="design-list">
         {#each designs as design (design._id)}
           <button
             class="design-link"
             type="button"
-            onclick={() => onopen(design._id)}
+            onclick={() =>
+              navigate('/graphs/:graphId/designs/:designId', {
+                params: {
+                  graphId,
+                  designId: design._id,
+                },
+              })}
           >
             {design.title}
           </button>
@@ -135,15 +159,6 @@
     align-items: center;
   }
 
-  .toggle-row {
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: inherit;
-  }
-
   .design-list {
     display: flex;
     flex-direction: column;
@@ -169,11 +184,5 @@
 
   .design-link:hover {
     background: var(--neutral-gray-100);
-  }
-
-  .state-text {
-    margin: 0;
-    color: var(--neutral-gray-500);
-    font-size: 12px;
   }
 </style>

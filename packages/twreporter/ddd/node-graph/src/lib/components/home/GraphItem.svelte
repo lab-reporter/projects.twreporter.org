@@ -5,7 +5,7 @@
   import { api } from '~convex/api'
   import type { Doc, Id } from '~convex/dataModel'
   import { formatDateTime } from '../../../lib/utils/date'
-  import { navigate } from '../../../router'
+  import { navigate } from '../../../routes/router'
   import ActionButton from '../ui/ActionButton.svelte'
   import Badge from '../ui/Badge.svelte'
   import Loading from '../icons/Loading.svelte'

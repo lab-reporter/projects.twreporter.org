@@ -9,7 +9,6 @@
   } from '../../features/canvas/types'
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
-  import { canvasState } from './state.svelte'
   import { useHistory } from '@/lib/features/use-history.svelte'
 
   let {
@@ -84,33 +83,21 @@
       minZoom={0.4}
       maxZoom={1.75}
       nodeDragThreshold={4}
-      elementsSelectable={false}
-      selectionOnDrag={false}
+      elementsSelectable={!readonly}
+      selectionOnDrag={!readonly}
       panOnDrag={!readonly}
       nodesDraggable={!readonly}
       nodesConnectable={false}
       zoomOnScroll={!readonly}
       zoomOnPinch={!readonly}
       panOnScroll={!readonly}
-      onnodeclick={({ node }) => {
-        if (!readonly) {
-          canvasState.selectedItem = { id: node.id, type: node.type }
-        }
-      }}
-      onedgeclick={({ edge }) => {
-        if (!readonly) {
-          canvasState.selectedItem = { id: edge.id, type: edge.type }
-        }
-      }}
-      onpaneclick={() => {
-        if (!readonly) canvasState.selectedItem = null
-      }}
       onnodedragstart={() => {
         if (!readonly) rememberDragStart()
       }}
       onnodedragstop={() => {
         handleNodeDragStop()
       }}
+      zIndexMode="manual"
     ></SvelteFlow>
   </div>
 </div>

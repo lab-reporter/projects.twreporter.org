@@ -29,6 +29,7 @@
     targetX,
     targetY,
     data,
+    selected,
   }: EdgeProps<FlowEdge> = $props()
 
   let isHovered = $state(false)
@@ -165,7 +166,7 @@
     {id}
     path={edgePath}
     markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-    style={`stroke: ${data?.selected ? 'var(--supportive-heavy)' : strokeColor}; stroke-width: ${data?.selected ? 2 : 1.1}; fill: none;`}
+    style={`stroke: ${selected ? 'var(--supportive-heavy)' : strokeColor}; stroke-width: ${selected ? 2 : 1.1}; fill: none;`}
     interactionWidth={24}
   />
 
