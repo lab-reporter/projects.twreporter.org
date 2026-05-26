@@ -15,7 +15,7 @@
     height: 100%;
     background-color: var(--neutral-gray-50);
     border-radius: 10px;
-    border: 1px solid var(--neutral-gray-400);
+    /* border: 1px solid var(--neutral-gray-400); */
   }
 
   .panel.top {
@@ -45,6 +45,6 @@
     border-bottom-left-radius: 0;
     border-left-width: 0;
     border-bottom-width: 0;
-    padding: 20px;
+    padding: 15px;
   }
 </style>
