@@ -20,8 +20,13 @@
 
     const srcMap = new Map<string, number[]>()
     tables.forEach((table, i) => {
-      if (!srcMap.has(table.src)) srcMap.set(table.src, [])
-      srcMap.get(table.src)!.push(i)
+      if (table.data) {
+        const rows = table.filter ? table.data.filter(table.filter) : table.data
+        states[i] = { loading: false, error: false, rows }
+      } else if (table.src) {
+        if (!srcMap.has(table.src)) srcMap.set(table.src, [])
+        srcMap.get(table.src)!.push(i)
+      }
     })
 
     srcMap.forEach((indices, src) => {
@@ -100,14 +105,14 @@
     gap: 12px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 767px) {
     .grid {
       grid-template-columns: 1fr;
     }
   }
 
   .table-label {
-    font-size: var(--text-s);
+    font-size: var(--text-m);
     font-weight: 700;
     color: var(--neutral-gray-800);
     text-align: center;
@@ -127,7 +132,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--text-s);
+    font-size: var(--text-m);
     border-radius: 2px;
     border: 1px solid var(--neutral-gray-200);
   }
@@ -150,6 +155,9 @@
     padding: 8px 12px;
     vertical-align: middle;
     border-right: 1px solid var(--neutral-gray-200);
+    @media screen and (max-width: 767px) {
+      padding: 6px 8px;
+    }
   }
 
   th:last-child,
@@ -182,7 +190,7 @@
 
   .error {
     color: var(--neutral-gray-500);
-    font-size: var(--text-s);
+    font-size: var(--text-m);
     text-align: center;
     padding: 20px 0;
   }

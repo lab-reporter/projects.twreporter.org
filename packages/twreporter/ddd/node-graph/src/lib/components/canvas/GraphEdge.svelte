@@ -131,9 +131,9 @@
     `graph-edge-arrow-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
   )
 
-  const strokeColor = $derived(data?.strokeColor ?? '#404040')
+  const strokeColor = $derived(data?.strokeColor ?? '#666')
   const arrowColor = $derived(data?.arrowColor ?? strokeColor)
-  const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F1F1F1')
+  const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F5F5F5')
   const labelTextColor = $derived(data?.labelTextColor ?? '#404040')
 </script>
 
@@ -162,11 +162,17 @@
     isHovered = false
   }}
 >
+  {#if selected}
+    <path
+      d={edgePath}
+      style="stroke: #00000010; stroke-width: 10; fill: none; stroke-linecap: square;"
+    />
+  {/if}
   <BaseEdge
     {id}
     path={edgePath}
     markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-    style={`stroke: ${selected ? 'var(--supportive-heavy)' : strokeColor}; stroke-width: ${selected ? 2 : 1.1}; fill: none;`}
+    style="stroke: {strokeColor}; stroke-width: 1.1; fill: none;"
     interactionWidth={24}
   />
 
@@ -218,7 +224,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 4px 6px;
     border-radius: 2px;
     background: var(--edge-label-background-color);
     color: var(--edge-label-text-color);
@@ -231,34 +237,39 @@
 
   .edge-popup {
     position: absolute;
-    left: 12px;
-    top: 14px;
-    min-width: 180px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 180px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 10px 12px;
-    border: 1px solid var(--neutral-gray-200);
-    border-radius: 8px;
-    background: var(--neutral-white);
+    gap: 1px;
+    padding: 2px 4px 4px;
+    border: 1px solid var(--neutral-gray-50);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   .edge-popup .title {
     color: var(--neutral-gray-800);
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 600;
     line-height: 1.35;
   }
 
   .edge-popup .pill {
-    align-self: flex-start;
-    padding: 2px 6px;
-    border-radius: 999px;
-    background: var(--neutral-gray-100);
+    align-self: stretch;
+    text-align: center;
+    padding: 2px 6px 3px;
+    /* border-radius: 999px; */
+    background: var(--neutral-gray-200);
     color: var(--neutral-gray-800);
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 500;
     line-height: 1.2;
+    letter-spacing: 0.4px;
   }
 
   .edge-popup .note {
