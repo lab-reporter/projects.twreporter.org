@@ -4,7 +4,7 @@ type NodeStyle = NonNullable<Doc<'designNodes'>['nodeStyle']>
 type EdgeStyle = NonNullable<Doc<'designEdges'>['edgeStyle']>
 
 export const defaultNodeStyle: NodeStyle = {
-  backgroundColor: '#F1EBE6',
+  backgroundColor: '#F0D5BE',
   borderColor: 'transparent',
   textColor: '#404040',
   descriptionBackgroundColor: '#F1EBE6',
