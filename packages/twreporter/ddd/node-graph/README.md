@@ -1,6 +1,6 @@
 # node-graph
 
-A small Svelte app for browsing and editing graph data.
+A experimental project on building internal graphic tools, starting with connected node graph.
 
 ## Stack
 
@@ -14,8 +14,12 @@ A small Svelte app for browsing and editing graph data.
 ## Commands
 
 ```bash
-pnpm dev
-pnpm convex:dev
-pnpm check-types
-pnpm build
+pnpm dev # Starts both vite and convex dev server
+pnpm check-types # Run both svelte-check and convex ts checker
+
+pnpm build:web
+pnpm build:lib # Build web components
+
+pnpm deploy:staging
+pnpm deploy:prod
 ```

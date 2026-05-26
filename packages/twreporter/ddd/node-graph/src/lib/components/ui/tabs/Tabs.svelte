@@ -1,26 +1,12 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
-  import { setTabsContext, type TabValue } from './context'
 
   type Props = SvelteHTMLElements['div'] & {
-    activeTabValue?: TabValue
     children?: Snippet
   }
 
-  let {
-    activeTabValue = $bindable<TabValue | undefined>(),
-    children,
-    class: className,
-    ...rest
-  }: Props = $props()
-
-  setTabsContext({
-    activeTabValue: () => activeTabValue,
-    selectTab(value) {
-      activeTabValue = value
-    },
-  })
+  let { children, class: className, ...rest }: Props = $props()
 </script>
 
 <div class={['tabs-root', className]} {...rest}>

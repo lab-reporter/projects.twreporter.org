@@ -1,16 +1,18 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
-  import { assets } from '../constants/assets'
-  import Legends from './ui/legends/Legends.svelte'
-  import type { Legends as LegendsType } from './ui/legends/types'
+  import type { LayerSliderSteps } from './layer-slider/types'
+  import type { Legends as LegendsType } from '@/lib/components/ui/legends/types'
+  import Legends from '../ui/legends/Legends.svelte'
+  import LayerSlider from './layer-slider/LayerSlider.svelte'
+  import { assets } from '@/lib/constants/assets'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
     description?: string
     children: Snippet
     legends?: LegendsType
-    layers?: Snippet
+    layers?: LayerSliderSteps
     footnotes?: string[] | string
   }
 
@@ -43,7 +45,7 @@
 
     <div class="right">
       {#if layers}
-        {@render layers()}
+        <LayerSlider steps={layers} />
       {/if}
       <img class="logo" src={assets.logo} alt="報導者" />
     </div>

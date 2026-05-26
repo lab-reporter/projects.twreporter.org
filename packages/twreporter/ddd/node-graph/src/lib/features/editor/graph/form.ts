@@ -7,6 +7,7 @@ export type NodeFormState = {
   categoryLabel: string
   infoSource: string
   note: string
+  imageUrl: string
 }
 
 export type EdgeFormState = {
@@ -47,6 +48,7 @@ export function createEmptyNodeForm(categoryLabel = ''): NodeFormState {
     categoryLabel,
     infoSource: '',
     note: '',
+    imageUrl: '',
   }
 }
 
@@ -73,12 +75,14 @@ export function createNodeFormFromNode(node: {
   categoryLabel: Doc<'categories'>['label']
   infoSource?: string
   note?: string
+  imageUrl?: string
 }): NodeFormState {
   return {
     label: node.label,
     categoryLabel: node.categoryLabel,
     infoSource: node.infoSource ?? '',
     note: node.note ?? '',
+    imageUrl: node.imageUrl ?? '',
   }
 }
 
@@ -109,6 +113,7 @@ export function toNodeInput(
     categoryLabel: form.categoryLabel || fallbackCategoryLabel,
     infoSource: form.infoSource || undefined,
     note: form.note || undefined,
+    imageUrl: form.imageUrl,
   }
 }
 

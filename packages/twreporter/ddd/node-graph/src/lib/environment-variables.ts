@@ -4,6 +4,5 @@ export const clientEnv = {
   },
   convex: {
     url: import.meta.env.VITE_CONVEX_URL,
-    siteUrl: import.meta.env.VITE_CONVEX_SITE_URL,
   },
 }

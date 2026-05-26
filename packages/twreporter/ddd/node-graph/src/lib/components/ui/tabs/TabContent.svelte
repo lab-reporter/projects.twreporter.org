@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
-  import { getTabsContext, type TabValue } from './context'
+  import { getTabsContext, type TabValue } from './TabsState.svelte'
 
   type Props = SvelteHTMLElements['div'] & {
     value: TabValue
@@ -11,7 +11,7 @@
   let { value, children, class: className, ...rest }: Props = $props()
 
   const tabs = getTabsContext()
-  const selected = $derived(value === tabs.activeTabValue())
+  const selected = $derived(value === tabs.activeTab)
 </script>
 
 {#if children}

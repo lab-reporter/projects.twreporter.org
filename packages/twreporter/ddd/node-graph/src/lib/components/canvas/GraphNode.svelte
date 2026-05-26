@@ -1,13 +1,18 @@
 <script lang="ts">
   import { defaultNodeStyle } from '@/lib/constants/styles'
   import type { FlowNode } from '@/lib/features/canvas/types'
-  import { Handle, Position, type NodeProps } from '@xyflow/svelte'
+  import { Handle, NodeToolbar, Position, type NodeProps } from '@xyflow/svelte'
 
   let {
     data,
+    selected,
     targetPosition = Position.Left,
     sourcePosition = Position.Right,
+    zIndex,
+    id,
   }: NodeProps<FlowNode> = $props()
+
+  let isPopupOpen = $state(false)
 </script>
 
 <div
@@ -21,9 +26,15 @@
   style:--node-description-text-color={data.descriptionTextColor ??
     defaultNodeStyle.descriptionTextColor}
   class:expanded={data.expanded}
-  class:selected={data.selected}
-  class:multi-selected={data.multiSelected}
+  class:selected
+  style:z-index={zIndex}
   role="presentation"
+  onmouseenter={() => {
+    isPopupOpen = true
+  }}
+  onmouseleave={() => {
+    isPopupOpen = false
+  }}
 >
   <Handle
     type="target"
@@ -40,7 +51,12 @@
 
   <div class="card">
     {#if data?.label}
-      <div class="title">{data.label}</div>
+      <div class="title">
+        {#if data.imageUrl}
+          <img alt={data.label} src={data.imageUrl} />
+        {/if}
+        {data.label}
+      </div>
     {/if}
 
     {#if data?.expanded && data.note}
@@ -48,40 +64,52 @@
     {/if}
   </div>
 
-  {#if data.tooltipsEnabled}
-    <div class="node-popup nodrag nopan">
-      <div class="summary">
-        {#if data.label}
-          <div class="name">{data.label}</div>
-        {/if}
-        {#if data.categoryLabel}
-          <div
-            class="category"
-            style={`--category-color: ${data.categoryColor};`}
-          >
-            {data.categoryLabel}
+  {#if data.tooltipsEnabled && !data.expanded}
+    <NodeToolbar
+      isVisible={isPopupOpen}
+      nodeId={id}
+      position={Position.Right}
+      align="start"
+      offset={-10}
+    >
+      <div class="node-popup nodrag nopan">
+        <div class="summary">
+          {#if data.label}
+            <div class="name">{data.label}</div>
+          {/if}
+          {#if data.categoryLabel}
+            <div
+              class="category"
+              style={`--category-color: ${data.categoryColor};`}
+            >
+              {data.categoryLabel}
+            </div>
+          {/if}
+        </div>
+
+        {#if data.note || data.infoSource}
+          <div class="detail">
+            {#if data.note}
+              <p class="note">{data.note}</p>
+            {/if}
+
+            {#if data.infoSource}
+              <p class="source">資料來源｜{data.infoSource}</p>
+            {/if}
           </div>
         {/if}
       </div>
-
-      <div class="detail">
-        {#if data.note}
-          <p class="note">{data.note}</p>
-        {/if}
-
-        {#if data.infoSource}
-          <p class="source">資料來源｜{data.infoSource}</p>
-        {/if}
-      </div>
-    </div>
+    </NodeToolbar>
   {/if}
 </div>
 
 <style>
   .graph-node {
     position: relative;
-    width: 76px;
+    min-width: 76px;
+    max-width: 156px;
     pointer-events: auto;
+    z-index: 10;
   }
 
   .graph-node :global(.handle) {
@@ -128,6 +156,9 @@
   .graph-node .title {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
     min-height: 40px;
     padding: 5px 10px 8px;
     border-radius: 5px;
@@ -136,7 +167,6 @@
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0.6px;
-    line-height: 1.2;
   }
 
   .graph-node .body {
@@ -150,22 +180,17 @@
     line-height: 1.35;
   }
 
-  .graph-node .node-popup {
-    visibility: hidden;
+  .node-popup {
     position: absolute;
     top: 0;
     left: calc(100% + 14px);
     z-index: 99;
     display: flex;
     align-items: stretch;
-    min-width: 272px;
     border: 1px solid var(--neutral-gray-200);
     border-radius: 7px;
+    overflow: hidden;
     background: var(--neutral-white);
-  }
-
-  .graph-node:hover .node-popup {
-    visibility: inherit;
   }
 
   .node-popup .summary {
@@ -174,8 +199,6 @@
     justify-content: space-between;
     gap: 8px;
     padding: 5px 10px 8px;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
     background: var(--neutral-white);
   }
 
@@ -206,8 +229,7 @@
     flex-direction: column;
     gap: 4px;
     padding: 5px 10px 8px;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
+    width: 200px;
     background: var(--neutral-gray-200);
   }
 

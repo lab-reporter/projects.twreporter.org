@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useConvexClient } from 'convex-svelte'
   import { useClerkContext } from 'svelte-clerk/client'
-  import { navigate, route } from '../../../router'
+  import { navigate, route } from '../../../routes/router'
   import type { Snippet } from 'svelte'
 
   const { children }: { children: Snippet } = $props()

@@ -2,7 +2,7 @@ Never start dev servers unless explicitly told to, please assume the dev server 
 
 # Frontend
 
-This project uses Svelte 5 and Vite for frontend development. 
+This project uses Svelte 5 and Vite for frontend development.
 
 - Make sure to use the latest Svelte 5 rune syntax.
 - Never use `:global()` css selector unless modifying the components in an external library.
@@ -26,3 +26,7 @@ Convex agent skills for common tasks can be installed by running
 # Figma
 
 When working with designs from Figma, do not include "node-id" in the code, that's unnecessary.
+
+# Typescript
+
+Run `pnpm check-types` after you're done to check both svelte and convex code.
