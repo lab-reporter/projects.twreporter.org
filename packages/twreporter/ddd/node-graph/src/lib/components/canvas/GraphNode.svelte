@@ -137,17 +137,13 @@
   }
 
   .graph-node.selected .card {
-    outline: 2px solid var(--supportive-heavy);
-    outline-offset: 2px;
+    outline: 5px solid #00000010;
+    outline-offset: 0px;
   }
 
   .graph-node.expanded .card {
     padding: 2px;
-    background: color-mix(
-      in srgb,
-      var(--node-background-color) 100%,
-      transparent
-    );
+    background: var(--node-background-color);
   }
 
   .graph-node .title {

@@ -162,11 +162,17 @@
     isHovered = false
   }}
 >
+  {#if selected}
+    <path
+      d={edgePath}
+      style="stroke: #00000010; stroke-width: 10; fill: none; stroke-linecap: square;"
+    />
+  {/if}
   <BaseEdge
     {id}
     path={edgePath}
     markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-    style={`stroke: ${selected ? 'var(--supportive-heavy)' : strokeColor}; stroke-width: ${selected ? 2 : 1.1}; fill: none;`}
+    style="stroke: {strokeColor}; stroke-width: 1.1; fill: none;"
     interactionWidth={24}
   />
 
