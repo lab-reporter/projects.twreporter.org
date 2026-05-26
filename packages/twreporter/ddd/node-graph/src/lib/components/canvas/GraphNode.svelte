@@ -106,8 +106,6 @@
 <style>
   .graph-node {
     position: relative;
-    min-/* max-width: 115px; */
-    max-width: 156px;
     pointer-events: auto;
     z-index: 10;
   }
@@ -187,7 +185,6 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    min-width: 272px;
     border: 1px solid var(--neutral-gray-200);
     border-radius: 7px;
     overflow: hidden;
@@ -210,7 +207,7 @@
 
   .node-popup .name {
     color: var(--neutral-gray-800);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.6px;
     line-height: 1.2;
@@ -223,7 +220,7 @@
     border-radius: 2px;
     background: var(--category-color, var(--chart-earth-2));
     color: var(--neutral-gray-800);
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.6px;
     line-height: 1.5;
@@ -240,11 +237,11 @@
   .node-popup .note {
     margin: 0;
     color: var(--neutral-gray-700);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.6px;
     line-height: 1.5;
-    min-width: 150px;
+    min-width: 215px;
   }
 
   .node-popup .source {
