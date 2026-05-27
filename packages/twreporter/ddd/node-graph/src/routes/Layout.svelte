@@ -1,13 +1,24 @@
 <script lang="ts">
-  import { setCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
+  import {
+    getCanvasContext,
+    setCanvasContext,
+  } from '@/lib/components/canvas/CanvasState.svelte'
   import { setTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
   import type { Snippet } from 'svelte'
+  import { route } from './router'
 
   const { children }: { children: Snippet } = $props()
 
   // Contexts
   setCanvasContext()
   setTabsContext()
+
+  $effect(() => {
+    route.pathname
+
+    const canvasState = getCanvasContext()
+    canvasState.clearSelections()
+  })
 </script>
 
 <link

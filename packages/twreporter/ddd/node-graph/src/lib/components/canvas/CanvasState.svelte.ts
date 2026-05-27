@@ -36,6 +36,11 @@ class CanvasStateClass implements CanvasState {
       }
     })
   }
+
+  clearSelections() {
+    this.selectedItem = null
+    this.selectedItems = []
+  }
 }
 
 const canvasContextKey = '$_canvas_state'
