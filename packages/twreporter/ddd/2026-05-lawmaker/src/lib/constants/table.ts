@@ -19,6 +19,7 @@ export const keys: Record<
     footnotes: string[]
     gridColumns?: number
     tables: TableConfig[]
+    wide?: boolean
   }
 > = {
   T01: {
@@ -44,6 +45,7 @@ export const keys: Record<
     ],
   },
   G01: {
+    wide: true,
     title: '六都前三名補助型提案主題',
     footnotes: [
       '資料來源：六都議會提案系統、報導者觀測站',

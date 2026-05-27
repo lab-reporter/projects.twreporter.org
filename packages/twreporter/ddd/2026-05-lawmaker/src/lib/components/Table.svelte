@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { untrack } from 'svelte'
   import type { TableConfig } from '../constants/table'
 
   let {
@@ -9,9 +8,6 @@
     tables: TableConfig[]
     gridColumns?: number
   } = $props()
-
-  type Row = Record<string, string | number>
-  type GroupState = { loading: boolean; error: boolean; rows: Row[] }
 </script>
 
 <div class="grid" style:--cols={gridColumns}>
