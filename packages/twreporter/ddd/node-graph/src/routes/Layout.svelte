@@ -125,8 +125,8 @@
 
   .layout {
     width: 100vw;
-    height: 100dvh;
-    overflow: hidden;
+    height: var(--height, 100dvh);
+    overflow: var(--overflow, hidden);
 
     display: grid;
     grid-template-columns: 300px 1fr;
