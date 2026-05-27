@@ -2,7 +2,7 @@
   import type { Snippet } from 'svelte'
 
   type Props = {
-    title: string
+    title?: string
     children: Snippet
   }
 
@@ -10,11 +10,13 @@
 </script>
 
 <section class="sidebar-section">
-  <div class="header">
-    <div class="title-group">
-      <h2>{title}</h2>
+  {#if title}
+    <div class="header">
+      <div class="title-group">
+        <h2>{title}</h2>
+      </div>
     </div>
-  </div>
+  {/if}
 
   <div class="content">
     {@render children()}
@@ -26,7 +28,13 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--neutral-gray-400);
+  }
+
+  .sidebar-section:last-child {
+    border-bottom: none;
   }
 
   .header {

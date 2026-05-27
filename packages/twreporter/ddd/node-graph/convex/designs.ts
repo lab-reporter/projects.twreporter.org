@@ -1,4 +1,5 @@
 import { v } from 'convex/values'
+import { defaultEdgeStyle, defaultNodeStyle } from '../src/lib/constants/styles'
 import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
@@ -11,7 +12,6 @@ import {
   designNodeFields,
   designNodeStyleFields,
 } from './schema'
-import { defaultNodeStyle, defaultEdgeStyle } from '../src/lib/constants/styles'
 
 const graphParams = {
   graphId: v.id('graphs'),
@@ -461,6 +461,52 @@ export const updateDesignNodeStyle = userMutation({
       updatedAt: now,
     })
     await touchDesignAndGraph(ctx, design, now)
+  },
+})
+
+export const updateDesignNodeStylesToSameCategory = userMutation({
+  args: v
+    .object(designNodeFields)
+    .pick('designId', 'nodeId')
+    .extend({ style: v.object(designNodeStyleFields) }),
+  handler: async (ctx, { designId, nodeId, style }) => {
+    const design = await ctx.db.get(designId)
+
+    if (!design) throw new Error('Design not found')
+
+    const targetNode = await ctx.db.get('nodes', nodeId)
+
+    if (!targetNode) throw new Error('Node not found')
+
+    const nodesInSameCategory = await ctx.db
+      .query('nodes')
+      .withIndex('by_graph_and_category', (q) =>
+        q
+          .eq('graphId', design.graphId)
+          .eq('categoryKey', targetNode.categoryKey),
+      )
+      .collect()
+
+    const designNodes = (
+      await Promise.all(
+        nodesInSameCategory.map(async (node) => {
+          return await ctx.db
+            .query('designNodes')
+            .withIndex('by_designId_and_nodeId', (q) =>
+              q.eq('designId', design._id).eq('nodeId', node._id),
+            )
+            .first()
+        }),
+      )
+    ).filter((d) => d !== null)
+
+    await Promise.all(
+      designNodes.map(async (designNode) => {
+        return await ctx.db.patch(designNode._id, {
+          nodeStyle: style,
+        })
+      }),
+    )
   },
 })
 
