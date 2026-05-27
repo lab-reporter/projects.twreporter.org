@@ -143,8 +143,5 @@
   .frame-preview {
     height: min(calc(100% - 20px), 1080px);
     margin: auto;
-    border: 1px solid var(--neutral-gray-300);
-    /* border radius defined in components/frame/Frame.svelte */
-    border-radius: 10px;
   }
 </style>

@@ -87,7 +87,7 @@
       fitView
       fitViewOptions={{ padding: 0.22 }}
       minZoom={0.1}
-      maxZoom={1.75}
+      maxZoom={5}
       nodeDragThreshold={4}
       elementsSelectable={!readonly}
       selectionOnDrag={!readonly}

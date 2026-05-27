@@ -79,7 +79,7 @@
     container-type: inline-size;
 
     --background: var(--neutral-gray-100);
-    --round: 10px;
+    --round: 0;
   }
 
   .top,
@@ -103,6 +103,9 @@
     --left: 40px;
     --right: 40px;
     --bottom: 30px;
+
+    border-top: 1px solid var(--neutral-gray-200);
+    border-bottom: 1px solid var(--neutral-gray-300);
   }
 
   .top {
