@@ -11,5 +11,5 @@
 </script>
 
 <Shell name={config.title} footnotes={config.footnotes}>
-  <Embeddings src={config.src} />
+  <Embeddings data={config.data} />
 </Shell>
