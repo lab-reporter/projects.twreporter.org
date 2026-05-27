@@ -98,6 +98,7 @@
         handleNodeDragStop()
       }}
       zIndexMode="manual"
+      preventScrolling={!readonly}
     ></SvelteFlow>
   </div>
 </div>
