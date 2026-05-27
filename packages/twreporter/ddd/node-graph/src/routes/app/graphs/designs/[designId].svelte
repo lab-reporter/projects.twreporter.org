@@ -29,6 +29,9 @@
   const designData = $derived(designApi.designData)
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
+  let activeLayout = $derived(viewports[activeLayoutKey])
+  let isOverrideActive = $state(false)
+  let overrideRatio = $state<[number, number]>([100, 100])
 
   const sidebarTabs = {
     nodes: 'nodes',
@@ -38,7 +41,9 @@
   }
 
   const frameResolutionRatio = $derived(
-    viewports[activeLayoutKey].resolutionRatio,
+    (activeLayout.allowOverride && isOverrideActive
+      ? overrideRatio
+      : activeLayout.resolutionRatio) ?? activeLayout.resolutionRatio,
   )
   const frameContainerAspectRatio = $derived(
     `${frameResolutionRatio[0]} / ${frameResolutionRatio[1]}`,
@@ -95,7 +100,7 @@
   </TabContent>
   <TabContent value={sidebarTabs.groups}></TabContent>
   <TabContent value={sidebarTabs.canvas}>
-    <DesignCanvasTab />
+    <DesignCanvasTab bind:overrideRatio bind:isOverrideActive {activeLayout} />
   </TabContent>
 </Sidebar>
 <div

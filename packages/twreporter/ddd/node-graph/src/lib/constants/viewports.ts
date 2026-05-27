@@ -6,14 +6,14 @@ export type Resolution = [number, number]
 
 export const defaultViewportKey = 'desktop' satisfies ViewportKey
 
-export const viewports: Record<
-  ViewportKey,
-  {
-    name: string
-    icon: MaterialSymbols
-    resolutionRatio: Resolution
-  }
-> = {
+export type ViewportConfig = {
+  name: string
+  icon: MaterialSymbols
+  resolutionRatio: Resolution
+  allowOverride?: boolean
+}
+
+export const viewports: Record<ViewportKey, ViewportConfig> = {
   desktop: {
     name: '電腦',
     icon: 'computer',
@@ -28,5 +28,6 @@ export const viewports: Record<
     name: '社群圖卡',
     icon: 'contacts',
     resolutionRatio: [540, 675],
+    allowOverride: true,
   },
 }
