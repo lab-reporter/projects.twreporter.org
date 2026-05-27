@@ -14,6 +14,11 @@ class CanvasStateClass implements CanvasState {
 
   tooltipsEnabled = $state(true)
 
+  clearSelections() {
+    this.selectedItem = null
+    this.selectedItems = []
+  }
+
   constructor() {
     useOnSelectionChange(({ nodes, edges }) => {
       if (nodes.length + edges.length === 1) {
@@ -36,20 +41,15 @@ class CanvasStateClass implements CanvasState {
       }
     })
   }
-
-  clearSelections() {
-    this.selectedItem = null
-    this.selectedItems = []
-  }
 }
 
 const canvasContextKey = '$_canvas_state'
 
-export function getCanvasContext(): CanvasStateClass {
-  return getContext(canvasContextKey)
+export function getCanvasContext(key = canvasContextKey): CanvasStateClass {
+  return getContext(key)
 }
 
-export function setCanvasContext() {
+export function setCanvasContext(key = canvasContextKey) {
   const canvasState = new CanvasStateClass()
-  return setContext(canvasContextKey, canvasState)
+  return setContext(key, canvasState)
 }
