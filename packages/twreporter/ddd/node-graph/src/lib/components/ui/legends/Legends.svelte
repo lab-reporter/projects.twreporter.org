@@ -30,7 +30,7 @@
 
 <style>
   .legends {
-    width: 100%;
+    width: fit-content;
     z-index: 50;
     background-color: var(--neutral-white);
     padding: 7px 8px;

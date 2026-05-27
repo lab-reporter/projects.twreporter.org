@@ -42,7 +42,7 @@
       {/if}
     </div>
 
-    <main class="canvas-slot" aria-label="圖表主內容">
+    <main class="canvas-slot">
       {@render children()}
     </main>
 
@@ -75,6 +75,15 @@
     width: 100%;
     height: 100%;
     container-type: inline-size;
+
+    --background: var(--neutral-gray-100);
+    --round: 10px;
+  }
+
+  .top,
+  .right,
+  .bottom {
+    z-index: 10;
   }
 
   .frame {
@@ -83,8 +92,8 @@
     height: 100%;
     margin: auto;
     overflow: hidden;
-    border-radius: 10px;
-    background: var(--neutral-gray-100);
+    border-radius: var(--round);
+    background: var(--background);
     color: var(--neutral-gray-800);
 
     font-family: 'Noto Sans TC', sans-serif;
@@ -100,12 +109,18 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    top: var(--top);
-    left: var(--left);
+
+    background: var(--background);
+    border-radius: var(--round);
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: var(--top) var(--left);
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     gap: var(--gap);
-    width: calc(100% - var(--left) - var(--right));
+    max-width: calc(100% - var(--left) - var(--right));
   }
 
   .right {
@@ -114,8 +129,13 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    bottom: var(--bottom);
-    right: var(--right);
+    background: var(--background);
+    border-radius: var(--round);
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: var(--bottom) var(--right);
+    bottom: 0;
+    right: 0;
 
     display: flex;
     flex-direction: column;
@@ -127,8 +147,14 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    bottom: var(--bottom);
-    left: var(--left);
+
+    background: var(--background);
+    border-radius: var(--round);
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: var(--bottom) var(--left);
+    bottom: 0;
+    left: 0;
   }
 
   .title,

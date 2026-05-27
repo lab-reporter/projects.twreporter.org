@@ -126,7 +126,7 @@
     min-width: 0;
     min-height: 0;
     height: 100%;
-    padding: 0 14px 14px 0;
+    padding: 0;
   }
 
   .canvas-surface :global(.svelte-flow) {
