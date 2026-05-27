@@ -3,6 +3,7 @@
 <script lang="ts">
   import { SvelteFlowProvider } from '@xyflow/svelte'
   import NodeGraph from './NodeGraph.svelte'
+  import StyleWrapper from '@/lib/components/StyleWrapper.svelte'
 
   let { data, control = 'false' }: { data?: string; control?: string } =
     $props()
@@ -26,9 +27,11 @@
   crossorigin="anonymous"
 />
 
-<SvelteFlowProvider>
-  <NodeGraph {data} control={parsedControl} />
-</SvelteFlowProvider>
+<StyleWrapper>
+  <SvelteFlowProvider>
+    <NodeGraph {data} control={parsedControl} />
+  </SvelteFlowProvider>
+</StyleWrapper>
 
 <style>
   :host {
