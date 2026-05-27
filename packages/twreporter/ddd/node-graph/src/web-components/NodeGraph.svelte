@@ -3,11 +3,19 @@
   import { buildDesignFlow } from '@/lib/features/canvas/adapter'
   import { debounce } from '@/lib/utils/debounce'
   import { safeParse } from '@/lib/utils/safe-parse'
-  import { useSvelteFlow } from '@xyflow/svelte'
+  import {
+    type FitBoundsOptions,
+    type Rect,
+    useSvelteFlow,
+  } from '@xyflow/svelte'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/frame/Frame.svelte'
 
-  let { data, control }: { data?: string; control: boolean } = $props()
+  let {
+    data,
+    control,
+    bounds,
+  }: { data?: string; control: boolean; bounds?: string } = $props()
 
   let clientWidth = $state<number>()
 
@@ -16,6 +24,7 @@
   )
 
   const graph = $derived(safeParse<DesignQueryData>(data))
+  const initialBounds = $derived(safeParse<Rect>(bounds))
 
   const footnotes = $derived(
     [graph?.design?.footnotes?.trim()].filter((a) => a !== undefined),
@@ -29,22 +38,34 @@
     }),
   )
 
-  const { fitView } = useSvelteFlow()
+  const { fitView, fitBounds } = useSvelteFlow()
   const debouncedFitView = debounce(fitView, 100)
+  const debouncedFitBounds = debounce(fitBounds, 100)
+
+  const fitOptions: FitBoundsOptions = {
+    duration: 100,
+    interpolate: 'linear',
+  }
 
   $effect(() => {
     activeLayoutKey
     clientWidth
-    debouncedFitView({
-      duration: 100,
-      interpolate: 'linear',
-      padding: {
-        x: '5%',
-        y: '5%',
-        top: '10%',
-        bottom: '10%',
-      },
-    })
+
+    if (initialBounds) {
+      debouncedFitBounds(initialBounds, {
+        ...fitOptions,
+      })
+    } else {
+      debouncedFitView({
+        ...fitOptions,
+        padding: {
+          x: '5%',
+          y: '5%',
+          top: '10%',
+          bottom: '10%',
+        },
+      })
+    }
   })
 </script>
 

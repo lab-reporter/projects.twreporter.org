@@ -56,17 +56,19 @@
       <img class="logo" src={assets.logo} alt="報導者" />
     </div>
 
-    <footer class="bottom">
-      <div class="footnotes">
-        {#if typeof footnotes === 'string'}
-          <p class="footnote">{footnotes}</p>
-        {:else}
-          {#each footnotes as note, index (index)}
-            <p class="footnote">{note}</p>
-          {/each}
-        {/if}
-      </div>
-    </footer>
+    {#if footnotes}
+      <footer class="bottom">
+        <div class="footnotes">
+          {#if typeof footnotes === 'string'}
+            <p class="footnote">{footnotes}</p>
+          {:else}
+            {#each footnotes as note, index (index)}
+              <p class="footnote">{note}</p>
+            {/each}
+          {/if}
+        </div>
+      </footer>
+    {/if}
   </div>
 </div>
 
