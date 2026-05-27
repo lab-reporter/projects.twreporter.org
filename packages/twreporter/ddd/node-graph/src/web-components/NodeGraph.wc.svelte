@@ -4,7 +4,10 @@
   import { SvelteFlowProvider } from '@xyflow/svelte'
   import NodeGraph from './NodeGraph.svelte'
 
-  let { data }: { data?: string } = $props()
+  let { data, control = 'false' }: { data?: string; control?: string } =
+    $props()
+
+  let parsedControl = $derived(control === 'true' ? true : false)
 </script>
 
 <link
@@ -24,7 +27,7 @@
 />
 
 <SvelteFlowProvider>
-  <NodeGraph {data} />
+  <NodeGraph {data} control={parsedControl} />
 </SvelteFlowProvider>
 
 <style>

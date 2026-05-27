@@ -6,6 +6,7 @@
   import Legends from '../ui/legends/Legends.svelte'
   import LayerSlider from './layer-slider/LayerSlider.svelte'
   import { assets } from '@/lib/constants/assets'
+  import Controls from './Controls.svelte'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
@@ -14,6 +15,7 @@
     legends?: LegendsType
     layers?: LayerSliderSteps
     footnotes?: string[] | string
+    controls?: boolean
   }
 
   let {
@@ -24,6 +26,7 @@
     layers,
     footnotes,
     class: className,
+    controls = false,
     ...rest
   }: Props = $props()
 </script>
@@ -46,6 +49,9 @@
     <div class="right">
       {#if layers}
         <LayerSlider steps={layers} />
+      {/if}
+      {#if controls}
+        <Controls />
       {/if}
       <img class="logo" src={assets.logo} alt="報導者" />
     </div>
@@ -113,6 +119,7 @@
 
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--gap);
   }
 

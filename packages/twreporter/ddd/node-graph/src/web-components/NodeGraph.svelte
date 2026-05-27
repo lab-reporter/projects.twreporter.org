@@ -7,7 +7,7 @@
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/frame/Frame.svelte'
 
-  let { data }: { data?: string } = $props()
+  let { data, control }: { data?: string; control: boolean } = $props()
 
   let clientWidth = $state<number>()
 
@@ -54,8 +54,14 @@
       title={graph.design?.title}
       description={graph.design?.description}
       {footnotes}
+      controls={control}
     >
-      <Canvas nodes={flow.nodes} edges={flow.edges} readonly />
+      <Canvas
+        nodes={flow.nodes}
+        edges={flow.edges}
+        readonly={!control}
+        elementsSelectable={false}
+      />
     </Frame>
   {/if}
 </div>

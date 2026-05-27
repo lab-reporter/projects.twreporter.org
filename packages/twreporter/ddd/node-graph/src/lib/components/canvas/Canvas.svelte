@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { SvelteFlow, useSvelteFlow } from '@xyflow/svelte'
+  import {
+    Controls,
+    SvelteFlow,
+    useSvelteFlow,
+    type SvelteFlowProps,
+  } from '@xyflow/svelte'
   import '@xyflow/svelte/dist/style.css'
   import type {
     FlowEdge,
@@ -17,13 +22,14 @@
     readonly = false,
     onMoveNodes,
     onUndoMoveNodes,
+    ...svelteFlowProps
   }: {
     nodes: FlowNode[]
     edges: FlowEdge[]
     readonly?: boolean
     onMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
     onUndoMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
-  } = $props()
+  } & SvelteFlowProps = $props()
 
   const history = useHistory()
   const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
@@ -99,6 +105,7 @@
       }}
       zIndexMode="manual"
       preventScrolling={!readonly}
+      {...svelteFlowProps}
     ></SvelteFlow>
   </div>
 </div>
