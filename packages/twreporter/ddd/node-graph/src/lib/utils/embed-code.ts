@@ -9,7 +9,13 @@ function escapeHtmlAttribute(value: string) {
     .replaceAll('>', '&gt;')
 }
 
-export function buildNodeGraphEmbedCode(graph?: DesignQueryData | null) {
+export function buildNodeGraphEmbedCode({
+  graph,
+  withControl = false,
+}: {
+  graph?: DesignQueryData | null
+  withControl?: boolean
+}) {
   if (!graph) return
 
   const dumpedDesignData = JSON.stringify(graph)
@@ -18,6 +24,6 @@ export function buildNodeGraphEmbedCode(graph?: DesignQueryData | null) {
   return `<script src="${assets.webComponentScript}?t=${new Date().getTime()}"></script>
 <link rel="stylesheet" href="${assets.embedCSS}">
 <div class="embed-code-container-hd-only">
-<twreporter-node-graph data="${escapeHtmlAttribute(dumpedDesignData)}"></twreporter-node-graph>
+<twreporter-node-graph data="${escapeHtmlAttribute(dumpedDesignData)}"${withControl ? ' control="true"' : ''}></twreporter-node-graph>
 </div>`
 }

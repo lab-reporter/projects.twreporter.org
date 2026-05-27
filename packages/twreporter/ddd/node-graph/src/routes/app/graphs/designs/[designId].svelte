@@ -56,8 +56,6 @@
 
   let frameRef: HTMLDivElement | null | undefined = $state()
 
-  const embedCode = $derived(buildNodeGraphEmbedCode(designData.data))
-
   $effect(() => {
     if (canvasState.selectedItem?.type === 'graph-node') {
       tabsState.activeTab = sidebarTabs.nodes
@@ -71,13 +69,7 @@
 
 <Header title={designData.data?.design.title} />
 
-<DesignTopBar
-  bind:activeLayoutKey
-  {frameRef}
-  {frameResolutionRatio}
-  title={designData.data?.design.title}
-  {embedCode}
-/>
+<DesignTopBar bind:activeLayoutKey {frameRef} {frameResolutionRatio} />
 
 <Sidebar
   tabs={[
