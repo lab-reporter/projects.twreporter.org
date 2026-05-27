@@ -87,18 +87,10 @@
 </SidebarSection>
 
 <SidebarSection title="描述">
-  <button
-    class="checkbox-button"
-    type="button"
-    onclick={() => {
-      fields.descriptionDefaultOpen.value = !fields.descriptionDefaultOpen.value
-    }}
-  >
-    <SidebarCheckboxRow
-      label="預設開啟描述"
-      checked={fields.descriptionDefaultOpen.value}
-    />
-  </button>
+  <SidebarCheckboxRow
+    label="預設開啟描述"
+    bind:checked={fields.descriptionDefaultOpen.value}
+  />
 
   <SidebarColorInput
     label="文字標籤"
@@ -140,13 +132,3 @@
     />套用至同類別</Button
   >
 </SidebarSection>
-
-<style>
-  .checkbox-button {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: inherit;
-  }
-</style>
