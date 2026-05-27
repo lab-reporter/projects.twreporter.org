@@ -86,7 +86,7 @@
       edgeTypes={{ 'graph-edge': GraphEdge }}
       fitView
       fitViewOptions={{ padding: 0.22 }}
-      minZoom={0.4}
+      minZoom={0.1}
       maxZoom={1.75}
       nodeDragThreshold={4}
       elementsSelectable={!readonly}
