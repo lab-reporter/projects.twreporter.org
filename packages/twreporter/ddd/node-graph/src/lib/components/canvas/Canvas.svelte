@@ -97,7 +97,7 @@
       nodesConnectable={false}
       zoomOnScroll={!readonly}
       zoomOnPinch={!readonly}
-      panOnScroll={false}
+      panOnScroll={!readonly}
       onnodedragstart={() => {
         if (!readonly) rememberDragStart()
       }}
