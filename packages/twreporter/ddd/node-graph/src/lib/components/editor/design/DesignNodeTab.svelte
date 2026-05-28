@@ -8,8 +8,15 @@
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { NodeStyle } from '../types'
+  import Button from '../../ui/Button.svelte'
+  import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
+  import { v } from 'convex/values'
+  import { defaultNodeStyle } from '@/lib/constants/styles'
 
   const canvasState = getCanvasContext()
+  const convex = useConvexClient()
 
   const designApi = new DesignApi()
 
@@ -72,36 +79,56 @@
 <SidebarSection title="節點">
   <SidebarColorInput label="背景" bind:value={fields.backgroundColor.value} />
   <SidebarColorInput label="邊框" bind:value={fields.borderColor.value} />
-  <SidebarColorInput label="文字" bind:value={fields.textColor.value} />
+  <SidebarColorInput label="文字標籤" bind:value={fields.textColor.value} />
   <SidebarColorInput
     label="描述背景"
     bind:value={fields.descriptionBackgroundColor.value}
   />
-  <SidebarColorInput
-    label="描述文字"
-    bind:value={fields.descriptionTextColor.value}
-  />
-
-  <button
-    class="checkbox-button"
-    type="button"
-    onclick={() => {
-      fields.descriptionDefaultOpen.value = !fields.descriptionDefaultOpen.value
-    }}
-  >
-    <SidebarCheckboxRow
-      label="預設開啟描述"
-      checked={fields.descriptionDefaultOpen.value}
-    />
-  </button>
 </SidebarSection>
 
-<style>
-  .checkbox-button {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: inherit;
-  }
-</style>
+<SidebarSection title="描述">
+  <SidebarCheckboxRow
+    label="預設開啟描述"
+    bind:checked={fields.descriptionDefaultOpen.value}
+  />
+
+  <SidebarColorInput
+    label="文字標籤"
+    bind:value={fields.descriptionTextColor.value}
+  />
+</SidebarSection>
+
+<SidebarSection>
+  <Button
+    variant="outlined"
+    onclick={async () => {
+      if (designApi.canvasState.selectedItem?.type !== 'graph-node') return
+
+      await convex.mutation(api.designs.updateDesignNodeStylesToSameCategory, {
+        designId: designApi.params.designId,
+        nodeId: designApi.canvasState.selectedItem.id as Id<'nodes'>,
+        style: {
+          backgroundColor:
+            fields.backgroundColor.value ?? defaultNodeStyle.backgroundColor,
+          borderColor: fields.borderColor.value ?? defaultNodeStyle.borderColor,
+          descriptionBackgroundColor:
+            fields.descriptionBackgroundColor.value ??
+            defaultNodeStyle.descriptionBackgroundColor,
+          descriptionDefaultOpen:
+            fields.descriptionDefaultOpen.value ??
+            defaultNodeStyle.descriptionDefaultOpen,
+          descriptionTextColor:
+            fields.descriptionTextColor.value ??
+            defaultNodeStyle.descriptionTextColor,
+          textColor: fields.textColor.value ?? defaultNodeStyle.textColor,
+        },
+      })
+    }}
+  >
+    <MaterialSymbols
+      name="file_copy"
+      style="margin-right: 4px;"
+      size={18}
+    />套用至同類別</Button
+  >
+</SidebarSection>

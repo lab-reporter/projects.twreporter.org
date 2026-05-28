@@ -29,6 +29,9 @@
   const designData = $derived(designApi.designData)
 
   let activeLayoutKey = $state<ViewportKey>(defaultViewportKey)
+  let activeLayout = $derived(viewports[activeLayoutKey])
+  let isOverrideActive = $state(false)
+  let overrideRatio = $state<[number, number]>([100, 100])
 
   const sidebarTabs = {
     nodes: 'nodes',
@@ -38,7 +41,9 @@
   }
 
   const frameResolutionRatio = $derived(
-    viewports[activeLayoutKey].resolutionRatio,
+    (activeLayout.allowOverride && isOverrideActive
+      ? overrideRatio
+      : activeLayout.resolutionRatio) ?? activeLayout.resolutionRatio,
   )
   const frameContainerAspectRatio = $derived(
     `${frameResolutionRatio[0]} / ${frameResolutionRatio[1]}`,
@@ -56,8 +61,6 @@
 
   let frameRef: HTMLDivElement | null | undefined = $state()
 
-  const embedCode = $derived(buildNodeGraphEmbedCode(designData.data))
-
   $effect(() => {
     if (canvasState.selectedItem?.type === 'graph-node') {
       tabsState.activeTab = sidebarTabs.nodes
@@ -71,13 +74,7 @@
 
 <Header title={designData.data?.design.title} />
 
-<DesignTopBar
-  bind:activeLayoutKey
-  {frameRef}
-  {frameResolutionRatio}
-  title={designData.data?.design.title}
-  {embedCode}
-/>
+<DesignTopBar bind:activeLayoutKey {frameRef} {frameResolutionRatio} />
 
 <Sidebar
   tabs={[
@@ -103,7 +100,7 @@
   </TabContent>
   <TabContent value={sidebarTabs.groups}></TabContent>
   <TabContent value={sidebarTabs.canvas}>
-    <DesignCanvasTab />
+    <DesignCanvasTab bind:overrideRatio bind:isOverrideActive {activeLayout} />
   </TabContent>
 </Sidebar>
 <div
@@ -146,8 +143,5 @@
   .frame-preview {
     height: min(calc(100% - 20px), 1080px);
     margin: auto;
-    border: 1px solid var(--neutral-gray-300);
-    /* border radius defined in components/frame/Frame.svelte */
-    border-radius: 10px;
   }
 </style>

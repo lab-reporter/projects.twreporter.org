@@ -10,6 +10,6 @@
   const config = $derived(keys[key])
 </script>
 
-<Shell name={config.title} footnotes={config.footnotes}>
+<Shell name={config.title} footnotes={config.footnotes} wide={config.wide}>
   <Table tables={config.tables} gridColumns={config.gridColumns} />
 </Shell>

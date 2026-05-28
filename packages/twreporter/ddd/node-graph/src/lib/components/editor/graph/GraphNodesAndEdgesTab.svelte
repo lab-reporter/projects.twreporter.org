@@ -76,13 +76,7 @@
       <label for="new-edge-label">關係</label>
       <input id="new-edge-label" bind:value={edgeForm.label} />
     </div>
-    <button
-      class="toggle-row"
-      type="button"
-      onclick={() => (edgeForm.directed = !edgeForm.directed)}
-    >
-      <SidebarCheckboxRow label="方向性" checked={edgeForm.directed} />
-    </button>
+    <SidebarCheckboxRow label="方向性" bind:checked={edgeForm.directed} />
     <div class="field">
       <label for="new-edge-source-note">資料來源</label>
       <input id="new-edge-source-note" bind:value={edgeForm.infoSource} />
@@ -128,14 +122,5 @@
   textarea {
     min-height: 74px;
     resize: vertical;
-  }
-
-  .toggle-row {
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    text-align: inherit;
   }
 </style>

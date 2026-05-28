@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { SvelteFlow, useSvelteFlow } from '@xyflow/svelte'
+  import {
+    Controls,
+    SvelteFlow,
+    useSvelteFlow,
+    type SvelteFlowProps,
+  } from '@xyflow/svelte'
   import '@xyflow/svelte/dist/style.css'
   import type {
     FlowEdge,
@@ -17,13 +22,14 @@
     readonly = false,
     onMoveNodes,
     onUndoMoveNodes,
+    ...svelteFlowProps
   }: {
     nodes: FlowNode[]
     edges: FlowEdge[]
     readonly?: boolean
     onMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
     onUndoMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
-  } = $props()
+  } & SvelteFlowProps = $props()
 
   const history = useHistory()
   const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
@@ -80,8 +86,8 @@
       edgeTypes={{ 'graph-edge': GraphEdge }}
       fitView
       fitViewOptions={{ padding: 0.22 }}
-      minZoom={0.4}
-      maxZoom={1.75}
+      minZoom={0.1}
+      maxZoom={5}
       nodeDragThreshold={4}
       elementsSelectable={!readonly}
       selectionOnDrag={!readonly}
@@ -98,6 +104,8 @@
         handleNodeDragStop()
       }}
       zIndexMode="manual"
+      preventScrolling={!readonly}
+      {...svelteFlowProps}
     ></SvelteFlow>
   </div>
 </div>
@@ -118,7 +126,7 @@
     min-width: 0;
     min-height: 0;
     height: 100%;
-    padding: 0 14px 14px 0;
+    padding: 0;
   }
 
   .canvas-surface :global(.svelte-flow) {

@@ -15,7 +15,6 @@
     height: 100%;
     background-color: var(--neutral-gray-50);
     border-radius: 10px;
-    /* border: 1px solid var(--neutral-gray-400); */
   }
 
   .panel.top {

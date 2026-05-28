@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { untrack } from 'svelte'
   import type { TableConfig } from '../constants/table'
 
   let {
@@ -9,50 +8,11 @@
     tables: TableConfig[]
     gridColumns?: number
   } = $props()
-
-  type Row = Record<string, string | number>
-  type GroupState = { loading: boolean; error: boolean; rows: Row[] }
-
-  let states = $state<GroupState[]>(untrack(() => tables.map(() => ({ loading: true, error: false, rows: [] }))))
-
-  $effect(() => {
-    states = tables.map(() => ({ loading: true, error: false, rows: [] }))
-
-    const srcMap = new Map<string, number[]>()
-    tables.forEach((table, i) => {
-      if (table.data) {
-        const rows = table.filter ? table.data.filter(table.filter) : table.data
-        states[i] = { loading: false, error: false, rows }
-      } else if (table.src) {
-        if (!srcMap.has(table.src)) srcMap.set(table.src, [])
-        srcMap.get(table.src)!.push(i)
-      }
-    })
-
-    srcMap.forEach((indices, src) => {
-      fetch(`${src}?v=1`)
-
-        .then((r) => {
-          if (!r.ok) throw new Error()
-          return r.json()
-        })
-        .then((data: Row[]) => {
-          indices.forEach((i) => {
-            const rows = tables[i].filter ? data.filter(tables[i].filter!) : data
-            states[i] = { loading: false, error: false, rows }
-          })
-        })
-        .catch(() => {
-          indices.forEach((i) => {
-            states[i] = { loading: false, error: true, rows: [] }
-          })
-        })
-    })
-  })
 </script>
 
 <div class="grid" style:--cols={gridColumns}>
   {#each tables as table, i}
+    {@const rows = table.filter ? table.data?.filter(table.filter) : table.data}
     <div class="table-group">
       {#if table.label}
         <div class="table-label">
@@ -60,39 +20,35 @@
         </div>
       {/if}
       <div class="table-wrapper">
-        {#if states[i].loading}
-          <img
-            src="https://www.twreporter.org/images/spinner-logo.gif"
-            alt="Loading..."
-            class="loading-spinner"
-          />
-        {:else if states[i].error}
-          <p class="error">資料載入失敗</p>
-        {:else}
-          <table>
-            <colgroup>
+        <table>
+          <colgroup>
+            {#each table.columns as col}
+              <col
+                style:width={col.width != null
+                  ? `${col.width * 100}%`
+                  : undefined}
+              />
+            {/each}
+          </colgroup>
+          <thead>
+            <tr>
               {#each table.columns as col}
-                <col style:width={col.width != null ? `${col.width * 100}%` : undefined} />
+                <th style:text-align={col.align ?? 'left'}>{col.label}</th>
               {/each}
-            </colgroup>
-            <thead>
+            </tr>
+          </thead>
+          <tbody>
+            {#each rows as row}
               <tr>
                 {#each table.columns as col}
-                  <th style:text-align={col.align ?? 'left'}>{col.label}</th>
+                  <td style:text-align={col.align ?? 'left'}
+                    >{row[col.key] ?? '—'}</td
+                  >
                 {/each}
               </tr>
-            </thead>
-            <tbody>
-              {#each states[i].rows as row}
-                <tr>
-                  {#each table.columns as col}
-                    <td style:text-align={col.align ?? 'left'}>{row[col.key] ?? '—'}</td>
-                  {/each}
-                </tr>
-              {/each}
-            </tbody>
-          </table>
-        {/if}
+            {/each}
+          </tbody>
+        </table>
       </div>
     </div>
   {/each}
@@ -177,21 +133,5 @@
 
   tbody tr:hover td {
     background-color: var(--neutral-gray-50);
-  }
-
-  .loading-spinner {
-    --size: 60px;
-
-    display: block;
-    margin: auto;
-    width: var(--size);
-    height: var(--size);
-  }
-
-  .error {
-    color: var(--neutral-gray-500);
-    font-size: var(--text-m);
-    text-align: center;
-    padding: 20px 0;
   }
 </style>

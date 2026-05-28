@@ -6,6 +6,7 @@
   import Legends from '../ui/legends/Legends.svelte'
   import LayerSlider from './layer-slider/LayerSlider.svelte'
   import { assets } from '@/lib/constants/assets'
+  import Controls from './Controls.svelte'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
@@ -14,6 +15,7 @@
     legends?: LegendsType
     layers?: LayerSliderSteps
     footnotes?: string[] | string
+    controls?: boolean
   }
 
   let {
@@ -24,6 +26,7 @@
     layers,
     footnotes,
     class: className,
+    controls = false,
     ...rest
   }: Props = $props()
 </script>
@@ -39,7 +42,7 @@
       {/if}
     </div>
 
-    <main class="canvas-slot" aria-label="圖表主內容">
+    <main class="canvas-slot">
       {@render children()}
     </main>
 
@@ -47,20 +50,25 @@
       {#if layers}
         <LayerSlider steps={layers} />
       {/if}
+      {#if controls}
+        <Controls />
+      {/if}
       <img class="logo" src={assets.logo} alt="報導者" />
     </div>
 
-    <footer class="bottom">
-      <div class="footnotes">
-        {#if typeof footnotes === 'string'}
-          <p class="footnote">{footnotes}</p>
-        {:else}
-          {#each footnotes as note, index (index)}
-            <p class="footnote">{note}</p>
-          {/each}
-        {/if}
-      </div>
-    </footer>
+    {#if footnotes}
+      <footer class="bottom">
+        <div class="footnotes">
+          {#if typeof footnotes === 'string'}
+            <p class="footnote">{footnotes}</p>
+          {:else}
+            {#each footnotes as note, index (index)}
+              <p class="footnote">{note}</p>
+            {/each}
+          {/if}
+        </div>
+      </footer>
+    {/if}
   </div>
 </div>
 
@@ -69,6 +77,15 @@
     width: 100%;
     height: 100%;
     container-type: inline-size;
+
+    --background: var(--neutral-gray-100);
+    --round: 0;
+  }
+
+  .top,
+  .right,
+  .bottom {
+    z-index: 10;
   }
 
   .frame {
@@ -77,8 +94,8 @@
     height: 100%;
     margin: auto;
     overflow: hidden;
-    border-radius: 10px;
-    background: var(--neutral-gray-100);
+    border-radius: var(--round);
+    background: var(--background);
     color: var(--neutral-gray-800);
 
     font-family: 'Noto Sans TC', sans-serif;
@@ -86,6 +103,9 @@
     --left: 40px;
     --right: 40px;
     --bottom: 30px;
+
+    border-top: 1px solid var(--neutral-gray-200);
+    border-bottom: 1px solid var(--neutral-gray-300);
   }
 
   .top {
@@ -94,12 +114,18 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    top: var(--top);
-    left: var(--left);
+
+    background: var(--background);
+    border-radius: var(--round);
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: var(--top) var(--left);
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     gap: var(--gap);
-    width: calc(100% - var(--left) - var(--right));
+    max-width: calc(100% - var(--left) - var(--right));
   }
 
   .right {
@@ -108,11 +134,17 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    bottom: var(--bottom);
-    right: var(--right);
+    background: var(--background);
+    border-radius: var(--round);
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: var(--bottom) var(--right);
+    bottom: 0;
+    right: 0;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--gap);
   }
 
@@ -120,8 +152,14 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    bottom: var(--bottom);
-    left: var(--left);
+
+    background: var(--background);
+    border-radius: var(--round);
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: var(--bottom) var(--left);
+    bottom: 0;
+    left: 0;
   }
 
   .title,

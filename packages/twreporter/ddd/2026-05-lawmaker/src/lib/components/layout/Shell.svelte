@@ -13,10 +13,12 @@
     name,
     children,
     footnotes,
+    wide = false,
   }: {
     name: string
     footnotes: string[]
     children: Snippet
+    wide?: boolean
   } = $props()
 
   const queryClient = new QueryClient()
@@ -30,7 +32,7 @@
 
 <QueryClientProvider client={queryClient}>
   <div class="outer">
-    <div class="container" bind:this={container}>
+    <div class={['container', { wide }]} bind:this={container}>
       <div class="header">
         <h1>{name}</h1>
       </div>
@@ -204,6 +206,10 @@
     display: flex;
     flex-direction: column;
     gap: 17px;
+  }
+
+  .container.wide {
+    max-width: 1024px;
   }
 
   .header {

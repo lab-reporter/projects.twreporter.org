@@ -232,13 +232,7 @@
         <label for="edge-label">關係</label>
         <input id="edge-label" bind:value={edgeLabel.value} />
       </div>
-      <button
-        class="toggle-row"
-        type="button"
-        onclick={() => (edgeDirected.value = !edgeDirected.value)}
-      >
-        <SidebarCheckboxRow label="方向性" checked={edgeDirected.value} />
-      </button>
+      <SidebarCheckboxRow label="方向性" bind:checked={edgeDirected.value} />
       <div class="field">
         <label for="edge-source">資料來源</label>
         <input id="edge-source" bind:value={edgeInfoSource.value} />

@@ -3,8 +3,15 @@
 <script lang="ts">
   import { SvelteFlowProvider } from '@xyflow/svelte'
   import NodeGraph from './NodeGraph.svelte'
+  import StyleWrapper from '@/lib/components/StyleWrapper.svelte'
 
-  let { data }: { data?: string } = $props()
+  let {
+    data,
+    control = 'false',
+    bounds,
+  }: { data?: string; control?: string; bounds?: string } = $props()
+
+  let parsedControl = $derived(control === 'true' ? true : false)
 </script>
 
 <link
@@ -23,9 +30,11 @@
   crossorigin="anonymous"
 />
 
-<SvelteFlowProvider>
-  <NodeGraph {data} />
-</SvelteFlowProvider>
+<StyleWrapper>
+  <SvelteFlowProvider>
+    <NodeGraph {data} control={parsedControl} {bounds} />
+  </SvelteFlowProvider>
+</StyleWrapper>
 
 <style>
   :host {

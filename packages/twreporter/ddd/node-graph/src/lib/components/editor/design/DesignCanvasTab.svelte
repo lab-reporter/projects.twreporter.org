@@ -1,7 +1,9 @@
 <script lang="ts">
   import { DesignApi } from '@/lib/apis/design.svelte'
+  import type { ViewportConfig } from '@/lib/constants/viewports'
   import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
   import SidebarCard from '../../ui/sidebar/SidebarCard.svelte'
+  import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
 
@@ -39,6 +41,16 @@
       (legends) => designApi.updateDesignMetadata({ patch: { legends } }),
     ),
   }
+
+  let {
+    overrideRatio = $bindable(),
+    isOverrideActive = $bindable(),
+    activeLayout,
+  }: {
+    overrideRatio?: [number, number]
+    activeLayout?: ViewportConfig
+    isOverrideActive: boolean
+  } = $props()
 </script>
 
 <SidebarSection title="畫布">
@@ -111,6 +123,21 @@
     }}>新增</button
   >
 </SidebarSection>
+
+{#if activeLayout?.allowOverride}
+  <SidebarSection title="尺寸">
+    <SidebarCheckboxRow
+      bind:checked={isOverrideActive}
+      label="使用自定義尺寸"
+    />
+    {#if isOverrideActive && overrideRatio}
+      <SidebarCard title="寬／高">
+        <input bind:value={overrideRatio[0]} />
+        <input bind:value={overrideRatio[1]} />
+      </SidebarCard>
+    {/if}
+  </SidebarSection>
+{/if}
 
 <style>
   input,

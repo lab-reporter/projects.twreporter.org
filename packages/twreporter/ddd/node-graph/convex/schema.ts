@@ -149,7 +149,9 @@ export default defineSchema({
     .index('by_designId_and_edgeId', ['designId', 'edgeId'])
     .index('by_edgeId', ['edgeId']),
 
-  nodes: defineTable(nodeFields).index('by_graph', ['graphId']),
+  nodes: defineTable(nodeFields)
+    .index('by_graph', ['graphId'])
+    .index('by_graph_and_category', ['graphId', 'categoryKey']),
 
   edges: defineTable(edgeFields)
     .index('by_graph', ['graphId'])

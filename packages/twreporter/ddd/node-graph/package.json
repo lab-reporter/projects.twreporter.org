@@ -19,7 +19,7 @@
     "check-types:web": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
     "check-types:convex": "convex codegen",
 
-    "deploy": "pnpm run deploy:convex && pnpm run build:web && pnpm run upload:web && pnpm run build:lib && pnpm run upload:lib",
+    "deploy": "pnpm run check-types && pnpm run deploy:convex && pnpm run build:web && pnpm run upload:web && pnpm run build:lib && pnpm run upload:lib",
     "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
     "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/node-graph RELEASE=production pnpm run deploy",
 

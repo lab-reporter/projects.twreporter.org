@@ -103,13 +103,15 @@
           <button
             class="design-link"
             type="button"
-            onclick={() =>
+            onclick={() => {
+              canvasState.clearSelections()
               navigate('/graphs/:graphId/designs/:designId', {
                 params: {
                   graphId,
                   designId: design._id,
                 },
-              })}
+              })
+            }}
           >
             {design.title}
           </button>

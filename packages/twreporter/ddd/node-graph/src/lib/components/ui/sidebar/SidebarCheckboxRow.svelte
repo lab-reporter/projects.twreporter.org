@@ -1,18 +1,24 @@
 <script lang="ts">
   import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
 
-  let { label, checked = false }: { label: string; checked?: boolean } =
-    $props()
+  let {
+    label,
+    checked = $bindable(false),
+  }: { label: string; checked?: boolean } = $props()
 </script>
 
 <div class="checkbox-row">
   <span class="label">{label}</span>
 
-  <span class={['checkbox', checked && 'checked']} aria-hidden="true">
+  <button
+    class={['checkbox', checked && 'checked']}
+    aria-hidden="true"
+    onclick={() => (checked = !checked)}
+  >
     {#if checked}
       <MaterialSymbols name="check_small" size={20} />
     {/if}
-  </span>
+  </button>
 </div>
 
 <style>

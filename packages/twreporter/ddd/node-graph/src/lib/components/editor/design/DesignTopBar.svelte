@@ -15,24 +15,42 @@
   import { exportAndDownloadImage } from '@/lib/utils/export'
   import { useSvelteFlow } from '@xyflow/svelte'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
+  import { DesignApi } from '@/lib/apis/design.svelte'
+  import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
+  import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
 
   let {
     activeLayoutKey = $bindable(),
     frameRef,
     frameResolutionRatio,
-    title,
-    embedCode,
   }: {
     activeLayoutKey: ViewportKey
     frameRef: HTMLDivElement | null | undefined
     frameResolutionRatio: Resolution
-    title?: string | undefined
-    embedCode?: string
   } = $props()
 
   const history = useHistory()
-  const { fitView } = useSvelteFlow()
+  const { fitView, getNodesBounds, getNodes } = useSvelteFlow()
   const canvasState = getCanvasContext()
+
+  const designApi = new DesignApi()
+  const title = $derived(designApi.designData.data?.design.title)
+
+  let embedCodeControl = $state(false)
+  let initialBoundsControl = $state(false)
+  let initialBounds = $derived.by(() => {
+    if (!initialBoundsControl || canvasState.selectedItems.length === 0) return
+
+    return getNodesBounds(canvasState.selectedItems.map((i) => i.id))
+  })
+
+  const embedCode = $derived(
+    buildNodeGraphEmbedCode({
+      graph: designApi.designData.data,
+      withControl: embedCodeControl,
+      bounds: initialBounds,
+    }),
+  )
 </script>
 
 <Panel variant="top">
@@ -92,6 +110,16 @@
         <Button variant="filled">嵌入碼</Button>
       {/snippet}
       <div class="embed-dialog">
+        <SidebarCheckboxRow
+          bind:checked={embedCodeControl}
+          label="探索版圖表（可互動）"
+        />
+        {#if embedCodeControl && canvasState.selectedItems.length !== 0}
+          <SidebarCheckboxRow
+            bind:checked={initialBoundsControl}
+            label="使用現在選取範圍點位做為探索起點"
+          />
+        {/if}
         <textarea readonly value={embedCode} aria-label="嵌入碼"></textarea>
         <div class="embed-actions">
           <Button
