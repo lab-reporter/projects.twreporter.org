@@ -19,7 +19,7 @@
 </script>
 
 <div
-  class="graph-node"
+  class={['graph-node', { image: !!data.imageUrl }]}
   style:--node-background-color={data.backgroundColor ??
     defaultNodeStyle.backgroundColor}
   style:--node-border-color={data.borderColor ?? defaultNodeStyle.borderColor}
@@ -118,6 +118,10 @@
     position: relative;
     pointer-events: auto;
     z-index: 10;
+  }
+
+  .graph-node.image {
+    /* Here */
   }
 
   .graph-node :global(.handle) {

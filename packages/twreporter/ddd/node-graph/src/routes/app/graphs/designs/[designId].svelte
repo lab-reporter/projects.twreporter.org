@@ -116,6 +116,7 @@
     description={designData.data?.design.description}
     footnotes={designData.data?.design.footnotes?.split('\n')}
     legends={designData.data?.design.legends}
+    variant={activeLayoutKey === 'social' ? 'social' : 'default'}
   >
     <Canvas
       nodes={flow.nodes}

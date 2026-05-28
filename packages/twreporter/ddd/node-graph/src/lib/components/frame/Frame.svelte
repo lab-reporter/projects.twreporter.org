@@ -16,6 +16,7 @@
     layers?: LayerSliderSteps
     footnotes?: string[] | string
     controls?: boolean
+    variant?: 'default' | 'social'
   }
 
   let {
@@ -27,12 +28,13 @@
     footnotes,
     class: className,
     controls = false,
+    variant = 'default',
     ...rest
   }: Props = $props()
 </script>
 
 <div class="container">
-  <div class={['frame', className]} {...rest}>
+  <div class={['frame', className, { social: variant === 'social' }]} {...rest}>
     <div class="top">
       <h1 class="title">{title}</h1>
       {#if description}<h2 class="description">{description}</h2>{/if}
@@ -106,6 +108,10 @@
 
     border-top: 1px solid var(--neutral-gray-200);
     border-bottom: 1px solid var(--neutral-gray-300);
+  }
+
+  .frame.social {
+    /* Here */
   }
 
   .top {
