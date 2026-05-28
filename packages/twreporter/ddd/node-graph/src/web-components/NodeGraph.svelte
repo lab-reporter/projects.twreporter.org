@@ -82,6 +82,8 @@
         edges={flow.edges}
         readonly={!control}
         elementsSelectable={false}
+        zoomOnScroll={false}
+        preventScrolling={false}
       />
     </Frame>
   {/if}
