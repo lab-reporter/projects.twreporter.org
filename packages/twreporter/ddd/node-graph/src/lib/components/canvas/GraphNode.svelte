@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { defaultNodeStyle } from '@/lib/constants/styles'
+  import { defaultFadedOpacity, defaultNodeStyle } from '@/lib/constants/styles'
   import type { FlowNode } from '@/lib/features/canvas/types'
   import { Handle, NodeToolbar, Position, type NodeProps } from '@xyflow/svelte'
+  import { getCanvasContext } from './CanvasState.svelte'
 
   let {
     data,
@@ -13,6 +14,8 @@
   }: NodeProps<FlowNode> = $props()
 
   let isPopupOpen = $state(false)
+
+  const canvasState = getCanvasContext()
 </script>
 
 <div
@@ -28,6 +31,13 @@
   class:expanded={data.expanded}
   class:selected
   style:z-index={zIndex}
+  style:opacity={canvasState.fadeNotConnectedNodes &&
+  canvasState.selectedItem?.type === 'graph-node'
+    ? canvasState.selectedItemConnectedNodeIds?.includes(id) ||
+      canvasState.selectedItem.id === id
+      ? 1
+      : defaultFadedOpacity
+    : 1}
   role="presentation"
   onmouseenter={() => {
     isPopupOpen = true

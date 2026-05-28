@@ -18,3 +18,5 @@ export const defaultEdgeStyle: EdgeStyle = {
   labelBackgroundColor: '#F1F1F1',
   labelTextColor: '#404040',
 }
+
+export const defaultFadedOpacity = 0.3

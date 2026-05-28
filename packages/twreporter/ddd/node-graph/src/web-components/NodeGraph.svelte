@@ -10,6 +10,7 @@
   } from '@xyflow/svelte'
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/frame/Frame.svelte'
+  import { setCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
 
   let {
     data,
@@ -67,6 +68,10 @@
       })
     }
   })
+
+  setCanvasContext(undefined, {
+    fadeNotConnectedNodes: true,
+  })
 </script>
 
 <div class={['node-graph', { control }]} bind:clientWidth>
@@ -81,7 +86,8 @@
         nodes={flow.nodes}
         edges={flow.edges}
         readonly={!control}
-        elementsSelectable={false}
+        elementsSelectable={true}
+        maxZoom={1.5}
         zoomOnScroll={false}
         preventScrolling={false}
       />

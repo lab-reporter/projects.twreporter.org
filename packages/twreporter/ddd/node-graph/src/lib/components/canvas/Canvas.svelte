@@ -103,7 +103,7 @@
       onnodedragstop={() => {
         handleNodeDragStop()
       }}
-      zIndexMode="manual"
+      zIndexMode="basic"
       preventScrolling={!readonly}
       {...svelteFlowProps}
     ></SvelteFlow>

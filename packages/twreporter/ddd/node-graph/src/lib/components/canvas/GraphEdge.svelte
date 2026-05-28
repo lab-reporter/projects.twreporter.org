@@ -7,6 +7,8 @@
     type EdgeProps,
     type InternalNode,
   } from '@xyflow/svelte'
+  import { getCanvasContext } from './CanvasState.svelte'
+  import { defaultFadedOpacity } from '@/lib/constants/styles'
 
   type Point = {
     x: number
@@ -34,10 +36,8 @@
 
   let isHovered = $state(false)
 
-  // svelte-ignore state_referenced_locally
-  const sourceNode = useInternalNode(source)
-  // svelte-ignore state_referenced_locally
-  const targetNode = useInternalNode(target)
+  const sourceNode = $derived(useInternalNode(source))
+  const targetNode = $derived(useInternalNode(target))
 
   function getNodeBounds(
     node: InternalNode | undefined,
@@ -135,6 +135,17 @@
   const arrowColor = $derived(data?.arrowColor ?? strokeColor)
   const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F5F5F5')
   const labelTextColor = $derived(data?.labelTextColor ?? '#404040')
+
+  const canvasState = getCanvasContext()
+
+  const opacity = $derived(
+    canvasState.fadeNotConnectedNodes &&
+      canvasState.selectedItem?.type === 'graph-node'
+      ? canvasState.selectedItemconnectedEdgeIds?.includes(id)
+        ? 1
+        : defaultFadedOpacity
+      : 1,
+  )
 </script>
 
 <defs>
@@ -172,7 +183,7 @@
     {id}
     path={edgePath}
     markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-    style="stroke: {strokeColor}; stroke-width: 1.1; fill: none;"
+    style="stroke: {strokeColor}; stroke-width: 1.1; fill: none; opacity: {opacity}"
     interactionWidth={24}
   />
 
@@ -188,6 +199,7 @@
         onpointerleave={() => {
           isHovered = false
         }}
+        style:opacity
       >
         <span>{data.relationLabel}</span>
       </div>
