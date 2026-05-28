@@ -40,9 +40,6 @@
             xLabel={bar.xLabel}
             yLabel={bar.yLabel}
             yTickCount={config.yTickCount}
-            yTickCountMobile={config.yTickCountMobile}
-            yMin={config.yMin}
-            yMax={config.yMax}
           />
         </div>
       {/each}
