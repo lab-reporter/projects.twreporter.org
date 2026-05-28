@@ -28,6 +28,7 @@
           yLabel={line.yLabel}
           yTickCount={config.yTickCount}
           xTickCount={config.xTickCount}
+          xDomain={config.xDomain}
           yDomain={config.yDomain}
         />
       </div>
@@ -45,7 +46,7 @@
   .line-wrapper {
     background-color: var(--neutral-gray-100);
     border-radius: 3px;
-    padding: 25px 20px 20px 20px;
+    padding: 5px 0;
     @media screen and (max-width: 767px) {
       padding: 15px 0px 12px 10px;
     }

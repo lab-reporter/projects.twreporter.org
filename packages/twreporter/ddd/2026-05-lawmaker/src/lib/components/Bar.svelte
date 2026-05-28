@@ -386,6 +386,13 @@
     stroke: var(--neutral-gray-200);
   }
 
+  .bar-chart svg rect {
+    transition: opacity 0.2s ease;
+  }
+  .bar-chart svg g:has(rect:hover) rect:not(:hover) {
+    opacity: 0.5;
+  }
+
   .axis-label {
     font-size: var(--text-s);
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;

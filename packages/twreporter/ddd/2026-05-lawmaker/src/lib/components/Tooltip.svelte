@@ -26,13 +26,13 @@
 >
   {#if seriesName}
     <div class="header">
-      {label}
-    </div>
-    <div class="content">
       <div class="legend">
         <div class="legend-swatch" style:background-color={seriesColor}></div>
         <span class="legend-label">{seriesName}</span>
       </div>
+    </div>
+    <div class="content">    
+      <span class="label">{label}</span>
       <span class="value">{value.toLocaleString()}</span>
     </div>
   {:else}
@@ -52,7 +52,6 @@
     z-index: 100;
     display: flex;
     flex-direction: column;
-    gap: 2px;
     background: rgba(250, 250, 250, 0.95);
     color: var(--neutral-gray-700);
     border-radius: 4px;
@@ -67,7 +66,6 @@
     font-size: var(--text-s);
     border-bottom: 1.5px solid var(--neutral-gray-200);
     padding: 6px 10px;
-    font-weight: 500;
   }
 
   .legend {
@@ -77,8 +75,7 @@
     gap: 6px;
     max-width: 200px;
     color: var(--neutral-gray-700);
-    border-right: 1.5px solid var(--neutral-gray-200);
-    padding: 6px 10px 8px 0;
+    padding: 2px 0;
     @media screen and (max-width: 767px) {
       max-width: 180px;
     }
@@ -90,19 +87,23 @@
     flex-shrink: 0;
   }
   .legend-label {
-    font-size: var(--text-s);
-    color: var(--neutral-gray-700);
     text-wrap: auto;
   }
 
   .content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 0px 10px;
   }
-
+  .label {
+    font-weight: 400;
+    padding: 5px 0 7px 0;
+  }
   .value {
-    padding: 6px 0;
+    font-weight: 500;
+    border-left: 1.5px solid var(--neutral-gray-200);
+    padding: 6px 0 7px 10px;
   }
 </style>

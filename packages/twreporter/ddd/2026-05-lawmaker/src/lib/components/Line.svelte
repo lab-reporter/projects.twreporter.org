@@ -1,6 +1,6 @@
 <script lang="ts">
   import {
-    scaleTime,
+    scaleUtc,
     scaleLinear,
     axisBottom,
     axisLeft,
@@ -9,7 +9,7 @@
     extent,
     line,
     area,
-    timeFormat,
+    utcFormat,
   } from 'd3'
   import { createQuery } from '@tanstack/svelte-query'
   import Tooltip from './Tooltip.svelte'
@@ -27,6 +27,7 @@
     yTickCount = 5,
     xTickCount,
     showArea = false,
+    xDomain,
     yDomain,
   }: {
     src?: string
@@ -38,6 +39,7 @@
     yTickCount?: ResponsiveCount
     xTickCount?: ResponsiveCount
     showArea?: boolean
+    xDomain?: [min?: string, max?: string]
     yDomain?: [min?: number, max?: number]
   } = $props()
 
@@ -105,7 +107,10 @@
         for (const d of singleData) {
           if (d.label === lbl) byDate.set(d.date, d)
         }
-        return [lbl, [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date))]
+        return [
+          lbl,
+          [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)),
+        ]
       }),
     ),
   )
@@ -116,9 +121,17 @@
     extent(singleData, (d) => new Date(d.date)) as [Date, Date],
   )
 
-  const xScale = $derived(
-    scaleTime().domain(xExtent).range([0, width]).nice(),
-  )
+  const xScale = $derived.by(() => {
+    const scale = scaleUtc()
+      .domain([
+        xDomain?.[0] ? new Date(xDomain[0]) : xExtent[0],
+        xDomain?.[1] ? new Date(xDomain[1]) : xExtent[1],
+      ])
+      .range([20, width-20])
+    if (!xDomain) scale.nice()
+    return scale
+  })
+
   const linearScale = $derived(
     scaleLinear()
       .domain([yDomain?.[0] ?? 0, yDomain?.[1] ?? yMax * 1.1])
@@ -159,9 +172,10 @@
       .tickSize(0)
       .tickPadding(4)
       .tickSizeOuter(0)
-      .tickFormat(timeFormat('%Y') as any)
+      .tickFormat(utcFormat('%Y') as any)
     if (xTickCountActual !== undefined) axis.ticks(xTickCountActual)
     select(xAxisEl).call(axis)
+    select(xAxisEl).select('.domain').attr('d', `M0,0H${width}`)
     select(xAxisEl)
       .selectAll('text')
       .style('text-anchor', 'center')
@@ -218,7 +232,14 @@
     seriesLabel: string,
     seriesColor: string,
   ) {
-    tooltip = { x: e.clientX, y: e.clientY, date, value, seriesLabel, seriesColor }
+    tooltip = {
+      x: e.clientX,
+      y: e.clientY,
+      date,
+      value,
+      seriesLabel,
+      seriesColor,
+    }
   }
   function onDotMove(e: MouseEvent) {
     if (tooltip) tooltip = { ...tooltip, x: e.clientX, y: e.clientY }
@@ -233,7 +254,10 @@
     <div class="legend">
       {#each labelKeys as lbl, i}
         <div class="legend-item">
-          <div class="legend-swatch" style:background-color={labelColor(lbl, i)}></div>
+          <div
+            class="legend-swatch"
+            style:background-color={labelColor(lbl, i)}
+          ></div>
           <span>{lbl}</span>
         </div>
       {/each}
@@ -277,9 +301,10 @@
               role="img"
               cx={xScale(new Date(d.date))}
               cy={linearScale(d.value)}
-              r="4"
+              r="3"
               fill={labelColor(lbl, i)}
-              onmouseenter={(e) => onDotEnter(e, d.date, d.value, lbl, labelColor(lbl, i))}
+              onmouseenter={(e) =>
+                onDotEnter(e, d.date, d.value, lbl, labelColor(lbl, i))}
               onmousemove={onDotMove}
               onmouseleave={onDotLeave}
             />
@@ -364,6 +389,14 @@
     stroke: var(--neutral-gray-200);
   }
 
+  .line-chart svg circle {
+    transition: r 0.15s ease;
+    cursor: pointer;
+  }
+  .line-chart svg circle:hover {
+    r: 6px;
+  }
+
   .axis-label {
     font-size: var(--text-s);
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
@@ -386,7 +419,7 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 3px 25px;
-    padding: 0 5px;
+    padding: 5px;
     margin-top: -3px;
   }
 

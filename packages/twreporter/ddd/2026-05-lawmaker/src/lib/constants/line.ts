@@ -11,8 +11,9 @@ export const keys: Record<
   {
     title: string
     footnotes: string[]
-    yTickCount?: ResponsiveCount
     xTickCount?: ResponsiveCount
+    yTickCount?: ResponsiveCount
+    xDomain?: [min?: string, max?: string]
     yDomain?: [min?: number, max?: number]
     colorMap?: Record<string, string>
     lines: ({ src?: string; data?: LineDatum[]; xLabel?: string; yLabel?: string; showArea?: boolean })[]
@@ -27,8 +28,9 @@ export const keys: Record<
       '資料整理：黃靖緯 ｜ 設計：江世民',
     ],
     backdrop: false,
+    xTickCount: 10,
     yTickCount: [10, 5],
-    xTickCount: 5,
+    xDomain: ['1988', '1999'],
     yDomain: [0, 15000],
     colorMap: {
       '第一屆': 'var(--chart-olive-3)',
