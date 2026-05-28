@@ -37,15 +37,15 @@ export const gridKeys: Record<
     yTickCount: 4,
     ratio: 1.4,
     colorMap: {
-      '國民黨': 'var(--chart-blue-3)',
-      '民進黨': 'var(--chart-olive-3)',
-      '無黨籍': 'var(--chart-gray-3)',
-      '民眾黨': 'var(--chart-mint-3)',
-      '新黨': 'var(--chart-earth-3)',
-      '社會民主黨': 'var(--chart-indigo-3)',
-      '無黨團結聯盟': 'var(--chart-purple-3)',
-      '台灣基進': 'var(--chart-red-3)',
-      '台聯': 'var(--chart-gray-3)',
+      國民黨: 'var(--chart-blue-3)',
+      民進黨: 'var(--chart-olive-3)',
+      無黨籍: 'var(--chart-gray-3)',
+      民眾黨: 'var(--chart-mint-3)',
+      新黨: 'var(--chart-earth-3)',
+      社會民主黨: 'var(--chart-indigo-3)',
+      無黨團結聯盟: 'var(--chart-purple-3)',
+      台灣基進: 'var(--chart-red-3)',
+      台聯: 'var(--chart-gray-3)',
     },
     items: [
       {
@@ -126,7 +126,7 @@ export const keys: Record<
   }
 > = {
   B01: {
-    title: '六都除新北、台北都是執政黨提出較多補助議案',
+    title: '各政黨提出鄰里長補助與義警消福利數量',
     footnotes: [
       '資料來源：六都議會提案系統、報導者觀測站',
       '資料整理：黃靖緯 ｜ 設計：江世民',
@@ -201,7 +201,7 @@ export const keys: Record<
           { label: '9', value: 192 },
           { label: '10', value: 106 },
         ],
-      }
+      },
     ],
   },
 }
