@@ -34,7 +34,7 @@ for latest definition */
   margin-left: calc((100vw - var(--body-width)) / 2 * -1);
 }
 
-@media (min-width: 102px) {
+@media (min-width: 1024px) {
   .embed-code-container-hd-only {
     width: 100vw;
     margin-left: calc((100vw - var(--body-width)) / 2 * -1);
