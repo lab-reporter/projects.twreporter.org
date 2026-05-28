@@ -57,7 +57,7 @@
   <SidebarColorInput label="背景" bind:value={fields.backgroundColor.value} />
 
   <SidebarCard title="標題">
-    <input type="text" bind:value={fields.title.value} />
+    <textarea rows="3" bind:value={fields.title.value}></textarea>
   </SidebarCard>
 
   <SidebarCard title="副標題">

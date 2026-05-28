@@ -166,6 +166,7 @@
   .description,
   .footnote {
     margin: 0;
+    white-space: pre-wrap;
   }
 
   .title {
