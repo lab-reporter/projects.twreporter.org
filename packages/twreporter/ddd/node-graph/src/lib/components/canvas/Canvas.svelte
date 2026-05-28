@@ -14,6 +14,7 @@
   } from '../../features/canvas/types'
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
+  import type { Snippet } from 'svelte'
 
   let {
     nodes = $bindable(),
@@ -21,6 +22,7 @@
     readonly = false,
     onMoveNodes,
     onUndoMoveNodes,
+    children,
     ...svelteFlowProps
   }: {
     nodes: FlowNode[]
@@ -28,7 +30,7 @@
     readonly?: boolean
     onMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
     onUndoMoveNodes?: (moves: NodePositionMove[]) => Promise<void>
-  } & SvelteFlowProps = $props()
+  } & SvelteFlowProps & { children?: Snippet } = $props()
 
   const history = useHistory()
   const { getNodes } = useSvelteFlow<FlowNode, FlowEdge>()
@@ -107,6 +109,7 @@
       {...svelteFlowProps}
     ></SvelteFlow>
   </div>
+  {@render children?.()}
 </div>
 
 <style>
@@ -117,6 +120,7 @@
     min-height: 0;
     box-sizing: border-box;
     background: transparent;
+    position: relative;
   }
 
   .canvas-surface {

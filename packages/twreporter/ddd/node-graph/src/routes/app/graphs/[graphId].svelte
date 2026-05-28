@@ -30,6 +30,7 @@
   import { useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
+  import NodePopup from '@/lib/components/canvas/NodePopup.svelte'
 
   const graphApi = new GraphApi()
   const history = useHistory()
@@ -290,4 +291,17 @@
   edges={flow.edges}
   onMoveNodes={(moves) => persistNodeMoves(moves, 'to')}
   onUndoMoveNodes={(moves) => persistNodeMoves(moves, 'from')}
-/>
+>
+  <div class="node-popup-container">
+    <NodePopup />
+  </div>
+</Canvas>
+
+<style>
+  .node-popup-container {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 300px;
+  }
+</style>
