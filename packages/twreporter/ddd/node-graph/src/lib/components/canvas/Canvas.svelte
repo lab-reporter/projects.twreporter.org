@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { useHistory } from '@/lib/features/use-history.svelte'
   import {
-    Controls,
     SvelteFlow,
     useSvelteFlow,
     type SvelteFlowProps,
@@ -14,7 +14,6 @@
   } from '../../features/canvas/types'
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
-  import { useHistory } from '@/lib/features/use-history.svelte'
 
   let {
     nodes = $bindable(),
