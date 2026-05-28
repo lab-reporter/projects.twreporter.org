@@ -22,9 +22,7 @@
           xLabel={firstBar.xLabel}
           yLabel={firstBar.yLabel}
           yTickCount={config.yTickCount}
-          yTickCountMobile={config.yTickCountMobile}
-          yMin={config.yMin}
-          yMax={config.yMax}
+          yDomain={config.yDomain}
         />
       </div>
     {:else}

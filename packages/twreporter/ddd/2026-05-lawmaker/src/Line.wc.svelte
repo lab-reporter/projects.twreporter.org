@@ -8,7 +8,6 @@
   const { key }: { key: string } = $props()
 
   const config = $derived(keys[key])
-  const firstLine = $derived(config.lines[0])
 </script>
 
 <Shell
@@ -20,20 +19,16 @@
   <div class="container">
     {#each config.lines as line}
       <div class="line-wrapper">
-        {#if config.lines.length > 1}
-          <div class="line-name">{line.name}</div>
-        {/if}
         <Line
           src={line.src}
           data={line.data}
-          color={line.color}
+          showArea={line.showArea}
           colorMap={config.colorMap}
           xLabel={line.xLabel}
           yLabel={line.yLabel}
           yTickCount={config.yTickCount}
-          yTickCountMobile={config.yTickCountMobile}
-          yMin={config.yMin}
-          yMax={config.yMax}
+          xTickCount={config.xTickCount}
+          yDomain={config.yDomain}
         />
       </div>
     {/each}
@@ -56,10 +51,4 @@
     }
   }
 
-  .line-name {
-    font-size: var(--text-m);
-    font-weight: 500;
-    color: var(--neutral-gray-700);
-    margin-bottom: 6px;
-  }
 </style>

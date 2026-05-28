@@ -1,49 +1,44 @@
 <script lang="ts">
   import {
-    scaleBand,
+    scaleTime,
     scaleLinear,
     axisBottom,
     axisLeft,
     select,
     max,
-    stack,
+    extent,
+    line,
+    area,
+    timeFormat,
   } from 'd3'
   import { createQuery } from '@tanstack/svelte-query'
   import Tooltip from './Tooltip.svelte'
 
-  export type LineDatum = { label: string; value: number }
-  export type LineSeries = { name?: string; data: LineDatum[]; color?: string }
+  export type LineDatum = { label: string; date: string; value: number }
+  export type ResponsiveCount = number | [desktop: number, mobile: number]
 
   let {
     src,
     data: inlineData,
-    color = 'var(--chart-olive-3, #7a8c3a)',
     colorMap,
-    stacked = false,
-    layout = 'vertical',
-    series,
     ratio = 1,
     xLabel,
     yLabel,
     yTickCount = 5,
-    yTickCountMobile,
-    yMin,
-    yMax: yMaxProp,
+    xTickCount,
+    showArea = false,
+    yDomain,
   }: {
     src?: string
     data?: LineDatum[]
-    color?: string
     colorMap?: Record<string, string>
-    stacked?: boolean
-    layout?: 'vertical' | 'horizontal'
-    series?: LineSeries[]
     ratio?: number
     xLabel?: string
     yLabel?: string
-    yTickCount?: number
-    yTickCountMobile?: number
-    yMin?: number
-    yMax?: number
+    yTickCount?: ResponsiveCount
+    xTickCount?: ResponsiveCount
+    showArea?: boolean
+    yDomain?: [min?: number, max?: number]
   } = $props()
 
   let yAxisTextWidth = $state(44)
@@ -68,7 +63,9 @@
 
   let screenWidth = $state(window.innerWidth)
   $effect(() => {
-    const handler = () => { screenWidth = window.innerWidth }
+    const handler = () => {
+      screenWidth = window.innerWidth
+    }
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   })
@@ -76,11 +73,16 @@
   const totalHeight = $derived(totalWidth * (1 / ratio))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
-  const tickCount = $derived(
-    screenWidth < 767 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
-  )
+  const isMobile = $derived(screenWidth < 767)
 
-  // --- Single-series ---
+  function resolveCount(val: ResponsiveCount | undefined): number | undefined {
+    if (val === undefined) return undefined
+    return Array.isArray(val) ? (isMobile ? val[1] : val[0]) : val
+  }
+
+  const yTickCountActual = $derived(resolveCount(yTickCount) ?? 5)
+  const xTickCountActual = $derived(resolveCount(xTickCount))
+
   const dataQuery = createQuery<LineDatum[]>(() => ({
     queryKey: ['line', src],
     enabled: !!src && !inlineData,
@@ -94,89 +96,88 @@
   const singleData = $derived(inlineData ?? dataQuery.data ?? [])
   const isLoading = $derived(!inlineData && dataQuery.isLoading)
 
-  // --- Stacked: merge series into [{label, key1: v, key2: v, ...}] ---
-  const stackKeys = $derived(
-    series?.map((s) => s.name).filter((n): n is string => n !== undefined) ?? [],
+  const labelKeys = $derived([...new Set(singleData.map((d) => d.label))])
+
+  const seriesMap = $derived(
+    new Map(
+      labelKeys.map((lbl) => {
+        const byDate = new Map<string, LineDatum>()
+        for (const d of singleData) {
+          if (d.label === lbl) byDate.set(d.date, d)
+        }
+        return [lbl, [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date))]
+      }),
+    ),
   )
 
-  const mergedData = $derived.by(() => {
-    if (!series?.length) return []
-    const labels = series[0].data.map((d) => d.label)
-    return labels.map((label) => {
-      const entry: Record<string, string | number> = { label }
-      for (const s of series) {
-        const item = s.data.find((d) => d.label === label)
-        if (s.name !== undefined) entry[s.name] = item?.value ?? 0
-      }
-      return entry
-    })
-  })
+  const yMax = $derived(max(singleData, (d) => d.value) ?? 0)
 
-  const stackedLayers = $derived.by(() => {
-    if (!stacked || !mergedData.length) return []
-    return stack<Record<string, string | number>>().keys(stackKeys)(
-      mergedData as any,
-    )
-  })
-
-  // --- Scales ---
-  const xDomain = $derived(
-    stacked && series
-      ? mergedData.map((d) => d.label as string)
-      : singleData.map((d) => d.label),
+  const xExtent = $derived(
+    extent(singleData, (d) => new Date(d.date)) as [Date, Date],
   )
 
-  const yMax = $derived.by(() => {
-    if (stacked && series) {
-      return Math.max(
-        0,
-        ...mergedData.map((d) =>
-          stackKeys.reduce((sum, k) => sum + ((d[k] as number) ?? 0), 0),
-        ),
-      )
-    }
-    return max(singleData, (d) => d.value) ?? 0
-  })
-
-  const bandScale = $derived(
-    scaleBand()
-      .domain(xDomain)
-      .range(layout === 'horizontal' ? [0, chartHeight] : [0, width])
-      .padding(0.2),
+  const xScale = $derived(
+    scaleTime().domain(xExtent).range([0, width]).nice(),
   )
   const linearScale = $derived(
     scaleLinear()
-      .domain([yMin ?? 0, yMaxProp ?? yMax * 1.1])
-      .range(layout === 'horizontal' ? [0, width] : [chartHeight, 0])
+      .domain([yDomain?.[0] ?? 0, yDomain?.[1] ?? yMax * 1.1])
+      .range([chartHeight, 0])
       .nice(),
+  )
+
+  const linePaths = $derived(
+    new Map(
+      [...seriesMap.entries()].map(([lbl, data]) => [
+        lbl,
+        line<LineDatum>()
+          .x((d) => xScale(new Date(d.date)))
+          .y((d) => linearScale(d.value))(data) ?? '',
+      ]),
+    ),
+  )
+
+  const areaPaths = $derived(
+    new Map(
+      [...seriesMap.entries()].map(([lbl, data]) => [
+        lbl,
+        area<LineDatum>()
+          .x((d) => xScale(new Date(d.date)))
+          .y0(chartHeight)
+          .y1((d) => linearScale(d.value))(data) ?? '',
+      ]),
+    ),
   )
 
   let xAxisEl = $state<SVGGElement>()
   let yAxisEl = $state<SVGGElement>()
 
   $effect(() => {
-    if (!xAxisEl || !xDomain.length) return
-    const axis =
-      layout === 'horizontal'
-        ? axisBottom(linearScale).ticks(tickCount).tickSize(-chartHeight).tickPadding(8)
-        : axisBottom(bandScale).tickSize(0).tickPadding(4)
-    select(xAxisEl).call(axis.tickSizeOuter(0))
-    if (layout === 'vertical') {
-      select(xAxisEl)
-        .selectAll('text')
-        .style('text-anchor', 'center')
-        .attr('dy', '1em')
-        .attr('transform', 'rotate(0)')
-    }
+    if (!xAxisEl || !singleData.length) return
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const axis = axisBottom(xScale)
+      .tickSize(0)
+      .tickPadding(4)
+      .tickSizeOuter(0)
+      .tickFormat(timeFormat('%Y') as any)
+    if (xTickCountActual !== undefined) axis.ticks(xTickCountActual)
+    select(xAxisEl).call(axis)
+    select(xAxisEl)
+      .selectAll('text')
+      .style('text-anchor', 'center')
+      .attr('dy', '1em')
+      .attr('transform', 'rotate(0)')
   })
 
   $effect(() => {
-    if (!yAxisEl || !xDomain.length) return
-    const axis =
-      layout === 'horizontal'
-        ? axisLeft(bandScale).tickSize(0).tickPadding(6)
-        : axisLeft(linearScale).ticks(tickCount).tickSize(-width).tickPadding(7)
-    select(yAxisEl).call(axis.tickSizeOuter(0))
+    if (!yAxisEl || !singleData.length) return
+    select(yAxisEl).call(
+      axisLeft(linearScale)
+        .ticks(yTickCountActual)
+        .tickSize(-width)
+        .tickPadding(7)
+        .tickSizeOuter(0),
+    )
 
     let maxW = 0
     select(yAxisEl)
@@ -196,46 +197,50 @@
     'var(--chart-mint-3)',
   ]
 
-  function seriesColor(i: number) {
-    return series?.[i]?.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length]
+  function labelColor(lbl: string, i: number) {
+    return colorMap?.[lbl] ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length]
   }
 
-  type TooltipState = { x: number; y: number; label: string; value: number; seriesName?: string; seriesColor?: string }
+  type TooltipState = {
+    x: number
+    y: number
+    date: string
+    value: number
+    seriesLabel: string
+    seriesColor: string
+  }
   let tooltip = $state<TooltipState | null>(null)
 
-  function onLineEnter(e: MouseEvent, label: string, value: number, seriesName?: string, seriesColor?: string) {
-    tooltip = { x: e.clientX, y: e.clientY, label, value, seriesName, seriesColor }
+  function onDotEnter(
+    e: MouseEvent,
+    date: string,
+    value: number,
+    seriesLabel: string,
+    seriesColor: string,
+  ) {
+    tooltip = { x: e.clientX, y: e.clientY, date, value, seriesLabel, seriesColor }
   }
-  function onLineMove(e: MouseEvent) {
+  function onDotMove(e: MouseEvent) {
     if (tooltip) tooltip = { ...tooltip, x: e.clientX, y: e.clientY }
   }
-  function onLineLeave() {
+  function onDotLeave() {
     tooltip = null
   }
 </script>
 
 <div class="line-chart" style:--aspect-ratio={ratio}>
-  {#if stacked && series}
+  {#if labelKeys.length > 1}
     <div class="legend">
-      {#each series as s, i}
+      {#each labelKeys as lbl, i}
         <div class="legend-item">
-          <div
-            class="legend-swatch"
-            style:background-color={seriesColor(i)}
-          ></div>
-          <span>{s.name}</span>
+          <div class="legend-swatch" style:background-color={labelColor(lbl, i)}></div>
+          <span>{lbl}</span>
         </div>
       {/each}
     </div>
   {/if}
   <div class="line-chart-y">
-    <span class="axis-label y">
-      {#if layout === 'vertical'}
-        {yLabel}
-      {:else}
-        {xLabel}
-      {/if}
-    </span>
+    <span class="axis-label y">{yLabel}</span>
     <svg
       bind:this={svgEl}
       viewBox={`0 0 ${totalWidth} ${totalHeight}`}
@@ -243,76 +248,51 @@
     >
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         <g bind:this={yAxisEl} class="y-axis" />
-        <g bind:this={xAxisEl} transform={`translate(0, ${chartHeight})`} class="x-axis" />
-        {#if stacked && series}
-          {#each stackedLayers as layer, i}
-            {#each layer as seg}
-              {#if layout === 'vertical'}
-                <rect
-                  role="img"
-                  x={bandScale(seg.data.label as string)}
-                  y={linearScale(seg[1])}
-                  width={bandScale.bandwidth()}
-                  height={linearScale(seg[0]) - linearScale(seg[1])}
-                  fill={seriesColor(i)}
-                  onmouseenter={(e) => onLineEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
-                  onmousemove={onLineMove}
-                  onmouseleave={onLineLeave}
-                />
-              {:else}
-                <rect
-                  role="img"
-                  y={bandScale(seg.data.label as string)}
-                  x={linearScale(seg[0])}
-                  height={bandScale.bandwidth()}
-                  width={linearScale(seg[1]) - linearScale(seg[0])}
-                  fill={seriesColor(i)}
-                  onmouseenter={(e) => onLineEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
-                  onmousemove={onLineMove}
-                  onmouseleave={onLineLeave}
-                />
-              {/if}
-            {/each}
+        <g
+          bind:this={xAxisEl}
+          transform={`translate(0, ${chartHeight})`}
+          class="x-axis"
+        />
+        {#each labelKeys as lbl, i}
+          {#if showArea && (seriesMap.get(lbl)?.length ?? 0) > 1}
+            <path
+              d={areaPaths.get(lbl)}
+              fill={labelColor(lbl, i)}
+              fill-opacity="0.15"
+              stroke="none"
+            />
+          {/if}
+          {#if (seriesMap.get(lbl)?.length ?? 0) > 1}
+            <path
+              d={linePaths.get(lbl)}
+              fill="none"
+              stroke={labelColor(lbl, i)}
+              stroke-width="2"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+            />
+          {/if}
+          {#each seriesMap.get(lbl) ?? [] as d (d.date)}
+            <circle
+              role="img"
+              cx={xScale(new Date(d.date))}
+              cy={linearScale(d.value)}
+              r="4"
+              fill={labelColor(lbl, i)}
+              onmouseenter={(e) => onDotEnter(e, d.date, d.value, lbl, labelColor(lbl, i))}
+              onmousemove={onDotMove}
+              onmouseleave={onDotLeave}
+            />
           {/each}
-        {:else}
-          {#each singleData as d (d.label)}
-            {#if layout === 'vertical'}
-              <rect
-                role="img"
-                x={bandScale(d.label)}
-                y={linearScale(d.value)}
-                width={bandScale.bandwidth()}
-                height={chartHeight - linearScale(d.value)}
-                fill={colorMap?.[d.label] ?? color}
-                onmouseenter={(e) => onLineEnter(e, d.label, d.value)}
-                onmousemove={onLineMove}
-                onmouseleave={onLineLeave}
-              />
-            {:else}
-              <rect
-                role="img"
-                y={bandScale(d.label)}
-                x={0}
-                height={bandScale.bandwidth()}
-                width={linearScale(d.value)}
-                fill={colorMap?.[d.label] ?? color}
-                onmouseenter={(e) => onLineEnter(e, d.label, d.value)}
-                onmousemove={onLineMove}
-                onmouseleave={onLineLeave}
-              />
-            {/if}
-          {/each}
-        {/if}
-
+        {/each}
       </g>
     </svg>
   </div>
-  <span class="axis-label x" style:padding-left={`calc(${margin.left}px + var(--text-s))`}>
-    {#if layout === 'vertical'}
-      {xLabel}
-    {:else}
-      {yLabel}
-    {/if}
+  <span
+    class="axis-label x"
+    style:padding-left={`calc(${margin.left}px + var(--text-s))`}
+  >
+    {xLabel}
   </span>
 
   {#if isLoading}
@@ -327,10 +307,10 @@
     <Tooltip
       x={tooltip.x}
       y={tooltip.y}
-      label={tooltip.label}
+      label={tooltip.date}
       value={tooltip.value}
-      seriesName={tooltip.seriesName}
-      seriesColor={tooltip.seriesColor}
+      seriesName={labelKeys.length > 1 ? tooltip.seriesLabel : undefined}
+      seriesColor={labelKeys.length > 1 ? tooltip.seriesColor : undefined}
     />
   {/if}
 </div>

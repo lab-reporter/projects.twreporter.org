@@ -1,4 +1,4 @@
-import type { BarSeries, BarDatum } from '../components/Bar.svelte'
+import type { BarSeries, BarDatum, ResponsiveCount } from '../components/Bar.svelte'
 
 export type BarGridItem = {
   label?: string
@@ -13,10 +13,8 @@ export const gridKeys: Record<
     footnotes: string[]
     gridColumns?: number
     layout?: 'vertical' | 'horizontal'
-    yMax?: number
-    yMin?: number
-    yTickCount?: number
-    yTickCountMobile?: number
+    yDomain?: [min?: number, max?: number]
+    yTickCount?: ResponsiveCount
     ratio?: number
     xLabel?: string
     yLabel?: string
@@ -32,8 +30,7 @@ export const gridKeys: Record<
     ],
     gridColumns: 2,
     layout: 'horizontal',
-    // yMax: 400,
-    yMin: 0,
+    yDomain: [0],
     yTickCount: 4,
     ratio: 1.4,
     colorMap: {
@@ -117,10 +114,8 @@ export const keys: Record<
     footnotes: string[]
     stacked?: boolean
     layout?: 'vertical' | 'horizontal'
-    yTickCount?: number
-    yTickCountMobile?: number
-    yMin?: number
-    yMax?: number
+    yDomain?: [min?: number, max?: number]
+    yTickCount?: ResponsiveCount
     colorMap?: Record<string, string>
     bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
   }
@@ -133,10 +128,8 @@ export const keys: Record<
     ],
     stacked: true,
     layout: 'horizontal',
-    yTickCount: 10,
-    yTickCountMobile: 5,
-    yMin: 0,
-    yMax: 500,
+    yDomain: [0, 500],
+    yTickCount: [10, 5],
     bars: [
       {
         name: '鄰里（長）補助',
@@ -177,9 +170,8 @@ export const keys: Record<
     ],
     stacked: false,
     layout: 'vertical',
+    yDomain: [0, 200],
     yTickCount: 10,
-    yMin: 0,
-    yMax: 200,
     colorMap: {
       '9': 'var(--neutral-gray-400)',
       '10': 'var(--neutral-gray-400)',

@@ -13,6 +13,7 @@
 
   export type BarDatum = { label: string; value: number }
   export type BarSeries = { name?: string; data: BarDatum[]; color?: string }
+  export type ResponsiveCount = number | [desktop: number, mobile: number]
 
   let {
     src,
@@ -26,9 +27,7 @@
     xLabel,
     yLabel,
     yTickCount = 5,
-    yTickCountMobile,
-    yMin,
-    yMax: yMaxProp,
+    yDomain,
   }: {
     src?: string
     data?: BarDatum[]
@@ -40,10 +39,8 @@
     ratio?: number
     xLabel?: string
     yLabel?: string
-    yTickCount?: number
-    yTickCountMobile?: number
-    yMin?: number
-    yMax?: number
+    yTickCount?: ResponsiveCount
+    yDomain?: [min?: number, max?: number]
   } = $props()
 
   let yAxisTextWidth = $state(44)
@@ -76,9 +73,14 @@
   const totalHeight = $derived(totalWidth * (1 / ratio))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
-  const tickCount = $derived(
-    screenWidth < 767 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
-  )
+  const isMobile = $derived(screenWidth < 767)
+
+  function resolveCount(val: ResponsiveCount | undefined): number | undefined {
+    if (val === undefined) return undefined
+    return Array.isArray(val) ? (isMobile ? val[1] : val[0]) : val
+  }
+
+  const tickCount = $derived(resolveCount(yTickCount) ?? 5)
 
   // --- Single-series ---
   const dataQuery = createQuery<BarDatum[]>(() => ({
@@ -146,7 +148,7 @@
   )
   const linearScale = $derived(
     scaleLinear()
-      .domain([yMin ?? 0, yMaxProp ?? yMax * 1.1])
+      .domain([yDomain?.[0] ?? 0, yDomain?.[1] ?? yMax * 1.1])
       .range(layout === 'horizontal' ? [0, width] : [chartHeight, 0])
       .nice(),
   )

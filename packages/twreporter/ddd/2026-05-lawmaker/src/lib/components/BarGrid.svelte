@@ -1,6 +1,6 @@
 <script lang="ts">
   import Bar from './Bar.svelte'
-  import type { BarDatum } from './Bar.svelte'
+  import type { BarDatum, ResponsiveCount } from './Bar.svelte'
 
   export type BarGridItem = {
     label?: string
@@ -12,10 +12,8 @@
     items,
     gridColumns = 3,
     layout = 'horizontal',
-    yMax,
-    yMin = 0,
+    yDomain,
     yTickCount = 5,
-    yTickCountMobile,
     ratio = 0.8,
     xLabel,
     yLabel,
@@ -24,10 +22,8 @@
     items: BarGridItem[]
     gridColumns?: number
     layout?: 'vertical' | 'horizontal'
-    yMax?: number
-    yMin?: number
-    yTickCount?: number
-    yTickCountMobile?: number
+    yDomain?: [min?: number, max?: number]
+    yTickCount?: ResponsiveCount
     ratio?: number
     xLabel?: string
     yLabel?: string
@@ -49,10 +45,8 @@
           color={item.color}
           {colorMap}
           {layout}
-          {yMax}
-          {yMin}
+          {yDomain}
           {yTickCount}
-          {yTickCountMobile}
           {ratio}
           {xLabel}
           {yLabel}

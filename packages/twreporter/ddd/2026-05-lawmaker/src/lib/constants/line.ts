@@ -1,4 +1,4 @@
-import type { LineSeries, LineDatum } from '../components/Line.svelte'
+import type { LineDatum, ResponsiveCount } from '../components/Line.svelte'
 
 export type LineGridItem = {
   label?: string
@@ -11,12 +11,11 @@ export const keys: Record<
   {
     title: string
     footnotes: string[]
-    yTickCount?: number
-    yTickCountMobile?: number
-    yMin?: number
-    yMax?: number
+    yTickCount?: ResponsiveCount
+    xTickCount?: ResponsiveCount
+    yDomain?: [min?: number, max?: number]
     colorMap?: Record<string, string>
-    lines: (LineSeries & { src?: string; xLabel?: string; yLabel?: string })[]
+    lines: ({ src?: string; data?: LineDatum[]; xLabel?: string; yLabel?: string; showArea?: boolean })[]
     backdrop?: boolean
     wide?: boolean
   }
@@ -28,24 +27,32 @@ export const keys: Record<
       '資料整理：黃靖緯 ｜ 設計：江世民',
     ],
     backdrop: false,
-    yTickCount: 10,
-    yTickCountMobile: 5,
-    yMin: 0,
-    yMax: 500,
+    yTickCount: [10, 5],
+    xTickCount: 5,
+    yDomain: [0, 15000],
+    colorMap: {
+      '第一屆': 'var(--chart-olive-3)',
+      '第二屆': 'var(--chart-blue-3)',
+      '第三屆': 'var(--chart-red-3)',
+    },
     lines: [
       {
-        name: '鄰里（長）補助',
-        color: 'var(--chart-olive-3)',
-        xLabel: '政黨',
+        showArea: true,
+        xLabel: '年分',
         yLabel: '提案數',
         data: [
-          { label: '國民黨', value: 288 },
-          { label: '民進黨', value: 219 },
-          { label: '無黨籍', value: 34 },
-          { label: '民眾黨', value: 16 },
-          { label: '新黨', value: 3 },
-          { label: '無黨團結聯盟', value: 2 },
-          { label: '社會民主黨', value: 1 },
+          { label: '第一屆', date: '1988', "value": 12681 },
+          { label: '第一屆', date: '1989', "value": 13264 },
+          { label: '第一屆', date: '1990', "value": 13953 },
+          { label: '第一屆', date: '1991', "value": 13921 },
+          { label: '第二屆', date: '1992', "value": 13932 },
+          { label: '第二屆', date: '1993', "value": 13157 },
+          { label: '第二屆', date: '1994', "value": 11159 },
+          { label: '第二屆', date: '1995', "value": 11631 },
+          { label: '第三屆', date: '1996', "value": 12045 },
+          { label: '第三屆', date: '1997', "value": 13160 },
+          { label: '第三屆', date: '1998', "value": 14240 },
+          { label: '第三屆', date: '1999', "value": 14501 },
         ],
       }
     ],
