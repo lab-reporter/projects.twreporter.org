@@ -17,6 +17,7 @@ export const defaultEdgeStyle: EdgeStyle = {
   arrowColor: '#404040',
   labelBackgroundColor: '#F1F1F1',
   labelTextColor: '#404040',
+  overlap: false,
 }
 
 export const defaultFadedOpacity = 0.3

@@ -112,6 +112,7 @@ export function buildDesignFlow(input: {
         arrowColor: edgeStyle.arrowColor,
         labelBackgroundColor: edgeStyle.labelBackgroundColor,
         labelTextColor: edgeStyle.labelTextColor,
+        overlap: edgeStyle.overlap,
         tooltipsEnabled,
       },
       label: edge.label,

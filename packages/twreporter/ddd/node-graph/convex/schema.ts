@@ -76,6 +76,7 @@ export const designEdgeStyleFields = {
   arrowColor: v.string(),
   labelBackgroundColor: v.string(),
   labelTextColor: v.string(),
+  overlap: v.optional(v.boolean()),
 }
 
 export const designEdgeFields = {

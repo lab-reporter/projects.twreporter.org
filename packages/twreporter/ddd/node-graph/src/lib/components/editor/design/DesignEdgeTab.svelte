@@ -12,6 +12,7 @@
   import { useConvexClient } from 'convex-svelte'
   import { api } from '~convex/api'
   import { defaultEdgeStyle } from '@/lib/constants/styles'
+  import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
 
   const canvasState = getCanvasContext()
   const convex = useConvexClient()
@@ -62,6 +63,10 @@
       () => selectedEdgeStyle?.labelTextColor,
       (labelTextColor) => updateEdgeStyle({ labelTextColor }),
     ),
+    overlap: useConvexOptimisticUpdateValue(
+      () => selectedEdgeStyle?.overlap,
+      (overlap) => updateEdgeStyle({ overlap }),
+    ),
   }
 </script>
 
@@ -75,6 +80,10 @@
   <SidebarColorInput
     label="標籤文字"
     bind:value={fields.labelTextColor.value}
+  />
+  <SidebarCheckboxRow
+    label="預設顯示在最前面（z-index）"
+    bind:checked={fields.overlap.value}
   />
 </SidebarSection>
 
@@ -95,6 +104,7 @@
           labelTextColor:
             fields.labelTextColor.value ?? defaultEdgeStyle.labelTextColor,
           strokeColor: fields.strokeColor.value ?? defaultEdgeStyle.strokeColor,
+          overlap: fields.overlap.value ?? defaultEdgeStyle.overlap,
         },
       })
     }}

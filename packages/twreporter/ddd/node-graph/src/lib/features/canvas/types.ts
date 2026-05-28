@@ -44,6 +44,7 @@ export type GraphEdgeData = Pick<
   labelTextColor?: NonNullable<
     Doc<'designEdges'>['edgeStyle']
   >['labelTextColor']
+  overlap?: NonNullable<Doc<'designEdges'>['edgeStyle']>['overlap']
   tooltipsEnabled?: boolean
 }
 

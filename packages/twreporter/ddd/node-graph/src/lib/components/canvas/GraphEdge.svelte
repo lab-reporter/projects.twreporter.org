@@ -188,7 +188,12 @@
   />
 
   {#if data?.relationLabel}
-    <EdgeLabel x={labelPosition.x} y={labelPosition.y} transparent>
+    <EdgeLabel
+      x={labelPosition.x}
+      y={labelPosition.y}
+      transparent
+      class={[{ overlap: data.overlap }]}
+    >
       <div
         class="edge-chip nodrag nopan"
         role="presentation"
@@ -296,5 +301,9 @@
     color: var(--neutral-gray-500);
     font-size: 9px;
     line-height: 1.4;
+  }
+
+  :global(.svelte-flow__edge-label.overlap) {
+    z-index: 100 !important;
   }
 </style>
