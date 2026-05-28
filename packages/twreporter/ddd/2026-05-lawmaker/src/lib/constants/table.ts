@@ -44,14 +44,14 @@ export const keys: Record<
       },
     ],
   },
-  G01: {
+  TG01: {
     wide: true,
     title: '六都前三名補助型提案主題',
     footnotes: [
       '資料來源：六都議會提案系統、報導者觀測站',
       '資料整理：黃靖緯 ｜ 設計：江世民',
     ],
-    gridColumns: 2,
+    gridColumns: 3,
     tables: ['台北市', '新北市', '桃園市', '台中市', '台南市', '高雄市'].map(
       (city) => ({
         label: city,
