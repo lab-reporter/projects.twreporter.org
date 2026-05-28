@@ -59,20 +59,34 @@
     aria-label="source handle"
   />
 
-  <div class="card">
-    {#if data?.label}
-      <div class="title">
-        {#if data.imageUrl}
-          <img alt={data.label} src={data.imageUrl} />
-        {/if}
-        {data.label}
-      </div>
-    {/if}
+  {#if data.imageUrl}
+    <div class="image-wrapper">
+      <img alt={data.label} src={data.imageUrl} />
+    </div>
+    <div class="card">
+      {#if data?.label}
+        <div class="title">
+          {data.label}
+        </div>
+      {/if}
 
-    {#if data?.expanded && data.note}
-      <p class="body">{data.note}</p>
-    {/if}
-  </div>
+      {#if data?.expanded && data.note}
+        <p class="body">{data.note}</p>
+      {/if}
+    </div>
+  {:else}
+    <div class="card">
+      {#if data?.label}
+        <div class="title">
+          {data.label}
+        </div>
+      {/if}
+
+      {#if data?.expanded && data.note}
+        <p class="body">{data.note}</p>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -81,10 +95,93 @@
     pointer-events: auto;
     z-index: 10;
   }
-
+  /* Style A */
   .graph-node.image {
-    /* Here */
+    display: flex;
+    flex-direction: row;
   }
+  .image-wrapper {
+    position: absolute;
+    left: -25px;
+    top: -6px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--node-background-color);
+    border: 1px solid var(--node-border-color);
+    overflow: hidden;
+    transition: all 300ms ease;
+  }
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    mix-blend-mode: luminosity;
+    filter: saturate(0);
+  }
+  .image-wrapper img:hover {
+    mix-blend-mode: normal;
+    filter: saturate(1);
+    transition: all 300ms ease;
+  }
+  .graph-node.image .title {
+    padding-left: 30px;
+  }
+  .graph-node.expanded .image-wrapper {
+    left: -52px;
+    top: 0px;
+    width: 50px;
+    height: auto;
+    border-radius: 3px;
+    border-width: 0;
+    transition: all 300ms ease;
+  }
+  .graph-node.expanded.image .title {
+    padding-left: 10px;
+  }
+
+  /* Style B */
+  /* .graph-node.image {
+    display: flex;
+    flex-direction: row;
+  }
+  .image-wrapper {
+    position: absolute;
+    left: calc(50% - 25px);
+    top: -42px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--node-background-color);
+    border: 1px solid var(--node-border-color);
+    overflow: hidden;
+    transition: all 300ms ease;
+  }
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    mix-blend-mode: luminosity;
+    filter: saturate(0);
+  }
+  .image-wrapper img:hover {
+    mix-blend-mode: normal;
+    filter: saturate(1);
+    transition: all 300ms ease;
+  }
+  .graph-node.expanded .image-wrapper {
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    left: calc(50% - 20px);
+    border-radius: 3px;
+    border-width: 0;
+    transition: all 300ms ease;
+  }
+  .graph-node.image.expanded .title{
+    padding-top: 45px;
+  } */
+
 
   .graph-node :global(.handle) {
     width: 2px;
@@ -128,8 +225,7 @@
     flex-direction: column;
     gap: 5px;
     text-align: center;
-    min-height: 40px;
-    padding: 5px 10px 8px;
+    padding: 5px 10px;
     border-radius: 3px;
     background: var(--node-background-color);
     color: var(--node-text-color);
