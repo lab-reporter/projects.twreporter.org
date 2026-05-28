@@ -63,7 +63,8 @@
               {#if data.categoryLabel}
                 <div
                   class="category"
-                  style={`--category-color: ${data.categoryColor};`}
+                  style:--background-color={data.backgroundColor}
+                  style:--text-color={data.textColor}
                 >
                   {data.categoryLabel}
                 </div>
@@ -324,8 +325,8 @@
     align-self: flex-start;
     padding: 2px 4px;
     border-radius: 2px;
-    background: var(--category-color, var(--chart-earth-2));
-    color: var(--neutral-gray-800);
+    background: var(--background-color, var(--chart-earth-2));
+    color: var(--text-color, var(--neutral-gray-800));
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.6px;
