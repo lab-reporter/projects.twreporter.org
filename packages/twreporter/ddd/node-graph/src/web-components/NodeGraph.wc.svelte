@@ -1,9 +1,9 @@
 <svelte:options customElement={{ tag: 'twreporter-node-graph' }} />
 
 <script lang="ts">
+  import StyleWrapper from '@/lib/components/StyleWrapper.svelte'
   import { SvelteFlowProvider } from '@xyflow/svelte'
   import NodeGraph from './NodeGraph.svelte'
-  import StyleWrapper from '@/lib/components/StyleWrapper.svelte'
 
   let {
     data,
