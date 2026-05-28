@@ -1,9 +1,10 @@
-import type { CanvasSelectedItem } from '@/lib/features/canvas/types'
+import type { CanvasSelectedItem, FlowNode } from '@/lib/features/canvas/types'
 import {
   getIncomers,
   getOutgoers,
   useOnSelectionChange,
   useSvelteFlow,
+  type NodeProps,
 } from '@xyflow/svelte'
 import { getContext, setContext } from 'svelte'
 
@@ -16,6 +17,14 @@ export interface CanvasState {
 class CanvasStateClass implements CanvasState {
   selectedItem: CanvasSelectedItem | null = $state(null)
   selectedItems: CanvasSelectedItem[] = $state([])
+  activeHoveredNodeData: NodeProps<FlowNode>['data'] | null = $state(null)
+  popupData = $derived.by(() => {
+    const { getNode } = useSvelteFlow()
+
+    return this.selectedItem?.type === 'graph-node'
+      ? (getNode(this.selectedItem.id)?.data as NodeProps<FlowNode>['data'])
+      : this.activeHoveredNodeData
+  })
 
   selectedItemConnectedNodeIds = $derived.by(() => {
     if (this.selectedItem?.type !== 'graph-node') return null

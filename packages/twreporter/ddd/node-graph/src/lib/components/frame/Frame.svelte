@@ -7,6 +7,7 @@
   import LayerSlider from './layer-slider/LayerSlider.svelte'
   import { assets } from '@/lib/constants/assets'
   import Controls from './Controls.svelte'
+  import { getCanvasContext } from '../canvas/CanvasState.svelte'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
@@ -31,16 +32,57 @@
     variant = 'default',
     ...rest
   }: Props = $props()
+
+  const canvasState = getCanvasContext()
+  const data = $derived(canvasState.popupData)
 </script>
 
 <div class="container">
   <div class={['frame', className, { social: variant === 'social' }]} {...rest}>
     <div class="top">
-      <h1 class="title">{title}</h1>
-      {#if description}<h2 class="description">{description}</h2>{/if}
+      <div class="header">
+        <h1 class="title">{title}</h1>
+        {#if description}<h2 class="description">{description}</h2>{/if}
 
-      {#if legends}
-        <Legends {legends} />
+        {#if legends}
+          <Legends {legends} />
+        {/if}
+      </div>
+      {#if variant !== 'social'}
+        <div
+          class={[
+            'node-popup',
+            { active: data?.tooltipsEnabled && !data.expanded },
+          ]}
+        >
+          {#if data}
+            <div class="summary">
+              {#if data.label}
+                <div class="name">{data.label}</div>
+              {/if}
+              {#if data.categoryLabel}
+                <div
+                  class="category"
+                  style={`--category-color: ${data.categoryColor};`}
+                >
+                  {data.categoryLabel}
+                </div>
+              {/if}
+            </div>
+
+            {#if data.note || data.infoSource}
+              <div class="detail">
+                {#if data.note}
+                  <p class="note">{data.note}</p>
+                {/if}
+
+                {#if data.infoSource}
+                  <p class="source">資料來源｜{data.infoSource}</p>
+                {/if}
+              </div>
+            {/if}
+          {/if}
+        </div>
       {/if}
     </div>
 
@@ -81,7 +123,7 @@
     container-type: inline-size;
 
     --background: var(--neutral-gray-100);
-    --round: 0;
+    --round: 3px;
   }
 
   .top,
@@ -96,7 +138,6 @@
     height: 100%;
     margin: auto;
     overflow: hidden;
-    border-radius: var(--round);
     background: var(--background);
     color: var(--neutral-gray-800);
 
@@ -121,17 +162,23 @@
     width: fit-content;
     height: fit-content;
 
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .header {
     background: var(--background);
     border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     padding: var(--top) var(--left);
-    top: 0;
-    left: 0;
     display: flex;
     flex-direction: column;
     gap: var(--gap);
-    max-width: calc(100% - var(--left) - var(--right));
   }
 
   .right {
@@ -232,6 +279,85 @@
     flex: 0 0 auto;
   }
 
+  .node-popup {
+    z-index: 5000;
+    margin: var(--top) var(--right) 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 1px solid var(--neutral-gray-200);
+    border-radius: 7px;
+    overflow: hidden;
+    background: var(--neutral-white);
+    opacity: 0.95;
+    padding: 8px 10px;
+    gap: 3px;
+
+    --popup-width: 300px;
+
+    width: var(--popup-width);
+    visibility: hidden;
+  }
+
+  .node-popup.active {
+    visibility: inherit;
+  }
+
+  .node-popup .summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--neutral-white);
+  }
+
+  .node-popup .name {
+    color: var(--neutral-gray-800);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .node-popup .category {
+    align-self: flex-start;
+    padding: 2px 4px;
+    border-radius: 2px;
+    background: var(--category-color, var(--chart-earth-2));
+    color: var(--neutral-gray-800);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .node-popup .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--neutral-gray-50);
+  }
+
+  .node-popup .note {
+    margin: 0;
+    color: var(--neutral-gray-700);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+  }
+
+  .node-popup .source {
+    margin: 0;
+    color: var(--neutral-gray-500);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    line-height: 1.5;
+  }
+
   @container (max-width: 700px) {
     .frame {
       --top: 25px;
@@ -258,6 +384,10 @@
 
     .logo {
       --size: 26px;
+    }
+
+    .node-popup {
+      --popup-width: 200px;
     }
   }
 
