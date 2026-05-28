@@ -25,7 +25,7 @@ export const keys: Record<
     title: '六都除新北、台北都是執政黨提出較多補助議案',
     footnotes: [
       '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
+      '資料整理：黃靖緯　｜　設計：江世民',
     ],
     backdrop: false,
     xTickCount: 10,

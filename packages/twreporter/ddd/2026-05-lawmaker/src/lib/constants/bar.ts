@@ -24,7 +24,7 @@ export const keys: Record<
     footnotes: [
       '註：僅統計本屆議員提案，自2022年12月至2025年3月',
       '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
+      '資料整理：黃靖緯　｜　設計：江世民',
     ],
     stacked: true,
     layout: 'horizontal',
@@ -67,7 +67,7 @@ export const keys: Record<
       '註1：資歷9、10屆議員僅各有一人',
       '註2：僅統計本屆議員提案，自2022年12月至2025年3月',
       '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
+      '資料整理：黃靖緯　｜　設計：江世民',
     ],
     stacked: false,
     layout: 'vertical',
@@ -120,7 +120,7 @@ export const gridKeys: Record<
     footnotes: [
       '註：僅統計本屆議員提案，自2022年12月至2025年3月',
       '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
+      '資料整理：黃靖緯　｜　設計：江世民',
     ],
     gridColumns: 2,
     layout: 'horizontal',
