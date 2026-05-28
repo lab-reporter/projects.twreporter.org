@@ -15,7 +15,7 @@ function resolvePosition(input: {
   const { graph, nodeId, canonicalPosition, activeLayoutKey } = input
   const desktopPosition = graph.positionsByLayoutKey.desktop?.[nodeId]
 
-  if (activeLayoutKey === 'desktop') {
+  if (activeLayoutKey === 'desktop' || activeLayoutKey === 'full') {
     return desktopPosition ?? canonicalPosition
   }
 

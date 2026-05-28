@@ -46,7 +46,9 @@
       : activeLayout.resolutionRatio) ?? activeLayout.resolutionRatio,
   )
   const frameContainerAspectRatio = $derived(
-    `${frameResolutionRatio[0]} / ${frameResolutionRatio[1]}`,
+    frameResolutionRatio
+      ? `${frameResolutionRatio[0]} / ${frameResolutionRatio[1]}`
+      : null,
   )
 
   const flow = $derived.by(() =>
@@ -105,7 +107,8 @@
 </Sidebar>
 <div
   class="frame-preview"
-  style:aspect-ratio={frameContainerAspectRatio}
+  style:aspect-ratio={frameContainerAspectRatio ?? undefined}
+  style:width={frameContainerAspectRatio ? undefined : '100%'}
   bind:this={frameRef}
 >
   <Frame

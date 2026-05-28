@@ -5,21 +5,24 @@
   import MaterialSymbols from '../icons/MaterialSymbols.svelte'
 
   const { resolution }: { resolution: Resolution } = $props()
-
-  const [width, height] = $derived(resolution)
-  const [ratioW, ratioH] = $derived(resolutionToRatio(resolution))
 </script>
 
 <ActionButton label="像素｜比例">
   <div class="container">
-    <div class="resolution-block">
-      <p>{width}</p>
-      <MaterialSymbols name="close" size={20} />
-      <p>{height}</p>
-    </div>
-    <div class="ratio-block">
-      {ratioW}:{ratioH}
-    </div>
+    {#if resolution}
+      {@const [width, height] = resolution}
+      {@const [ratioW, ratioH] = resolutionToRatio(resolution)}
+      <div class="resolution-block">
+        <p>{width}</p>
+        <MaterialSymbols name="close" size={20} />
+        <p>{height}</p>
+      </div>
+      <div class="ratio-block">
+        {ratioW}:{ratioH}
+      </div>
+    {:else}
+      <div class="ratio-block">滿版模式</div>
+    {/if}
   </div>
 </ActionButton>
 

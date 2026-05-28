@@ -69,7 +69,7 @@
   })
 </script>
 
-<div class="node-graph" bind:clientWidth>
+<div class={['node-graph', { control }]} bind:clientWidth>
   {#if graph}
     <Frame
       title={graph.design?.title}
@@ -93,6 +93,10 @@
     height: 80vh;
     max-width: 720px;
     margin: 0 auto;
+  }
+
+  .node-graph.control {
+    max-width: 100vw;
   }
 
   .node-graph :global(*) {

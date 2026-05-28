@@ -35,12 +35,3 @@
     <NodeGraph {data} control={parsedControl} {bounds} />
   </SvelteFlowProvider>
 </StyleWrapper>
-
-<style>
-  :host {
-    display: block;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-</style>

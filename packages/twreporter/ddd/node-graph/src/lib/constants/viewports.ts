@@ -1,8 +1,8 @@
 import type { MaterialSymbols } from 'material-design-icons-literal-types'
 
-export type ViewportKey = 'desktop' | 'mobile' | 'social'
+export type ViewportKey = 'full' | 'desktop' | 'mobile' | 'social'
 
-export type Resolution = [number, number]
+export type Resolution = [number, number] | null
 
 export const defaultViewportKey = 'desktop' satisfies ViewportKey
 
@@ -14,6 +14,11 @@ export type ViewportConfig = {
 }
 
 export const viewports: Record<ViewportKey, ViewportConfig> = {
+  full: {
+    name: '大螢幕滿版',
+    icon: 'fit_screen',
+    resolutionRatio: null,
+  },
   desktop: {
     name: '電腦',
     icon: 'computer',
