@@ -14,7 +14,12 @@
   import { createQuery } from '@tanstack/svelte-query'
   import Tooltip from './Tooltip.svelte'
 
-  export type LineDatum = { label: string; date: string; value: number }
+  export type LineDatum = {
+    label: string
+    date: string
+    value: number
+    show?: boolean
+  }
   export type ResponsiveCount = number | [desktop: number, mobile: number]
 
   let {
@@ -127,7 +132,7 @@
         xDomain?.[0] ? new Date(xDomain[0]) : xExtent[0],
         xDomain?.[1] ? new Date(xDomain[1]) : xExtent[1],
       ])
-      .range([20, width-20])
+      .range([20, width - 20])
     if (!xDomain) scale.nice()
     return scale
   })
@@ -297,17 +302,19 @@
             />
           {/if}
           {#each seriesMap.get(lbl) ?? [] as d (d.date)}
-            <circle
-              role="img"
-              cx={xScale(new Date(d.date))}
-              cy={linearScale(d.value)}
-              r="3"
-              fill={labelColor(lbl, i)}
-              onmouseenter={(e) =>
-                onDotEnter(e, d.date, d.value, lbl, labelColor(lbl, i))}
-              onmousemove={onDotMove}
-              onmouseleave={onDotLeave}
-            />
+            {#if d.show !== false}
+              <circle
+                role="img"
+                cx={xScale(new Date(d.date))}
+                cy={linearScale(d.value)}
+                r="3"
+                fill={labelColor(lbl, i)}
+                onmouseenter={(e) =>
+                  onDotEnter(e, d.date, d.value, lbl, labelColor(lbl, i))}
+                onmousemove={onDotMove}
+                onmouseleave={onDotLeave}
+              />
+            {/if}
           {/each}
         {/each}
       </g>
