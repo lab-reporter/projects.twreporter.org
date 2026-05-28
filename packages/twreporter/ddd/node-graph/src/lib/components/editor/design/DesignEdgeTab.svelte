@@ -7,8 +7,14 @@
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { EdgeStyle } from '../types'
   import type { Id } from '~convex/dataModel'
+  import Button from '../../ui/Button.svelte'
+  import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
+  import { defaultEdgeStyle } from '@/lib/constants/styles'
 
   const canvasState = getCanvasContext()
+  const convex = useConvexClient()
 
   const designApi = new DesignApi()
 
@@ -70,4 +76,33 @@
     label="標籤文字"
     bind:value={fields.labelTextColor.value}
   />
+</SidebarSection>
+
+<SidebarSection>
+  <Button
+    variant="outlined"
+    onclick={async () => {
+      if (designApi.canvasState.selectedItem?.type !== 'graph-edge') return
+
+      await convex.mutation(api.designs.updateDesignEdgeStylesWithSameLabel, {
+        designId: designApi.params.designId,
+        edgeId: designApi.canvasState.selectedItem.id as Id<'edges'>,
+        style: {
+          arrowColor: fields.arrowColor.value ?? defaultEdgeStyle.arrowColor,
+          labelBackgroundColor:
+            fields.labelBackgroundColor.value ??
+            defaultEdgeStyle.labelBackgroundColor,
+          labelTextColor:
+            fields.labelTextColor.value ?? defaultEdgeStyle.labelTextColor,
+          strokeColor: fields.strokeColor.value ?? defaultEdgeStyle.strokeColor,
+        },
+      })
+    }}
+  >
+    <MaterialSymbols
+      name="file_copy"
+      style="margin-right: 4px;"
+      size={18}
+    />套用至同名標籤</Button
+  >
 </SidebarSection>

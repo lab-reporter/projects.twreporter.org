@@ -540,6 +540,50 @@ export const updateDesignEdgeStyle = userMutation({
   },
 })
 
+export const updateDesignEdgeStylesWithSameLabel = userMutation({
+  args: v
+    .object(designEdgeFields)
+    .pick('designId', 'edgeId')
+    .extend({ style: v.object(designEdgeStyleFields) }),
+  handler: async (ctx, { designId, edgeId, style }) => {
+    const design = await ctx.db.get(designId)
+
+    if (!design) throw new Error('Design not found')
+
+    const targetEdge = await ctx.db.get('edges', edgeId)
+
+    if (!targetEdge) throw new Error('Edge not found')
+
+    const edgesWithSameLabel = await ctx.db
+      .query('edges')
+      .withIndex('by_graphId_and_label', (q) =>
+        q.eq('graphId', design.graphId).eq('label', targetEdge.label),
+      )
+      .collect()
+
+    const designEdges = (
+      await Promise.all(
+        edgesWithSameLabel.map(async (edge) => {
+          return await ctx.db
+            .query('designEdges')
+            .withIndex('by_designId_and_edgeId', (q) =>
+              q.eq('designId', design._id).eq('edgeId', edge._id),
+            )
+            .first()
+        }),
+      )
+    ).filter((d) => d !== null)
+
+    await Promise.all(
+      designEdges.map(async (designEdge) => {
+        return await ctx.db.patch(designEdge._id, {
+          edgeStyle: style,
+        })
+      }),
+    )
+  },
+})
+
 export const archiveDesign = userMutation({
   args: designParams,
   handler: async (ctx, args) => {

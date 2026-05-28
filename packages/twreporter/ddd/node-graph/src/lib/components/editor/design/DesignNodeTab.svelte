@@ -1,19 +1,18 @@
 <script lang="ts">
   import { DesignApi } from '@/lib/apis/design.svelte'
+  import { defaultNodeStyle } from '@/lib/constants/styles'
   import { useConvexOptimisticUpdateValue } from '@/lib/features/use-convex-field.svelte'
   import { normalizeNodeStyle } from '@/lib/utils/canvas'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
+  import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
+  import Button from '../../ui/Button.svelte'
   import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import type { NodeStyle } from '../types'
-  import Button from '../../ui/Button.svelte'
-  import MaterialSymbols from '../../icons/MaterialSymbols.svelte'
-  import { useConvexClient } from 'convex-svelte'
-  import { api } from '~convex/api'
-  import { v } from 'convex/values'
-  import { defaultNodeStyle } from '@/lib/constants/styles'
 
   const canvasState = getCanvasContext()
   const convex = useConvexClient()

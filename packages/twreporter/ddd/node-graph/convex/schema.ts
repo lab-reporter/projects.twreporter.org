@@ -156,7 +156,8 @@ export default defineSchema({
   edges: defineTable(edgeFields)
     .index('by_graph', ['graphId'])
     .index('by_source', ['source'])
-    .index('by_target', ['target']),
+    .index('by_target', ['target'])
+    .index('by_graphId_and_label', ['graphId', 'label']),
 
   categories: defineTable(categoryFields).index('by_key', ['key']),
 })
