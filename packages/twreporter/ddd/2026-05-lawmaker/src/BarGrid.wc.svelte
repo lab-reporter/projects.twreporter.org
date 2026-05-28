@@ -14,10 +14,8 @@
     items={config.items}
     gridColumns={config.gridColumns}
     layout={config.layout}
-    yMax={config.yMax}
-    yMin={config.yMin}
+    yDomain={config.yDomain}
     yTickCount={config.yTickCount}
-    yTickCountMobile={config.yTickCountMobile}
     ratio={config.ratio}
     xLabel={config.xLabel}
     yLabel={config.yLabel}

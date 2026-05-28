@@ -13,6 +13,7 @@
 
   export type BarDatum = { label: string; value: number }
   export type BarSeries = { name?: string; data: BarDatum[]; color?: string }
+  export type ResponsiveCount = number | [desktop: number, mobile: number]
 
   let {
     src,
@@ -26,9 +27,7 @@
     xLabel,
     yLabel,
     yTickCount = 5,
-    yTickCountMobile,
-    yMin,
-    yMax: yMaxProp,
+    yDomain,
   }: {
     src?: string
     data?: BarDatum[]
@@ -40,10 +39,8 @@
     ratio?: number
     xLabel?: string
     yLabel?: string
-    yTickCount?: number
-    yTickCountMobile?: number
-    yMin?: number
-    yMax?: number
+    yTickCount?: ResponsiveCount
+    yDomain?: [min?: number, max?: number]
   } = $props()
 
   let yAxisTextWidth = $state(44)
@@ -76,9 +73,14 @@
   const totalHeight = $derived(totalWidth * (1 / ratio))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
-  const tickCount = $derived(
-    screenWidth < 767 && yTickCountMobile !== undefined ? yTickCountMobile : yTickCount,
-  )
+  const isMobile = $derived(screenWidth < 767)
+
+  function resolveCount(val: ResponsiveCount | undefined): number | undefined {
+    if (val === undefined) return undefined
+    return Array.isArray(val) ? (isMobile ? val[1] : val[0]) : val
+  }
+
+  const tickCount = $derived(resolveCount(yTickCount) ?? 5)
 
   // --- Single-series ---
   const dataQuery = createQuery<BarDatum[]>(() => ({
@@ -146,7 +148,7 @@
   )
   const linearScale = $derived(
     scaleLinear()
-      .domain([yMin ?? 0, yMaxProp ?? yMax * 1.1])
+      .domain([yDomain?.[0] ?? 0, yDomain?.[1] ?? yMax * 1.1])
       .range(layout === 'horizontal' ? [0, width] : [chartHeight, 0])
       .nice(),
   )
@@ -356,7 +358,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    gap: 8px;
+    gap: 10px;
   }
 
   .bar-chart-y svg {
@@ -384,6 +386,13 @@
     stroke: var(--neutral-gray-200);
   }
 
+  .bar-chart svg rect {
+    transition: opacity 0.2s ease;
+  }
+  .bar-chart svg g:has(rect:hover) rect:not(:hover) {
+    opacity: 0.5;
+  }
+
   .axis-label {
     font-size: var(--text-s);
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
@@ -393,12 +402,13 @@
   .axis-label.x {
     display: block;
     text-align: center;
-    margin-top: 0px;
-    letter-spacing: 0.1em;
+    margin-top: 2px;
+    letter-spacing: 0.05em;
   }
   .axis-label.y {
     writing-mode: vertical-rl;
-    letter-spacing: 0.25em;
+    text-orientation: upright;
+    letter-spacing: 0.15em;
   }
 
   .legend {

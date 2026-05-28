@@ -14,11 +14,13 @@
     children,
     footnotes,
     wide = false,
+    backdrop = true,
   }: {
     name: string
     footnotes: string[]
     children: Snippet
     wide?: boolean
+    backdrop?: boolean
   } = $props()
 
   const queryClient = new QueryClient()
@@ -32,7 +34,7 @@
 
 <QueryClientProvider client={queryClient}>
   <div class="outer">
-    <div class={['container', { wide }]} bind:this={container}>
+    <div class={['container', { wide }, { backdrop }]} bind:this={container}>
       <div class="header">
         <h1>{name}</h1>
       </div>
@@ -179,7 +181,7 @@
 
   * {
     --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-white);
+    --backgrouond-color: var(--neutral-gray-50);
 
     color: var(--text-color);
 
@@ -201,15 +203,20 @@
     width: 100%;
     position: relative;
     padding: 20px 20px 22px 20px;
-    background: var(--backgrouond-color);
-    border-radius: 4px;
     display: flex;
     flex-direction: column;
     gap: 17px;
+    border-top: 1px solid var(--neutral-gray-200);
+    border-bottom: 1px solid var(--neutral-gray-200);
   }
-
   .container.wide {
     max-width: 1024px;
+  }
+  .container.backdrop {
+    background: none;
+    background: var(--backgrouond-color);
+    border-radius: 4px;
+    border: none;
   }
 
   .header {

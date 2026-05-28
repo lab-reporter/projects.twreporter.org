@@ -129,6 +129,7 @@
 
   td {
     color: var(--neutral-gray-700);
+    white-space: pre-line;
   }
 
   tbody tr:hover td {
