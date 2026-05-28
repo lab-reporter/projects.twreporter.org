@@ -361,7 +361,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    gap: 8px;
+    gap: 10px;
   }
 
   .line-chart-y svg {
@@ -406,12 +406,13 @@
   .axis-label.x {
     display: block;
     text-align: center;
-    margin-top: 0px;
-    letter-spacing: 0.1em;
+    margin-top: 2px;
+    letter-spacing: 0.05em;
   }
   .axis-label.y {
     writing-mode: vertical-rl;
-    letter-spacing: 0.25em;
+    text-orientation: upright;
+    letter-spacing: 0.15em;
   }
 
   .legend {

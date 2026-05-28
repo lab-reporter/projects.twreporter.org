@@ -57,7 +57,7 @@
     color: var(--text-color, var(--neutral-gray-900));
     padding: 5px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     word-wrap: break-word;
@@ -77,8 +77,10 @@
     text-align: center;
     font-weight: 500;
     font-size: var(--text-m);
-    line-height: 115%;
+    letter-spacing: 0.1em;
     color: var(--neutral-gray-800);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
   }
 
   .block.wordcloud {

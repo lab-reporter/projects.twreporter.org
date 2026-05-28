@@ -6,6 +6,99 @@ export type BarGridItem = {
   color?: string
 }
 
+export const keys: Record<
+  string,
+  {
+    title: string
+    footnotes: string[]
+    stacked?: boolean
+    layout?: 'vertical' | 'horizontal'
+    yDomain?: [min?: number, max?: number]
+    yTickCount?: ResponsiveCount
+    colorMap?: Record<string, string>
+    bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
+  }
+> = {
+  B01: {
+    title: '國民黨「支持者導向」策略：六都議員「鄰里長補助與義警消福利」提案人次遠高其他政黨',
+    footnotes: [
+      '註：僅統計本屆議員提案，自2022年12月至2025年3月',
+      '資料來源：六都議會提案系統、報導者觀測站',
+      '資料整理：黃靖緯 ｜ 設計：江世民',
+    ],
+    stacked: true,
+    layout: 'horizontal',
+    yDomain: [0, 500],
+    yTickCount: [10, 5],
+    bars: [
+      {
+        name: '鄰里（長）補助',
+        color: 'var(--chart-olive-3)',
+        xLabel: '政黨',
+        yLabel: '提案議員人次',
+        data: [
+          { label: '國民黨', value: 288 },
+          { label: '民進黨', value: 219 },
+          { label: '無黨籍', value: 34 },
+          { label: '民眾黨', value: 16 },
+          { label: '新黨', value: 3 },
+          { label: '無黨團結聯盟', value: 2 },
+          { label: '社會民主黨', value: 1 },
+        ],
+      },
+      {
+        name: '志工待遇與福利（環保志工、義警義消、巡守隊）',
+        color: 'var(--chart-blue-3)',
+        data: [
+          { label: '國民黨', value: 152 },
+          { label: '民進黨', value: 71 },
+          { label: '無黨籍', value: 23 },
+          { label: '民眾黨', value: 4 },
+          { label: '無黨團結聯盟', value: 4 },
+          { label: '新黨', value: 2 },
+          { label: '社會民主黨', value: 0 },
+        ],
+      },
+    ],
+  },
+  B02: {
+    title: '六都議員人均提案量隨資歷降低',
+    footnotes: [
+      '註1：資歷9、10屆議員僅各有一人',
+      '註2：僅統計本屆議員提案，自2022年12月至2025年3月',
+      '資料來源：六都議會提案系統、報導者觀測站',
+      '資料整理：黃靖緯 ｜ 設計：江世民',
+    ],
+    stacked: false,
+    layout: 'vertical',
+    yDomain: [0, 200],
+    yTickCount: 10,
+    colorMap: {
+      '9': 'var(--neutral-gray-400)',
+      '10': 'var(--neutral-gray-400)',
+    },
+    bars: [
+      {
+        color: 'var(--chart-olive-3)',
+        xLabel: '資歷（年）',
+        yLabel: '人均案量',
+        data: [
+          { label: '1', value: 188.2 },
+          { label: '2', value: 175.7 },
+          { label: '3', value: 153.1 },
+          { label: '4', value: 129.4 },
+          { label: '5', value: 117.7 },
+          { label: '6', value: 113.9 },
+          { label: '7', value: 77 },
+          { label: '8', value: 79.7 },
+          { label: '9', value: 192 },
+          { label: '10', value: 106 },
+        ],
+      }
+    ],
+  },
+}
+
 export const gridKeys: Record<
   string,
   {
@@ -23,8 +116,9 @@ export const gridKeys: Record<
   }
 > = {
   BG01: {
-    title: '各縣市議員提案數量（依政黨）',
+    title: '六都各黨議員提案數量',
     footnotes: [
+      '註：僅統計本屆議員提案，自2022年12月至2025年3月',
       '資料來源：六都議會提案系統、報導者觀測站',
       '資料整理：黃靖緯 ｜ 設計：江世民',
     ],
@@ -103,97 +197,6 @@ export const gridKeys: Record<
           { label: '台聯', value: 8 },
         ],
       },
-    ],
-  },
-}
-
-export const keys: Record<
-  string,
-  {
-    title: string
-    footnotes: string[]
-    stacked?: boolean
-    layout?: 'vertical' | 'horizontal'
-    yDomain?: [min?: number, max?: number]
-    yTickCount?: ResponsiveCount
-    colorMap?: Record<string, string>
-    bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
-  }
-> = {
-  B01: {
-    title: '六都除新北、台北都是執政黨提出較多補助議案',
-    footnotes: [
-      '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
-    ],
-    stacked: true,
-    layout: 'horizontal',
-    yDomain: [0, 500],
-    yTickCount: [10, 5],
-    bars: [
-      {
-        name: '鄰里（長）補助',
-        color: 'var(--chart-olive-3)',
-        xLabel: '政黨',
-        yLabel: '提案數',
-        data: [
-          { label: '國民黨', value: 288 },
-          { label: '民進黨', value: 219 },
-          { label: '無黨籍', value: 34 },
-          { label: '民眾黨', value: 16 },
-          { label: '新黨', value: 3 },
-          { label: '無黨團結聯盟', value: 2 },
-          { label: '社會民主黨', value: 1 },
-        ],
-      },
-      {
-        name: '志工待遇與福利（環保志工、義警義消、巡守隊）',
-        color: 'var(--chart-blue-3)',
-        data: [
-          { label: '國民黨', value: 152 },
-          { label: '民進黨', value: 71 },
-          { label: '無黨籍', value: 23 },
-          { label: '民眾黨', value: 4 },
-          { label: '無黨團結聯盟', value: 4 },
-          { label: '新黨', value: 2 },
-          { label: '社會民主黨', value: 0 },
-        ],
-      },
-    ],
-  },
-  B02: {
-    title: '六都議員人均提案量隨資歷降低',
-    footnotes: [
-      '註：資歷9、10屆議員僅各有一人',
-      '資料來源：六都議會提案系統、報導者觀測站',
-      '資料整理：黃靖緯 ｜ 設計：江世民',
-    ],
-    stacked: false,
-    layout: 'vertical',
-    yDomain: [0, 200],
-    yTickCount: 10,
-    colorMap: {
-      '9': 'var(--neutral-gray-400)',
-      '10': 'var(--neutral-gray-400)',
-    },
-    bars: [
-      {
-        color: 'var(--chart-olive-3)',
-        xLabel: '資歷（年）',
-        yLabel: '人均案量',
-        data: [
-          { label: '1', value: 188.2 },
-          { label: '2', value: 175.7 },
-          { label: '3', value: 153.1 },
-          { label: '4', value: 129.4 },
-          { label: '5', value: 117.7 },
-          { label: '6', value: 113.9 },
-          { label: '7', value: 77 },
-          { label: '8', value: 79.7 },
-          { label: '9', value: 192 },
-          { label: '10', value: 106 },
-        ],
-      }
     ],
   },
 }
