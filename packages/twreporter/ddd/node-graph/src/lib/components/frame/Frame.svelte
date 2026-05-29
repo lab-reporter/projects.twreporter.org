@@ -152,7 +152,10 @@
   }
 
   .frame.social {
-    /* Here */
+    --top: 75px;
+    --left: 75px;
+    --right: 75px;
+    --bottom: 75px;
   }
 
   .top {
@@ -168,6 +171,7 @@
     align-items: start;
     justify-content: space-between;
     width: 100%;
+    pointer-events: none;
   }
 
   .header {
@@ -179,6 +183,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--gap);
+    pointer-events: auto;
   }
 
   .right {
@@ -297,6 +302,7 @@
 
     width: var(--popup-width);
     visibility: hidden;
+    pointer-events: auto;
   }
 
   .node-popup.active {

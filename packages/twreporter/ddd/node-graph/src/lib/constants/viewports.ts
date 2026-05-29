@@ -32,7 +32,7 @@ export const viewports: Record<ViewportKey, ViewportConfig> = {
   social: {
     name: '社群圖卡',
     icon: 'contacts',
-    resolutionRatio: [540, 675],
+    resolutionRatio: [1080, 1350],
     allowOverride: true,
   },
 }

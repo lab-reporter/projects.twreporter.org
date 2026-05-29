@@ -96,7 +96,7 @@
     z-index: 10;
   }
   /* Style A */
-  .graph-node.image {
+  /* .graph-node.image {
     display: flex;
     flex-direction: row;
   }
@@ -138,22 +138,22 @@
   }
   .graph-node.expanded.image .title {
     padding-left: 10px;
-  }
+  } */
 
   /* Style B */
-  /* .graph-node.image {
+  .graph-node.image {
     display: flex;
     flex-direction: row;
   }
   .image-wrapper {
     position: absolute;
-    left: calc(50% - 25px);
-    top: -42px;
-    width: 50px;
-    height: 50px;
+    left: calc(50% - 30px);
+    top: -55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--node-background-color);
-    border: 1px solid var(--node-border-color);
+    border: 3px solid var(--node-border-color);
     overflow: hidden;
     transition: all 300ms ease;
   }
@@ -169,18 +169,25 @@
     filter: saturate(1);
     transition: all 300ms ease;
   }
+  .graph-node.image .title {
+    font-size: 16px;
+    background: #F1F1F1;
+    padding-left: 10px;
+    font-weight: 700;
+  }
   .graph-node.expanded .image-wrapper {
-    top: 5px;
-    width: 40px;
-    height: 40px;
-    left: calc(50% - 20px);
+    left: -52px;
+    top: 0px;
+    width: 50px;
+    height: auto;
     border-radius: 3px;
     border-width: 0;
     transition: all 300ms ease;
   }
-  .graph-node.image.expanded .title{
-    padding-top: 45px;
-  } */
+  .graph-node.expanded.image .title {
+    background: var(--node-background-color);
+    padding-left: 10px;
+  }
 
 
   .graph-node :global(.handle) {
