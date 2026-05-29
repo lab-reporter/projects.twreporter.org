@@ -8,6 +8,7 @@
   import { assets } from '@/lib/constants/assets'
   import Controls from './Controls.svelte'
   import { getCanvasContext } from '../canvas/CanvasState.svelte'
+  import NodePopup from '../canvas/NodePopup.svelte'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
@@ -32,9 +33,6 @@
     variant = 'default',
     ...rest
   }: Props = $props()
-
-  const canvasState = getCanvasContext()
-  const data = $derived(canvasState.popupData)
 </script>
 
 <div class="container">
@@ -49,39 +47,8 @@
         {/if}
       </div>
       {#if variant !== 'social'}
-        <div
-          class={[
-            'node-popup',
-            { active: data?.tooltipsEnabled },
-          ]}
-        >
-          {#if data}
-            <div class="summary">
-              {#if data.label}
-                <div class="name">{data.label}</div>
-              {/if}
-              {#if data.categoryLabel}
-                <div
-                  class="category"
-                  style={`--category-color: ${data.categoryColor};`}
-                >
-                  {data.categoryLabel}
-                </div>
-              {/if}
-            </div>
-
-            {#if data.note || data.infoSource}
-              <div class="detail">
-                {#if data.note}
-                  <p class="note">{data.note}</p>
-                {/if}
-
-                {#if data.infoSource}
-                  <p class="source">資料來源｜{data.infoSource}</p>
-                {/if}
-              </div>
-            {/if}
-          {/if}
+        <div class="node-popup-container">
+          <NodePopup />
         </div>
       {/if}
     </div>
@@ -146,6 +113,7 @@
     --left: 40px;
     --right: 40px;
     --bottom: 30px;
+    --popup-width: 300px;
 
     border-top: 1px solid var(--neutral-gray-200);
     border-bottom: 1px solid var(--neutral-gray-300);
@@ -284,8 +252,8 @@
     flex: 0 0 auto;
   }
 
-  .node-popup {
-    z-index: 5000;
+  .node-popup-container {
+    width: var(--popup-width);
     margin: var(--top) var(--right) 0 0;
     display: flex;
     flex-direction: column;
@@ -302,7 +270,6 @@
 
     width: var(--popup-width);
     visibility: hidden;
-    pointer-events: auto;
   }
 
   .node-popup.active {
@@ -370,6 +337,7 @@
       --left: 25px;
       --bottom: 30px;
       --right: 25px;
+      --popup-width: 200px;
     }
 
     .top {
@@ -390,10 +358,6 @@
 
     .logo {
       --size: 26px;
-    }
-
-    .node-popup {
-      --popup-width: 200px;
     }
   }
 
