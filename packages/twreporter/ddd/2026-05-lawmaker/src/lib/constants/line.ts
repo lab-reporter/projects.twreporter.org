@@ -58,7 +58,7 @@ export const keys: Record<
           { label: '第二屆', date: '1993', value: 13157 },
           { label: '第二屆', date: '1994', value: 11159 },
           { label: '第二屆', date: '1995', value: 11631 },
-          { label: '第二屆', date: '1996', value: 11631, show: false }, // Duplicate to match next
+          { label: '第二屆', date: '1996', value: 12045, show: false }, // Duplicate to match next
           { label: '第三屆', date: '1996', value: 12045 },
           { label: '第三屆', date: '1997', value: 13160 },
           { label: '第三屆', date: '1998', value: 14240 },
