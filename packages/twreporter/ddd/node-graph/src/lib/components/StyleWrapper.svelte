@@ -104,7 +104,7 @@
     }
 
     --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-gray-100);
+    --backgrouond-color: var(--neutral-gray-200);
   }
 
   div {

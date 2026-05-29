@@ -143,7 +143,7 @@
     border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
-    padding: var(--top) var(--left);
+    padding: var(--top)  calc(var(--left) / 2) calc(var(--top) / 2) var(--left);
     display: flex;
     flex-direction: column;
     gap: var(--gap);
@@ -159,7 +159,7 @@
     border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
-    padding: var(--bottom) var(--right);
+    padding: calc(var(--bottom) / 2) var(--right) var(--bottom) calc(var(--right) / 2);
     bottom: 0;
     right: 0;
 
@@ -178,7 +178,7 @@
     border-radius: var(--round);
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
-    padding: var(--bottom) var(--left);
+    padding: calc(var(--bottom) / 2)  calc(var(--left) / 2) var(--bottom) var(--left);
     bottom: 0;
     left: 0;
   }
