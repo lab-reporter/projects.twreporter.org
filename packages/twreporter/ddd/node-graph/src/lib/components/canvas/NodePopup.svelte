@@ -45,7 +45,7 @@
     flex-direction: column;
     align-items: stretch;
     border: 1px solid var(--neutral-gray-200);
-    border-radius: 7px;
+    border-radius: 3px;
     overflow: hidden;
     background: var(--neutral-white);
     opacity: 0.95;
