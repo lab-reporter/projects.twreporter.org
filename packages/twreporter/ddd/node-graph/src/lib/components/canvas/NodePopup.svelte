@@ -53,6 +53,7 @@
     gap: 3px;
     width: 100%;
     visibility: hidden;
+    pointer-events: auto;
   }
 
   .node-popup.active {
