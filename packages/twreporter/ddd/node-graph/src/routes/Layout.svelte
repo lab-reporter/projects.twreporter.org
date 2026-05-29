@@ -38,7 +38,7 @@
     grid-template-columns: 300px 1fr;
     grid-template-rows: 85px 1fr;
 
-    background-color: var(--backgrouond-color);
+    background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif;
   }

@@ -44,13 +44,12 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border: 1px solid var(--neutral-gray-200);
     border-radius: 3px;
     overflow: hidden;
     background: var(--neutral-white);
     opacity: 0.95;
-    padding: 8px 10px;
-    gap: 3px;
+    padding: 9px 10px;
+    gap: 6px;
     width: 100%;
     visibility: hidden;
     pointer-events: auto;
@@ -70,20 +69,19 @@
 
   .node-popup .name {
     color: var(--neutral-gray-800);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.6px;
     line-height: 1.2;
-    white-space: nowrap;
   }
 
   .node-popup .category {
     align-self: flex-start;
-    padding: 2px 4px;
+    padding: 2px 6px;
     border-radius: 2px;
     background: var(--background-color, var(--chart-earth-2));
     color: var(--text-color, var(--neutral-gray-800));
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.6px;
     line-height: 1.5;
@@ -94,13 +92,12 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    background: var(--neutral-gray-50);
   }
 
   .node-popup .note {
     margin: 0;
-    color: var(--neutral-gray-700);
-    font-size: 12px;
+    color: var(--neutral-gray-600);
+    font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.6px;
     line-height: 1.5;
@@ -109,7 +106,7 @@
   .node-popup .source {
     margin: 0;
     color: var(--neutral-gray-500);
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.6px;
     line-height: 1.5;

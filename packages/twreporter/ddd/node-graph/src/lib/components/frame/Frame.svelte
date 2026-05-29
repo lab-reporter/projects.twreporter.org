@@ -253,27 +253,13 @@
   }
 
   .node-popup-container {
+    --popup-width: 255px;
+
     width: var(--popup-width);
     margin: var(--top) var(--right) 0 0;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border: 1px solid var(--neutral-gray-200);
-    border-radius: 3px;
-    overflow: hidden;
-    background: var(--neutral-white);
-    opacity: 0.95;
-    padding: 8px 10px;
-    gap: 3px;
-
-    --popup-width: 250px;
-
-    width: var(--popup-width);
-    visibility: hidden;
-  }
-
-  .node-popup.active {
-    visibility: inherit;
   }
 
   @container (max-width: 700px) {
@@ -295,6 +281,10 @@
 
     .title {
       --size: 24px;
+    }
+
+    .node-popup-container {
+      --popup-width: 200px;
     }
 
     .footnote {

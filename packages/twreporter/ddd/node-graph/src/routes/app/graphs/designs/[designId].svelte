@@ -147,5 +147,6 @@
   .frame-preview {
     height: min(calc(100% - 20px), 1080px);
     margin: auto;
+    outline: 3px solid var(--neutral-gray-200);
   }
 </style>
