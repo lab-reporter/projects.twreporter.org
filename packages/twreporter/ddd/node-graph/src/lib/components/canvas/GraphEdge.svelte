@@ -131,10 +131,10 @@
     `graph-edge-arrow-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
   )
 
-  const strokeColor = $derived(data?.strokeColor ?? '#666')
+  const strokeColor = $derived(data?.strokeColor ?? '#808080')
   const arrowColor = $derived(data?.arrowColor ?? strokeColor)
-  const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F5F5F5')
-  const labelTextColor = $derived(data?.labelTextColor ?? '#404040')
+  const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F1F1F1')
+  const labelTextColor = $derived(data?.labelTextColor ?? '#808080')
 
   const canvasState = getCanvasContext()
 
@@ -176,14 +176,14 @@
   {#if selected}
     <path
       d={edgePath}
-      style="stroke: #00000010; stroke-width: 10; fill: none; stroke-linecap: square;"
+      style="stroke: #00000010; stroke-width: 8; fill: none; stroke-linecap: square;"
     />
   {/if}
   <BaseEdge
     {id}
     path={edgePath}
     markerEnd={data?.directed ? `url(#${markerId})` : undefined}
-    style="stroke: {strokeColor}; stroke-width: 1.1; fill: none; opacity: {opacity}"
+    style="stroke: {strokeColor}; stroke-width: 0.5; fill: none; opacity: {opacity}"
     interactionWidth={24}
   />
 
@@ -246,7 +246,7 @@
     background: var(--edge-label-background-color);
     color: var(--edge-label-text-color);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.6px;
     line-height: 1.2;
     transform-origin: center;

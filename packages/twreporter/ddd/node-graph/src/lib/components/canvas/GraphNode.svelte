@@ -237,7 +237,7 @@
     background: var(--node-background-color);
     color: var(--node-text-color);
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 450;
     letter-spacing: 0.6px;
   }
 
@@ -246,7 +246,7 @@
     padding: 5px 10px;
     color: var(--node-description-text-color);
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.6px;
     line-height: 1.35;
   }
