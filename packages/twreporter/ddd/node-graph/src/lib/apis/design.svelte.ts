@@ -36,6 +36,8 @@ export class DesignApi {
     designId: this.params.designId,
   })
 
+  getCategoriesQuery = () => useQuery(api.categories.getCategories)
+
   updateGetDesignQuery(
     store: OptimisticStore,
     update: (

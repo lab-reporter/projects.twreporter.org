@@ -21,6 +21,7 @@
 <div
   class={['graph-node', { image: !!data.imageUrl }]}
   style:--node-background-color={data.backgroundColor ??
+    data.categoryColor ??
     defaultNodeStyle.backgroundColor}
   style:--node-border-color={data.borderColor ?? defaultNodeStyle.borderColor}
   style:--node-text-color={data.textColor ?? defaultNodeStyle.textColor}
@@ -181,7 +182,6 @@
   .graph-node.image.expanded .title{
     padding-top: 45px;
   } */
-
 
   .graph-node :global(.handle) {
     width: 2px;
