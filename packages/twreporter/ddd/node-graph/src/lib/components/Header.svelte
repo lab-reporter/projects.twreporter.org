@@ -2,12 +2,13 @@
   import { UserButton } from 'svelte-clerk/client'
   import Logo from './icons/Logo.svelte'
   import { p } from '@/routes/router'
+  import H1 from './ui/typography/H1.svelte'
 </script>
 
 <div class="header">
   <a href={p('/')}>
     <Logo />
-    <h1>節點工具</h1>
+    <H1>節點工具</H1>
   </a>
   <UserButton />
 </div>
@@ -25,12 +26,5 @@
     gap: 10px;
     align-items: center;
     justify-content: start;
-  }
-
-  h1 {
-    font-size: var(--text-l);
-    font-weight: 700;
-    line-height: 1.2;
-    font-family: 'Noto Serif TC';
   }
 </style>

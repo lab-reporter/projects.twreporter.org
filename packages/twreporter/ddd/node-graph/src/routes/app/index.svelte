@@ -1,18 +1,17 @@
 <script lang="ts">
+  import Header from '@/lib/components/Header.svelte'
+  import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
+  import ActionButton from '@/lib/components/ui/ActionButton.svelte'
+  import H1 from '@/lib/components/ui/typography/H1.svelte'
   import { useQuery } from 'convex-svelte'
-  import { UserButton } from 'svelte-clerk/client'
   import { api } from '~convex/api'
-  import Badge from '../../lib/components/ui/Badge.svelte'
   import CreateGraphForm from '../../lib/components/home/CreateGraphForm.svelte'
   import GraphItem from '../../lib/components/home/GraphItem.svelte'
-  import Loading from '../../lib/components/icons/Loading.svelte'
-  import Logo from '../../lib/components/icons/Logo.svelte'
   import LegacyGraphImport from '../../lib/components/home/LegacyGraphImport.svelte'
+  import Loading from '../../lib/components/icons/Loading.svelte'
+  import Badge from '../../lib/components/ui/Badge.svelte'
   import Panel from '../../lib/components/ui/Panel.svelte'
-  import ActionButton from '@/lib/components/ui/ActionButton.svelte'
-  import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
   import { navigate } from '../router'
-  import Header from '@/lib/components/Header.svelte'
 
   const graphList = useQuery(api.graphs.listGraphs, {})
 </script>
@@ -31,7 +30,7 @@
 </Panel>
 
 <div class="content">
-  <h1 id="graphs-title">節點圖</h1>
+  <H1>節點圖</H1>
 
   {#if graphList.isLoading}
     <Loading />
