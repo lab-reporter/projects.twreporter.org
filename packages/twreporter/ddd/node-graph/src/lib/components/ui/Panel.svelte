@@ -1,12 +1,14 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
 
-  const { children, variant }: { children: Snippet; variant?: 'top' | 'left' } =
-    $props()
+  const {
+    children,
+    variant,
+  }: { children?: Snippet; variant?: 'top' | 'left' } = $props()
 </script>
 
 <div class={['panel', variant]}>
-  {@render children()}
+  {@render children?.()}
 </div>
 
 <style>

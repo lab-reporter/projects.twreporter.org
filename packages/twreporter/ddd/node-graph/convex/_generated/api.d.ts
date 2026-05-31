@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as categories from "../categories.js";
 import type * as designs from "../designs.js";
 import type * as graphs from "../graphs.js";
 import type * as lib_environmentVariables from "../lib/environmentVariables.js";
@@ -20,6 +21,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  categories: typeof categories;
   designs: typeof designs;
   graphs: typeof graphs;
   "lib/environmentVariables": typeof lib_environmentVariables;

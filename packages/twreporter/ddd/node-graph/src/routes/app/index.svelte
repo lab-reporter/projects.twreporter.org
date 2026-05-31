@@ -9,20 +9,21 @@
   import Logo from '../../lib/components/icons/Logo.svelte'
   import LegacyGraphImport from '../../lib/components/home/LegacyGraphImport.svelte'
   import Panel from '../../lib/components/ui/Panel.svelte'
+  import ActionButton from '@/lib/components/ui/ActionButton.svelte'
+  import MaterialSymbols from '@/lib/components/icons/MaterialSymbols.svelte'
+  import { navigate } from '../router'
+  import Header from '@/lib/components/Header.svelte'
 
   const graphList = useQuery(api.graphs.listGraphs, {})
 </script>
 
-<div class="header">
-  <div>
-    <Logo />
-    <h1>節點工具</h1>
-  </div>
-  <UserButton />
-</div>
+<Header />
 
 <Panel variant="top">
   <LegacyGraphImport />
+  <ActionButton label="設定" onclick={() => navigate('/settings')}>
+    <MaterialSymbols name="settings" />
+  </ActionButton>
 </Panel>
 
 <Panel variant="left">
@@ -44,27 +45,6 @@
 </div>
 
 <style>
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-  }
-
-  .header div {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    justify-content: start;
-  }
-
-  h1 {
-    font-size: var(--text-l);
-    font-weight: 700;
-    line-height: 1.2;
-    font-family: 'Noto Serif TC';
-  }
-
   .content {
     padding: 20px;
     display: flex;
