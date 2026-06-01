@@ -120,7 +120,10 @@
   }
 
   .frame.social {
-    /* Here */
+    --top: 75px;
+    --left: 75px;
+    --right: 75px;
+    --bottom: 75px;
   }
 
   .top {
@@ -136,6 +139,7 @@
     align-items: start;
     justify-content: space-between;
     width: 100%;
+    pointer-events: none;
   }
 
   .header {
@@ -147,6 +151,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--gap);
+    pointer-events: auto;
   }
 
   .right {
@@ -248,8 +253,13 @@
   }
 
   .node-popup-container {
+    --popup-width: 255px;
+
     width: var(--popup-width);
     margin: var(--top) var(--right) 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   @container (max-width: 700px) {
@@ -271,6 +281,10 @@
 
     .title {
       --size: 24px;
+    }
+
+    .node-popup-container {
+      --popup-width: 200px;
     }
 
     .footnote {

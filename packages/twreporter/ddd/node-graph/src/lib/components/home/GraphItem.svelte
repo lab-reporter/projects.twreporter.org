@@ -120,7 +120,7 @@
           <p>{design.title}</p>
           <div class="design-actions">
             <ActionButton
-              label="開啟"
+              label=""
               disabled={isDesignDeleting}
               onclick={() =>
                 navigate('/graphs/:graphId/designs/:designId', {
@@ -133,7 +133,7 @@
               <MaterialSymbols name="open_in_new" />
             </ActionButton>
             <ActionButton
-              label={isDesignDeleting ? '刪除中' : '刪除'}
+              label={isDesignDeleting ? '刪除中' : ''}
               disabled={isDesignDeleting}
               onclick={() => deleteDesign(design)}
             >
@@ -143,6 +143,7 @@
         </div>
       {/each}
     {/if}
+    <hr />
   </div>
 {/if}
 
@@ -152,24 +153,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 25px 0;
+    padding: 25px 10px;
     border-bottom: 1px var(--neutral-gray-400) solid;
   }
 
   .info {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 5px;
   }
 
   .info .header {
     display: flex;
-    flex-direction: column;
-    gap: 3px;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
   }
 
   .info .header h1 {
     font-size: var(--text-l);
+    font-weight: 600;
+  }
+
+  .info .header p {
+    font-size: var(--text-m);
+    background: var(--neutral-gray-50);
+    padding: 4px 16px;
+    border-radius: 18px;
   }
 
   .info .meta {
@@ -177,12 +187,15 @@
   }
 
   .designs {
-    padding: 10px 0;
-    margin-left: 20px;
-    width: calc(100% - 20px);
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .designs :hover {
+    background-color: var(--neutral-gray-50);
+    transition: all 0.2s;
   }
 
   .designs .design-item {
@@ -190,15 +203,21 @@
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    padding: 10px 10px 10px 20px;
+  }
+
+  .designs hr {
+    border: 1px var(--neutral-gray-300) solid;
   }
 
   .design-actions {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
   }
 
   .designs .design-item p {
     font-size: var(--text-m);
+    color: var(--neutral-gray-800);
   }
 </style>

@@ -32,7 +32,7 @@
   .legends {
     width: fit-content;
     z-index: 50;
-    background-color: var(--neutral-white);
+    background-color: transparent;
     padding: 7px 8px;
     border-radius: 4px;
   }
@@ -57,7 +57,6 @@
 
     .legends {
       padding: 0;
-      background-color: transparent;
     }
   }
 </style>

@@ -11,7 +11,7 @@
 
 <style>
   .legend {
-    --size: 16px;
+    --size: 18px;
 
     font-size: var(--size);
     color: var(--neutral-gray-800);
@@ -35,7 +35,7 @@
 
   @container (min-width: 1080px) {
     .legend {
-      --size: 24px;
+      --size: 20px;
     }
   }
 </style>
