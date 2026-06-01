@@ -7,11 +7,12 @@
     select,
     max,
     stack,
+    utcFormat,
   } from 'd3'
   import { createQuery } from '@tanstack/svelte-query'
   import Tooltip from './Tooltip.svelte'
 
-  export type BarDatum = { label: string; value: number }
+  export type BarDatum = { label: string; value: number; category?: string }
   export type BarSeries = { name?: string; data: BarDatum[]; color?: string }
   export type ResponsiveCount = number | [desktop: number, mobile: number]
 
@@ -28,6 +29,11 @@
     yLabel,
     yTickCount = 5,
     yDomain,
+    xDate = false,
+    xTickCount,
+    xFormat = '%Y',
+    xDomain,
+    showLegend = true,
   }: {
     src?: string
     data?: BarDatum[]
@@ -36,11 +42,16 @@
     stacked?: boolean
     layout?: 'vertical' | 'horizontal'
     series?: BarSeries[]
-    ratio?: number
+    ratio?: ResponsiveCount
     xLabel?: string
     yLabel?: string
     yTickCount?: ResponsiveCount
     yDomain?: [min?: number, max?: number]
+    xDate?: boolean
+    xTickCount?: ResponsiveCount
+    xFormat?: string
+    xDomain?: [min?: string, max?: string]
+    showLegend?: boolean
   } = $props()
 
   let yAxisTextWidth = $state(44)
@@ -70,7 +81,7 @@
     return () => window.removeEventListener('resize', handler)
   })
 
-  const totalHeight = $derived(totalWidth * (1 / ratio))
+  const totalHeight = $derived(totalWidth * (1 / ratioActual))
   const width = $derived(totalWidth - margin.left - margin.right)
   const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
   const isMobile = $derived(screenWidth < 767)
@@ -81,6 +92,8 @@
   }
 
   const tickCount = $derived(resolveCount(yTickCount) ?? 5)
+  const xTickCountActual = $derived(resolveCount(xTickCount))
+  const ratioActual = $derived(resolveCount(ratio) ?? 1)
 
   // --- Single-series ---
   const dataQuery = createQuery<BarDatum[]>(() => ({
@@ -95,6 +108,17 @@
 
   const singleData = $derived(inlineData ?? dataQuery.data ?? [])
   const isLoading = $derived(!inlineData && dataQuery.isLoading)
+
+  // Optional date-range clipping for single-series date axes
+  const visibleData = $derived.by(() => {
+    if (!xDate || !xDomain) return singleData
+    const minT = xDomain[0] ? new Date(xDomain[0]).getTime() : -Infinity
+    const maxT = xDomain[1] ? new Date(xDomain[1]).getTime() : Infinity
+    return singleData.filter((d) => {
+      const t = new Date(d.label).getTime()
+      return t >= minT && t <= maxT
+    })
+  })
 
   // --- Stacked: merge series into [{label, key1: v, key2: v, ...}] ---
   const stackKeys = $derived(
@@ -122,10 +146,10 @@
   })
 
   // --- Scales ---
-  const xDomain = $derived(
+  const bandDomain = $derived(
     stacked && series
       ? mergedData.map((d) => d.label as string)
-      : singleData.map((d) => d.label),
+      : visibleData.map((d) => d.label),
   )
 
   const yMax = $derived.by(() => {
@@ -137,12 +161,12 @@
         ),
       )
     }
-    return max(singleData, (d) => d.value) ?? 0
+    return max(visibleData, (d) => d.value) ?? 0
   })
 
   const bandScale = $derived(
     scaleBand()
-      .domain(xDomain)
+      .domain(bandDomain)
       .range(layout === 'horizontal' ? [0, chartHeight] : [0, width])
       .padding(0.2),
   )
@@ -157,11 +181,26 @@
   let yAxisEl = $state<SVGGElement>()
 
   $effect(() => {
-    if (!xAxisEl || !xDomain.length) return
-    const axis =
-      layout === 'horizontal'
-        ? axisBottom(linearScale).ticks(tickCount).tickSize(-chartHeight).tickPadding(8)
-        : axisBottom(bandScale).tickSize(0).tickPadding(4)
+    if (!xAxisEl || !bandDomain.length) return
+    let axis
+    if (layout === 'horizontal') {
+      axis = axisBottom(linearScale)
+        .ticks(tickCount)
+        .tickSize(-chartHeight)
+        .tickPadding(8)
+    } else {
+      axis = axisBottom(bandScale).tickSize(0).tickPadding(4)
+      if (xDate) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        axis.tickFormat(((d: string) =>
+          utcFormat(xFormat)(new Date(d))) as any)
+        if (xTickCountActual !== undefined) {
+          const dom = bandScale.domain()
+          const step = Math.max(1, Math.round(dom.length / xTickCountActual))
+          axis.tickValues(dom.filter((_, i) => i % step === 0))
+        }
+      }
+    }
     select(xAxisEl).call(axis.tickSizeOuter(0))
     if (layout === 'vertical') {
       select(xAxisEl)
@@ -173,7 +212,7 @@
   })
 
   $effect(() => {
-    if (!yAxisEl || !xDomain.length) return
+    if (!yAxisEl || !bandDomain.length) return
     const axis =
       layout === 'horizontal'
         ? axisLeft(bandScale).tickSize(0).tickPadding(6)
@@ -202,6 +241,20 @@
     return series?.[i]?.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length]
   }
 
+  function barColor(d: BarDatum) {
+    return (
+      (d.category ? colorMap?.[d.category] : undefined) ??
+      colorMap?.[d.label] ??
+      color
+    )
+  }
+
+  const categories = $derived([
+    ...new Set(
+      visibleData.map((d) => d.category).filter((c): c is string => !!c),
+    ),
+  ])
+
   type TooltipState = { x: number; y: number; label: string; value: number; seriesName?: string; seriesColor?: string }
   let tooltip = $state<TooltipState | null>(null)
 
@@ -216,8 +269,8 @@
   }
 </script>
 
-<div class="bar-chart" style:--aspect-ratio={ratio}>
-  {#if stacked && series}
+<div class="bar-chart" style:--aspect-ratio={ratioActual}>
+  {#if showLegend && stacked && series}
     <div class="legend">
       {#each series as s, i}
         <div class="legend-item">
@@ -226,6 +279,18 @@
             style:background-color={seriesColor(i)}
           ></div>
           <span>{s.name}</span>
+        </div>
+      {/each}
+    </div>
+  {:else if showLegend && categories.length}
+    <div class="legend">
+      {#each categories as cat}
+        <div class="legend-item">
+          <div
+            class="legend-swatch"
+            style:background-color={colorMap?.[cat] ?? color}
+          ></div>
+          <span>{cat}</span>
         </div>
       {/each}
     </div>
@@ -277,7 +342,7 @@
             {/each}
           {/each}
         {:else}
-          {#each singleData as d (d.label)}
+          {#each visibleData as d (d.label)}
             {#if layout === 'vertical'}
               <rect
                 role="img"
@@ -285,8 +350,9 @@
                 y={linearScale(d.value)}
                 width={bandScale.bandwidth()}
                 height={chartHeight - linearScale(d.value)}
-                fill={colorMap?.[d.label] ?? color}
-                onmouseenter={(e) => onBarEnter(e, d.label, d.value)}
+                fill={barColor(d)}
+                onmouseenter={(e) =>
+                  onBarEnter(e, d.label, d.value, d.category, barColor(d))}
                 onmousemove={onBarMove}
                 onmouseleave={onBarLeave}
               />
@@ -297,8 +363,9 @@
                 x={0}
                 height={bandScale.bandwidth()}
                 width={linearScale(d.value)}
-                fill={colorMap?.[d.label] ?? color}
-                onmouseenter={(e) => onBarEnter(e, d.label, d.value)}
+                fill={barColor(d)}
+                onmouseenter={(e) =>
+                  onBarEnter(e, d.label, d.value, d.category, barColor(d))}
                 onmousemove={onBarMove}
                 onmouseleave={onBarLeave}
               />

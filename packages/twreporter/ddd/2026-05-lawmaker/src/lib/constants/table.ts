@@ -123,8 +123,8 @@ export const keys: Record<
       '資料來源：台灣採購公報網',
       '資料整理：簡毅慧　｜　設計：江世民',
     ],
-    highlightColor: 'var(--chart-red-1)',
-    highlightHoverColor: 'var(--chart-red-2)',
+    highlightColor: 'var(--chart-blue-1)',
+    highlightHoverColor: 'var(--chart-blue-2)',
     tables: [
       {
         data: [

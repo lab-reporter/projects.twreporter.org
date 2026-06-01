@@ -6,6 +6,14 @@
     label?: string
     data: BarDatum[]
     color?: string
+    // Per-chart overrides (fall back to the grid-level value)
+    ratio?: ResponsiveCount
+    yLabel?: string
+    yDomain?: [min?: number, max?: number]
+    yTickCount?: ResponsiveCount
+    xLabel?: string
+    xDomain?: [min?: string, max?: string]
+    xTickCount?: ResponsiveCount
   }
 
   let {
@@ -18,19 +26,49 @@
     xLabel,
     yLabel,
     colorMap,
+    xDate,
+    xTickCount,
+    xFormat,
+    groupLegend = false,
   }: {
     items: BarGridItem[]
     gridColumns?: number
     layout?: 'vertical' | 'horizontal'
     yDomain?: [min?: number, max?: number]
     yTickCount?: ResponsiveCount
-    ratio?: number
+    ratio?: ResponsiveCount
     xLabel?: string
     yLabel?: string
     colorMap?: Record<string, string>
+    xDate?: boolean
+    xTickCount?: ResponsiveCount
+    xFormat?: string
+    groupLegend?: boolean
   } = $props()
+
+  // Categories across all charts, for the shared group-level legend
+  const categories = $derived([
+    ...new Set(
+      items
+        .flatMap((it) => it.data.map((d) => d.category))
+        .filter((c): c is string => !!c),
+    ),
+  ])
 </script>
 
+{#if groupLegend && categories.length}
+  <div class="legend">
+    {#each categories as cat}
+      <div class="legend-item">
+        <div
+          class="legend-swatch"
+          style:background-color={colorMap?.[cat] ?? 'var(--chart-olive-3)'}
+        ></div>
+        <span>{cat}</span>
+      </div>
+    {/each}
+  </div>
+{/if}
 <div class="grid" style:--cols={gridColumns}>
   {#each items as item}
     <div class="bar-group">
@@ -45,11 +83,16 @@
           color={item.color}
           {colorMap}
           {layout}
-          {yDomain}
-          {yTickCount}
-          {ratio}
-          {xLabel}
-          {yLabel}
+          {xDate}
+          {xFormat}
+          ratio={item.ratio ?? ratio}
+          yLabel={item.yLabel ?? yLabel}
+          yDomain={item.yDomain ?? yDomain}
+          yTickCount={item.yTickCount ?? yTickCount}
+          xLabel={item.xLabel ?? xLabel}
+          xDomain={item.xDomain}
+          xTickCount={item.xTickCount ?? xTickCount}
+          showLegend={!groupLegend}
         />
       </div>
     </div>
@@ -57,6 +100,31 @@
 </div>
 
 <style>
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px 25px;
+    padding: 0 5px;
+    margin-bottom: -5px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-s);
+    font-weight: 500;
+    color: var(--neutral-gray-700);
+  }
+
+  .legend-swatch {
+    width: var(--text-s);
+    height: var(--text-s);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(var(--cols), 1fr);
@@ -82,6 +150,14 @@
 
   .bar-label p {
     margin: 0;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--neutral-gray-100);
+    border-radius: 3px;
   }
 
   .bar-wrapper {
