@@ -133,6 +133,6 @@
   }
 
   tbody tr:hover td {
-    background-color: var(--neutral-gray-50);
+    background-color: var(--neutral-white);
   }
 </style>
