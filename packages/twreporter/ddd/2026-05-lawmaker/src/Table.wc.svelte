@@ -11,5 +11,10 @@
 </script>
 
 <Shell name={config.title} footnotes={config.footnotes} wide={config.wide}>
-  <Table tables={config.tables} gridColumns={config.gridColumns} />
+  <Table
+    tables={config.tables}
+    gridColumns={config.gridColumns}
+    highlightColor={config.highlightColor}
+    highlightHoverColor={config.highlightHoverColor}
+  />
 </Shell>

@@ -4,9 +4,13 @@
   let {
     tables,
     gridColumns = 1,
+    highlightColor,
+    highlightHoverColor,
   }: {
     tables: TableConfig[]
     gridColumns?: number
+    highlightColor?: string
+    highlightHoverColor?: string
   } = $props()
 </script>
 
@@ -20,7 +24,11 @@
         </div>
       {/if}
       <div class="table-wrapper">
-        <table>
+        <table
+          style:--mobile-width={table.mobileWidth != null
+            ? `${table.mobileWidth}%`
+            : undefined}
+        >
           <colgroup>
             {#each table.columns as col}
               <col
@@ -39,11 +47,19 @@
           </thead>
           <tbody>
             {#each rows as row}
-              <tr>
+              <tr
+                style:background-color={row.highlight
+                  ? highlightColor
+                  : undefined}
+                style:--row-hover-bg={row.highlight
+                  ? highlightHoverColor
+                  : undefined}
+                style:font-weight={row.highlight ? '500' : undefined}
+              >
                 {#each table.columns as col}
-                  <td style:text-align={col.align ?? 'left'}
-                    >{row[col.key] ?? '—'}</td
-                  >
+                  <td style:text-align={col.align ?? 'left'}>
+                    {row[col.key] ?? '—'}
+                  </td>
                 {/each}
               </tr>
             {/each}
@@ -91,6 +107,10 @@
     font-size: var(--text-m);
     border-radius: 2px;
     border: 1px solid var(--neutral-gray-200);
+
+    @media screen and (max-width: 767px) {
+      width: var(--mobile-width, 100%);
+    }
   }
 
   thead tr {
@@ -133,6 +153,6 @@
   }
 
   tbody tr:hover td {
-    background-color: var(--neutral-white);
+    background-color: var(--row-hover-bg, var(--neutral-white));
   }
 </style>
