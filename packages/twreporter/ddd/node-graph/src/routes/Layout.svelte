@@ -3,6 +3,7 @@
   import StyleWrapper from '@/lib/components/StyleWrapper.svelte'
   import { setTabsContext } from '@/lib/components/ui/tabs/TabsState.svelte'
   import type { Snippet } from 'svelte'
+  import { route } from './router'
 
   const { children }: { children: Snippet } = $props()
 
@@ -23,7 +24,12 @@
 />
 
 <StyleWrapper>
-  <div class="layout">
+  <div
+    class="layout"
+    style:background-color={route.pathname.includes('designs')
+      ? 'var(--neutral-gray-200)'
+      : undefined}
+  >
     {@render children()}
   </div>
 </StyleWrapper>
