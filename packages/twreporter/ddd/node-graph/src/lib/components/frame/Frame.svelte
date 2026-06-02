@@ -1,14 +1,13 @@
 <script lang="ts">
+  import type { Legends as LegendsType } from '@/lib/components/ui/legends/types'
+  import { assets } from '@/lib/constants/assets'
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
-  import type { LayerSliderSteps } from './layer-slider/types'
-  import type { Legends as LegendsType } from '@/lib/components/ui/legends/types'
-  import Legends from '../ui/legends/Legends.svelte'
-  import LayerSlider from './layer-slider/LayerSlider.svelte'
-  import { assets } from '@/lib/constants/assets'
-  import Controls from './Controls.svelte'
-  import { getCanvasContext } from '../canvas/CanvasState.svelte'
   import NodePopup from '../canvas/NodePopup.svelte'
+  import Legends from '../ui/legends/Legends.svelte'
+  import Controls from './Controls.svelte'
+  import LayerSlider from './layer-slider/LayerSlider.svelte'
+  import type { LayerSliderSteps } from './layer-slider/types'
 
   type Props = SvelteHTMLElements['div'] & {
     title?: string
@@ -147,7 +146,7 @@
     border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
-    padding: var(--top)  calc(var(--left) / 2) calc(var(--top) / 2) var(--left);
+    padding: var(--top) calc(var(--left) / 2) calc(var(--top) / 2) var(--left);
     display: flex;
     flex-direction: column;
     gap: var(--gap);
@@ -164,7 +163,8 @@
     border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
-    padding: calc(var(--bottom) / 2) var(--right) var(--bottom) calc(var(--right) / 2);
+    padding: calc(var(--bottom) / 2) var(--right) var(--bottom)
+      calc(var(--right) / 2);
     bottom: 0;
     right: 0;
 
@@ -183,7 +183,8 @@
     border-radius: var(--round);
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
-    padding: calc(var(--bottom) / 2)  calc(var(--left) / 2) var(--bottom) var(--left);
+    padding: calc(var(--bottom) / 2) calc(var(--left) / 2) var(--bottom)
+      var(--left);
     bottom: 0;
     left: 0;
   }
