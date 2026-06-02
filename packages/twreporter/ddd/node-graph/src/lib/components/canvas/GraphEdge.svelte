@@ -166,11 +166,11 @@
 
 <g
   role="presentation"
-  onpointerenter={() => {
-    isHovered = true
+  onmouseenter={() => {
+    canvasState.hoveredItem = { type: 'graph-edge', id }
   }}
-  onpointerleave={() => {
-    isHovered = false
+  onmouseleave={() => {
+    canvasState.hoveredItem = null
   }}
 >
   {#if selected}
@@ -210,30 +210,6 @@
       </div>
     </EdgeLabel>
   {/if}
-
-  {#if isHovered && data && data.tooltipsEnabled}
-    <EdgeLabel x={labelPosition.x} y={labelPosition.y} transparent>
-      <div class="edge-popup nodrag nopan">
-        {#if data.sourceLabel && data.targetLabel}
-          <div class="title">
-            {data.sourceLabel} → {data.targetLabel}
-          </div>
-        {/if}
-
-        {#if data.relationLabel}
-          <div class="pill">{data.relationLabel}</div>
-        {/if}
-
-        {#if data.note}
-          <p class="note">{data.note}</p>
-        {/if}
-
-        {#if data.infoSource}
-          <p class="source">資料來源｜{data.infoSource}</p>
-        {/if}
-      </div>
-    </EdgeLabel>
-  {/if}
 </g>
 
 <style>
@@ -250,57 +226,6 @@
     letter-spacing: 0.6px;
     line-height: 1.2;
     transform-origin: center;
-  }
-
-  .edge-popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    padding: 2px 4px 4px;
-    border: 1px solid var(--neutral-gray-50);
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.95);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .edge-popup .title {
-    color: var(--neutral-gray-800);
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-
-  .edge-popup .pill {
-    align-self: stretch;
-    text-align: center;
-    padding: 2px 6px 3px;
-    /* border-radius: 999px; */
-    background: var(--neutral-gray-200);
-    color: var(--neutral-gray-800);
-    font-size: 8px;
-    font-weight: 500;
-    line-height: 1.2;
-    letter-spacing: 0.4px;
-  }
-
-  .edge-popup .note {
-    margin: 0;
-    color: var(--neutral-gray-700);
-    font-size: 11px;
-    line-height: 1.4;
-  }
-
-  .edge-popup .source {
-    margin: 0;
-    color: var(--neutral-gray-500);
-    font-size: 9px;
-    line-height: 1.4;
   }
 
   :global(.svelte-flow__edge-label.overlap) {

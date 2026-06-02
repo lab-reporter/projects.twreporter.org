@@ -3,7 +3,7 @@
   import { assets } from '@/lib/constants/assets'
   import type { Snippet } from 'svelte'
   import type { SvelteHTMLElements } from 'svelte/elements'
-  import NodePopup from '../canvas/NodePopup.svelte'
+  import NodePopup from '../canvas/Popup.svelte'
   import Legends from '../ui/legends/Legends.svelte'
   import Controls from './Controls.svelte'
   import LayerSlider from './layer-slider/LayerSlider.svelte'

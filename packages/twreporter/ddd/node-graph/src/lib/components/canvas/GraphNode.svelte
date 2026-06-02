@@ -41,10 +41,10 @@
     : 1}
   role="presentation"
   onmouseenter={() => {
-    canvasState.activeHoveredNodeData = data
+    canvasState.hoveredItem = { type: 'graph-node', id }
   }}
   onmouseleave={() => {
-    canvasState.activeHoveredNodeData = null
+    canvasState.hoveredItem = null
   }}
 >
   <Handle
@@ -172,7 +172,7 @@
   }
   .graph-node.image .title {
     font-size: 16px;
-    background: #F1F1F1;
+    background: #f1f1f1;
     padding-left: 10px;
     font-weight: 700;
   }
