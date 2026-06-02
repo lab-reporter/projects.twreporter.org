@@ -6,6 +6,7 @@
   import Panel from '@/lib/components/ui/Panel.svelte'
   import ViewResolution from '@/lib/components/ui/ViewResolution.svelte'
   import {
+    fitViewPadding,
     viewports,
     type Resolution,
     type ViewportKey,
@@ -30,7 +31,7 @@
   } = $props()
 
   const history = useHistory()
-  const { fitView, getNodesBounds, getNodes } = useSvelteFlow()
+  const { fitView, getNodesBounds } = useSvelteFlow()
   const canvasState = getCanvasContext()
 
   const designApi = new DesignApi()
@@ -69,7 +70,10 @@
     >
       <MaterialSymbols name="redo" />
     </ActionButton>
-    <ActionButton label="Fit" onclick={() => fitView()}>
+    <ActionButton
+      label="Fit"
+      onclick={() => fitView({ padding: fitViewPadding })}
+    >
       <MaterialSymbols name="fit_screen" />
     </ActionButton>
   </div>

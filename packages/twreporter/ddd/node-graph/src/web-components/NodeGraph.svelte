@@ -11,6 +11,7 @@
   import Canvas from '../lib/components/canvas/Canvas.svelte'
   import Frame from '../lib/components/frame/Frame.svelte'
   import { setCanvasContext } from '@/lib/components/canvas/CanvasState.svelte'
+  import { fitViewPadding } from '@/lib/constants/viewports'
 
   let {
     data,
@@ -59,12 +60,7 @@
     } else {
       debouncedFitView({
         ...fitOptions,
-        padding: {
-          x: '5%',
-          y: '5%',
-          top: '10%',
-          bottom: '10%',
-        },
+        padding: fitViewPadding,
       })
     }
   })
