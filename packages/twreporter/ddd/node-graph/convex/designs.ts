@@ -1034,20 +1034,3 @@ export const resetDesignLayoutNodePosition = userMutation({
     await touchDesignAndGraph(ctx, design, now)
   },
 })
-
-export const setDesignStatus = userMutation({
-  args: v.object(designFields).pick('status').extend(designParams),
-  handler: async (ctx, args) => {
-    const design = await ctx.db.get(args.designId)
-
-    if (!design) throw new Error('Design not found')
-
-    const now = Date.now()
-
-    await ctx.db.patch(args.designId, {
-      status: args.status,
-      updatedAt: now,
-    })
-    await touchGraph(ctx, design.graphId, now)
-  },
-})
