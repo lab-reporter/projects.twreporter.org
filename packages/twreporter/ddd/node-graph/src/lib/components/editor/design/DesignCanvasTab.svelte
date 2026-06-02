@@ -8,6 +8,8 @@
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
   import Button from '../../ui/Button.svelte'
   import { toast } from 'svelte-sonner'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
 
   const designApi = new DesignApi()
   const designData = $derived(designApi.designData)
@@ -55,6 +57,7 @@
   } = $props()
 
   const categoryQuery = designApi.getCategoriesQuery()
+  const convex = useConvexClient()
 </script>
 
 <SidebarSection title="畫布">
@@ -150,6 +153,16 @@
           })),
       ]
     }}>匯入平台圖例色票</Button
+  >
+</SidebarSection>
+
+<SidebarSection title="操作">
+  <Button
+    onclick={async () => {
+      await convex.mutation(api.designs.cleanupDesignNodeStyles, {
+        designId: designApi.params.designId,
+      })
+    }}>重設所有節點樣式</Button
   >
 </SidebarSection>
 

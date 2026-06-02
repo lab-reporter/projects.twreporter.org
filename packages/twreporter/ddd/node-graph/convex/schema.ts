@@ -40,12 +40,12 @@ export const designLayoutFields = {
 }
 
 export const designNodeStyleFields = {
-  backgroundColor: v.string(),
-  borderColor: v.string(),
-  textColor: v.string(),
-  descriptionBackgroundColor: v.string(),
-  descriptionTextColor: v.string(),
-  descriptionDefaultOpen: v.boolean(),
+  backgroundColor: v.optional(v.string()),
+  borderColor: v.optional(v.string()),
+  textColor: v.optional(v.string()),
+  descriptionBackgroundColor: v.optional(v.string()),
+  descriptionTextColor: v.optional(v.string()),
+  descriptionDefaultOpen: v.optional(v.boolean()),
 }
 
 export const designNodeFields = {

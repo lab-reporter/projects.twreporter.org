@@ -52,9 +52,8 @@ export function buildDesignFlow(input: {
   )
 
   const nodes: FlowNode[] = graph.nodes.map((node) => {
-    const nodeStyle = normalizeNodeStyle(
-      designNodesByNodeId.get(node._id)?.nodeStyle,
-    )
+    const rawNodeStyle = designNodesByNodeId.get(node._id)?.nodeStyle
+    const nodeStyle = normalizeNodeStyle(rawNodeStyle)
 
     return {
       id: node._id,
@@ -74,8 +73,8 @@ export function buildDesignFlow(input: {
         categoryColor: node.categoryColor,
         note: node.note,
         infoSource: node.infoSource,
-        expanded: nodeStyle.descriptionDefaultOpen ?? node.expanded,
-        backgroundColor: nodeStyle.backgroundColor,
+        expanded: rawNodeStyle?.descriptionDefaultOpen ?? node.expanded,
+        backgroundColor: rawNodeStyle?.backgroundColor,
         borderColor: nodeStyle.borderColor,
         textColor: nodeStyle.textColor,
         descriptionBackgroundColor: nodeStyle.descriptionBackgroundColor,

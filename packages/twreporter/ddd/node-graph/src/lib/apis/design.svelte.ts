@@ -7,7 +7,8 @@ import type {
   EdgeStyle,
   NodeStyle,
 } from '../components/editor/types'
-import { normalizeEdgeStyle, normalizeNodeStyle } from '../utils/canvas'
+import { normalizeEdgeStyle } from '../utils/canvas'
+import { mergePatch } from '../utils/merge-patch'
 import { normalize } from '../utils/normalize-proxy'
 import { tryCatchToast } from '../utils/try-catch-toast'
 import type { Id } from '~convex/dataModel'
@@ -101,10 +102,7 @@ export class DesignApi {
                 designNode.nodeId === args.nodeId
                   ? {
                       ...designNode,
-                      nodeStyle: normalizeNodeStyle({
-                        ...designNode.nodeStyle,
-                        ...args.patch,
-                      }),
+                      nodeStyle: mergePatch(designNode.nodeStyle, args.patch),
                     }
                   : designNode,
               ),
