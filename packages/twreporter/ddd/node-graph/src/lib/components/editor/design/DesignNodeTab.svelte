@@ -143,4 +143,16 @@
       size={18}
     />套用至同類別</Button
   >
+  <Button
+    onclick={async () => {
+      if (designApi.canvasState.selectedItem?.type !== 'graph-node') return
+
+      await convex.mutation(api.designs.removeNodeFromDesign, {
+        designId: designApi.params.designId,
+        nodeId: designApi.canvasState.selectedItem.id as Id<'nodes'>,
+      })
+    }}
+  >
+    從設計中刪除
+  </Button>
 </SidebarSection>
