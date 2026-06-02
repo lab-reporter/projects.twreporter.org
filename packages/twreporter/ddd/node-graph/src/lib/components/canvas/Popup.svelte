@@ -144,11 +144,11 @@
 
   .edge-popup {
     text-align: center;
+    font-size: 18px;
   }
 
   .edge-popup .title {
     color: var(--neutral-gray-800);
-    font-size: 10px;
     font-weight: 600;
     line-height: 1.35;
   }
@@ -157,10 +157,8 @@
     align-self: stretch;
     text-align: center;
     padding: 2px 6px 3px;
-    /* border-radius: 999px; */
     background: var(--neutral-gray-200);
     color: var(--neutral-gray-800);
-    font-size: 8px;
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: 0.4px;
@@ -169,14 +167,12 @@
   .edge-popup .note {
     margin: 0;
     color: var(--neutral-gray-700);
-    font-size: 11px;
     line-height: 1.4;
   }
 
   .edge-popup .source {
     margin: 0;
     color: var(--neutral-gray-500);
-    font-size: 9px;
     line-height: 1.4;
   }
 </style>
