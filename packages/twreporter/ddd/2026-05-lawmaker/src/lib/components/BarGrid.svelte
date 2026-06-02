@@ -163,7 +163,7 @@
   .bar-wrapper {
     background-color: var(--neutral-gray-100);
     border-radius: 0 0 3px 3px;
-    padding: 0 6px 5px 3px;
+    padding: 0 6px 5px 12px;
     border: 0px solid var(--neutral-gray-200);
     border-top: none;
   }

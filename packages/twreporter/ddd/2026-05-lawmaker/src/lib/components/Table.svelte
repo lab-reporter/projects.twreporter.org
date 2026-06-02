@@ -12,6 +12,19 @@
     highlightColor?: string
     highlightHoverColor?: string
   } = $props()
+
+  let wrappers: (HTMLElement | null)[] = $state([])
+  let canScrollRight: boolean[] = $state([])
+
+  function updateFade(i: number) {
+    const el = wrappers[i]
+    if (el)
+      canScrollRight[i] = el.scrollLeft + el.clientWidth < el.scrollWidth
+  }
+
+  $effect(() => {
+    wrappers.forEach((_, i) => updateFade(i))
+  })
 </script>
 
 <div class="grid" style:--cols={gridColumns}>
@@ -23,7 +36,11 @@
           <p>{table.label}</p>
         </div>
       {/if}
-      <div class="table-wrapper">
+      <div
+        class="table-wrapper"
+        bind:this={wrappers[i]}
+        onscroll={() => updateFade(i)}
+      >
         <table
           style:--mobile-width={table.mobileWidth != null
             ? `${table.mobileWidth}%`
@@ -66,6 +83,11 @@
           </tbody>
         </table>
       </div>
+      <div
+        class="scroll-fade"
+        class:visible={canScrollRight[i]}
+        aria-hidden="true"
+      ></div>
     </div>
   {/each}
 </div>
@@ -99,6 +121,29 @@
     overflow-x: auto;
     position: relative;
     min-height: 60px;
+    @media screen and (max-width: 767px) {
+    }
+  }
+
+  .table-group {
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .scroll-fade {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--neutral-gray-50), transparent);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .scroll-fade.visible {
+    opacity: 1;
   }
 
   table {
