@@ -23,6 +23,9 @@
           yLabel={firstBar.yLabel}
           yTickCount={config.yTickCount}
           yDomain={config.yDomain}
+          xDate={config.xDate}
+          xTickCount={config.xTickCount}
+          xFormat={config.xFormat}
         />
       </div>
     {:else}
@@ -40,6 +43,9 @@
             xLabel={bar.xLabel}
             yLabel={bar.yLabel}
             yTickCount={config.yTickCount}
+            xDate={config.xDate}
+            xTickCount={config.xTickCount}
+            xFormat={config.xFormat}
           />
         </div>
       {/each}

@@ -20,5 +20,9 @@
     xLabel={config.xLabel}
     yLabel={config.yLabel}
     colorMap={config.colorMap}
+    xDate={config.xDate}
+    xTickCount={config.xTickCount}
+    xFormat={config.xFormat}
+    groupLegend={config.groupLegend}
   />
 </Shell>

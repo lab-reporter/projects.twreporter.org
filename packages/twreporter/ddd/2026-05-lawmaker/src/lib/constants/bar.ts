@@ -4,6 +4,14 @@ export type BarGridItem = {
   label?: string
   data: BarDatum[]
   color?: string
+  // Per-chart overrides (fall back to the grid-level value)
+  ratio?: ResponsiveCount
+  yLabel?: string
+  yDomain?: [min?: number, max?: number]
+  yTickCount?: ResponsiveCount
+  xLabel?: string
+  xDomain?: [min?: string, max?: string]
+  xTickCount?: ResponsiveCount
 }
 
 export const keys: Record<
@@ -15,6 +23,9 @@ export const keys: Record<
     layout?: 'vertical' | 'horizontal'
     yDomain?: [min?: number, max?: number]
     yTickCount?: ResponsiveCount
+    xDate?: boolean
+    xTickCount?: ResponsiveCount
+    xFormat?: string
     colorMap?: Record<string, string>
     bars: (BarSeries & { src?: string; xLabel?: string; yLabel?: string })[]
   }
@@ -108,10 +119,14 @@ export const gridKeys: Record<
     layout?: 'vertical' | 'horizontal'
     yDomain?: [min?: number, max?: number]
     yTickCount?: ResponsiveCount
-    ratio?: number
+    xDate?: boolean
+    xTickCount?: ResponsiveCount
+    xFormat?: string
+    ratio?: ResponsiveCount
     xLabel?: string
     yLabel?: string
     colorMap?: Record<string, string>
+    groupLegend?: boolean
     items: BarGridItem[]
   }
 > = {
@@ -195,6 +210,78 @@ export const gridKeys: Record<
           { label: '國民黨', value: 134 },
           { label: '無黨團結聯盟', value: 43 },
           { label: '台聯', value: 8 },
+        ],
+      },
+    ],
+  },
+  BG02: {
+    title: '傅崐萁夫婦執政至今，\n蘇色萍家族企業標案金額屢創新高',
+    footnotes: [
+      '註：本表取2010至2025年傅崐萁夫婦任花蓮縣長期間，花蓮縣府及一級子機關之決標案件',
+      '資料來源：台灣採購公報網',
+      '資料整理：黃靖緯　｜　設計：江世民',
+    ],
+    gridColumns: 1,
+    layout: 'vertical',
+    groupLegend: true,
+    yDomain: [0],
+    yTickCount: 4,
+    ratio: [1.8, 1],
+    xDate: true,
+    xTickCount: [8, 4],
+    xFormat: '%Y',
+    colorMap: {
+      傅崐萁執政: 'var(--chart-blue-3)',
+      徐榛蔚執政: 'var(--chart-blue-4)',
+    },
+    items: [
+      {
+        label: '蘇家標案數',
+        yLabel: '提案數（件）',
+        yTickCount: 10,
+        xTickCount: [5, 5],
+        data: [
+          { label: '2010', value: 29, category: '傅崐萁執政' },
+          { label: '2011', value: 23, category: '傅崐萁執政' },
+          { label: '2012', value: 27, category: '傅崐萁執政' },
+          { label: '2013', value: 45, category: '傅崐萁執政' },
+          { label: '2014', value: 36, category: '傅崐萁執政' },
+          { label: '2015', value: 42, category: '傅崐萁執政' },
+          { label: '2016', value: 37, category: '傅崐萁執政' },
+          { label: '2017', value: 32, category: '傅崐萁執政' },
+          { label: '2018', value: 35, category: '傅崐萁執政' },
+          { label: '2019', value: 29, category: '徐榛蔚執政' },
+          { label: '2020', value: 39, category: '徐榛蔚執政' },
+          { label: '2021', value: 32, category: '徐榛蔚執政' },
+          { label: '2022', value: 35, category: '徐榛蔚執政' },
+          { label: '2023', value: 31, category: '徐榛蔚執政' },
+          { label: '2024', value: 24, category: '徐榛蔚執政' },
+          { label: '2025', value: 29, category: '徐榛蔚執政' },
+        ],
+      },
+      {
+        label: '蘇家標案金額',
+        yLabel: '金額（億新台幣）',
+        yDomain: [0, 8],
+        yTickCount: 8,
+        xTickCount: [5, 5],
+        data: [
+          { label: '2010', value: 0.96389000, category: '傅崐萁執政' },
+          { label: '2011', value: 1.46190000, category: '傅崐萁執政' },
+          { label: '2012', value: 1.09925000, category: '傅崐萁執政' },
+          { label: '2013', value: 1.54593000, category: '傅崐萁執政' },
+          { label: '2014', value: 0.86098000, category: '傅崐萁執政' },
+          { label: '2015', value: 1.13301228, category: '傅崐萁執政' },
+          { label: '2016', value: 1.92628000, category: '傅崐萁執政' },
+          { label: '2017', value: 1.68238053, category: '傅崐萁執政' },
+          { label: '2018', value: 3.36449842, category: '傅崐萁執政' },
+          { label: '2019', value: 3.99886511, category: '徐榛蔚執政' },
+          { label: '2020', value: 2.52601161, category: '徐榛蔚執政' },
+          { label: '2021', value: 3.59148529, category: '徐榛蔚執政' },
+          { label: '2022', value: 2.80302906, category: '徐榛蔚執政' },
+          { label: '2023', value: 4.07945535, category: '徐榛蔚執政' },
+          { label: '2024', value: 5.30636110, category: '徐榛蔚執政' },
+          { label: '2025', value: 7.34266231, category: '徐榛蔚執政' },
         ],
       },
     ],
