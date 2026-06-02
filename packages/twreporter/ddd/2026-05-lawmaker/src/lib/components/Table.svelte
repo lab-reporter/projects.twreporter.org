@@ -18,8 +18,7 @@
 
   function updateFade(i: number) {
     const el = wrappers[i]
-    if (el)
-      canScrollRight[i] = el.scrollLeft + el.clientWidth < el.scrollWidth
+    if (el) canScrollRight[i] = el.scrollLeft + el.clientWidth < el.scrollWidth
   }
 
   $effect(() => {
@@ -121,13 +120,19 @@
     overflow-x: auto;
     position: relative;
     min-height: 60px;
-    @media screen and (max-width: 767px) {
-    }
   }
 
+
   .table-group {
-    overflow-x: auto;
+    overflow-x: none;
     position: relative;
+    @media screen and (max-width: 767px) {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+  }
+  .table-group::-webkit-scrollbar {
+    display: none;
   }
 
   .scroll-fade {
