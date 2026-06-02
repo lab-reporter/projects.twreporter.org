@@ -3,6 +3,7 @@
   import {
     SvelteFlow,
     useSvelteFlow,
+    type CoordinateExtent,
     type SvelteFlowProps,
   } from '@xyflow/svelte'
   import '@xyflow/svelte/dist/style.css'
@@ -15,6 +16,7 @@
   import GraphEdge from './GraphEdge.svelte'
   import GraphNode from './GraphNode.svelte'
   import type { Snippet } from 'svelte'
+  import { fitViewPadding } from '@/lib/constants/viewports'
 
   let {
     nodes = $bindable(),
@@ -86,7 +88,7 @@
       nodeTypes={{ 'graph-node': GraphNode }}
       edgeTypes={{ 'graph-edge': GraphEdge }}
       fitView
-      fitViewOptions={{ padding: 0.22 }}
+      fitViewOptions={{ padding: fitViewPadding }}
       minZoom={0.1}
       maxZoom={5}
       nodeDragThreshold={4}
