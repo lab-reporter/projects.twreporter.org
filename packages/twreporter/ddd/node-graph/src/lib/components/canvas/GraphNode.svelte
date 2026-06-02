@@ -21,6 +21,7 @@
 <div
   class={['graph-node', { image: !!data.imageUrl }]}
   style:--node-background-color={data.backgroundColor ??
+    data.categoryColor ??
     defaultNodeStyle.backgroundColor}
   style:--node-border-color={data.borderColor ?? defaultNodeStyle.borderColor}
   style:--node-text-color={data.textColor ?? defaultNodeStyle.textColor}
@@ -40,10 +41,10 @@
     : 1}
   role="presentation"
   onmouseenter={() => {
-    canvasState.activeHoveredNodeData = data
+    canvasState.hoveredItem = { type: 'graph-node', id }
   }}
   onmouseleave={() => {
-    canvasState.activeHoveredNodeData = null
+    canvasState.hoveredItem = null
   }}
 >
   <Handle
@@ -171,7 +172,7 @@
   }
   .graph-node.image .title {
     font-size: 16px;
-    background: #F1F1F1;
+    background: #f1f1f1;
     padding-left: 10px;
     font-weight: 700;
   }
@@ -188,7 +189,6 @@
     background: var(--node-background-color);
     padding-left: 10px;
   }
-
 
   .graph-node :global(.handle) {
     width: 2px;

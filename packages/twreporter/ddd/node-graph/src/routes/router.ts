@@ -5,6 +5,7 @@ import DesignEditor from './app/graphs/designs/[designId].svelte'
 import Home from './app/index.svelte'
 import Login from './app/login.svelte'
 import Layout from './layout.svelte'
+import Settings from './app/settings.svelte'
 
 export const {
   p: path,
@@ -14,6 +15,7 @@ export const {
 } = createRouter({
   '/': Home,
   '/login': Login,
+  '/settings': Settings,
   '/graphs/:graphId': GraphEditor,
   '/graphs/:graphId/designs/:designId': DesignEditor,
   layout: Layout,

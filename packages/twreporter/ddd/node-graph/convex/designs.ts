@@ -1,5 +1,6 @@
 import { v } from 'convex/values'
 import { defaultEdgeStyle, defaultNodeStyle } from '../src/lib/constants/styles'
+import { mergePatch } from '../src/lib/utils/merge-patch'
 import type { Doc, Id } from './_generated/dataModel'
 import type { MutationCtx } from './_generated/server'
 import { userMutation, userQuery } from './lib/helpers'
@@ -453,14 +454,32 @@ export const updateDesignNodeStyle = userMutation({
     const now = Date.now()
 
     await ctx.db.patch(designNode._id, {
-      nodeStyle: {
-        ...defaultNodeStyle,
-        ...designNode.nodeStyle,
-        ...args.patch,
-      },
+      nodeStyle: mergePatch(designNode.nodeStyle, args.patch),
       updatedAt: now,
     })
     await touchDesignAndGraph(ctx, design, now)
+  },
+})
+
+export const cleanupDesignNodeStyles = userMutation({
+  args: designParams,
+  handler: async (ctx, args) => {
+    const design = await ctx.db.get(args.designId)
+
+    if (!design) throw new Error('Design not found')
+
+    const designNodes = await ctx.db
+      .query('designNodes')
+      .withIndex('by_designId', (q) => q.eq('designId', args.designId))
+      .collect()
+
+    for (const designNode of designNodes) {
+      await ctx.db.patch(designNode._id, {
+        nodeStyle: undefined,
+      })
+    }
+
+    return
   },
 })
 

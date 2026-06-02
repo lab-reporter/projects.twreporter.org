@@ -1,9 +1,14 @@
-import type { CanvasSelectedItem, FlowNode } from '@/lib/features/canvas/types'
+import type {
+  CanvasSelectedItem,
+  FlowEdge,
+  FlowNode,
+} from '@/lib/features/canvas/types'
 import {
   getIncomers,
   getOutgoers,
   useOnSelectionChange,
   useSvelteFlow,
+  type EdgeProps,
   type NodeProps,
 } from '@xyflow/svelte'
 import { getContext, setContext } from 'svelte'
@@ -18,13 +23,33 @@ class CanvasStateClass implements CanvasState {
   selectedItem: CanvasSelectedItem | null = $state(null)
   selectedItems: CanvasSelectedItem[] = $state([])
   activeHoveredNodeData: NodeProps<FlowNode>['data'] | null = $state(null)
+  hoveredItem: CanvasSelectedItem | null = $state(null)
   popupData = $derived.by(() => {
-    const { getNode } = useSvelteFlow()
+    if (this.selectedItem) {
+      return this.getItemData(this.selectedItem)
+    }
 
-    return this.selectedItem?.type === 'graph-node'
-      ? (getNode(this.selectedItem.id)?.data as NodeProps<FlowNode>['data'])
-      : this.activeHoveredNodeData
+    if (this.hoveredItem) {
+      return this.getItemData(this.hoveredItem)
+    }
   })
+
+  private getItemData(item: CanvasSelectedItem) {
+    const { getNode, getEdge } = useSvelteFlow()
+    if (item.type === 'graph-edge') {
+      return {
+        type: item.type,
+        data: getEdge(item.id)?.data as EdgeProps<FlowEdge>['data'],
+      }
+    }
+
+    if (item.type === 'graph-node') {
+      return {
+        type: item.type,
+        data: getNode(item.id)?.data as NodeProps<FlowNode>['data'],
+      }
+    }
+  }
 
   selectedItemConnectedNodeIds = $derived.by(() => {
     if (this.selectedItem?.type !== 'graph-node') return null

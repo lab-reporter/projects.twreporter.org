@@ -76,15 +76,12 @@
 
   let screenWidth = $state(window.innerWidth)
   $effect(() => {
-    const handler = () => { screenWidth = window.innerWidth }
+    const handler = () => {
+      screenWidth = window.innerWidth
+    }
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   })
-
-  const totalHeight = $derived(totalWidth * (1 / ratioActual))
-  const width = $derived(totalWidth - margin.left - margin.right)
-  const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
-  const isMobile = $derived(screenWidth < 767)
 
   function resolveCount(val: ResponsiveCount | undefined): number | undefined {
     if (val === undefined) return undefined
@@ -94,6 +91,11 @@
   const tickCount = $derived(resolveCount(yTickCount) ?? 5)
   const xTickCountActual = $derived(resolveCount(xTickCount))
   const ratioActual = $derived(resolveCount(ratio) ?? 1)
+
+  const totalHeight = $derived(totalWidth * (1 / ratioActual))
+  const width = $derived(totalWidth - margin.left - margin.right)
+  const chartHeight = $derived(totalHeight - margin.top - margin.bottom)
+  const isMobile = $derived(screenWidth < 767)
 
   // --- Single-series ---
   const dataQuery = createQuery<BarDatum[]>(() => ({
@@ -122,7 +124,8 @@
 
   // --- Stacked: merge series into [{label, key1: v, key2: v, ...}] ---
   const stackKeys = $derived(
-    series?.map((s) => s.name).filter((n): n is string => n !== undefined) ?? [],
+    series?.map((s) => s.name).filter((n): n is string => n !== undefined) ??
+      [],
   )
 
   const mergedData = $derived.by(() => {
@@ -192,8 +195,7 @@
       axis = axisBottom(bandScale).tickSize(0).tickPadding(4)
       if (xDate) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        axis.tickFormat(((d: string) =>
-          utcFormat(xFormat)(new Date(d))) as any)
+        axis.tickFormat(((d: string) => utcFormat(xFormat)(new Date(d))) as any)
         if (xTickCountActual !== undefined) {
           const dom = bandScale.domain()
           const step = Math.max(1, Math.round(dom.length / xTickCountActual))
@@ -255,11 +257,31 @@
     ),
   ])
 
-  type TooltipState = { x: number; y: number; label: string; value: number; seriesName?: string; seriesColor?: string }
+  type TooltipState = {
+    x: number
+    y: number
+    label: string
+    value: number
+    seriesName?: string
+    seriesColor?: string
+  }
   let tooltip = $state<TooltipState | null>(null)
 
-  function onBarEnter(e: MouseEvent, label: string, value: number, seriesName?: string, seriesColor?: string) {
-    tooltip = { x: e.clientX, y: e.clientY, label, value, seriesName, seriesColor }
+  function onBarEnter(
+    e: MouseEvent,
+    label: string,
+    value: number,
+    seriesName?: string,
+    seriesColor?: string,
+  ) {
+    tooltip = {
+      x: e.clientX,
+      y: e.clientY,
+      label,
+      value,
+      seriesName,
+      seriesColor,
+    }
   }
   function onBarMove(e: MouseEvent) {
     if (tooltip) tooltip = { ...tooltip, x: e.clientX, y: e.clientY }
@@ -310,7 +332,11 @@
     >
       <g transform={`translate(${margin.left}, ${margin.top})`}>
         <g bind:this={yAxisEl} class="y-axis" />
-        <g bind:this={xAxisEl} transform={`translate(0, ${chartHeight})`} class="x-axis" />
+        <g
+          bind:this={xAxisEl}
+          transform={`translate(0, ${chartHeight})`}
+          class="x-axis"
+        />
         {#if stacked && series}
           {#each stackedLayers as layer, i}
             {#each layer as seg}
@@ -322,7 +348,14 @@
                   width={bandScale.bandwidth()}
                   height={linearScale(seg[0]) - linearScale(seg[1])}
                   fill={seriesColor(i)}
-                  onmouseenter={(e) => onBarEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
+                  onmouseenter={(e) =>
+                    onBarEnter(
+                      e,
+                      seg.data.label as string,
+                      seg[1] - seg[0],
+                      series?.[i]?.name,
+                      seriesColor(i),
+                    )}
                   onmousemove={onBarMove}
                   onmouseleave={onBarLeave}
                 />
@@ -334,7 +367,14 @@
                   height={bandScale.bandwidth()}
                   width={linearScale(seg[1]) - linearScale(seg[0])}
                   fill={seriesColor(i)}
-                  onmouseenter={(e) => onBarEnter(e, seg.data.label as string, seg[1] - seg[0], series?.[i]?.name, seriesColor(i))}
+                  onmouseenter={(e) =>
+                    onBarEnter(
+                      e,
+                      seg.data.label as string,
+                      seg[1] - seg[0],
+                      series?.[i]?.name,
+                      seriesColor(i),
+                    )}
                   onmousemove={onBarMove}
                   onmouseleave={onBarLeave}
                 />
@@ -372,11 +412,13 @@
             {/if}
           {/each}
         {/if}
-
       </g>
     </svg>
   </div>
-  <span class="axis-label x" style:padding-left={`calc(${margin.left}px + var(--text-s))`}>
+  <span
+    class="axis-label x"
+    style:padding-left={`calc(${margin.left}px + var(--text-s))`}
+  >
     {#if layout === 'vertical'}
       {xLabel}
     {:else}

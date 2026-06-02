@@ -30,7 +30,7 @@
   import { useQuery } from 'convex-svelte'
   import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
-  import NodePopup from '@/lib/components/canvas/NodePopup.svelte'
+  import NodePopup from '@/lib/components/canvas/Popup.svelte'
 
   const graphApi = new GraphApi()
   const history = useHistory()

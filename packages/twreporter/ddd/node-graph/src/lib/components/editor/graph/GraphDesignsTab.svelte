@@ -2,16 +2,15 @@
   import Button from '@/lib/components/ui/Button.svelte'
   import SidebarCard from '@/lib/components/ui/sidebar/SidebarCard.svelte'
   import SidebarSection from '@/lib/components/ui/sidebar/SidebarSection.svelte'
-  import { useSvelteFlow } from '@xyflow/svelte'
+  import { createEmptyDesignForm } from '@/lib/features/editor/graph/form'
+  import { navigate, route } from '@/routes/router'
+  import { useConvexClient } from 'convex-svelte'
+  import type { FunctionReturnType } from 'convex/server'
+  import { toast } from 'svelte-sonner'
+  import { api } from '~convex/api'
   import type { Id } from '~convex/dataModel'
   import { getCanvasContext } from '../../canvas/CanvasState.svelte'
   import EmptyState from '../../ui/EmptyState.svelte'
-  import { useConvexClient } from 'convex-svelte'
-  import { api } from '~convex/api'
-  import { navigate, route } from '@/routes/router'
-  import { toast } from 'svelte-sonner'
-  import { createEmptyDesignForm } from '@/lib/features/editor/graph/form'
-  import type { FunctionReturnType } from 'convex/server'
 
   type Designs = FunctionReturnType<typeof api.designs.listDesignsForGraph>
 
@@ -25,17 +24,6 @@
   const canvasState = getCanvasContext()
   let designForm = $state(createEmptyDesignForm())
   const graphId = route.params.graphId as Id<'graphs'>
-  const { getNodes, getEdges, updateNode, updateEdge } = useSvelteFlow()
-
-  function clearSelection() {
-    for (const node of getNodes()) {
-      updateNode(node.id, { selected: false })
-    }
-
-    for (const edge of getEdges()) {
-      updateEdge(edge.id, { selected: false })
-    }
-  }
 </script>
 
 <div class="tab-body">
@@ -90,7 +78,9 @@
       >
         建立
       </Button>
-      <Button variant="outlined" onclick={clearSelection}>清除</Button>
+      <Button variant="outlined" onclick={() => canvasState.clearSelections()}
+        >清除</Button
+      >
     </div>
   </SidebarSection>
 

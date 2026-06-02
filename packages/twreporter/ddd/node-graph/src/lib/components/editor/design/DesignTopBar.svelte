@@ -6,6 +6,7 @@
   import Panel from '@/lib/components/ui/Panel.svelte'
   import ViewResolution from '@/lib/components/ui/ViewResolution.svelte'
   import {
+    fitViewPadding,
     viewports,
     type Resolution,
     type ViewportKey,
@@ -18,6 +19,7 @@
   import { DesignApi } from '@/lib/apis/design.svelte'
   import { buildNodeGraphEmbedCode } from '@/lib/utils/embed-code'
   import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
+  import { legendState } from '../../ui/legends/LegendState.svelte'
 
   let {
     activeLayoutKey = $bindable(),
@@ -30,7 +32,7 @@
   } = $props()
 
   const history = useHistory()
-  const { fitView, getNodesBounds, getNodes } = useSvelteFlow()
+  const { fitView, getNodesBounds } = useSvelteFlow()
   const canvasState = getCanvasContext()
 
   const designApi = new DesignApi()
@@ -69,7 +71,10 @@
     >
       <MaterialSymbols name="redo" />
     </ActionButton>
-    <ActionButton label="Fit" onclick={() => fitView()}>
+    <ActionButton
+      label="Fit"
+      onclick={() => fitView({ padding: fitViewPadding })}
+    >
       <MaterialSymbols name="fit_screen" />
     </ActionButton>
   </div>
@@ -99,11 +104,16 @@
   <div>
     <Button
       variant="outlined"
-      onclick={() =>
-        exportAndDownloadImage({
+      onclick={async () => {
+        legendState.hideControl = true
+
+        await exportAndDownloadImage({
           ref: frameRef,
           title,
-        })}>匯出圖檔</Button
+        })
+
+        legendState.hideControl = false
+      }}>匯出圖檔</Button
     >
     <Dialog title="複製嵌入碼">
       {#snippet trigger()}

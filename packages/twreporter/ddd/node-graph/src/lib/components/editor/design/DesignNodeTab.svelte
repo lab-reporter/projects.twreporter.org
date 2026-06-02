@@ -21,19 +21,29 @@
 
   const designData = $derived(designApi.designData)
 
-  const selectedNodeStyle = $derived.by(() => {
+  const selectedRawNodeStyle = $derived.by(() => {
     const data = designData.data
 
     if (!data || canvasState.selectedItem?.type !== 'graph-node') {
       return undefined
     }
 
-    return normalizeNodeStyle(
-      data.designNodes.find(
-        (designNode) => designNode.nodeId === canvasState.selectedItem?.id,
-      )?.nodeStyle,
-    )
+    return data.designNodes.find(
+      (designNode) => designNode.nodeId === canvasState.selectedItem?.id,
+    )?.nodeStyle
   })
+
+  const selectedNode = $derived.by(() => {
+    const data = designData.data
+
+    if (!data || canvasState.selectedItem?.type !== 'graph-node') {
+      return undefined
+    }
+
+    return data.nodes.find((node) => node._id === canvasState.selectedItem?.id)
+  })
+
+  const selectedNodeStyle = $derived(normalizeNodeStyle(selectedRawNodeStyle))
 
   function updateNodeStyle(patch: Partial<NodeStyle>) {
     if (canvasState.selectedItem?.type !== 'graph-node') {
@@ -48,7 +58,10 @@
 
   const fields = {
     backgroundColor: useConvexOptimisticUpdateValue(
-      () => selectedNodeStyle?.backgroundColor,
+      () =>
+        selectedRawNodeStyle?.backgroundColor ??
+        selectedNode?.categoryColor ??
+        defaultNodeStyle.backgroundColor,
       (backgroundColor) => updateNodeStyle({ backgroundColor }),
     ),
     borderColor: useConvexOptimisticUpdateValue(

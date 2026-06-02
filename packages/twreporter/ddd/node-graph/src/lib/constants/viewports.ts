@@ -1,4 +1,5 @@
 import type { MaterialSymbols } from 'material-design-icons-literal-types'
+import type { FitViewOptions } from '@xyflow/svelte'
 
 export type ViewportKey = 'full' | 'desktop' | 'mobile' | 'social'
 
@@ -35,4 +36,9 @@ export const viewports: Record<ViewportKey, ViewportConfig> = {
     resolutionRatio: [1080, 1350],
     allowOverride: true,
   },
+}
+
+export const fitViewPadding: FitViewOptions['padding'] = {
+  top: '15%',
+  bottom: '15%',
 }

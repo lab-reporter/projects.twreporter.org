@@ -6,6 +6,10 @@
   import SidebarCheckboxRow from '../../ui/sidebar/SidebarCheckboxRow.svelte'
   import SidebarColorInput from '../../ui/sidebar/SidebarColorInput.svelte'
   import SidebarSection from '../../ui/sidebar/SidebarSection.svelte'
+  import Button from '../../ui/Button.svelte'
+  import { toast } from 'svelte-sonner'
+  import { useConvexClient } from 'convex-svelte'
+  import { api } from '~convex/api'
 
   const designApi = new DesignApi()
   const designData = $derived(designApi.designData)
@@ -51,6 +55,9 @@
     activeLayout?: ViewportConfig
     isOverrideActive: boolean
   } = $props()
+
+  const categoryQuery = designApi.getCategoriesQuery()
+  const convex = useConvexClient()
 </script>
 
 <SidebarSection title="畫布">
@@ -121,6 +128,41 @@
         },
       ]
     }}>新增</button
+  >
+  <Button
+    onclick={() => {
+      if (!categoryQuery.data) {
+        toast.error('無類別')
+        return
+      }
+
+      const categoryKeys = [
+        ...new Set(
+          designApi.designData.data?.nodes.map((node) => node.categoryKey),
+        ),
+      ]
+
+      fields.legends.value = [
+        ...(fields.legends.value ?? []),
+        ...categoryQuery.data
+          .filter((category) => categoryKeys.includes(category.key))
+          .map((category) => ({
+            color: category.color,
+            id: category._id.toString(),
+            label: category.label,
+          })),
+      ]
+    }}>匯入平台圖例色票</Button
+  >
+</SidebarSection>
+
+<SidebarSection title="操作">
+  <Button
+    onclick={async () => {
+      await convex.mutation(api.designs.cleanupDesignNodeStyles, {
+        designId: designApi.params.designId,
+      })
+    }}>重設所有節點樣式</Button
   >
 </SidebarSection>
 
