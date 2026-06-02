@@ -87,11 +87,7 @@
   ]}
 >
   <TabContent value={sidebarTabs.nodes}>
-    {#if canvasState.selectedItem?.type === 'graph-node'}
-      <DesignNodeTab />
-    {:else}
-      <EmptyState message="請先在畫布選取一個節點" />
-    {/if}
+    <DesignNodeTab />
   </TabContent>
   <TabContent value={sidebarTabs.edges}>
     {#if canvasState.selectedItem?.type === 'graph-edge'}

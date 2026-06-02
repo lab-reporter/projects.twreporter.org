@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 20px;
+    padding: 10px 0;
     margin-bottom: 20px;
     border-bottom: 1px solid var(--neutral-gray-400);
   }
