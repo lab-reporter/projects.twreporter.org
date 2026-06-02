@@ -144,13 +144,13 @@
 
   .edge-popup {
     text-align: center;
-    font-size: 18px;
   }
 
   .edge-popup .title {
     color: var(--neutral-gray-800);
     font-weight: 600;
     line-height: 1.35;
+    font-size: 18px;
   }
 
   .edge-popup .pill {
@@ -162,17 +162,20 @@
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: 0.4px;
+    font-size: 14px;
   }
 
   .edge-popup .note {
     margin: 0;
     color: var(--neutral-gray-700);
     line-height: 1.4;
+    font-size: 11px;
   }
 
   .edge-popup .source {
     margin: 0;
     color: var(--neutral-gray-500);
     line-height: 1.4;
+    font-size: 11px;
   }
 </style>
