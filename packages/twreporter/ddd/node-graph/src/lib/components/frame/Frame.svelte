@@ -141,9 +141,14 @@
     pointer-events: none;
   }
 
-  .header {
-    background: var(--background);
+  .header,
+  .right,
+  .bottom {
+    background: color-mix(in srgb, var(--background) 70%, transparent);
     border-radius: var(--round);
+  }
+
+  .header {
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     padding: var(--top) calc(var(--left) / 2) calc(var(--top) / 2) var(--left);
@@ -159,8 +164,6 @@
     position: absolute;
     width: fit-content;
     height: fit-content;
-    background: var(--background);
-    border-radius: var(--round);
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     padding: calc(var(--bottom) / 2) var(--right) var(--bottom)
@@ -179,8 +182,6 @@
     width: fit-content;
     height: fit-content;
 
-    background: var(--background);
-    border-radius: var(--round);
     border-top-left-radius: 0;
     border-bottom-right-radius: 0;
     padding: calc(var(--bottom) / 2) calc(var(--left) / 2) var(--bottom)
