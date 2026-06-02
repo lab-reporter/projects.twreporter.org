@@ -41,4 +41,6 @@ export const viewports: Record<ViewportKey, ViewportConfig> = {
 export const fitViewPadding: FitViewOptions['padding'] = {
   top: '15%',
   bottom: '15%',
+  left: '7.5%',
+  right: '7.5%',
 }
