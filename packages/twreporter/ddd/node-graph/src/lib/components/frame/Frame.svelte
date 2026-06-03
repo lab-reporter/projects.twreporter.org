@@ -107,7 +107,8 @@
     background: var(--background);
     color: var(--neutral-gray-800);
 
-    font-family: 'Noto Sans TC', sans-serif;
+    /* 'Tauhu Oo' will be served by twreporter.org */
+    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif, 'Tauhu Oo';
     --top: 25px;
     --left: 40px;
     --right: 40px;
