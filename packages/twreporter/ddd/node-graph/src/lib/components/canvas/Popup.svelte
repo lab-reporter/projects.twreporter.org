@@ -22,7 +22,8 @@
         {#if data.categoryLabel}
           <div
             class="category"
-            style:--background-color={data.backgroundColor}
+            style:--background-color={data.backgroundColor ??
+              data.categoryColor}
             style:--text-color={data.textColor}
           >
             {data.categoryLabel}
