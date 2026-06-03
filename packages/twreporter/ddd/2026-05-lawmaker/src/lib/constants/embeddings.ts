@@ -11,6 +11,7 @@ export type Proposal = {
   擇要: string[]
   說明: string[]
   提案人: string[]
+  link?: string
 }
 
 export const keys: Record<string, EmbeddingsConfig> = {
@@ -25,6 +26,7 @@ export const keys: Record<string, EmbeddingsConfig> = {
         縣市: '醫療補助｜新北市議會',
         日期: '2025/6/12',
         標題: '建請市府擴大HPV疫苗公費補助範圍至45歲，以提供成人必要之健康保障。',
+        link: 'https://lawmaker.twreporter.org/council/bill/new-taipei-33470',
         擇要: [],
         說明: [
           '目前市面上HPV疫苗中，嘉喜(四價)Gardasil及嘉喜(九價) Gardasil9之適用對象年齡上限為45歲之男、女性。',
@@ -35,6 +37,7 @@ export const keys: Record<string, EmbeddingsConfig> = {
         縣市: '敬老卡相關補助｜桃園市議會',
         日期: '2025/6/20',
         標題: '儘速研議敬老卡內每月800點數，可擴大讓老人用於醫院看診時掛號費抵扣案，提請審議。',
+        link: 'https://lawmaker.twreporter.org/council/bill/taoyuan-305771',
         擇要: [],
         說明: [
           '目前敬老卡內每月800點數，可用於範圍有坐車及國民運動使用，建議可以擴大使用範圍，讓老人於醫院診所看診時，能抵扣掛號費用，以嘉惠鄉親。',
@@ -45,6 +48,7 @@ export const keys: Record<string, EmbeddingsConfig> = {
         縣市: '原住民權益｜新北市議會',
         日期: '2023/10/18',
         標題: '為照顧原住民族人口腔健康、增加原住民族人申請假牙補助意願，建請研議辦理原住民牙科門診補助。',
+        link: 'https://lawmaker.twreporter.org/council/bill/new-taipei-29810',
         擇要: [],
         說明: [
           '一、原民會及新北市原民局為照顧原住民族人口腔健康，針對設籍本市及年滿55歲以上，符合低收入戶、中低收入戶或一般戶資格身分經牙醫師評估有裝置假牙需求者皆可申請。',
@@ -57,6 +61,7 @@ export const keys: Record<string, EmbeddingsConfig> = {
         縣市: '鄰里（長）補助｜台中市議會',
         日期: '2023/6/20',
         標題: '建請市府檢討調增鄰長年度自強活動補助經費，以因應物價上漲並感謝基層服務辛勞。',
+        link: 'https://lawmaker.twreporter.org/council/bill/taichung-f63fe153-f94a-4139-8506-97240870d39a',
         擇要: [],
         說明: [
           '一、鄰長長期服務基層鄉親更是里長不可或缺的基層幹部，長年為落實市政推動不遺餘力。',
@@ -69,6 +74,7 @@ export const keys: Record<string, EmbeddingsConfig> = {
         縣市: '生育相關補助｜台南市議會',
         日期: '2024/6/26',
         標題: '建請市府研擬首胎生育獎勵金，並結合親職教育課程以改善家暴及兒少通報問題。',
+        link: 'https://lawmaker.twreporter.org/council/bill/tainan-c0de0179-97b2-43b2-ba95-159520c8a59b',
         擇要: [],
         說明: [
           '一、為預防新婚夫妻與新生兒家庭衍生衝突，同時即早發現危險家庭個案，本市包含社會局及社福中心皆有相關婚姻及家庭關係諮商、親職及育兒課程講座等，要能有效利用發揮其最大功效。',

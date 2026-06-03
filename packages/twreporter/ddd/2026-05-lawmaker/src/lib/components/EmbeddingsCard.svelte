@@ -17,7 +17,13 @@
 
 <div class="card-header">
   <div class="section council">{card.縣市}</div>
-  <div class="section date">{card.日期}</div>
+  <div class="section date">
+    {card.日期}・<a
+      href={card.link}
+      style:text-decoration="underline"
+      target="_blank">前往觀測站</a
+    >
+  </div>
 </div>
 <div class="section main">
   <h2 class="card-title">{card.標題}</h2>
