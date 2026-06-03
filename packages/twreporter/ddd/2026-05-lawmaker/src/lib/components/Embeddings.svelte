@@ -72,7 +72,7 @@
     flex-direction: column-reverse;
   }
   .card + .card {
-    margin-bottom: -205px;
+    margin-bottom: -220px;
     position: relative;
   }
   .card {

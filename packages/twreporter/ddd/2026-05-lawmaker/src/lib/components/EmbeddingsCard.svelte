@@ -16,20 +16,18 @@
 </script>
 
 <div class="card-header">
-  <div class="section council">{card.縣市}議案</div>
+  <div class="section council">{card.縣市}</div>
   <div class="section date">{card.日期}</div>
 </div>
 <div class="section main">
   <h2 class="card-title">{card.標題}</h2>
   <div class="section brief">
     <div class="section-content">
-      {#if expandedDesc}
+      <p class={['content', { expanded: expandedDesc }]}>
         {#each content as paragraph}
-          <p>{paragraph}</p>
+          <span>{paragraph}</span>
         {/each}
-      {:else}
-        <p>{(content[0] ?? '').slice(0, 25)}…</p>
-      {/if}
+      </p>
     </div>
     <button
       class="toggle-btn"
@@ -193,5 +191,22 @@
     opacity: 1;
     color: var(--neutral-gray-700);
     transition: all 0.2s ease;
+  }
+
+  .content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .content > span {
+    display: block;
+  }
+
+  .content.expanded {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
   }
 </style>
