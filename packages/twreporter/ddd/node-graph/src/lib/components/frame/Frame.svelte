@@ -108,7 +108,18 @@
     color: var(--neutral-gray-800);
 
     /* 'Tauhu Oo' will be served by twreporter.org */
-    font-family: 'Roboto Slab', 'Noto Sans TC', sans-serif, 'Tauhu Oo';
+    /* 'Noto Sans SC' will be served from Google Fonts via custom script as fallback */
+    font-family:
+      'Roboto Slab',
+      'Noto Sans TC',
+      'Noto Sans SC',
+      'Microsoft JhengHei',
+      '微軟正黑體',
+      'Segoe UI',
+      system-ui,
+      -apple-system,
+      sans-serif,
+      'Tauhu Oo';
     --top: 25px;
     --left: 40px;
     --right: 40px;
