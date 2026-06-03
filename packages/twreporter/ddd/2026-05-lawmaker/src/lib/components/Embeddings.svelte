@@ -70,6 +70,8 @@
   .card-stack {
     display: flex;
     flex-direction: column-reverse;
+    min-height: 500px;
+    justify-content: center;
   }
   .card + .card {
     margin-bottom: -220px;
