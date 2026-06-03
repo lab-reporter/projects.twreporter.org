@@ -181,7 +181,7 @@
 
   * {
     --text-color: var(--neutral-gray-800);
-    --backgrouond-color: var(--neutral-gray-50);
+    --backgrouond-color: var(--neutral-gray-100);
 
     color: var(--text-color);
 
@@ -202,7 +202,7 @@
     max-width: 730px;
     width: 100%;
     position: relative;
-    padding: 20px 20px 22px 20px;
+    padding: 35px 20px;
     display: flex;
     flex-direction: column;
     gap: 17px;
@@ -215,8 +215,6 @@
   .container.backdrop {
     background: none;
     background: var(--backgrouond-color);
-    border-radius: 4px;
-    border: none;
   }
 
   .header {
