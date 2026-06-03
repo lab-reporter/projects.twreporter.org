@@ -85,6 +85,7 @@
         elementsSelectable={true}
         maxZoom={1.5}
         zoomOnScroll={false}
+        panOnScroll={false}
         preventScrolling={false}
       />
     </Frame>
