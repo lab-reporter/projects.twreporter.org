@@ -148,9 +148,9 @@ export const gridKeys: Record<
       無黨籍: 'var(--chart-gray-3)',
       民眾黨: 'var(--chart-mint-3)',
       新黨: 'var(--chart-earth-3)',
-      社會民主黨: 'var(--chart-indigo-3)',
+      社會民主黨: 'var(--chart-red-3)',
       無黨團結聯盟: 'var(--chart-purple-3)',
-      台灣基進: 'var(--chart-red-3)',
+      台灣基進: '#946768',
       台聯: 'var(--chart-gray-3)',
     },
     items: [
