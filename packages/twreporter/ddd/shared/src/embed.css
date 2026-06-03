@@ -23,20 +23,32 @@ for latest definition */
   }
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --toc-block-width: 10px;
+  }
+}
+
 @media (min-width: 1440px) {
   :root {
-    --body-width: 730px;
+    --body-width: 730px;   
   }
 }
 
 .embed-code-container {
   width: 100vw;
-  margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+  /* TODO: Account for --toc-block-width */
+  margin-left: calc((100vw - var(--body-width)) / 2 * -1); 
 }
 
 @media (min-width: 1024px) {
   .embed-code-container-hd-only {
     width: 100vw;
     margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+  }
+
+  .embed-code-container.right-only {
+    width: calc((100vw - var(--body-width)) / 2 + var(--body-width));
+    margin-left: calc(var(--toc-block-width) * -1);
   }
 }

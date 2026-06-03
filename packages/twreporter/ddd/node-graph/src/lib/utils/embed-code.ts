@@ -27,7 +27,7 @@ export function buildNodeGraphEmbedCode({
   // TODO: Remove ?t=<currentTimestamp> once we've sorted out js caching on cloudflare
   return `<script src="${assets.webComponentScript}?t=${new Date().getTime()}"></script>
 <link rel="stylesheet" href="${assets.embedCSS}">
-<div class="embed-code-container">
+<div class="embed-code-container${withControl ? ' right-only' : ''}">
 <twreporter-node-graph data="${escapeHtmlAttribute(dumpedDesignData)}"${withControl ? ' control="true"' : ''}${bounds ? ` bounds="${escapeHtmlAttribute(dumpedBounds)}"` : ''}></twreporter-node-graph>
 </div>`
 }
