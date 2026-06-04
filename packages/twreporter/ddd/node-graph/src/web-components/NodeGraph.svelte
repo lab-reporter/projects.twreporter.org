@@ -65,6 +65,15 @@
     }
   })
 
+  $effect.pre(() => {
+    const timeout = setTimeout(
+      () => fitView({ ...fitOptions, padding: fitViewPadding }),
+      3000,
+    )
+
+    return () => clearTimeout(timeout)
+  })
+
   setCanvasContext(undefined, {
     fadeNotConnectedNodes: true,
   })
