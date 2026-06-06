@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(Get-ChildItem -Path \"v:\\\\SynologyDrive\\\\05_Github\\\\twreporter-projects\\\\packages\\\\twreporter\\\\ddd\\\\2026-05-lawmaker\\\\src\" -Recurse -Filter \"*.html\")",
-      "Bash(Select-Object -First 5)"
-    ]
-  }
-}
