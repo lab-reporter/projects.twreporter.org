@@ -1,4 +1,8 @@
-import type { BarSeries, BarDatum, ResponsiveCount } from '../components/Bar.svelte'
+import type {
+  BarSeries,
+  BarDatum,
+  ResponsiveCount,
+} from '../components/Bar.svelte'
 
 export type BarGridItem = {
   label?: string
@@ -31,7 +35,8 @@ export const keys: Record<
   }
 > = {
   B01: {
-    title: '國民黨「支持者導向」策略：六都議員「鄰里長補助與義警消福利」提案人次遠高其他政黨',
+    title:
+      '國民黨「支持者導向」策略：六都議員「鄰里長補助與義警消福利」提案人次遠高其他政黨',
     footnotes: [
       '註：僅統計本屆議員分配型提案，自2022年12月至2025年3月',
       '資料來源：六都議會提案系統、報導者觀測站',
@@ -105,7 +110,7 @@ export const keys: Record<
           { label: '9', value: 192 },
           { label: '10', value: 106 },
         ],
-      }
+      },
     ],
   },
 }
@@ -218,7 +223,7 @@ export const gridKeys: Record<
     title: '傅崐萁夫婦執政至今，\n蘇色萍家族企業標案金額屢創新高',
     footnotes: [
       '註：本表取2010至2025年傅崐萁夫婦任花蓮縣長期間，花蓮縣府及一級子機關之決標案件。2018年9月13日至12月25日，傅崐萁遭判刑解職，由顏新章、蔡碧仲代理縣長',
-      '資料來源：台灣採購公報網',
+      '資料來源：政府電子採購網',
       '資料整理：簡毅慧　｜　設計：江世民',
     ],
     gridColumns: 1,
@@ -266,13 +271,13 @@ export const gridKeys: Record<
         yTickCount: 8,
         xTickCount: [5, 5],
         data: [
-          { label: '2010', value: 0.96389000, category: '傅崐萁執政' },
-          { label: '2011', value: 1.46190000, category: '傅崐萁執政' },
-          { label: '2012', value: 1.09925000, category: '傅崐萁執政' },
-          { label: '2013', value: 1.54593000, category: '傅崐萁執政' },
-          { label: '2014', value: 0.86098000, category: '傅崐萁執政' },
+          { label: '2010', value: 0.96389, category: '傅崐萁執政' },
+          { label: '2011', value: 1.4619, category: '傅崐萁執政' },
+          { label: '2012', value: 1.09925, category: '傅崐萁執政' },
+          { label: '2013', value: 1.54593, category: '傅崐萁執政' },
+          { label: '2014', value: 0.86098, category: '傅崐萁執政' },
           { label: '2015', value: 1.13301228, category: '傅崐萁執政' },
-          { label: '2016', value: 1.92628000, category: '傅崐萁執政' },
+          { label: '2016', value: 1.92628, category: '傅崐萁執政' },
           { label: '2017', value: 1.68238053, category: '傅崐萁執政' },
           { label: '2018', value: 3.36449842, category: '傅崐萁執政' },
           { label: '2019', value: 3.99886511, category: '徐榛蔚執政' },
@@ -280,7 +285,7 @@ export const gridKeys: Record<
           { label: '2021', value: 3.59148529, category: '徐榛蔚執政' },
           { label: '2022', value: 2.80302906, category: '徐榛蔚執政' },
           { label: '2023', value: 4.07945535, category: '徐榛蔚執政' },
-          { label: '2024', value: 5.30636110, category: '徐榛蔚執政' },
+          { label: '2024', value: 5.3063611, category: '徐榛蔚執政' },
           { label: '2025', value: 7.34266231, category: '徐榛蔚執政' },
         ],
       },
