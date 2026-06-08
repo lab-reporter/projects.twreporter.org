@@ -86,6 +86,7 @@
       description={graph.design?.description}
       {footnotes}
       controls={control}
+      legends={graph.design.legends}
     >
       <Canvas
         nodes={flow.nodes}
