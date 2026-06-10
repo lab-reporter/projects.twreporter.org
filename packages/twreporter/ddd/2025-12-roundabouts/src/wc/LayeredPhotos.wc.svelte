@@ -472,7 +472,7 @@
         position: relative;
         width: 100%;
         overflow: hidden;
-        border-radius: 10px;
+        border-radius: 5px;
     }
 
     .compass {
