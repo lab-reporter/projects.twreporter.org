@@ -272,13 +272,13 @@
 
     .controls .active {
         opacity: 1;
-        font-weight: 600;
+        font-weight: 500;
     }
 
     .controls .all {
         opacity: 1;
         font-weight: 400;
-    }
+    }   
 
     .controls .legend {
         width: var(--btn-size);
@@ -308,16 +308,21 @@
 
     .controls.vertical button {
         width: unset;
-        gap: 7px;
-        padding: 10px;
-        border-radius: 8px;
-        background: var(--neutral-white);
+        gap: 5px;
+        padding: 10px 7px 12px;
+        border-radius: 4px;
+        background: var(--neutral-gray-100);
         box-shadow: -2px -2px 10px 0 rgba(0, 0, 0, 0.25) inset, 5px 3px 10px 0 rgba(0, 0, 0, 0.10);
         writing-mode: vertical-rl;
         text-orientation: mixed;
         justify-content: center;
         align-items: center;
         letter-spacing: 0;
+        opacity: 0.95;
+        transition: all 0.2s ease-in-out;
+    }
+    .controls.vertical button:hover {
+        background: var(--neutral-white);
         opacity: 1;
     }
 
@@ -326,7 +331,7 @@
     }
 
     .controls.vertical button:not(.active, .all) {
-        opacity: 0.55;
+        opacity: 0.45;
     }
 
     .controls.vertical .legend {

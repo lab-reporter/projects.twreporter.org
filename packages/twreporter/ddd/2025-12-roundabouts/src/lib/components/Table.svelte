@@ -6,18 +6,18 @@
     {#if name}
         <caption>{name}</caption>
     {/if}
-    <thead
-        ><tr
-            >{#each table[0] as title}
+    <thead>
+        <tr>
+            {#each table[0] as title}
                 <th>{title}</th>
-            {/each}</tr
-        ></thead
-    >
+            {/each}
+        </tr>
+    </thead>
     <tbody>
         {#each table.slice(1) as row}
             <tr>
                 {#each row as cell}
-                    <td>{cell}</td>
+                    <td>{cell.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 {/each}
             </tr>
         {/each}
@@ -69,7 +69,7 @@
 
     th,
     td {
-        padding: 8px 0;
+        padding: 6px 0;
         vertical-align: middle;
         text-align: center;
         border-right: 1px solid var(--neutral-gray-200);
