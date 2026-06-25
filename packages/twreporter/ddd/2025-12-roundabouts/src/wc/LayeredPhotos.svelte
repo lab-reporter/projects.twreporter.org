@@ -1,4 +1,6 @@
 <script lang="ts">
+    import Label from "../lib/components/Label.svelte";
+
     type Layer = { legend?: string; name: string; src: string };
     type Base = { src: string; opacity?: string };
     type Legend = { src: string; name: string };
@@ -8,7 +10,15 @@
         bases,
         layers,
         legends,
-    }: { bases: Base[]; layers: Layer[]; legends?: Legend[] } = $props();
+        vertical = false,
+        labels,
+    }: {
+        bases: Base[];
+        layers: Layer[];
+        legends?: Legend[];
+        labels?: string[];
+        vertical?: boolean;
+    } = $props();
 
     let viewMode = $state<ViewMode>("default");
     let activeLayerName = $state<string | null>(null);
@@ -70,7 +80,16 @@
     };
 </script>
 
-<div class="controls">
+<div class="labels">
+    {#if labels?.[0]}
+        <Label>{labels[0]}</Label>
+    {/if}
+    {#if labels?.[1]}
+        <Label>{labels[1]}</Label>
+    {/if}
+</div>
+
+<div class="controls" class:vertical>
     <button
         class:active={viewMode === "showAll"}
         class:all={viewMode === "showAll"}
@@ -96,13 +115,15 @@
                 {#if layer.legend}
                     <img src={layer.legend} alt={layer.name} class="legend" />
                 {/if}
-                {layer.name}
+                <span>{layer.name}</span>
             </button>
         {/each}
     </div>
 </div>
 <div class="images">
-    <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
+    {#if bases[0]}
+        <img src={bases[0].src} alt={bases[0].src} style:opacity="0" />
+    {/if}
     <div class="layers">
         {#each bases as base (base.src)}
             <img
@@ -126,7 +147,7 @@
                 }}
             />
         {/each}
-        {#if legends}
+        {#if legends && legends.length > 0}
             <div class="legends">
                 {#each legends as legend}
                     <div class="floating-legend">
@@ -143,6 +164,21 @@
     .images {
         width: 100%;
         position: relative;
+    }
+
+    .labels {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 50;
+        pointer-events: none;
     }
 
     .layers {
@@ -219,12 +255,6 @@
         letter-spacing: 0.7px;
     }
 
-    @media (max-width: 400px) {
-        .controls button {
-            padding: 8px 0;
-        }
-    }
-
     button.stripe {
         background: repeating-linear-gradient(
             -45deg,
@@ -242,16 +272,89 @@
 
     .controls .active {
         opacity: 1;
-        font-weight: 600;
+        font-weight: 500;
     }
 
     .controls .all {
         opacity: 1;
         font-weight: 400;
-    }
+    }   
 
     .controls .legend {
         width: var(--btn-size);
         margin-right: 5px;
+    }
+
+    .controls.vertical {
+        position: absolute;
+        top: 50px;
+        left: 15px;
+        z-index: 5;
+        width: auto;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .controls.vertical .full {
+        display: none;
+    }
+
+    .controls.vertical .indv {
+        width: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .controls.vertical button {
+        width: unset;
+        gap: 5px;
+        padding: 10px 7px 12px;
+        border-radius: 4px;
+        background: var(--neutral-gray-100);
+        box-shadow: -2px -2px 10px 0 rgba(0, 0, 0, 0.25) inset, 5px 3px 10px 0 rgba(0, 0, 0, 0.10);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 0;
+        opacity: 0.95;
+        transition: all 0.2s ease-in-out;
+    }
+    .controls.vertical button:hover {
+        background: var(--neutral-white);
+        opacity: 1;
+    }
+
+    .controls.vertical span {
+        margin-left: -2.25px;
+    }
+
+    .controls.vertical button:not(.active, .all) {
+        opacity: 0.45;
+    }
+
+    .controls.vertical .legend {
+        margin-right: 0;
+        margin-left: 0.2px;
+        max-width: unset;
+    }
+
+    @media (max-width: 400px) {
+        .controls button {
+            padding: 8px 0;
+        }
+
+        .controls.vertical button {
+            font-size: 10px;
+            gap: 3px;
+            padding: 7px 5px 8px 5px;
+            border-radius: 3px;
+        }
+
+        .controls.vertical {
+            top: 30px;
+            left: 10px;
+        }
     }
 </style>
