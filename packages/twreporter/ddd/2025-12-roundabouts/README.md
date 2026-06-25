@@ -4,6 +4,7 @@
 
 - [【Data Reporter】全台圓環大體檢（上）：哪些圓環頻傳傷亡事故？癥結怎解？](https://www.twreporter.org/a/taiwan-roundabouts-reckoning-1)
 - [【Data Reporter】全台圓環大體檢（下）：從首座螺旋圓環誕生，看人本交通新設計如何落地](https://www.twreporter.org/a/taiwan-roundabouts-reckoning-2)
+- [【Data Reporter】獨家圖解：橋梁機車道實體分隔島拆除後，交通事故降低多少？](https://www.twreporter.org/a/rethinking-motorcycle-lane-safety-on-the-danjiang-bridge-2)
 
 ## twreporter-layered-photos
 
