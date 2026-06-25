@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- [FONTS] Fetch from base document -->
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <style>
+      @font-face {
+        font-family: 'GenJyuuGothicL';
+        src: url('https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-ExtraLight.woff2')
+          format('woff2');
+        font-weight: 200;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'GenJyuuGothicL';
+        src: url('https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Light.woff2')
+          format('woff2');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'GenJyuuGothicL';
+        src: url('https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Medium.woff2')
+          format('woff2');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'GenJyuuGothicL';
+        src: url('https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Bold.woff2')
+          format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: 'GenJyuuGothicL';
+        src: url('https://projects.twreporter.org/twreporter/ddd/2026-03-baseball/fonts/GenJyuuGothicL-Heavy.woff2')
+          format('woff2');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+    <!-- [FONTS] End -->
+
+    <title>2026-05-lawmaker</title>
+  </head>
+  <body style="background-color: #f1f1f1">
+    <script type="module" src="/src/main.ts"></script>
+
+
+    <h1>花蓮家族派系</h1>
+    <twreporter-table key="T03"></twreporter-table>
+    <twreporter-table key="T04"></twreporter-table>    
+    <twreporter-bar-grid key="BG02"></twreporter-bar-grid>
+    <twreporter-table key="T05"></twreporter-table>
+    <twreporter-table key="T06"></twreporter-table>
+    <div class="spacer"></div>
+
+    <h1>六都議會觀察站</h1>
+    <h2>文字雲</h2>
+    <twreporter-wordcloud key="A03"></twreporter-wordcloud>
+    <twreporter-wordcloud key="A06"></twreporter-wordcloud>
+    <twreporter-wordcloud key="A08"></twreporter-wordcloud>
+    <h2>長條圖</h2>
+    <twreporter-bar key="B01"></twreporter-bar>
+    <twreporter-bar key="B02"></twreporter-bar>
+    <twreporter-bar-grid key="BG01"></twreporter-bar-grid>
+    <h2>表格（單一）</h2>
+    <twreporter-table key="T01"></twreporter-table>
+    <twreporter-table key="T02"></twreporter-table>
+    <twreporter-table key="TG01"></twreporter-table>
+    <h2>Embeddings 圖表</h2>
+    <twreporter-embeddings key="E01"></twreporter-embeddings>
+    <div class="spacer"></div>
+
+    <h1>未用版型</h1>
+    <h2>折線圖</h2>
+    <twreporter-line key="L01"></twreporter-line>
+
+    <style>
+      h1 {
+        height: 24px;
+      }
+      h2 {
+        height: 20px;
+      }
+
+      .spacer {
+        height: 30vh;
+      }
+    </style>
+
+    <!--
+            Embed code style snippet, see
+            https://github.com/lab-reporter/storytelling-monorepo/blob/f0d3e92e6fa13020d02728b3586ee6ca7f05ceb5/packages/cms/migrations/20240305071659_update_scrollable_video_list/migration.sql
+            for latest definition
+        -->
+    <style>
+      :root {
+        --body-width: calc(300 / 375 * 100%);
+      }
+
+      @media (max-width: 767px) {
+        :root {
+          --body-width: 93.2vw;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1023px) {
+        :root {
+          --body-width: 512px;
+        }
+      }
+
+      @media (min-width: 1024px) and (max-width: 1439px) {
+        :root {
+          --body-width: 550px;
+        }
+      }
+
+      @media (min-width: 1440px) {
+        :root {
+          --body-width: 730px;
+        }
+      }
+
+      .embed-code-container {
+        width: 100vw;
+        margin-left: calc((100vw - var(--body-width)) / 2 * -1);
+      }
+    </style>
+  </body>
+</html>

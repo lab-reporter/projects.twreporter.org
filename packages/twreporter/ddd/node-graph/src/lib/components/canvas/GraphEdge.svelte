@@ -1,0 +1,234 @@
+<script lang="ts">
+  import type { FlowEdge } from '@/lib/features/canvas/types'
+  import {
+    BaseEdge,
+    EdgeLabel,
+    useInternalNode,
+    type EdgeProps,
+    type InternalNode,
+  } from '@xyflow/svelte'
+  import { getCanvasContext } from './CanvasState.svelte'
+  import { defaultFadedOpacity } from '@/lib/constants/styles'
+
+  type Point = {
+    x: number
+    y: number
+  }
+
+  type NodeBounds = {
+    x: number
+    y: number
+    width: number
+    height: number
+  }
+
+  let {
+    id,
+    source,
+    target,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    data,
+    selected,
+  }: EdgeProps<FlowEdge> = $props()
+
+  let isHovered = $state(false)
+
+  const sourceNode = $derived(useInternalNode(source))
+  const targetNode = $derived(useInternalNode(target))
+
+  function getNodeBounds(
+    node: InternalNode | undefined,
+  ): NodeBounds | undefined {
+    const width = node?.measured?.width ?? node?.width
+    const height = node?.measured?.height ?? node?.height
+    const position = node?.internals.positionAbsolute
+
+    if (!position || !width || !height) return undefined
+
+    return {
+      x: position.x,
+      y: position.y,
+      width,
+      height,
+    }
+  }
+
+  function getCenter(bounds: NodeBounds): Point {
+    return {
+      x: bounds.x + bounds.width / 2,
+      y: bounds.y + bounds.height / 2,
+    }
+  }
+
+  function getRectIntersection(from: NodeBounds, to: NodeBounds): Point {
+    const fromCenter = getCenter(from)
+    const toCenter = getCenter(to)
+    const dx = toCenter.x - fromCenter.x
+    const dy = toCenter.y - fromCenter.y
+
+    if (dx === 0 && dy === 0) return fromCenter
+
+    const scale = Math.min(
+      dx === 0 ? Number.POSITIVE_INFINITY : from.width / 2 / Math.abs(dx),
+      dy === 0 ? Number.POSITIVE_INFINITY : from.height / 2 / Math.abs(dy),
+    )
+
+    return {
+      x: fromCenter.x + dx * scale,
+      y: fromCenter.y + dy * scale,
+    }
+  }
+
+  const connectionPoints = $derived.by(() => {
+    const sourceBounds = getNodeBounds(sourceNode.current)
+    const targetBounds = getNodeBounds(targetNode.current)
+
+    if (!sourceBounds || !targetBounds) {
+      return {
+        source: { x: sourceX, y: sourceY },
+        target: { x: targetX, y: targetY },
+      }
+    }
+
+    return {
+      source: getRectIntersection(sourceBounds, targetBounds),
+      target: getRectIntersection(targetBounds, sourceBounds),
+    }
+  })
+
+  const edgePath = $derived(
+    `M ${connectionPoints.source.x} ${connectionPoints.source.y} L ${connectionPoints.target.x} ${connectionPoints.target.y}`,
+  )
+
+  const labelPosition = $derived.by(() => ({
+    x: (connectionPoints.source.x + connectionPoints.target.x) / 2,
+    y: (connectionPoints.source.y + connectionPoints.target.y) / 2,
+  }))
+
+  const labelAngle = $derived.by(() => {
+    const dx = connectionPoints.target.x - connectionPoints.source.x
+    const dy = connectionPoints.target.y - connectionPoints.source.y
+    const arrowAngle = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360
+
+    if (
+      (arrowAngle >= 45 && arrowAngle <= 135) ||
+      (arrowAngle >= 225 && arrowAngle <= 315)
+    ) {
+      return 0
+    }
+
+    if (arrowAngle > 90 && arrowAngle < 270) {
+      return arrowAngle - 180
+    }
+
+    return arrowAngle > 180 ? arrowAngle - 360 : arrowAngle
+  })
+
+  const markerId = $derived(
+    `graph-edge-arrow-${id.replace(/[^a-zA-Z0-9_-]/g, '-')}`,
+  )
+
+  const strokeColor = $derived(data?.strokeColor ?? '#808080')
+  const arrowColor = $derived(data?.arrowColor ?? strokeColor)
+  const labelBackgroundColor = $derived(data?.labelBackgroundColor ?? '#F1F1F1')
+  const labelTextColor = $derived(data?.labelTextColor ?? '#808080')
+
+  const canvasState = getCanvasContext()
+
+  const opacity = $derived(
+    canvasState.fadeNotConnectedNodes &&
+      canvasState.selectedItem?.type === 'graph-node'
+      ? canvasState.selectedItemconnectedEdgeIds?.includes(id)
+        ? 1
+        : defaultFadedOpacity
+      : 1,
+  )
+</script>
+
+<defs>
+  {#if data?.directed}
+    <marker
+      id={markerId}
+      markerWidth="10"
+      markerHeight="10"
+      refX="8"
+      refY="5"
+      orient="auto-start-reverse"
+      markerUnits="strokeWidth"
+    >
+      <path d="M 0 0 L 10 5 L 0 10 z" fill={arrowColor} />
+    </marker>
+  {/if}
+</defs>
+
+<g
+  role="presentation"
+  onmouseenter={() => {
+    canvasState.hoveredItem = { type: 'graph-edge', id }
+  }}
+  onmouseleave={() => {
+    canvasState.hoveredItem = null
+  }}
+>
+  {#if selected}
+    <path
+      d={edgePath}
+      style="stroke: #00000010; stroke-width: 8; fill: none; stroke-linecap: square;"
+    />
+  {/if}
+  <BaseEdge
+    {id}
+    path={edgePath}
+    markerEnd={data?.directed ? `url(#${markerId})` : undefined}
+    style="stroke: {strokeColor}; stroke-width: 0.5; fill: none; opacity: {opacity}"
+    interactionWidth={24}
+  />
+
+  {#if data?.relationLabel}
+    <EdgeLabel
+      x={labelPosition.x}
+      y={labelPosition.y}
+      transparent
+      class={[{ overlap: data.overlap }]}
+    >
+      <div
+        class="edge-chip nodrag nopan"
+        role="presentation"
+        style={`transform: rotate(${labelAngle}deg); --edge-label-background-color: ${labelBackgroundColor}; --edge-label-text-color: ${labelTextColor};`}
+        onpointerenter={() => {
+          isHovered = true
+        }}
+        onpointerleave={() => {
+          isHovered = false
+        }}
+        style:opacity
+      >
+        <span>{data.relationLabel}</span>
+      </div>
+    </EdgeLabel>
+  {/if}
+</g>
+
+<style>
+  .edge-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    border-radius: 2px;
+    background: var(--edge-label-background-color);
+    color: var(--edge-label-text-color);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    line-height: 1.2;
+    transform-origin: center;
+  }
+
+  :global(.svelte-flow__edge-label.overlap) {
+    z-index: 100 !important;
+  }
+</style>

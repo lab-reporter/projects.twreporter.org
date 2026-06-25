@@ -1,0 +1,12 @@
+{
+  "name": "shared",
+  "scripts": {
+    "deploy": "gcloud storage cp ./src/embed.css $BUCKET/embed.css",
+    "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/shared RELEASE=production pnpm run deploy"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  }
+}

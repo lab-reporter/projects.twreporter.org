@@ -1,0 +1,7 @@
+packages:
+  - "2026-05-lawmaker"
+  - "node-graph"
+  - 'shared'
+allowBuilds:
+  '@clerk/shared': true
+  esbuild: true

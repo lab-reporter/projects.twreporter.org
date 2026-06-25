@@ -1,0 +1,54 @@
+{
+  "name": "node-graph",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run \"/^dev:.*/\"",
+    "dev:convex": "convex dev",
+    "dev:web": "vite",
+
+    "build:web": "vite build --mode $RELEASE",
+    "build:lib": "vite --config vite.config.lib.ts build",
+
+    "upload:web": "gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8'",
+    "upload:lib": "gcloud storage cp ./dist/*.js $BUCKET/web-components/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8'",
+    "deploy:convex": "convex deploy --env-file .env.$RELEASE",
+
+    "check-types": "pnpm run --parallel \"/^check-types:.*/\"",
+    "check-types:web": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "check-types:convex": "convex codegen",
+
+    "deploy": "pnpm run check-types && pnpm run deploy:convex && pnpm run build:web && pnpm run upload:web && pnpm run build:lib && pnpm run upload:lib",
+    "deploy:staging": "BUCKET=gs://data-reporter-infographics/dev/node-graph RELEASE=staging pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/node-graph RELEASE=production pnpm run deploy",
+
+    "format:fix": "prettier --write .",
+    "format:check": "prettier ."
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/d3-force": "^3.0.10",
+    "@types/node": "^24.12.2",
+    "dotenv-cli": "^11.0.0",
+    "material-design-icons-literal-types": "^1.0.45",
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^3.5.1",
+    "svelte": "^5.55.4",
+    "svelte-check": "^4.4.6",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.9"
+  },
+  "dependencies": {
+    "@xyflow/svelte": "^1.5.2",
+    "convex": "^1.36.0",
+    "convex-helpers": "^0.1.115",
+    "convex-svelte": "^0.0.12",
+    "d3-force": "^3.0.0",
+    "modern-screenshot": "^4.6.7",
+    "sv-router": "^0.16.0",
+    "svelte-clerk": "^1.1.4",
+    "svelte-sonner": "^1.1.1"
+  }
+}
