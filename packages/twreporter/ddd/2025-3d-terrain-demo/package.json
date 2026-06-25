@@ -1,0 +1,29 @@
+{
+  "name": "2025-3d-terrian-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "deploy": "npm run build && cd dist && gcloud storage cp assets/* $BUCKET/assets && gcloud storage cp *.html $BUCKET --cache-control='public, max-age=300' && cd static && gcloud storage cp -r * $BUCKET/static",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2025-3d-terrain-demo npm run deploy",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tsconfig/svelte": "^5.0.5",
+    "@types/node": "^24.6.0",
+    "svelte": "^5.39.6",
+    "svelte-check": "^4.3.2",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7"
+  },
+  "dependencies": {
+    "@tanstack/svelte-query": "^6.0.3",
+    "archieml": "^0.5.0",
+    "cesium": "^1.134.1",
+    "vite-plugin-static-copy": "^3.1.4"
+  }
+}
