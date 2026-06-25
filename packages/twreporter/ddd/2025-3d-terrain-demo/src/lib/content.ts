@@ -2,9 +2,15 @@ import { createQuery } from '@tanstack/svelte-query'
 import archieml from 'archieml'
 import { useSearchParam } from './runes/search-params.svelte'
 
-export async function getDoc() {
+const defaultDocId = '161tO0T2cmU4jb6VI8RCaIM1MPxCNH4mXMv2_Mz6DmF0'
+
+export function resolveDocId(docId?: string) {
   const paramDoc = useSearchParam('doc')
-  const docsId = paramDoc ?? '161tO0T2cmU4jb6VI8RCaIM1MPxCNH4mXMv2_Mz6DmF0'
+  return docId || paramDoc || defaultDocId
+}
+
+export async function getDoc(docId?: string) {
+  const docsId = resolveDocId(docId)
 
   const response = await fetch(
     `https://docs.google.com/document/d/${docsId}/export?format=txt`
@@ -45,18 +51,18 @@ export type Content = {
   animation?: string
 }
 
-export async function getContent() {
-  const doc = await getDoc()
+export async function getContent(docId?: string) {
+  const doc = await getDoc(docId)
 
   const content = archieml.load<Content>(doc)
 
   return content
 }
 
-export const queryContent = () =>
+export const queryContent = (docId?: string) =>
   createQuery(() => ({
-    queryKey: ['content'],
-    queryFn: getContent,
+    queryKey: ['content', resolveDocId(docId)],
+    queryFn: () => getContent(docId),
   }))
 
 export function getCard({

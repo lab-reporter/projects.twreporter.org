@@ -1,16 +1,17 @@
 <script lang="ts">
   import * as Cesium from 'cesium'
-  import {
-    cesiumContainerId,
-    rectangles,
-    useCesium,
-  } from './lib/runes/cesium.svelte'
+  import { rectangles, useCesium } from './lib/runes/cesium.svelte'
+
+  let { containerId, docId }: { containerId: string; docId?: string } =
+    $props()
 
   Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangles.taiwan
   Cesium.Camera.DEFAULT_VIEW_FACTOR = 0
+  let mapElement: HTMLDivElement | undefined = $state()
 
   let result = useCesium({
-    containerId: cesiumContainerId,
+    getContainer: () => mapElement,
+    docId,
     options: {
       interaction: true,
     },
@@ -40,7 +41,7 @@
   let copied: boolean = $state(false)
 </script>
 
-<div id={cesiumContainerId} class="map"></div>
+<div bind:this={mapElement} id={containerId} class="map"></div>
 <div class="info">
   <h1>編輯模式</h1>
   <p>按住 Control 可拖動視角</p>

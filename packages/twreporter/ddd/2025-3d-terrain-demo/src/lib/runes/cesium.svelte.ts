@@ -23,12 +23,14 @@ export const rectangles = {
 export const cesiumContainerId = 'cesium-container'
 
 export function useCesium({
-  containerId,
+  getContainer,
+  docId,
   viewerConfig,
   options,
   onViewerMount,
 }: {
-  containerId: string
+  getContainer: () => HTMLElement | undefined
+  docId?: string
   viewerConfig?: Cesium.Viewer.ConstructorOptions
   options?: {
     interaction: boolean
@@ -40,7 +42,7 @@ export function useCesium({
     query: CreateQueryResult<Content, Error>
     toStart?: () => void
   } = $state({
-    query: queryContent(),
+    query: queryContent(docId),
     toStart: () => {
       if (!result.viewer || !start) return
 
@@ -66,47 +68,79 @@ export function useCesium({
   let vectors = $derived(content?.vectors)
   let images = $derived(content?.images)
   let basemap = $derived(content?.basemap)
+  let mounted = $state(false)
 
-  onMount(async () => {
-    result.viewer = new Cesium.Viewer(containerId, {
-      terrainProvider: await Cesium.CesiumTerrainProvider.fromUrl(
-        terrainServer
-      ),
-      baseLayer: new Cesium.ImageryLayer(
-        new Cesium.UrlTemplateImageryProvider({
-          url: source.google,
-          maximumLevel: 19,
-        }),
-        {
-          brightness: 0.5,
-          contrast: 1.2,
-        }
-      ),
-      timeline: false,
-      animation: false,
-      fullscreenButton: false,
-      vrButton: false,
-      sceneModePicker: false,
-      navigationHelpButton: false,
-      homeButton: false,
-      geocoder: false,
-      infoBox: false,
-      creditContainer: document.createElement('div'),
-      baseLayerPicker: false,
-      ...viewerConfig,
-    })
+  onMount(() => {
+    mounted = true
 
-    if (!options?.interaction) {
-      // Disable user interactions
-      result.viewer.scene.screenSpaceCameraController.enableRotate = false
-      result.viewer.scene.screenSpaceCameraController.enableTranslate = false
-      result.viewer.scene.screenSpaceCameraController.enableZoom = false
-      result.viewer.scene.screenSpaceCameraController.enableTilt = false
-      result.viewer.scene.screenSpaceCameraController.enableLook = false
+    return () => {
+      result.viewer?.destroy()
+    }
+  })
+
+  $effect(() => {
+    if (!mounted || result.viewer) return
+
+    const container = getContainer()
+
+    if (!container) {
+      return
     }
 
-    if (onViewerMount) {
-      onViewerMount(result.viewer)
+    const viewerContainer = container
+    let cancelled = false
+
+    async function initViewer() {
+      const terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
+        terrainServer
+      )
+
+      if (cancelled || result.viewer) return
+
+      result.viewer = new Cesium.Viewer(viewerContainer, {
+        terrainProvider,
+        baseLayer: new Cesium.ImageryLayer(
+          new Cesium.UrlTemplateImageryProvider({
+            url: source.google,
+            maximumLevel: 19,
+          }),
+          {
+            brightness: 0.5,
+            contrast: 1.2,
+          }
+        ),
+        timeline: false,
+        animation: false,
+        fullscreenButton: false,
+        vrButton: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        homeButton: false,
+        geocoder: false,
+        infoBox: false,
+        creditContainer: document.createElement('div'),
+        baseLayerPicker: false,
+        ...viewerConfig,
+      })
+
+      if (!options?.interaction) {
+        // Disable user interactions
+        result.viewer.scene.screenSpaceCameraController.enableRotate = false
+        result.viewer.scene.screenSpaceCameraController.enableTranslate = false
+        result.viewer.scene.screenSpaceCameraController.enableZoom = false
+        result.viewer.scene.screenSpaceCameraController.enableTilt = false
+        result.viewer.scene.screenSpaceCameraController.enableLook = false
+      }
+
+      if (onViewerMount) {
+        onViewerMount(result.viewer)
+      }
+    }
+
+    initViewer()
+
+    return () => {
+      cancelled = true
     }
   })
 
