@@ -1,48 +1,41 @@
 <script lang="ts">
+  import { ScrollerBase } from '@reuters-graphics/graphics-components'
   import * as Cesium from 'cesium'
-  import 'cesium/Build/Cesium/Widgets/widgets.css'
   import CardContent from './components/CardContent.svelte'
   import Loading from './components/Loading.svelte'
   import { getCard, parseCamera } from './lib/content'
-  import { cesiumContainerId, useCesium } from './lib/runes/cesium.svelte'
+  import { useCesium } from './lib/runes/cesium.svelte'
   import { getTile } from './lib/tiles'
 
-  const cesium = useCesium({ containerId: cesiumContainerId })
+  let { containerId, docId }: { containerId: string; docId?: string } = $props()
+
+  let mapElement: HTMLDivElement | undefined = $state()
+
+  const cesium = useCesium({
+    getContainer: () => mapElement,
+    docId,
+  })
   let viewer = $derived(cesium.viewer)
   let contentQuery = $derived(cesium.query)
 
   let content = $derived(contentQuery?.data)
   let animation = $derived(contentQuery?.data?.animation)
   let cards = $derived(contentQuery?.data?.cards)
+  let hasCards = $derived(Boolean(cards?.length))
 
-  let activeCardName = $state<string | null>(null)
+  let activeCardIndex = $state(0)
+  let activeCardName = $derived(cards?.[activeCardIndex]?.name ?? null)
   let activeCard = $derived(
-    content && getCard({ content, name: activeCardName })
+    content && getCard({ content, name: activeCardName }),
   )
   let lastCardIndex = $state<number | null>(null)
 
-  function handleScroll() {
-    if (!viewer || !cards) return
+  $effect(() => {
+    if (!cards?.length || activeCardIndex < cards.length) return
 
-    const viewportHeight = window.innerHeight
-
-    for (let i = 0; i < cards.length; i++) {
-      const card = cards[i]
-      const cardElement = document.getElementById(card.name)
-
-      if (!cardElement) continue
-
-      const cardTop = cardElement.getBoundingClientRect().top
-      const cardBottom = cardTop + cardElement.offsetHeight
-
-      const triggerPoint = viewportHeight / 3
-
-      if (cardTop <= triggerPoint && cardBottom >= triggerPoint) {
-        activeCardName = card.name
-        break
-      }
-    }
-  }
+    activeCardIndex = 0
+    lastCardIndex = null
+  })
 
   $effect(() => {
     if (!activeCard?.card || !viewer) return
@@ -71,7 +64,7 @@
     // Handle vectors (dataSources)
     const vectors = cards
       ?.map((card, index) =>
-        card.vector ? ([index, card.vector] as [number, string]) : undefined
+        card.vector ? ([index, card.vector] as [number, string]) : undefined,
       )
       .filter((v) => v !== undefined) as [number, string][]
 
@@ -131,7 +124,7 @@
           if (!url) return
 
           const layer = viewer.imageryLayers.addImageryProvider(
-            new Cesium.UrlTemplateImageryProvider({ url, maximumLevel: max })
+            new Cesium.UrlTemplateImageryProvider({ url, maximumLevel: max }),
           )
           layer.alpha = 0
 
@@ -155,7 +148,7 @@
         // Remove imageryLayers
         tilesToDiff.forEach(() => {
           const layer = viewer.imageryLayers.get(
-            viewer.imageryLayers.length - 1
+            viewer.imageryLayers.length - 1,
           )
           if (layer) {
             viewer.imageryLayers.remove(layer)
@@ -189,9 +182,9 @@
                 121.5353550179566,
                 25.01039707562923,
                 121.53852914474925,
-                25.012477589373418
+                25.012477589373418,
               ),
-            })
+            }),
           )
           viewer.imageryLayers.add(layer)
 
@@ -215,7 +208,7 @@
         // Remove imageryLayers
         imagesToDiff.forEach(() => {
           const layer = viewer.imageryLayers.get(
-            viewer.imageryLayers.length - 1
+            viewer.imageryLayers.length - 1,
           )
           if (layer) {
             viewer.imageryLayers.remove(layer)
@@ -228,40 +221,57 @@
   })
 </script>
 
-<svelte:document onscroll={handleScroll} />
+{#if hasCards}
+  <ScrollerBase
+    top={0}
+    threshold={0.33}
+    bottom={1}
+    bind:index={activeCardIndex}
+    query="div.step"
+  >
+    {#snippet backgroundSnippet()}
+      <div class="background">
+        {#if contentQuery.isLoading}
+          <div class="loading-screen"><Loading /></div>
+        {/if}
+        <div bind:this={mapElement} id={containerId} class="map"></div>
+      </div>
+    {/snippet}
 
-<div class="base">
+    {#snippet foregroundSnippet()}
+      {#each cards ?? [] as card}
+        <div class="step">
+          <CardContent {card} />
+        </div>
+      {/each}
+    {/snippet}
+  </ScrollerBase>
+{:else}
   <div class="background">
     {#if contentQuery.isLoading}
       <div class="loading-screen"><Loading /></div>
     {/if}
-    <div id={cesiumContainerId} class="map"></div>
   </div>
-  <div class="scroll" style:position="relative">
-    {#each cards as card}
-      <CardContent {card} />
-    {/each}
-  </div>
-</div>
-
-<p style:height="500px">內文內文內文</p>
+{/if}
 
 <style>
-  .base {
-    position: relative;
-  }
-  .background {
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: -1;
+  :global(svelte-scroller-background-container) {
+    pointer-events: auto !important;
+    will-change: auto !important;
   }
 
-  .scroll {
+  :global(svelte-scroller-foreground) {
+    pointer-events: none;
+  }
+
+  .background {
+    height: 100vh;
+    width: 100%;
     position: relative;
-    z-index: 1;
+  }
+
+  .step {
+    pointer-events: auto;
   }
 
   .map {

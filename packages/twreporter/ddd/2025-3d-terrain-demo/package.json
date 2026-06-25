@@ -1,13 +1,14 @@
 {
-  "name": "2025-3d-terrian-demo",
+  "name": "2025-3d-terrain-demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "deploy": "npm run build && cd dist && gcloud storage cp assets/* $BUCKET/assets && gcloud storage cp *.html $BUCKET --cache-control='public, max-age=300' && cd static && gcloud storage cp -r * $BUCKET/static",
-    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2025-3d-terrain-demo npm run deploy",
+    "build": "vite build --mode ${RELEASE:-dev}",
+    "deploy": "npm run build && gcloud storage cp ./dist/assets/*.js $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp ./dist/assets/*.css $BUCKET/js/assets/ --cache-control='no-cache' --content-type='text/css; charset=utf-8' && gcloud storage cp ./dist/index.html $BUCKET/index.$RELEASE.html --cache-control='no-cache' --content-type='text/html; charset=utf-8' && gcloud storage cp -r ./dist/static/* $BUCKET/static/",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2025-3d-terrain-demo RELEASE=dev npm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2025-3d-terrain-demo RELEASE=prod npm run deploy",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
@@ -21,6 +22,7 @@
     "vite": "^7.1.7"
   },
   "dependencies": {
+    "@reuters-graphics/graphics-components": "^3.6.0",
     "@tanstack/svelte-query": "^6.0.3",
     "archieml": "^0.5.0",
     "cesium": "^1.134.1",
