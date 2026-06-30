@@ -1,11 +1,9 @@
 <script lang="ts">
   import { ScrollerBase } from '@reuters-graphics/graphics-components'
-  import * as Cesium from 'cesium'
   import CardContent from './components/CardContent.svelte'
   import Loading from './components/Loading.svelte'
-  import { getCard, parseCamera } from './lib/content'
+  import { CardState } from './lib/card.svelte'
   import { useCesium } from './lib/runes/cesium.svelte'
-  import { getTile } from './lib/tiles'
 
   let { containerId, docId }: { containerId: string; docId?: string } = $props()
 
@@ -19,214 +17,21 @@
   let contentQuery = $derived(cesium.query)
 
   let content = $derived(contentQuery?.data)
-  let animation = $derived(contentQuery?.data?.animation)
-  let cards = $derived(contentQuery?.data?.cards)
-  let hasCards = $derived(Boolean(cards?.length))
-
-  let activeCardIndex = $state(0)
-  let activeCardName = $derived(cards?.[activeCardIndex]?.name ?? null)
-  let activeCard = $derived(
-    content && getCard({ content, name: activeCardName }),
-  )
-  let lastCardIndex = $state<number | null>(null)
-
-  $effect(() => {
-    if (!cards?.length || activeCardIndex < cards.length) return
-
-    activeCardIndex = 0
-    lastCardIndex = null
+  const cardState = new CardState({
+    getViewer: () => viewer,
+    getContent: () => content,
   })
 
-  $effect(() => {
-    if (!activeCard?.card || !viewer) return
-
-    const { position, orientation } = parseCamera(activeCard.card.camera)
-
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromArray([
-        position.x,
-        position.y,
-        position.z,
-      ]),
-      orientation: {
-        heading: orientation.heading,
-        pitch: orientation.pitch,
-        roll: orientation.roll,
-      },
-      duration: animation ? parseInt(animation) : 2.5,
-      maximumHeight: 100,
-      easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
-    })
-
-    const shouldLoadMore =
-      lastCardIndex !== null && lastCardIndex < activeCard.index
-
-    // Handle vectors (dataSources)
-    const vectors = cards
-      ?.map((card, index) =>
-        card.vector ? ([index, card.vector] as [number, string]) : undefined,
-      )
-      .filter((v) => v !== undefined) as [number, string][]
-
-    const vectorsToDiff = vectors?.filter((v) => {
-      if (lastCardIndex === null) return v[0] <= activeCard.index
-      if (shouldLoadMore) {
-        return v[0] > lastCardIndex && v[0] <= activeCard.index
-      } else {
-        return v[0] > activeCard.index && v[0] <= lastCardIndex
-      }
-    })
-
-    if (vectorsToDiff) {
-      if (shouldLoadMore || lastCardIndex === null) {
-        // Add new dataSources
-        vectorsToDiff.forEach(([, vectorUrl]) => {
-          Cesium.GeoJsonDataSource.load(vectorUrl).then((dataSource) => {
-            viewer.dataSources.add(dataSource)
-          })
-        })
-      } else {
-        // Remove dataSources
-        vectorsToDiff.forEach(([, vectorUrl]) => {
-          const name = vectorUrl.split('/').at(-1)
-
-          if (!name) return
-
-          const dataSource = viewer.dataSources.getByName(name)[0]
-
-          if (dataSource) {
-            viewer.dataSources.remove(dataSource)
-          }
-        })
-      }
-    }
-
-    // Handle tiles (imageryLayers)
-    const tiles = cards
-      ?.map((card, index) => (card.tile ? [index, card.tile] : undefined))
-      .filter((v) => v !== undefined) as [number, string][]
-
-    const tilesToDiff = tiles?.filter((v) => {
-      if (lastCardIndex === null) return v[0] <= activeCard.index
-      if (shouldLoadMore) {
-        return v[0] > lastCardIndex && v[0] <= activeCard.index
-      } else {
-        return v[0] > activeCard.index && v[0] <= lastCardIndex
-      }
-    })
-
-    if (tilesToDiff) {
-      if (shouldLoadMore || lastCardIndex === null) {
-        // Add new imageryLayers
-        tilesToDiff.forEach(([, tile]) => {
-          const { url, max } = getTile(tile)
-
-          if (!url) return
-
-          const layer = viewer.imageryLayers.addImageryProvider(
-            new Cesium.UrlTemplateImageryProvider({ url, maximumLevel: max }),
-          )
-          layer.alpha = 0
-
-          // Animate opacity
-          const startTime = performance.now()
-          const duration = 1000 // 1 second
-
-          const animate = () => {
-            const elapsed = performance.now() - startTime
-            const progress = Math.min(elapsed / duration, 1)
-            layer.alpha = progress
-
-            if (progress < 1) {
-              requestAnimationFrame(animate)
-            }
-          }
-
-          requestAnimationFrame(animate)
-        })
-      } else {
-        // Remove imageryLayers
-        tilesToDiff.forEach(() => {
-          const layer = viewer.imageryLayers.get(
-            viewer.imageryLayers.length - 1,
-          )
-          if (layer) {
-            viewer.imageryLayers.remove(layer)
-          }
-        })
-      }
-    }
-
-    // Handle images (SingleTileImageryProvider)
-    const images = cards
-      ?.map((card, index) => (card.image ? [index, card.image] : undefined))
-      .filter((v) => v !== undefined) as [number, string][]
-
-    const imagesToDiff = images?.filter((v) => {
-      if (lastCardIndex === null) return v[0] <= activeCard.index
-      if (shouldLoadMore) {
-        return v[0] > lastCardIndex && v[0] <= activeCard.index
-      } else {
-        return v[0] > activeCard.index && v[0] <= lastCardIndex
-      }
-    })
-
-    if (imagesToDiff) {
-      if (shouldLoadMore || lastCardIndex === null) {
-        // Add new imageryLayers
-        imagesToDiff.forEach(([, image]) => {
-          const layer = Cesium.ImageryLayer.fromProviderAsync(
-            Cesium.SingleTileImageryProvider.fromUrl(image, {
-              /** TODO: change to dynamic size and location */
-              rectangle: Cesium.Rectangle.fromDegrees(
-                121.5353550179566,
-                25.01039707562923,
-                121.53852914474925,
-                25.012477589373418,
-              ),
-            }),
-          )
-          viewer.imageryLayers.add(layer)
-
-          // Animate opacity
-          const startTime = performance.now()
-          const duration = 1000 // 1 second
-
-          const animate = () => {
-            const elapsed = performance.now() - startTime
-            const progress = Math.min(elapsed / duration, 1)
-            layer.alpha = progress
-
-            if (progress < 1) {
-              requestAnimationFrame(animate)
-            }
-          }
-
-          requestAnimationFrame(animate)
-        })
-      } else {
-        // Remove imageryLayers
-        imagesToDiff.forEach(() => {
-          const layer = viewer.imageryLayers.get(
-            viewer.imageryLayers.length - 1,
-          )
-          if (layer) {
-            viewer.imageryLayers.remove(layer)
-          }
-        })
-      }
-    }
-
-    lastCardIndex = activeCard.index
-  })
+  // Inspect content from ArchieML in development
+  $inspect(content)
 </script>
 
-{#if hasCards}
+{#if cardState.hasCards}
   <ScrollerBase
     top={0}
     threshold={0.33}
     bottom={1}
-    bind:index={activeCardIndex}
+    bind:index={cardState.activeIndex}
     query="div.step"
   >
     {#snippet backgroundSnippet()}
@@ -239,7 +44,7 @@
     {/snippet}
 
     {#snippet foregroundSnippet()}
-      {#each cards ?? [] as card}
+      {#each cardState.cards as card}
         <div class="step">
           <CardContent {card} />
         </div>
