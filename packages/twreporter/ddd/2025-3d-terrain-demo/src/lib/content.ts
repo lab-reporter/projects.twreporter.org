@@ -13,7 +13,7 @@ export async function getDoc(docId?: string) {
   const docsId = resolveDocId(docId)
 
   const response = await fetch(
-    `https://docs.google.com/document/d/${docsId}/export?format=txt`
+    `https://docs.google.com/document/d/${docsId}/export?format=txt`,
   )
 
   if (!response.ok) {
@@ -37,6 +37,7 @@ export type Card = {
   vector?: string
   image?: string
   photo?: string
+  markers?: { x: string; y: string; label: string }[]
 }
 
 type Option = 'yes' | 'no'
