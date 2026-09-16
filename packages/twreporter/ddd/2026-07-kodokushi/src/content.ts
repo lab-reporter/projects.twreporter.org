@@ -130,7 +130,25 @@ function extractInlineContent(target: HTMLElement): InlineContent {
       extraWidth: indicator?.getBoundingClientRect().width ?? 0,
     })
   }
-  return content
+  const numericContent: InlineContent = { items: [], annotations: new Map() }
+  for (const [index, item] of content.items.entries()) {
+    const parts = item.text.split(/([（(]?[0-9０-９]+(?:[,.，．][0-9０-９]+)*[）)]?)/u)
+    const annotation = content.annotations.get(index)
+    for (const [partIndex, text] of parts.entries()) {
+      if (!text) continue
+      if (annotation)
+        numericContent.annotations.set(numericContent.items.length, annotation)
+      numericContent.items.push({
+        ...item,
+        text,
+        break: partIndex % 2 ? 'never' : 'normal',
+        extraWidth: 0,
+      })
+    }
+    const last = numericContent.items.at(-1)
+    if (last) last.extraWidth = item.extraWidth
+  }
+  return numericContent
 }
 
 function readNumber(value: string): number {

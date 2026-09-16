@@ -180,6 +180,8 @@ export async function rewrapSection(
             )
             if (!range) continue
 
+            if (range.width > end - start && end - start < blockWidth) continue
+
             progressed = true
             const line = materializeRichInlineLineRange(data, range)
             let x = block.pad.left + start
