@@ -1,0 +1,26 @@
+{
+  "name": "2026-07-kodokushi",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "check:layout": "node --experimental-strip-types scripts/check-layout.ts",
+    "check-types": "tsc --noEmit",
+    "preview": "vite preview",
+    "deploy": "pnpm run check-types && pnpm run check:layout && pnpm run build && gcloud storage cp ./dist/js/* $BUCKET/js/ --cache-control='no-cache' --content-type='text/javascript; charset=utf-8' && gcloud storage cp -r ./dist/img ./dist/vid $BUCKET/assets/ --cache-control='no-cache'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2026-07-kodokushi pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi pnpm run deploy"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.8",
+    "@lab-reporter/ddd-shared": "workspace:*",
+    "zod": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4"
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "illustrations": [
+    {
+      "anchor": 1,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/2-1_里長.png",
+      "desktop": {
+        "x": -31,
+        "top": -15,
+        "width": 247
+      },
+      "mobile": {
+        "x": -31,
+        "top": -15,
+        "width": 247
+      }
+    },
+    {
+      "anchor": 4,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/2-2_開鎖.png",
+      "desktop": {
+        "x": 323,
+        "top": -22,
+        "width": 372
+      },
+      "mobile": {
+        "x": 323,
+        "top": -22,
+        "width": 372
+      }
+    },
+    {
+      "anchor": 7,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-4-L_多名鑑識人員進入勘查.png",
+      "desktop": {
+        "x": -88,
+        "top": -17,
+        "width": 204
+      },
+      "mobile": {
+        "x": -88,
+        "top": -17,
+        "width": 204
+      }
+    },
+    {
+      "anchor": 8,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-4-R_多名鑑識人員進入勘查.png",
+      "desktop": {
+        "x": 391,
+        "top": -24,
+        "width": 285
+      },
+      "mobile": {
+        "x": 391,
+        "top": -24,
+        "width": 285
+      }
+    },
+    {
+      "anchor": 13,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-1_匿名派出所警察與鑑識員警.png",
+      "desktop": {
+        "x": -80,
+        "top": 2,
+        "width": 207
+      },
+      "mobile": {
+        "x": -1,
+        "top": 0,
+        "width": 201
+      }
+    },
+    {
+      "anchor": 19,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-3_搜證物-健保卡.png",
+      "desktop": {
+        "x": -86,
+        "top": 14,
+        "width": 197
+      },
+      "mobile": {
+        "x": -86,
+        "top": 14,
+        "width": 197
+      }
+    },
+    {
+      "anchor": 17,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-3_搜證物-手機.png",
+      "desktop": {
+        "x": -52,
+        "top": 100,
+        "width": 170
+      },
+      "mobile": {
+        "x": -52,
+        "top": 100,
+        "width": 170
+      }
+    },
+    {
+      "anchor": 14,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-3_搜證物-藥丸.png",
+      "desktop": {
+        "x": 400,
+        "top": -57,
+        "width": 228
+      },
+      "mobile": {
+        "x": 400,
+        "top": -57,
+        "width": 228
+      }
+    },
+    {
+      "anchor": 18,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-3_搜證物-照片.png",
+      "desktop": {
+        "x": 485,
+        "top": -12,
+        "width": 237
+      },
+      "mobile": {
+        "x": 485,
+        "top": -12,
+        "width": 237
+      }
+    },
+    {
+      "anchor": 15,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-3_搜證物-藥袋.png",
+      "desktop": {
+        "x": -151,
+        "top": 43,
+        "width": 229
+      },
+      "mobile": {
+        "x": -151,
+        "top": 43,
+        "width": 229
+      }
+    },
+    {
+      "anchor": 17,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/3-5_封鎖線.png",
+      "desktop": {
+        "x": -91,
+        "top": -11,
+        "width": 732
+      },
+      "mobile": {
+        "x": -91,
+        "top": -11,
+        "width": 732
+      }
+    },
+    {
+      "anchor": 21,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/4-1_法醫.png",
+      "desktop": {
+        "x": -70,
+        "top": -17,
+        "width": 255
+      },
+      "mobile": {
+        "x": -70,
+        "top": -17,
+        "width": 255
+      }
+    },
+    {
+      "anchor": 23,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/4-2_法醫半身.png",
+      "desktop": {
+        "x": 434,
+        "top": -5,
+        "width": 198
+      },
+      "mobile": {
+        "x": 434,
+        "top": -5,
+        "width": 198
+      }
+    },
+    {
+      "anchor": 25,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/4-3_相驗中燈.png",
+      "desktop": {
+        "x": 498,
+        "top": -4,
+        "width": 117
+      },
+      "mobile": {
+        "x": 498,
+        "top": -4,
+        "width": 117
+      }
+    },
+    {
+      "anchor": 26,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/4-3-L_相驗中窗戶.png",
+      "desktop": {
+        "x": -130,
+        "top": -1,
+        "width": 216
+      },
+      "mobile": {
+        "x": -130,
+        "top": -1,
+        "width": 216
+      }
+    },
+    {
+      "anchor": 27,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/4-3-R_相驗中窗戶.png",
+      "desktop": {
+        "x": 465,
+        "top": -35,
+        "width": 200
+      },
+      "mobile": {
+        "x": 465,
+        "top": -35,
+        "width": 200
+      }
+    },
+    {
+      "anchor": 30,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/5-1_區公所科員.png",
+      "desktop": {
+        "x": -65,
+        "top": -16,
+        "width": 257
+      },
+      "mobile": {
+        "x": -65,
+        "top": -16,
+        "width": 257
+      }
+    },
+    {
+      "anchor": 32,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/5-2_死亡證明與公文.png",
+      "desktop": {
+        "x": 437,
+        "top": -33,
+        "width": 236
+      },
+      "mobile": {
+        "x": 437,
+        "top": -33,
+        "width": 236
+      }
+    },
+    {
+      "anchor": 34,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/5-3_冰櫃查詢系統.png",
+      "desktop": {
+        "x": -379,
+        "top": -3,
+        "width": 596
+      },
+      "mobile": {
+        "x": -379,
+        "top": -3,
+        "width": 596
+      }
+    },
+    {
+      "anchor": 36,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/5-4_經文與蓮位牌.png",
+      "desktop": {
+        "x": 365,
+        "top": -62,
+        "width": 461
+      },
+      "mobile": {
+        "x": 365,
+        "top": -62,
+        "width": 461
+      }
+    },
+    {
+      "anchor": 39,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/6-1_慈善團體總監.png",
+      "desktop": {
+        "x": -41,
+        "top": 1,
+        "width": 164
+      },
+      "mobile": {
+        "x": -41,
+        "top": 1,
+        "width": 164
+      }
+    },
+    {
+      "anchor": 41,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/6-2-L_基督教聯合奠祭.png",
+      "desktop": {
+        "x": -279,
+        "top": 16,
+        "width": 391
+      },
+      "mobile": {
+        "x": -279,
+        "top": 16,
+        "width": 391
+      }
+    },
+    {
+      "anchor": 41,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/6-2-R_佛教聯合奠祭.png",
+      "desktop": {
+        "x": 453,
+        "top": 11,
+        "width": 351
+      },
+      "mobile": {
+        "x": 453,
+        "top": 11,
+        "width": 351
+      }
+    },
+    {
+      "anchor": 43,
+      "src": "https://projects.twreporter.org/twreporter/ddd/2026-07-kodokushi/assets/img/6-3_貨櫃禮廳與說明牌與慈善團體出殯.png",
+      "desktop": {
+        "x": -184,
+        "top": -117,
+        "width": 954
+      },
+      "mobile": {
+        "x": -184,
+        "top": -117,
+        "width": 954
+      }
+    }
+  ]
+}

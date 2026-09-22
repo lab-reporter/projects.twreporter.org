@@ -31,14 +31,14 @@ for latest definition */
 
 @media (min-width: 1440px) {
   :root {
-    --body-width: 730px;   
+    --body-width: 730px;
   }
 }
 
 .embed-code-container {
   width: 100vw;
   /* TODO: Account for --toc-block-width */
-  margin-left: calc((100vw - var(--body-width)) / 2 * -1); 
+  margin-left: calc((100vw - var(--body-width)) / 2 * -1);
 }
 
 @media (min-width: 1024px) {

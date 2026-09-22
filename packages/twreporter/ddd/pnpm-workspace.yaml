@@ -1,5 +1,6 @@
 packages:
   - '2026-05-lawmaker'
+  - '2026-07-kodokushi'
   - 'node-graph'
   - 'shared'
 
