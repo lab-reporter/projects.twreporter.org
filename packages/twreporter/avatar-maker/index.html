@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>報導者員工大頭貼</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,-25" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body{display: flex;padding: 0;margin: 0;}
+        header{width: 100vw;height: 50px;top:0;position: fixed;z-index: 99999;padding: 10px;}
+        .logo-header{height: 25px;}
+        #select{width: auto;height: auto;;display: flex;}
+        #list{width: 120px;height: calc(100vh - 50px);margin-top: 50px;}
+        #list ul{padding: 5px 0px;display: flex;flex-direction:column;justify-content:center;height: calc(100vh - 120px);border-right: 1px solid #F1F1F1;}
+        #list li{list-style-type: none;padding: 8px 15px;margin: 0px 10px;border-radius: 8px;display: flex;}
+        #list li span{margin-right: 5px;align-items: center;}
+        #list li:hover{background: #F1F1F1;}
+        #list li.selected {background: #F1F1F1 !important;}
+        #menu{width: 360px;height: calc(100vh - 50px);padding-top: 50px;background: #fff;display: flex;flex-wrap:wrap;align-content: flex-start;justify-content:center;overflow: scroll;}
+        .card{width: 100px;height: 100px;border: 1px solid #F1F1F1;border-radius: 8px;margin: 5px;}
+        .card:hover{background: #F1F1F1;}
+        #mirror{width: calc(100vw - 480px);height: 100vh;background: #F1F1F1;position: relative;}
+        #face{width: 400px;height: 400px;border-radius: 200px;background: transparent;margin: calc(50vh - 200px) auto;overflow: hidden;position: relative;}
+        #facebg{width: 400px;height: 400px;border-radius: 200px;background: #fff;position: absolute;top:calc(50vh - 200px);left:calc(50vw - 240px - 200px);}
+        .faceUse{width: 100%;position: absolute;top:0;left: 0;}
+        #random,#clear{width: 60px;height: 60px;position: absolute;border-radius: 50px;border: 0px;background:#CDCDCD;}
+        #random:hover,#clear:hover{background:#E2E2E2;}
+        #random .icon,#clear .icon{width: 70%;}
+        #random{top: calc(50vh - 220px);left:calc(50% + 40px);}
+        #clear{top:calc(50vh - 170px);left:calc(50% + 100px);}
+        #download{position: fixed;top:10px;right:20px;border-radius: 50px;padding: 5px 20px;background:#C40D23;color: #fff;z-index: 999999;}
+        #download:hover{background:#9B051E;}
+        @media(max-width: 1000px){
+            body{flex-direction:column-reverse;}
+            #select{flex-direction:column;height: 50vh;overflow: hidden;}
+            #listbag{width: 100%;height: 60px;;overflow: hidden;border-bottom: 1px solid #F1F1F1;}
+            #list{width: 100vw;height: 80px;overflow-x:scroll;overflow-y: hidden;margin-top: 0px;}
+            #list ul{flex-direction:row;height: 80px;margin: 0 auto;width: 800px;padding: 0 auto;border: 0;}
+            #list li{height: 23px;}
+            #menu{width: 100vw;height: calc(50vh - 60px);}
+            #mirror{width: 100vw;height: 50vh;}
+            #face{width: 300px;height: 300px;border-radius: 150px;margin: calc(25vh - 150px) auto;}
+            #facebg{width: 300px;height: 300px;border-radius: 150px;top:calc(25vh - 150px);left:calc(50vw - 150px);}
+            #random{top: calc(25vh - 150px);left:calc(50% + 50px);}
+            #clear{top:calc(25vh - 90px);left:calc(50% + 110px);}
+         }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://www.twreporter.org/images/logo/logo-header.release.svg" class="logo-header">
+    </header>
+    <section id="select">
+        <div id="listbag">
+        <div id="list">
+            <ul>
+                <li id="level1"><span class="material-symbols-rounded">person_edit</span>臉型</li>
+                <li id="level2"><span class="material-symbols-rounded">visibility</span>眼睛</li>
+                <li id="level3"><span class="material-symbols-rounded">looks</span>眉毛</li>
+                <li id="level4"><span class="material-symbols-rounded">eyeglasses_2</span>眼鏡</li>
+                <li id="level5"><span class="material-symbols-rounded">chevron_left</span>鼻子</li>
+                <li id="level6"><span class="material-symbols-rounded">space_bar</span>嘴型</li>
+                <li id="level7"><span class="material-symbols-rounded">face_5</span>髮型</li>
+            </ul>
+        </div>
+        </div>
+        <div id="menu">
+            <div><img src="pic/face/1.png" class="card"></div>
+            <div><img src="pic/face/2.png" class="card"></div>
+            <div><img src="pic/face/3.png" class="card"></div>
+            <div><img src="pic/face/4.png" class="card"></div>
+            <div><img src="pic/face/5.png" class="card"></div>
+            <div><img src="pic/face/6.png" class="card"></div>
+        </div>
+    </section>
+    <section id="mirror">
+        <div id="facebg"></div>
+        <div id="face">
+          <div><img src="pic/face/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/eyes/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/brows/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/eyewear/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/nose/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/mouth/1.png" class="faceUse" crossorigin="anonymous"></div>
+          <div><img src="pic/hair/1.png" class="faceUse" crossorigin="anonymous"></div>
+        </div>
+        <button id="random"><img src="pic/random.svg" class="icon"></button>
+        <button id="clear"><img src="pic/clear.svg" class="icon"></button>
+    </section> 
+    <div id="download">儲存</div>
+
+
+<script>
+// 當前選取的部位（初始為 level1）
+let currentLevel = 'level1';
+
+// 每個按鈕對應的圖片資料夾與數量
+const faceParts = {
+  level1: { folder: 'face', count: 3 },
+  level2: { folder: 'eyes', count: 10 },
+  level3: { folder: 'brows', count: 4 },
+  level4: { folder: 'eyewear', count: 10 },
+  level5: { folder: 'nose', count: 4 },
+  level6: { folder: 'mouth', count: 4 },
+  level7: { folder: 'hair', count: 25 }
+};
+
+// 更新 menu 的圖片
+function updateMenuImages(folder, count) {
+  const menu = document.getElementById('menu');
+  menu.innerHTML = '';
+
+  for (let i = 1; i <= count; i++) {
+    const img = document.createElement('img');
+    img.src = `pic/${folder}/${i}.png`;
+    img.className = 'card';
+    img.crossOrigin = 'anonymous';
+
+    img.addEventListener('click', () => {
+      const face = document.getElementById('face');
+      const layers = face.getElementsByClassName('faceUse');
+
+      // 找出與當前 folder 對應的 faceUse 圖層並替換
+      Array.from(layers).forEach(layer => {
+        if (layer.src.includes(`/pic/${folder}/`)) {
+          layer.src = `pic/${folder}/${i}.png`;
+        }
+      });
+    });
+
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(img);
+    menu.appendChild(wrapper);
+  }
+}
+
+// 綁定 li 的點擊行為與選取樣式
+Object.keys(faceParts).forEach((levelId, index) => {
+  const part = faceParts[levelId];
+  const li = document.getElementById(levelId);
+  if (li) {
+    li.addEventListener('click', () => {
+      currentLevel = levelId;
+
+      // 移除所有 li 的選取底色
+      document.querySelectorAll('#list li').forEach(item => {
+        item.style.background = 'transparent';
+      });
+
+      // 加入目前選取底色
+      li.style.background = '#F1F1F1';
+
+      updateMenuImages(part.folder, part.count);
+    });
+  }
+});
+
+// ✅ 頁面一載入時的初始化動作
+window.addEventListener('DOMContentLoaded', () => {
+  // 設定 level1 被選取的外觀
+  const defaultLi = document.getElementById('level1');
+  if (defaultLi) {
+    defaultLi.style.background = '#F1F1F1';
+  }
+
+  // 載入初始圖片
+  const part = faceParts['level1'];
+  updateMenuImages(part.folder, part.count);
+  // 取得所有 faceUse 層和對應資料夾的順序
+const folders = Object.values(faceParts).map(part => part.folder);
+const originalSources = [];
+
+
+// 點擊 #random：隨機更換 faceUse 的圖片
+document.getElementById('random').addEventListener('click', () => {
+  const face = document.getElementById('face');
+  const layers = face.getElementsByClassName('faceUse');
+
+  Array.from(layers).forEach((layer, index) => {
+    const folder = folders[index];
+    const max = faceParts[`level${index + 1}`].count;
+    const randomIndex = Math.floor(Math.random() * max) + 1;
+    layer.src = `pic/${folder}/${randomIndex}.png`;
+  });
+});
+
+// 點擊 #clear：恢復原始 faceUse 的圖片
+document.getElementById('clear').addEventListener('click', () => {
+  const face = document.getElementById('face');
+  face.innerHTML = `
+    <div><img src="pic/face/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/eyes/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/brows/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/eyewear/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/nose/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/mouth/1.png" class="faceUse" crossorigin="anonymous"></div>
+    <div><img src="pic/hair/1.png" class="faceUse" crossorigin="anonymous"></div>
+  `;
+});
+//下載圖片
+document.getElementById('download').addEventListener('click', () => {
+  const face = document.getElementById('face');
+
+  // ✅ 請使用者輸入檔名
+  let filename = prompt("請輸入檔案名稱（不需要加副檔名）", "twreporters");
+  if (!filename) {
+    filename = "twreporters"; // 預設名稱
+  }
+
+  html2canvas(face, {
+    backgroundColor: null, // ✅ 保持透明背景
+    useCORS: true          // ✅ 確保跨域圖片正常載入
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `${filename}.png`; // ✅ 用使用者輸入的檔名
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+});
+
+
+
+});
+
+</script>
+</body>
+</html>
