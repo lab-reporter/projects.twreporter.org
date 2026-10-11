@@ -71,7 +71,7 @@
   >
     <div class="chart">
       <div class="filters" aria-label="捐款排序">
-        {#each [{ value: 'faction', label: '新潮流捐款' }, { value: 'total', label: '總捐款' }, { value: 'share', label: '新潮流佔比' }] as option}
+        {#each [{ value: 'faction', label: '新潮流捐款' }, { value: 'total', label: '總捐款' }, { value: 'share', label: '新潮流占比' }] as option}
           <button
             type="button"
             class:active={sortBy === option.value}
@@ -134,7 +134,7 @@
                 <div
                   class="track"
                   role="img"
-                  aria-label={`${row.label}，總計 ${amount(row.total)}，民進黨新潮流佔比 ${numberFormat.format(row.share * 100)}%`}
+                  aria-label={`${row.label}，總計 ${amount(row.total)}，民進黨新潮流占比 ${numberFormat.format(row.share * 100)}%`}
                 >
                   <div class="stack" style:width={width + '%'}>
                     {#each row.values as series, index}
@@ -249,12 +249,12 @@
     background: var(--neutral-gray-50);
   }
   .filters button.active {
-    background: #157a2b;
+    background: #2c7a47;
     color: var(--neutral-white);
   }
   .filters button:focus-visible,
   .show-all:focus-visible {
-    outline: 2px solid #157a2b;
+    outline: 2px solid #2c7a47;
     outline-offset: -3px;
   }
   .chart {
@@ -287,7 +287,7 @@
   .row,
   .grid-lines {
     display: grid;
-    grid-template-columns: minmax(120px, 150px) minmax(0, 1fr) 100px;
+    grid-template-columns: minmax(120px, 170px) minmax(0, 1fr) 100px;
     gap: 10px;
   }
   .axis {
@@ -363,7 +363,7 @@
   }
   .track {
     position: relative;
-    height: 100%;
+    height: 36.5px;
   }
   .stack {
     display: flex;

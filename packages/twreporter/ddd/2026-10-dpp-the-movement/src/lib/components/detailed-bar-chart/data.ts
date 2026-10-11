@@ -46,7 +46,9 @@ export function buildDetailedBarChart(
           config.cardFilter.values.includes(
             row[config.cardFilter.column]?.trim() ?? '',
           ),
-        descriptionParts: descriptionColumns.map((column) => row[column]?.trim() ?? ''),
+        descriptionParts: descriptionColumns.map(
+          (column) => row[column]?.trim() ?? '',
+        ),
         section: row[config.columns.section]?.trim() ?? '',
         detail: row[config.columns.detail]?.trim() ?? '',
         breakdown:
@@ -108,19 +110,40 @@ export function buildDetailedBarChart(
         ].sort()
         const descriptionGroups = new Map<string, Set<string>>()
         for (const row of donations) {
-          const prefix = row.descriptionParts.slice(0, -1).filter(Boolean).join('：')
+          const prefix = row.descriptionParts
+            .slice(0, -1)
+            .filter(Boolean)
+            .join('：')
           const value = row.descriptionParts.at(-1) ?? ''
           if (!prefix && !value) continue
-          if (!descriptionGroups.has(prefix)) descriptionGroups.set(prefix, new Set())
+          if (!descriptionGroups.has(prefix))
+            descriptionGroups.set(prefix, new Set())
           if (value) descriptionGroups.get(prefix)!.add(value)
         }
         const descriptions = [...descriptionGroups].map(([prefix, values]) =>
           [prefix, [...values].sort().join(' · ')].filter(Boolean).join('：'),
         )
         const sections = [...new Set(donations.map((row) => row.section))]
-        if (sections.length > 1)
-          throw new Error(`「${label}」有多個名單分組，請在來源資料中統一。`)
-        const section = sections[0] ?? ''
+        let section = sections[0] ?? ''
+        if (sections.length > 1) {
+          const elections = donations.map((row) => ({
+            section: row.section,
+            year: Number(row.detail.match(/^\d{4}(?=\s|$)/)?.[0]),
+          }))
+          const latestYear = Math.max(...elections.map((row) => row.year))
+          const latestSections = [
+            ...new Set(
+              elections
+                .filter((row) => row.year === latestYear)
+                .map((row) => row.section),
+            ),
+          ]
+          if (latestSections.length !== 1)
+            throw new Error(
+              `「${label}」無法依最新選舉判定名單分組，請確認選舉年份與分組。`,
+            )
+          section = latestSections[0]
+        }
         return {
           label,
           donations,

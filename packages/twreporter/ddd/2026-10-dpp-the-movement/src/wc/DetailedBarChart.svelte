@@ -30,9 +30,11 @@
   })
   let selectedFilter: string | undefined = $state()
   let selectedGroup: string | undefined = $state()
+  const filters = $derived(chart.data?.filters.slice().sort(
+    (a, b) => Number(b.value === '台中') - Number(a.value === '台中'),
+  ))
   const filter = $derived(
-    chart.data?.filters.find((filter) => filter.value === selectedFilter) ??
-      chart.data?.filters[0],
+    filters?.find((filter) => filter.value === selectedFilter) ?? filters?.[0],
   )
   const group = $derived(
     filter?.groups.find((group) => group.value === selectedGroup) ??
@@ -103,7 +105,7 @@
               class="filters"
               aria-label="資料篩選"
             >
-              {#each chart.data.filters as item}
+              {#each filters ?? [] as item}
                 <button
                   type="button"
                   class:active={filter.value === item.value}
@@ -187,12 +189,13 @@
       </div>
       <div
         class="roster-sections"
+        class:compact={['台中', '高雄'].includes(filter.value ?? '')}
         class:split={config['layout-direction'] === 'horizontal' && filter.sections.length > 1}
       >
-        {#each filter.sections as section}
+        {#each filter.sections.slice().sort((a, b) => Number(b.label === '市長與立委') - Number(a.label === '市長與立委')) as section}
           <section
             aria-label={section.label || '捐款名單'}
-            class:leaders={section.label === '立委與首長'}
+            class:leaders={section.label === '立委與首長' || section.label === '市長與立委'}
           >
             {#if section.label}<h3>{section.label}</h3>{/if}
             <div class="roster" style:--highlight={config.highlight.color}>
@@ -209,7 +212,8 @@
                     <button
                       type="button"
                       class="card"
-                      class:on={sum > 0}
+                      class:on={sum > 0 && records.some((row) => row.highlighted)}
+                      class:nonmember={sum > 0 && !records.some((row) => row.highlighted)}
                       class:off={sum === 0}
                       aria-label={`${item.label}，${item.descriptions.join('、')}，${numberFormat.format(sum / 10000)} 萬元`}
                     >
@@ -279,6 +283,10 @@
     border: 0;
     background: transparent;
     font-size: 14px;
+    transition: all 0.25s;
+  }
+  .filters button:hover {
+    background: var(--neutral-gray-50);
   }
   .filters button.active {
     background: var(--highlight);
@@ -407,6 +415,27 @@
     grid-auto-columns: minmax(118px, 1fr);
     grid-auto-flow: column;
   }
+  .roster-sections.compact.split {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 5fr);
+    align-items: start;
+  }
+  .roster-sections.compact.split section .roster {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .roster-sections.compact.split section.leaders .roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-flow: row;
+  }
+  .roster-sections.compact .card {
+    box-sizing: border-box;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .roster-sections.compact .description {
+    min-width: 0;
+  }
   h3 {
     margin: 0 0 8px;
     font-size: 13px;
@@ -420,6 +449,7 @@
   .card {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     height: 100%;
     min-height: 85px;
@@ -452,15 +482,27 @@
     color: inherit;
   }
   .card.on {
+    color: var(--neutral-white);
+  }
+  .card.on {
     background: var(--highlight);
     border-color: var(--highlight);
-    color: var(--neutral-white);
   }
   .card.on .description {
     color: var(--chart-mint-1);
   }
   .card.off {
     opacity: 0.5;
+  }
+  .card.nonmember {
+    background: var(--neutral-gray-200);
+    border-color: var(--neutral-gray-300);
+  }
+  .card.nonmember {
+    color: var(--neutral-gray-700);
+  }
+  .card.nonmember .description {
+    color: var(--neutral-gray-600);
   }
   .detail-table {
     border-collapse: collapse;
@@ -553,7 +595,34 @@
   .empty {
     font-size: 14px;
   }
+  @media (max-width: 940px) {
+    .roster-sections.compact.split {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+    .roster-sections.compact.split section:first-child {
+      padding-right: 0;
+    }
+    .roster-sections.compact.split section + section {
+      padding: 14px 0 0;
+      border-top: 1px solid var(--neutral-gray-200);
+      border-left: 0;
+    }
+    .roster-sections.compact.split section .roster {
+      grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    }
+  }
   @media (max-width: 600px) {
+    .roster-sections.compact.split {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+    .roster-sections.compact.split section:first-child {
+      padding-right: 0;
+    }
+    .roster-sections.compact.split section .roster {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .roster-sections.split {
       display: grid;
       gap: 14px;

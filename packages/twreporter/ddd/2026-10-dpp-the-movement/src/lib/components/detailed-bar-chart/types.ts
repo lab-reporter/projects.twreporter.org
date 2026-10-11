@@ -72,7 +72,7 @@ export const detailedBarChartConfigSchema = createShellConfigSchema(
           .meta({
             title: '名單分組欄位',
             description:
-              '每個名稱在同一篩選範圍內只使用一個分組。留空不分組，分組順序依資料列順序。',
+              '跨分組候選人依明細欄位開頭的四位數選舉年份，使用最新選舉的分組。留空不分組，分組順序依資料列順序。',
             'ui:options': { layout: 'two-column' },
           }),
         detail: z
