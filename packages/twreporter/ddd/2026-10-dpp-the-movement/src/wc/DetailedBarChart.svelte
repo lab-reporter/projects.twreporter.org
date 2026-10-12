@@ -161,7 +161,7 @@
         >
           <div class="bar-heading">
             <strong>{group?.label}</strong><span
-              >{filter.label ? `在${filter.label}的` : ''}捐款 {@render amount(
+              >{filter.label ? `在${filter.label}` : ''}捐款 {@render amount(
                 total,
               )}</span
             >

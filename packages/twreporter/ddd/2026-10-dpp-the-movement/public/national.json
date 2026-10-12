@@ -11,7 +11,7 @@
   "backdrop": true,
   "layout-direction": "vertical",
   "columns": {
-    "filter": "",
+    "filter": "範圍",
     "group": "集團關聯",
     "label": "候選人",
     "category": "是否流員",
@@ -29,7 +29,7 @@
   "highlight": {
     "value": "是",
     "label": "新潮流民代",
-    "color": "#157a2b"
+    "color": "#2c7a47"
   },
   "remainder": {
     "label": "非新潮流民代",

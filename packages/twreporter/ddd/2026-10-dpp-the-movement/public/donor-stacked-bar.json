@@ -16,7 +16,7 @@
     "description": "捐款企業"
   },
   "series": [
-    { "column": "民進黨新潮流", "label": "民進黨新潮流", "color": "#157a2b" },
+    { "column": "民進黨新潮流", "label": "民進黨新潮流", "color": "#2c7a47" },
     {
       "column": "民進黨非新潮流",
       "label": "民進黨非新潮流",

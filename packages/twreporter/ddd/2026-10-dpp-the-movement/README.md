@@ -23,6 +23,7 @@ Both custom elements accept CSV and JSON URLs through `src` and `config`. In the
 - `cardFilter` selects candidate cards only. The bar includes every donation in the source. Each candidate must have one card group within a scope; groups follow their first occurrence in the source.
 - Filter buttons use source values in their first occurrence order. Each `descriptions` entry has `group`, `filter`, and `text`; it appears beneath the bar only for that company and city. Leave `filter` empty when no filter column is configured. In the CMS, expand `編輯 config.json` to edit or paste the full config.
 - Edit names, grouping, and the included records in the source table. Config controls appearance and column bindings. Subtitles are optional, and detail values display as written in the source.
+- The national source uses a single `範圍` value, `北北桃`, for the donation heading while keeping all three cities combined. A single scope does not show filter buttons.
 - The local story uses `detailed-bar-chart.csv` and `detailed-bar-chart.json`. The national story uses `national.csv` and `national.json`, with the same component.
 - The donor story uses `donor-stacked-bar.csv` and `donor-stacked-bar.json`.
 
