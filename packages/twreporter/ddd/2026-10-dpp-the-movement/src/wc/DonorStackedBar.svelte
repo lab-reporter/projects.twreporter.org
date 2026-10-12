@@ -1,5 +1,6 @@
 <script lang="ts">
   import { flip } from 'svelte/animate'
+  import { MediaQuery } from 'svelte/reactivity'
   import type { ComponentProps } from '@lab-reporter/ddd-shared/components/types.ts'
   import Shell from '@lab-reporter/ddd-shared/components/shared/Shell.svelte'
   import Tooltip from '@lab-reporter/ddd-shared/components/shared/Tooltip.svelte'
@@ -31,11 +32,14 @@
   const numberFormat = new Intl.NumberFormat('zh-TW', {
     maximumFractionDigits: 1,
   })
+  const mobile = new MediaQuery('(max-width: 600px)')
+  const tickCount = $derived(
+    mobile.current
+      ? Math.min(5, config?.axis.tickCount ?? 5)
+      : (config?.axis.tickCount ?? 5),
+  )
   const ticks = $derived(
-    Array.from(
-      { length: config?.axis.tickCount ?? 5 },
-      (_, index) => index / ((config?.axis.tickCount ?? 5) - 1),
-    ),
+    Array.from({ length: tickCount }, (_, index) => index / (tickCount - 1)),
   )
   let sortBy = $state<'faction' | 'total' | 'share'>('faction')
   let showAll = $state(false)
@@ -287,7 +291,7 @@
   .row,
   .grid-lines {
     display: grid;
-    grid-template-columns: minmax(120px, 170px) minmax(0, 1fr) 100px;
+    grid-template-columns: minmax(120px, 170px) minmax(0, 1fr) 30px;
     gap: 10px;
   }
   .axis {
@@ -435,21 +439,37 @@
     font-variant-numeric: tabular-nums;
   }
   @media (max-width: 600px) {
+    .legend {
+      gap: 4px 12px;
+      margin-bottom: 8px;
+    }
+    .legend-item {
+      gap: 4px;
+      font-size: 13.5px;
+    }
+    .legend i {
+      width: 12px;
+      height: 12px;
+    }
     .axis,
     .row,
     .grid-lines {
-      grid-template-columns: minmax(78px, 100px) minmax(0, 1fr) 105px;
+      grid-template-columns: minmax(78px, 100px) minmax(0, 1fr) 15px;
       gap: 6px;
+    }
+    .axis-ticks {
+      height: 18px;
+      font-size: 11px;
     }
     .grid-lines-total {
       min-width: 46px;
     }
     .label strong {
-      font-size: 12px;
+      font-size: 13px;
     }
     .total {
       min-width: 46px;
-      font-size: 10px;
+      font-size: 12px;
     }
   }
 </style>
