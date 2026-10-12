@@ -507,6 +507,7 @@
     min-width: 108px;
     font-size: 11px;
     line-height: 16.5px;
+    letter-spacing: -0.2px;
     color: var(--neutral-gray-600);
     font-weight: 500;
   }
@@ -649,6 +650,19 @@
     }
   }
   @media (max-width: 600px) {
+    .card {
+      padding: 6px 8px;
+    }
+    .bars {
+      padding: 8px 12px;
+    }
+    .bar-heading {
+      margin-bottom: 6px;
+    }
+    .selectors :global(.selector button) {
+      padding: 6px 9px;
+      gap: 4px;
+    }
     .roster-sections.compact.split {
       grid-template-columns: minmax(0, 1fr);
       gap: 14px;
@@ -657,7 +671,7 @@
       padding-right: 0;
     }
     .roster-sections.compact.split section .roster {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
     .roster-sections.split {
       display: grid;
@@ -673,9 +687,16 @@
     }
     .roster {
       grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 4px;
     }
     .roster-sections.split section.leaders .roster {
       grid-auto-columns: minmax(96px, 1fr);
+    }
+    .card {
+      min-height: 78px;
+    }
+    .description {
+      letter-spacing: -0.4px;
     }
   }
 </style>

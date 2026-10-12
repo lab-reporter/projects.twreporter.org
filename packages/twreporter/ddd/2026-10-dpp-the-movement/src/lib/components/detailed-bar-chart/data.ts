@@ -128,7 +128,7 @@ export function buildDetailedBarChart(
         if (sections.length > 1) {
           const elections = donations.map((row) => ({
             section: row.section,
-            year: Number(row.detail.match(/^\d{4}(?=\s|$)/)?.[0]),
+            year: Number(row.detail.match(/^\d{4}(?=\D|$)/)?.[0]),
           }))
           const latestYear = Math.max(...elections.map((row) => row.year))
           const latestSections = [

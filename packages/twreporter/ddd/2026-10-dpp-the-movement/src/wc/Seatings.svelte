@@ -252,6 +252,10 @@
     margin: 4px 0 0;
   }
   @media (max-width: 600px) {
+    :global(.selector button) {
+      padding: 6px 9px;
+      gap: 4px;
+    }
     .seat {
       height: 68px;
     }

@@ -60,8 +60,26 @@ const li = chart.filters
   .find((filter) => filter.value === '高雄')!
   .roster.find((candidate) => candidate.label === '李柏毅')!
 assert.equal(li.section, '市長與立委')
-assert.ok(li.details.includes('2018 議員'))
-assert.ok(li.details.includes('2024 立委'))
+assert.ok(li.details.some((detail) => /^2018\s*議員$/.test(detail)))
+assert.ok(li.details.some((detail) => /^2024\s*立委$/.test(detail)))
+for (const separator of ['', ' ', '年']) {
+  const formatted = buildDetailedBarChart(
+    {
+      ...csv,
+      rows: csv.rows.map((row) => ({
+        ...row,
+        選舉名稱: row['選舉名稱'].replace(/^(\d{4})\s*/, `$1${separator}`),
+      })),
+    },
+    config,
+  )
+  assert.equal(
+    formatted.filters
+      .find((filter) => filter.value === '高雄')!
+      .roster.find((candidate) => candidate.label === '李柏毅')!.section,
+    '市長與立委',
+  )
+}
 const reversed = buildDetailedBarChart(
   { ...csv, rows: [...csv.rows].reverse() },
   config,
