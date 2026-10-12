@@ -14,7 +14,8 @@ export const detailedBarChartConfigSchema = createShellConfigSchema(
       .default('horizontal')
       .meta({
         title: '名單分區排列方向',
-        description: '左右分區時，立委與首長每欄最多三張；上下分區時，卡片由左到右排列。',
+        description:
+          '左右分區時，立委與首長每欄最多三張；上下分區時，卡片由左到右排列。',
         'ui:enumNames': ['左右分區', '上下分區'],
       }),
     columns: z
@@ -63,7 +64,8 @@ export const detailedBarChartConfigSchema = createShellConfigSchema(
           .default(defaultConfig.columns.description)
           .meta({
             title: '名單說明欄位',
-            description: '可使用單一欄位或欄位陣列；陣列最後一欄的值會依前方欄位分組合併。',
+            description:
+              '可使用單一欄位或欄位陣列；陣列最後一欄的值會依前方欄位分組合併。',
             'ui:options': { layout: 'two-column' },
           }),
         section: z

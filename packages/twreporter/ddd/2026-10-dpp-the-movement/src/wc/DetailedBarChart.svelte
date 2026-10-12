@@ -30,9 +30,11 @@
   })
   let selectedFilter: string | undefined = $state()
   let selectedGroup: string | undefined = $state()
-  const filters = $derived(chart.data?.filters.slice().sort(
-    (a, b) => Number(b.value === '台中') - Number(a.value === '台中'),
-  ))
+  const filters = $derived(
+    chart.data?.filters
+      .slice()
+      .sort((a, b) => Number(b.value === '台中') - Number(a.value === '台中')),
+  )
   const filter = $derived(
     filters?.find((filter) => filter.value === selectedFilter) ?? filters?.[0],
   )
@@ -41,6 +43,24 @@
       filter?.groups[0],
   )
   const donations = $derived(group?.donations ?? [])
+  const visibleSections = $derived(
+    (filter?.sections ?? [])
+      .map((section) => ({
+        ...section,
+        candidates: section.candidates
+          .filter((candidate) =>
+            candidate.donations.some(
+              (row) => row.highlighted || row.group === group?.value,
+            ),
+          )
+          .sort(
+            (a, b) =>
+              Number(b.donations.some((row) => row.highlighted)) -
+              Number(a.donations.some((row) => row.highlighted)),
+          ),
+      }))
+      .filter((section) => section.candidates.length),
+  )
   const total = $derived(donations.reduce((sum, row) => sum + row.amount, 0))
   const highlighted = $derived(
     donations
@@ -134,122 +154,138 @@
             />{/if}
         </div>{/if}
       <div class="chart-group" aria-label="捐款圖表">
-      <div
-        class="bars"
-        style:--highlight={config.highlight.color}
-        style:--remainder={config.remainder.color}
-      >
-        <div class="bar-heading">
-          <strong>{group?.label}</strong><span
-            >{filter.label ? `在${filter.label}的` : ''}捐款 {@render amount(
-              total,
-            )}</span
+        <div
+          class="bars"
+          style:--highlight={config.highlight.color}
+          style:--remainder={config.remainder.color}
+        >
+          <div class="bar-heading">
+            <strong>{group?.label}</strong><span
+              >{filter.label ? `在${filter.label}的` : ''}捐款 {@render amount(
+                total,
+              )}</span
+            >
+          </div>
+          <div
+            class="stack"
+            role="img"
+            aria-label={`${config.highlight.label} ${Math.round(percent)}%，${config.remainder.label} ${Math.round(100 - percent)}%`}
           >
+            {#if highlighted > 0}<div class="key" style:width={percent + '%'}>
+                <span>{Math.round(percent)}%</span>
+              </div>{/if}
+            {#if total - highlighted > 0}<div
+                class="other"
+                style:width={100 - percent + '%'}
+              >
+                <span>{Math.round(100 - percent)}%</span>
+              </div>{/if}
+          </div>
+          <div class="stack-labels">
+            <span class="key-label"
+              >{config.highlight.label}
+              <b>{@render amount(highlighted)}</b></span
+            >
+            <Tooltip variant="light">
+              {#snippet children()}<button type="button" class="breakdown-label"
+                  >{config.remainder.label}
+                  <b>{@render amount(total - highlighted)}</b></button
+                >{/snippet}
+              {#snippet content()}
+                <div class="popup breakdown-popup">
+                  <div class="popup-header">
+                    <strong>{config.remainder.label}</strong>
+                  </div>
+                  <div class="popup-body breakdown-body">
+                    {#if breakdown.length}{#each breakdown as item}<div
+                          class="breakdown-row"
+                        >
+                          <span>{item.label}</span><b
+                            >{@render amount(item.amount)}</b
+                          >
+                        </div>{/each}{:else}<p>
+                        目前資料沒有此類別的紀錄。
+                      </p>{/if}
+                  </div>
+                </div>
+              {/snippet}
+            </Tooltip>
+          </div>
+          {#each config.descriptions.filter((note) => note.group === group?.value && note.filter === filter.value) as note}
+            <p class="bar-description">{note.text}</p>
+          {/each}
         </div>
         <div
-          class="stack"
-          role="img"
-          aria-label={`${config.highlight.label} ${Math.round(percent)}%，${config.remainder.label} ${Math.round(100 - percent)}%`}
+          class="roster-sections"
+          class:compact={['台中', '高雄'].includes(filter.value ?? '')}
+          class:split={config['layout-direction'] === 'horizontal' &&
+            visibleSections.length > 1}
         >
-          {#if highlighted > 0}<div class="key" style:width={percent + '%'}>
-              <span>{Math.round(percent)}%</span>
-            </div>{/if}
-          {#if total - highlighted > 0}<div
-              class="other"
-              style:width={100 - percent + '%'}
+          {#each visibleSections
+            .slice()
+            .sort((a, b) => Number(b.label === '市長與立委') - Number(a.label === '市長與立委')) as section}
+            <section
+              aria-label={section.label || '捐款名單'}
+              class:leaders={section.label === '立委與首長' ||
+                section.label === '市長與立委'}
             >
-              <span>{Math.round(100 - percent)}%</span>
-            </div>{/if}
-        </div>
-        <div class="stack-labels">
-          <span class="key-label"
-            >{config.highlight.label} <b>{@render amount(highlighted)}</b></span
-          >
-          <Tooltip variant="light">
-            {#snippet children()}<button type="button" class="breakdown-label"
-                >{config.remainder.label}
-                <b>{@render amount(total - highlighted)}</b></button
-              >{/snippet}
-            {#snippet content()}
-              <div class="popup breakdown-popup">
-                <div class="popup-header"><strong>{config.remainder.label}</strong></div>
-                <div class="popup-body breakdown-body">
-                  {#if breakdown.length}{#each breakdown as item}<div
-                        class="breakdown-row"
-                      ><span>{item.label}</span><b>{@render amount(item.amount)}</b></div
-                    >{/each}{:else}<p>目前資料沒有此類別的紀錄。</p>{/if}
-                </div>
-              </div>
-            {/snippet}
-          </Tooltip>
-        </div>
-        {#each config.descriptions.filter((note) => note.group === group?.value && note.filter === filter.value) as note}
-          <p class="bar-description">{note.text}</p>
-        {/each}
-      </div>
-      <div
-        class="roster-sections"
-        class:compact={['台中', '高雄'].includes(filter.value ?? '')}
-        class:split={config['layout-direction'] === 'horizontal' && filter.sections.length > 1}
-      >
-        {#each filter.sections.slice().sort((a, b) => Number(b.label === '市長與立委') - Number(a.label === '市長與立委')) as section}
-          <section
-            aria-label={section.label || '捐款名單'}
-            class:leaders={section.label === '立委與首長' || section.label === '市長與立委'}
-          >
-            {#if section.label}<h3>{section.label}</h3>{/if}
-            <div class="roster" style:--highlight={config.highlight.color}>
-              {#each section.candidates as item}
-                {@const records = item.donations.filter(
-                  (row) => row.group === group?.value,
-                )}
-                {@const sum = records.reduce(
-                  (sum, row) => sum + row.amount,
-                  0,
-                )}
-                <Tooltip variant="light">
-                  {#snippet children()}
-                    <button
-                      type="button"
-                      class="card"
-                      class:on={sum > 0 && records.some((row) => row.highlighted)}
-                      class:nonmember={sum > 0 && !records.some((row) => row.highlighted)}
-                      class:off={sum === 0}
-                      aria-label={`${item.label}，${item.descriptions.join('、')}，${numberFormat.format(sum / 10000)} 萬元`}
-                    >
-                      <strong>{item.label}</strong>
-                      <span class="description"
-                        >{item.details.join(' · ') ||
-                          item.descriptions.join(' · ')}</span
+              {#if section.label}<h3>{section.label}</h3>{/if}
+              <div class="roster" style:--highlight={config.highlight.color}>
+                {#each section.candidates as item}
+                  {@const records = item.donations.filter(
+                    (row) => row.group === group?.value,
+                  )}
+                  {@const sum = records.reduce(
+                    (sum, row) => sum + row.amount,
+                    0,
+                  )}
+                  <Tooltip variant="light">
+                    {#snippet children()}
+                      <button
+                        type="button"
+                        class="card"
+                        class:on={sum > 0 &&
+                          records.some((row) => row.highlighted)}
+                        class:nonmember={sum > 0 &&
+                          !records.some((row) => row.highlighted)}
+                        class:off={sum === 0}
+                        aria-label={`${item.label}，${item.descriptions.join('、')}，${numberFormat.format(sum / 10000)} 萬元`}
                       >
-                      <span class="amount"
-                        >{#if sum > 0}{@render amount(sum)}{:else}—{/if}</span
-                      >
-                    </button>
-                  {/snippet}
-                  {#snippet content()}
-                    <div class="popup">
-                      <div class="popup-header">
                         <strong>{item.label}</strong>
-                        <p>{item.descriptions.join('、')}</p>
+                        <span class="description"
+                          >{item.details.join(' · ') ||
+                            item.descriptions.join(' · ')}</span
+                        >
+                        <span class="amount"
+                          >{#if sum > 0}{@render amount(sum)}{:else}—{/if}</span
+                        >
+                      </button>
+                    {/snippet}
+                    {#snippet content()}
+                      <div class="popup">
+                        <div class="popup-header">
+                          <strong>{item.label}</strong>
+                          <p>{item.descriptions.join('、')}</p>
+                        </div>
+                        <div class="popup-body">
+                          {#if records.length}{@render details(
+                              records.slice(0, 10),
+                            )}
+                            {#if records.length > 10}<p>
+                                另有 {records.length - 10} 筆明細。
+                              </p>{/if}
+                          {:else}<p>沒有收到所選企業的捐款。</p>{/if}
+                        </div>
                       </div>
-                      <div class="popup-body">
-                        {#if records.length}{@render details(records.slice(0, 10))}
-                          {#if records.length > 10}<p>
-                              另有 {records.length - 10} 筆明細。
-                            </p>{/if}
-                        {:else}<p>沒有收到所選企業的捐款。</p>{/if}
-                      </div>
-                    </div>
-                  {/snippet}
-                </Tooltip>
-              {/each}
-            </div>
-          </section>
-        {/each}
+                    {/snippet}
+                  </Tooltip>
+                {/each}
+              </div>
+            </section>
+          {/each}
+        </div>
       </div>
-      </div>
-      {#if !filter.roster.length}<p class="empty" role="status">
+      {#if !visibleSections.length}<p class="empty" role="status">
           此範圍沒有符合卡片篩選條件的名單。
         </p>{/if}
     {:else}
