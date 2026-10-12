@@ -43,6 +43,7 @@
   )
   let sortBy = $state<'faction' | 'total' | 'share'>('faction')
   let showAll = $state(false)
+  let activeRow: number | undefined = $state()
   const percentage = $derived(sortBy === 'share')
   const axisMin = $derived(percentage ? 0 : (chart.data?.axis.min ?? 0))
   const axisMax = $derived(percentage ? 100 : (chart.data?.axis.max ?? 1))
@@ -133,10 +134,17 @@
               <strong>{row.label}</strong>
               {#if row.description}<span>{row.description}</span>{/if}
             </div>
-            <Tooltip variant="light">
+            <Tooltip
+              variant="light"
+              onvisibilitychange={(visible) => {
+                if (visible) activeRow = row.index
+                else if (activeRow === row.index) activeRow = undefined
+              }}
+            >
               {#snippet children()}
                 <div
                   class="track"
+                  class:active={activeRow === row.index}
                   role="img"
                   aria-label={`${row.label}，總計 ${amount(row.total)}，民進黨新潮流占比 ${numberFormat.format(row.share * 100)}%`}
                 >
@@ -382,8 +390,15 @@
   .segment {
     min-width: 0;
   }
-  .rows:has(.track:hover) .track:not(:hover) .stack {
-    opacity: 0.5;
+  @media (hover: hover) and (pointer: fine) {
+    .rows:has(.track:hover) .track:not(:hover) .stack {
+      opacity: 0.5;
+    }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .rows:has(.track.active) .track:not(.active) .stack {
+      opacity: 0.5;
+    }
   }
   .total {
     position: absolute;

@@ -1,14 +1,16 @@
 <script lang="ts">
-  import { onMount, type Snippet } from 'svelte'
+  import { onMount, untrack, type Snippet } from 'svelte'
 
   const {
     children,
     content,
     variant = 'dark',
+    onvisibilitychange,
   }: {
     children: Snippet
     content: Snippet
     variant?: 'dark' | 'light'
+    onvisibilitychange?: (visible: boolean) => void
   } = $props()
   let visible = $state(false)
   let x = $state(0)
@@ -18,6 +20,12 @@
   let touchStart: { x: number; y: number } | undefined
   let touchMoved = false
   let touchInteraction = false
+
+  $effect(() => {
+    const currentVisible = visible
+    const callback = onvisibilitychange
+    untrack(() => callback?.(currentVisible))
+  })
 
   onMount(() => {
     const dismiss = () => {
