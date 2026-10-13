@@ -32,10 +32,15 @@
   const numberFormat = new Intl.NumberFormat('zh-TW', {
     maximumFractionDigits: 1,
   })
+  const mobileTickFormat = new Intl.NumberFormat('zh-TW', {
+    maximumFractionDigits: 1,
+    useGrouping: false,
+  })
   const mobile = new MediaQuery('(max-width: 600px)')
+  const narrowMobile = new MediaQuery('(max-width: 360px)')
   const tickCount = $derived(
     mobile.current
-      ? Math.min(5, config?.axis.tickCount ?? 5)
+      ? Math.min(narrowMobile.current ? 3 : 5, config?.axis.tickCount ?? 5)
       : (config?.axis.tickCount ?? 5),
   )
   const ticks = $derived(
@@ -46,7 +51,9 @@
   let activeRow: number | undefined = $state()
   const percentage = $derived(sortBy === 'share')
   const axisMin = $derived(percentage ? 0 : (chart.data?.axis.min ?? 0))
-  const axisMax = $derived(percentage ? 100 : (chart.data?.axis.max ?? 1))
+  const axisMax = $derived(
+    percentage ? 100 : mobile.current ? 8400000 : (chart.data?.axis.max ?? 1),
+  )
   const rows = $derived(
     (chart.data?.rows ?? [])
       .map((row, index) => {
@@ -60,6 +67,50 @@
 
   function amount(value: number) {
     return `${numberFormat.format(value / 10000)} 萬元`
+  }
+
+  function positionMobileAmount(track: HTMLElement) {
+    const label = track.querySelector<HTMLElement>('.total')!
+    const update = () => {
+      const faction = track.querySelector<HTMLElement>('.segment.faction')
+      const bounds = track.getBoundingClientRect()
+      const segment = faction?.getBoundingClientRect()
+      const labelWidth = label.getBoundingClientRect().width
+      const inside = !!segment && segment.width >= labelWidth + 12
+      const stack = track.querySelector<HTMLElement>('.stack')!
+      const stackEnd = stack.getBoundingClientRect().right - bounds.left
+      const left = inside
+        ? segment!.left - bounds.left + 6
+        : bounds.width - labelWidth
+      track.classList.toggle('amount-inside', inside)
+      track.classList.toggle('amount-below', !inside && left < stackEnd + 6)
+      track.style.setProperty(
+        '--mobile-amount-left',
+        `${Math.max(0, Math.min(left, bounds.width - labelWidth))}px`,
+      )
+    }
+    const resize = new ResizeObserver(update)
+    const observe = () => {
+      resize.disconnect()
+      resize.observe(track)
+      resize.observe(label)
+      for (const segment of track.querySelectorAll('.segment'))
+        resize.observe(segment)
+      update()
+    }
+    const mutation = new MutationObserver(observe)
+    mutation.observe(track, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    })
+    observe()
+    return {
+      destroy() {
+        resize.disconnect()
+        mutation.disconnect()
+      },
+    }
   }
 </script>
 
@@ -94,13 +145,20 @@
           >
         {/each}
       </div>
+      {#if mobile.current && !percentage}
+        <div class="axis-title">政府獻金（萬元）</div>
+      {/if}
       <div class="axis" aria-hidden="true">
         <span></span>
         <div class="axis-ticks">
           {#each ticks as tick}<span style:left={tick * 100 + '%'}
               >{percentage
                 ? `${numberFormat.format(tick * 100)}%`
-                : amount(axisMin + (axisMax - axisMin) * tick)}</span
+                : mobile.current
+                  ? mobileTickFormat.format(
+                      (axisMin + (axisMax - axisMin) * tick) / 10000,
+                    )
+                  : amount(axisMin + (axisMax - axisMin) * tick)}</span
             >{/each}
         </div>
         <span></span>
@@ -144,6 +202,7 @@
               {#snippet children()}
                 <div
                   class="track"
+                  use:positionMobileAmount
                   class:active={activeRow === row.index}
                   role="img"
                   aria-label={`${row.label}，總計 ${amount(row.total)}，民進黨新潮流占比 ${numberFormat.format(row.share * 100)}%`}
@@ -162,6 +221,7 @@
                       {#if visible > 0}
                         <span
                           class="segment"
+                          class:faction={series.column === '民進黨新潮流'}
                           style:width={(visible /
                             (Math.min(end, axisMax) - axisMin)) *
                             100 +
@@ -171,7 +231,9 @@
                       {/if}
                     {/each}
                   </div>
-                  <strong class="total" style:left={width + '%'}
+                  <strong
+                    class="total"
+                    style:left={mobile.current ? undefined : width + '%'}
                     >{percentage
                       ? `${numberFormat.format(row.share * 100)}%（${amount(row.total)}）`
                       : `${amount(row.total)}（${numberFormat.format(row.share * 100)}%）`}</strong
@@ -270,6 +332,8 @@
     outline-offset: -3px;
   }
   .chart {
+    min-width: 0;
+    width: 100%;
     border-radius: 3px;
     background: var(--neutral-gray-100);
   }
@@ -304,6 +368,13 @@
   }
   .axis {
     margin-bottom: 4px;
+  }
+  .axis-title {
+    margin-bottom: 4px;
+    padding-right: 6px;
+    color: var(--neutral-gray-600);
+    font-size: 12px;
+    text-align: right;
   }
   .axis-ticks {
     position: relative;
@@ -454,6 +525,15 @@
     font-variant-numeric: tabular-nums;
   }
   @media (max-width: 600px) {
+    .filters button {
+      min-width: 0;
+      padding: 7px 6px;
+      overflow-wrap: anywhere;
+    }
+    .show-all {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
     .legend {
       gap: 4px 12px;
       margin-bottom: 8px;
@@ -469,22 +549,54 @@
     .axis,
     .row,
     .grid-lines {
-      grid-template-columns: minmax(78px, 100px) minmax(0, 1fr) 15px;
+      grid-template-columns:
+        minmax(0, clamp(64px, 24vw, 100px)) minmax(0, 1fr)
+        0;
       gap: 6px;
     }
     .axis-ticks {
       height: 18px;
       font-size: 11px;
     }
+    .axis-ticks span:first-child {
+      transform: none;
+    }
+    .axis-ticks span:last-child {
+      transform: translateX(-100%);
+    }
     .grid-lines-total {
-      min-width: 46px;
+      min-width: 0;
     }
     .label strong {
       font-size: 13px;
     }
     .total {
-      min-width: 46px;
+      left: var(--mobile-amount-left);
+      width: max-content;
+      max-width: 100%;
+      padding: 0;
       font-size: 12px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      transition: none;
+    }
+    .track:global(.amount-inside) .total {
+      color: var(--neutral-white);
+      font-weight: 400;
+      text-align: left;
+    }
+    .track:global(.amount-below) {
+      height: auto;
+    }
+    .track:global(.amount-below) .stack {
+      height: 36.5px;
+    }
+    .track:global(.amount-below) .total {
+      position: static;
+      display: block;
+      margin-top: 4px;
+      margin-left: auto;
+      transform: none;
     }
   }
 </style>
