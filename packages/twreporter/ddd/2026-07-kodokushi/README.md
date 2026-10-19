@@ -1,5 +1,11 @@
 # 2026-07-kodokushi
 
+## 使用文章／專題
+
+- [家人缺席之後：陪伴陌生人走完最後一程的有緣人](https://www.twreporter.org/a/age-of-disconnection-strangers-last-journey)
+
+## Usage
+
 腳本尋找文章中唯一一組 `.ddd-anchor[data-type="start"]` 與 `.ddd-anchor[data-type="end"]`，並將區間內的段落使用 [pretext](https://github.com/chenglou/pretext) 重新排列為文繞圖版面。
 
 ## Development

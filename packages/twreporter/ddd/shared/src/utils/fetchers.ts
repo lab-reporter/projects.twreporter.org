@@ -1,4 +1,4 @@
-import { parse } from 'papaparse'
+import Papa from 'papaparse'
 import type { ZodType } from 'zod'
 
 export async function fetchText(url: string, signal?: AbortSignal) {
@@ -26,7 +26,7 @@ export async function fetchJson<Value>(
 }
 
 export function parseCsv(csvText: string) {
-  const result = parse<Record<string, string>>(csvText, {
+  const result = Papa.parse<Record<string, string>>(csvText, {
     header: true,
     dynamicTyping: false,
     skipEmptyLines: 'greedy',
@@ -45,3 +45,12 @@ export function parseCsv(csvText: string) {
 }
 
 export type CSVData = ReturnType<typeof parseCsv>
+
+export function requireCsvColumns(csv: CSVData, columns: string[]): void {
+  const missing = [
+    ...new Set(
+      columns.filter((column) => column && !csv.headers.includes(column)),
+    ),
+  ]
+  if (missing.length) throw new Error(`找不到 CSV 欄位：${missing.join('、')}`)
+}

@@ -1,0 +1,31 @@
+{
+  "name": "{{projectName}}",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 5173 --no-open",
+    "storybook:build": "storybook build",
+    "build": "pnpm run check-types && node --experimental-strip-types scripts/build.ts && pnpm run storybook:build",
+    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ && gcloud storage cp --recursive ./storybook-static/* $BUCKET/storybook/ --cache-control='no-cache'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/{{projectName}} RELEASE=dev pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/{{projectName}} RELEASE=prod pnpm run deploy"
+  },
+  "dependencies": {
+    "@lab-reporter/ddd-shared": "workspace:*",
+    "zod": "{{sharedVersion 'zod'}}"
+  },
+  "devDependencies": {
+    "@storybook/addon-svelte-csf": "{{sharedVersion '@storybook/addon-svelte-csf'}}",
+    "@types/node": "{{sharedVersion '@types/node'}}",
+    "prettier": "{{sharedVersion 'prettier'}}",
+    "svelte": "{{sharedVersion 'svelte'}}",
+    "svelte-check": "{{sharedVersion 'svelte-check'}}",
+    "storybook": "{{sharedVersion 'storybook'}}",
+    "typescript": "{{sharedVersion 'typescript'}}",
+    "vite": "{{sharedVersion 'vite'}}"
+  }
+}

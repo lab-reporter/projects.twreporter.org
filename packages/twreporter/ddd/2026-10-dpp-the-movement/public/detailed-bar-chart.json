@@ -1,0 +1,38 @@
+{
+  "title": "台中、高雄18企業捐款高度集中新潮流人選",
+  "subtitle": "點擊「縣市」及下方的「企業／集團」，查看特定企業在該縣市捐款的新潮流民意代表名單",
+  "footnotes": [
+    "註1：金額只計該縣市選舉，同一候選人跨屆合併；名字下方為該候選人2018年來在此縣市參與且受贈之選舉專戶",
+    "資料來源：監察院政治獻金公開查閱平台",
+    "資料整理：簡毅慧　｜　設計：江世民"
+  ],
+  "wide": true,
+  "backdrop": true,
+  "layout-direction": "horizontal",
+  "columns": {
+    "filter": "縣市",
+    "group": "集團關聯",
+    "label": "候選人",
+    "category": "是否流員",
+    "value": "金額",
+    "description": "選舉名稱",
+    "detail": "選舉名稱",
+    "breakdown": "",
+    "section": "名單分組"
+  },
+  "cardFilter": {
+    "column": "是否流員",
+    "values": [],
+    "label": "所有受捐者"
+  },
+  "highlight": {
+    "value": "是",
+    "label": "新潮流民代",
+    "color": "#2c7a47"
+  },
+  "remainder": {
+    "label": "非新潮流民代",
+    "color": "#e2e2e2"
+  },
+  "descriptions": []
+}

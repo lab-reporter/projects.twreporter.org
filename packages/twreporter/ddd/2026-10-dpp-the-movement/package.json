@@ -1,0 +1,31 @@
+{
+  "name": "2026-10-dpp-the-movement",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 5173 --no-open",
+    "storybook:build": "storybook build",
+    "build": "pnpm run check-types && node --experimental-strip-types scripts/build.ts && pnpm run storybook:build",
+    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ && gcloud storage cp --recursive ./storybook-static/* $BUCKET/storybook/ --cache-control='no-cache'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2026-10-dpp-the-movement RELEASE=dev pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2026-10-dpp-the-movement RELEASE=prod pnpm run deploy"
+  },
+  "dependencies": {
+    "@lab-reporter/ddd-shared": "workspace:*",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@storybook/addon-svelte-csf": "^5.1.2",
+    "@types/node": "^26.1.1",
+    "prettier": "^3.8.3",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.7.3",
+    "storybook": "^10.5.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.11"
+  }
+}

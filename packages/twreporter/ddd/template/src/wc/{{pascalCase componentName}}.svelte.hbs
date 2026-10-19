@@ -1,0 +1,68 @@
+<script lang="ts">
+  import type { ComponentProps } from '@lab-reporter/ddd-shared/components/types.ts'
+  import Shell from '@lab-reporter/ddd-shared/components/shared/Shell.svelte'
+  import { createGraphic } from '@lab-reporter/ddd-shared/utils/graphic-data.svelte.ts'
+  import { {{camelCase componentName}}ConfigSchema } from '../lib/components/{{componentName}}/types.ts'
+
+  const props: ComponentProps = $props()
+  const graphic = createGraphic(
+    'twreporter-{{projectName}}-{{componentName}}',
+    {{camelCase componentName}}ConfigSchema,
+    () => props,
+  )
+  const config = $derived(graphic.config)
+  const csv = $derived(graphic.csv)
+</script>
+
+{#if config && csv}
+  <Shell
+    bind:title={config.title}
+    bind:subtitle={config.subtitle}
+    bind:footnotes={config.footnotes}
+    wide={config.wide}
+    backdrop={config.backdrop}
+    editable={graphic.editable}
+    empty={!csv.rows.length}
+  >
+    <table>
+      <thead>
+        <tr>
+          {#each csv.headers as header}
+            <th>{header}</th>
+          {/each}
+        </tr>
+      </thead>
+      <tbody>
+        {#each csv.rows as row}
+          <tr>
+            {#each csv.headers as header}
+              {#if graphic.editable}
+                <td
+                  contenteditable="plaintext-only"
+                  bind:innerText={row[header]}
+                ></td>
+              {:else}
+                <td>{row[header]}</td>
+              {/if}
+            {/each}
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </Shell>
+{:else}
+  <Shell error={graphic.error} loading={graphic.loading} empty />
+{/if}
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 8px;
+    border-bottom: 1px solid var(--neutral-gray-200);
+    text-align: left;
+  }
+</style>

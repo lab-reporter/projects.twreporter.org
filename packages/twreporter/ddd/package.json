@@ -1,5 +1,11 @@
 {
   "name": "twreporter-ddd",
   "private": true,
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "scripts": {
+    "create-project": "plop --plopfile plopfile.mjs project"
+  },
+  "devDependencies": {
+    "plop": "^4.0.5"
+  }
 }

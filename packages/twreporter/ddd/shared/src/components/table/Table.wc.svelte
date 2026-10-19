@@ -8,8 +8,6 @@
   let { src, config }: ComponentProps = $props()
 </script>
 
-{#if src && config}
-  <Layout>
-    <Table {src} {config} />
-  </Layout>
-{/if}
+<Layout>
+  <Table {src} {config} />
+</Layout>

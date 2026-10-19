@@ -1,169 +1,48 @@
 <script lang="ts">
-  import { createQuery } from '@tanstack/svelte-query'
-  import { parse, unparse } from 'papaparse'
-  import { untrack } from 'svelte'
-  import {
-    syncGraphic,
-    type GraphicSources,
-  } from '../../utils/graphic-sync.svelte'
-  import type { ComponentProps } from '../types'
+  import { createGraphic } from '../../utils/graphic-data.svelte.ts'
+  import type { ComponentProps } from '../types.ts'
   import Shell from '../shared/Shell.svelte'
   import ScrollFade from '../shared/ScrollFade.svelte'
-  import { tableConfigSchema, type TableConfig } from './types'
-  import type { CSVData } from '../../utils/fetchers'
+  import { tableConfigSchema } from './types.ts'
+  import { requireCsvColumns } from '../../utils/fetchers.ts'
 
   const props: ComponentProps = $props()
-
-  let config: TableConfig | undefined = $state()
-  let csv: CSVData | undefined = $state()
-  let sourceRecords: GraphicSources = []
-
-  const sync = syncGraphic(tableConfigSchema, {
-    config: {
-      get: () => config,
-      set: (value) => {
-        config = value
-      },
-    },
-    sources: {
-      get: () => {
-        if (!csv || !sourceRecords[0]) return undefined
-        return [
-          {
-            ...sourceRecords[0],
-            data: unparse({ fields: csv.headers, data: csv.rows }),
-          },
-          ...sourceRecords.slice(1),
-        ]
-      },
-      set: (value) => {
-        const parsed = value[0] ? parseCsv(value[0].data) : undefined
-        sourceRecords = value
-        csv = parsed
-      },
-    },
-  })
-
-  const tableQuery = createQuery(() => ({
-    queryKey: ['twreporter-table', props.src, props.config] as const,
-    enabled: !sync.connected && Boolean(props.src && props.config),
-    queryFn: async ({ signal }) => {
-      const resolvedSrc = resolveUrl(props.src)
-      const resolvedConfigUrl = resolveUrl(props.config)
-      if (!resolvedSrc || !resolvedConfigUrl) {
-        throw new Error('Both table source and config URLs are required')
-      }
-      const [csvText, config] = await Promise.all([
-        fetchText(resolvedSrc, signal),
-        fetchJson(resolvedConfigUrl, signal),
-      ])
-      return { csv: parseCsv(csvText), config }
-    },
-  }))
-
-  $effect(() => {
-    if (sync.connected) return
-    const data = tableQuery.data
-    untrack(() => {
-      config = data ? structuredClone(data.config) : undefined
-      csv = data ? structuredClone(data.csv) : undefined
-    })
-  })
-
-  const rows = $derived.by(() => {
-    if (!csv || !config) return undefined
-
-    const { headers } = csv
-    const missingColumns = config.columns.filter(
-      (column) => !headers.includes(column.key),
-    )
-    if (missingColumns.length > 0) {
-      console.error(
-        new Error(
-          `CSV is missing configured columns: ${missingColumns
-            .map((column) => column.key)
-            .join(', ')}`,
-        ),
-      )
-      return undefined
-    }
-
-    return csv.rows
-  })
-
-  $effect(() => {
-    if (tableQuery.error) console.error(tableQuery.error)
-  })
-
-  function resolveUrl(value: string): string | undefined {
-    const trimmed = value?.trim()
-    if (!trimmed) return undefined
-
+  const graphic = createGraphic(
+    'twreporter-table',
+    tableConfigSchema,
+    () => props,
+  )
+  const config = $derived(graphic.config)
+  const csv = $derived(graphic.csv)
+  const table = $derived.by(() => {
+    if (!csv || !config) return { rows: undefined, error: undefined }
     try {
-      return new URL(trimmed, document.baseURI).href
+      requireCsvColumns(
+        csv,
+        config.columns.map((column) => column.key),
+      )
+      return { rows: csv.rows, error: undefined }
     } catch (error) {
-      console.error(error)
-      return undefined
+      return {
+        rows: undefined,
+        error: error instanceof Error ? error.message : '資料格式錯誤。',
+      }
     }
-  }
-
-  async function fetchText(url: string, signal: AbortSignal): Promise<string> {
-    const response = await fetch(url, { signal })
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch CSV (${response.status} ${response.statusText}): ${url}`,
-      )
-    }
-    return response.text()
-  }
-
-  async function fetchJson(
-    url: string,
-    signal: AbortSignal,
-  ): Promise<TableConfig> {
-    const response = await fetch(url, { signal })
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch table config (${response.status} ${response.statusText}): ${url}`,
-      )
-    }
-    return tableConfigSchema.parse(await response.json())
-  }
-
-  function parseCsv(csvText: string): {
-    rows: Record<string, string>[]
-    headers: string[]
-  } {
-    const result = parse<Record<string, string>>(csvText, {
-      header: true,
-      dynamicTyping: false,
-      skipEmptyLines: 'greedy',
-    })
-
-    if (result.errors.length > 0) {
-      throw new Error(
-        `Failed to parse CSV: ${result.errors.map((error) => error.message).join('; ')}`,
-      )
-    }
-
-    return {
-      rows: result.data,
-      headers: result.meta.fields ?? [],
-    }
-  }
+  })
 </script>
 
-{#if config && rows}
+{#if config && table.rows}
   <Shell
     bind:title={config.title}
     bind:footnotes={config.footnotes}
     wide={config.wide}
     backdrop={config.backdrop}
-    editable={sync.editable}
+    editable={graphic.editable}
+    empty={!table.rows.length}
   >
     <div class="table-group">
       {#if config.label !== undefined}
-        {#if sync.editable}
+        {#if graphic.editable}
           <div
             class="table-label"
             contenteditable="plaintext-only"
@@ -187,7 +66,7 @@
           <thead>
             <tr>
               {#each config.columns as column}
-                {#if sync.editable}
+                {#if graphic.editable}
                   <th
                     style:text-align={column.align ?? 'left'}
                     contenteditable="plaintext-only"
@@ -202,10 +81,10 @@
             </tr>
           </thead>
           <tbody>
-            {#each rows as row}
+            {#each table.rows as row}
               <tr>
                 {#each config.columns as column}
-                  {#if sync.editable}
+                  {#if graphic.editable}
                     <td
                       style:text-align={column.align ?? 'left'}
                       contenteditable="plaintext-only"
@@ -229,6 +108,8 @@
       </ScrollFade>
     </div>
   </Shell>
+{:else}
+  <Shell error={table.error ?? graphic.error} loading={graphic.loading} empty />
 {/if}
 
 <style>

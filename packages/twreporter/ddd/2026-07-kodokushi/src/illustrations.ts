@@ -3,7 +3,7 @@ import { createElement } from './lib/dom'
 import {
   getBreakpoint,
   resolveResponsiveValue,
-} from '@lab-reporter/ddd-shared/media-query'
+} from '@lab-reporter/ddd-shared/utils/media-query.ts'
 
 const ALPHA_THRESHOLD = 32
 const IMAGE_PADDING = 20

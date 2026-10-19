@@ -1,0 +1,13 @@
+<svelte:options customElement="twreporter-{{projectName}}-{{componentName}}" />
+
+<script lang="ts">
+  import Layout from '@lab-reporter/ddd-shared/components/shared/Layout.svelte'
+  import type { ComponentProps } from '@lab-reporter/ddd-shared/components/types.ts'
+  import {{pascalCase componentName}} from './{{pascalCase componentName}}.svelte'
+
+  const { src, config }: ComponentProps = $props()
+</script>
+
+<Layout>
+  <{{pascalCase componentName}} {src} {config} />
+</Layout>

@@ -1,4 +1,5 @@
 packages:
+  - '2026-10-dpp-the-movement'
   - '2026-05-lawmaker'
   - '2026-07-kodokushi'
   - 'node-graph'

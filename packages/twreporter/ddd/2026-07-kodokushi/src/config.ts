@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { mq } from '@lab-reporter/ddd-shared/media-query'
+import { mq } from '@lab-reporter/ddd-shared/utils/media-query.ts'
 import illustrationData from './illustrations.json'
 
 const positionSchema = z.object({

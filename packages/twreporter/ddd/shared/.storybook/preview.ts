@@ -1,9 +1,15 @@
 import type { Preview } from '@storybook/svelte-vite'
+import type { Parameters } from 'storybook/internal/types'
 import { z } from 'zod'
 
 const query = new URLSearchParams(window.location.search)
 
+export const parameters = {
+  layout: 'fullscreen',
+} satisfies Parameters
+
 const preview = {
+  parameters,
   // Storybook rejects URLs in args. Resolve the `url` token through its
   // built-in mapping, using ordinary query parameters for the actual URLs.
   argTypes: Object.fromEntries(

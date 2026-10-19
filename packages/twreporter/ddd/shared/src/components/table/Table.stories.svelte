@@ -1,8 +1,7 @@
 <script module lang="ts">
+  import EmbedCode from '../shared/EmbedCode.svelte'
   import { defineMeta } from '@storybook/addon-svelte-csf'
   import TableElement from './Table.wc.svelte'
-  import { generateEmbedCode } from '../../storybook/generate-embed-code'
-  import EmbedCode from '../../storybook/EmbedCode.svelte'
 
   const { Story } = defineMeta({
     title: 'Components/Table',
@@ -22,6 +21,6 @@
 <Story name="Default">
   {#snippet template(args)}
     <TableElement {...args} />
-    <EmbedCode code={generateEmbedCode('table', args)} />
+    <EmbedCode componentName="table" tagName="twreporter-table" {...args} />
   {/snippet}
 </Story>

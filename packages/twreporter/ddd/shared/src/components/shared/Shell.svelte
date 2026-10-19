@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fontStylesheetUrl } from '../../utils/fonts.ts'
   import { domToPng } from 'modern-screenshot'
   import type { Snippet } from 'svelte'
 
@@ -8,19 +9,29 @@
   )
 
   let {
-    title = $bindable(),
+    title = $bindable(''),
+    subtitle = $bindable(),
     children,
-    footnotes = $bindable(),
+    footnotes = $bindable([]),
     wide = false,
     backdrop = true,
     editable = false,
+    error,
+    loading = false,
+    empty = false,
+    emptyMessage = '尚無資料。',
   }: {
-    title: string
-    footnotes: string[]
-    children: Snippet
+    title?: string
+    subtitle?: string
+    footnotes?: string[]
+    children?: Snippet
     wide?: boolean
     backdrop?: boolean
     editable?: boolean
+    error?: string
+    loading?: boolean
+    empty?: boolean
+    emptyMessage?: string
   } = $props()
 
   async function download() {
@@ -32,6 +43,16 @@
     anchor.click()
   }
 </script>
+
+<svelte:head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href={fontStylesheetUrl} />
+</svelte:head>
 
 <link
   rel="stylesheet"
@@ -47,8 +68,27 @@
       {:else}
         <h1>{title}</h1>
       {/if}
+      {#if subtitle !== undefined && (editable || subtitle)}
+        {#if editable}
+          <p
+            class="subtitle"
+            contenteditable="plaintext-only"
+            bind:innerText={subtitle}
+          ></p>
+        {:else}
+          <p class="subtitle">{subtitle}</p>
+        {/if}
+      {/if}
     </div>
-    {@render children()}
+    {#if error}
+      <p class="status error" role="alert">無法顯示圖表：{error}</p>
+    {:else if loading}
+      <p class="status" role="status">資料載入中……</p>
+    {:else if empty}
+      <p class="status" role="status">{emptyMessage}</p>
+    {:else}
+      {@render children?.()}
+    {/if}
     <div class="footer">
       <div class="footnotes">
         {#each footnotes as _, index}
@@ -78,6 +118,16 @@
 </div>
 
 <style>
+  .status {
+    margin: 0;
+    padding: 20px 0;
+    color: var(--neutral-gray-700);
+    font-size: var(--text-s);
+    line-height: 1.6;
+  }
+  .status.error {
+    color: var(--chart-red-4);
+  }
   * {
     --brand-faded: rgba(244, 198, 198, 1);
     --brand-pastel: rgba(247, 105, 119, 1);
@@ -188,11 +238,11 @@
     display: flex;
     width: 100%;
     max-width: 730px;
-    padding: 35px 20px;
+    padding: 30px 20px;
     border-top: 1px solid var(--neutral-gray-200);
     border-bottom: 1px solid var(--neutral-gray-200);
     flex-direction: column;
-    gap: 17px;
+    gap: 20px;
   }
 
   .container.wide {
@@ -229,6 +279,14 @@
     justify-content: space-between;
   }
 
+  .subtitle {
+    margin: 8px 0 0;
+    color: var(--neutral-gray-600);
+    font-size: var(--text-s);
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
   .footnotes {
     display: flex;
     flex-direction: column;
@@ -255,8 +313,8 @@
     padding: 5px 15px;
     border: none;
     border-radius: 40px;
-    background-color: #404040;
-    color: white;
+    background-color: var(--neutral-gray-800);
+    color: var(--neutral-white);
     cursor: pointer;
     font-size: 12px;
   }

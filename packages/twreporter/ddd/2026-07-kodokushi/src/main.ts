@@ -2,7 +2,7 @@ import { sectionBlocks } from './content'
 import { rewrapSection } from './pretext'
 import { configSchema } from './config'
 import { syncGraphic } from './graphic-sync'
-import { getBreakpoint } from '@lab-reporter/ddd-shared/media-query'
+import { getBreakpoint } from '@lab-reporter/ddd-shared/utils/media-query.ts'
 import {
   config,
   configChanges,

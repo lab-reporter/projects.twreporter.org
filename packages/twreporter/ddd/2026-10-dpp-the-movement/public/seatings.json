@@ -1,0 +1,59 @@
+{
+  "title": "2026年7月民進黨全代會改選結果：新潮流穩居第一派系",
+  "footnotes": [
+    "註：點擊人名可查看其公職經歷",
+    "資料來源：民進黨官方網站",
+    "資料整理：簡毅慧　｜　設計：江世民"
+  ],
+  "wide": true,
+  "backdrop": true,
+  "columns": {
+    "group": "委員會",
+    "category": "派系",
+    "label": "姓名",
+    "description": "公職"
+  },
+  "categories": [
+    {
+      "value": "新潮流",
+      "label": "",
+      "color": "#2c7a47"
+    },
+    {
+      "value": "正國會",
+      "label": "",
+      "color": "#99C86C"
+    },
+    {
+      "value": "英系",
+      "label": "",
+      "color": "#8DCBA3"
+    },
+    {
+      "value": "綠色友誼連線",
+      "label": "",
+      "color": "#B3D99C"
+    },
+    {
+      "value": "蘇系",
+      "label": "",
+      "color": "#BBCD76"
+    },
+    {
+      "value": "湧言會",
+      "label": "",
+      "color": "#AFCD93"
+    },
+    {
+      "value": "民主活水",
+      "label": "",
+      "color": "#d6df70"
+    },
+    {
+      "value": "陳亭妃系",
+      "label": "",
+      "color": "#CDD7A5"
+    }
+  ],
+  "focusCategory": "新潮流"
+}

@@ -1,16 +1,15 @@
 {
+  "extends": "./config/tsconfig.node.json",
   "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "types": ["node"]
+    "composite": true
   },
   "include": [
     "vite.config.ts",
     "svelte.config.ts",
-    "src/components/**/types.ts"
+    "config/**/*.ts",
+    "src/components/**/types.ts",
+    "src/utils/fonts.ts",
+    "components.config.ts",
+    "scripts/**/*.ts"
   ]
 }

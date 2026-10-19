@@ -1,13 +1,12 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "./config/tsconfig.app.json",
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "composite": true,
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "strict": true,
-    "types": ["svelte", "vite/client"]
+    "composite": true
   },
-  "include": ["src/**/*.ts", "src/**/*.svelte", ".storybook/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.svelte",
+    ".storybook/**/*.ts",
+    "config/**/*.ts"
+  ]
 }

@@ -1,0 +1,7 @@
+import { z } from 'zod'
+import { createShellConfigSchema } from '@lab-reporter/ddd-shared/components/shared/types.ts'
+import defaultConfig from '../../../../public/{{componentName}}.json' with { type: 'json' }
+
+export const {{camelCase componentName}}ConfigSchema = createShellConfigSchema(defaultConfig)
+
+export type {{pascalCase componentName}}Config = z.infer<typeof {{camelCase componentName}}ConfigSchema>
