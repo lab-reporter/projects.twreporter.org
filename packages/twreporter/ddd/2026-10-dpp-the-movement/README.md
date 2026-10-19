@@ -1,6 +1,8 @@
 # 2026-10-dpp-the-movement
 
-Use Node.js 22.18 or later. Run commands from this project directory.
+## 使用文章／專題
+
+- [戰力最強、仇恨值高，民進黨造王者「新潮流」的變與不變](https://www.twreporter.org/a/2026-local-elections-dpp-the-movement)
 
 ## Development
 
