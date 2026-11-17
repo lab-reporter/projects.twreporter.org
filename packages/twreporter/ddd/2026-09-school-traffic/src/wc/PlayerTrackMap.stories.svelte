@@ -114,7 +114,7 @@
       } satisfies FullScreenWrapperConfig)}
     >
       <iframe
-        src="https://playcanv.as/apps/7459a75b/index.html"
+        src="https://playcanv.as/e/p/02007016/"
         title="上學路上"
         width="100%"
         height="100%"
