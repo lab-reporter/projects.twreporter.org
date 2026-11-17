@@ -1,0 +1,41 @@
+{
+  "name": "2026-09-school-traffic",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 5173 --no-open",
+    "storybook:build": "storybook build",
+    "build": "pnpm run check-types && node --experimental-strip-types scripts/build.ts && pnpm run storybook:build",
+    "check-types": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "deploy": "pnpm run build && gcloud storage cp --recursive ./dist/components/* $BUCKET/components/ && gcloud storage cp --recursive ./storybook-static/* $BUCKET/storybook/ --cache-control='no-cache'",
+    "deploy:dev": "BUCKET=gs://data-reporter-infographics/dev/2026-09-school-traffic RELEASE=dev pnpm run deploy",
+    "deploy:prod": "BUCKET=gs://projects.twreporter.org/twreporter/ddd/2026-09-school-traffic RELEASE=prod pnpm run deploy"
+  },
+  "dependencies": {
+    "@lab-reporter/ddd-shared": "workspace:*",
+    "@reuters-graphics/graphics-components": "3.2.0",
+    "@tanstack/svelte-query": "^6.1.28",
+    "penpal": "8.0.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@storybook/addon-svelte-csf": "^5.1.2",
+    "@types/d3-delaunay": "6.0.4",
+    "@types/d3-selection": "3.0.11",
+    "@types/d3-zoom": "3.0.8",
+    "@types/node": "^26.1.1",
+    "d3-delaunay": "6.0.4",
+    "d3-selection": "3.0.0",
+    "d3-zoom": "3.0.0",
+    "playcanvas": "2.23.3",
+    "prettier": "^3.8.3",
+    "storybook": "^10.5.3",
+    "svelte": "5.56.10",
+    "svelte-check": "^4.7.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.11"
+  }
+}

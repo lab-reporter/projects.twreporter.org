@@ -1,0 +1,18 @@
+diff --git a/package.json b/package.json
+index 8cb539f718d0158c723caec45459a1be65c8087e..01c270355bc90f744317a6668498945b514c98a2 100644
+--- a/package.json
++++ b/package.json
+@@ -118,7 +118,12 @@
+       "svelte": "./dist/index.js",
+       "default": "./dist/index.js"
+     },
+-    "./scss/*": "./dist/scss/*"
++    "./scss/*": "./dist/scss/*",
++    "./ScrollerBase": {
++      "types": "./dist/components/ScrollerBase/ScrollerBase.svelte.d.ts",
++      "svelte": "./dist/components/ScrollerBase/ScrollerBase.svelte",
++      "default": "./dist/components/ScrollerBase/ScrollerBase.svelte"
++    }
+   },
+   "svelte": "./dist/index.js",
+   "types": "./dist/index.d.ts",

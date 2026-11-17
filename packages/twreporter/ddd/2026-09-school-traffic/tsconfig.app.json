@@ -1,0 +1,9 @@
+{
+  "extends": "@lab-reporter/ddd-shared/tsconfig/app",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte",
+    ".storybook/**/*.ts"
+  ]
+}

@@ -53,19 +53,20 @@ export function createGraphic<Config>(
 
   const query = createQuery(() => ({
     queryKey: [name, props().src, props().config] as const,
-    enabled:
-      !editorMode && !sync.connected && Boolean(props().src && props().config),
+    enabled: !editorMode && !sync.connected && Boolean(props().config),
     queryFn: async ({ signal }) => {
       const urls = props()
       const [text, config] = await Promise.all([
-        fetchText(new URL(urls.src, document.baseURI).href, signal),
+        urls.src
+          ? fetchText(new URL(urls.src, document.baseURI).href, signal)
+          : undefined,
         fetchJson(
           new URL(urls.config, document.baseURI).href,
           configSchema,
           signal,
         ),
       ])
-      return { csv: parseCsv(text), config }
+      return { csv: text === undefined ? undefined : parseCsv(text), config }
     },
   }))
 

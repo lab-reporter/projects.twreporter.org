@@ -19,9 +19,9 @@ export function createStorybookConfig(
   }
 
   return {
-    // stories: [resolve(root, 'src/**/*.stories.svelte')],
-    stories: ['../src/**/*.stories.svelte'],
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.svelte'],
     addons: [
+      dirname(require.resolve('@storybook/addon-docs/package.json')),
       dirname(require.resolve('@storybook/addon-svelte-csf/package.json')),
     ],
     framework: dirname(require.resolve('@storybook/svelte-vite/package.json')),

@@ -1,0 +1,4 @@
+{
+  "extends": "@lab-reporter/ddd-shared/tsconfig/node",
+  "include": ["vite.config.ts", "components.config.ts", "scripts/**/*.ts"]
+}

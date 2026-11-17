@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import * as FullScreenWrapperStories from './FullScreenWrapper.stories.svelte'
+
+<Meta of={FullScreenWrapperStories} />
+
+# Full screen wrapper
+
+The wrapper contains an iframe and controls scrolling on the host page. [Open the interactive example](?path=/story/components-fullscreenwrapper--default).
+
+The start button closes the splash screen, scrolls the wrapper into view, and locks host page scrolling. The continue reading button unlocks scrolling, restores the splash screen, and scrolls down by one viewport height. The iframe stays loaded.
+
+## Embed an iframe
+
+Load the component script using the URL from the Default story's embed code, then place the iframe inside the wrapper:
+
+```html
+<twreporter-full-screen-wrapper
+  config='{"splashScreenText":"Start the interactive experience"}'
+>
+  <iframe
+    src="https://example.com/interactive/"
+    title="Interactive content"
+    width="100%"
+    height="100%"
+  ></iframe>
+</twreporter-full-screen-wrapper>
+```
+
+## Typed iframe RPC
+
+For a typed connection, use `FullScreenWrapper.svelte`. Create a controller with `createWrapperController()` from `controller.svelte.ts` and pass it to the component's `controller` prop. The component creates its own controller when this prop is omitted.
+
+`createConnection<RemoteMethods>({ iframe, wrapper })` in `rpc.ts` creates a [Penpal](https://github.com/Aaronius/penpal) connection using the iframe element and the same controller. The parent accepts the iframe URL's origin. Both ends must use `fullScreenWrapperRpcChannel` from that module.
+
+The connection exposes `WrapperApi` to the iframe:
+
+- `setButtonVisible(visible)` controls the continue reading button and footer overlay.
+- `release()` unlocks scrolling and scrolls down.
+- `lock()` locks scrolling and brings the wrapper into view.
+
+Button visibility persists across release and lock calls. The start button stays available while unlocked.
+
+The embedding project defines the iframe's methods and validates their results. Bind the iframe element with `bind:this`, then create the connection with that project's API type:
+
+```ts
+import { createWrapperController } from './controller.svelte.ts'
+import { createConnection } from './rpc.ts'
+
+const wrapper = createWrapperController()
+const connection = createConnection<IframeApi>({ iframe, wrapper })
+const remote = await connection.promise
+```
+
+The initial connection has a two-minute timeout. Penpal handles iframe reload handshakes. The caller owns the connection and must call `connection.destroy()` on unmount.
+
+The iframe uses `WindowMessenger` with `window.parent`, allows the embedding page's origin, and calls `connect<WrapperApi>` with the same channel. It can then call the wrapper methods through `connection.promise`.
+
+Project-specific RPC methods and schemas belong in the embedding project. `graphic-sync.svelte.ts` keeps its existing protocol.

@@ -1,5 +1,6 @@
 import { onMount } from 'svelte'
 import { z, type ZodType } from 'zod'
+import { listenForMessages } from './post-message.ts'
 
 export const GraphicSyncMessage = {
   Set: 'graphic:set',
@@ -36,35 +37,34 @@ export function syncGraphic<Config>(
   onMount(() => {
     if (window.parent === window) return
 
-    const receiveMessage = (event: MessageEvent) => {
-      if (event.source !== window.parent) return
-      const result = messageSchema.safeParse(event.data)
-      if (!result.success) return
-
-      try {
-        const { config, sources } = result.data.state
-        const configJson = JSON.stringify(config)
-        const sourcesJson = JSON.stringify(sources)
-        if (sourcesJson !== lastWire.sources) {
-          values.sources.set(sources)
-          lastWire.sources = sourcesJson
-          lastLocal.sources = JSON.stringify(values.sources.get())
+    const unsubscribe = listenForMessages({
+      schema: messageSchema,
+      accepts: (event) => event.source === window.parent,
+      onMessage: (message, event) => {
+        try {
+          const { config, sources } = message.state
+          const configJson = JSON.stringify(config)
+          const sourcesJson = JSON.stringify(sources)
+          if (sourcesJson !== lastWire.sources) {
+            values.sources.set(sources)
+            lastWire.sources = sourcesJson
+            lastLocal.sources = JSON.stringify(values.sources.get())
+          }
+          if (configJson !== lastWire.config) {
+            values.config.set(config)
+            lastWire.config = configJson
+            lastLocal.config = JSON.stringify(values.config.get())
+          }
+          editorOrigin = event.origin
+          editable = new URLSearchParams(window.location.search).has('edit')
+        } catch (error) {
+          console.error(error)
         }
-        if (configJson !== lastWire.config) {
-          values.config.set(config)
-          lastWire.config = configJson
-          lastLocal.config = JSON.stringify(values.config.get())
-        }
-        editorOrigin = event.origin
-        editable = new URLSearchParams(window.location.search).has('edit')
-      } catch (error) {
-        console.error(error)
-      }
-    }
+      },
+    })
 
-    window.addEventListener('message', receiveMessage)
     window.parent.postMessage({ type: GraphicSyncMessage.Ready }, '*')
-    return () => window.removeEventListener('message', receiveMessage)
+    return unsubscribe
   })
 
   for (const field of ['config', 'sources'] as const) {

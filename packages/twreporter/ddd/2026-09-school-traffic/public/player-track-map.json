@@ -1,0 +1,50 @@
+{
+  "title": "看看你剛剛的上學路徑，在改善後可以多安全？",
+  "footnotes": [
+    "註1：改善建議為設計影像",
+    "註2：地圖經多張空拍影像拼貼，導致部分標線歪斜，僅供示意而非現場狀況",
+    "資料整理：林雨佑 ｜ 攝影：謝佩穎、黃世澤 ｜ 設計：江世民"
+  ],
+  "cards": [
+    {
+      "title": "通學區起點",
+      "text": "標線型人行道",
+      "position": 0.07,
+      "view": "before",
+      "clipRoutes": true,
+      "highlightMarkerIds": []
+    },
+    {
+      "title": "校門口",
+      "text": "視距、機車停車格",
+      "position": 0.385,
+      "view": "after",
+      "clipRoutes": false,
+      "highlightMarkerIds": []
+    },
+    {
+      "title": "幼兒園前",
+      "text": "標線型人行道",
+      "position": 0.55,
+      "view": "before",
+      "clipRoutes": false,
+      "highlightMarkerIds": []
+    },
+    {
+      "title": "全家",
+      "text": "斜坡坡度",
+      "position": 0.8,
+      "view": "before",
+      "clipRoutes": false,
+      "highlightMarkerIds": []
+    },
+    {
+      "title": "通學區終點",
+      "text": "終於有實體人行道",
+      "position": 0.89,
+      "view": "after",
+      "clipRoutes": false,
+      "highlightMarkerIds": []
+    }
+  ]
+}
